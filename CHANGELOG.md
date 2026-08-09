@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.4](https://github.com/SimplySF/simply/compare/@simplysf/simply-package@2.3.3...@simplysf/simply-package@2.3.4) (2026-08-09)
+
+### Bug Fixes
+
+- standardize package.json ([66c10a9](https://github.com/SimplySF/simply/commit/66c10a952bde4a41c5adcc7629bfb7f227931b5a))
+
 ## [2.3.3](https://github.com/SimplySF/simply/compare/@simplysf/simply-package@2.3.2...@simplysf/simply-package@2.3.3) (2026-08-09)
 
 **Note:** Version bump only for package @simplysf/simply-package
