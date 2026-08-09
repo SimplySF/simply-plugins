@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.5](https://github.com/SimplySF/simply/compare/@simplysf/simply-package@2.3.4...@simplysf/simply-package@2.3.5) (2026-08-09)
+
+**Note:** Version bump only for package @simplysf/simply-package
+
 ## [2.3.4](https://github.com/SimplySF/simply/compare/@simplysf/simply-package@2.3.3...@simplysf/simply-package@2.3.4) (2026-08-09)
 
 ### Bug Fixes
