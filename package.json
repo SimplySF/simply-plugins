@@ -48,7 +48,7 @@
     ],
     "flexibleTaxonomy": true,
     "plugins": [],
-    "repositoryPrefix": "<%- repo %>/blob/<%- version %>/<%- commandPath %>",
+    "repositoryPrefix": "<%- repo %>/blob/@simplysf/simply-package@<%- version %>/packages/simply-package/<%- commandPath %>",
     "topics": {
       "simply": {
         "description": "Commands for simplifying Salesforce",

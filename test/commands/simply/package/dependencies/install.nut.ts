@@ -69,13 +69,13 @@ describe('simply package dependencies install - standard', () => {
     const stdout = output?.shellOutput?.stdout;
 
     expect(stdout).to.contain(
-      'Package ESObjects@57.0.0-3 (04t4W000002nizdQAA) is already installed and will be skipped'
+      'Package ESObjects@57.0.0-3 (04t4W000002nizdQAA) is already installed and will be skipped',
     );
     expect(stdout).to.contain(
-      'Package ESBaseCodeLWC@57.0.0-2 (04t4W000002niziQAA) is already installed and will be skipped'
+      'Package ESBaseCodeLWC@57.0.0-2 (04t4W000002niziQAA) is already installed and will be skipped',
     );
     expect(stdout).to.contain(
-      'Package ESBaseStylesLWC@57.0.0-2 (04t4W000002niznQAA) is already installed and will be skipped'
+      'Package ESBaseStylesLWC@57.0.0-2 (04t4W000002niznQAA) is already installed and will be skipped',
     );
   });
 
@@ -146,13 +146,13 @@ describe('simply package dependencies install - package', () => {
     const stdout = output?.shellOutput?.stdout;
 
     expect(stdout).to.contain(
-      'Package ESObjects@57.0.0-3 (04t4W000002nizdQAA) is already installed and will be skipped'
+      'Package ESObjects@57.0.0-3 (04t4W000002nizdQAA) is already installed and will be skipped',
     );
     expect(stdout).to.contain(
-      'Package ESBaseCodeLWC@57.0.0-2 (04t4W000002niziQAA) is already installed and will be skipped'
+      'Package ESBaseCodeLWC@57.0.0-2 (04t4W000002niziQAA) is already installed and will be skipped',
     );
     expect(stdout).to.contain(
-      'Package ESBaseStylesLWC@57.0.0-2 (04t4W000002niznQAA) is already installed and will be skipped'
+      'Package ESBaseStylesLWC@57.0.0-2 (04t4W000002niznQAA) is already installed and will be skipped',
     );
   });
 

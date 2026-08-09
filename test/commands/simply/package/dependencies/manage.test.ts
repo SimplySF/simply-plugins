@@ -173,8 +173,9 @@ describe('simply package dependencies manage', () => {
     $$.SANDBOX.stub(SfProject.prototype, 'getPackageDirectories').returns(mockPackageDirectories);
     $$.SANDBOX.stub(SfProject.prototype, 'retrieveSfProjectJson').resolves(buildMockProjectJson() as never);
     // Simulate user picking the 1.0.1-1 version (stub prototype method to avoid ESM restriction)
-    $$.SANDBOX.stub(PackageDependenciesManage.prototype, 'promptForVersion' as never).resolves(
-      mockVersion101.SubscriberPackageVersionId
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    $$.SANDBOX.stub(PackageDependenciesManage.prototype as any, 'promptForVersion').resolves(
+      mockVersion101.SubscriberPackageVersionId,
     );
 
     const results = await PackageDependenciesManage.run(['--target-dev-hub', testOrg.username]);
