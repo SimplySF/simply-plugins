@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.3](https://github.com/SimplySF/simply/compare/@simplysf/simply@2.2.2...@simplysf/simply@2.2.3) (2026-08-09)
+
+### Bug Fixes
+
+- remove shrinkwrap ([aa18fab](https://github.com/SimplySF/simply/commit/aa18fab3bee5ff3ac864a1dec62696cbf7d0bcbb))
+
 ## [2.2.2](https://github.com/SimplySF/simply/compare/@simplysf/simply@2.2.1...@simplysf/simply@2.2.2) (2026-08-09)
 
 **Note:** Version bump only for package @simplysf/simply
