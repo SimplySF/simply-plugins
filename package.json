@@ -1,7 +1,7 @@
 {
   "name": "@simplysf/simply",
   "description": "Salesforce CLI Plugins created by @SimplySF",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "author": "@ClayChipps",
   "homepage": "https://github.com/SimplySF/simply",
   "bugs": "https://github.com/SimplySF/simply/issues",
@@ -65,8 +65,8 @@
     }
   },
   "dependencies": {
-    "@simplysf/simply-data": "^2.1.4",
-    "@simplysf/simply-package": "^2.3.3",
+    "@simplysf/simply-data": "^2.1.5",
+    "@simplysf/simply-package": "^2.3.4",
     "debug": "^4.4.3"
   },
   "devDependencies": {
