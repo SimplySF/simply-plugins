@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.4.0](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-package%402.3.8...%40simplysf%2Fsimply-package%402.4.0) (2026-08-09)
+
+### Bug Fixes
+
+- bad link-check command ([8095693](https://github.com/SimplySF/simply/commit/80956938d83b0bdfc17dd03b46ca1d58cdcb183d))
+
+### Features
+
+- upgrade dependencies ([7631028](https://github.com/SimplySF/simply/commit/7631028c48904fcf914a34a34b5ac0f1e646c051))
+
 ## [2.3.8](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-package%402.3.7...%40simplysf%2Fsimply-package%402.3.8) (2026-08-09)
 
 **Note:** Version bump only for package @simplysf/simply-package
