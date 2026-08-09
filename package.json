@@ -69,14 +69,6 @@
     "@simplysf/simply-package": "^2.3.8",
     "debug": "^4.4.3"
   },
-  "devDependencies": {
-    "@oclif/plugin-command-snapshot": "^5.3.19",
-    "@salesforce/plugin-command-reference": "^3.1.99",
-    "@salesforce/ts-sinon": "^1.4.34",
-    "@types/debug": "^4.1.12",
-    "oclif": "^4.23.0",
-    "ts-node": "^10.9.2"
-  },
   "publishConfig": {
     "access": "public"
   },
