@@ -71,16 +71,6 @@
     "got": "14.6.6",
     "p-queue": "^9.2.0"
   },
-  "devDependencies": {
-    "@oclif/plugin-command-snapshot": "^5.3.19",
-    "@salesforce/cli-plugins-testkit": "^5.3.57",
-    "@salesforce/plugin-command-reference": "^3.1.99",
-    "@salesforce/ts-sinon": "^1.4.34",
-    "eslint-plugin-sf-plugin": "^1.20.33",
-    "nock": "^14.0.15",
-    "oclif": "^4.23.0",
-    "ts-node": "^10.9.2"
-  },
   "publishConfig": {
     "access": "public"
   },
