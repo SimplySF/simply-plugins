@@ -64,7 +64,7 @@ export default class DataFilesDownload extends SfCommand<void> {
         autoFetch: true,
         maxFetch: (this.configAggregator.getInfo('org-max-query-limit').value as number) ?? 50_000,
         scanAll: false,
-      }
+      },
     );
 
     const contentVersionDownloads = result.records;
@@ -129,7 +129,7 @@ export default class DataFilesDownload extends SfCommand<void> {
           contentVersionDownload.FilePath = await downloadContentVersion(
             targetOrgConnection,
             contentVersionDownload,
-            'download'
+            'download',
           );
           await successWriter.writeRecords([contentVersionDownload]);
         } catch (error) {

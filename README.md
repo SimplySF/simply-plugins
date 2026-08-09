@@ -1,6 +1,6 @@
 # @simplysf/simply-data
 
-[![NPM](https://img.shields.io/npm/v/@simplysf/simply-data?label=@simplysf/simply-data)](https://npmjs.com/@simplysf/simply-data) [![Downloads/week](https://img.shields.io/npm/dw/@simplysf/simply-data.svg)](https://npmjs.com/@simplysf/simply-data) [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://raw.githubusercontent.com/SimplySF/simply/main/packages/simply-data/LICENSE.txt)
+[![NPM](https://img.shields.io/npm/v/@simplysf/simply-data?label=@simplysf/simply-data)](https://npmjs.com/@simplysf/simply-data) [![Downloads/week](https://img.shields.io/npm/dw/@simplysf/simply-data.svg)](https://npmjs.com/@simplysf/simply-data) [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://raw.githubusercontent.com/SimplySF/simply/main/LICENSE.txt)
 
 ## Install
 
@@ -14,7 +14,7 @@ Please report any issues at https://github.com/SimplySF/simply/issues
 
 ## Contributing
 
-This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/simply) monorepo. See the repo's [CONTRIBUTING.md](../../CONTRIBUTING.md) for the repo structure, how to set up and build the project, our commit conventions, and how to submit a pull request. Please also read our [Code of Conduct](../../CODE_OF_CONDUCT.md).
+This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/simply) monorepo. See the repo's [CONTRIBUTING.md](https://github.com/SimplySF/simply/blob/main/CONTRIBUTING.md) for the repo structure, how to set up and build the project, our commit conventions, and how to submit a pull request. Please also read our [Code of Conduct](https://github.com/SimplySF/simply/blob/main/CODE_OF_CONDUCT.md).
 
 ## Commands
 
@@ -56,7 +56,7 @@ EXAMPLES
   $ sf simply data file upload --file-path fileToUpload.txt --first-publish-location-id 0019000000DmehK --target-org myTargetOrg
 ```
 
-_See code: [lib/commands/simply/data/file/upload.js](https://github.com/SimplySF/simply-data/blob/2.1.1/lib/commands/simply/data/file/upload.js)_
+_See code: [lib/commands/simply/data/file/upload.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-data@2.1.9/packages/simply-data/lib/commands/simply/data/file/upload.js)_
 
 ## `sf simply data files download`
 
@@ -101,7 +101,7 @@ FLAG DESCRIPTIONS
     Provide a WHERE clause to allow the plugin to specify which ContentVersion records should be downloaded.
 ```
 
-_See code: [lib/commands/simply/data/files/download.js](https://github.com/SimplySF/simply-data/blob/2.1.1/lib/commands/simply/data/files/download.js)_
+_See code: [lib/commands/simply/data/files/download.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-data@2.1.9/packages/simply-data/lib/commands/simply/data/files/download.js)_
 
 ## `sf simply data files upload`
 
@@ -146,6 +146,5 @@ FLAG DESCRIPTIONS
     quasi concurrent uploads. Please note that setting this value too high can cause performance issues.
 ```
 
-_See code: [lib/commands/simply/data/files/upload.js](https://github.com/SimplySF/simply-data/blob/2.1.1/lib/commands/simply/data/files/upload.js)_
-
+_See code: [lib/commands/simply/data/files/upload.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-data@2.1.9/packages/simply-data/lib/commands/simply/data/files/upload.js)_
 <!-- commandsstop -->

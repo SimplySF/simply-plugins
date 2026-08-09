@@ -59,7 +59,7 @@ export default class DataFileUpload extends SfCommand<ContentVersion> {
       targetOrgConnection,
       flags['file-path'],
       flags['title'],
-      flags['first-publish-location-id']
+      flags['first-publish-location-id'],
     );
 
     this.spinner.stop();

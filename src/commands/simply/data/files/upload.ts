@@ -109,7 +109,7 @@ export default class DataFilesUpload extends SfCommand<void> {
             targetOrgConnection,
             contentVersionToUpload.PathOnClient,
             contentVersionToUpload.Title,
-            contentVersionToUpload.FirstPublishLocationId
+            contentVersionToUpload.FirstPublishLocationId,
           );
           contentVersionToUpload.ContentDocumentId = contentVersion.ContentDocumentId;
           await successWriter.writeRecords([contentVersionToUpload]);
