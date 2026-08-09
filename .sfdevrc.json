@@ -1,0 +1,3 @@
+{
+  "exclude-scripts": ["test", "test:deprecation-policy", "test:command-reference", "test:json-schema"]
+}

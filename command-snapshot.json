@@ -1,0 +1,49 @@
+[
+  {
+    "alias": [],
+    "command": "simply:data:file:upload",
+    "flagAliases": [],
+    "flagChars": ["o"],
+    "flags": ["api-version", "file-path", "first-publish-location-id", "json", "target-org", "title"],
+    "plugin": "@simplysf/simply-data"
+  },
+  {
+    "alias": [],
+    "command": "simply:data:files:upload",
+    "flagAliases": [],
+    "flagChars": ["o"],
+    "flags": ["api-version", "file-path", "json", "max-parallel-jobs", "target-org"],
+    "plugin": "@simplysf/simply-data"
+  },
+  {
+    "alias": [],
+    "command": "simply:package:dependencies:install",
+    "flagAliases": [],
+    "flagChars": ["a", "b", "i", "k", "l", "o", "r", "s", "t", "v", "w", "z"],
+    "flags": [
+      "apex-compile",
+      "api-version",
+      "branch",
+      "install-type",
+      "installation-key",
+      "json",
+      "no-prompt",
+      "publish-wait",
+      "security-type",
+      "skip-handlers",
+      "target-dev-hub",
+      "target-org",
+      "upgrade-type",
+      "wait"
+    ],
+    "plugin": "@simplysf/simply-package"
+  },
+  {
+    "alias": [],
+    "command": "simply:package:version:cleanup",
+    "flagAliases": [],
+    "flagChars": ["p", "s", "v"],
+    "flags": ["api-version", "json", "matcher", "package", "target-dev-hub"],
+    "plugin": "@simplysf/simply-package"
+  }
+]
