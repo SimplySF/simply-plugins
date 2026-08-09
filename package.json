@@ -58,7 +58,7 @@
       "@simplysf/simply-data",
       "@simplysf/simply-package"
     ],
-    "repositoryPrefix": "<%- repo %>/blob/<%- version %>/<%- commandPath %>",
+    "repositoryPrefix": "<%- repo %>/blob/@simplysf/simply@<%- version %>/packages/simply/<%- commandPath %>",
     "topicSeparator": " ",
     "warn-if-update-available": {
       "timeoutInDays": 7

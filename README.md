@@ -1,6 +1,6 @@
 # simply
 
-[![NPM](https://img.shields.io/npm/v/@simplysf/simply.svg?label=@simplysf/simply)](https://www.npmjs.com/package/@simplysf/simply) [![Downloads/week](https://img.shields.io/npm/dw/@simplysf/simply.svg)](https://npmjs.org/package/@simplysf/simply) [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://raw.githubusercontent.com/SimplySF/simply/main/packages/simply/LICENSE.txt)
+[![NPM](https://img.shields.io/npm/v/@simplysf/simply.svg?label=@simplysf/simply)](https://www.npmjs.com/package/@simplysf/simply) [![Downloads/week](https://img.shields.io/npm/dw/@simplysf/simply.svg)](https://npmjs.org/package/@simplysf/simply) [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://raw.githubusercontent.com/SimplySF/simply/main/LICENSE.txt)
 
 ## Install
 
@@ -55,7 +55,7 @@ EXAMPLES
   $ sf simply data file upload --file-path fileToUpload.txt --first-publish-location-id 0019000000DmehK --target-org myTargetOrg
 ```
 
-_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-data/blob/2.1.1/lib/commands/simply/data/file/upload.js)_
+_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply/blob/@simplysf/simply-data@2.1.9/packages/simply-data/lib/commands/simply/data/file/upload.js)_
 
 ## `sf simply data files download`
 
@@ -100,7 +100,7 @@ FLAG DESCRIPTIONS
     Provide a WHERE clause to allow the plugin to specify which ContentVersion records should be downloaded.
 ```
 
-_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-data/blob/2.1.1/lib/commands/simply/data/files/download.js)_
+_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply/blob/@simplysf/simply-data@2.1.9/packages/simply-data/lib/commands/simply/data/files/download.js)_
 
 ## `sf simply data files upload`
 
@@ -145,7 +145,7 @@ FLAG DESCRIPTIONS
     quasi concurrent uploads. Please note that setting this value too high can cause performance issues.
 ```
 
-_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-data/blob/2.1.1/lib/commands/simply/data/files/upload.js)_
+_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply/blob/@simplysf/simply-data@2.1.9/packages/simply-data/lib/commands/simply/data/files/upload.js)_
 
 ## `sf simply package dependencies install`
 
@@ -241,7 +241,7 @@ FLAG DESCRIPTIONS
     from by entering the branch build name. If not specified, the builds from NULL branch will be considered.
 ```
 
-_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-package/blob/2.3.0/lib/commands/simply/package/dependencies/install.js)_
+_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply/blob/@simplysf/simply-package@2.3.8/packages/simply-package/lib/commands/simply/package/dependencies/install.js)_
 
 ## `sf simply package dependencies manage`
 
@@ -300,7 +300,7 @@ FLAG DESCRIPTIONS
     version without interactive prompts. Mutually exclusive with --update-to-latest.
 ```
 
-_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-package/blob/2.3.0/lib/commands/simply/package/dependencies/manage.js)_
+_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply/blob/@simplysf/simply-package@2.3.8/packages/simply-package/lib/commands/simply/package/dependencies/manage.js)_
 
 ## `sf simply package version cleanup`
 
@@ -341,6 +341,5 @@ FLAG DESCRIPTIONS
     The MAJOR.MINOR.PATCH matcher that should be used to find package versions to delete.
 ```
 
-_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-package/blob/2.3.0/lib/commands/simply/package/version/cleanup.js)_
-
+_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply/blob/@simplysf/simply-package@2.3.8/packages/simply-package/lib/commands/simply/package/version/cleanup.js)_
 <!-- commandsstop -->
