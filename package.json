@@ -1,7 +1,7 @@
 {
   "name": "@simplysf/simply-package",
   "description": "Utilities for working with packages",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "author": "@ClayChipps",
   "bugs": "https://github.com/SimplySF/simply-package/issues",
   "dependencies": {
