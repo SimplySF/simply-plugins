@@ -71,6 +71,10 @@
     "got": "14.6.6",
     "p-queue": "^9.2.0"
   },
+  "devDependencies": {
+    "@oclif/plugin-command-snapshot": "^5.3.19",
+    "@salesforce/plugin-command-reference": "^3.1.99"
+  },
   "publishConfig": {
     "access": "public"
   },
