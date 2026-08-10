@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.1](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply%402.3.0...%40simplysf%2Fsimply%402.3.1) (2026-08-10)
+
+### Bug Fixes
+
+- revert devdependency change ([ce9e431](https://github.com/SimplySF/simply/commit/ce9e4319292f20f69efe2ddc39b8a389baccb6cc))
+
 # [2.3.0](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply%402.2.8...%40simplysf%2Fsimply%402.3.0) (2026-08-09)
 
 ### Bug Fixes
