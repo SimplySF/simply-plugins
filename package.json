@@ -69,6 +69,9 @@
     "@simplysf/simply-package": "^2.4.0",
     "debug": "^4.4.3"
   },
+  "devDependencies": {
+    "@oclif/plugin-command-snapshot": "^5.3.19"
+  },
   "publishConfig": {
     "access": "public"
   },
