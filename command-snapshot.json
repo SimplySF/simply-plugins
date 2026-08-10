@@ -1,0 +1,18 @@
+[
+  {
+    "alias": [],
+    "command": "simply:sobject:backup",
+    "flagAliases": [],
+    "flagChars": ["d", "o", "s"],
+    "flags": ["api-version", "flags-dir", "json", "output-dir", "sobject", "target-org"],
+    "plugin": "@simplysf/simply-sobject"
+  },
+  {
+    "alias": [],
+    "command": "simply:sobject:deduplicate",
+    "flagAliases": [],
+    "flagChars": ["c", "o"],
+    "flags": ["api-version", "config", "dry-run", "flags-dir", "json", "output-dir", "target-org"],
+    "plugin": "@simplysf/simply-sobject"
+  }
+]
