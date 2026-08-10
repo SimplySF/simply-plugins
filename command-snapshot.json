@@ -1,0 +1,34 @@
+[
+  {
+    "alias": [],
+    "command": "simply:apex:execute",
+    "flagAliases": [],
+    "flagChars": ["f", "o"],
+    "flags": ["api-version", "file", "flags-dir", "json", "target-org"],
+    "plugin": "@simplysf/simply-apex"
+  },
+  {
+    "alias": [],
+    "command": "simply:apex:logs:purge",
+    "flagAliases": [],
+    "flagChars": ["o", "w"],
+    "flags": ["api-version", "flags-dir", "json", "target-org", "where"],
+    "plugin": "@simplysf/simply-apex"
+  },
+  {
+    "alias": [],
+    "command": "simply:apex:trace:setup",
+    "flagAliases": [],
+    "flagChars": ["o"],
+    "flags": ["api-version", "flags-dir", "json", "target-org"],
+    "plugin": "@simplysf/simply-apex"
+  },
+  {
+    "alias": [],
+    "command": "simply:apex:trace:silence",
+    "flagAliases": [],
+    "flagChars": ["c", "o"],
+    "flags": ["api-version", "classes", "classes-file", "flags-dir", "json", "target-org"],
+    "plugin": "@simplysf/simply-apex"
+  }
+]
