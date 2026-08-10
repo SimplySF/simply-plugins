@@ -79,6 +79,10 @@
     "@salesforce/ts-types": "^2.0.12",
     "zod": "^4.1.12"
   },
+  "devDependencies": {
+    "@oclif/plugin-command-snapshot": "^5.3.19",
+    "@salesforce/plugin-command-reference": "^3.1.99"
+  },
   "publishConfig": {
     "access": "public"
   },
