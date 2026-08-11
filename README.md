@@ -1,0 +1,119 @@
+# @simplysf/simply-sobject
+
+[![NPM](https://img.shields.io/npm/v/@simplysf/simply-sobject?label=@simplysf/simply-sobject)](https://npmjs.com/@simplysf/simply-sobject) [![Downloads/week](https://img.shields.io/npm/dw/@simplysf/simply-sobject.svg)](https://npmjs.com/@simplysf/simply-sobject) [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://raw.githubusercontent.com/SimplySF/simply/main/LICENSE.txt)
+
+## Install
+
+```bash
+sf plugins install @simplysf/simply-sobject
+```
+
+## Issues
+
+Please report any issues at https://github.com/SimplySF/simply/issues
+
+## Contributing
+
+This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/simply) monorepo. See the repo's [CONTRIBUTING.md](https://github.com/SimplySF/simply/blob/main/CONTRIBUTING.md) for the repo structure, how to set up and build the project, our commit conventions, and how to submit a pull request. Please also read our [Code of Conduct](https://github.com/SimplySF/simply/blob/main/CODE_OF_CONDUCT.md).
+
+## Commands
+
+<!-- commands -->
+
+- [`sf simply sobject backup`](#sf-simply-sobject-backup)
+- [`sf simply sobject deduplicate`](#sf-simply-sobject-deduplicate)
+
+## `sf simply sobject backup`
+
+Back up SObject data to a CSV file.
+
+```
+USAGE
+  $ sf simply sobject backup -s <value> -o <value> [--json] [--flags-dir <value>] [--api-version <value>] [-d <value>]
+
+FLAGS
+  -d, --output-dir=<value>   Output directory
+  -o, --target-org=<value>   (required) Username or alias of the target org. Not required if the `target-org`
+                             configuration variable is already set.
+  -s, --sobject=<value>      (required) SObject API name
+      --api-version=<value>  Override the api version used for api requests made by this command
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Back up SObject data to a CSV file.
+
+  Describes the given SObject, queries every field via the Bulk API, and writes the results to a timestamped CSV file.
+
+EXAMPLES
+  $ sf simply sobject backup --target-org myOrg --sobject Account
+
+  $ sf simply sobject backup --target-org myOrg --sobject Custom_Object__c --output-dir backups
+
+FLAG DESCRIPTIONS
+  -d, --output-dir=<value>  Output directory
+
+    The directory to save the backup CSV file to. Defaults to the current directory.
+
+  -s, --sobject=<value>  SObject API name
+
+    The API name of the SObject to back up.
+```
+
+_See code: [lib/commands/simply/sobject/backup.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-sobject@1.1.1/packages/simply-sobject/lib/commands/simply/sobject/backup.js)_
+
+## `sf simply sobject deduplicate`
+
+Identify and prepare deduplication of an SObject's records.
+
+```
+USAGE
+  $ sf simply sobject deduplicate -c <value> -o <value> [--json] [--flags-dir <value>] [--api-version <value>] [--dry-run]
+    [--output-dir <value>]
+
+FLAGS
+  -c, --config=<value>       (required) Path to a deduplication configuration file
+  -o, --target-org=<value>   (required) Username or alias of the target org. Not required if the `target-org`
+                             configuration variable is already set.
+      --api-version=<value>  Override the api version used for api requests made by this command
+      --dry-run              Skip calculating associated object lookup replacements
+      --output-dir=<value>   Output directory
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Identify and prepare deduplication of an SObject's records.
+
+  Queries an SObject, groups records by a composite key built from configured fields, and writes CSV files listing which
+  records are unique and which are duplicates that should be deleted. For each associated object with lookups to the
+  primary object, also writes a CSV of the lookup field updates needed to re-point duplicate references at the surviving
+  unique record. This command does not perform any deletes or updates in the org; it only prepares the CSV files for a
+  subsequent data load.
+
+EXAMPLES
+  $ sf simply sobject deduplicate --target-org myOrg --config config/deduplicate-account.json
+
+  $ sf simply sobject deduplicate --target-org myOrg --config config/deduplicate-account.json --dry-run
+
+FLAG DESCRIPTIONS
+  -c, --config=<value>  Path to a deduplication configuration file
+
+    The path to a JSON file describing the primary object, its composite key fields, and any associated objects with
+    lookups to it.
+
+  --dry-run  Skip calculating associated object lookup replacements
+
+    When set, only the primary object's unique/duplicate CSV files are generated; associated object lookup replacement
+    files are not calculated.
+
+  --output-dir=<value>  Output directory
+
+    The directory to write the generated CSV files to. Defaults to ./temp/<primaryObjectApiName>.
+```
+
+_See code: [lib/commands/simply/sobject/deduplicate.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-sobject@1.1.1/packages/simply-sobject/lib/commands/simply/sobject/deduplicate.js)_
+<!-- commandsstop -->
