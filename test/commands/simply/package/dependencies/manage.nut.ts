@@ -15,15 +15,18 @@
  */
 
 import { TestSession } from '@salesforce/cli-plugins-testkit';
+import { afterAll, beforeAll, describe, it } from 'vitest';
 
 describe('simply package dependencies manage', () => {
   let session: TestSession;
 
-  before(async () => {
+  beforeAll(async () => {
     session = await TestSession.create({ devhubAuthStrategy: 'NONE' });
   });
 
-  after(async () => {
+  it.todo('add test coverage for simply package dependencies manage');
+
+  afterAll(async () => {
     await session?.clean();
   });
 });

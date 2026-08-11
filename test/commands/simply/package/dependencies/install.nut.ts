@@ -15,15 +15,15 @@
  */
 
 import path from 'node:path';
-import { expect } from 'chai';
 import { execCmd, TestSession } from '@salesforce/cli-plugins-testkit';
 import { Duration } from '@salesforce/kit';
+import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { PackageToInstall } from './../../../../../src/commands/simply/package/dependencies/install.js';
 
 describe('simply package dependencies install - standard', () => {
   let session: TestSession;
 
-  before(async () => {
+  beforeAll(async () => {
     session = await TestSession.create({
       devhubAuthStrategy: 'AUTO',
       project: {
@@ -92,7 +92,7 @@ describe('simply package dependencies install - standard', () => {
     expect(output!.result[2].Status).equals('Skipped');
   });
 
-  after(async () => {
+  afterAll(async () => {
     await session?.clean();
   });
 });
@@ -100,7 +100,7 @@ describe('simply package dependencies install - standard', () => {
 describe('simply package dependencies install - package', () => {
   let session: TestSession;
 
-  before(async () => {
+  beforeAll(async () => {
     session = await TestSession.create({
       devhubAuthStrategy: 'AUTO',
       project: {
@@ -169,7 +169,7 @@ describe('simply package dependencies install - package', () => {
     expect(output!.result[2].Status).equals('Skipped');
   });
 
-  after(async () => {
+  afterAll(async () => {
     await session?.clean();
   });
 });

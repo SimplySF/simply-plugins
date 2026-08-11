@@ -14,19 +14,16 @@
  * limitations under the License.
  */
 
-import { TestSession } from '@salesforce/cli-plugins-testkit';
-import { afterAll, beforeAll, describe, it } from 'vitest';
+import { defineConfig } from 'vitest/config';
 
-describe('simply package version cleanup', () => {
-  let session: TestSession;
-
-  beforeAll(async () => {
-    session = await TestSession.create({ devhubAuthStrategy: 'NONE' });
-  });
-
-  it.todo('add test coverage for simply package version cleanup');
-
-  afterAll(async () => {
-    await session?.clean();
-  });
+export default defineConfig({
+  test: {
+    environment: 'node',
+    include: ['test/**/*.nut.ts'],
+    // NUTs create real scratch orgs and run commands against them, so they
+    // need much longer allowances than the unit test config.
+    testTimeout: 1_200_000,
+    hookTimeout: 1_200_000,
+    maxWorkers: 5,
+  },
 });
