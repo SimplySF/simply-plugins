@@ -15,11 +15,11 @@
  */
 
 import fs from 'node:fs';
-import { expect } from 'chai';
 import { parse } from 'csv-parse/sync';
 import got from 'got';
 import { Connection, SfError } from '@salesforce/core';
 import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import DataFilesUpload from '../../../../../src/commands/simply/data/files/upload.js';
 import { ContentVersionToUpload } from '../../../../../src/common/contentVersionTypes.js';
 
