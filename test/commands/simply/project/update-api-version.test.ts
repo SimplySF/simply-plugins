@@ -18,7 +18,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { SfError } from '@salesforce/core';
-import { expect } from 'chai';
+import { describe, expect, it } from 'vitest';
 import ProjectUpdateApiVersion from '../../../../src/commands/simply/project/update-api-version.js';
 
 describe('simply project update-api-version', () => {

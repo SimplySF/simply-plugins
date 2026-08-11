@@ -14,4 +14,8 @@
  * limitations under the License.
  */
 
-describe('simply-project', () => {});
+import { describe, it } from 'vitest';
+
+describe('simply-project', () => {
+  it.todo('add test coverage for simply-project');
+});
