@@ -14,17 +14,14 @@
  * limitations under the License.
  */
 
-/* eslint-disable no-await-in-loop */
 import fs from 'node:fs';
 import path from 'node:path';
-import { createObjectCsvWriter } from 'csv-writer';
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
+import { streamBulkQueryToFile } from '@simplysf/simply-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-sobject', 'simply.sobject.backup');
-
-const BATCH_SIZE = 500;
 
 export type SObjectBackupResult = {
   sobject: string;
@@ -79,38 +76,15 @@ export default class SObjectBackup extends SfCommand<SObjectBackupResult> {
 
     const outputPath = path.join(outputDir, `${sobjectName}_${buildTimestamp()}.csv`);
 
-    const csvWriter = createObjectCsvWriter({
-      path: outputPath,
-      header: queryableFields.map((field) => ({ id: field, title: field })),
-    });
-
     this.spinner.start(messages.getMessage('info.exportingData', [sobjectName]));
 
-    const recordStream = await targetOrgConnection.bulk2.query(soql);
-
-    let recordCount = 0;
-    let batch: Array<Record<string, unknown>> = [];
-
-    for await (const record of recordStream) {
-      batch.push(record as Record<string, unknown>);
-      recordCount++;
-
-      if (batch.length >= BATCH_SIZE) {
-        await csvWriter.writeRecords(batch);
-        batch = [];
-        this.spinner.status = `${recordCount}`;
-      }
-    }
-
-    if (batch.length > 0) {
-      await csvWriter.writeRecords(batch);
-    }
+    const { numberRecordsProcessed } = await streamBulkQueryToFile(targetOrgConnection, soql, outputPath);
 
     this.spinner.stop();
 
-    this.info(messages.getMessage('info.complete', [recordCount, outputPath]));
+    this.info(messages.getMessage('info.complete', [numberRecordsProcessed, outputPath]));
 
-    return { sobject: sobjectName, recordCount, path: outputPath };
+    return { sobject: sobjectName, recordCount: numberRecordsProcessed, path: outputPath };
   }
 }
 
