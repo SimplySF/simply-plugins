@@ -73,7 +73,9 @@
   },
   "devDependencies": {
     "@oclif/plugin-command-snapshot": "^5.3.19",
-    "@salesforce/plugin-command-reference": "^3.1.99"
+    "@salesforce/plugin-command-reference": "^3.1.99",
+    "@vitest/coverage-v8": "^4.1.10",
+    "vitest": "^4.1.10"
   },
   "publishConfig": {
     "access": "public"
@@ -87,9 +89,10 @@
     "lint": "wireit",
     "readme": "oclif readme --no-aliases",
     "test": "wireit",
+    "test:coverage": "vitest run --coverage",
     "test:nuts": "nyc mocha \"**/*.nut.ts\" --slow 4500 --timeout 1200000 --parallel --jobs 5",
     "test:only": "wireit",
-    "test:watch": "mocha --watch \"./test/**/*.test.ts\""
+    "test:watch": "vitest watch"
   },
   "wireit": {
     "build": {
@@ -184,7 +187,7 @@
       "output": []
     },
     "test:only": {
-      "command": "nyc mocha \"test/**/*.test.ts\"",
+      "command": "vitest run",
       "env": {
         "FORCE_COLOR": "2"
       },
@@ -192,9 +195,8 @@
         "test/**/*.ts",
         "src/**/*.ts",
         "**/tsconfig.json",
-        ".mocha*",
-        "!*.nut.ts",
-        ".nycrc"
+        "vitest.config.ts",
+        "!*.nut.ts"
       ],
       "output": []
     },

@@ -20,14 +20,14 @@ import path from 'node:path';
 import { ExecuteAnonymousResponse, ExecuteService } from '@salesforce/apex-node';
 import { SfError } from '@salesforce/core';
 import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
-import { expect } from 'chai';
+import { afterEach, beforeAll, describe, expect, it } from 'vitest';
 import ApexExecute from '../../../../src/commands/simply/apex/execute.js';
 
 describe('simply apex execute', () => {
   const $$ = new TestContext();
   const testOrg = new MockTestOrgData();
 
-  before(async () => {
+  beforeAll(async () => {
     await $$.stubAuths(testOrg);
   });
 
