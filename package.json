@@ -92,8 +92,21 @@
   "wireit": {
     "build": {
       "dependencies": [
+        "command-snapshot",
         "compile",
         "lint"
+      ]
+    },
+    "command-snapshot": {
+      "command": "node --loader ts-node/esm --no-warnings=ExperimentalWarning \"./bin/dev.js\" snapshot:generate && prettier --write command-snapshot.json",
+      "files": [
+        "src/**/*.ts"
+      ],
+      "output": [
+        "command-snapshot.json"
+      ],
+      "dependencies": [
+        "compile"
       ]
     },
     "compile": {
