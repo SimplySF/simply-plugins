@@ -17,11 +17,12 @@
 import path from 'node:path';
 import { execCmd, TestSession } from '@salesforce/cli-plugins-testkit';
 import { Duration } from '@salesforce/kit';
+import { afterAll, beforeAll, describe, it } from 'vitest';
 
 describe('simply data files upload', () => {
   let session: TestSession;
 
-  before(async () => {
+  beforeAll(async () => {
     session = await TestSession.create({
       devhubAuthStrategy: 'AUTO',
       project: {
@@ -42,7 +43,7 @@ describe('simply data files upload', () => {
     execCmd(command, { ensureExitCode: 0, timeout: Duration.minutes(30).milliseconds });
   });
 
-  after(async () => {
+  afterAll(async () => {
     await session?.clean();
   });
 });

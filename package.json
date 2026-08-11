@@ -89,7 +89,7 @@
     "lint": "wireit",
     "test": "wireit",
     "test:coverage": "vitest run --coverage",
-    "test:nuts": "nyc mocha \"**/*.nut.ts\" --slow 4500 --timeout 1200000 --parallel --jobs 5",
+    "test:nuts": "vitest run --config vitest.nuts.config.ts",
     "test:only": "wireit",
     "test:watch": "vitest watch",
     "version": "oclif readme"

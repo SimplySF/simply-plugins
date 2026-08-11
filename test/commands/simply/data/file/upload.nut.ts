@@ -15,15 +15,15 @@
  */
 
 import path from 'node:path';
-import { expect } from 'chai';
 import { execCmd, TestSession } from '@salesforce/cli-plugins-testkit';
 import { Duration } from '@salesforce/kit';
+import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { ContentVersion } from '../../../../../src/common/contentVersionTypes.js';
 
 describe('simply data file upload', () => {
   let session: TestSession;
 
-  before(async () => {
+  beforeAll(async () => {
     session = await TestSession.create({
       devhubAuthStrategy: 'AUTO',
       project: {
@@ -50,7 +50,7 @@ describe('simply data file upload', () => {
     expect(output!.result.Title).equals('watchDoge.jpg');
   });
 
-  after(async () => {
+  afterAll(async () => {
     await session?.clean();
   });
 });

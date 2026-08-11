@@ -16,11 +16,12 @@
 
 import path from 'node:path';
 import { TestSession } from '@salesforce/cli-plugins-testkit';
+import { afterAll, beforeAll, describe, it } from 'vitest';
 
 describe('simply data files download', () => {
   let session: TestSession;
 
-  before(async () => {
+  beforeAll(async () => {
     session = await TestSession.create({
       devhubAuthStrategy: 'AUTO',
       project: {
@@ -35,7 +36,9 @@ describe('simply data files download', () => {
     });
   });
 
-  after(async () => {
+  it.todo('add test coverage for simply data files download');
+
+  afterAll(async () => {
     await session?.clean();
   });
 });
