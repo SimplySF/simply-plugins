@@ -87,28 +87,39 @@ export default class PermissionsAnalyze extends SfCommand<PermissionsAnalyzeResu
     }
 
     this.spinner.start(messages.getMessage('info.fetchingPermissionSets'));
-    const psResult = await connection.query<PermissionSetRecord>(
+    const psResult = await connection.autoFetchQuery(
       'SELECT Id, Name, Label, NamespacePrefix, IsCustom, Description, Type FROM PermissionSet WHERE IsOwnedByProfile = false',
     );
-    const psgResult = await connection.query<PermissionSetGroupRecord>(
+    const psgResult = await connection.autoFetchQuery(
       'SELECT Id, DeveloperName, MasterLabel, NamespacePrefix, Description FROM PermissionSetGroup',
     );
     this.spinner.stop();
 
-    const allPermissionSets = psResult.records;
-    const permissionSetGroups = psgResult.records;
+    const allPermissionSets = psResult.records as unknown as PermissionSetRecord[];
+    const allPermissionSetGroups = psgResult.records as unknown as PermissionSetGroupRecord[];
 
     const companionPermissionSets = allPermissionSets.filter((ps) => ps.Type === 'Group');
-    const regularPermissionSets = allPermissionSets.filter((ps) => ps.Type !== 'Group');
     const companionPSMap = new Map(companionPermissionSets.map((ps) => [ps.Name, ps]));
     const permissionSetMap = new Map(allPermissionSets.map((ps) => [ps.Id, ps]));
 
+    const filterSet = flags.filter && flags.filter.length > 0 ? new Set(flags.filter) : undefined;
+
+    // Apply the filter up front so every downstream query only covers the permission sets/groups that survive it.
+    const regularPermissionSets = allPermissionSets.filter(
+      (ps) => ps.Type !== 'Group' && (!filterSet || filterSet.has(ps.Name)),
+    );
+    const permissionSetGroups = allPermissionSetGroups.filter((psg) => !filterSet || filterSet.has(psg.DeveloperName));
+    const companionPermissionSetsInScope = permissionSetGroups
+      .map((psg) => companionPSMap.get(psg.DeveloperName))
+      .filter((ps): ps is PermissionSetRecord => ps !== undefined);
+    const permissionSetsInScope = [...regularPermissionSets, ...companionPermissionSetsInScope];
+
     this.spinner.start(messages.getMessage('info.resolvingPackages'));
     const packageMap = new Map<string, string>();
-    allPermissionSets.forEach((ps) => packageMap.set(ps.Id, ps.NamespacePrefix ?? 'Local (Unpackaged)'));
+    permissionSetsInScope.forEach((ps) => packageMap.set(ps.Id, ps.NamespacePrefix ?? 'Local (Unpackaged)'));
     permissionSetGroups.forEach((psg) => packageMap.set(psg.Id, psg.NamespacePrefix ?? 'Local (Unpackaged)'));
 
-    const allIds = [...allPermissionSets.map((r) => r.Id), ...permissionSetGroups.map((r) => r.Id)];
+    const allIds = [...permissionSetsInScope.map((r) => r.Id), ...permissionSetGroups.map((r) => r.Id)];
 
     for (let i = 0; i < allIds.length; i += ID_CHUNK_SIZE) {
       const chunk = allIds.slice(i, i + ID_CHUNK_SIZE);
@@ -116,12 +127,17 @@ export default class PermissionsAnalyze extends SfCommand<PermissionsAnalyzeResu
 
       try {
         // eslint-disable-next-line no-await-in-loop
-        const pkgResult = await connection.tooling.query<{
+        const pkgResult = await connection.autoFetchQuery(
+          `SELECT SubjectId, SubscriberPackage.Name FROM Package2Member WHERE SubjectId IN (${idsClause})`,
+          { tooling: true },
+        );
+
+        const pkgRecords = pkgResult.records as unknown as Array<{
           SubjectId: string;
           SubscriberPackage: { Name: string };
-        }>(`SELECT SubjectId, SubscriberPackage.Name FROM Package2Member WHERE SubjectId IN (${idsClause})`);
+        }>;
 
-        pkgResult.records.forEach((r) => {
+        pkgRecords.forEach((r) => {
           const fullId = allIds.find((id) => id.startsWith(r.SubjectId));
           if (fullId) {
             packageMap.set(fullId, r.SubscriberPackage.Name);
@@ -136,7 +152,7 @@ export default class PermissionsAnalyze extends SfCommand<PermissionsAnalyzeResu
     this.spinner.start(messages.getMessage('info.fetchingPermissions'));
     const objectPermissions = new Map<string, ObjectPermissionEntry[]>();
     const fieldPermissions = new Map<string, FieldPermissionEntry[]>();
-    const psIds = allPermissionSets.map((r) => r.Id);
+    const psIds = permissionSetsInScope.map((r) => r.Id);
 
     for (let i = 0; i < psIds.length; i += ID_CHUNK_SIZE) {
       const chunk = psIds.slice(i, i + ID_CHUNK_SIZE);
@@ -144,22 +160,25 @@ export default class PermissionsAnalyze extends SfCommand<PermissionsAnalyzeResu
 
       // eslint-disable-next-line no-await-in-loop
       const [objRes, fieldRes] = await Promise.all([
-        connection.query<ObjectPermissionEntry & { ParentId: string }>(
+        connection.autoFetchQuery(
           `SELECT ParentId, SobjectType, PermissionsRead, PermissionsCreate, PermissionsEdit, PermissionsDelete, PermissionsViewAllRecords, PermissionsModifyAllRecords FROM ObjectPermissions WHERE ParentId IN (${idsClause})`,
         ),
-        connection.query<FieldPermissionEntry & { ParentId: string }>(
+        connection.autoFetchQuery(
           `SELECT ParentId, SobjectType, Field, PermissionsRead, PermissionsEdit FROM FieldPermissions WHERE ParentId IN (${idsClause})`,
         ),
       ]);
 
-      objRes.records.forEach((r) => {
+      const objRecords = objRes.records as unknown as Array<ObjectPermissionEntry & { ParentId: string }>;
+      const fieldRecords = fieldRes.records as unknown as Array<FieldPermissionEntry & { ParentId: string }>;
+
+      objRecords.forEach((r) => {
         if (!objectPermissions.has(r.ParentId)) {
           objectPermissions.set(r.ParentId, []);
         }
         objectPermissions.get(r.ParentId)?.push(r);
       });
 
-      fieldRes.records.forEach((r) => {
+      fieldRecords.forEach((r) => {
         if (!fieldPermissions.has(r.ParentId)) {
           fieldPermissions.set(r.ParentId, []);
         }
@@ -177,11 +196,16 @@ export default class PermissionsAnalyze extends SfCommand<PermissionsAnalyzeResu
       const idsClause = chunk.map((id) => `'${id}'`).join(',');
 
       // eslint-disable-next-line no-await-in-loop
-      const compRes = await connection.query<{ PermissionSetGroupId: string; PermissionSetId: string }>(
+      const compRes = await connection.autoFetchQuery(
         `SELECT PermissionSetGroupId, PermissionSetId FROM PermissionSetGroupComponent WHERE PermissionSetGroupId IN (${idsClause})`,
       );
 
-      compRes.records.forEach((r) => {
+      const compRecords = compRes.records as unknown as Array<{
+        PermissionSetGroupId: string;
+        PermissionSetId: string;
+      }>;
+
+      compRecords.forEach((r) => {
         if (!groupComponents.has(r.PermissionSetGroupId)) {
           groupComponents.set(r.PermissionSetGroupId, []);
         }
@@ -192,7 +216,7 @@ export default class PermissionsAnalyze extends SfCommand<PermissionsAnalyzeResu
 
     this.spinner.start(messages.getMessage('info.generatingReport'));
 
-    let groupedData: GroupedPermissionsData = new Map();
+    const groupedData: GroupedPermissionsData = new Map();
 
     const addToGroup = (
       pkgName: string,
@@ -241,22 +265,6 @@ export default class PermissionsAnalyze extends SfCommand<PermissionsAnalyzeResu
         ...companionPerms,
       });
     });
-
-    if (flags.filter && flags.filter.length > 0) {
-      const filterSet = new Set(flags.filter);
-      const filteredGroupedData: GroupedPermissionsData = new Map();
-
-      for (const [pkgName, data] of groupedData.entries()) {
-        const filteredPS = data.permissionSets.filter((ps) => filterSet.has(ps.Name));
-        const filteredPSGs = data.permissionSetGroups.filter((psg) => filterSet.has(psg.DeveloperName));
-
-        if (filteredPS.length > 0 || filteredPSGs.length > 0) {
-          filteredGroupedData.set(pkgName, { permissionSets: filteredPS, permissionSetGroups: filteredPSGs });
-        }
-      }
-
-      groupedData = filteredGroupedData;
-    }
 
     const html = buildPermissionsReportHtml({
       username: connection.getUsername() ?? '',
