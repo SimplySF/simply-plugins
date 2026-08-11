@@ -18,7 +18,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { SfError } from '@salesforce/core';
-import { expect } from 'chai';
+import { describe, expect, it } from 'vitest';
 import PermissionsBuild from '../../../../src/commands/simply/permissions/build.js';
 
 describe('simply permissions build', () => {
