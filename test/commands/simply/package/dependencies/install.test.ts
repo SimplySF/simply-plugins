@@ -15,16 +15,19 @@
  */
 
 import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
+import { afterEach, beforeAll, describe, it } from 'vitest';
 
 describe('simply package dependencies install', () => {
   const $$ = new TestContext();
   const testOrg = new MockTestOrgData();
 
-  before(async () => {
+  beforeAll(async () => {
     await $$.stubAuths(testOrg);
   });
 
   afterEach(() => {
     $$.restore();
   });
+
+  it.todo('add test coverage for simply package dependencies install');
 });

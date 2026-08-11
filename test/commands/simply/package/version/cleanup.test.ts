@@ -17,7 +17,7 @@
 import { SfError } from '@salesforce/core';
 import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
 import { Package, PackageSaveResult, PackageVersion, PackageVersionListResult } from '@salesforce/packaging';
-import { expect } from 'chai';
+import { afterEach, beforeAll, describe, expect, it } from 'vitest';
 import { PackageVersionCleanupResult } from '../../../../../src/commands/simply/package/version/cleanup.js';
 import PackageVersionCleanup from '../../../../../src/commands/simply/package/version/cleanup.js';
 
@@ -155,7 +155,7 @@ describe('simply package version cleanup', () => {
   const $$ = new TestContext();
   const testOrg = new MockTestOrgData();
 
-  before(async () => {
+  beforeAll(async () => {
     await $$.stubAuths(testOrg);
   });
 

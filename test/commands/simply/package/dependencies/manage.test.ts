@@ -17,7 +17,7 @@
 import { Connection, NamedPackageDir, SfError, SfProject } from '@salesforce/core';
 import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
 import { Package, PackageVersionListResult } from '@salesforce/packaging';
-import { expect } from 'chai';
+import { afterEach, beforeAll, describe, expect, it } from 'vitest';
 import PackageDependenciesManage from '../../../../../src/commands/simply/package/dependencies/manage.js';
 
 const mockPackage2Id = '0Hot0000000YzlxBAB';
@@ -109,7 +109,7 @@ describe('simply package dependencies manage', () => {
   const testOrg = new MockTestOrgData();
   testOrg.isDevHub = true;
 
-  before(async () => {
+  beforeAll(async () => {
     await $$.stubAuths(testOrg);
   });
 
