@@ -16,14 +16,14 @@
 
 import { SfError } from '@salesforce/core';
 import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
-import { expect } from 'chai';
+import { afterEach, beforeAll, describe, expect, it } from 'vitest';
 import SObjectBackup from '../../../../src/commands/simply/sobject/backup.js';
 
 describe('simply sobject backup', () => {
   const $$ = new TestContext();
   const testOrg = new MockTestOrgData();
 
-  before(async () => {
+  beforeAll(async () => {
     await $$.stubAuths(testOrg);
   });
 
