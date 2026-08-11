@@ -17,9 +17,11 @@
 /* eslint-disable no-await-in-loop */
 import fs from 'node:fs';
 import path from 'node:path';
+import { parse } from 'csv-parse';
 import { createObjectCsvWriter } from 'csv-writer';
 import { Connection, Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
+import { streamBulkQuery } from '@simplysf/simply-core';
 import { DeduplicateConfig, DeduplicateConfigSchema } from '../../../schemas/deduplicate/deduplicateConfig.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -53,7 +55,8 @@ async function deduplicateAssociatedObject(options: {
     });
   });
 
-  const recordStream = await connection.bulk2.query(`SELECT Id,${fieldsToQuery.join(',')} FROM ${objectName}`);
+  const { stream } = await streamBulkQuery(connection, `SELECT Id,${fieldsToQuery.join(',')} FROM ${objectName}`);
+  const recordStream = stream.pipe(parse({ columns: true }));
 
   const modifiedFile = path.join(outputDir, `${objectName}_Modified.csv`);
   const columns = ['Id', ...lookupFields];
@@ -175,7 +178,8 @@ export default class SObjectDeduplicate extends SfCommand<SObjectDeduplicateResu
       ',',
     )} FROM ${primaryObjectApiName} ${whereClause} ORDER BY CreatedDate ASC`;
 
-    const primaryRecordStream = await targetOrgConnection.bulk2.query(soql);
+    const { stream: primaryQueryStream } = await streamBulkQuery(targetOrgConnection, soql);
+    const primaryRecordStream = primaryQueryStream.pipe(parse({ columns: true }));
 
     let totalRecords = 0;
     let duplicateCount = 0;

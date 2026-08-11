@@ -24,6 +24,10 @@ export default defineConfig({
     environment: 'node',
     include: ['test/**/*.test.ts'],
     testTimeout: 10_000,
+    // oclif/ink table rendering patches the global console via `patch-console`,
+    // which expects a real console.Console constructor. Vitest's intercepted
+    // console shim doesn't provide one, so leave the real console in place.
+    disableConsoleIntercept: true,
     coverage: {
       provider: 'v8',
       reporter: ['lcov', 'text'],
