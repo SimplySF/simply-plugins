@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "alias": [],
+    "command": "simply:project:update-api-version",
+    "flagAliases": [],
+    "flagChars": ["a", "d"],
+    "flags": ["api-version", "directory", "flags-dir", "json"],
+    "plugin": "@simplysf/simply-project"
+  }
+]
