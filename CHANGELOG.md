@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-project%401.1.2...%40simplysf%2Fsimply-project%401.2.0) (2026-08-11)
+
+### Features
+
+- add build logic for command snapshot ([2edb0d4](https://github.com/SimplySF/simply/commit/2edb0d4ae7cd5cf71f585e382c2c1edf1166013a))
+
 ## [1.1.2](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-project%401.1.1...%40simplysf%2Fsimply-project%401.1.2) (2026-08-11)
 
 **Note:** Version bump only for package @simplysf/simply-project
