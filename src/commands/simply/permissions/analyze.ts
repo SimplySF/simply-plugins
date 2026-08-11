@@ -15,8 +15,10 @@
  */
 
 import fs from 'node:fs/promises';
+import { parse, type CastingFunction } from 'csv-parse';
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
+import { streamBulkQuery } from '@simplysf/simply-core';
 import {
   buildPermissionsReportHtml,
   FieldPermissionEntry,
@@ -48,6 +50,11 @@ type PermissionSetGroupRecord = {
 };
 
 const ID_CHUNK_SIZE = 100;
+
+// Bulk API v2 results are CSV, so every field arrives as a string. ObjectPermissions/
+// FieldPermissions carry boolean columns, so cast the CSV "true"/"false" strings back to real
+// booleans while parsing.
+const castBooleanStrings: CastingFunction = (value) => (value === 'true' ? true : value === 'false' ? false : value);
 
 export type PermissionsAnalyzeResult = {
   outputFile: string;
@@ -154,36 +161,43 @@ export default class PermissionsAnalyze extends SfCommand<PermissionsAnalyzeResu
     const fieldPermissions = new Map<string, FieldPermissionEntry[]>();
     const psIds = permissionSetsInScope.map((r) => r.Id);
 
-    for (let i = 0; i < psIds.length; i += ID_CHUNK_SIZE) {
-      const chunk = psIds.slice(i, i + ID_CHUNK_SIZE);
-      const idsClause = chunk.map((id) => `'${id}'`).join(',');
+    if (psIds.length > 0) {
+      // Bulk API v2 queries aren't subject to the same WHERE-clause length constraints as REST
+      // SOQL, and these can return far more rows than PermissionSet/PermissionSetGroup (every
+      // object/field permission for every in-scope permission set), so there's no need to chunk
+      // the ID list here the way the Tooling API query below still has to.
+      const idsClause = psIds.map((id) => `'${id}'`).join(',');
 
-      // eslint-disable-next-line no-await-in-loop
-      const [objRes, fieldRes] = await Promise.all([
-        connection.autoFetchQuery(
+      const [objectPermissionsQuery, fieldPermissionsQuery] = await Promise.all([
+        streamBulkQuery(
+          connection,
           `SELECT ParentId, SobjectType, PermissionsRead, PermissionsCreate, PermissionsEdit, PermissionsDelete, PermissionsViewAllRecords, PermissionsModifyAllRecords FROM ObjectPermissions WHERE ParentId IN (${idsClause})`,
         ),
-        connection.autoFetchQuery(
+        streamBulkQuery(
+          connection,
           `SELECT ParentId, SobjectType, Field, PermissionsRead, PermissionsEdit FROM FieldPermissions WHERE ParentId IN (${idsClause})`,
         ),
       ]);
 
-      const objRecords = objRes.records as unknown as Array<ObjectPermissionEntry & { ParentId: string }>;
-      const fieldRecords = fieldRes.records as unknown as Array<FieldPermissionEntry & { ParentId: string }>;
-
-      objRecords.forEach((r) => {
+      for await (const record of objectPermissionsQuery.stream.pipe(
+        parse({ columns: true, cast: castBooleanStrings }),
+      )) {
+        const r = record as ObjectPermissionEntry & { ParentId: string };
         if (!objectPermissions.has(r.ParentId)) {
           objectPermissions.set(r.ParentId, []);
         }
         objectPermissions.get(r.ParentId)?.push(r);
-      });
+      }
 
-      fieldRecords.forEach((r) => {
+      for await (const record of fieldPermissionsQuery.stream.pipe(
+        parse({ columns: true, cast: castBooleanStrings }),
+      )) {
+        const r = record as FieldPermissionEntry & { ParentId: string };
         if (!fieldPermissions.has(r.ParentId)) {
           fieldPermissions.set(r.ParentId, []);
         }
         fieldPermissions.get(r.ParentId)?.push(r);
-      });
+      }
     }
     this.spinner.stop();
 
@@ -191,26 +205,21 @@ export default class PermissionsAnalyze extends SfCommand<PermissionsAnalyzeResu
     const groupComponents = new Map<string, string[]>();
     const psgIds = permissionSetGroups.map((r) => r.Id);
 
-    for (let i = 0; i < psgIds.length; i += ID_CHUNK_SIZE) {
-      const chunk = psgIds.slice(i, i + ID_CHUNK_SIZE);
-      const idsClause = chunk.map((id) => `'${id}'`).join(',');
+    if (psgIds.length > 0) {
+      const idsClause = psgIds.map((id) => `'${id}'`).join(',');
 
-      // eslint-disable-next-line no-await-in-loop
-      const compRes = await connection.autoFetchQuery(
+      const groupComponentsQuery = await streamBulkQuery(
+        connection,
         `SELECT PermissionSetGroupId, PermissionSetId FROM PermissionSetGroupComponent WHERE PermissionSetGroupId IN (${idsClause})`,
       );
 
-      const compRecords = compRes.records as unknown as Array<{
-        PermissionSetGroupId: string;
-        PermissionSetId: string;
-      }>;
-
-      compRecords.forEach((r) => {
+      for await (const record of groupComponentsQuery.stream.pipe(parse({ columns: true }))) {
+        const r = record as { PermissionSetGroupId: string; PermissionSetId: string };
         if (!groupComponents.has(r.PermissionSetGroupId)) {
           groupComponents.set(r.PermissionSetGroupId, []);
         }
         groupComponents.get(r.PermissionSetGroupId)?.push(r.PermissionSetId);
-      });
+      }
     }
     this.spinner.stop();
 
