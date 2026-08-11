@@ -86,6 +86,7 @@
   "wireit": {
     "build": {
       "dependencies": [
+        "command-snapshot",
         "compile",
         "lint"
       ]
@@ -130,7 +131,6 @@
         "test:compile",
         "test:only",
         "test:command-reference",
-        "test:deprecation-policy",
         "lint",
         "test:json-schema",
         "link-check"
@@ -147,12 +147,14 @@
         "tmp/root"
       ]
     },
-    "test:deprecation-policy": {
-      "command": "node --loader ts-node/esm --no-warnings=ExperimentalWarning \"./bin/dev.js\" snapshot:compare",
+    "command-snapshot": {
+      "command": "node --loader ts-node/esm --no-warnings=ExperimentalWarning \"./bin/dev.js\" snapshot:generate && prettier --write command-snapshot.json",
       "files": [
         "src/**/*.ts"
       ],
-      "output": [],
+      "output": [
+        "command-snapshot.json"
+      ],
       "dependencies": [
         "compile"
       ]
