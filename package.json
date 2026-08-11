@@ -59,7 +59,8 @@
     "@oclif/core": "^4.11.2",
     "@salesforce/core": "^8.30.0",
     "@salesforce/kit": "^3.2.6",
-    "@salesforce/sf-plugins-core": "^12.2.16"
+    "@salesforce/sf-plugins-core": "^12.2.16",
+    "glob": "^13.0.6"
   },
   "devDependencies": {
     "@oclif/plugin-command-snapshot": "^5.3.19",
