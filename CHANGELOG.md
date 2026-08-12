@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-sobject%401.2.1...%40simplysf%2Fsimply-sobject%401.3.0) (2026-08-12)
+
+### Features
+
+- add field history commands ([cded12d](https://github.com/SimplySF/simply/commit/cded12d785dc573c4306017d4c4bd9cb095b3f24))
+
 ## [1.2.1](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-sobject%401.2.0...%40simplysf%2Fsimply-sobject%401.2.1) (2026-08-12)
 
 **Note:** Version bump only for package @simplysf/simply-sobject
