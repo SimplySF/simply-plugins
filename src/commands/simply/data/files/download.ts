@@ -117,7 +117,7 @@ export default class DataFilesDownload extends SfCommand<void> {
       this.spinner.status = `Completed: ${count}. Size: ${downloadQueue.size}  Pending: ${downloadQueue.pending}\n`;
     });
 
-    for await (const contentVersionDownload of contentVersionDownloads) {
+    for (const contentVersionDownload of contentVersionDownloads) {
       void downloadQueue.add(async () => {
         try {
           contentVersionDownload.FilePath = await downloadContentVersion(
