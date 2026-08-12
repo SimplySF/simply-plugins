@@ -65,7 +65,7 @@
     "@salesforce/core": "^8.30.0",
     "@salesforce/kit": "^3.2.6",
     "@salesforce/sf-plugins-core": "^12.2.16",
-    "@simplysf/simply-core": "^1.1.1",
+    "@simplysf/simply-core": "workspace:^1.1.1",
     "csv-parse": "^7.0.2",
     "form-data": "^4.0.5",
     "got": "14.6.6",
