@@ -62,7 +62,6 @@
     "@salesforce/sf-plugins-core": "^12.2.16",
     "@salesforce/source-deploy-retrieve": "^12.37.2",
     "@simplysf/simply-core": "^1.0.0",
-    "csv-parse": "^7.0.2",
     "zod": "^4.1.12"
   },
   "devDependencies": {

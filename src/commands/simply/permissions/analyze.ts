@@ -15,10 +15,9 @@
  */
 
 import fs from 'node:fs/promises';
-import { parse, type CastingFunction } from 'csv-parse';
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
-import { streamBulkQuery } from '@simplysf/simply-core';
+import { queryRecords } from '@simplysf/simply-core';
 import {
   buildPermissionsReportHtml,
   FieldPermissionEntry,
@@ -51,10 +50,14 @@ type PermissionSetGroupRecord = {
 
 const ID_CHUNK_SIZE = 100;
 
-// Bulk API v2 results are CSV, so every field arrives as a string. ObjectPermissions/
-// FieldPermissions carry boolean columns, so cast the CSV "true"/"false" strings back to real
-// booleans while parsing.
-const castBooleanStrings: CastingFunction = (value) => (value === 'true' ? true : value === 'false' ? false : value);
+// queryRecords() always yields string-valued records (matching Bulk API v2's CSV output, even
+// when it took the REST path), but ObjectPermissions/FieldPermissions carry boolean columns, so
+// cast the "true"/"false" strings back to real booleans.
+function castBooleanStrings(record: Record<string, string>): Record<string, unknown> {
+  return Object.fromEntries(
+    Object.entries(record).map(([key, value]) => [key, value === 'true' ? true : value === 'false' ? false : value]),
+  );
+}
 
 export type PermissionsAnalyzeResult = {
   outputFile: string;
@@ -162,42 +165,39 @@ export default class PermissionsAnalyze extends SfCommand<PermissionsAnalyzeResu
     const psIds = permissionSetsInScope.map((r) => r.Id);
 
     if (psIds.length > 0) {
-      // Bulk API v2 queries aren't subject to the same WHERE-clause length constraints as REST
-      // SOQL, and these can return far more rows than PermissionSet/PermissionSetGroup (every
-      // object/field permission for every in-scope permission set), so there's no need to chunk
-      // the ID list here the way the Tooling API query below still has to.
+      // queryRecords() sizes each query itself (via SELECT COUNT()) and picks REST or Bulk API v2
+      // accordingly, so there's no need to chunk the ID list here the way the Tooling API query
+      // above still has to for REST's WHERE-clause length limits.
       const idsClause = psIds.map((id) => `'${id}'`).join(',');
 
-      const [objectPermissionsQuery, fieldPermissionsQuery] = await Promise.all([
-        streamBulkQuery(
-          connection,
-          `SELECT ParentId, SobjectType, PermissionsRead, PermissionsCreate, PermissionsEdit, PermissionsDelete, PermissionsViewAllRecords, PermissionsModifyAllRecords FROM ObjectPermissions WHERE ParentId IN (${idsClause})`,
-        ),
-        streamBulkQuery(
-          connection,
-          `SELECT ParentId, SobjectType, Field, PermissionsRead, PermissionsEdit FROM FieldPermissions WHERE ParentId IN (${idsClause})`,
-        ),
+      // Run both queries concurrently rather than sequentially draining one before starting the
+      // other — each independently decides REST vs. Bulk and neither depends on the other.
+      await Promise.all([
+        (async (): Promise<void> => {
+          for await (const record of queryRecords(
+            connection,
+            `SELECT ParentId, SobjectType, PermissionsRead, PermissionsCreate, PermissionsEdit, PermissionsDelete, PermissionsViewAllRecords, PermissionsModifyAllRecords FROM ObjectPermissions WHERE ParentId IN (${idsClause})`,
+          )) {
+            const r = castBooleanStrings(record) as ObjectPermissionEntry & { ParentId: string };
+            if (!objectPermissions.has(r.ParentId)) {
+              objectPermissions.set(r.ParentId, []);
+            }
+            objectPermissions.get(r.ParentId)?.push(r);
+          }
+        })(),
+        (async (): Promise<void> => {
+          for await (const record of queryRecords(
+            connection,
+            `SELECT ParentId, SobjectType, Field, PermissionsRead, PermissionsEdit FROM FieldPermissions WHERE ParentId IN (${idsClause})`,
+          )) {
+            const r = castBooleanStrings(record) as FieldPermissionEntry & { ParentId: string };
+            if (!fieldPermissions.has(r.ParentId)) {
+              fieldPermissions.set(r.ParentId, []);
+            }
+            fieldPermissions.get(r.ParentId)?.push(r);
+          }
+        })(),
       ]);
-
-      for await (const record of objectPermissionsQuery.stream.pipe(
-        parse({ columns: true, cast: castBooleanStrings }),
-      )) {
-        const r = record as ObjectPermissionEntry & { ParentId: string };
-        if (!objectPermissions.has(r.ParentId)) {
-          objectPermissions.set(r.ParentId, []);
-        }
-        objectPermissions.get(r.ParentId)?.push(r);
-      }
-
-      for await (const record of fieldPermissionsQuery.stream.pipe(
-        parse({ columns: true, cast: castBooleanStrings }),
-      )) {
-        const r = record as FieldPermissionEntry & { ParentId: string };
-        if (!fieldPermissions.has(r.ParentId)) {
-          fieldPermissions.set(r.ParentId, []);
-        }
-        fieldPermissions.get(r.ParentId)?.push(r);
-      }
     }
     this.spinner.stop();
 
@@ -208,17 +208,14 @@ export default class PermissionsAnalyze extends SfCommand<PermissionsAnalyzeResu
     if (psgIds.length > 0) {
       const idsClause = psgIds.map((id) => `'${id}'`).join(',');
 
-      const groupComponentsQuery = await streamBulkQuery(
+      for await (const record of queryRecords(
         connection,
         `SELECT PermissionSetGroupId, PermissionSetId FROM PermissionSetGroupComponent WHERE PermissionSetGroupId IN (${idsClause})`,
-      );
-
-      for await (const record of groupComponentsQuery.stream.pipe(parse({ columns: true }))) {
-        const r = record as { PermissionSetGroupId: string; PermissionSetId: string };
-        if (!groupComponents.has(r.PermissionSetGroupId)) {
-          groupComponents.set(r.PermissionSetGroupId, []);
+      )) {
+        if (!groupComponents.has(record.PermissionSetGroupId)) {
+          groupComponents.set(record.PermissionSetGroupId, []);
         }
-        groupComponents.get(r.PermissionSetGroupId)?.push(r.PermissionSetId);
+        groupComponents.get(record.PermissionSetGroupId)?.push(record.PermissionSetId);
       }
     }
     this.spinner.stop();

@@ -17,7 +17,6 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { Readable } from 'node:stream';
 import { Connection, SfError } from '@salesforce/core';
 import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
 import * as simplyCore from '@simplysf/simply-core';
@@ -26,7 +25,7 @@ import PermissionsAnalyze from '../../../../src/commands/simply/permissions/anal
 
 vi.mock('@simplysf/simply-core', async () => {
   const actual = await vi.importActual<typeof import('@simplysf/simply-core')>('@simplysf/simply-core');
-  return { ...actual, streamBulkQuery: vi.fn() };
+  return { ...actual, queryRecords: vi.fn() };
 });
 
 describe('simply permissions analyze', () => {
@@ -39,7 +38,7 @@ describe('simply permissions analyze', () => {
 
   afterEach(() => {
     $$.restore();
-    vi.mocked(simplyCore.streamBulkQuery).mockReset();
+    vi.mocked(simplyCore.queryRecords).mockReset();
   });
 
   it('should error without a default target org', async () => {
@@ -79,22 +78,31 @@ describe('simply permissions analyze', () => {
       },
     );
 
-    vi.mocked(simplyCore.streamBulkQuery).mockImplementation(async (_conn, soql) => {
-      let csv: string;
+    vi.mocked(simplyCore.queryRecords).mockImplementation(async function* (_conn, soql): AsyncGenerator<
+      Record<string, string>
+    > {
       if (soql.includes('FROM ObjectPermissions')) {
-        csv =
-          'ParentId,SobjectType,PermissionsRead,PermissionsCreate,PermissionsEdit,PermissionsDelete,PermissionsViewAllRecords,PermissionsModifyAllRecords\n' +
-          '0PS000000000001,Account,true,true,false,false,false,false\n';
+        yield {
+          ParentId: '0PS000000000001',
+          SobjectType: 'Account',
+          PermissionsRead: 'true',
+          PermissionsCreate: 'true',
+          PermissionsEdit: 'false',
+          PermissionsDelete: 'false',
+          PermissionsViewAllRecords: 'false',
+          PermissionsModifyAllRecords: 'false',
+        };
       } else if (soql.includes('FROM FieldPermissions')) {
-        csv =
-          'ParentId,SobjectType,Field,PermissionsRead,PermissionsEdit\n0PS000000000001,Account,Account.Name,true,false\n';
+        yield {
+          ParentId: '0PS000000000001',
+          SobjectType: 'Account',
+          Field: 'Account.Name',
+          PermissionsRead: 'true',
+          PermissionsEdit: 'false',
+        };
       } else if (soql.includes('FROM PermissionSetGroupComponent')) {
-        csv = 'PermissionSetGroupId,PermissionSetId\n0PSG00000000001,0PS000000000002\n';
-      } else {
-        csv = '';
+        yield { PermissionSetGroupId: '0PSG00000000001', PermissionSetId: '0PS000000000002' };
       }
-
-      return { jobId: '750xx0000000001AAA', numberRecordsProcessed: 1, stream: Readable.from([csv]) };
     });
 
     const outputFile = path.join(os.tmpdir(), `simply-permissions-analyze-${Date.now()}.html`);
@@ -113,7 +121,7 @@ describe('simply permissions analyze', () => {
 
       // ObjectPermissions + FieldPermissions + PermissionSetGroupComponent, no PermissionSet/
       // PermissionSetGroup/Package2Member queries (those stay on autoFetchQuery).
-      expect(vi.mocked(simplyCore.streamBulkQuery)).toHaveBeenCalledTimes(3);
+      expect(vi.mocked(simplyCore.queryRecords)).toHaveBeenCalledTimes(3);
     } finally {
       fs.rmSync(outputFile, { force: true });
     }
