@@ -23,8 +23,15 @@ import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
 import { afterEach, beforeAll, describe, expect, it } from 'vitest';
 import ApexExecute from '../../../../src/commands/simply/apex/execute.js';
 
+// @salesforce/core's TestContext exposes a sinon sandbox (SANDBOX) for stubbing external
+// methods during tests. This local type mirrors just the stub API surface used here, so tests
+// don't need to resolve sinon's own type declarations directly.
+type Stub = { resolves: (value: unknown) => void };
+type Sandbox = { stub: (target: object, method: string) => Stub };
+
 describe('simply apex execute', () => {
   const $$ = new TestContext();
+  const sandbox = $$.SANDBOX as unknown as Sandbox;
   const testOrg = new MockTestOrgData();
 
   beforeAll(async () => {
@@ -65,7 +72,7 @@ describe('simply apex execute', () => {
       ],
     };
 
-    $$.SANDBOX.stub(ExecuteService.prototype, 'executeAnonymous').resolves(response);
+    sandbox.stub(ExecuteService.prototype, 'executeAnonymous').resolves(response);
 
     try {
       const result = await ApexExecute.run(['--target-org', testOrg.username, '--file', tmpFile]);
