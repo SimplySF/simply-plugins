@@ -15,10 +15,10 @@
  */
 
 import fs from 'node:fs';
-import { createObjectCsvWriter } from 'csv-writer';
 import PQueue from 'p-queue';
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
+import { createCsvFileWriter } from '@simplysf/simply-core';
 import { downloadContentVersion } from '../../../../common/contentVersionUtils.js';
 import { ContentVersionDownload } from '../../../../common/contentVersionTypes.js';
 
@@ -75,39 +75,33 @@ export default class DataFilesDownload extends SfCommand<void> {
       fs.mkdirSync('download');
     }
 
-    const successWriter = createObjectCsvWriter({
-      path: 'download/success.csv',
-      header: [
-        { id: 'Id', title: 'Id' },
-        { id: 'ContentDocumentId', title: 'ContentDocumentId' },
-        { id: 'ContentSize', title: 'ContentSize' },
-        { id: 'Description', title: 'Description' },
-        { id: 'FileExtension', title: 'FileExtension' },
-        { id: 'FileType', title: 'FileType' },
-        { id: 'FirstPublishLocationId', title: 'FirstPublishLocationId' },
-        { id: 'IsLatest', title: 'IsLatest' },
-        { id: 'PathOnClient', title: 'PathOnClient' },
-        { id: 'Title', title: 'Title' },
-        { id: 'FilePath', title: 'FilePath' },
-      ],
-    });
+    const successWriter = createCsvFileWriter('download/success.csv', [
+      'Id',
+      'ContentDocumentId',
+      'ContentSize',
+      'Description',
+      'FileExtension',
+      'FileType',
+      'FirstPublishLocationId',
+      'IsLatest',
+      'PathOnClient',
+      'Title',
+      'FilePath',
+    ]);
 
-    const errorWriter = createObjectCsvWriter({
-      path: 'download/error.csv',
-      header: [
-        { id: 'Id', title: 'Id' },
-        { id: 'ContentDocumentId', title: 'ContentDocumentId' },
-        { id: 'ContentSize', title: 'ContentSize' },
-        { id: 'Description', title: 'Description' },
-        { id: 'FileExtension', title: 'FileExtension' },
-        { id: 'FileType', title: 'FileType' },
-        { id: 'FirstPublishLocationId', title: 'FirstPublishLocationId' },
-        { id: 'IsLatest', title: 'IsLatest' },
-        { id: 'PathOnClient', title: 'PathOnClient' },
-        { id: 'Title', title: 'Title' },
-        { id: 'Error', title: 'Error' },
-      ],
-    });
+    const errorWriter = createCsvFileWriter('download/error.csv', [
+      'Id',
+      'ContentDocumentId',
+      'ContentSize',
+      'Description',
+      'FileExtension',
+      'FileType',
+      'FirstPublishLocationId',
+      'IsLatest',
+      'PathOnClient',
+      'Title',
+      'Error',
+    ]);
 
     this.spinner.start('Downloading files', '\n', { stdout: true });
 
@@ -131,15 +125,16 @@ export default class DataFilesDownload extends SfCommand<void> {
             contentVersionDownload,
             'download',
           );
-          await successWriter.writeRecords([contentVersionDownload]);
+          await successWriter.write(contentVersionDownload);
         } catch (error) {
           contentVersionDownload.Error = error as string;
-          await errorWriter.writeRecords([contentVersionDownload]);
+          await errorWriter.write(contentVersionDownload);
         }
       });
     }
 
     await downloadQueue.onIdle();
+    await Promise.all([successWriter.end(), errorWriter.end()]);
 
     this.spinner.stop();
   }

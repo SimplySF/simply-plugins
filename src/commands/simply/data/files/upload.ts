@@ -16,10 +16,10 @@
 
 import fs from 'node:fs';
 import { parse } from 'csv-parse';
-import { createObjectCsvWriter } from 'csv-writer';
 import PQueue from 'p-queue';
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
+import { createCsvFileWriter } from '@simplysf/simply-core';
 import { uploadContentVersion } from '../../../../common/contentVersionUtils.js';
 import { ContentVersionToUpload } from '../../../../common/contentVersionTypes.js';
 
@@ -63,25 +63,19 @@ export default class DataFilesUpload extends SfCommand<void> {
       fs.mkdirSync('upload');
     }
 
-    const successWriter = createObjectCsvWriter({
-      path: 'upload/success.csv',
-      header: [
-        { id: 'PathOnClient', title: 'PathOnClient' },
-        { id: 'Title', title: 'Title' },
-        { id: 'FirstPublishLocationId', title: 'FirstPublishLocationId' },
-        { id: 'ContentDocumentId', title: 'ContentDocumentId' },
-      ],
-    });
+    const successWriter = createCsvFileWriter('upload/success.csv', [
+      'PathOnClient',
+      'Title',
+      'FirstPublishLocationId',
+      'ContentDocumentId',
+    ]);
 
-    const errorWriter = createObjectCsvWriter({
-      path: 'upload/error.csv',
-      header: [
-        { id: 'PathOnClient', title: 'PathOnClient' },
-        { id: 'Title', title: 'Title' },
-        { id: 'FirstPublishLocationId', title: 'FirstPublishLocationId' },
-        { id: 'Error', title: 'Error' },
-      ],
-    });
+    const errorWriter = createCsvFileWriter('upload/error.csv', [
+      'PathOnClient',
+      'Title',
+      'FirstPublishLocationId',
+      'Error',
+    ]);
 
     this.spinner.stop();
 
@@ -112,15 +106,16 @@ export default class DataFilesUpload extends SfCommand<void> {
             contentVersionToUpload.FirstPublishLocationId,
           );
           contentVersionToUpload.ContentDocumentId = contentVersion.ContentDocumentId;
-          await successWriter.writeRecords([contentVersionToUpload]);
+          await successWriter.write(contentVersionToUpload);
         } catch (error) {
           contentVersionToUpload.Error = error as string;
-          await errorWriter.writeRecords([contentVersionToUpload]);
+          await errorWriter.write(contentVersionToUpload);
         }
       });
     }
 
     await fileQueue.onIdle();
+    await Promise.all([successWriter.end(), errorWriter.end()]);
 
     this.spinner.stop();
   }
