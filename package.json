@@ -1,7 +1,7 @@
 {
   "name": "@simplysf/simply-permissions",
   "description": "Utilities for working with permissions",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "author": "@ClayChipps",
   "homepage": "https://github.com/SimplySF/simply",
   "bugs": "https://github.com/SimplySF/simply/issues",
