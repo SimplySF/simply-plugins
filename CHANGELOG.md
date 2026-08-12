@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.5](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-package%402.5.4...%40simplysf%2Fsimply-package%402.5.5) (2026-08-12)
+
+### Bug Fixes
+
+- build and test issues ([efd9a23](https://github.com/SimplySF/simply/commit/efd9a23efb9d4a08cc61c9e059e60d4b0edf6f99))
+- failing build ([14d6676](https://github.com/SimplySF/simply/commit/14d66767c9aa06a82adcf69c2f0d9adad0ac0d9f))
+- lint errors ([eb155ab](https://github.com/SimplySF/simply/commit/eb155ab0fa10232ad576da531a5f6c7b40f266bc))
+
 ## [2.5.4](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-package%402.5.3...%40simplysf%2Fsimply-package%402.5.4) (2026-08-12)
 
 **Note:** Version bump only for package @simplysf/simply-package
