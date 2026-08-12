@@ -58,6 +58,7 @@ describe('simply data files download', () => {
 
   afterEach(() => {
     $$.restore();
+    fs.rmSync('download', { recursive: true, force: true });
   });
 
   it('should error without required --target-org flag', async () => {
