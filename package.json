@@ -61,7 +61,6 @@
     "@salesforce/kit": "^3.2.6",
     "@salesforce/sf-plugins-core": "^12.2.16",
     "@simplysf/simply-core": "^1.0.0",
-    "csv-parse": "^7.0.2",
     "csv-writer": "^1.6.0",
     "zod": "^4.1.12"
   },

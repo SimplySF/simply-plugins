@@ -17,7 +17,6 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { Readable } from 'node:stream';
 import { SfError } from '@salesforce/core';
 import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
 import * as simplyCore from '@simplysf/simply-core';
@@ -26,7 +25,7 @@ import SObjectDeduplicate from '../../../../src/commands/simply/sobject/deduplic
 
 vi.mock('@simplysf/simply-core', async () => {
   const actual = await vi.importActual<typeof import('@simplysf/simply-core')>('@simplysf/simply-core');
-  return { ...actual, streamBulkQuery: vi.fn() };
+  return { ...actual, queryRecords: vi.fn() };
 });
 
 describe('simply sobject deduplicate', () => {
@@ -39,7 +38,7 @@ describe('simply sobject deduplicate', () => {
 
   afterEach(() => {
     $$.restore();
-    vi.mocked(simplyCore.streamBulkQuery).mockReset();
+    vi.mocked(simplyCore.queryRecords).mockReset();
   });
 
   it('should error without required --config flag', async () => {
@@ -81,12 +80,16 @@ describe('simply sobject deduplicate', () => {
       }),
     );
 
-    vi.mocked(simplyCore.streamBulkQuery).mockImplementation(async (_conn, soql) => {
-      const csv = soql.includes('FROM Case')
-        ? 'Id,ContactId,ContactId.Email\nc1,002,a@example.com\n'
-        : 'Id,Email\n001,a@example.com\n002,a@example.com\n003,b@example.com\n';
-
-      return { jobId: '750xx0000000001AAA', numberRecordsProcessed: 1, stream: Readable.from([csv]) };
+    vi.mocked(simplyCore.queryRecords).mockImplementation(async function* (_conn, soql): AsyncGenerator<
+      Record<string, string>
+    > {
+      if (soql.includes('FROM Case')) {
+        yield { Id: 'c1', ContactId: '002', 'ContactId.Email': 'a@example.com' };
+      } else {
+        yield { Id: '001', Email: 'a@example.com' };
+        yield { Id: '002', Email: 'a@example.com' };
+        yield { Id: '003', Email: 'b@example.com' };
+      }
     });
 
     const outputDir = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-sobject-deduplicate-'));
@@ -114,7 +117,7 @@ describe('simply sobject deduplicate', () => {
       expect(modifiedContent).to.include('c1');
       expect(modifiedContent).to.include('001');
 
-      expect(vi.mocked(simplyCore.streamBulkQuery)).toHaveBeenCalledTimes(2);
+      expect(vi.mocked(simplyCore.queryRecords)).toHaveBeenCalledTimes(2);
     } finally {
       fs.rmSync(configFile, { force: true });
       fs.rmSync(outputDir, { recursive: true, force: true });
