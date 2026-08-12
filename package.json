@@ -140,7 +140,9 @@
         "test/**/*.ts",
         "messages/**",
         "**/.eslint*",
-        "**/tsconfig.json"
+        "**/tsconfig.json",
+        "../../eslint.config.mjs",
+        "../../tsconfig.json"
       ],
       "output": []
     },
