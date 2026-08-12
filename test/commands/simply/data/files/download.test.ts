@@ -48,15 +48,8 @@ const successfulContentVersion = {
   Title: 'coolFile',
 };
 
-// @salesforce/core's TestContext exposes a sinon sandbox (SANDBOX) for stubbing external
-// methods during tests. This local type mirrors just the stub API surface used here, so tests
-// don't need to resolve sinon's own type declarations directly.
-type Stub = { resolves: (value: unknown) => void };
-type Sandbox = { stub: (target: object, method: string) => Stub };
-
 describe('simply data files download', () => {
   const $$ = new TestContext();
-  const sandbox = $$.SANDBOX as unknown as Sandbox;
   const testOrg = new MockTestOrgData();
 
   beforeEach(async () => {
@@ -91,7 +84,7 @@ describe('simply data files download', () => {
       .reply(500, 'Internal server error')
       .persist();
 
-    sandbox.stub(Connection.prototype, 'query').resolves({
+    $$.SANDBOX.stub(Connection.prototype, 'query').resolves({
       done: true,
       records: [successfulContentVersion, failedContentVersion],
       totalSize: 3,

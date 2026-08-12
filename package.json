@@ -88,10 +88,10 @@
     "link-check": "wireit",
     "lint": "wireit",
     "test": "wireit",
-    "test:coverage": "vitest run --coverage",
-    "test:nuts": "vitest run --config vitest.nuts.config.ts",
+    "test:coverage": "vitest run --coverage --project simply-data",
+    "test:nuts": "vitest run --config vitest.nuts.config.ts --project simply-data",
     "test:only": "wireit",
-    "test:watch": "vitest watch",
+    "test:watch": "vitest watch --project simply-data",
     "version": "oclif readme"
   },
   "wireit": {
@@ -191,7 +191,7 @@
       "output": []
     },
     "test:only": {
-      "command": "vitest run",
+      "command": "vitest run --project simply-data",
       "env": {
         "FORCE_COLOR": "2"
       },

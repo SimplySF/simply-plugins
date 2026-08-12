@@ -23,15 +23,8 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import DataFilesUpload from '../../../../../src/commands/simply/data/files/upload.js';
 import { ContentVersionToUpload } from '../../../../../src/common/contentVersionTypes.js';
 
-// @salesforce/core's TestContext exposes a sinon sandbox (SANDBOX) for stubbing external
-// methods during tests. This local type mirrors just the stub API surface used here, so tests
-// don't need to resolve sinon's own type declarations directly.
-type Stub = { resolves: (value: unknown) => void };
-type Sandbox = { stub: (target: object, method: string) => Stub };
-
 describe('simply data files upload', () => {
   const $$ = new TestContext();
-  const sandbox = $$.SANDBOX as unknown as Sandbox;
   const testOrg = new MockTestOrgData();
 
   beforeEach(async () => {
@@ -55,9 +48,9 @@ describe('simply data files upload', () => {
   });
 
   it('should write results to csv', async () => {
-    sandbox.stub(got, 'post').resolves({ id: '123', success: true });
+    $$.SANDBOX.stub(got, 'post').resolves({ id: '123', success: true });
 
-    sandbox.stub(Connection.prototype, 'singleRecordQuery').resolves({
+    $$.SANDBOX.stub(Connection.prototype, 'singleRecordQuery').resolves({
       Id: '123',
       ContentDocumentId: '123',
       FileExtension: '.json',
