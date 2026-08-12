@@ -65,14 +65,14 @@ describe('simply permissions analyze', () => {
             ],
             done: true,
             totalSize: 2,
-          };
+          } as never;
         }
         if (soql.startsWith('SELECT Id, DeveloperName')) {
           return {
             records: [{ Id: '0PSG00000000001', DeveloperName: 'PSG1', MasterLabel: 'PSG1 Label' }],
             done: true,
             totalSize: 1,
-          };
+          } as never;
         }
         return { records: [], done: true, totalSize: 0 };
       },
