@@ -20,6 +20,7 @@ import path from 'node:path';
 import { Connection, SfError } from '@salesforce/core';
 import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
 import * as simplyCore from '@simplysf/simply-core';
+import type { SinonStub } from 'sinon';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import SObjectBackup from '../../../../src/commands/simply/sobject/backup.js';
 
@@ -27,11 +28,6 @@ vi.mock('@simplysf/simply-core', async () => {
   const actual = await vi.importActual<typeof import('@simplysf/simply-core')>('@simplysf/simply-core');
   return { ...actual, queryRecords: vi.fn() };
 });
-
-// @salesforce/core's TestContext stubs Connection.prototype.request() using its own internal
-// sinon sandbox. This shape lets tests reconfigure that existing stub's return value without
-// importing sinon directly.
-type ResolvingStub = { resolves: (value: unknown) => void };
 
 describe('simply sobject backup', () => {
   const $$ = new TestContext();
@@ -64,7 +60,7 @@ describe('simply sobject backup', () => {
     // TestContext already stubs Connection.prototype.request() (which describe() calls
     // internally) as part of its default setup, so reconfigure that existing stub instead of
     // wrapping it a second time.
-    (Connection.prototype.request as unknown as ResolvingStub).resolves({
+    (Connection.prototype.request as unknown as SinonStub).resolves({
       fields: [{ name: 'Id' }, { name: 'Name' }],
     });
 
