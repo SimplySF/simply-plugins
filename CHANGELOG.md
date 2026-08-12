@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.4](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-data%402.3.3...%40simplysf%2Fsimply-data%402.3.4) (2026-08-12)
+
+### Bug Fixes
+
+- remove test directories after test ([2666069](https://github.com/SimplySF/simply/commit/26660692c3e570e917bd5bc2b351cd62632d26b2))
+
 ## [2.3.3](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-data%402.3.2...%40simplysf%2Fsimply-data%402.3.3) (2026-08-11)
 
 **Note:** Version bump only for package @simplysf/simply-data
