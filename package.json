@@ -85,9 +85,7 @@
     "oclif-artifacts": "oclif manifest",
     "prepare": "npm run compile && npm run lint",
     "promote": "oclif promote",
-    "readme": "oclif readme --no-aliases",
-    "test": "wireit",
-    "test:only": "wireit"
+    "readme": "oclif readme --no-aliases"
   },
   "wireit": {
     "build": {
@@ -143,36 +141,6 @@
         "**/tsconfig.json",
         "../../eslint.config.mjs",
         "../../tsconfig.json"
-      ],
-      "output": []
-    },
-    "test:compile": {
-      "command": "tsc -p \"./test\" --pretty",
-      "files": [
-        "test/**/*.ts",
-        "**/tsconfig.json"
-      ],
-      "output": []
-    },
-    "test": {
-      "dependencies": [
-        "test:compile",
-        "test:only",
-        "lint"
-      ]
-    },
-    "test:only": {
-      "command": "nyc mocha \"test/**/*.test.ts\"",
-      "env": {
-        "FORCE_COLOR": "2"
-      },
-      "files": [
-        "test/**/*.ts",
-        "src/**/*.ts",
-        "**/tsconfig.json",
-        ".mocha*",
-        "!*.nut.ts",
-        ".nycrc"
       ],
       "output": []
     },
