@@ -108,7 +108,7 @@ export default class DataFilesUpload extends SfCommand<void> {
           contentVersionToUpload.ContentDocumentId = contentVersion.ContentDocumentId;
           await successWriter.write(contentVersionToUpload);
         } catch (error) {
-          contentVersionToUpload.Error = error as string;
+          contentVersionToUpload.Error = String(error);
           await errorWriter.write(contentVersionToUpload);
         }
       });

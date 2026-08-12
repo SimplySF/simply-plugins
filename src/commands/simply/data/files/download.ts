@@ -127,7 +127,7 @@ export default class DataFilesDownload extends SfCommand<void> {
           );
           await successWriter.write(contentVersionDownload);
         } catch (error) {
-          contentVersionDownload.Error = error as string;
+          contentVersionDownload.Error = String(error);
           await errorWriter.write(contentVersionDownload);
         }
       });
