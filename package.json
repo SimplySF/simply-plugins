@@ -82,10 +82,10 @@
     "lint": "wireit",
     "readme": "oclif readme --no-aliases",
     "test": "wireit",
-    "test:coverage": "vitest run --coverage",
-    "test:nuts": "vitest run --config vitest.nuts.config.ts",
+    "test:coverage": "vitest run --coverage --project simply-permissions",
+    "test:nuts": "vitest run --config vitest.nuts.config.ts --project simply-permissions",
     "test:only": "wireit",
-    "test:watch": "vitest watch"
+    "test:watch": "vitest watch --project simply-permissions"
   },
   "wireit": {
     "build": {
@@ -184,7 +184,7 @@
       "output": []
     },
     "test:only": {
-      "command": "vitest run",
+      "command": "vitest run --project simply-permissions",
       "env": {
         "FORCE_COLOR": "2"
       },

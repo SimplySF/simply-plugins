@@ -28,15 +28,8 @@ vi.mock('@simplysf/simply-core', async () => {
   return { ...actual, queryRecords: vi.fn() };
 });
 
-// @salesforce/core's TestContext exposes a sinon sandbox (SANDBOX) for stubbing external
-// methods during tests. This local type mirrors just the stub API surface used here, so tests
-// don't need to resolve sinon's own type declarations directly.
-type Stub = { callsFake: (fn: (...args: never[]) => unknown) => void };
-type Sandbox = { stub: (target: object, method: string) => Stub };
-
 describe('simply permissions analyze', () => {
   const $$ = new TestContext();
-  const sandbox = $$.SANDBOX as unknown as Sandbox;
   const testOrg = new MockTestOrgData();
 
   beforeAll(async () => {
@@ -59,7 +52,7 @@ describe('simply permissions analyze', () => {
   });
 
   it('should build a report using bulk-streamed object/field/group-component permissions', async () => {
-    sandbox.stub(Connection.prototype, 'autoFetchQuery').callsFake(
+    $$.SANDBOX.stub(Connection.prototype, 'autoFetchQuery').callsFake(
       async (soql: string, options?: { tooling?: boolean }) => {
         if (options?.tooling) {
           return { records: [], done: true, totalSize: 0 };
