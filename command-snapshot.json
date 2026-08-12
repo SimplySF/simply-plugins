@@ -14,5 +14,21 @@
     "flagChars": ["c", "o"],
     "flags": ["api-version", "config", "dry-run", "flags-dir", "json", "output-dir", "target-org"],
     "plugin": "@simplysf/simply-sobject"
+  },
+  {
+    "alias": [],
+    "command": "simply:sobject:history:export",
+    "flagAliases": [],
+    "flagChars": ["d", "o", "s"],
+    "flags": ["api-version", "end-date", "flags-dir", "json", "output-dir", "sobject", "start-date", "target-org"],
+    "plugin": "@simplysf/simply-sobject"
+  },
+  {
+    "alias": [],
+    "command": "simply:sobject:history:query",
+    "flagAliases": [],
+    "flagChars": ["d", "o"],
+    "flags": ["api-version", "filters", "flags-dir", "json", "object", "output-dir", "target-org"],
+    "plugin": "@simplysf/simply-sobject"
   }
 ]

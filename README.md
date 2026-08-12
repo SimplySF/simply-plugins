@@ -22,6 +22,8 @@ This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/sim
 
 - [`sf simply sobject backup`](#sf-simply-sobject-backup)
 - [`sf simply sobject deduplicate`](#sf-simply-sobject-deduplicate)
+- [`sf simply sobject history export`](#sf-simply-sobject-history-export)
+- [`sf simply sobject history query`](#sf-simply-sobject-history-query)
 
 ## `sf simply sobject backup`
 
@@ -62,7 +64,7 @@ FLAG DESCRIPTIONS
     The API name of the SObject to back up.
 ```
 
-_See code: [lib/commands/simply/sobject/backup.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-sobject@1.1.1/packages/simply-sobject/lib/commands/simply/sobject/backup.js)_
+_See code: [lib/commands/simply/sobject/backup.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-sobject@1.2.1/packages/simply-sobject/lib/commands/simply/sobject/backup.js)_
 
 ## `sf simply sobject deduplicate`
 
@@ -115,5 +117,115 @@ FLAG DESCRIPTIONS
     The directory to write the generated CSV files to. Defaults to ./temp/<primaryObjectApiName>.
 ```
 
-_See code: [lib/commands/simply/sobject/deduplicate.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-sobject@1.1.1/packages/simply-sobject/lib/commands/simply/sobject/deduplicate.js)_
+_See code: [lib/commands/simply/sobject/deduplicate.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-sobject@1.2.1/packages/simply-sobject/lib/commands/simply/sobject/deduplicate.js)_
+
+## `sf simply sobject history export`
+
+Export field history for an SObject within a date range to a CSV file.
+
+```
+USAGE
+  $ sf simply sobject history export -s <value> --start-date <value> --end-date <value> -o <value> [--json] [--flags-dir <value>]
+    [--api-version <value>] [-d <value>]
+
+FLAGS
+  -d, --output-dir=<value>   Output directory
+  -o, --target-org=<value>   (required) Username or alias of the target org. Not required if the `target-org`
+                             configuration variable is already set.
+  -s, --sobject=<value>      (required) SObject API name
+      --api-version=<value>  Override the api version used for api requests made by this command
+      --end-date=<value>     (required) End date (YYYY-MM-DD)
+      --start-date=<value>   (required) Start date (YYYY-MM-DD)
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Export field history for an SObject within a date range to a CSV file.
+
+  Queries the field history object for the given SObject (e.g. `AccountHistory`, `Custom_Object__History`, or
+  `OpportunityFieldHistory`) for changes created within the given date range, and writes the results to a timestamped
+  CSV file.
+
+EXAMPLES
+  $ sf simply sobject history export --target-org myOrg --sobject Account --start-date 2026-01-01 --end-date 2026-01-31
+
+  $ sf simply sobject history export --target-org myOrg --sobject Custom_Object__c --start-date 2026-01-01 --end-date 2026-01-31 --output-dir exports
+
+FLAG DESCRIPTIONS
+  -d, --output-dir=<value>  Output directory
+
+    The directory to save the exported CSV file to. Defaults to the current directory.
+
+  -s, --sobject=<value>  SObject API name
+
+    The API name of the SObject to export field history for (e.g. Account or Custom_Object__c).
+
+  --end-date=<value>  End date (YYYY-MM-DD)
+
+    The end of the date range to export history for, inclusive.
+
+  --start-date=<value>  Start date (YYYY-MM-DD)
+
+    The start of the date range to export history for, inclusive.
+```
+
+_See code: [lib/commands/simply/sobject/history/export.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-sobject@1.2.1/packages/simply-sobject/lib/commands/simply/sobject/history/export.js)_
+
+## `sf simply sobject history query`
+
+Query the field history of an SObject, with optional filtering.
+
+```
+USAGE
+  $ sf simply sobject history query --object <value> -o <value> [--json] [--flags-dir <value>] [--api-version <value>] [--filters
+    <value>] [-d <value>]
+
+FLAGS
+  -d, --output-dir=<value>   Output directory
+  -o, --target-org=<value>   (required) Username or alias of the target org. Not required if the `target-org`
+                             configuration variable is already set.
+      --api-version=<value>  Override the api version used for api requests made by this command
+      --filters=<value>      Path to a filter configuration file, or a raw JSON filter string
+      --object=<value>       (required) SObject API name
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Query the field history of an SObject, with optional filtering.
+
+  Queries the field history object for the given SObject (e.g. `AccountHistory`, `Custom_Object__History`, or
+  `OpportunityFieldHistory`) and writes the results to a timestamped CSV file. An optional filter tree can be supplied
+  to narrow the results: conditions on Field, CreatedById, CreatedDate, or the parent lookup field are pushed into the
+  SOQL WHERE clause; conditions on any other field (e.g. OldValue or NewValue) are applied client-side after the query
+  runs.
+
+EXAMPLES
+  $ sf simply sobject history query --target-org myOrg --object Account
+
+  $ sf simply sobject history query --target-org myOrg --object Custom_Object__c --filters config/history-filters.json
+
+  $ sf simply sobject history query --target-org myOrg --object Account --filters '{"logic":"AND","filters":[{"field":"Field","operator":"=","value":"Name"}]}'
+
+FLAG DESCRIPTIONS
+  -d, --output-dir=<value>  Output directory
+
+    The directory to save the query results CSV file to. Defaults to the current directory.
+
+  --filters=<value>  Path to a filter configuration file, or a raw JSON filter string
+
+    A JSON object describing a tree of filter conditions: `{ "logic": "AND", "filters": [ { "field": "Field",
+    "operator": "=", "value": "Status__c" } ] }`. Each entry in `filters` is either a condition (`field`, `operator`,
+    `value`) or another nested group with its own `logic`/`filters`. Supported operators are =, !=, >, <, >=, <=, IN,
+    NOT IN, and LIKE (using `%` as a wildcard).
+
+  --object=<value>  SObject API name
+
+    The API name of the SObject to query field history for (e.g. Account or Custom_Object__c).
+```
+
+_See code: [lib/commands/simply/sobject/history/query.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-sobject@1.2.1/packages/simply-sobject/lib/commands/simply/sobject/history/query.js)_
 <!-- commandsstop -->

@@ -48,7 +48,12 @@
         "description": "Commands for simplifying Salesforce",
         "subtopics": {
           "sobject": {
-            "description": "Commands for working with SObjects"
+            "description": "Commands for working with SObjects",
+            "subtopics": {
+              "history": {
+                "description": "Commands for working with SObject field history"
+              }
+            }
           }
         }
       }
