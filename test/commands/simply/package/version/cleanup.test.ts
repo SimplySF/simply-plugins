@@ -16,10 +16,16 @@
 
 import { SfError } from '@salesforce/core';
 import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
-import { Package, PackageSaveResult, PackageVersion, PackageVersionListResult } from '@salesforce/packaging';
+import { Package, PackageVersion, PackageVersionListResult } from '@salesforce/packaging';
 import { afterEach, beforeAll, describe, expect, it } from 'vitest';
 import { PackageVersionCleanupResult } from '../../../../../src/commands/simply/package/version/cleanup.js';
 import PackageVersionCleanup from '../../../../../src/commands/simply/package/version/cleanup.js';
+
+// @salesforce/core's TestContext exposes a sinon sandbox (SANDBOX) for stubbing external
+// methods during tests. This local type mirrors just the stub API surface used here, so tests
+// don't need to resolve sinon's own type declarations directly.
+type Stub = { resolves: (value: unknown) => void };
+type Sandbox = { stub: (target: object, method: string) => Stub };
 
 const myPackage0Hot = '0Hot0000000YzlxBAB';
 const packageVersion0101SubscriberId = '04t6A000002zgKSQAW';
@@ -153,6 +159,7 @@ const packageVersion0202ListResult: PackageVersionListResult = {
 
 describe('simply package version cleanup', () => {
   const $$ = new TestContext();
+  const sandbox = $$.SANDBOX as unknown as Sandbox;
   const testOrg = new MockTestOrgData();
 
   beforeAll(async () => {
@@ -187,18 +194,18 @@ describe('simply package version cleanup', () => {
   });
 
   it('should select the correct versions for deletion', async () => {
-    $$.SANDBOX.stub(Package, 'listVersions').resolves([
+    sandbox.stub(Package, 'listVersions').resolves([
       packageVersion0101ListResult,
       packageVersion0102ListResult,
       packageVersion0201ListResult,
       packageVersion0202ListResult,
     ]);
 
-    $$.SANDBOX.stub(PackageVersion.prototype, 'delete').resolves({
+    sandbox.stub(PackageVersion.prototype, 'delete').resolves({
       errors: [],
       id: 'testId',
       success: true,
-    } as PackageSaveResult);
+    });
 
     const results = await PackageVersionCleanup.run([
       '--matcher',
