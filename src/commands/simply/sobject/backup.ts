@@ -16,10 +16,9 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { createObjectCsvWriter } from 'csv-writer';
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
-import { queryRecords } from '@simplysf/simply-core';
+import { createCsvFileWriter, queryRecords } from '@simplysf/simply-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-sobject', 'simply.sobject.backup');
@@ -76,18 +75,16 @@ export default class SObjectBackup extends SfCommand<SObjectBackupResult> {
     }
 
     const outputPath = path.join(outputDir, `${sobjectName}_${buildTimestamp()}.csv`);
-    const csvWriter = createObjectCsvWriter({
-      path: outputPath,
-      header: queryableFields.map((field) => ({ id: field, title: field })),
-    });
+    const csvWriter = createCsvFileWriter(outputPath, queryableFields);
 
     this.spinner.start(messages.getMessage('info.exportingData', [sobjectName]));
 
     let recordCount = 0;
     for await (const record of queryRecords(targetOrgConnection, soql)) {
-      await csvWriter.writeRecords([record]); // eslint-disable-line no-await-in-loop
+      await csvWriter.write(record); // eslint-disable-line no-await-in-loop
       recordCount++;
     }
+    await csvWriter.end();
 
     this.spinner.stop();
 

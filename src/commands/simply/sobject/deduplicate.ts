@@ -17,10 +17,9 @@
 /* eslint-disable no-await-in-loop */
 import fs from 'node:fs';
 import path from 'node:path';
-import { createObjectCsvWriter } from 'csv-writer';
 import { Connection, Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
-import { queryRecords } from '@simplysf/simply-core';
+import { createCsvFileWriter, queryRecords } from '@simplysf/simply-core';
 import { DeduplicateConfig, DeduplicateConfigSchema } from '../../../schemas/deduplicate/deduplicateConfig.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -57,8 +56,7 @@ async function deduplicateAssociatedObject(options: {
   const recordStream = queryRecords(connection, `SELECT Id,${fieldsToQuery.join(',')} FROM ${objectName}`);
 
   const modifiedFile = path.join(outputDir, `${objectName}_Modified.csv`);
-  const columns = ['Id', ...lookupFields];
-  const writer = createObjectCsvWriter({ path: modifiedFile, header: columns.map((c) => ({ id: c, title: c })) });
+  const writer = createCsvFileWriter(modifiedFile, ['Id', ...lookupFields]);
 
   for await (const record of recordStream) {
     const associatedRecord = record as Record<string, unknown>;
@@ -87,9 +85,11 @@ async function deduplicateAssociatedObject(options: {
     }
 
     if (modifiedRecord.Id) {
-      await writer.writeRecords([modifiedRecord]);
+      await writer.write(modifiedRecord);
     }
   }
+
+  await writer.end();
 
   return modifiedFile;
 }
@@ -160,14 +160,8 @@ export default class SObjectDeduplicate extends SfCommand<SObjectDeduplicateResu
     const uniqueFile = path.join(outputDir, `${primaryObjectApiName}_Unique.csv`);
 
     const columns = ['Id', primaryObjectCompositeKeyField];
-    const deleteWriter = createObjectCsvWriter({
-      path: deleteFile,
-      header: columns.map((c) => ({ id: c, title: c })),
-    });
-    const uniqueWriter = createObjectCsvWriter({
-      path: uniqueFile,
-      header: columns.map((c) => ({ id: c, title: c })),
-    });
+    const deleteWriter = createCsvFileWriter(deleteFile, columns);
+    const uniqueWriter = createCsvFileWriter(uniqueFile, columns);
 
     this.spinner.start(messages.getMessage('info.queryingPrimary', [primaryObjectApiName]));
 
@@ -208,13 +202,15 @@ export default class SObjectDeduplicate extends SfCommand<SObjectDeduplicateResu
 
       if (uniquePrimaryObjectMap.has(compositeKey)) {
         duplicateCount++;
-        await deleteWriter.writeRecords([{ Id: recordId, [primaryObjectCompositeKeyField]: compositeKey }]);
+        await deleteWriter.write({ Id: recordId, [primaryObjectCompositeKeyField]: compositeKey });
         continue;
       }
 
-      await uniqueWriter.writeRecords([{ Id: recordId, [primaryObjectCompositeKeyField]: compositeKey }]);
+      await uniqueWriter.write({ Id: recordId, [primaryObjectCompositeKeyField]: compositeKey });
       uniquePrimaryObjectMap.set(compositeKey, recordId);
     }
+
+    await Promise.all([deleteWriter.end(), uniqueWriter.end()]);
 
     this.spinner.stop();
     this.info(messages.getMessage('info.duplicatesFound', [duplicateCount]));
