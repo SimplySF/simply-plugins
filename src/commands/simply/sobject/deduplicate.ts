@@ -58,8 +58,7 @@ async function deduplicateAssociatedObject(options: {
   const modifiedFile = path.join(outputDir, `${objectName}_Modified.csv`);
   const writer = createCsvFileWriter(modifiedFile, ['Id', ...lookupFields]);
 
-  for await (const record of recordStream) {
-    const associatedRecord = record as Record<string, unknown>;
+  for await (const associatedRecord of recordStream) {
     const modifiedRecord: Record<string, unknown> = {};
 
     for (const lookupField of lookupFields) {
@@ -70,7 +69,7 @@ async function deduplicateAssociatedObject(options: {
       let compositeKey = '';
       for (const compositeKeyField of primaryObjectCompositeKeyFields) {
         const objectKey = `${lookupField.replace('__c', '__r')}.${compositeKeyField}`;
-        compositeKey += `${String(associatedRecord[objectKey] ?? '')}_`;
+        compositeKey += `${associatedRecord[objectKey] ?? ''}_`;
       }
       compositeKey = compositeKey.slice(0, -1);
 
@@ -176,23 +175,22 @@ export default class SObjectDeduplicate extends SfCommand<SObjectDeduplicateResu
     let duplicateCount = 0;
     const uniquePrimaryObjectMap = new Map<string, string>();
 
-    for await (const record of primaryRecordStream) {
+    for await (const primaryRecord of primaryRecordStream) {
       totalRecords++;
-      const primaryRecord = record as Record<string, unknown>;
 
       let compositeKey = '';
       const nullCompositeKeyFields: string[] = [];
 
       for (const field of primaryObjectCompositeKeyFields) {
         const value = primaryRecord[field];
-        compositeKey += `${String(value ?? '')}_`;
+        compositeKey += `${value ?? ''}_`;
         if (!value) {
           nullCompositeKeyFields.push(field);
         }
       }
       compositeKey = compositeKey.slice(0, -1);
 
-      const recordId = primaryRecord.Id as string;
+      const recordId = primaryRecord.Id;
 
       if (nullCompositeKeyFields.length > 0) {
         this.warn(
