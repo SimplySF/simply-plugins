@@ -98,6 +98,7 @@
       "files": [
         "src/**/*.ts",
         "**/tsconfig.json",
+        "../../tsconfig.json",
         "messages/**"
       ],
       "output": [
