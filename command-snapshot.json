@@ -124,7 +124,7 @@
   },
   {
     "alias": [],
-    "command": "simply:project:update-api-version",
+    "command": "simply:project:update",
     "flagAliases": [],
     "flagChars": ["a", "d"],
     "flags": ["api-version", "directory", "flags-dir", "json"],
