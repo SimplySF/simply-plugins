@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.11](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-permissions%401.2.10...%40simplysf%2Fsimply-permissions%401.2.11) (2026-08-13)
+
+### Bug Fixes
+
+- adjust order of permissionset xml ([67a2a80](https://github.com/SimplySF/simply/commit/67a2a80e93fd1e5346ef403fe5cdd307cb6d0f2d))
+
 ## [1.2.10](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-permissions%401.2.9...%40simplysf%2Fsimply-permissions%401.2.10) (2026-08-13)
 
 ### Bug Fixes
