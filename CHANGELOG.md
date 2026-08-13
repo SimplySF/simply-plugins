@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.7](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-data%402.3.6...%40simplysf%2Fsimply-data%402.3.7) (2026-08-13)
+
+**Note:** Version bump only for package @simplysf/simply-data
+
 ## [2.3.6](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-data%402.3.5...%40simplysf%2Fsimply-data%402.3.6) (2026-08-12)
 
 **Note:** Version bump only for package @simplysf/simply-data
