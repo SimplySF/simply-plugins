@@ -110,7 +110,7 @@ describe('simply package dependencies install', () => {
     } as never);
   }
 
-  it('installs newer versions and skips packages that are not newer with --install-type Update', async () => {
+  it('installs newer versions and skips packages that are not newer with --install-type Upgrade', async () => {
     $$.SANDBOX.stub(SfProject.prototype, 'getPackageDirectories').returns(
       buildMockPackageDirectories([INSTALLED_VERSION_ID, SAME_VERSION_ID, NEWER_VERSION_ID, NOT_INSTALLED_VERSION_ID]),
     );
@@ -123,7 +123,7 @@ describe('simply package dependencies install', () => {
       '--target-org',
       testOrg.username,
       '--install-type',
-      'Update',
+      'Upgrade',
       '--no-prompt',
     ]);
 
@@ -136,7 +136,7 @@ describe('simply package dependencies install', () => {
     expect(statusFor(NOT_INSTALLED_VERSION_ID)).to.equal('Installed');
   });
 
-  it('does not skip an installable version that merely has the same version number with the default --install-type Delta', async () => {
+  it('does not skip an installable version that merely has the same version number with --install-type Delta', async () => {
     $$.SANDBOX.stub(SfProject.prototype, 'getPackageDirectories').returns(
       buildMockPackageDirectories([SAME_VERSION_ID]),
     );
@@ -145,9 +145,33 @@ describe('simply package dependencies install', () => {
     stubGetVersionNumber();
     stubInstallChain();
 
-    const results = await PackageDependenciesInstall.run(['--target-org', testOrg.username, '--no-prompt']);
+    const results = await PackageDependenciesInstall.run([
+      '--target-org',
+      testOrg.username,
+      '--install-type',
+      'Delta',
+      '--no-prompt',
+    ]);
 
     expect(results).to.have.length(1);
     expect(results[0].Status).to.equal('Installed');
+  });
+
+  it('defaults --install-type to Upgrade when not specified', async () => {
+    $$.SANDBOX.stub(SfProject.prototype, 'getPackageDirectories').returns(
+      buildMockPackageDirectories([SAME_VERSION_ID, NEWER_VERSION_ID]),
+    );
+    $$.SANDBOX.stub(SubscriberPackageVersion, 'installedList').resolves(mockInstalledPackages);
+    stubGetSubscriberPackageId();
+    stubGetVersionNumber();
+    stubInstallChain();
+
+    const results = await PackageDependenciesInstall.run(['--target-org', testOrg.username, '--no-prompt']);
+
+    const statusFor = (id: string): string | undefined =>
+      results.find((result) => result.SubscriberPackageVersionId === id)?.Status;
+
+    expect(statusFor(SAME_VERSION_ID)).to.equal('Skipped');
+    expect(statusFor(NEWER_VERSION_ID)).to.equal('Installed');
   });
 });

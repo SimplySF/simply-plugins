@@ -31,7 +31,7 @@ Install package dependencies for a Salesforce project.
 ```
 USAGE
   $ sf simply package dependencies install -o <value> [--json] [--flags-dir <value>] [-a all|package] [--api-version <value>] [-z
-    <value>] [-i All|Delta|Update] [-k <value>...] [-r] [-b <value>] [-s AllUsers|AdminsOnly] [-v <value>] [-t
+    <value>] [-i All|Delta|Upgrade] [-k <value>...] [-r] [-b <value>] [-s AllUsers|AdminsOnly] [-v <value>] [-t
     DeprecateOnly|Mixed|Delete] [-w <value>]
 
 FLAGS
@@ -40,8 +40,8 @@ FLAGS
                                      <options: all|package>
   -b, --publish-wait=<value>         Maximum number of minutes to wait for the Subscriber Package Version ID to become
                                      available in the target org before canceling the install request.
-  -i, --install-type=<option>        [default: Delta] Install all packages, only deltas, or only newer versions.
-                                     <options: All|Delta|Update>
+  -i, --install-type=<option>        [default: Upgrade] Install all packages, only deltas, or only newer versions.
+                                     <options: All|Delta|Upgrade>
   -k, --installation-key=<value>...  Installation key for key-protected packages
   -o, --target-org=<value>           (required) Username or alias of the target org. Not required if the `target-org`
                                      configuration variable is already set.
@@ -88,11 +88,11 @@ FLAG DESCRIPTIONS
     This approach assures that package installs and upgrades don’t impact the performance of an org, and is done even if
     --apex-compile package is specified.
 
-  -i, --install-type=All|Delta|Update  Install all packages, only deltas, or only newer versions.
+  -i, --install-type=All|Delta|Upgrade  Install all packages, only deltas, or only newer versions.
 
     If 'All' is specified, then all packages specified in package dependencies are installed, regardless of if the
     version already is installed in the org. If 'Delta' is specified, then only packages that differ from what is
-    installed in the org will be installed. If 'Update' is specified, then a package is installed only if it isn't
+    installed in the org will be installed. If 'Upgrade' is specified, then a package is installed only if it isn't
     already installed, or if its semantic version (major.minor.patch.build) is newer than the version currently
     installed in the org; packages with an installed version that is the same as or newer than the target version are
     skipped.
