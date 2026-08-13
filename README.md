@@ -300,3 +300,41 @@ Each package directory's `dependencies` array lists the packages to install/mana
 | ----------------------------------------------------- | ---------- | --------------------------------------------------------------------------------------------- |
 | `plugins.simply.dependencies.ignore`                  | `string[]` | `Package2Id`s or aliases that `dependencies manage` should leave unchanged.                   |
 | `plugins.simply.package.brancheswithreleasedversions` | `string[]` | Branch names that contain released versions, considered in addition to the main build branch. |
+
+## Report Files
+
+### `sf simply package dependencies install --report-file`
+
+The `--report-file` flag on `sf simply package dependencies install` writes a JSON array to the given path, with one entry per resolved dependency. It's the same array the command returns (e.g. via `--json`), just persisted to disk so you can consume it after the run — useful for feeding a follow-up step, or auditing what happened without having to scroll back through terminal output.
+
+```json
+[
+  {
+    "PackageName": "MyDependency@1.2.0-1",
+    "ExistingSubscriberPackageVersionId": "04t000000000001AAA",
+    "SubscriberPackageVersionId": "04t000000000001AAA",
+    "Status": "Skipped"
+  },
+  {
+    "PackageName": "AnotherDependency@2.5.0-3",
+    "ExistingSubscriberPackageVersionId": "04t000000000002AAA",
+    "SubscriberPackageVersionId": "04t000000000003AAA",
+    "Status": "Installed"
+  },
+  {
+    "PackageName": "NewDependency@1.0.0-1",
+    "ExistingSubscriberPackageVersionId": "",
+    "SubscriberPackageVersionId": "04t000000000004AAA",
+    "Status": "Installed"
+  }
+]
+```
+
+In this example: `MyDependency` was already at the target version, so it was skipped; `AnotherDependency` had an older version installed (`...0002AAA`) and was upgraded to the target (`...0003AAA`); `NewDependency` had nothing installed yet (an empty `ExistingSubscriberPackageVersionId`) and was installed fresh.
+
+| Field                                | Type     | Description                                                                                          |
+| ------------------------------------ | -------- | ---------------------------------------------------------------------------------------------------- |
+| `PackageName`                        | `string` | The dependency's alias or ID, as declared in `sfdx-project.json`.                                    |
+| `ExistingSubscriberPackageVersionId` | `string` | The `SubscriberPackageVersionId` already installed in the org for this package, or `""` if none was. |
+| `SubscriberPackageVersionId`         | `string` | The `SubscriberPackageVersionId` this command attempted to install.                                  |
+| `Status`                             | `string` | `""`, `"Skipped"`, `"Installing"`, `"Installed"`, or `"Failed"`.                                     |
