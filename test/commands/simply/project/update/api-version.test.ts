@@ -19,9 +19,9 @@ import os from 'node:os';
 import path from 'node:path';
 import { SfError } from '@salesforce/core';
 import { describe, expect, it } from 'vitest';
-import ProjectUpdateApiVersion from '../../../../src/commands/simply/project/update-api-version.js';
+import ProjectUpdateApiVersion from '../../../../../src/commands/simply/project/update/api-version.js';
 
-describe('simply project update-api-version', () => {
+describe('simply project update api-version', () => {
   it('should error without required flags', async () => {
     try {
       await ProjectUpdateApiVersion.run([]);
@@ -35,7 +35,7 @@ describe('simply project update-api-version', () => {
   });
 
   it('should update apiVersion in -meta.xml files that differ from the target version', async () => {
-    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-project-update-api-version-'));
+    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-project-update-'));
 
     try {
       const classDir = path.join(directory, 'force-app', 'main', 'default', 'classes');
@@ -61,7 +61,7 @@ describe('simply project update-api-version', () => {
   });
 
   it('should not modify -meta.xml files that already match the target version', async () => {
-    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-project-update-api-version-'));
+    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-project-update-'));
 
     try {
       const metaFile = path.join(directory, 'Foo.cls-meta.xml');
@@ -80,7 +80,7 @@ describe('simply project update-api-version', () => {
   });
 
   it('should update sourceApiVersion in sfdx-project.json when present', async () => {
-    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-project-update-api-version-'));
+    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-project-update-'));
 
     try {
       const projectFile = path.join(directory, 'sfdx-project.json');
@@ -111,7 +111,7 @@ describe('simply project update-api-version', () => {
   });
 
   it('should not error when sfdx-project.json is missing', async () => {
-    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-project-update-api-version-'));
+    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-project-update-'));
 
     try {
       const result = await ProjectUpdateApiVersion.run(['--directory', directory, '--api-version', '62.0']);

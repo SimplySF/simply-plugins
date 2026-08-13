@@ -20,15 +20,15 @@ This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/sim
 
 <!-- commands -->
 
-- [`sf simply project update-api-version`](#sf-simply-project-update-api-version)
+- [`sf simply project update api-version`](#sf-simply-project-update-api-version)
 
-## `sf simply project update-api-version`
+## `sf simply project update api-version`
 
 Update the Salesforce API version across a project's metadata.
 
 ```
 USAGE
-  $ sf simply project update-api-version -d <value> -a <value> [--json] [--flags-dir <value>]
+  $ sf simply project update api-version -d <value> -a <value> [--json] [--flags-dir <value>]
 
 FLAGS
   -a, --api-version=<value>  (required) Target Salesforce API version
@@ -45,9 +45,9 @@ DESCRIPTION
   directory contains an `sfdx-project.json` file, its `sourceApiVersion` property is updated to match.
 
 EXAMPLES
-  $ sf simply project update-api-version --directory force-app --api-version 62.0
+  $ sf simply project update api-version --directory force-app --api-version 62.0
 
-  $ sf simply project update-api-version --directory . --api-version 63.0
+  $ sf simply project update api-version --directory . --api-version 63.0
 
 FLAG DESCRIPTIONS
   -a, --api-version=<value>  Target Salesforce API version
@@ -59,5 +59,5 @@ FLAG DESCRIPTIONS
     The path to the Salesforce project directory to scan for metadata files.
 ```
 
-_See code: [lib/commands/simply/project/update-api-version.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-project@1.2.1/packages/simply-project/lib/commands/simply/project/update-api-version.js)_
+_See code: [lib/commands/simply/project/update/api-version.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-project@1.2.1/packages/simply-project/lib/commands/simply/project/update/api-version.js)_
 <!-- commandsstop -->

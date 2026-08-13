@@ -22,7 +22,7 @@ import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
-const messages = Messages.loadMessages('@simplysf/simply-project', 'simply.project.update-api-version');
+const messages = Messages.loadMessages('@simplysf/simply-project', 'simply.project.update.api-version');
 
 /** Summary of the metadata files scanned/updated, and whether sfdx-project.json was updated. */
 export type ProjectUpdateApiVersionResult = {

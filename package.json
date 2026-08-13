@@ -48,7 +48,12 @@
         "description": "Commands for simplifying Salesforce",
         "subtopics": {
           "project": {
-            "description": "Commands for working with Salesforce projects"
+            "description": "Commands for working with Salesforce projects",
+            "subtopics": {
+              "update": {
+                "description": "Commands for updating Salesforce project settings"
+              }
+            }
           }
         }
       }
