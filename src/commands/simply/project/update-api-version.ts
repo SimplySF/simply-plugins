@@ -24,6 +24,7 @@ import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-project', 'simply.project.update-api-version');
 
+/** Summary of the metadata files scanned/updated, and whether sfdx-project.json was updated. */
 export type ProjectUpdateApiVersionResult = {
   directory: string;
   apiVersion: string;
@@ -32,10 +33,21 @@ export type ProjectUpdateApiVersionResult = {
   projectFileUpdated: boolean;
 };
 
+/**
+ * Escape a string for safe use as a literal inside a `RegExp` pattern.
+ *
+ * @param value - The string to escape.
+ * @returns The escaped string, safe to interpolate into a `RegExp` source.
+ */
 function escapeRegExp(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
+/**
+ * Recursively scans a directory for `-meta.xml` files and updates every `<apiVersion>` tag to
+ * the target version. If the directory contains an `sfdx-project.json` file, its
+ * `sourceApiVersion` property is updated to match.
+ */
 export default class ProjectUpdateApiVersion extends SfCommand<ProjectUpdateApiVersionResult> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
@@ -58,6 +70,10 @@ export default class ProjectUpdateApiVersion extends SfCommand<ProjectUpdateApiV
     }),
   };
 
+  /**
+   * @returns A summary of the metadata files scanned/updated, and whether sfdx-project.json was
+   * updated.
+   */
   public async run(): Promise<ProjectUpdateApiVersionResult> {
     const { flags } = await this.parse(ProjectUpdateApiVersion);
 
