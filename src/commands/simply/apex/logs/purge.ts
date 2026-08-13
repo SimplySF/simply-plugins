@@ -20,14 +20,20 @@ import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-apex', 'simply.apex.logs.purge');
 
+/** Outcome of deleting a single `ApexLog` record. */
 export type ApexLogsPurgeResult = {
   Id: string;
   Success: boolean;
   Error?: string;
 };
 
+/** Maximum number of `ApexLog` records to delete per Tooling API `delete` call. */
 const CHUNK_SIZE = 200;
 
+/**
+ * Deletes `ApexLog` records from the target org. By default all logs are purged; use `--where`
+ * to scope the deletion to a subset of logs.
+ */
 export default class ApexLogsPurge extends SfCommand<ApexLogsPurgeResult[]> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
@@ -44,6 +50,10 @@ export default class ApexLogsPurge extends SfCommand<ApexLogsPurgeResult[]> {
     }),
   };
 
+  /**
+   * @returns The delete outcome for every `ApexLog` record matched by the (optional) `--where`
+   * filter.
+   */
   public async run(): Promise<ApexLogsPurgeResult[]> {
     const { flags } = await this.parse(ApexLogsPurge);
 

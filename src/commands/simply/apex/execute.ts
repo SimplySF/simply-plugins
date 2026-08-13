@@ -22,6 +22,7 @@ import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-apex', 'simply.apex.execute');
 
+/** Compile/execution outcome for an anonymous Apex execution, including any debug logs produced. */
 export type ApexExecuteResult = {
   success: boolean;
   compiled: boolean;
@@ -33,6 +34,10 @@ export type ApexExecuteResult = {
   logs?: string;
 };
 
+/**
+ * Executes an anonymous block of Apex code from a local .apex file against a target org and
+ * reports the compile and execution results, including any debug logs produced.
+ */
 export default class ApexExecute extends SfCommand<ApexExecuteResult> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
@@ -51,6 +56,9 @@ export default class ApexExecute extends SfCommand<ApexExecuteResult> {
     'target-org': Flags.requiredOrg(),
   };
 
+  /**
+   * @returns The compile/execution result. Throws if compilation or execution failed.
+   */
   public async run(): Promise<ApexExecuteResult> {
     const { flags } = await this.parse(ApexExecute);
 

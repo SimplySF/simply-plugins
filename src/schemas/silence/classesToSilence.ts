@@ -16,8 +16,10 @@
 
 import { z } from 'zod';
 
+/** Schema for the JSON config file that lists which Apex classes to silence debug logs for. */
 export const ClassesToSilenceSchema = z.object({
   classes: z.array(z.string()).min(1),
 });
 
+/** A parsed classes-to-silence config file: a non-empty list of Apex class names. */
 export type ClassesToSilence = z.infer<typeof ClassesToSilenceSchema>;

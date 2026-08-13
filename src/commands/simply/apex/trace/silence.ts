@@ -22,15 +22,28 @@ import { ClassesToSilenceSchema } from '../../../../schemas/silence/classesToSil
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-apex', 'simply.apex.trace.silence');
 
+/** DeveloperName used for the fully-suppressed (NONE) debug level created for class silencing. */
 const DEBUG_LEVEL_NAME = 'Silence';
+/** How long a configured trace flag stays active before expiring, in milliseconds (24 hours). */
 const TRACE_DURATION_MS = 24 * 60 * 60 * 1000;
 
+/** The trace flag created to silence debug logs for a single Apex class. */
 export type ApexTraceSilenceResult = {
   class: string;
   classId: string;
   traceFlagId: string;
 };
 
+/**
+ * Resolve the list of Apex class names to silence from either the `--classes` flag (a
+ * comma-separated list) or the `--classes-file` flag (a JSON config file matching
+ * {@link ClassesToSilenceSchema}). Returns an empty array if neither flag was provided.
+ *
+ * @param classesFlag - The raw `--classes` flag value, if provided.
+ * @param classesFileFlag - The raw `--classes-file` flag value, if provided.
+ * @returns The resolved, trimmed list of Apex class names.
+ * @throws {SfError} If `--classes-file` was provided but fails schema validation.
+ */
 function resolveClasses(classesFlag: string | undefined, classesFileFlag: string | undefined): string[] {
   if (classesFlag) {
     return classesFlag
@@ -53,6 +66,10 @@ function resolveClasses(classesFlag: string | undefined, classesFileFlag: string
   return [];
 }
 
+/**
+ * Creates a 24-hour CLASS_TRACING trace flag with a fully suppressed (NONE) debug level for each
+ * specified Apex class, preventing those classes from generating debug log output.
+ */
 export default class ApexTraceSilence extends SfCommand<ApexTraceSilenceResult[]> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
@@ -76,6 +93,11 @@ export default class ApexTraceSilence extends SfCommand<ApexTraceSilenceResult[]
     'target-org': Flags.requiredOrg(),
   };
 
+  /**
+   * @returns The trace flag created for each Apex class that was found and successfully
+   * silenced. Classes that couldn't be found or whose trace flag creation failed are warned
+   * about and omitted.
+   */
   public async run(): Promise<ApexTraceSilenceResult[]> {
     const { flags } = await this.parse(ApexTraceSilence);
 

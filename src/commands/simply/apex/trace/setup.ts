@@ -20,9 +20,12 @@ import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-apex', 'simply.apex.trace.setup');
 
+/** DeveloperName used for the FINEST/FINER debug level created for the Apex Replay Debugger. */
 const DEBUG_LEVEL_NAME = 'ReplayDebuggerLevels';
+/** How long a configured trace flag stays active before expiring, in milliseconds (24 hours). */
 const TRACE_DURATION_MS = 24 * 60 * 60 * 1000;
 
+/** IDs of the debug level and trace flag configured for the running user, and when it expires. */
 export type ApexTraceSetupResult = {
   userId: string;
   debugLevelId: string;
@@ -30,6 +33,10 @@ export type ApexTraceSetupResult = {
   expirationDate: string;
 };
 
+/**
+ * Creates or updates a 24-hour DEVELOPER_LOG trace flag for the user running the command, using
+ * a FINEST/FINER debug level suitable for the Apex Replay Debugger.
+ */
 export default class ApexTraceSetup extends SfCommand<ApexTraceSetupResult> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
@@ -41,6 +48,10 @@ export default class ApexTraceSetup extends SfCommand<ApexTraceSetupResult> {
     'target-org': Flags.requiredOrg(),
   };
 
+  /**
+   * @returns The IDs of the debug level and trace flag that were created or updated, and the
+   * trace flag's new expiration date.
+   */
   public async run(): Promise<ApexTraceSetupResult> {
     const { flags } = await this.parse(ApexTraceSetup);
 
