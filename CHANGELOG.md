@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.6.0](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-package%402.5.6...%40simplysf%2Fsimply-package%402.6.0) (2026-08-13)
+
+### Features
+
+- add update mode for dependency install ([ad804de](https://github.com/SimplySF/simply/commit/ad804dea22fdb5eee6b3cecbb9a349f72c4065fc))
+
 ## [2.5.6](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-package%402.5.5...%40simplysf%2Fsimply-package%402.5.6) (2026-08-12)
 
 **Note:** Version bump only for package @simplysf/simply-package
