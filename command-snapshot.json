@@ -70,6 +70,8 @@
       "json",
       "no-prompt",
       "publish-wait",
+      "report-file",
+      "report-format",
       "security-type",
       "skip-handlers",
       "target-dev-hub",
