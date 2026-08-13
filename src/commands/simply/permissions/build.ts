@@ -50,7 +50,8 @@ export type PermissionsBuildResult = {
  * Scans a Salesforce project directory for custom objects, fields, tabs, and (optionally)
  * record types, then generates a permission set XML file with a baseline of permissions
  * determined by `--type`. An optional JSON `--config` file can override individual object,
- * field, tab, record type, and user permission settings.
+ * field, tab, record type, and user permission settings, as well as whether the permission set
+ * requires activation.
  */
 export default class PermissionsBuild extends SfCommand<PermissionsBuildResult> {
   public static readonly summary = messages.getMessage('summary');
@@ -314,6 +315,7 @@ export default class PermissionsBuild extends SfCommand<PermissionsBuildResult> 
     const templateData: PermissionSetTemplateData = {
       label,
       description: flags.description,
+      hasActivationRequired: config?.hasActivationRequired ?? false,
       objectPermissions: [],
       fieldPermissions: [],
       tabSettings: [],

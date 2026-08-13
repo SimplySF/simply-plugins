@@ -4,7 +4,7 @@ Generate a permission set from Salesforce source metadata.
 
 # description
 
-Scans a Salesforce project directory for custom objects, fields, tabs, and (optionally) record types, then generates a permission set XML file with a baseline of permissions determined by --type. An optional JSON --config file can override individual object, field, tab, record type, and user permission settings.
+Scans a Salesforce project directory for custom objects, fields, tabs, and (optionally) record types, then generates a permission set XML file with a baseline of permissions determined by --type. An optional JSON --config file can override individual object, field, tab, record type, and user permission settings, as well as whether the permission set requires activation.
 
 # flags.type.summary
 
@@ -36,7 +36,7 @@ Path to a permission set configuration file
 
 # flags.config.description
 
-The path to a JSON file that overrides individual object, field, tab, record type, and user permission settings on top of the --type baseline.
+The path to a JSON file that overrides individual object, field, tab, record type, and user permission settings, as well as whether the permission set requires activation, on top of the --type baseline.
 
 # flags.output.summary
 

@@ -44,8 +44,9 @@ const RecordTypeVisibilityConfigSchema = z.object({
 });
 
 /**
- * Schema for the JSON config file consumed by `simply permissions build`, keyed by
- * `Object` / `Object.Field` / `Object.Tab` / `Object.RecordType` API names.
+ * Schema for the JSON config file consumed by `simply permissions build`. `objects`, `fields`,
+ * `tabs`, and `recordTypeVisibilities` are keyed by `Object` / `Object.Field` / `Object.Tab` /
+ * `Object.RecordType` API names; `hasActivationRequired` applies to the permission set as a whole.
  */
 export const PermissionSetBuildConfigSchema = z.object({
   objects: z.record(z.string(), ObjectPermissionConfigSchema).optional(),
@@ -53,6 +54,8 @@ export const PermissionSetBuildConfigSchema = z.object({
   tabs: z.record(z.string(), TabPermissionConfigSchema).optional(),
   recordTypeVisibilities: z.record(z.string(), RecordTypeVisibilityConfigSchema).optional(),
   userPermissions: z.record(z.string(), z.boolean()).optional(),
+  /** Whether the permission set requires activation before it grants access. Defaults to `false`. */
+  hasActivationRequired: z.boolean().optional().default(false),
 });
 
 /** A parsed, validated permission set build config. */
