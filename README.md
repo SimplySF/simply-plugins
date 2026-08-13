@@ -96,7 +96,8 @@ DESCRIPTION
 
   Scans a Salesforce project directory for custom objects, fields, tabs, and (optionally) record types, then generates a
   permission set XML file with a baseline of permissions determined by --type. An optional JSON --config file can
-  override individual object, field, tab, record type, and user permission settings.
+  override individual object, field, tab, record type, and user permission settings, as well as whether the permission
+  set requires activation.
 
 EXAMPLES
   $ sf simply permissions build --type read-only --name My_Read_Only_Access --directory force-app --output force-app/main/default/permissionsets
@@ -106,8 +107,8 @@ EXAMPLES
 FLAG DESCRIPTIONS
   -c, --config=<value>  Path to a permission set configuration file
 
-    The path to a JSON file that overrides individual object, field, tab, record type, and user permission settings on
-    top of the --type baseline.
+    The path to a JSON file that overrides individual object, field, tab, record type, and user permission settings,
+    as well as whether the permission set requires activation, on top of the --type baseline.
 
   -d, --directory=<value>  Path to the Salesforce project directory
 
@@ -133,3 +134,39 @@ FLAG DESCRIPTIONS
 
 _See code: [lib/commands/simply/permissions/build.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-permissions@1.2.1/packages/simply-permissions/lib/commands/simply/permissions/build.js)_
 <!-- commandsstop -->
+
+## Configuration Files
+
+### `sf simply permissions build --config`
+
+The `--config` flag on `sf simply permissions build` takes the path to a JSON file that overrides the `--type` baseline permissions. Every top-level key is optional — only the settings you include are applied:
+
+```json
+{
+  "objects": {
+    "Account": { "read": true, "create": true, "edit": true, "viewAll": true }
+  },
+  "fields": {
+    "Account.AnnualRevenue": { "readable": true, "editable": false }
+  },
+  "tabs": {
+    "Account": { "visible": true }
+  },
+  "recordTypeVisibilities": {
+    "Account.Enterprise": { "visible": true }
+  },
+  "userPermissions": {
+    "ApiEnabled": true
+  },
+  "hasActivationRequired": false
+}
+```
+
+| Field                    | Type                                   | Keyed by                     | Description                                                                                                                                              |
+| ------------------------ | -------------------------------------- | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `objects`                | `Record<string, ObjectPerm>`           | Object API name              | Overrides object-level access. `ObjectPerm` fields: `read`, `create`, `edit`, `delete`, `modifyAll`, `viewAll`, `viewAllFields` (all optional booleans). |
+| `fields`                 | `Record<string, FieldPerm>`            | `Object.Field` API name      | Overrides field-level access. `FieldPerm` fields: `readable`, `editable` (optional booleans).                                                            |
+| `tabs`                   | `Record<string, TabSetting>`           | Tab API name                 | Overrides tab visibility. `TabSetting` fields: `visible` (optional boolean).                                                                             |
+| `recordTypeVisibilities` | `Record<string, RecordTypeVisibility>` | `Object.RecordType` API name | Overrides record type visibility. Fields: `visible` (optional boolean). Only applied when `--include-record-types` is also passed.                       |
+| `userPermissions`        | `Record<string, boolean>`              | User permission API name     | Enables (`true`) or disables (`false`) individual user permissions.                                                                                      |
+| `hasActivationRequired`  | `boolean`                              | —                            | Whether the generated permission set requires activation before it grants access. Defaults to `false`.                                                   |
