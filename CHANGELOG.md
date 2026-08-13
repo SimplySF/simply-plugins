@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.7.0](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-package%402.6.4...%40simplysf%2Fsimply-package%402.7.0) (2026-08-13)
+
+### Features
+
+- add ability to specify exclusion matcher for cleanup ([e5c84a4](https://github.com/SimplySF/simply/commit/e5c84a490fee622da027f20fd2e6b12735bc28a6))
+
 ## [2.6.4](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-package%402.6.3...%40simplysf%2Fsimply-package%402.6.4) (2026-08-13)
 
 **Note:** Version bump only for package @simplysf/simply-package
