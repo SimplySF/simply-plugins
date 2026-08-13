@@ -236,3 +236,57 @@ FLAG DESCRIPTIONS
 
 _See code: [lib/commands/simply/package/version/cleanup.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-package@2.3.8/packages/simply-package/lib/commands/simply/package/version/cleanup.js)_
 <!-- commandsstop -->
+
+## Configuration Files
+
+`sf simply package dependencies install` and `sf simply package dependencies manage` don't take a separate config file — they read from your project's existing **`sfdx-project.json`**.
+
+### `packageDirectories[].dependencies`
+
+Each package directory's `dependencies` array lists the packages to install/manage:
+
+```json
+{
+  "packageDirectories": [
+    {
+      "path": "force-app",
+      "default": true,
+      "dependencies": [
+        { "package": "MyDependency@1.2.0-1" },
+        { "package": "0Ho000000000001AAA", "versionNumber": "2.5.0.LATEST" },
+        { "package": "0Ho000000000002AAA", "versionNumber": "3.1.0.LATEST", "branch": "release/2026-Q1" }
+      ]
+    }
+  ]
+}
+```
+
+| Field           | Type     | Required | Description                                                                                                                                                                           |
+| --------------- | -------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `package`       | `string` | Yes      | Either a package alias, a `SubscriberPackageVersionId` (`04t...`), or a `Package2Id` (`0Ho...`). A `Package2Id` requires `versionNumber` and must be resolved via `--target-dev-hub`. |
+| `versionNumber` | `string` | No       | Required when `package` is a `Package2Id`. A `MAJOR.MINOR.PATCH.BUILD` version, where `BUILD` may be `LATEST` for a non-pinned build.                                                 |
+| `branch`        | `string` | No       | Scopes dev hub version resolution to a specific build branch. Only used when `versionNumber` is also set.                                                                             |
+
+### `plugins.simply` (used by `dependencies manage`)
+
+`sf simply package dependencies manage` reads optional settings from a `plugins.simply` block in `sfdx-project.json`:
+
+```json
+{
+  "plugins": {
+    "simply": {
+      "dependencies": {
+        "ignore": ["MyLockedDependency", "0Ho000000000002AAA"]
+      },
+      "package": {
+        "brancheswithreleasedversions": ["release/2026-Q1"]
+      }
+    }
+  }
+}
+```
+
+| Key                                                   | Type       | Description                                                                                   |
+| ----------------------------------------------------- | ---------- | --------------------------------------------------------------------------------------------- |
+| `plugins.simply.dependencies.ignore`                  | `string[]` | `Package2Id`s or aliases that `dependencies manage` should leave unchanged.                   |
+| `plugins.simply.package.brancheswithreleasedversions` | `string[]` | Branch names that contain released versions, considered in addition to the main build branch. |
