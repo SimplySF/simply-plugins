@@ -34,15 +34,24 @@ import {
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-permissions', 'simply.permissions.build');
 
+/** Baseline permission profile applied before `--config` overrides. */
 type PermissionSetType = 'read-only' | 'view-all' | 'modify-all';
+/** The subset of a parsed `CustomField` metadata file's contents this command reads. */
 type CustomFieldXml = { CustomField?: { required?: string | boolean; type?: string } };
 
+/** Where the generated permission set was written, and how many permissions it grants. */
 export type PermissionsBuildResult = {
   path: string;
   objectPermissionCount: number;
   fieldPermissionCount: number;
 };
 
+/**
+ * Scans a Salesforce project directory for custom objects, fields, tabs, and (optionally)
+ * record types, then generates a permission set XML file with a baseline of permissions
+ * determined by `--type`. An optional JSON `--config` file can override individual object,
+ * field, tab, record type, and user permission settings.
+ */
 export default class PermissionsBuild extends SfCommand<PermissionsBuildResult> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
@@ -94,6 +103,7 @@ export default class PermissionsBuild extends SfCommand<PermissionsBuildResult> 
     }),
   };
 
+  /** @returns The output file path and the number of object/field permissions written. */
   public async run(): Promise<PermissionsBuildResult> {
     const { flags } = await this.parse(PermissionsBuild);
 

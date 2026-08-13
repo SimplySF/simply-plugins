@@ -16,6 +16,7 @@
 
 import { z } from 'zod';
 
+/** Object-level CRUD/access permissions, as granted for a single sObject in `objects`. */
 const ObjectPermissionConfigSchema = z.object({
   read: z.boolean().optional(),
   create: z.boolean().optional(),
@@ -26,19 +27,26 @@ const ObjectPermissionConfigSchema = z.object({
   viewAllFields: z.boolean().optional(),
 });
 
+/** Field-level read/edit permissions, as granted for a single field in `fields`. */
 const FieldPermissionConfigSchema = z.object({
   readable: z.boolean().optional(),
   editable: z.boolean().optional(),
 });
 
+/** Tab visibility, as granted for a single tab in `tabs`. */
 const TabPermissionConfigSchema = z.object({
   visible: z.boolean().optional(),
 });
 
+/** Record type visibility, as granted for a single record type in `recordTypeVisibilities`. */
 const RecordTypeVisibilityConfigSchema = z.object({
   visible: z.boolean().optional(),
 });
 
+/**
+ * Schema for the JSON config file consumed by `simply permissions build`, keyed by
+ * `Object` / `Object.Field` / `Object.Tab` / `Object.RecordType` API names.
+ */
 export const PermissionSetBuildConfigSchema = z.object({
   objects: z.record(z.string(), ObjectPermissionConfigSchema).optional(),
   fields: z.record(z.string(), FieldPermissionConfigSchema).optional(),
@@ -47,4 +55,5 @@ export const PermissionSetBuildConfigSchema = z.object({
   userPermissions: z.record(z.string(), z.boolean()).optional(),
 });
 
+/** A parsed, validated permission set build config. */
 export type PermissionSetBuildConfig = z.infer<typeof PermissionSetBuildConfigSchema>;

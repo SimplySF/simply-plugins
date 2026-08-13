@@ -30,6 +30,7 @@ import {
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-permissions', 'simply.permissions.analyze');
 
+/** A queried `PermissionSet` record. `Type === 'Group'` marks a permission set group's companion set. */
 type PermissionSetRecord = {
   Id: string;
   Name: string;
@@ -40,6 +41,7 @@ type PermissionSetRecord = {
   Type: string;
 };
 
+/** A queried `PermissionSetGroup` record. */
 type PermissionSetGroupRecord = {
   Id: string;
   DeveloperName: string;
@@ -48,23 +50,34 @@ type PermissionSetGroupRecord = {
   Description?: string;
 };
 
+/** Maximum number of IDs per `WHERE Id IN (...)` chunk for the Tooling API `Package2Member` query. */
 const ID_CHUNK_SIZE = 100;
 
-// queryRecords() always yields string-valued records (matching Bulk API v2's CSV output, even
-// when it took the REST path), but ObjectPermissions/FieldPermissions carry boolean columns, so
-// cast the "true"/"false" strings back to real booleans.
+/**
+ * queryRecords() always yields string-valued records (matching Bulk API v2's CSV output, even
+ * when it took the REST path), but ObjectPermissions/FieldPermissions carry boolean columns, so
+ * cast the "true"/"false" strings back to real booleans.
+ *
+ * @param record - A raw, string-valued record yielded by `queryRecords()`.
+ * @returns The record with `"true"`/`"false"` string values converted to real booleans.
+ */
 function castBooleanStrings(record: Record<string, string>): Record<string, unknown> {
   return Object.fromEntries(
     Object.entries(record).map(([key, value]) => [key, value === 'true' ? true : value === 'false' ? false : value]),
   );
 }
 
+/** Where the report was written, and how many permission sets/groups it covers. */
 export type PermissionsAnalyzeResult = {
   outputFile: string;
   permissionSetCount: number;
   permissionSetGroupCount: number;
 };
 
+/**
+ * Generates an HTML report of every permission set and permission set group in the target org,
+ * grouped by installed package, including their object and field permissions.
+ */
 export default class PermissionsAnalyze extends SfCommand<PermissionsAnalyzeResult> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
@@ -87,6 +100,7 @@ export default class PermissionsAnalyze extends SfCommand<PermissionsAnalyzeResu
     'target-org': Flags.requiredOrg(),
   };
 
+  /** @returns The output file path and the number of permission sets/groups reported on. */
   public async run(): Promise<PermissionsAnalyzeResult> {
     const { flags } = await this.parse(PermissionsAnalyze);
 
@@ -224,6 +238,7 @@ export default class PermissionsAnalyze extends SfCommand<PermissionsAnalyzeResu
 
     const groupedData: GroupedPermissionsData = new Map();
 
+    /** Add a permission set or group's report entry into `groupedData`, under its owning package. */
     const addToGroup = (
       pkgName: string,
       type: 'permissionSets' | 'permissionSetGroups',
