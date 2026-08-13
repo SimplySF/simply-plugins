@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+import fs from 'node:fs';
+import fsPromises from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
 import { NamedPackageDir, SfProject } from '@salesforce/core';
 import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
 import { InstalledPackages, PackagingSObjects, SubscriberPackageVersion, VersionNumber } from '@salesforce/packaging';
@@ -32,7 +36,10 @@ const NEWER_VERSION_ID = '04t100000000001AAA';
 // A package that isn't installed in the org at all.
 const NOT_INSTALLED_VERSION_ID = '04t100000000003AAA';
 
+// Every dependency's SubscriberPackageVersionId resolves to its parent SubscriberPackageId, since
+// the command always resolves this (regardless of --install-type) to report the existing package.
 const subscriberPackageIdByVersionId: Record<string, string> = {
+  [INSTALLED_VERSION_ID]: SUBSCRIBER_PACKAGE_ID_A,
   [SAME_VERSION_ID]: SUBSCRIBER_PACKAGE_ID_A,
   [NEWER_VERSION_ID]: SUBSCRIBER_PACKAGE_ID_A,
   [NOT_INSTALLED_VERSION_ID]: SUBSCRIBER_PACKAGE_ID_B,
@@ -127,13 +134,19 @@ describe('simply package dependencies install', () => {
       '--no-prompt',
     ]);
 
-    const statusFor = (id: string): string | undefined =>
-      results.find((result) => result.SubscriberPackageVersionId === id)?.Status;
+    const resultFor = (id: string) => results.find((result) => result.SubscriberPackageVersionId === id);
 
-    expect(statusFor(INSTALLED_VERSION_ID)).to.equal('Skipped');
-    expect(statusFor(SAME_VERSION_ID)).to.equal('Skipped');
-    expect(statusFor(NEWER_VERSION_ID)).to.equal('Installed');
-    expect(statusFor(NOT_INSTALLED_VERSION_ID)).to.equal('Installed');
+    expect(resultFor(INSTALLED_VERSION_ID)?.Status).to.equal('Skipped');
+    expect(resultFor(INSTALLED_VERSION_ID)?.ExistingSubscriberPackageVersionId).to.equal(INSTALLED_VERSION_ID);
+
+    expect(resultFor(SAME_VERSION_ID)?.Status).to.equal('Skipped');
+    expect(resultFor(SAME_VERSION_ID)?.ExistingSubscriberPackageVersionId).to.equal(INSTALLED_VERSION_ID);
+
+    expect(resultFor(NEWER_VERSION_ID)?.Status).to.equal('Installed');
+    expect(resultFor(NEWER_VERSION_ID)?.ExistingSubscriberPackageVersionId).to.equal(INSTALLED_VERSION_ID);
+
+    expect(resultFor(NOT_INSTALLED_VERSION_ID)?.Status).to.equal('Installed');
+    expect(resultFor(NOT_INSTALLED_VERSION_ID)?.ExistingSubscriberPackageVersionId).to.equal('');
   });
 
   it('does not skip an installable version that merely has the same version number with --install-type Delta', async () => {
@@ -155,6 +168,29 @@ describe('simply package dependencies install', () => {
 
     expect(results).to.have.length(1);
     expect(results[0].Status).to.equal('Installed');
+    expect(results[0].ExistingSubscriberPackageVersionId).to.equal(INSTALLED_VERSION_ID);
+  });
+
+  it('does not skip anything, but still reports the existing package, with --install-type All', async () => {
+    $$.SANDBOX.stub(SfProject.prototype, 'getPackageDirectories').returns(
+      buildMockPackageDirectories([INSTALLED_VERSION_ID]),
+    );
+    $$.SANDBOX.stub(SubscriberPackageVersion, 'installedList').resolves(mockInstalledPackages);
+    stubGetSubscriberPackageId();
+    stubGetVersionNumber();
+    stubInstallChain();
+
+    const results = await PackageDependenciesInstall.run([
+      '--target-org',
+      testOrg.username,
+      '--install-type',
+      'All',
+      '--no-prompt',
+    ]);
+
+    expect(results).to.have.length(1);
+    expect(results[0].Status).to.equal('Installed');
+    expect(results[0].ExistingSubscriberPackageVersionId).to.equal(INSTALLED_VERSION_ID);
   });
 
   it('defaults --install-type to Upgrade when not specified', async () => {
@@ -173,5 +209,73 @@ describe('simply package dependencies install', () => {
 
     expect(statusFor(SAME_VERSION_ID)).to.equal('Skipped');
     expect(statusFor(NEWER_VERSION_ID)).to.equal('Installed');
+  });
+
+  it('writes a JSON install report to --report-file, including the existing package', async () => {
+    $$.SANDBOX.stub(SfProject.prototype, 'getPackageDirectories').returns(
+      buildMockPackageDirectories([NEWER_VERSION_ID, NOT_INSTALLED_VERSION_ID]),
+    );
+    $$.SANDBOX.stub(SubscriberPackageVersion, 'installedList').resolves(mockInstalledPackages);
+    stubGetSubscriberPackageId();
+    stubGetVersionNumber();
+    stubInstallChain();
+
+    const reportFile = path.join(os.tmpdir(), `simply-package-install-report-${Date.now()}.json`);
+
+    try {
+      const results = await PackageDependenciesInstall.run([
+        '--target-org',
+        testOrg.username,
+        '--install-type',
+        'Upgrade',
+        '--no-prompt',
+        '--report-file',
+        reportFile,
+      ]);
+
+      expect(fs.existsSync(reportFile)).to.be.true;
+      const reportContents: unknown = JSON.parse(fs.readFileSync(reportFile, 'utf-8'));
+      expect(reportContents).to.deep.equal(results);
+
+      const newerResult = results.find((result) => result.SubscriberPackageVersionId === NEWER_VERSION_ID);
+      expect(newerResult?.ExistingSubscriberPackageVersionId).to.equal(INSTALLED_VERSION_ID);
+
+      const notInstalledResult = results.find(
+        (result) => result.SubscriberPackageVersionId === NOT_INSTALLED_VERSION_ID,
+      );
+      expect(notInstalledResult?.ExistingSubscriberPackageVersionId).to.equal('');
+    } finally {
+      fs.rmSync(reportFile, { force: true });
+    }
+  });
+
+  it('writes a report even when there are no packages to install', async () => {
+    $$.SANDBOX.stub(SfProject.prototype, 'getPackageDirectories').returns(buildMockPackageDirectories([]));
+
+    const reportFile = path.join(os.tmpdir(), `simply-package-install-report-${Date.now()}.json`);
+
+    try {
+      const results = await PackageDependenciesInstall.run([
+        '--target-org',
+        testOrg.username,
+        '--report-file',
+        reportFile,
+      ]);
+
+      expect(results).to.deep.equal([]);
+      expect(fs.existsSync(reportFile)).to.be.true;
+      expect(JSON.parse(fs.readFileSync(reportFile, 'utf-8'))).to.deep.equal([]);
+    } finally {
+      fs.rmSync(reportFile, { force: true });
+    }
+  });
+
+  it('does not write a report when --report-file is not specified', async () => {
+    $$.SANDBOX.stub(SfProject.prototype, 'getPackageDirectories').returns(buildMockPackageDirectories([]));
+    const writeFileSpy = $$.SANDBOX.spy(fsPromises, 'writeFile');
+
+    await PackageDependenciesInstall.run(['--target-org', testOrg.username]);
+
+    expect(writeFileSpy.called).to.be.false;
   });
 });

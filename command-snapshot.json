@@ -14,6 +14,7 @@
       "json",
       "no-prompt",
       "publish-wait",
+      "report-file",
       "security-type",
       "skip-handlers",
       "target-dev-hub",

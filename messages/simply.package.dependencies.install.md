@@ -54,6 +54,14 @@ Allows the following without an explicit confirmation response: 1) Remote Site S
 
 Maximum number of minutes to wait for the Subscriber Package Version ID to become available in the target org before canceling the install request.
 
+# flags.report-file.summary
+
+Path to write a JSON install report to.
+
+# flags.report-file.description
+
+When specified, a JSON report of the install outcome for every resolved dependency is written to this path, in addition to the normal terminal output you can continue to monitor as the command runs. Each entry includes the package name, the SubscriberPackageVersionId already installed in the org (if any), the SubscriberPackageVersionId that was attempted, and the decision made (Skipped, Installed, Installing, or Failed).
+
 # flags.security-type.summary
 
 Security access type for the installed package. (deprecation notice: The default --security-type value will change from AllUsers to AdminsOnly in v47.0 or later.)
@@ -89,6 +97,8 @@ Number of minutes to wait for installation status.
 - <%= config.bin %> <%= command.id %> --target-org myTargetOrg --target-dev-hub myTargetDevHub --installation-key "MyPackage1Alias:MyPackage1Key"
 
 - <%= config.bin %> <%= command.id %> --target-org myTargetOrg --target-dev-hub myTargetDevHub --installation-key "MyPackage1Alias:MyPackage1Key" --installation-key "MyPackage2Alias:MyPackage2Key"
+
+- <%= config.bin %> <%= command.id %> --target-org myTargetOrg --target-dev-hub myTargetDevHub --report-file install-report.json
 
 # error.apiVersionTooLow
 
@@ -135,6 +145,10 @@ Unable to establish connection to the org.
 # info.canceledPackageInstall
 
 We canceled this package installation per your request.
+
+# info.reportWritten
+
+Install report written to %s
 
 # prompt.enableRss
 

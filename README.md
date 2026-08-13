@@ -31,8 +31,8 @@ Install package dependencies for a Salesforce project.
 ```
 USAGE
   $ sf simply package dependencies install -o <value> [--json] [--flags-dir <value>] [-a all|package] [--api-version <value>] [-z
-    <value>] [-i All|Delta|Upgrade] [-k <value>...] [-r] [-b <value>] [-s AllUsers|AdminsOnly] [-v <value>] [-t
-    DeprecateOnly|Mixed|Delete] [-w <value>]
+    <value>] [-i All|Delta|Upgrade] [-k <value>...] [-r] [-b <value>] [--report-file <value>] [-s AllUsers|AdminsOnly] [-v
+    <value>] [-t DeprecateOnly|Mixed|Delete] [-w <value>]
 
 FLAGS
   -a, --apex-compile=<option>        Compile all Apex in the org and package, or only Apex in the package; unlocked
@@ -57,6 +57,7 @@ FLAGS
   -w, --wait=<value>                 Number of minutes to wait for installation status.
   -z, --branch=<value>               Package branch to consider when specifiying a Package/VersionNumber combination
       --api-version=<value>          Override the api version used for api requests made by this command
+      --report-file=<value>          Path to write a JSON install report to.
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -73,6 +74,8 @@ EXAMPLES
   $ sf simply package dependencies install --target-org myTargetOrg --target-dev-hub myTargetDevHub --installation-key "MyPackage1Alias:MyPackage1Key"
 
   $ sf simply package dependencies install --target-org myTargetOrg --target-dev-hub myTargetDevHub --installation-key "MyPackage1Alias:MyPackage1Key" --installation-key "MyPackage2Alias:MyPackage2Key"
+
+  $ sf simply package dependencies install --target-org myTargetOrg --target-dev-hub myTargetDevHub --report-file install-report.json
 
 FLAG DESCRIPTIONS
   -a, --apex-compile=all|package
@@ -119,6 +122,13 @@ FLAG DESCRIPTIONS
 
     For dependencies specified by Package/VersionNumber combination, you can specify the branch group of builds to work
     from by entering the branch build name. If not specified, the builds from NULL branch will be considered.
+
+  --report-file=<value>  Path to write a JSON install report to.
+
+    When specified, a JSON report of the install outcome for every resolved dependency is written to this path, in
+    addition to the normal terminal output you can continue to monitor as the command runs. Each entry includes the
+    package name, the SubscriberPackageVersionId already installed in the org (if any), the SubscriberPackageVersionId
+    that was attempted, and the decision made (Skipped, Installed, Installing, or Failed).
 ```
 
 _See code: [lib/commands/simply/package/dependencies/install.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-package@2.3.8/packages/simply-package/lib/commands/simply/package/dependencies/install.js)_
