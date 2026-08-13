@@ -188,15 +188,16 @@ Cleanup package versions.
 
 ```
 USAGE
-  $ sf simply package version cleanup -s <value> -p <value> -v <value> [--json] [--flags-dir <value>] [--api-version
-  <value>]
+  $ sf simply package version cleanup -p <value> -v <value> [--json] [--flags-dir <value>] [--api-version
+  <value>] [-s <value> | -x <value>]
 
 FLAGS
-  -p, --package=<value>         (required) Package Id
-  -s, --matcher=<value>         (required) MAJOR.MINOR.PATCH
-  -v, --target-dev-hub=<value>  (required) Username or alias of the Dev Hub org. Not required if the `target-dev-hub`
-                                configuration variable is already set.
-      --api-version=<value>     Override the api version used for api requests made by this command
+  -p, --package=<value>          (required) Package Id
+  -s, --matcher=<value>          MAJOR.MINOR.PATCH to select on
+  -v, --target-dev-hub=<value>   (required) Username or alias of the Dev Hub org. Not required if the
+                                 `target-dev-hub` configuration variable is already set.
+  -x, --exclude-matcher=<value>  MAJOR.MINOR.PATCH to exclude on
+      --api-version=<value>      Override the api version used for api requests made by this command
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -205,20 +206,32 @@ GLOBAL FLAGS
 DESCRIPTION
   Cleanup package versions.
 
-  Delete package versions for a given package provided a MAJOR.MINOR.PATCH matcher. Does not delete released pacakge
-  versions.
+  Delete package versions for a given package provided a MAJOR.MINOR.PATCH matcher, either to select on or to
+  exclude on. Does not delete released package versions.
+
+  If --matcher is provided, only the unreleased versions matching MAJOR.MINOR.PATCH are deleted. If
+  --exclude-matcher is provided instead, every unreleased version that does *not* match MAJOR.MINOR.PATCH is
+  deleted. Exactly one of --matcher or --exclude-matcher must be specified.
 
 EXAMPLES
   $ sf simply package version cleanup --package 0Hoxx00000000CqCAI --matcher 2.10.0 --target-dev-hub myDevHub
+
+  $ sf simply package version cleanup --package 0Hoxx00000000CqCAI --exclude-matcher 2.10.0 --target-dev-hub myDevHub
 
 FLAG DESCRIPTIONS
   -p, --package=<value>  Package Id
 
     The 0Ht Package Id that you wish to cleanup versions for.
 
-  -s, --matcher=<value>  MAJOR.MINOR.PATCH
+  -s, --matcher=<value>  MAJOR.MINOR.PATCH to select on
 
-    The MAJOR.MINOR.PATCH matcher that should be used to find package versions to delete.
+    The MAJOR.MINOR.PATCH matcher that should be used to find package versions to delete. Only versions matching
+    this matcher are deleted. Mutually exclusive with --exclude-matcher.
+
+  -x, --exclude-matcher=<value>  MAJOR.MINOR.PATCH to exclude on
+
+    The MAJOR.MINOR.PATCH matcher that should be used to find package versions to keep. Every unreleased version
+    that does not match this matcher is deleted. Mutually exclusive with --matcher.
 ```
 
 _See code: [lib/commands/simply/package/version/cleanup.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-package@2.3.8/packages/simply-package/lib/commands/simply/package/version/cleanup.js)_

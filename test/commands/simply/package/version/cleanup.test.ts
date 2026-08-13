@@ -182,7 +182,35 @@ describe('simply package version cleanup', () => {
       const error = err as SfError;
       expect(error.name).to.equal('Error');
       expect(error.message).to.include('Missing required flag package');
-      expect(error.message).to.include('Missing required flag matcher');
+    }
+  });
+
+  it('should error when neither --matcher nor --exclude-matcher is specified', async () => {
+    try {
+      await PackageVersionCleanup.run(['--package', myPackage0Hot, '--target-dev-hub', 'foor@bar.org']);
+      expect.fail('should have thrown Error');
+    } catch (err) {
+      const error = err as SfError;
+      expect(error.message).to.include('You must specify either --matcher or --exclude-matcher.');
+    }
+  });
+
+  it('should error when both --matcher and --exclude-matcher are specified', async () => {
+    try {
+      await PackageVersionCleanup.run([
+        '--matcher',
+        '0.2.0',
+        '--exclude-matcher',
+        '0.1.0',
+        '--package',
+        myPackage0Hot,
+        '--target-dev-hub',
+        'foor@bar.org',
+      ]);
+      expect.fail('should have thrown Error');
+    } catch (err) {
+      const error = err as SfError;
+      expect(error.message.toLowerCase()).to.include('exclude-matcher');
     }
   });
 
@@ -211,6 +239,38 @@ describe('simply package version cleanup', () => {
 
     const expectedResults: PackageVersionCleanupResult[] = [
       { Success: true, SubscriberPackageVersionId: packageVersion0201SubscriberId },
+    ];
+
+    expect(results).to.deep.equal(expectedResults);
+  });
+
+  it('should select every unreleased version not matching --exclude-matcher for deletion', async () => {
+    $$.SANDBOX.stub(Package, 'listVersions').resolves([
+      packageVersion0101ListResult,
+      packageVersion0102ListResult,
+      packageVersion0201ListResult,
+      packageVersion0202ListResult,
+    ]);
+
+    $$.SANDBOX.stub(PackageVersion.prototype, 'delete').resolves({
+      errors: [],
+      id: 'testId',
+      success: true,
+    });
+
+    const results = await PackageVersionCleanup.run([
+      '--exclude-matcher',
+      '0.2.0',
+      '--package',
+      myPackage0Hot,
+      '--target-dev-hub',
+      'foor@bar.org',
+    ]);
+
+    // 0101 is unreleased and doesn't match 0.2.0, so it's deleted. 0102/0202 are released (never
+    // deleted), and 0201 is unreleased but matches the exclusion matcher, so it's kept.
+    const expectedResults: PackageVersionCleanupResult[] = [
+      { Success: true, SubscriberPackageVersionId: packageVersion0101SubscriberId },
     ];
 
     expect(results).to.deep.equal(expectedResults);

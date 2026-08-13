@@ -35,8 +35,8 @@
     "alias": [],
     "command": "simply:package:version:cleanup",
     "flagAliases": [],
-    "flagChars": ["p", "s", "v"],
-    "flags": ["api-version", "flags-dir", "json", "matcher", "package", "target-dev-hub"],
+    "flagChars": ["p", "s", "v", "x"],
+    "flags": ["api-version", "exclude-matcher", "flags-dir", "json", "matcher", "package", "target-dev-hub"],
     "plugin": "@simplysf/simply-package"
   }
 ]
