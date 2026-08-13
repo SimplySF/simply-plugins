@@ -170,3 +170,19 @@ FLAG DESCRIPTIONS
 
 _See code: [lib/commands/simply/apex/trace/silence.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-apex@1.0.3/packages/simply-apex/lib/commands/simply/apex/trace/silence.js)_
 <!-- commandsstop -->
+
+## Configuration Files
+
+### `sf simply apex trace silence --classes-file`
+
+The `--classes-file` flag on `sf simply apex trace silence` takes the path to a JSON file listing which Apex classes to silence:
+
+```json
+{
+  "classes": ["AccountTriggerHandler", "NoisyBatchClass"]
+}
+```
+
+| Field     | Type       | Required | Description                                                                |
+| --------- | ---------- | -------- | -------------------------------------------------------------------------- |
+| `classes` | `string[]` | Yes      | One or more Apex class API names to silence. Must have at least one entry. |
