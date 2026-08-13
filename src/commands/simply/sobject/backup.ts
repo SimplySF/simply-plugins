@@ -23,12 +23,17 @@ import { queryRecords, writeRecordsToCsvFile } from '@simplysf/simply-core';
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-sobject', 'simply.sobject.backup');
 
+/** Where the backup was written, and how many records it contains. */
 export type SObjectBackupResult = {
   sobject: string;
   recordCount: number;
   path: string;
 };
 
+/**
+ * Describes the given SObject, queries every field via the Bulk API, and writes the results to
+ * a timestamped CSV file.
+ */
 export default class SObjectBackup extends SfCommand<SObjectBackupResult> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
@@ -51,6 +56,7 @@ export default class SObjectBackup extends SfCommand<SObjectBackupResult> {
     'target-org': Flags.requiredOrg(),
   };
 
+  /** @returns The output CSV path and the number of records written. */
   public async run(): Promise<SObjectBackupResult> {
     const { flags } = await this.parse(SObjectBackup);
 
@@ -92,6 +98,7 @@ export default class SObjectBackup extends SfCommand<SObjectBackupResult> {
   }
 }
 
+/** @returns The current local time as a `YYYYMMDD_HHMMSS` string, for uniquing backup filenames. */
 function buildTimestamp(): string {
   const now = new Date();
   const pad = (n: number): string => n.toString().padStart(2, '0');

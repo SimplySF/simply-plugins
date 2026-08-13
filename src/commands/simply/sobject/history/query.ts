@@ -30,8 +30,10 @@ import { FilterConfigSchema, type FilterConfig } from '../../../../schemas/histo
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-sobject', 'simply.sobject.history.query');
 
+/** Output CSV column order/headers for the queried history records. */
 const CSV_COLUMNS = ['Id', 'ParentId', 'Field', 'OldValue', 'NewValue', 'CreatedById', 'CreatedDate'];
 
+/** Where the query results were written, and how many records were queried/written. */
 export type SObjectHistoryQueryResult = {
   object: string;
   historyObject: string;
@@ -40,6 +42,13 @@ export type SObjectHistoryQueryResult = {
   path: string;
 };
 
+/**
+ * Parse the `--filters` flag value as either an inline JSON string or a path to a `.json` file.
+ *
+ * @param filterInput - The raw `--filters` flag value.
+ * @returns The parsed (but not yet schema-validated) filter config.
+ * @throws {SfError} If the input isn't valid JSON.
+ */
 function parseFilterConfig(filterInput: string): unknown {
   const raw =
     filterInput.endsWith('.json') && fs.existsSync(filterInput) ? fs.readFileSync(filterInput, 'utf-8') : filterInput;
@@ -51,6 +60,20 @@ function parseFilterConfig(filterInput: string): unknown {
   }
 }
 
+/**
+ * Apply the client-side portion of the filter tree to each queried record (the SOQL-filterable
+ * portion was already enforced by the query itself), and map surviving records to the flat
+ * column shape written to the CSV.
+ *
+ * @param records - The raw history records, as yielded by `queryRecords()`.
+ * @param filterConfig - The filter tree to apply, if any.
+ * @param parentFieldName - The history object's parent lookup field, to read into `ParentId`.
+ * @param soqlFilterableFields - Fields already enforced by the SOQL WHERE clause; passed through
+ * to skip re-checking them client-side.
+ * @param onRecordQueried - Called once per record read from `records`, before filtering — used
+ * by the caller to track the total queried count independent of how many survive filtering.
+ * @yields Records shaped to match {@link CSV_COLUMNS} that satisfy `filterConfig`.
+ */
 async function* filterAndMapHistoryRecords(
   records: AsyncGenerator<Record<string, string>>,
   filterConfig: FilterConfig | undefined,
@@ -77,6 +100,14 @@ async function* filterAndMapHistoryRecords(
   }
 }
 
+/**
+ * Queries the field history object for the given SObject (e.g. `AccountHistory`,
+ * `Custom_Object__History`, or `OpportunityFieldHistory`) and writes the results to a
+ * timestamped CSV file. An optional filter tree can be supplied to narrow the results:
+ * conditions on Field, CreatedById, CreatedDate, or the parent lookup field are pushed into the
+ * SOQL WHERE clause; conditions on any other field (e.g. OldValue or NewValue) are applied
+ * client-side after the query runs.
+ */
 export default class SObjectHistoryQuery extends SfCommand<SObjectHistoryQueryResult> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
@@ -102,6 +133,7 @@ export default class SObjectHistoryQuery extends SfCommand<SObjectHistoryQueryRe
     'target-org': Flags.requiredOrg(),
   };
 
+  /** @returns The output CSV path and the total/written record counts. */
   public async run(): Promise<SObjectHistoryQueryResult> {
     const { flags } = await this.parse(SObjectHistoryQuery);
 
@@ -169,6 +201,7 @@ export default class SObjectHistoryQuery extends SfCommand<SObjectHistoryQueryRe
   }
 }
 
+/** @returns The current local time as a `YYYYMMDD_HHMMSS` string, for uniquing output filenames. */
 function buildTimestamp(): string {
   const now = new Date();
   const pad = (n: number): string => n.toString().padStart(2, '0');

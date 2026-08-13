@@ -24,8 +24,10 @@ import { getHistoryObjectName, getParentIdField } from '../../../../common/field
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-sobject', 'simply.sobject.history.export');
 
+/** Matches a `YYYY-MM-DD` date, as required by `--start-date`/`--end-date`. */
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 
+/** Output CSV column order/headers for the exported history records. */
 const CSV_COLUMNS = [
   'HISTORY_ID',
   'PARENT_ID',
@@ -37,6 +39,7 @@ const CSV_COLUMNS = [
   'NEW_VALUE',
 ];
 
+/** Where the exported history was written, and how many records it contains. */
 export type SObjectHistoryExportResult = {
   sobject: string;
   historyObject: string;
@@ -44,6 +47,13 @@ export type SObjectHistoryExportResult = {
   path: string;
 };
 
+/**
+ * Map raw queried history records to the flat, uppercase column shape written to the CSV.
+ *
+ * @param records - The raw history records, as yielded by `queryRecords()`.
+ * @param parentIdField - The history object's parent lookup field, to read into `PARENT_ID`.
+ * @yields Records shaped to match {@link CSV_COLUMNS}.
+ */
 async function* mapHistoryRecords(
   records: AsyncGenerator<Record<string, string>>,
   parentIdField: string,
@@ -62,6 +72,11 @@ async function* mapHistoryRecords(
   }
 }
 
+/**
+ * Queries the field history object for the given SObject (e.g. `AccountHistory`,
+ * `Custom_Object__History`, or `OpportunityFieldHistory`) for changes created within the given
+ * date range, and writes the results to a timestamped CSV file.
+ */
 export default class SObjectHistoryExport extends SfCommand<SObjectHistoryExportResult> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
@@ -108,6 +123,7 @@ export default class SObjectHistoryExport extends SfCommand<SObjectHistoryExport
     'target-org': Flags.requiredOrg(),
   };
 
+  /** @returns The output CSV path and the number of history records written. */
   public async run(): Promise<SObjectHistoryExportResult> {
     const { flags } = await this.parse(SObjectHistoryExport);
 
@@ -151,6 +167,7 @@ export default class SObjectHistoryExport extends SfCommand<SObjectHistoryExport
   }
 }
 
+/** @returns The current local time as a `YYYYMMDD_HHMMSS` string, for uniquing export filenames. */
 function buildTimestamp(): string {
   const now = new Date();
   const pad = (n: number): string => n.toString().padStart(2, '0');

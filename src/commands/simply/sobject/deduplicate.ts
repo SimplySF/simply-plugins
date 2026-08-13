@@ -25,6 +25,7 @@ import { DeduplicateConfig, DeduplicateConfigSchema } from '../../../schemas/ded
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-sobject', 'simply.sobject.deduplicate');
 
+/** Summary counts and output file paths from a deduplication run. */
 export type SObjectDeduplicateResult = {
   primaryObjectApiName: string;
   totalRecords: number;
@@ -35,6 +36,21 @@ export type SObjectDeduplicateResult = {
   modifiedFiles: string[];
 };
 
+/**
+ * Query an associated object's lookup fields and write a CSV of the field updates needed to
+ * re-point any lookups from a duplicate primary-object record to its surviving unique record.
+ *
+ * @param options.connection - The org connection to query with.
+ * @param options.objectName - The associated object's API name.
+ * @param options.lookupFields - The associated object's lookup fields to the primary object.
+ * @param options.uniquePrimaryObjectMap - Maps each primary object composite key to the Id of
+ * the surviving unique record for that key.
+ * @param options.primaryObjectCompositeKeyFields - The primary object fields that make up its
+ * composite key, queried through each lookup relationship to recompute the key per associated
+ * record.
+ * @param options.outputDir - The directory to write the resulting CSV file into.
+ * @returns The path to the written `{objectName}_Modified.csv` file.
+ */
 async function deduplicateAssociatedObject(options: {
   connection: Connection;
   objectName: string;
@@ -93,6 +109,14 @@ async function deduplicateAssociatedObject(options: {
   return modifiedFile;
 }
 
+/**
+ * Queries an SObject, groups records by a composite key built from configured fields, and
+ * writes CSV files listing which records are unique and which are duplicates that should be
+ * deleted. For each associated object with lookups to the primary object, also writes a CSV of
+ * the lookup field updates needed to re-point duplicate references at the surviving unique
+ * record. This command does not perform any deletes or updates in the org; it only prepares the
+ * CSV files for a subsequent data load.
+ */
 export default class SObjectDeduplicate extends SfCommand<SObjectDeduplicateResult> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
@@ -120,6 +144,7 @@ export default class SObjectDeduplicate extends SfCommand<SObjectDeduplicateResu
     'target-org': Flags.requiredOrg(),
   };
 
+  /** @returns Summary counts and output file paths for the deduplication run. */
   public async run(): Promise<SObjectDeduplicateResult> {
     const { flags } = await this.parse(SObjectDeduplicate);
 

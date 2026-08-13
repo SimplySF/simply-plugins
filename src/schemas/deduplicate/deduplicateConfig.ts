@@ -16,6 +16,7 @@
 
 import { z } from 'zod';
 
+/** Schema for the JSON config file consumed by `simply sobject deduplicate`. */
 export const DeduplicateConfigSchema = z.object({
   primaryObjectApiName: z.string(),
   primaryObjectFilter: z.string().optional(),
@@ -25,4 +26,5 @@ export const DeduplicateConfigSchema = z.object({
   associatedObjects: z.record(z.string(), z.array(z.string())),
 });
 
+/** A parsed, validated deduplicate config. */
 export type DeduplicateConfig = z.infer<typeof DeduplicateConfigSchema>;
