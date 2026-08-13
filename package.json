@@ -55,8 +55,12 @@
     },
     "flexibleTaxonomy": true,
     "plugins": [
+      "@simplysf/simply-apex",
       "@simplysf/simply-data",
-      "@simplysf/simply-package"
+      "@simplysf/simply-package",
+      "@simplysf/simply-permissions",
+      "@simplysf/simply-project",
+      "@simplysf/simply-sobject"
     ],
     "repositoryPrefix": "<%- repo %>/blob/@simplysf/simply@<%- version %>/packages/simply/<%- commandPath %>",
     "topicSeparator": " ",
