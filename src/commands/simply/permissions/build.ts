@@ -191,21 +191,21 @@ export default class PermissionsBuild extends SfCommand<PermissionsBuildResult> 
           continue;
         }
 
-        const objectName = component.parent?.fullName ?? '';
+        const objectName = component.parent?.name ?? '';
         if (!fieldPermissions.has(objectName)) {
           fieldPermissions.set(objectName, new Map());
         }
-        if (!fieldPermissions.get(objectName)?.has(component.fullName)) {
-          fieldPermissions.get(objectName)?.set(component.fullName, {
-            field: `${objectName}.${component.fullName}`,
+        if (!fieldPermissions.get(objectName)?.has(component.name)) {
+          fieldPermissions.get(objectName)?.set(component.name, {
+            field: `${objectName}.${component.name}`,
             readable: true,
             editable: false,
           });
         }
       } else if (component.type.name === 'CustomTab') {
-        if (!tabSettings.has(component.fullName)) {
-          tabSettings.set(component.fullName, {
-            tab: component.fullName,
+        if (!tabSettings.has(component.name)) {
+          tabSettings.set(component.name, {
+            tab: component.name,
             visible: true,
           });
         }
