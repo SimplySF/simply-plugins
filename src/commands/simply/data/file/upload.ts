@@ -22,6 +22,7 @@ import { ContentVersion } from '../../../../common/contentVersionTypes.js';
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-data', 'simply.data.file.upload');
 
+/** Uploads a single local file to a Salesforce org as a `ContentVersion`. */
 export default class DataFileUpload extends SfCommand<ContentVersion> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
@@ -43,6 +44,7 @@ export default class DataFileUpload extends SfCommand<ContentVersion> {
     }),
   };
 
+  /** @returns The created `ContentVersion`. */
   public async run(): Promise<ContentVersion> {
     const { flags } = await this.parse(DataFileUpload);
 

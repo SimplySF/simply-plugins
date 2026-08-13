@@ -26,6 +26,15 @@ import { ContentVersionToUpload } from '../../../../common/contentVersionTypes.j
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-data', 'simply.data.files.upload');
 
+/**
+ * Uploads files specified by a CSV (columns: `PathOnClient`, `Title`,
+ * `FirstPublishLocationId`) to a Salesforce org. By default, the plugin uses the REST API for
+ * the upload since the Bulk API is limited in its payload size. This means that each file uses
+ * one REST API request.
+ *
+ * Successes and failures are written to `upload/success.csv` and `upload/error.csv`
+ * respectively as uploads complete, rather than accumulated in memory.
+ */
 export default class DataFilesUpload extends SfCommand<void> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');

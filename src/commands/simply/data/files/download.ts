@@ -25,6 +25,14 @@ import { ContentVersionDownload } from '../../../../common/contentVersionTypes.j
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-data', 'simply.data.files.download');
 
+/**
+ * Downloads files specified by a where clause for a `ContentVersion` query from a Salesforce
+ * org. By default, the plugin uses the REST API for the download to allow for the streaming of
+ * large files without issue. This means that each file uses one REST API request.
+ *
+ * Successes and failures are written to `download/success.csv` and `download/error.csv`
+ * respectively as downloads complete, rather than accumulated in memory.
+ */
 export default class DataFilesDownload extends SfCommand<void> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
