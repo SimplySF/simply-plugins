@@ -28,11 +28,11 @@ This approach assures that package installs and upgrades don’t impact the perf
 
 # flags.install-type.summary
 
-Install all packages or only deltas.
+Install all packages, only deltas, or only newer versions.
 
 # flags.install-type.description
 
-If 'All' is specified, then all packages specified in package dependencies are installed, regardless of if the version already is installed in the org. If 'Delta' is specified, then only packages that differ from what is installed in the org will be installed.
+If 'All' is specified, then all packages specified in package dependencies are installed, regardless of if the version already is installed in the org. If 'Delta' is specified, then only packages that differ from what is installed in the org will be installed. If 'Update' is specified, then a package is installed only if it isn't already installed, or if its semantic version (major.minor.patch.build) is newer than the version currently installed in the org; packages with an installed version that is the same as or newer than the target version are skipped.
 
 # flags.installation-key.summary
 
