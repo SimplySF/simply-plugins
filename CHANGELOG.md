@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.7](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-permissions%401.2.6...%40simplysf%2Fsimply-permissions%401.2.7) (2026-08-13)
+
+### Bug Fixes
+
+- bad object permission xml ([361b1ea](https://github.com/SimplySF/simply/commit/361b1ea856e87f230444671fed186ce06f12217c))
+
 ## [1.2.6](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-permissions%401.2.5...%40simplysf%2Fsimply-permissions%401.2.6) (2026-08-12)
 
 **Note:** Version bump only for package @simplysf/simply-permissions

@@ -1,7 +1,7 @@
 {
   "name": "@simplysf/simply-permissions",
   "description": "Utilities for working with permissions",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "author": "@ClayChipps",
   "homepage": "https://github.com/SimplySF/simply",
   "bugs": "https://github.com/SimplySF/simply/issues",
@@ -61,7 +61,7 @@
     "@salesforce/kit": "^3.2.6",
     "@salesforce/sf-plugins-core": "^12.2.16",
     "@salesforce/source-deploy-retrieve": "^12.37.2",
-    "@simplysf/simply-core": "workspace:^1.1.3",
+    "@simplysf/simply-core": "workspace:^1.1.4",
     "xmlbuilder2": "^4.0.3",
     "zod": "^4.1.12"
   },
