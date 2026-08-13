@@ -229,3 +229,67 @@ FLAG DESCRIPTIONS
 
 _See code: [lib/commands/simply/sobject/history/query.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-sobject@1.2.1/packages/simply-sobject/lib/commands/simply/sobject/history/query.js)_
 <!-- commandsstop -->
+
+## Configuration Files
+
+### `sf simply sobject deduplicate --config`
+
+The `--config` flag on `sf simply sobject deduplicate` takes the path to a JSON file describing the primary object, its composite key, and any associated objects with lookups to it:
+
+```json
+{
+  "primaryObjectApiName": "Account",
+  "primaryObjectFilter": "CreatedDate = LAST_N_DAYS:365",
+  "primaryObjectCompositeKeyField": "Duplicate_Key__c",
+  "primaryObjectFields": ["Id", "Name", "BillingPostalCode"],
+  "primaryObjectCompositeKeyFields": ["Name", "BillingPostalCode"],
+  "associatedObjects": {
+    "Contact": ["AccountId"],
+    "Opportunity": ["AccountId"]
+  }
+}
+```
+
+| Field                             | Type                       | Required | Description                                                                                                                                                                        |
+| --------------------------------- | -------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `primaryObjectApiName`            | `string`                   | Yes      | The API name of the object to deduplicate.                                                                                                                                         |
+| `primaryObjectFilter`             | `string`                   | No       | A SOQL WHERE clause used to scope which records of the primary object are considered.                                                                                              |
+| `primaryObjectCompositeKeyField`  | `string`                   | Yes      | The column name written to the output CSVs for the computed composite key.                                                                                                         |
+| `primaryObjectFields`             | `string[]`                 | Yes      | Fields to query from the primary object (should include any fields referenced elsewhere in the config).                                                                            |
+| `primaryObjectCompositeKeyFields` | `string[]`                 | Yes      | Fields whose combined values form each record's composite key. Records sharing a key are treated as duplicates. Must have at least one entry.                                      |
+| `associatedObjects`               | `Record<string, string[]>` | Yes      | Other objects with lookups to the primary object. Keyed by the associated object's API name; each value is the list of that object's lookup field API names to the primary object. |
+
+### `sf simply sobject history query --filters`
+
+The `--filters` flag on `sf simply sobject history query` takes either the path to a JSON file or a raw JSON string describing a tree of filter conditions:
+
+```json
+{
+  "logic": "AND",
+  "filters": [
+    { "field": "Field", "operator": "=", "value": "Status__c" },
+    {
+      "logic": "OR",
+      "filters": [
+        { "field": "OldValue", "operator": "=", "value": "Open" },
+        { "field": "NewValue", "operator": "=", "value": "Closed" }
+      ]
+    }
+  ]
+}
+```
+
+A filter tree is either a **condition** or a **group**:
+
+| Condition field | Type     | Description                                                                                                              |
+| --------------- | -------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `field`         | `string` | The field to filter on (e.g. `Field`, `OldValue`, `NewValue`, `CreatedById`, `CreatedDate`, or the parent lookup field). |
+| `operator`      | `string` | One of `=`, `!=`, `>`, `<`, `>=`, `<=`, `IN`, `NOT IN`, `LIKE` (`%` is the wildcard for `LIKE`).                         |
+| `value`         | any      | The value to compare against. An array when `operator` is `IN`/`NOT IN`.                                                 |
+
+| Group field | Type                        | Description                                                    |
+| ----------- | --------------------------- | -------------------------------------------------------------- |
+| `logic`     | `"AND"` \| `"OR"`           | How `filters` are combined.                                    |
+| `filters`   | `Array<Condition \| Group>` | One or more conditions or nested groups, combined per `logic`. |
+
+Conditions on `Field`, `CreatedById`, `CreatedDate`, or the parent lookup field are pushed into the underlying SOQL query; conditions on any other field (e.g. `OldValue`/`NewValue`) are applied client-side after the query runs.
