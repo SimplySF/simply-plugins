@@ -155,6 +155,11 @@ export default class DocumentDiff extends SfCommand<DocumentDiffResult> {
       summary: messages.getMessage('flags.output-file.summary'),
       description: messages.getMessage('flags.output-file.description'),
     }),
+    'template-file': Flags.file({
+      summary: messages.getMessage('flags.template-file.summary'),
+      description: messages.getMessage('flags.template-file.description'),
+      exists: true,
+    }),
   };
 
   /** @returns The rendered change report, and where it was written (if `--output-file` was specified). */
@@ -162,6 +167,10 @@ export default class DocumentDiff extends SfCommand<DocumentDiffResult> {
     const { flags } = await this.parse(DocumentDiff);
     const fromTag = flags['from-tag'];
     const toTag = flags['to-tag'];
+
+    const customTemplateSource = flags['template-file']
+      ? await fs.readFile(flags['template-file'], 'utf-8')
+      : undefined;
 
     this.spinner.start(messages.getMessage('info.generatingDiff', [fromTag, toTag]));
 
@@ -234,7 +243,7 @@ export default class DocumentDiff extends SfCommand<DocumentDiffResult> {
 
     this.spinner.stop();
 
-    const html = buildChangeReportHtml(changes);
+    const html = buildChangeReportHtml(changes, customTemplateSource);
 
     const outputFile = flags['output-file'];
     if (outputFile) {

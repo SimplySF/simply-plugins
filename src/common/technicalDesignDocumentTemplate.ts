@@ -1367,8 +1367,16 @@ const renderTechnicalDesignDocument = handlebars.compile(technicalDesignDocument
  * solution inventory, and custom code inventory.
  *
  * @param data - The scanned project metadata to render.
+ * @param customTemplateSource - A user-supplied Handlebars template to render instead of the
+ * built-in one. Compiled against the same Handlebars instance as the built-in template, so it
+ * can also use the `loud` helper. See the README's "Custom Templates" section for the `data`
+ * shape.
  * @returns The rendered XHTML document.
  */
-export function buildTechnicalDesignDocumentHtml(data: TechnicalDesignDocumentData): string {
-  return renderTechnicalDesignDocument(data);
+export function buildTechnicalDesignDocumentHtml(
+  data: TechnicalDesignDocumentData,
+  customTemplateSource?: string,
+): string {
+  const render = customTemplateSource ? handlebars.compile(customTemplateSource) : renderTechnicalDesignDocument;
+  return render(data);
 }

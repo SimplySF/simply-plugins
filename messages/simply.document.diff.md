@@ -22,11 +22,21 @@ Path to write the generated report to.
 
 When specified, the generated report is written to this path instead of being printed to the terminal.
 
+# flags.template-file.summary
+
+Path to a custom Handlebars template to render instead of the built-in one.
+
+# flags.template-file.description
+
+When specified, this template is rendered with the same data the built-in report template receives, and can reuse the built-in `changeTable` partial. See this package's README "Custom Templates" section for the data shape and available partials.
+
 # examples
 
 - <%= config.bin %> <%= command.id %> --from-tag v1.0.0 --to-tag v1.1.0
 
 - <%= config.bin %> <%= command.id %> --from-tag v1.0.0 --to-tag v1.1.0 --output-file change-report.html
+
+- <%= config.bin %> <%= command.id %> --from-tag v1.0.0 --to-tag v1.1.0 --template-file my-change-report.hbs
 
 # error.gitDiffFailed
 

@@ -14,9 +14,19 @@ Salesforce project source directory to scan.
 
 Path to write the generated document to.
 
+# flags.template-file.summary
+
+Path to a custom Handlebars template to render instead of the built-in one.
+
+# flags.template-file.description
+
+When specified, this template is rendered with the same scanned project data the built-in technical design document template receives, and can reuse the built-in `loud` helper. See this package's README "Custom Templates" section for the data shape.
+
 # examples
 
 - <%= config.bin %> <%= command.id %> --directory force-app --output-file technical-design-document.html
+
+- <%= config.bin %> <%= command.id %> --directory force-app --output-file technical-design-document.html --template-file my-tdd-template.hbs
 
 # error.scanFailed
 

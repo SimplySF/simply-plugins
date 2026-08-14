@@ -275,8 +275,13 @@ const renderChangeReport = handlebars.compile(changeReportSource);
  * component type, for pasting into a release/change-management page.
  *
  * @param changes - The changed components, grouped by component type.
+ * @param customTemplateSource - A user-supplied Handlebars template to render instead of the
+ * built-in one. Compiled against the same Handlebars instance as the built-in template, so it
+ * can also use the `changeTable` partial. See the README's "Custom Templates" section for the
+ * `changes` data shape and the fields `changeTable` renders.
  * @returns The rendered XHTML fragment.
  */
-export function buildChangeReportHtml(changes: ChangesByComponentType): string {
-  return renderChangeReport(changes);
+export function buildChangeReportHtml(changes: ChangesByComponentType, customTemplateSource?: string): string {
+  const render = customTemplateSource ? handlebars.compile(customTemplateSource) : renderChangeReport;
+  return render(changes);
 }

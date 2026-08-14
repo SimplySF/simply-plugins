@@ -103,4 +103,56 @@ describe('simply document generate', () => {
       fs.rmSync(outputFile, { force: true });
     }
   });
+
+  it('should render a user-supplied --template-file, reusing the built-in loud helper', async () => {
+    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-document-generate-'));
+    const outputFile = path.join(os.tmpdir(), `simply-document-generate-${Date.now()}.html`);
+    const templateFile = path.join(os.tmpdir(), `simply-document-generate-template-${Date.now()}.hbs`);
+
+    try {
+      const classesDir = path.join(directory, 'classes');
+      fs.mkdirSync(classesDir, { recursive: true });
+      fs.writeFileSync(path.join(classesDir, 'MyClass.cls'), 'public class MyClass {}');
+      fs.writeFileSync(
+        path.join(classesDir, 'MyClass.cls-meta.xml'),
+        [
+          '<?xml version="1.0" encoding="UTF-8"?>',
+          '<ApexClass xmlns="http://soap.sforce.com/2006/04/metadata">',
+          '    <apiVersion>59.0</apiVersion>',
+          '    <status>active</status>',
+          '</ApexClass>',
+        ].join('\n'),
+      );
+
+      fs.writeFileSync(
+        templateFile,
+        [
+          '<h1>Custom TDD</h1>',
+          '{{#each apexClasses}}',
+          '<p>{{this.name}}: {{loud this.status}}</p>',
+          '{{/each}}',
+        ].join('\n'),
+      );
+
+      const result = await DocumentGenerate.run([
+        '--directory',
+        directory,
+        '--output-file',
+        outputFile,
+        '--template-file',
+        templateFile,
+      ]);
+
+      expect(result.componentCount).to.be.greaterThan(0);
+
+      const html = fs.readFileSync(outputFile, 'utf-8');
+      expect(html).to.include('<h1>Custom TDD</h1>');
+      expect(html).to.include('MyClass: ACTIVE');
+      expect(html).not.to.include('<h2>Objects</h2>');
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true });
+      fs.rmSync(outputFile, { force: true });
+      fs.rmSync(templateFile, { force: true });
+    }
+  });
 });

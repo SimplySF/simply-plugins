@@ -93,4 +93,24 @@ describe('simply document diff', () => {
     expect(result.html).to.include('<p>None</p>');
     expect(result.html).not.to.include('<table');
   });
+
+  it('should render a user-supplied --template-file, reusing the built-in changeTable partial', async () => {
+    mockGitDiffOutput('A\tforce-app/main/default/classes/MyClass.cls');
+
+    const templateFile = path.join(os.tmpdir(), `simply-document-diff-template-${Date.now()}.hbs`);
+    fs.writeFileSync(
+      templateFile,
+      ['<h1>Custom Report</h1>', '{{#if apexClasses}}', '{{> changeTable apexClasses}}', '{{/if}}'].join('\n'),
+    );
+
+    try {
+      const result = await DocumentDiff.run(['--from-tag', 'v1', '--to-tag', 'v2', '--template-file', templateFile]);
+
+      expect(result.html).to.include('<h1>Custom Report</h1>');
+      expect(result.html).to.include('MyClass');
+      expect(result.html).not.to.include('<h2>Objects');
+    } finally {
+      fs.rmSync(templateFile, { force: true });
+    }
+  });
 });

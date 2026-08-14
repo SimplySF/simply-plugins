@@ -205,11 +205,20 @@ export default class DocumentGenerate extends SfCommand<DocumentGenerateResult> 
       summary: messages.getMessage('flags.output-file.summary'),
       required: true,
     }),
+    'template-file': Flags.file({
+      summary: messages.getMessage('flags.template-file.summary'),
+      description: messages.getMessage('flags.template-file.description'),
+      exists: true,
+    }),
   };
 
   /** @returns Where the generated document was written, and how many top-level metadata items it covers. */
   public async run(): Promise<DocumentGenerateResult> {
     const { flags } = await this.parse(DocumentGenerate);
+
+    const customTemplateSource = flags['template-file']
+      ? await fs.readFile(flags['template-file'], 'utf-8')
+      : undefined;
 
     this.spinner.start(messages.getMessage('info.scanningProject'));
 
@@ -498,35 +507,38 @@ export default class DocumentGenerate extends SfCommand<DocumentGenerateResult> 
 
     this.spinner.start(messages.getMessage('info.renderingDocument'));
 
-    const html = buildTechnicalDesignDocumentHtml({
-      apexClasses,
-      apexTriggers,
-      approvalProcesses,
-      auraComponents,
-      customApplications,
-      customLabels,
-      customMetadata,
-      customMetadataTypes,
-      customObjects,
-      customSettings,
-      dashboards,
-      digitalExperienceBundles,
-      emailTemplates,
-      experienceBundles,
-      flexipages,
-      flows,
-      groups,
-      lightningComponents,
-      permissionSets,
-      permissionSetGroups,
-      platformEvents,
-      queues,
-      reports,
-      sharingRules,
-      standardObjects,
-      staticResources,
-      visualforcePages,
-    });
+    const html = buildTechnicalDesignDocumentHtml(
+      {
+        apexClasses,
+        apexTriggers,
+        approvalProcesses,
+        auraComponents,
+        customApplications,
+        customLabels,
+        customMetadata,
+        customMetadataTypes,
+        customObjects,
+        customSettings,
+        dashboards,
+        digitalExperienceBundles,
+        emailTemplates,
+        experienceBundles,
+        flexipages,
+        flows,
+        groups,
+        lightningComponents,
+        permissionSets,
+        permissionSetGroups,
+        platformEvents,
+        queues,
+        reports,
+        sharingRules,
+        standardObjects,
+        staticResources,
+        visualforcePages,
+      },
+      customTemplateSource,
+    );
 
     await fs.writeFile(flags['output-file'], html, 'utf-8');
     this.spinner.stop();
