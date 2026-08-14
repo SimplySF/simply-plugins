@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.8.0](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply%402.7.2...%40simplysf%2Fsimply%402.8.0) (2026-08-14)
+
+### Features
+
+- add document tool ([2c739ca](https://github.com/SimplySF/simply/commit/2c739cafe8280e1ac5f1a4374766897a3e0a2e22))
+- add schema command ([6356c79](https://github.com/SimplySF/simply/commit/6356c794c03cb31bea29e5a477026cdf57b6aabb))
+
 ## [2.7.2](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply%402.7.1...%40simplysf%2Fsimply%402.7.2) (2026-08-14)
 
 **Note:** Version bump only for package @simplysf/simply
