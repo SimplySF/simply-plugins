@@ -54,11 +54,11 @@ Allows the following without an explicit confirmation response: 1) Remote Site S
 
 Maximum number of minutes to wait for the Subscriber Package Version ID to become available in the target org before canceling the install request.
 
-# flags.report-file.summary
+# flags.output-file.summary
 
 Path to write a JSON install report to.
 
-# flags.report-file.description
+# flags.output-file.description
 
 When specified, a JSON report of the install outcome for every resolved dependency is written to this path, in addition to the normal terminal output you can continue to monitor as the command runs. Each entry includes the package name, the SubscriberPackageVersionId already installed in the org (if any), the SubscriberPackageVersionId that was attempted, and the decision made (Skipped, Installed, Installing, or Failed).
 
@@ -98,7 +98,7 @@ Number of minutes to wait for installation status.
 
 - <%= config.bin %> <%= command.id %> --target-org myTargetOrg --target-dev-hub myTargetDevHub --installation-key "MyPackage1Alias:MyPackage1Key" --installation-key "MyPackage2Alias:MyPackage2Key"
 
-- <%= config.bin %> <%= command.id %> --target-org myTargetOrg --target-dev-hub myTargetDevHub --report-file install-report.json
+- <%= config.bin %> <%= command.id %> --target-org myTargetOrg --target-dev-hub myTargetDevHub --output-file install-report.json
 
 # error.apiVersionTooLow
 

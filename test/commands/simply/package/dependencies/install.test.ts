@@ -211,7 +211,7 @@ describe('simply package dependencies install', () => {
     expect(statusFor(NEWER_VERSION_ID)).to.equal('Installed');
   });
 
-  it('writes a JSON install report to --report-file, including the existing package', async () => {
+  it('writes a JSON install report to --output-file, including the existing package', async () => {
     $$.SANDBOX.stub(SfProject.prototype, 'getPackageDirectories').returns(
       buildMockPackageDirectories([NEWER_VERSION_ID, NOT_INSTALLED_VERSION_ID]),
     );
@@ -220,7 +220,7 @@ describe('simply package dependencies install', () => {
     stubGetVersionNumber();
     stubInstallChain();
 
-    const reportFile = path.join(os.tmpdir(), `simply-package-install-report-${Date.now()}.json`);
+    const outputFile = path.join(os.tmpdir(), `simply-package-install-report-${Date.now()}.json`);
 
     try {
       const results = await PackageDependenciesInstall.run([
@@ -229,12 +229,12 @@ describe('simply package dependencies install', () => {
         '--install-type',
         'Upgrade',
         '--no-prompt',
-        '--report-file',
-        reportFile,
+        '--output-file',
+        outputFile,
       ]);
 
-      expect(fs.existsSync(reportFile)).to.be.true;
-      const reportContents: unknown = JSON.parse(fs.readFileSync(reportFile, 'utf-8'));
+      expect(fs.existsSync(outputFile)).to.be.true;
+      const reportContents: unknown = JSON.parse(fs.readFileSync(outputFile, 'utf-8'));
       expect(reportContents).to.deep.equal(results);
 
       const newerResult = results.find((result) => result.SubscriberPackageVersionId === NEWER_VERSION_ID);
@@ -245,32 +245,32 @@ describe('simply package dependencies install', () => {
       );
       expect(notInstalledResult?.ExistingSubscriberPackageVersionId).to.equal('');
     } finally {
-      fs.rmSync(reportFile, { force: true });
+      fs.rmSync(outputFile, { force: true });
     }
   });
 
   it('writes a report even when there are no packages to install', async () => {
     $$.SANDBOX.stub(SfProject.prototype, 'getPackageDirectories').returns(buildMockPackageDirectories([]));
 
-    const reportFile = path.join(os.tmpdir(), `simply-package-install-report-${Date.now()}.json`);
+    const outputFile = path.join(os.tmpdir(), `simply-package-install-report-${Date.now()}.json`);
 
     try {
       const results = await PackageDependenciesInstall.run([
         '--target-org',
         testOrg.username,
-        '--report-file',
-        reportFile,
+        '--output-file',
+        outputFile,
       ]);
 
       expect(results).to.deep.equal([]);
-      expect(fs.existsSync(reportFile)).to.be.true;
-      expect(JSON.parse(fs.readFileSync(reportFile, 'utf-8'))).to.deep.equal([]);
+      expect(fs.existsSync(outputFile)).to.be.true;
+      expect(JSON.parse(fs.readFileSync(outputFile, 'utf-8'))).to.deep.equal([]);
     } finally {
-      fs.rmSync(reportFile, { force: true });
+      fs.rmSync(outputFile, { force: true });
     }
   });
 
-  it('does not write a report when --report-file is not specified', async () => {
+  it('does not write a report when --output-file is not specified', async () => {
     $$.SANDBOX.stub(SfProject.prototype, 'getPackageDirectories').returns(buildMockPackageDirectories([]));
     const writeFileSpy = $$.SANDBOX.spy(fsPromises, 'writeFile');
 

@@ -31,8 +31,8 @@ Install package dependencies for a Salesforce project.
 ```
 USAGE
   $ sf simply package dependencies install -o <value> [--json] [--flags-dir <value>] [-a all|package] [--api-version <value>] [-z
-    <value>] [-i All|Delta|Upgrade] [-k <value>...] [-r] [-b <value>] [--report-file <value>] [-s AllUsers|AdminsOnly] [-v
-    <value>] [-t DeprecateOnly|Mixed|Delete] [-w <value>]
+    <value>] [-i All|Delta|Upgrade] [-k <value>...] [-r] [--output-file <value>] [-b <value>] [-s AllUsers|AdminsOnly]
+    [-v <value>] [-t DeprecateOnly|Mixed|Delete] [-w <value>]
 
 FLAGS
   -a, --apex-compile=<option>        Compile all Apex in the org and package, or only Apex in the package; unlocked
@@ -57,7 +57,7 @@ FLAGS
   -w, --wait=<value>                 Number of minutes to wait for installation status.
   -z, --branch=<value>               Package branch to consider when specifiying a Package/VersionNumber combination
       --api-version=<value>          Override the api version used for api requests made by this command
-      --report-file=<value>          Path to write a JSON install report to.
+      --output-file=<value>          Path to write a JSON install report to.
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -75,7 +75,7 @@ EXAMPLES
 
   $ sf simply package dependencies install --target-org myTargetOrg --target-dev-hub myTargetDevHub --installation-key "MyPackage1Alias:MyPackage1Key" --installation-key "MyPackage2Alias:MyPackage2Key"
 
-  $ sf simply package dependencies install --target-org myTargetOrg --target-dev-hub myTargetDevHub --report-file install-report.json
+  $ sf simply package dependencies install --target-org myTargetOrg --target-dev-hub myTargetDevHub --output-file install-report.json
 
 FLAG DESCRIPTIONS
   -a, --apex-compile=all|package
@@ -123,7 +123,7 @@ FLAG DESCRIPTIONS
     For dependencies specified by Package/VersionNumber combination, you can specify the branch group of builds to work
     from by entering the branch build name. If not specified, the builds from NULL branch will be considered.
 
-  --report-file=<value>  Path to write a JSON install report to.
+  --output-file=<value>  Path to write a JSON install report to.
 
     When specified, a JSON report of the install outcome for every resolved dependency is written to this path, in
     addition to the normal terminal output you can continue to monitor as the command runs. Each entry includes the
@@ -131,7 +131,7 @@ FLAG DESCRIPTIONS
     that was attempted, and the decision made (Skipped, Installed, Installing, or Failed).
 ```
 
-_See code: [lib/commands/simply/package/dependencies/install.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-package@2.3.8/packages/simply-package/lib/commands/simply/package/dependencies/install.js)_
+_See code: [lib/commands/simply/package/dependencies/install.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-package@2.8.0/packages/simply-package/lib/commands/simply/package/dependencies/install.js)_
 
 ## `sf simply package dependencies manage`
 
@@ -190,7 +190,7 @@ FLAG DESCRIPTIONS
     version without interactive prompts. Mutually exclusive with --update-to-latest.
 ```
 
-_See code: [lib/commands/simply/package/dependencies/manage.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-package@2.3.8/packages/simply-package/lib/commands/simply/package/dependencies/manage.js)_
+_See code: [lib/commands/simply/package/dependencies/manage.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-package@2.8.0/packages/simply-package/lib/commands/simply/package/dependencies/manage.js)_
 
 ## `sf simply package version cleanup`
 
@@ -198,14 +198,14 @@ Cleanup package versions.
 
 ```
 USAGE
-  $ sf simply package version cleanup -p <value> -v <value> [--json] [--flags-dir <value>] [--api-version
-  <value>] [-s <value> | -x <value>]
+  $ sf simply package version cleanup -p <value> -v <value> [--json] [--flags-dir <value>] [--api-version <value>] [-s <value> | -x
+    <value>]
 
 FLAGS
   -p, --package=<value>          (required) Package Id
   -s, --matcher=<value>          MAJOR.MINOR.PATCH to select on
-  -v, --target-dev-hub=<value>   (required) Username or alias of the Dev Hub org. Not required if the
-                                 `target-dev-hub` configuration variable is already set.
+  -v, --target-dev-hub=<value>   (required) Username or alias of the Dev Hub org. Not required if the `target-dev-hub`
+                                 configuration variable is already set.
   -x, --exclude-matcher=<value>  MAJOR.MINOR.PATCH to exclude on
       --api-version=<value>      Override the api version used for api requests made by this command
 
@@ -216,12 +216,12 @@ GLOBAL FLAGS
 DESCRIPTION
   Cleanup package versions.
 
-  Delete package versions for a given package provided a MAJOR.MINOR.PATCH matcher, either to select on or to
-  exclude on. Does not delete released package versions.
+  Delete package versions for a given package provided a MAJOR.MINOR.PATCH matcher, either to select on or to exclude
+  on. Does not delete released package versions.
 
-  If --matcher is provided, only the unreleased versions matching MAJOR.MINOR.PATCH are deleted. If
-  --exclude-matcher is provided instead, every unreleased version that does *not* match MAJOR.MINOR.PATCH is
-  deleted. Exactly one of --matcher or --exclude-matcher must be specified.
+  If --matcher is provided, only the unreleased versions matching MAJOR.MINOR.PATCH are deleted. If --exclude-matcher is
+  provided instead, every unreleased version that does _not_ match MAJOR.MINOR.PATCH is deleted. Exactly one of
+  --matcher or --exclude-matcher must be specified.
 
 EXAMPLES
   $ sf simply package version cleanup --package 0Hoxx00000000CqCAI --matcher 2.10.0 --target-dev-hub myDevHub
@@ -235,16 +235,16 @@ FLAG DESCRIPTIONS
 
   -s, --matcher=<value>  MAJOR.MINOR.PATCH to select on
 
-    The MAJOR.MINOR.PATCH matcher that should be used to find package versions to delete. Only versions matching
-    this matcher are deleted. Mutually exclusive with --exclude-matcher.
+    The MAJOR.MINOR.PATCH matcher that should be used to find package versions to delete. Only versions matching this
+    matcher are deleted. Mutually exclusive with --exclude-matcher.
 
   -x, --exclude-matcher=<value>  MAJOR.MINOR.PATCH to exclude on
 
-    The MAJOR.MINOR.PATCH matcher that should be used to find package versions to keep. Every unreleased version
-    that does not match this matcher is deleted. Mutually exclusive with --matcher.
+    The MAJOR.MINOR.PATCH matcher that should be used to find package versions to keep. Every unreleased version that
+    does not match this matcher is deleted. Mutually exclusive with --matcher.
 ```
 
-_See code: [lib/commands/simply/package/version/cleanup.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-package@2.3.8/packages/simply-package/lib/commands/simply/package/version/cleanup.js)_
+_See code: [lib/commands/simply/package/version/cleanup.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-package@2.8.0/packages/simply-package/lib/commands/simply/package/version/cleanup.js)_
 <!-- commandsstop -->
 
 ## Configuration Files
@@ -303,9 +303,9 @@ Each package directory's `dependencies` array lists the packages to install/mana
 
 ## Report Files
 
-### `sf simply package dependencies install --report-file`
+### `sf simply package dependencies install --output-file`
 
-The `--report-file` flag on `sf simply package dependencies install` writes a JSON array to the given path, with one entry per resolved dependency. It's the same array the command returns (e.g. via `--json`), just persisted to disk so you can consume it after the run — useful for feeding a follow-up step, or auditing what happened without having to scroll back through terminal output.
+The `--output-file` flag on `sf simply package dependencies install` writes a JSON array to the given path, with one entry per resolved dependency. It's the same array the command returns (e.g. via `--json`), just persisted to disk so you can consume it after the run — useful for feeding a follow-up step, or auditing what happened without having to scroll back through terminal output.
 
 ```json
 [
