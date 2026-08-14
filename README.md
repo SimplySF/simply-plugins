@@ -30,13 +30,15 @@ Generate a change report between two git refs.
 ```
 USAGE
   $ sf simply document diff --from-tag <value> --to-tag <value> [--json] [--flags-dir <value>] [--output-file <value>]
-    [--template-file <value>]
+    [--template-file <value>] [--output-format html]
 
 FLAGS
-  --from-tag=<value>       (required) The starting git ref for the diff report.
-  --output-file=<value>    Path to write the generated report to.
-  --template-file=<value>  Path to a custom Handlebars template to render instead of the built-in one.
-  --to-tag=<value>         (required) The ending git ref for the diff report.
+  --from-tag=<value>        (required) The starting git ref for the diff report.
+  --output-file=<value>     Path to write the generated report to.
+  --output-format=<option>  [default: html] Output format to render the report in.
+                            <options: html>
+  --template-file=<value>   Path to a custom Handlebars template to render instead of the built-in one.
+  --to-tag=<value>          (required) The ending git ref for the diff report.
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -61,6 +63,10 @@ FLAG DESCRIPTIONS
 
     When specified, the generated report is written to this path instead of being printed to the terminal.
 
+  --output-format=html  Output format to render the report in.
+
+    Currently only `html` is supported. Reserved for future formats (e.g. Markdown).
+
   --template-file=<value>  Path to a custom Handlebars template to render instead of the built-in one.
 
     When specified, this template is rendered with the same data the built-in report template receives, and can reuse
@@ -76,13 +82,15 @@ Generate a technical design document for a Salesforce project.
 
 ```
 USAGE
-  $ sf simply document generate -d <value> --output-file <value> [--json] [--flags-dir <value>] [--template-file
-  <value>]
+  $ sf simply document generate -d <value> --output-file <value> [--json] [--flags-dir <value>] [--template-file <value>]
+    [--output-format html]
 
 FLAGS
-  -d, --directory=<value>      (required) Salesforce project source directory to scan.
-      --output-file=<value>    (required) Path to write the generated document to.
-      --template-file=<value>  Path to a custom Handlebars template to render instead of the built-in one.
+  -d, --directory=<value>       (required) Salesforce project source directory to scan.
+      --output-file=<value>     (required) Path to write the generated document to.
+      --output-format=<option>  [default: html] Output format to render the document in.
+                                <options: html>
+      --template-file=<value>   Path to a custom Handlebars template to render instead of the built-in one.
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -101,6 +109,10 @@ EXAMPLES
   $ sf simply document generate --directory force-app --output-file technical-design-document.html --template-file my-tdd-template.hbs
 
 FLAG DESCRIPTIONS
+  --output-format=html  Output format to render the document in.
+
+    Currently only `html` is supported. Reserved for future formats (e.g. Markdown).
+
   --template-file=<value>  Path to a custom Handlebars template to render instead of the built-in one.
 
     When specified, this template is rendered with the same scanned project data the built-in technical design document

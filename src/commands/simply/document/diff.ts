@@ -160,6 +160,11 @@ export default class DocumentDiff extends SfCommand<DocumentDiffResult> {
       description: messages.getMessage('flags.template-file.description'),
       exists: true,
     }),
+    'output-format': Flags.custom<'html'>({ options: ['html'] })({
+      summary: messages.getMessage('flags.output-format.summary'),
+      description: messages.getMessage('flags.output-format.description'),
+      default: 'html',
+    }),
   };
 
   /** @returns The rendered change report, and where it was written (if `--output-file` was specified). */
@@ -243,7 +248,12 @@ export default class DocumentDiff extends SfCommand<DocumentDiffResult> {
 
     this.spinner.stop();
 
-    const html = buildChangeReportHtml(changes, customTemplateSource);
+    let html: string;
+    if (flags['output-format'] === 'html') {
+      html = buildChangeReportHtml(changes, customTemplateSource);
+    } else {
+      throw messages.createError('error.unsupportedOutputFormat', [flags['output-format']]);
+    }
 
     const outputFile = flags['output-file'];
     if (outputFile) {

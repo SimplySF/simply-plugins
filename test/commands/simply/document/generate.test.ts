@@ -34,6 +34,28 @@ describe('simply document generate', () => {
     }
   });
 
+  it('should reject an unsupported --output-format', async () => {
+    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-document-generate-'));
+    const outputFile = path.join(os.tmpdir(), `simply-document-generate-${Date.now()}.html`);
+
+    try {
+      await DocumentGenerate.run([
+        '--directory',
+        directory,
+        '--output-file',
+        outputFile,
+        '--output-format',
+        'markdown',
+      ]);
+      expect.fail('should have thrown Error');
+    } catch (err) {
+      const error = err as SfError;
+      expect(error.message).to.include('output-format');
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true });
+    }
+  });
+
   it('should generate a document with no components from an empty source directory', async () => {
     const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-document-generate-'));
     const outputFile = path.join(os.tmpdir(), `simply-document-generate-${Date.now()}.html`);
@@ -47,6 +69,28 @@ describe('simply document generate', () => {
       const html = fs.readFileSync(outputFile, 'utf-8');
       expect(html).to.include('<h2>Objects</h2>');
       expect(html).to.include('<p>None</p>');
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true });
+      fs.rmSync(outputFile, { force: true });
+    }
+  });
+
+  it('should accept an explicit --output-format html', async () => {
+    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-document-generate-'));
+    const outputFile = path.join(os.tmpdir(), `simply-document-generate-${Date.now()}.html`);
+
+    try {
+      const result = await DocumentGenerate.run([
+        '--directory',
+        directory,
+        '--output-file',
+        outputFile,
+        '--output-format',
+        'html',
+      ]);
+
+      expect(result.componentCount).to.equal(0);
+      expect(fs.existsSync(outputFile)).to.be.true;
     } finally {
       fs.rmSync(directory, { recursive: true, force: true });
       fs.rmSync(outputFile, { force: true });

@@ -210,6 +210,11 @@ export default class DocumentGenerate extends SfCommand<DocumentGenerateResult> 
       description: messages.getMessage('flags.template-file.description'),
       exists: true,
     }),
+    'output-format': Flags.custom<'html'>({ options: ['html'] })({
+      summary: messages.getMessage('flags.output-format.summary'),
+      description: messages.getMessage('flags.output-format.description'),
+      default: 'html',
+    }),
   };
 
   /** @returns Where the generated document was written, and how many top-level metadata items it covers. */
@@ -507,38 +512,43 @@ export default class DocumentGenerate extends SfCommand<DocumentGenerateResult> 
 
     this.spinner.start(messages.getMessage('info.renderingDocument'));
 
-    const html = buildTechnicalDesignDocumentHtml(
-      {
-        apexClasses,
-        apexTriggers,
-        approvalProcesses,
-        auraComponents,
-        customApplications,
-        customLabels,
-        customMetadata,
-        customMetadataTypes,
-        customObjects,
-        customSettings,
-        dashboards,
-        digitalExperienceBundles,
-        emailTemplates,
-        experienceBundles,
-        flexipages,
-        flows,
-        groups,
-        lightningComponents,
-        permissionSets,
-        permissionSetGroups,
-        platformEvents,
-        queues,
-        reports,
-        sharingRules,
-        standardObjects,
-        staticResources,
-        visualforcePages,
-      },
-      customTemplateSource,
-    );
+    let html: string;
+    if (flags['output-format'] === 'html') {
+      html = buildTechnicalDesignDocumentHtml(
+        {
+          apexClasses,
+          apexTriggers,
+          approvalProcesses,
+          auraComponents,
+          customApplications,
+          customLabels,
+          customMetadata,
+          customMetadataTypes,
+          customObjects,
+          customSettings,
+          dashboards,
+          digitalExperienceBundles,
+          emailTemplates,
+          experienceBundles,
+          flexipages,
+          flows,
+          groups,
+          lightningComponents,
+          permissionSets,
+          permissionSetGroups,
+          platformEvents,
+          queues,
+          reports,
+          sharingRules,
+          standardObjects,
+          staticResources,
+          visualforcePages,
+        },
+        customTemplateSource,
+      );
+    } else {
+      throw messages.createError('error.unsupportedOutputFormat', [flags['output-format']]);
+    }
 
     await fs.writeFile(flags['output-file'], html, 'utf-8');
     this.spinner.stop();

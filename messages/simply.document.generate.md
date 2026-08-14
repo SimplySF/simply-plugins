@@ -22,6 +22,14 @@ Path to a custom Handlebars template to render instead of the built-in one.
 
 When specified, this template is rendered with the same scanned project data the built-in technical design document template receives, and can reuse the built-in `loud` helper. See this package's README "Custom Templates" section for the data shape.
 
+# flags.output-format.summary
+
+Output format to render the document in.
+
+# flags.output-format.description
+
+Currently only `html` is supported. Reserved for future formats (e.g. Markdown).
+
 # examples
 
 - <%= config.bin %> <%= command.id %> --directory force-app --output-file technical-design-document.html
@@ -31,6 +39,10 @@ When specified, this template is rendered with the same scanned project data the
 # error.scanFailed
 
 Failed to scan the project directory: %s
+
+# error.unsupportedOutputFormat
+
+Unsupported output format: %s
 
 # info.scanningProject
 

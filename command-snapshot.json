@@ -4,7 +4,7 @@
     "command": "simply:document:diff",
     "flagAliases": [],
     "flagChars": [],
-    "flags": ["flags-dir", "from-tag", "json", "output-file", "template-file", "to-tag"],
+    "flags": ["flags-dir", "from-tag", "json", "output-file", "output-format", "template-file", "to-tag"],
     "plugin": "@simplysf/simply-document"
   },
   {
@@ -12,7 +12,7 @@
     "command": "simply:document:generate",
     "flagAliases": [],
     "flagChars": ["d"],
-    "flags": ["directory", "flags-dir", "json", "output-file", "template-file"],
+    "flags": ["directory", "flags-dir", "json", "output-file", "output-format", "template-file"],
     "plugin": "@simplysf/simply-document"
   }
 ]

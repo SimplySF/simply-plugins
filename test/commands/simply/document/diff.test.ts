@@ -69,6 +69,26 @@ describe('simply document diff', () => {
     expect(result.html).to.include('Renamed from');
   });
 
+  it('should accept an explicit --output-format html', async () => {
+    mockGitDiffOutput('A\tforce-app/main/default/classes/MyClass.cls');
+
+    const result = await DocumentDiff.run(['--from-tag', 'v1', '--to-tag', 'v2', '--output-format', 'html']);
+
+    expect(result.html).to.include('MyClass');
+  });
+
+  it('should reject an unsupported --output-format', async () => {
+    mockGitDiffOutput('');
+
+    try {
+      await DocumentDiff.run(['--from-tag', 'v1', '--to-tag', 'v2', '--output-format', 'markdown']);
+      expect.fail('should have thrown Error');
+    } catch (err) {
+      const error = err as SfError;
+      expect(error.message).to.include('output-format');
+    }
+  });
+
   it('should write the report to --output-file when specified', async () => {
     mockGitDiffOutput('A\tforce-app/main/default/classes/MyClass.cls');
 

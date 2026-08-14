@@ -30,6 +30,14 @@ Path to a custom Handlebars template to render instead of the built-in one.
 
 When specified, this template is rendered with the same data the built-in report template receives, and can reuse the built-in `changeTable` partial. See this package's README "Custom Templates" section for the data shape and available partials.
 
+# flags.output-format.summary
+
+Output format to render the report in.
+
+# flags.output-format.description
+
+Currently only `html` is supported. Reserved for future formats (e.g. Markdown).
+
 # examples
 
 - <%= config.bin %> <%= command.id %> --from-tag v1.0.0 --to-tag v1.1.0
@@ -41,6 +49,10 @@ When specified, this template is rendered with the same data the built-in report
 # error.gitDiffFailed
 
 Failed to run git diff: %s
+
+# error.unsupportedOutputFormat
+
+Unsupported output format: %s
 
 # info.generatingDiff
 
