@@ -118,7 +118,10 @@ async function retrieveTrackedFields(
 
           // Unlocked (2GP) package fields aren't attributed via Publisher.Name, so their
           // durable ID is queued to be resolved separately via Package2Member.
-          if (packageName === 'N/A' || (packageName === 'Local (Unpackaged)' && field.QualifiedApiName.endsWith('__c'))) {
+          if (
+            packageName === 'N/A' ||
+            (packageName === 'Local (Unpackaged)' && field.QualifiedApiName.endsWith('__c'))
+          ) {
             const fieldId = field.DurableId.split('.')[1];
             if (fieldId) {
               missingPackageIds.add(fieldId);
@@ -254,7 +257,15 @@ export default class SObjectHistorySchema extends SfCommand<SObjectHistorySchema
     const htmlPath = path.join(outputDir, `field_history_schema_${timestamp}.html`);
 
     this.spinner.start(messages.getMessage('info.writingCsv'));
-    const { recordCount } = await writeRecordsToCsvFile(toAsyncIterable(entries), csvPath, CSV_COLUMNS);
+    const csvRecords = entries.map((entry) => ({
+      OBJECT_NAME: entry.objectName,
+      OBJECT_API_NAME: entry.objectApiName,
+      FIELD_NAME: entry.fieldName,
+      FIELD_API_NAME: entry.fieldApiName,
+      MANAGED_PACKAGE_NAMESPACE: entry.managedPackageNamespace,
+      PACKAGE_NAME: entry.packageName,
+    }));
+    const { recordCount } = await writeRecordsToCsvFile(toAsyncIterable(csvRecords), csvPath, CSV_COLUMNS);
     this.spinner.stop();
 
     this.spinner.start(messages.getMessage('info.generatingHtml'));
@@ -287,8 +298,15 @@ export default class SObjectHistorySchema extends SfCommand<SObjectHistorySchema
 }
 
 /** @returns An async iterable that yields every element of `items` in order, for streaming into a CSV writer. */
-async function* toAsyncIterable<T>(items: T[]): AsyncGenerator<T> {
-  yield* items;
+function toAsyncIterable<T>(items: T[]): AsyncIterable<T> {
+  return {
+    [Symbol.asyncIterator](): AsyncIterator<T> {
+      const iterator = items[Symbol.iterator]();
+      return {
+        next: (): Promise<IteratorResult<T>> => Promise.resolve(iterator.next()),
+      };
+    },
+  };
 }
 
 /** @returns The current local time as a `YYYYMMDD_HHMMSS` string, for uniquing output filenames. */

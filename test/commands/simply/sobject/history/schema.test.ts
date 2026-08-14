@@ -35,17 +35,12 @@ describe('simply sobject history schema', () => {
   });
 
   it('should report no tracked objects when none are found', async () => {
-    $$.SANDBOX.stub(Connection.prototype, 'autoFetchQuery').resolves({ records: [], done: true, totalSize: 0 } as never);
+    $$.SANDBOX.stub(Connection.prototype, 'autoFetchQuery').resolves({ records: [], done: true, totalSize: 0 });
 
     const outputDir = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-sobject-history-schema-'));
 
     try {
-      const result = await SObjectHistorySchema.run([
-        '--target-org',
-        testOrg.username,
-        '--output-dir',
-        outputDir,
-      ]);
+      const result = await SObjectHistorySchema.run(['--target-org', testOrg.username, '--output-dir', outputDir]);
 
       expect(result.trackedObjectCount).to.equal(0);
       expect(result.trackedFieldCount).to.equal(0);
@@ -110,12 +105,7 @@ describe('simply sobject history schema', () => {
     const outputDir = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-sobject-history-schema-'));
 
     try {
-      const result = await SObjectHistorySchema.run([
-        '--target-org',
-        testOrg.username,
-        '--output-dir',
-        outputDir,
-      ]);
+      const result = await SObjectHistorySchema.run(['--target-org', testOrg.username, '--output-dir', outputDir]);
 
       expect(result.trackedObjectCount).to.equal(1);
       expect(result.trackedFieldCount).to.equal(3);

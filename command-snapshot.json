@@ -30,5 +30,13 @@
     "flagChars": ["d", "o"],
     "flags": ["api-version", "filters", "flags-dir", "json", "object", "output-dir", "target-org"],
     "plugin": "@simplysf/simply-sobject"
+  },
+  {
+    "alias": [],
+    "command": "simply:sobject:history:schema",
+    "flagAliases": [],
+    "flagChars": ["d", "o"],
+    "flags": ["api-version", "flags-dir", "json", "output-dir", "target-org"],
+    "plugin": "@simplysf/simply-sobject"
   }
 ]
