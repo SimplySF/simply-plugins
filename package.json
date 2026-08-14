@@ -61,6 +61,7 @@
       "@simplysf/simply-package",
       "@simplysf/simply-permissions",
       "@simplysf/simply-project",
+      "@simplysf/simply-schema",
       "@simplysf/simply-sobject"
     ],
     "repositoryPrefix": "<%- repo %>/blob/@simplysf/simply@<%- version %>/packages/simply/<%- commandPath %>",
@@ -77,6 +78,7 @@
     "@simplysf/simply-package": "workspace:^2.8.1",
     "@simplysf/simply-permissions": "workspace:^1.2.13",
     "@simplysf/simply-project": "workspace:^1.2.10",
+    "@simplysf/simply-schema": "workspace:^0.1.0",
     "@simplysf/simply-sobject": "workspace:^1.4.0",
     "debug": "^4.4.3"
   },

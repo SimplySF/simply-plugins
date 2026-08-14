@@ -59,7 +59,7 @@
     "alias": [],
     "command": "simply:document:diff",
     "flagAliases": [],
-    "flagChars": ["o"],
+    "flagChars": [],
     "flags": ["flags-dir", "from-tag", "json", "output-file", "to-tag"],
     "plugin": "@simplysf/simply-document"
   },
@@ -67,7 +67,7 @@
     "alias": [],
     "command": "simply:document:generate",
     "flagAliases": [],
-    "flagChars": ["d", "o"],
+    "flagChars": ["d"],
     "flags": ["directory", "flags-dir", "json", "output-file"],
     "plugin": "@simplysf/simply-document"
   },
@@ -146,6 +146,26 @@
     "flagChars": ["a", "d"],
     "flags": ["api-version", "directory", "flags-dir", "json"],
     "plugin": "@simplysf/simply-project"
+  },
+  {
+    "alias": [],
+    "command": "simply:schema:visualize",
+    "flagAliases": [],
+    "flagChars": ["d", "o"],
+    "flags": [
+      "api-version",
+      "field-type",
+      "flags-dir",
+      "json",
+      "object-type",
+      "output-dir",
+      "output-type",
+      "related-objects",
+      "source-dir",
+      "source-objects",
+      "target-org"
+    ],
+    "plugin": "@simplysf/simply-schema"
   },
   {
     "alias": [],
