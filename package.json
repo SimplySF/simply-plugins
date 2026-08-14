@@ -57,6 +57,7 @@
     "plugins": [
       "@simplysf/simply-apex",
       "@simplysf/simply-data",
+      "@simplysf/simply-document",
       "@simplysf/simply-package",
       "@simplysf/simply-permissions",
       "@simplysf/simply-project",
@@ -72,6 +73,7 @@
     "@oclif/core": "^4.11.2",
     "@simplysf/simply-apex": "workspace:^1.1.10",
     "@simplysf/simply-data": "workspace:^2.3.9",
+    "@simplysf/simply-document": "workspace:^0.1.0",
     "@simplysf/simply-package": "workspace:^2.8.1",
     "@simplysf/simply-permissions": "workspace:^1.2.13",
     "@simplysf/simply-project": "workspace:^1.2.10",

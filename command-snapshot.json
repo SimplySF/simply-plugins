@@ -57,6 +57,22 @@
   },
   {
     "alias": [],
+    "command": "simply:document:diff",
+    "flagAliases": [],
+    "flagChars": ["o"],
+    "flags": ["flags-dir", "from-tag", "json", "output-file", "to-tag"],
+    "plugin": "@simplysf/simply-document"
+  },
+  {
+    "alias": [],
+    "command": "simply:document:generate",
+    "flagAliases": [],
+    "flagChars": ["d", "o"],
+    "flags": ["directory", "flags-dir", "json", "output-file"],
+    "plugin": "@simplysf/simply-document"
+  },
+  {
+    "alias": [],
     "command": "simply:package:dependencies:install",
     "flagAliases": [],
     "flagChars": ["a", "b", "i", "k", "l", "o", "r", "s", "t", "v", "w", "z"],
