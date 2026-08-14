@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.9.0](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply%402.8.0...%40simplysf%2Fsimply%402.9.0) (2026-08-14)
+
+### Features
+
+- add future support for other format types ([be74f41](https://github.com/SimplySF/simply/commit/be74f41c415b05903993cbf83d9de5822bdd9dce))
+
 # [2.8.0](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply%402.7.2...%40simplysf%2Fsimply%402.8.0) (2026-08-14)
 
 ### Features
