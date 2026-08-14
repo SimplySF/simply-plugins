@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.8.0](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-package%402.7.0...%40simplysf%2Fsimply-package%402.8.0) (2026-08-14)
+
+### Features
+
+- support install report file ([9efe964](https://github.com/SimplySF/simply/commit/9efe964d129ebc2edd9a0640fed912e7cbbd5439))
+
 # [2.7.0](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-package%402.6.4...%40simplysf%2Fsimply-package%402.7.0) (2026-08-13)
 
 ### Features
