@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.7.0](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply%402.6.8...%40simplysf%2Fsimply%402.7.0) (2026-08-14)
+
+### Bug Fixes
+
+- update command snapshot ([6ab965f](https://github.com/SimplySF/simply/commit/6ab965f5f53d832c8349f1a716ef5e8df82e6681))
+
+### Features
+
+- support install report file ([9efe964](https://github.com/SimplySF/simply/commit/9efe964d129ebc2edd9a0640fed912e7cbbd5439))
+
 ## [2.6.8](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply%402.6.7...%40simplysf%2Fsimply%402.6.8) (2026-08-13)
 
 ### Bug Fixes
