@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.12](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-data%402.3.11...%40simplysf%2Fsimply-data%402.3.12) (2026-08-16)
+
+### Bug Fixes
+
+- documentation fixes ([7855aac](https://github.com/SimplySF/simply-node/commit/7855aac511916147d3ab542e5c4d660b2a348386))
+
 ## [2.3.11](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-data%402.3.10...%40simplysf%2Fsimply-data%402.3.11) (2026-08-16)
 
 **Note:** Version bump only for package @simplysf/simply-data
