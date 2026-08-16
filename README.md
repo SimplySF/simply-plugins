@@ -10,11 +10,11 @@ sf plugins install @simplysf/simply-schema
 
 ## Issues
 
-Please report any issues at https://github.com/SimplySF/simply/issues
+Please report any issues at https://github.com/SimplySF/simply-node/issues
 
 ## Contributing
 
-This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/simply) monorepo. See the repo's [CONTRIBUTING.md](https://github.com/SimplySF/simply/blob/main/CONTRIBUTING.md) for the repo structure, how to set up and build the project, our commit conventions, and how to submit a pull request. Please also read our [Code of Conduct](https://github.com/SimplySF/simply/blob/main/CODE_OF_CONDUCT.md).
+This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/simply-node) monorepo. See the repo's [CONTRIBUTING.md](https://github.com/SimplySF/simply-node/blob/main/CONTRIBUTING.md) for the repo structure, how to set up and build the project, our commit conventions, and how to submit a pull request. Please also read our [Code of Conduct](https://github.com/SimplySF/simply-node/blob/main/CODE_OF_CONDUCT.md).
 
 ## Commands
 
@@ -62,7 +62,7 @@ FLAG DESCRIPTIONS
     A `.csv` file processed as the flat CSV flow, or a `.xlsx`/`.xls` file processed as the Excel flow.
 ```
 
-_See code: [lib/commands/simply/schema/generate.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-schema@0.2.2/packages/simply-schema/lib/commands/simply/schema/generate.js)_
+_See code: [lib/commands/simply/schema/generate.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-schema@0.3.0/packages/simply-schema/lib/commands/simply/schema/generate.js)_
 
 ## `sf simply schema visualize`
 
@@ -124,7 +124,7 @@ FLAG DESCRIPTIONS
     specified, every discovered object is included. If not specified, every object matching `--object-type` is included.
 ```
 
-_See code: [lib/commands/simply/schema/visualize.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-schema@0.2.2/packages/simply-schema/lib/commands/simply/schema/visualize.js)_
+_See code: [lib/commands/simply/schema/visualize.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-schema@0.3.0/packages/simply-schema/lib/commands/simply/schema/visualize.js)_
 <!-- commandsstop -->
 
 ## Data Source: `--target-org` vs. `--source-dir`

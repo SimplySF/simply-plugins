@@ -3,11 +3,11 @@
   "description": "Utilities for visualizing Salesforce schema",
   "version": "0.3.0",
   "author": "@ClayChipps",
-  "homepage": "https://github.com/SimplySF/simply",
-  "bugs": "https://github.com/SimplySF/simply/issues",
+  "homepage": "https://github.com/SimplySF/simply-node",
+  "bugs": "https://github.com/SimplySF/simply-node/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SimplySF/simply",
+    "url": "https://github.com/SimplySF/simply-node",
     "directory": "packages/simply-schema"
   },
   "engines": {
