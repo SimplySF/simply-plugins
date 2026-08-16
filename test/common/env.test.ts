@@ -17,11 +17,16 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { appendToEnvFile } from '../../src/common/env.js';
+import { appendToEnvFile, type EnvLogger } from '../../src/common/env.js';
+
+type MockEnvLogger = {
+  info: ReturnType<typeof vi.fn<EnvLogger['info']>>;
+  error: ReturnType<typeof vi.fn<EnvLogger['error']>>;
+};
 
 describe('appendToEnvFile', () => {
   const tempEnvFile = path.resolve('test.env');
-  let mockLogger: { info: ReturnType<typeof vi.fn>; error: ReturnType<typeof vi.fn> };
+  let mockLogger: MockEnvLogger;
 
   beforeEach(() => {
     mockLogger = { info: vi.fn(), error: vi.fn() };
