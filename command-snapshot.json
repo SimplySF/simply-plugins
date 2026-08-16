@@ -1,6 +1,190 @@
 [
   {
     "alias": [],
+    "command": "simply:cicd:build:cleanup-scratch-orgs",
+    "flagAliases": [],
+    "flagChars": [],
+    "flags": [
+      "debug",
+      "dev-hub-client-id",
+      "dev-hub-instance-url",
+      "dev-hub-name",
+      "dev-hub-username",
+      "disabled",
+      "flags-dir",
+      "json",
+      "jwt-key-file"
+    ],
+    "plugin": "@simplysf/simply-cicd"
+  },
+  {
+    "alias": [],
+    "command": "simply:cicd:build:create-fallback-tag",
+    "flagAliases": [],
+    "flagChars": [],
+    "flags": [
+      "ci-commit-ref-name",
+      "ci-pipeline-id",
+      "ci-project-path",
+      "debug",
+      "disabled",
+      "flags-dir",
+      "json",
+      "last-tag",
+      "out",
+      "project-access-token",
+      "vcs-host",
+      "vcs-provider"
+    ],
+    "plugin": "@simplysf/simply-cicd"
+  },
+  {
+    "alias": [],
+    "command": "simply:cicd:build:create-package-version",
+    "flagAliases": [],
+    "flagChars": [],
+    "flags": [
+      "always-create-package",
+      "ci-commit-ref-name",
+      "ci-commit-sha",
+      "ci-pipeline-id",
+      "ci-pipeline-source",
+      "ci-pipeline-url",
+      "ci-project-path",
+      "code-coverage-minimum",
+      "debug",
+      "devhub-tooling-client-id",
+      "devhub-tooling-instance-url",
+      "devhub-tooling-username",
+      "disabled",
+      "flags-dir",
+      "json",
+      "jwt-key-file",
+      "package-release-branch-prefix",
+      "project-access-token",
+      "vcs-host",
+      "vcs-provider"
+    ],
+    "plugin": "@simplysf/simply-cicd"
+  },
+  {
+    "alias": [],
+    "command": "simply:cicd:build:create-scratch",
+    "flagAliases": [],
+    "flagChars": [],
+    "flags": [
+      "debug",
+      "dev-hub-client-id",
+      "dev-hub-instance-url",
+      "dev-hub-name",
+      "dev-hub-username",
+      "disabled",
+      "flags-dir",
+      "json",
+      "jwt-key-file",
+      "scratch-definition-file",
+      "scratch-duration-days"
+    ],
+    "plugin": "@simplysf/simply-cicd"
+  },
+  {
+    "alias": [],
+    "command": "simply:cicd:build:delete-scratch",
+    "flagAliases": [],
+    "flagChars": [],
+    "flags": [
+      "debug",
+      "dev-hub-client-id",
+      "dev-hub-instance-url",
+      "dev-hub-name",
+      "dev-hub-username",
+      "disabled",
+      "flags-dir",
+      "json",
+      "jwt-key-file"
+    ],
+    "plugin": "@simplysf/simply-cicd"
+  },
+  {
+    "alias": [],
+    "command": "simply:cicd:build:determine-package-changes",
+    "flagAliases": [],
+    "flagChars": [],
+    "flags": ["debug", "disabled", "flags-dir", "json", "out"],
+    "plugin": "@simplysf/simply-cicd"
+  },
+  {
+    "alias": [],
+    "command": "simply:cicd:build:generate-flexipage-diff",
+    "flagAliases": [],
+    "flagChars": [],
+    "flags": [
+      "ci-merge-request-iid",
+      "ci-project-id",
+      "debug",
+      "disabled",
+      "flags-dir",
+      "from",
+      "json",
+      "out",
+      "project-access-token",
+      "to"
+    ],
+    "plugin": "@simplysf/simply-cicd"
+  },
+  {
+    "alias": [],
+    "command": "simply:cicd:build:generate-flow-diff",
+    "flagAliases": [],
+    "flagChars": [],
+    "flags": [
+      "ci-merge-request-iid",
+      "ci-project-id",
+      "debug",
+      "disabled",
+      "flags-dir",
+      "from",
+      "json",
+      "out",
+      "project-access-token",
+      "to"
+    ],
+    "plugin": "@simplysf/simply-cicd"
+  },
+  {
+    "alias": [],
+    "command": "simply:cicd:build:install-dependencies",
+    "flagAliases": [],
+    "flagChars": [],
+    "flags": ["debug", "disabled", "flags-dir", "install-type", "json", "jwt-key-file"],
+    "plugin": "@simplysf/simply-cicd"
+  },
+  {
+    "alias": [],
+    "command": "simply:cicd:build:lwc-jest",
+    "flagAliases": [],
+    "flagChars": [],
+    "flags": ["debug", "disabled", "flags-dir", "json"],
+    "plugin": "@simplysf/simply-cicd"
+  },
+  {
+    "alias": [],
+    "command": "simply:cicd:build:push-scratch",
+    "flagAliases": [],
+    "flagChars": [],
+    "flags": ["debug", "disabled", "flags-dir", "ignore-warnings", "json", "jwt-key-file", "scratch-org-source-dir"],
+    "plugin": "@simplysf/simply-cicd"
+  },
+  {
+    "alias": [],
+    "command": "simply:cicd:build:test-scratch",
+    "flagAliases": [],
+    "flagChars": [],
+    "flags": ["debug", "disable-apex-tests", "disabled", "flags-dir", "json", "jwt-key-file"],
+    "plugin": "@simplysf/simply-cicd"
+  },
+  {
+    "alias": [],
     "command": "simply:cicd:deploy:happy-soup:deploy-unpackaged",
     "flagAliases": [],
     "flagChars": [],

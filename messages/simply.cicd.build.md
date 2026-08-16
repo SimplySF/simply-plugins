@@ -49,3 +49,27 @@ Hostname of the VCS instance hosting this project.
 # flags.vcs-provider.summary
 
 The VCS platform hosting this project.
+
+# flags.diff-ci-project-id.summary
+
+GitLab CI project ID.
+
+# flags.diff-ci-merge-request-iid.summary
+
+GitLab CI merge request internal ID.
+
+# flags.diff-from.summary
+
+Base commit SHA to diff from.
+
+# flags.diff-to.summary
+
+Head commit SHA to diff to.
+
+# flags.diff-project-access-token.summary
+
+Project access token used to post the diff results back to the merge request.
+
+# flags.diff-out.summary
+
+Output directory or file path for the delta results.
