@@ -10,11 +10,11 @@ sf plugins install @simplysf/simply-apex
 
 ## Issues
 
-Please report any issues at https://github.com/SimplySF/simply/issues
+Please report any issues at https://github.com/SimplySF/simply-node/issues
 
 ## Contributing
 
-This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/simply) monorepo. See the repo's [CONTRIBUTING.md](https://github.com/SimplySF/simply/blob/main/CONTRIBUTING.md) for the repo structure, how to set up and build the project, our commit conventions, and how to submit a pull request. Please also read our [Code of Conduct](https://github.com/SimplySF/simply/blob/main/CODE_OF_CONDUCT.md).
+This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/simply-node) monorepo. See the repo's [CONTRIBUTING.md](https://github.com/SimplySF/simply-node/blob/main/CONTRIBUTING.md) for the repo structure, how to set up and build the project, our commit conventions, and how to submit a pull request. Please also read our [Code of Conduct](https://github.com/SimplySF/simply-node/blob/main/CODE_OF_CONDUCT.md).
 
 ## Commands
 
@@ -58,7 +58,7 @@ FLAG DESCRIPTIONS
     The path to the local .apex file containing the anonymous Apex code to execute.
 ```
 
-_See code: [lib/commands/simply/apex/execute.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-apex@1.0.3/packages/simply-apex/lib/commands/simply/apex/execute.js)_
+_See code: [lib/commands/simply/apex/execute.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.1.10/packages/simply-apex/lib/commands/simply/apex/execute.js)_
 
 ## `sf simply apex logs purge`
 
@@ -95,7 +95,7 @@ FLAG DESCRIPTIONS
     A WHERE clause used to filter which ApexLog records are purged (e.g. "Status = 'Success'").
 ```
 
-_See code: [lib/commands/simply/apex/logs/purge.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-apex@1.0.3/packages/simply-apex/lib/commands/simply/apex/logs/purge.js)_
+_See code: [lib/commands/simply/apex/logs/purge.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.1.10/packages/simply-apex/lib/commands/simply/apex/logs/purge.js)_
 
 ## `sf simply apex trace setup`
 
@@ -124,7 +124,7 @@ EXAMPLES
   $ sf simply apex trace setup --target-org myOrg
 ```
 
-_See code: [lib/commands/simply/apex/trace/setup.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-apex@1.0.3/packages/simply-apex/lib/commands/simply/apex/trace/setup.js)_
+_See code: [lib/commands/simply/apex/trace/setup.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.1.10/packages/simply-apex/lib/commands/simply/apex/trace/setup.js)_
 
 ## `sf simply apex trace silence`
 
@@ -168,7 +168,7 @@ FLAG DESCRIPTIONS
     silence.
 ```
 
-_See code: [lib/commands/simply/apex/trace/silence.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-apex@1.0.3/packages/simply-apex/lib/commands/simply/apex/trace/silence.js)_
+_See code: [lib/commands/simply/apex/trace/silence.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.1.10/packages/simply-apex/lib/commands/simply/apex/trace/silence.js)_
 <!-- commandsstop -->
 
 ## Configuration Files
