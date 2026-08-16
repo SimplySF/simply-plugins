@@ -20,6 +20,2570 @@ Please report any issues at https://github.com/SimplySF/simply-node/issues
 - [`sf simply apex logs purge`](#sf-simply-apex-logs-purge)
 - [`sf simply apex trace setup`](#sf-simply-apex-trace-setup)
 - [`sf simply apex trace silence`](#sf-simply-apex-trace-silence)
+- [`sf simply cicd build cleanup-scratch-orgs`](#sf-simply-cicd-build-cleanup-scratch-orgs)
+- [`sf simply cicd build create-fallback-tag`](#sf-simply-cicd-build-create-fallback-tag)
+- [`sf simply cicd build create-package-version`](#sf-simply-cicd-build-create-package-version)
+- [`sf simply cicd build create-scratch`](#sf-simply-cicd-build-create-scratch)
+- [`sf simply cicd build delete-scratch`](#sf-simply-cicd-build-delete-scratch)
+- [`sf simply cicd build determine-package-changes`](#sf-simply-cicd-build-determine-package-changes)
+- [`sf simply cicd build generate-flexipage-diff`](#sf-simply-cicd-build-generate-flexipage-diff)
+- [`sf simply cicd build generate-flow-diff`](#sf-simply-cicd-build-generate-flow-diff)
+- [`sf simply cicd build install-dependencies`](#sf-simply-cicd-build-install-dependencies)
+- [`sf simply cicd build lwc-jest`](#sf-simply-cicd-build-lwc-jest)
+- [`sf simply cicd build push-scratch`](#sf-simply-cicd-build-push-scratch)
+- [`sf simply cicd build test-scratch`](#sf-simply-cicd-build-test-scratch)
+- [`sf simply cicd deploy happy-soup deploy-unpackaged`](#sf-simply-cicd-deploy-happy-soup-deploy-unpackaged)
+- [`sf simply cicd deploy happy-soup deployment-close-out`](#sf-simply-cicd-deploy-happy-soup-deployment-close-out)
+- [`sf simply cicd deploy happy-soup install-packaged`](#sf-simply-cicd-deploy-happy-soup-install-packaged)
+- [`sf simply cicd deploy happy-soup post-deploy`](#sf-simply-cicd-deploy-happy-soup-post-deploy)
+- [`sf simply cicd deploy happy-soup post-destructive`](#sf-simply-cicd-deploy-happy-soup-post-destructive)
+- [`sf simply cicd deploy happy-soup pre-destructive`](#sf-simply-cicd-deploy-happy-soup-pre-destructive)
+- [`sf simply cicd deploy happy-soup tag-deployment`](#sf-simply-cicd-deploy-happy-soup-tag-deployment)
+- [`sf simply cicd deploy happy-soup validate`](#sf-simply-cicd-deploy-happy-soup-validate)
+- [`sf simply cicd deploy project deploy-unpackaged`](#sf-simply-cicd-deploy-project-deploy-unpackaged)
+- [`sf simply cicd deploy project install-packaged`](#sf-simply-cicd-deploy-project-install-packaged)
+- [`sf simply cicd deploy project post-deploy`](#sf-simply-cicd-deploy-project-post-deploy)
+- [`sf simply cicd deploy project post-destructive`](#sf-simply-cicd-deploy-project-post-destructive)
+- [`sf simply cicd deploy project pre-destructive`](#sf-simply-cicd-deploy-project-pre-destructive)
+- [`sf simply cicd deploy project run-apex-tests`](#sf-simply-cicd-deploy-project-run-apex-tests)
+- [`sf simply cicd deploy project validate`](#sf-simply-cicd-deploy-project-validate)
+- [`sf simply cicd deploy validate`](#sf-simply-cicd-deploy-validate)
+- [`sf simply cicd notify happy-soup`](#sf-simply-cicd-notify-happy-soup)
+- [`sf simply cicd notify project`](#sf-simply-cicd-notify-project)
+- [`sf simply cicd notify teams`](#sf-simply-cicd-notify-teams)
+- [`sf simply cicd sfdx-dependabot`](#sf-simply-cicd-sfdx-dependabot)
+- [`sf simply data file upload`](#sf-simply-data-file-upload)
+- [`sf simply data files download`](#sf-simply-data-files-download)
+- [`sf simply data files upload`](#sf-simply-data-files-upload)
+- [`sf simply document diff`](#sf-simply-document-diff)
+- [`sf simply document generate`](#sf-simply-document-generate)
+- [`sf simply package dependencies install`](#sf-simply-package-dependencies-install)
+- [`sf simply package dependencies manage`](#sf-simply-package-dependencies-manage)
+- [`sf simply package version cleanup`](#sf-simply-package-version-cleanup)
+- [`sf simply permissions analyze`](#sf-simply-permissions-analyze)
+- [`sf simply permissions build`](#sf-simply-permissions-build)
+- [`sf simply project update api-version`](#sf-simply-project-update-api-version)
+- [`sf simply schema generate`](#sf-simply-schema-generate)
+- [`sf simply schema visualize`](#sf-simply-schema-visualize)
+- [`sf simply sobject backup`](#sf-simply-sobject-backup)
+- [`sf simply sobject deduplicate`](#sf-simply-sobject-deduplicate)
+- [`sf simply sobject history export`](#sf-simply-sobject-history-export)
+- [`sf simply sobject history query`](#sf-simply-sobject-history-query)
+- [`sf simply sobject history schema`](#sf-simply-sobject-history-schema)
+
+## `sf simply apex execute`
+
+Execute anonymous Apex code.
+
+```
+USAGE
+  $ sf simply apex execute -f <value> -o <value> [--json] [--flags-dir <value>] [--api-version <value>]
+
+FLAGS
+  -f, --file=<value>         (required) Path to Apex file
+  -o, --target-org=<value>   (required) Username or alias of the target org. Not required if the `target-org`
+                             configuration variable is already set.
+      --api-version=<value>  Override the api version used for api requests made by this command
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Execute anonymous Apex code.
+
+  Executes an anonymous block of Apex code from a local .apex file against a target org and reports the compile and
+  execution results, including any debug logs produced.
+
+EXAMPLES
+  $ sf simply apex execute --target-org myOrg --file scripts/apex/data-fix.apex
+
+FLAG DESCRIPTIONS
+  -f, --file=<value>  Path to Apex file
+
+    The path to the local .apex file containing the anonymous Apex code to execute.
+```
+
+_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.1.12/packages/simply-apex/lib/commands/simply/apex/execute.js)_
+
+## `sf simply apex logs purge`
+
+Purge Apex debug logs.
+
+```
+USAGE
+  $ sf simply apex logs purge -o <value> [--json] [--flags-dir <value>] [--api-version <value>] [-w <value>]
+
+FLAGS
+  -o, --target-org=<value>   (required) Username or alias of the target org. Not required if the `target-org`
+                             configuration variable is already set.
+  -w, --where=<value>        SOQL WHERE clause
+      --api-version=<value>  Override the api version used for api requests made by this command
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Purge Apex debug logs.
+
+  Deletes ApexLog records from the target org. By default all logs are purged; use --where to scope the deletion to a
+  subset of logs.
+
+EXAMPLES
+  $ sf simply apex logs purge --target-org myOrg
+
+  $ sf simply apex logs purge --target-org myOrg --where "Status = 'Success'"
+
+FLAG DESCRIPTIONS
+  -w, --where=<value>  SOQL WHERE clause
+
+    A WHERE clause used to filter which ApexLog records are purged (e.g. "Status = 'Success'").
+```
+
+_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.1.12/packages/simply-apex/lib/commands/simply/apex/logs/purge.js)_
+
+## `sf simply apex trace setup`
+
+Configure a debug log trace flag for the current user.
+
+```
+USAGE
+  $ sf simply apex trace setup -o <value> [--json] [--flags-dir <value>] [--api-version <value>]
+
+FLAGS
+  -o, --target-org=<value>   (required) Username or alias of the target org. Not required if the `target-org`
+                             configuration variable is already set.
+      --api-version=<value>  Override the api version used for api requests made by this command
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Configure a debug log trace flag for the current user.
+
+  Creates or updates a 24-hour DEVELOPER_LOG trace flag for the user running the command, using a FINEST/FINER debug
+  level suitable for the Apex Replay Debugger.
+
+EXAMPLES
+  $ sf simply apex trace setup --target-org myOrg
+```
+
+_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.1.12/packages/simply-apex/lib/commands/simply/apex/trace/setup.js)_
+
+## `sf simply apex trace silence`
+
+Silence debug logs for specific Apex classes.
+
+```
+USAGE
+  $ sf simply apex trace silence -o <value> [--json] [--flags-dir <value>] [--api-version <value>] [-c <value> | --classes-file
+    <value>]
+
+FLAGS
+  -c, --classes=<value>       Comma-separated Apex class names
+  -o, --target-org=<value>    (required) Username or alias of the target org. Not required if the `target-org`
+                              configuration variable is already set.
+      --api-version=<value>   Override the api version used for api requests made by this command
+      --classes-file=<value>  Path to a JSON file listing classes to silence
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Silence debug logs for specific Apex classes.
+
+  Creates a 24-hour CLASS_TRACING trace flag with a fully suppressed (NONE) debug level for each specified Apex class,
+  preventing those classes from generating debug log output.
+
+EXAMPLES
+  $ sf simply apex trace silence --target-org myOrg --classes NoisyClass,ChattyTrigger
+
+  $ sf simply apex trace silence --target-org myOrg --classes-file classesToSilence.json
+
+FLAG DESCRIPTIONS
+  -c, --classes=<value>  Comma-separated Apex class names
+
+    A comma-separated list of Apex class names to silence.
+
+  --classes-file=<value>  Path to a JSON file listing classes to silence
+
+    The path to a JSON file with the shape { "classes": ["ClassOne", "ClassTwo"] } listing the Apex class names to
+    silence.
+```
+
+_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.1.12/packages/simply-apex/lib/commands/simply/apex/trace/silence.js)_
+
+## `sf simply cicd build cleanup-scratch-orgs`
+
+Delete scratch orgs older than 3 hours from every configured Dev Hub.
+
+```
+USAGE
+  $ sf simply cicd build cleanup-scratch-orgs --dev-hub-name <value>... --dev-hub-username <value>... --dev-hub-client-id <value>...
+    --dev-hub-instance-url <value>... --jwt-key-file <value> [--json] [--flags-dir <value>] [--debug] [--disabled]
+
+FLAGS
+  --debug                            Enable verbose debug logging.
+  --dev-hub-client-id=<value>...     (required) Connected app client ID for a Dev Hub.
+  --dev-hub-instance-url=<value>...  (required) Login instance URL for a Dev Hub.
+  --dev-hub-name=<value>...          (required) Friendly name of a Dev Hub. Repeat this flag alongside
+                                     --dev-hub-username, --dev-hub-client-id, and --dev-hub-instance-url (in the same
+                                     order) for each Dev Hub to try.
+  --dev-hub-username=<value>...      (required) Username of a Dev Hub.
+  --disabled                         Skip this job entirely, logging a warning instead of running it.
+  --jwt-key-file=<value>             (required) Path to the JWT private key file used for authentication.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Delete scratch orgs older than 3 hours from every configured Dev Hub.
+
+  For each Dev Hub, queries `ActiveScratchOrg` records created more than 3 hours ago and bulk-deletes them. Useful for
+  keeping a shared Dev Hub's scratch org allotment from being exhausted by abandoned CI runs.
+
+EXAMPLES
+  $ sf simply cicd build cleanup-scratch-orgs --dev-hub-name main --dev-hub-username devhub@example.com --dev-hub-client-id 3MVG9... --dev-hub-instance-url https://login.salesforce.com --jwt-key-file ./server.key
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/build/cleanup-scratch-orgs.js)_
+
+## `sf simply cicd build create-fallback-tag`
+
+Create a fallback git tag carrying forward the previous package version's ID, for builds that didn't produce a new package version.
+
+```
+USAGE
+  $ sf simply cicd build create-fallback-tag --ci-commit-ref-name <value> --ci-pipeline-id <value> --ci-project-path <value>
+    --project-access-token <value> [--json] [--flags-dir <value>] [--vcs-host <value>] [--vcs-provider gitlab] [--debug]
+    [--disabled] [--last-tag <value>] [--out <value>]
+
+FLAGS
+  --ci-commit-ref-name=<value>    (required) Git branch or ref name being built.
+  --ci-pipeline-id=<value>        (required) CI pipeline ID, used to name the temporary authenticated git remote.
+  --ci-project-path=<value>       (required) CI project's git path (e.g. group/project), used to build the authenticated
+                                  git remote URL.
+  --debug                         Enable verbose debug logging.
+  --disabled                      Skip this job entirely, logging a warning instead of running it.
+  --last-tag=<value>              Manually specify the last tag to increment, instead of resolving it from git.
+  --out=<value>                   [default: subscriberPackageVersionId.env] Output dotenv file path.
+  --project-access-token=<value>  (required) Access token used to authenticate git remote operations (tagging, pushing).
+  --vcs-host=<value>              [default: gitlab.com] Hostname of the VCS instance hosting this project.
+  --vcs-provider=<option>         [default: gitlab] The VCS platform hosting this project.
+                                  <options: gitlab>
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Create a fallback git tag carrying forward the previous package version's ID, for builds that didn't produce a new
+  package version.
+
+  Resolves the last tag to increment (either `--last-tag`, or the closest reachable tag matching the project's version
+  prefix), extracts its annotated `04t` package version ID, and creates/pushes a new tag with an incremented numeric
+  suffix (e.g. `v1.1.0` -> `v1.1.0-1` -> `v1.1.0-2`) annotated with that same package ID. Soft no-ops (does not error)
+  when no last tag, or no valid package ID within it, can be found — a build with nothing to fall back to just has
+  nothing to do here.
+
+  Skipped automatically when `PACKAGE_CHANGED=TRUE` is set in the environment (see `build determine-package-changes`) —
+  a real package version will be created instead.
+
+EXAMPLES
+  $ sf simply cicd build create-fallback-tag --ci-commit-ref-name main --ci-project-path group/project --project-access-token glpat-... --ci-pipeline-id 123
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/build/create-fallback-tag.js)_
+
+## `sf simply cicd build create-package-version`
+
+Create a new package version, verify minimum code coverage, and create/push a version-tracking git tag.
+
+```
+USAGE
+  $ sf simply cicd build create-package-version --ci-commit-ref-name <value> --ci-pipeline-id <value> --ci-project-path <value>
+    --project-access-token <value> --jwt-key-file <value> --ci-commit-sha <value> --ci-pipeline-url <value>
+    --devhub-tooling-username <value> --devhub-tooling-client-id <value> --devhub-tooling-instance-url <value> [--json]
+    [--flags-dir <value>] [--vcs-host <value>] [--vcs-provider gitlab] [--debug] [--disabled] [--ci-pipeline-source
+    <value>] [--always-create-package] [--code-coverage-minimum <value>] [--package-release-branch-prefix <value>]
+
+FLAGS
+  --always-create-package                  Create a package version even when this isn't a release-branch build.
+  --ci-commit-ref-name=<value>             (required) Git branch or ref name being built.
+  --ci-commit-sha=<value>                  (required) Commit SHA to tag as the package version's source.
+  --ci-pipeline-id=<value>                 (required) CI pipeline ID, used to name the temporary authenticated git
+                                           remote.
+  --ci-pipeline-source=<value>             Source trigger of the CI pipeline (e.g. merge_request_event). When set to
+                                           merge_request_event, package creation is skipped.
+  --ci-pipeline-url=<value>                (required) URL of the CI pipeline, used as the package version's description.
+  --ci-project-path=<value>                (required) CI project's git path (e.g. group/project), used to build the
+                                           authenticated git remote URL.
+  --code-coverage-minimum=<value>          [default: 75] Minimum Apex code coverage percentage required for the new
+                                           package version.
+  --debug                                  Enable verbose debug logging.
+  --devhub-tooling-client-id=<value>       (required) Connected app client ID for the tooling Dev Hub.
+  --devhub-tooling-instance-url=<value>    (required) Login instance URL for the tooling Dev Hub.
+  --devhub-tooling-username=<value>        (required) Username of the Dev Hub used for tooling operations like package
+                                           version creation.
+  --disabled                               Skip this job entirely, logging a warning instead of running it.
+  --jwt-key-file=<value>                   (required) Path to the JWT private key file used for authentication.
+  --package-release-branch-prefix=<value>  Prefix identifying release branches. Determines whether this build creates a
+                                           package version and how the resulting git tag is named.
+  --project-access-token=<value>           (required) Access token used to authenticate git remote operations (tagging,
+                                           pushing).
+  --vcs-host=<value>                       [default: gitlab.com] Hostname of the VCS instance hosting this project.
+  --vcs-provider=<option>                  [default: gitlab] The VCS platform hosting this project.
+                                           <options: gitlab>
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Create a new package version, verify minimum code coverage, and create/push a version-tracking git tag.
+
+  Skips entirely (without error) when the pipeline was triggered by a merge request, or when this isn't a release-branch
+  build and `--always-create-package` wasn't passed. Otherwise, creates a new version of the default package directory's
+  package, polls until creation finishes, verifies the resulting version's Apex code coverage meets
+  `--code-coverage-minimum` (or the project's own `plugins.simply.coverageRequirement.minimumCoverageRequired`, if declared
+  in `sfdx-project.json`), and creates/pushes a git tag annotated with the new package version's `04t` ID.
+
+  Skipped automatically when `PACKAGE_CHANGED=FALSE` is set in the environment (see `build determine-package-changes`).
+
+EXAMPLES
+  $ sf simply cicd build create-package-version --ci-commit-ref-name main --ci-commit-sha a1b2c3d --ci-pipeline-id 123 --ci-pipeline-url https://gitlab.example.com/pipelines/123 --ci-project-path group/project --project-access-token glpat-... --devhub-tooling-username devhub-tooling@example.com --devhub-tooling-client-id 3MVG9... --devhub-tooling-instance-url https://login.salesforce.com --jwt-key-file ./server.key
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/build/create-package-version.js)_
+
+## `sf simply cicd build create-scratch`
+
+Create a scratch org, trying each configured Dev Hub in order.
+
+```
+USAGE
+  $ sf simply cicd build create-scratch --dev-hub-name <value>... --dev-hub-username <value>... --dev-hub-client-id <value>...
+    --dev-hub-instance-url <value>... --jwt-key-file <value> [--json] [--flags-dir <value>] [--debug] [--disabled]
+    [--scratch-definition-file <value>] [--scratch-duration-days <value>]
+
+FLAGS
+  --debug                            Enable verbose debug logging.
+  --dev-hub-client-id=<value>...     (required) Connected app client ID for a Dev Hub.
+  --dev-hub-instance-url=<value>...  (required) Login instance URL for a Dev Hub.
+  --dev-hub-name=<value>...          (required) Friendly name of a Dev Hub. Repeat this flag alongside
+                                     --dev-hub-username, --dev-hub-client-id, and --dev-hub-instance-url (in the same
+                                     order) for each Dev Hub to try.
+  --dev-hub-username=<value>...      (required) Username of a Dev Hub.
+  --disabled                         Skip this job entirely, logging a warning instead of running it.
+  --jwt-key-file=<value>             (required) Path to the JWT private key file used for authentication.
+  --scratch-definition-file=<value>  Definition file used to create the scratch org, if not specified in
+                                     sfdx-project.json.
+  --scratch-duration-days=<value>    [default: 1] Duration of the scratch org in days.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Create a scratch org, trying each configured Dev Hub in order.
+
+  Reads the default package directory's `definitionFile` from `sfdx-project.json` (falling back to
+  `--scratch-definition-file`), and attempts creation against each `--dev-hub-*` in order. A Dev Hub that has hit its
+  daily scratch org limit is skipped in favor of the next one. Writes the resulting org's auth fields to
+  `SCRATCH_ORG_INFO.json` for later build steps, best-effort sets a default `CountryCode`, and assigns any permission
+  sets/licenses declared under the default package directory's `packageMetadataAccess`.
+
+  Skipped automatically when `PACKAGE_CHANGED=FALSE` is set in the environment (see `build determine-package-changes`).
+
+EXAMPLES
+  $ sf simply cicd build create-scratch --dev-hub-name main --dev-hub-username devhub@example.com --dev-hub-client-id 3MVG9... --dev-hub-instance-url https://login.salesforce.com --jwt-key-file ./server.key
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/build/create-scratch.js)_
+
+## `sf simply cicd build delete-scratch`
+
+Delete the scratch org created by `build create-scratch`.
+
+```
+USAGE
+  $ sf simply cicd build delete-scratch --dev-hub-name <value>... --dev-hub-username <value>... --dev-hub-client-id <value>...
+    --dev-hub-instance-url <value>... --jwt-key-file <value> [--json] [--flags-dir <value>] [--debug] [--disabled]
+
+FLAGS
+  --debug                            Enable verbose debug logging.
+  --dev-hub-client-id=<value>...     (required) Connected app client ID for a Dev Hub.
+  --dev-hub-instance-url=<value>...  (required) Login instance URL for a Dev Hub.
+  --dev-hub-name=<value>...          (required) Friendly name of a Dev Hub. Repeat this flag alongside
+                                     --dev-hub-username, --dev-hub-client-id, and --dev-hub-instance-url (in the same
+                                     order) for each Dev Hub to try.
+  --dev-hub-username=<value>...      (required) Username of a Dev Hub.
+  --disabled                         Skip this job entirely, logging a warning instead of running it.
+  --jwt-key-file=<value>             (required) Path to the JWT private key file used for authentication.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Delete the scratch org created by `build create-scratch`.
+
+  Reads `SCRATCH_ORG_INFO.json` (written by `build create-scratch`) to find which Dev Hub owns the scratch org,
+  authenticates to that Dev Hub and the scratch org, and deletes it. Deletion failures are logged rather than thrown,
+  since a scratch org left behind after a failed deletion just needs manual cleanup and shouldn't fail an
+  otherwise-successful pipeline run.
+
+  Skipped automatically when `PACKAGE_CHANGED=FALSE` is set in the environment (see `build determine-package-changes`).
+
+EXAMPLES
+  $ sf simply cicd build delete-scratch --dev-hub-name main --dev-hub-username devhub@example.com --dev-hub-client-id 3MVG9... --dev-hub-instance-url https://login.salesforce.com --jwt-key-file ./server.key
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/build/delete-scratch.js)_
+
+## `sf simply cicd build determine-package-changes`
+
+Determine if any package-relevant files have changed since the last release tag.
+
+```
+USAGE
+  $ sf simply cicd build determine-package-changes [--json] [--flags-dir <value>] [--debug] [--disabled] [--out <value>]
+
+FLAGS
+  --debug        Enable verbose debug logging.
+  --disabled     Skip this job entirely, logging a warning instead of running it.
+  --out=<value>  [default: changes.env] Output dotenv file path.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Determine if any package-relevant files have changed since the last release tag.
+
+  Reads the default package directory from `sfdx-project.json`, finds the closest reachable git tag matching its version
+  prefix, and diffs that tag against `HEAD` for the package directory and `sfdx-project.json` itself. Writes
+  `PACKAGE_CHANGED=TRUE|FALSE` and `LAST_TAG=<tag>` to the output file. Any failure during detection (missing/invalid
+  sfdx-project.json, git errors) defaults to `PACKAGE_CHANGED=TRUE`, so a build never silently skips work it should have
+  done.
+
+EXAMPLES
+  $ sf simply cicd build determine-package-changes --out changes.env
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/build/determine-package-changes.js)_
+
+## `sf simply cicd build generate-flexipage-diff`
+
+Generate a FlexiPage delta between two commits and post the results to the merge request.
+
+```
+USAGE
+  $ sf simply cicd build generate-flexipage-diff --ci-project-id <value> --ci-merge-request-iid <value> --from <value> --to <value>
+    --project-access-token <value> [--json] [--flags-dir <value>] [--out <value>] [--debug] [--disabled]
+
+FLAGS
+  --ci-merge-request-iid=<value>  (required) GitLab CI merge request internal ID.
+  --ci-project-id=<value>         (required) GitLab CI project ID.
+  --debug                         Enable verbose debug logging.
+  --disabled                      Skip this job entirely, logging a warning instead of running it.
+  --from=<value>                  (required) Base commit SHA to diff from.
+  --out=<value>                   Output directory or file path for the delta results.
+  --project-access-token=<value>  (required) Project access token used to post the diff results back to the merge
+                                  request.
+  --to=<value>                    (required) Head commit SHA to diff to.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Generate a FlexiPage delta between two commits and post the results to the merge request.
+
+  Runs the upstream `flexipage-delta` binary to diff `**/*.flexipage-meta.xml` files between `--from` and `--to`, then
+  `flexipage-delta-gitlab` to post the results back to the GitLab merge request. Both binaries are GitLab-specific, so
+  this command isn't routed through the VCS provider abstraction. Failures are logged, not thrown — a diff-posting step
+  shouldn't fail the build.
+
+EXAMPLES
+  $ sf simply cicd build generate-flexipage-diff --ci-project-id 123 --ci-merge-request-iid 45 --from abc123 --to def456 --project-access-token glpat-...
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flexipage-diff.js)_
+
+## `sf simply cicd build generate-flow-diff`
+
+Generate a Flow delta between two commits and post the results to the merge request.
+
+```
+USAGE
+  $ sf simply cicd build generate-flow-diff --ci-project-id <value> --ci-merge-request-iid <value> --from <value> --to <value>
+    --project-access-token <value> [--json] [--flags-dir <value>] [--out <value>] [--debug] [--disabled]
+
+FLAGS
+  --ci-merge-request-iid=<value>  (required) GitLab CI merge request internal ID.
+  --ci-project-id=<value>         (required) GitLab CI project ID.
+  --debug                         Enable verbose debug logging.
+  --disabled                      Skip this job entirely, logging a warning instead of running it.
+  --from=<value>                  (required) Base commit SHA to diff from.
+  --out=<value>                   Output directory or file path for the delta results.
+  --project-access-token=<value>  (required) Project access token used to post the diff results back to the merge
+                                  request.
+  --to=<value>                    (required) Head commit SHA to diff to.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Generate a Flow delta between two commits and post the results to the merge request.
+
+  Runs the upstream `flow-delta` binary to diff `**/*.flow-meta.xml` files between `--from` and `--to`, then
+  `flow-delta-gitlab` to post the results back to the GitLab merge request. Both binaries are GitLab-specific, so this
+  command isn't routed through the VCS provider abstraction. Failures are logged, not thrown — a diff-posting step
+  shouldn't fail the build.
+
+EXAMPLES
+  $ sf simply cicd build generate-flow-diff --ci-project-id 123 --ci-merge-request-iid 45 --from abc123 --to def456 --project-access-token glpat-...
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flow-diff.js)_
+
+## `sf simply cicd build install-dependencies`
+
+Install packaged dependencies into the scratch org created by `build create-scratch`.
+
+```
+USAGE
+  $ sf simply cicd build install-dependencies --jwt-key-file <value> [--json] [--flags-dir <value>] [--debug] [--disabled] [--install-type
+    All|Delta|Upgrade]
+
+FLAGS
+  --debug                  Enable verbose debug logging.
+  --disabled               Skip this job entirely, logging a warning instead of running it.
+  --install-type=<option>  [default: Upgrade] The type of dependency installation to perform.
+                           <options: All|Delta|Upgrade>
+  --jwt-key-file=<value>   (required) Path to the JWT private key file used for authentication.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Install packaged dependencies into the scratch org created by `build create-scratch`.
+
+  Reads `SCRATCH_ORG_INFO.json` (written by `build create-scratch`), authenticates as that scratch org, and installs its
+  packaged dependencies.
+
+  Skipped automatically when `PACKAGE_CHANGED=FALSE` is set in the environment (see `build determine-package-changes`).
+
+EXAMPLES
+  $ sf simply cicd build install-dependencies --jwt-key-file ./server.key
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/build/install-dependencies.js)_
+
+## `sf simply cicd build lwc-jest`
+
+Install the LWC Jest test libraries and run the project's LWC Jest tests with coverage.
+
+```
+USAGE
+  $ sf simply cicd build lwc-jest [--json] [--flags-dir <value>] [--debug] [--disabled]
+
+FLAGS
+  --debug     Enable verbose debug logging.
+  --disabled  Skip this job entirely, logging a warning instead of running it.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Install the LWC Jest test libraries and run the project's LWC Jest tests with coverage.
+
+  Installs `@salesforce/sfdx-lwc-jest` and `@sa11y/jest`, then runs `sfdx-lwc-jest --coverage -- --passWithNoTests`.
+  Failures are logged, not thrown.
+
+EXAMPLES
+  $ sf simply cicd build lwc-jest
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/build/lwc-jest.js)_
+
+## `sf simply cicd build push-scratch`
+
+Push source to the scratch org created by `build create-scratch`.
+
+```
+USAGE
+  $ sf simply cicd build push-scratch --jwt-key-file <value> [--json] [--flags-dir <value>] [--debug] [--disabled]
+    [--ignore-warnings] [--scratch-org-source-dir <value>]
+
+FLAGS
+  --debug                           Enable verbose debug logging.
+  --disabled                        Skip this job entirely, logging a warning instead of running it.
+  --ignore-warnings                 Append --ignore-warnings to the underlying sf project deploy start call.
+  --jwt-key-file=<value>            (required) Path to the JWT private key file used for authentication.
+  --scratch-org-source-dir=<value>  Source directory to push to the scratch org, in addition to the default package
+                                    directory.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Push source to the scratch org created by `build create-scratch`.
+
+  Reads `SCRATCH_ORG_INFO.json` (written by `build create-scratch`), authenticates as that scratch org, strips metadata
+  types the scratch org push doesn't support (Einstein Conversation Agent file types), and runs `sf project deploy
+  start`. When `--scratch-org-source-dir` is given, also deploys the default package directory's `seedMetadata.path`, if
+  declared in `sfdx-project.json`.
+
+  Skipped automatically when `PACKAGE_CHANGED=FALSE` is set in the environment (see `build determine-package-changes`).
+
+EXAMPLES
+  $ sf simply cicd build push-scratch --jwt-key-file ./server.key
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/build/push-scratch.js)_
+
+## `sf simply cicd build test-scratch`
+
+Run Apex tests against the scratch org created by `build create-scratch`.
+
+```
+USAGE
+  $ sf simply cicd build test-scratch --jwt-key-file <value> [--json] [--flags-dir <value>] [--debug] [--disabled]
+    [--disable-apex-tests]
+
+FLAGS
+  --debug                 Enable verbose debug logging.
+  --disable-apex-tests    Skip running Apex tests, without skipping the rest of the job.
+  --disabled              Skip this job entirely, logging a warning instead of running it.
+  --jwt-key-file=<value>  (required) Path to the JWT private key file used for authentication.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Run Apex tests against the scratch org created by `build create-scratch`.
+
+  Reads `SCRATCH_ORG_INFO.json` (written by `build create-scratch`), authenticates as that scratch org, and runs its
+  Apex tests with `RunLocalTests`.
+
+  Skipped automatically when `PACKAGE_CHANGED=FALSE` is set in the environment (see `build determine-package-changes`).
+
+EXAMPLES
+  $ sf simply cicd build test-scratch --jwt-key-file ./server.key
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/build/test-scratch.js)_
+
+## `sf simply cicd deploy happy-soup deploy-unpackaged`
+
+Run the deploy-unpackaged stage of a happy-soup deployment.
+
+```
+USAGE
+  $ sf simply cicd deploy happy-soup deploy-unpackaged --ci-job-token <value> [--json] [--flags-dir <value>] [--alias <value>] [--auth-url <value>]
+    [--client-id <value>] [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--debug]
+    [--deploy-config-file <value>] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--source-branch-name
+    <value>] [--start-from <value>] [--test-level <value>] [--test-suite <value>] [--tests <value>] [--vcs-host <value>]
+    [--vcs-provider gitlab]
+
+FLAGS
+  --alias=<value>                 Salesforce org alias.
+  --auth-url=<value>              Salesforce authorization (SFDX auth) URL, used as an alternative to JWT
+                                  authentication.
+  --ci-job-token=<value>          (required) The CI job token used to authenticate read-only repository clones.
+  --client-id=<value>             Connected app client ID, used for JWT authentication.
+  --debug                         Enable verbose debug logging.
+  --deploy-config-file=<value>    Path to the deployment configuration file. If not provided, derived from
+                                  --source-branch-name.
+  --deploy-progress-file=<value>  [default: DEPLOY_PROGRESS.json] Path to the deployment progress file.
+  --deploy-rules-file=<value>     [default: config/deploy-rules.json] Path to the deployment rules file.
+  --instance-url=<value>          Salesforce login/instance URL, used for JWT authentication.
+  --jwt-key-file=<value>          Path to the JWT private key file.
+  --source-branch-name=<value>    The source branch name for the deployment, used to derive the deployment config file
+                                  path if --deploy-config-file is not provided.
+  --start-from=<value>            Start (or resume) the deployment from a specific job name, overriding the progress
+                                  file.
+  --test-level=<value>            [default: RunLocalTests] The Apex test level to run.
+  --test-suite=<value>            The Apex test suite to run. If specified, overrides --test-level.
+  --tests=<value>                 Specific Apex tests to run.
+  --username=<value>              Salesforce username, used for JWT authentication.
+  --vcs-host=<value>              [default: gitlab.com] The source-control host to talk to (e.g. gitlab.com).
+  --vcs-provider=<option>         [default: gitlab] The source-control-hosting platform to talk to.
+                                  <options: gitlab>
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Run the deploy-unpackaged stage of a happy-soup deployment.
+
+  Runs the `bin/unpackagedDeploy.sh` script (if present) for each configured deployment that participates in this stage,
+  cloning each repo fresh and resuming from the deployment progress file unless --start-from is given.
+
+EXAMPLES
+  $ sf simply cicd deploy happy-soup deploy-unpackaged --ci-job-token $CI_JOB_TOKEN --alias my-org --source-branch-name release/uat
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/deploy-unpackaged.js)_
+
+## `sf simply cicd deploy happy-soup deployment-close-out`
+
+Archive the deployment config file used for a happy-soup deployment.
+
+```
+USAGE
+  $ sf simply cicd deploy happy-soup deployment-close-out --ci-commit-ref-name <value> --ci-pipeline-id <value> --ci-project-path <value>
+    --project-access-token <value> [--json] [--flags-dir <value>] [--debug] [--deploy-config-file <value>]
+    [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--deploy-release-date <value>] [--source-branch-name
+    <value>] [--vcs-host <value>] [--vcs-provider gitlab]
+
+FLAGS
+  --ci-commit-ref-name=<value>    (required) The commit ref (branch) to fetch and switch to before archiving.
+  --ci-pipeline-id=<value>        (required) The CI pipeline ID, used to build the authenticated push remote.
+  --ci-project-path=<value>       (required) The project path (e.g. group/project), used to build the authenticated push
+                                  remote.
+  --debug                         Enable verbose debug logging.
+  --deploy-config-file=<value>    Path to the deployment configuration file to archive, if --deploy-release-date is not
+                                  provided.
+  --deploy-progress-file=<value>  [default: DEPLOY_PROGRESS.json] Path to the deployment progress file.
+  --deploy-release-date=<value>   The release date (e.g. 2026-01-15) used to resolve the source file as
+                                  `deployment-configs/<date>.json`, taking priority over --deploy-config-file.
+  --deploy-rules-file=<value>     [default: config/deploy-rules.json] Path to the deployment rules file.
+  --project-access-token=<value>  (required) A project access token with write access, used to push the archive commit.
+  --source-branch-name=<value>    The source branch name for the deployment, used to derive the deployment config file
+                                  path if --deploy-config-file is not provided.
+  --vcs-host=<value>              [default: gitlab.com] The source-control host to talk to (e.g. gitlab.com).
+  --vcs-provider=<option>         [default: gitlab] The source-control-hosting platform to talk to.
+                                  <options: gitlab>
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Archive the deployment config file used for a happy-soup deployment.
+
+  Fetches and switches to the commit ref, then copies the deployment config file that was used (either
+  --deploy-release-date resolved to `deployment-configs/<date>.json`, or the explicit/derived deploy config file) to
+  `config/deploy.json` and commits it. If no source file can be found, an existing obsolete `config/deploy.json` is
+  removed instead. Both cases push the change with a `[skip ci]` commit message.
+
+EXAMPLES
+  $ sf simply cicd deploy happy-soup deployment-close-out --ci-commit-ref-name main --ci-pipeline-id 123 --ci-project-path group/project --project-access-token $PROJECT_ACCESS_TOKEN --deploy-release-date 2026-01-15
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/deployment-close-out.js)_
+
+## `sf simply cicd deploy happy-soup install-packaged`
+
+Install packaged dependencies into the target org for a happy-soup deployment.
+
+```
+USAGE
+  $ sf simply cicd deploy happy-soup install-packaged [--json] [--flags-dir <value>] [--alias <value>] [--auth-url <value>] [--client-id <value>]
+    [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--debug] [--deploy-progress-file <value>]
+    [--deploy-rules-file <value>] [--install-type All|Delta|Upgrade]
+
+FLAGS
+  --alias=<value>                 Salesforce org alias.
+  --auth-url=<value>              Salesforce authorization (SFDX auth) URL, used as an alternative to JWT
+                                  authentication.
+  --client-id=<value>             Connected app client ID, used for JWT authentication.
+  --debug                         Enable verbose debug logging.
+  --deploy-progress-file=<value>  [default: DEPLOY_PROGRESS.json] Path to the deployment progress file.
+  --deploy-rules-file=<value>     [default: config/deploy-rules.json] Path to the deployment rules file.
+  --install-type=<option>         [default: Upgrade] The type of dependency installation to perform.
+                                  <options: All|Delta|Upgrade>
+  --instance-url=<value>          Salesforce login/instance URL, used for JWT authentication.
+  --jwt-key-file=<value>          Path to the JWT private key file.
+  --username=<value>              Salesforce username, used for JWT authentication.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Install packaged dependencies into the target org for a happy-soup deployment.
+
+  Authenticates to the target org and installs the packaged dependencies declared in `sfdx-project.json`.
+
+EXAMPLES
+  $ sf simply cicd deploy happy-soup install-packaged --alias my-org
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/install-packaged.js)_
+
+## `sf simply cicd deploy happy-soup post-deploy`
+
+Run the post-deploy stage of a happy-soup deployment.
+
+```
+USAGE
+  $ sf simply cicd deploy happy-soup post-deploy --ci-job-token <value> [--json] [--flags-dir <value>] [--alias <value>] [--auth-url <value>]
+    [--client-id <value>] [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--debug]
+    [--deploy-config-file <value>] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--source-branch-name
+    <value>] [--start-from <value>] [--test-level <value>] [--test-suite <value>] [--tests <value>] [--vcs-host <value>]
+    [--vcs-provider gitlab]
+
+FLAGS
+  --alias=<value>                 Salesforce org alias.
+  --auth-url=<value>              Salesforce authorization (SFDX auth) URL, used as an alternative to JWT
+                                  authentication.
+  --ci-job-token=<value>          (required) The CI job token used to authenticate read-only repository clones.
+  --client-id=<value>             Connected app client ID, used for JWT authentication.
+  --debug                         Enable verbose debug logging.
+  --deploy-config-file=<value>    Path to the deployment configuration file. If not provided, derived from
+                                  --source-branch-name.
+  --deploy-progress-file=<value>  [default: DEPLOY_PROGRESS.json] Path to the deployment progress file.
+  --deploy-rules-file=<value>     [default: config/deploy-rules.json] Path to the deployment rules file.
+  --instance-url=<value>          Salesforce login/instance URL, used for JWT authentication.
+  --jwt-key-file=<value>          Path to the JWT private key file.
+  --source-branch-name=<value>    The source branch name for the deployment, used to derive the deployment config file
+                                  path if --deploy-config-file is not provided.
+  --start-from=<value>            Start (or resume) the deployment from a specific job name, overriding the progress
+                                  file.
+  --test-level=<value>            [default: RunLocalTests] The Apex test level to run.
+  --test-suite=<value>            The Apex test suite to run. If specified, overrides --test-level.
+  --tests=<value>                 Specific Apex tests to run.
+  --username=<value>              Salesforce username, used for JWT authentication.
+  --vcs-host=<value>              [default: gitlab.com] The source-control host to talk to (e.g. gitlab.com).
+  --vcs-provider=<option>         [default: gitlab] The source-control-hosting platform to talk to.
+                                  <options: gitlab>
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Run the post-deploy stage of a happy-soup deployment.
+
+  Runs the `bin/postDeploy.sh` script (if present) for each configured deployment that participates in this stage,
+  cloning each repo fresh and resuming from the deployment progress file unless --start-from is given.
+
+EXAMPLES
+  $ sf simply cicd deploy happy-soup post-deploy --ci-job-token $CI_JOB_TOKEN --alias my-org --source-branch-name release/uat
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/post-deploy.js)_
+
+## `sf simply cicd deploy happy-soup post-destructive`
+
+Run the post-destructive stage of a happy-soup deployment.
+
+```
+USAGE
+  $ sf simply cicd deploy happy-soup post-destructive --ci-job-token <value> [--json] [--flags-dir <value>] [--alias <value>] [--auth-url <value>]
+    [--client-id <value>] [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--debug]
+    [--deploy-config-file <value>] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--source-branch-name
+    <value>] [--start-from <value>] [--test-level <value>] [--test-suite <value>] [--tests <value>] [--vcs-host <value>]
+    [--vcs-provider gitlab]
+
+FLAGS
+  --alias=<value>                 Salesforce org alias.
+  --auth-url=<value>              Salesforce authorization (SFDX auth) URL, used as an alternative to JWT
+                                  authentication.
+  --ci-job-token=<value>          (required) The CI job token used to authenticate read-only repository clones.
+  --client-id=<value>             Connected app client ID, used for JWT authentication.
+  --debug                         Enable verbose debug logging.
+  --deploy-config-file=<value>    Path to the deployment configuration file. If not provided, derived from
+                                  --source-branch-name.
+  --deploy-progress-file=<value>  [default: DEPLOY_PROGRESS.json] Path to the deployment progress file.
+  --deploy-rules-file=<value>     [default: config/deploy-rules.json] Path to the deployment rules file.
+  --instance-url=<value>          Salesforce login/instance URL, used for JWT authentication.
+  --jwt-key-file=<value>          Path to the JWT private key file.
+  --source-branch-name=<value>    The source branch name for the deployment, used to derive the deployment config file
+                                  path if --deploy-config-file is not provided.
+  --start-from=<value>            Start (or resume) the deployment from a specific job name, overriding the progress
+                                  file.
+  --test-level=<value>            [default: RunLocalTests] The Apex test level to run.
+  --test-suite=<value>            The Apex test suite to run. If specified, overrides --test-level.
+  --tests=<value>                 Specific Apex tests to run.
+  --username=<value>              Salesforce username, used for JWT authentication.
+  --vcs-host=<value>              [default: gitlab.com] The source-control host to talk to (e.g. gitlab.com).
+  --vcs-provider=<option>         [default: gitlab] The source-control-hosting platform to talk to.
+                                  <options: gitlab>
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Run the post-destructive stage of a happy-soup deployment.
+
+  Runs the `bin/postDestructive.sh` script (if present) for each configured deployment that participates in this stage,
+  cloning each repo fresh and resuming from the deployment progress file unless --start-from is given.
+
+EXAMPLES
+  $ sf simply cicd deploy happy-soup post-destructive --ci-job-token $CI_JOB_TOKEN --alias my-org --source-branch-name release/uat
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/post-destructive.js)_
+
+## `sf simply cicd deploy happy-soup pre-destructive`
+
+Run the pre-destructive stage of a happy-soup deployment.
+
+```
+USAGE
+  $ sf simply cicd deploy happy-soup pre-destructive --ci-job-token <value> [--json] [--flags-dir <value>] [--alias <value>] [--auth-url <value>]
+    [--client-id <value>] [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--debug]
+    [--deploy-config-file <value>] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--source-branch-name
+    <value>] [--start-from <value>] [--test-level <value>] [--test-suite <value>] [--tests <value>] [--vcs-host <value>]
+    [--vcs-provider gitlab]
+
+FLAGS
+  --alias=<value>                 Salesforce org alias.
+  --auth-url=<value>              Salesforce authorization (SFDX auth) URL, used as an alternative to JWT
+                                  authentication.
+  --ci-job-token=<value>          (required) The CI job token used to authenticate read-only repository clones.
+  --client-id=<value>             Connected app client ID, used for JWT authentication.
+  --debug                         Enable verbose debug logging.
+  --deploy-config-file=<value>    Path to the deployment configuration file. If not provided, derived from
+                                  --source-branch-name.
+  --deploy-progress-file=<value>  [default: DEPLOY_PROGRESS.json] Path to the deployment progress file.
+  --deploy-rules-file=<value>     [default: config/deploy-rules.json] Path to the deployment rules file.
+  --instance-url=<value>          Salesforce login/instance URL, used for JWT authentication.
+  --jwt-key-file=<value>          Path to the JWT private key file.
+  --source-branch-name=<value>    The source branch name for the deployment, used to derive the deployment config file
+                                  path if --deploy-config-file is not provided.
+  --start-from=<value>            Start (or resume) the deployment from a specific job name, overriding the progress
+                                  file.
+  --test-level=<value>            [default: RunLocalTests] The Apex test level to run.
+  --test-suite=<value>            The Apex test suite to run. If specified, overrides --test-level.
+  --tests=<value>                 Specific Apex tests to run.
+  --username=<value>              Salesforce username, used for JWT authentication.
+  --vcs-host=<value>              [default: gitlab.com] The source-control host to talk to (e.g. gitlab.com).
+  --vcs-provider=<option>         [default: gitlab] The source-control-hosting platform to talk to.
+                                  <options: gitlab>
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Run the pre-destructive stage of a happy-soup deployment.
+
+  Runs the `bin/preDestructive.sh` script (if present) for each configured deployment that participates in this stage,
+  cloning each repo fresh and resuming from the deployment progress file unless --start-from is given.
+
+EXAMPLES
+  $ sf simply cicd deploy happy-soup pre-destructive --ci-job-token $CI_JOB_TOKEN --alias my-org --source-branch-name release/uat
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/pre-destructive.js)_
+
+## `sf simply cicd deploy happy-soup tag-deployment`
+
+Tag the current commit with details about a happy-soup deployment.
+
+```
+USAGE
+  $ sf simply cicd deploy happy-soup tag-deployment --ci-merge-request-iid <value> --ci-merge-request-project-url <value> --ci-pipeline-id <value>
+    --ci-pipeline-url <value> --ci-project-path <value> --project-access-token <value> [--json] [--flags-dir <value>]
+    [--alias <value>] [--auth-url <value>] [--client-id <value>] [--instance-url <value>] [--jwt-key-file <value>]
+    [--username <value>] [--debug] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--vcs-host <value>]
+    [--vcs-provider gitlab]
+
+FLAGS
+  --alias=<value>                         Salesforce org alias.
+  --auth-url=<value>                      Salesforce authorization (SFDX auth) URL, used as an alternative to JWT
+                                          authentication.
+  --ci-merge-request-iid=<value>          (required) The merge request's internal ID (IID), used to build the merge
+                                          request link in the tag message.
+  --ci-merge-request-project-url=<value>  (required) The project's URL, used to build the merge request link in the tag
+                                          message.
+  --ci-pipeline-id=<value>                (required) The CI pipeline ID.
+  --ci-pipeline-url=<value>               (required) The CI pipeline URL, included in the tag message if provided.
+  --ci-project-path=<value>               (required) The project path (e.g. group/project), used to build the
+                                          authenticated push remote.
+  --client-id=<value>                     Connected app client ID, used for JWT authentication.
+  --debug                                 Enable verbose debug logging.
+  --deploy-progress-file=<value>          [default: DEPLOY_PROGRESS.json] Path to the deployment progress file.
+  --deploy-rules-file=<value>             [default: config/deploy-rules.json] Path to the deployment rules file.
+  --instance-url=<value>                  Salesforce login/instance URL, used for JWT authentication.
+  --jwt-key-file=<value>                  Path to the JWT private key file.
+  --project-access-token=<value>          (required) A project access token with write access, used to push the tag.
+  --username=<value>                      Salesforce username, used for JWT authentication.
+  --vcs-host=<value>                      [default: gitlab.com] The source-control host to talk to (e.g. gitlab.com).
+  --vcs-provider=<option>                 [default: gitlab] The source-control-hosting platform to talk to.
+                                          <options: gitlab>
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Tag the current commit with details about a happy-soup deployment.
+
+  Authenticates to the target org, derives an org domain prefix from its instance URL, and creates an annotated git tag
+  (`deployed--<org-domain-prefix>-<timestamp>`) recording the deployment time (America/New_York) and, if provided, the
+  associated pipeline and merge request links. The tag is pushed to the source repository.
+
+EXAMPLES
+  $ sf simply cicd deploy happy-soup tag-deployment --alias my-org --ci-pipeline-id 123 --ci-pipeline-url https://gitlab.example.com/group/project/-/pipelines/123 --ci-project-path group/project --ci-merge-request-iid 45 --ci-merge-request-project-url https://gitlab.example.com/group/project --project-access-token $PROJECT_ACCESS_TOKEN
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/tag-deployment.js)_
+
+## `sf simply cicd deploy happy-soup validate`
+
+Validate deployment configuration files for a happy-soup deployment.
+
+```
+USAGE
+  $ sf simply cicd deploy happy-soup validate [--json] [--flags-dir <value>] [--deploy-config-file <value>] [--deploy-progress-file <value>]
+    [--deploy-rules-file <value>] [--source-branch-name <value>]
+
+FLAGS
+  --deploy-config-file=<value>    Path to the deployment configuration file. If not provided, derived from
+                                  --source-branch-name.
+  --deploy-progress-file=<value>  [default: DEPLOY_PROGRESS.json] Path to the deployment progress file.
+  --deploy-rules-file=<value>     [default: config/deploy-rules.json] Path to the deployment rules file.
+  --source-branch-name=<value>    The source branch name for the deployment, used to derive the deployment config file
+                                  path if --deploy-config-file is not provided.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Validate deployment configuration files for a happy-soup deployment.
+
+  Validates the deployment config file (explicit, or derived from --source-branch-name) and, if --deploy-rules-file is
+  given, the deployment rules file. A missing file is skipped with a warning; a malformed or schema-invalid file fails
+  the command.
+
+EXAMPLES
+  $ sf simply cicd deploy happy-soup validate --source-branch-name release/uat
+
+  $ sf simply cicd deploy happy-soup validate --deploy-config-file deployment-configs/uat.json --deploy-rules-file config/deploy-rules.json
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/validate.js)_
+
+## `sf simply cicd deploy project deploy-unpackaged`
+
+Run the deploy-unpackaged stage of a project deployment.
+
+```
+USAGE
+  $ sf simply cicd deploy project deploy-unpackaged --ci-job-token <value> [--json] [--flags-dir <value>] [--alias <value>] [--auth-url <value>]
+    [--client-id <value>] [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--debug]
+    [--deploy-config-file <value>] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--start-from <value>]
+    [--test-level <value>] [--test-suite <value>] [--tests <value>] [--vcs-host <value>] [--vcs-provider gitlab]
+
+FLAGS
+  --alias=<value>                 Salesforce org alias.
+  --auth-url=<value>              Salesforce authorization (SFDX auth) URL, used as an alternative to JWT
+                                  authentication.
+  --ci-job-token=<value>          (required) The CI job token used to authenticate read-only repository clones.
+  --client-id=<value>             Connected app client ID, used for JWT authentication.
+  --debug                         Enable verbose debug logging.
+  --deploy-config-file=<value>    [default: config/deploy.json] Path to the deployment configuration file.
+  --deploy-progress-file=<value>  [default: DEPLOY_PROGRESS.json] Path to the deployment progress file.
+  --deploy-rules-file=<value>     [default: config/deploy-rules.json] Path to the deployment rules file.
+  --instance-url=<value>          Salesforce login/instance URL, used for JWT authentication.
+  --jwt-key-file=<value>          Path to the JWT private key file.
+  --start-from=<value>            Start (or resume) the deployment from a specific job name, overriding the progress
+                                  file.
+  --test-level=<value>            [default: RunLocalTests] The Apex test level to run.
+  --test-suite=<value>            The Apex test suite to run. If specified, overrides --test-level.
+  --tests=<value>                 Specific Apex tests to run.
+  --username=<value>              Salesforce username, used for JWT authentication.
+  --vcs-host=<value>              [default: gitlab.com] The source-control host to talk to (e.g. gitlab.com).
+  --vcs-provider=<option>         [default: gitlab] The source-control-hosting platform to talk to.
+                                  <options: gitlab>
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Run the deploy-unpackaged stage of a project deployment.
+
+  Runs the `bin/unpackagedDeploy.sh` script (if present) against the local project directory, resuming from the
+  deployment progress file unless --start-from is given.
+
+EXAMPLES
+  $ sf simply cicd deploy project deploy-unpackaged --ci-job-token $CI_JOB_TOKEN --alias my-org
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/deploy-unpackaged.js)_
+
+## `sf simply cicd deploy project install-packaged`
+
+Install packaged dependencies and the project's own package into the target org.
+
+```
+USAGE
+  $ sf simply cicd deploy project install-packaged --ci-job-token <value> [--json] [--flags-dir <value>] [--alias <value>] [--auth-url <value>]
+    [--client-id <value>] [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--debug]
+    [--deploy-config-file <value>] [--deploy-progress-file <value>] [--deploy-rules-file <value>]
+    [--subscriber-package-version-id <value>] [--install-type All|Delta|Upgrade]
+
+FLAGS
+  --alias=<value>                          Salesforce org alias.
+  --auth-url=<value>                       Salesforce authorization (SFDX auth) URL, used as an alternative to JWT
+                                           authentication.
+  --ci-job-token=<value>                   (required) The CI job token used to authenticate read-only repository clones.
+  --client-id=<value>                      Connected app client ID, used for JWT authentication.
+  --debug                                  Enable verbose debug logging.
+  --deploy-config-file=<value>             [default: config/deploy.json] Path to the deployment configuration file.
+  --deploy-progress-file=<value>           [default: DEPLOY_PROGRESS.json] Path to the deployment progress file.
+  --deploy-rules-file=<value>              [default: config/deploy-rules.json] Path to the deployment rules file.
+  --install-type=<option>                  [default: Upgrade] The type of dependency installation to perform.
+                                           <options: All|Delta|Upgrade>
+  --instance-url=<value>                   Salesforce login/instance URL, used for JWT authentication.
+  --jwt-key-file=<value>                   Path to the JWT private key file.
+  --subscriber-package-version-id=<value>  The subscriber package version ID (04t...) to install. If not provided, the
+                                           ID is looked up from the git tag annotation at HEAD.
+  --username=<value>                       Salesforce username, used for JWT authentication.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Install packaged dependencies and the project's own package into the target org.
+
+  Installs the packaged dependencies declared in `sfdx-project.json`, then installs the project's own main package —
+  prioritizing --subscriber-package-version-id if given, otherwise looking for a `04t...` package ID annotated on the
+  git tag pointing at HEAD.
+
+EXAMPLES
+  $ sf simply cicd deploy project install-packaged --ci-job-token $CI_JOB_TOKEN --alias my-org
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/install-packaged.js)_
+
+## `sf simply cicd deploy project post-deploy`
+
+Run the post-deploy stage of a project deployment.
+
+```
+USAGE
+  $ sf simply cicd deploy project post-deploy --ci-job-token <value> [--json] [--flags-dir <value>] [--alias <value>] [--auth-url <value>]
+    [--client-id <value>] [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--debug]
+    [--deploy-config-file <value>] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--start-from <value>]
+    [--test-level <value>] [--test-suite <value>] [--tests <value>] [--vcs-host <value>] [--vcs-provider gitlab]
+
+FLAGS
+  --alias=<value>                 Salesforce org alias.
+  --auth-url=<value>              Salesforce authorization (SFDX auth) URL, used as an alternative to JWT
+                                  authentication.
+  --ci-job-token=<value>          (required) The CI job token used to authenticate read-only repository clones.
+  --client-id=<value>             Connected app client ID, used for JWT authentication.
+  --debug                         Enable verbose debug logging.
+  --deploy-config-file=<value>    [default: config/deploy.json] Path to the deployment configuration file.
+  --deploy-progress-file=<value>  [default: DEPLOY_PROGRESS.json] Path to the deployment progress file.
+  --deploy-rules-file=<value>     [default: config/deploy-rules.json] Path to the deployment rules file.
+  --instance-url=<value>          Salesforce login/instance URL, used for JWT authentication.
+  --jwt-key-file=<value>          Path to the JWT private key file.
+  --start-from=<value>            Start (or resume) the deployment from a specific job name, overriding the progress
+                                  file.
+  --test-level=<value>            [default: RunLocalTests] The Apex test level to run.
+  --test-suite=<value>            The Apex test suite to run. If specified, overrides --test-level.
+  --tests=<value>                 Specific Apex tests to run.
+  --username=<value>              Salesforce username, used for JWT authentication.
+  --vcs-host=<value>              [default: gitlab.com] The source-control host to talk to (e.g. gitlab.com).
+  --vcs-provider=<option>         [default: gitlab] The source-control-hosting platform to talk to.
+                                  <options: gitlab>
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Run the post-deploy stage of a project deployment.
+
+  Runs the `bin/postDeploy.sh` script (if present) against the local project directory, resuming from the deployment
+  progress file unless --start-from is given.
+
+EXAMPLES
+  $ sf simply cicd deploy project post-deploy --ci-job-token $CI_JOB_TOKEN --alias my-org
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/post-deploy.js)_
+
+## `sf simply cicd deploy project post-destructive`
+
+Run the post-destructive stage of a project deployment.
+
+```
+USAGE
+  $ sf simply cicd deploy project post-destructive --ci-job-token <value> [--json] [--flags-dir <value>] [--alias <value>] [--auth-url <value>]
+    [--client-id <value>] [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--debug]
+    [--deploy-config-file <value>] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--start-from <value>]
+    [--test-level <value>] [--test-suite <value>] [--tests <value>] [--vcs-host <value>] [--vcs-provider gitlab]
+
+FLAGS
+  --alias=<value>                 Salesforce org alias.
+  --auth-url=<value>              Salesforce authorization (SFDX auth) URL, used as an alternative to JWT
+                                  authentication.
+  --ci-job-token=<value>          (required) The CI job token used to authenticate read-only repository clones.
+  --client-id=<value>             Connected app client ID, used for JWT authentication.
+  --debug                         Enable verbose debug logging.
+  --deploy-config-file=<value>    [default: config/deploy.json] Path to the deployment configuration file.
+  --deploy-progress-file=<value>  [default: DEPLOY_PROGRESS.json] Path to the deployment progress file.
+  --deploy-rules-file=<value>     [default: config/deploy-rules.json] Path to the deployment rules file.
+  --instance-url=<value>          Salesforce login/instance URL, used for JWT authentication.
+  --jwt-key-file=<value>          Path to the JWT private key file.
+  --start-from=<value>            Start (or resume) the deployment from a specific job name, overriding the progress
+                                  file.
+  --test-level=<value>            [default: RunLocalTests] The Apex test level to run.
+  --test-suite=<value>            The Apex test suite to run. If specified, overrides --test-level.
+  --tests=<value>                 Specific Apex tests to run.
+  --username=<value>              Salesforce username, used for JWT authentication.
+  --vcs-host=<value>              [default: gitlab.com] The source-control host to talk to (e.g. gitlab.com).
+  --vcs-provider=<option>         [default: gitlab] The source-control-hosting platform to talk to.
+                                  <options: gitlab>
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Run the post-destructive stage of a project deployment.
+
+  Runs the `bin/postDestructive.sh` script (if present) against the local project directory, resuming from the
+  deployment progress file unless --start-from is given.
+
+EXAMPLES
+  $ sf simply cicd deploy project post-destructive --ci-job-token $CI_JOB_TOKEN --alias my-org
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/post-destructive.js)_
+
+## `sf simply cicd deploy project pre-destructive`
+
+Run the pre-destructive stage of a project deployment.
+
+```
+USAGE
+  $ sf simply cicd deploy project pre-destructive --ci-job-token <value> [--json] [--flags-dir <value>] [--alias <value>] [--auth-url <value>]
+    [--client-id <value>] [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--debug]
+    [--deploy-config-file <value>] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--start-from <value>]
+    [--test-level <value>] [--test-suite <value>] [--tests <value>] [--vcs-host <value>] [--vcs-provider gitlab]
+
+FLAGS
+  --alias=<value>                 Salesforce org alias.
+  --auth-url=<value>              Salesforce authorization (SFDX auth) URL, used as an alternative to JWT
+                                  authentication.
+  --ci-job-token=<value>          (required) The CI job token used to authenticate read-only repository clones.
+  --client-id=<value>             Connected app client ID, used for JWT authentication.
+  --debug                         Enable verbose debug logging.
+  --deploy-config-file=<value>    [default: config/deploy.json] Path to the deployment configuration file.
+  --deploy-progress-file=<value>  [default: DEPLOY_PROGRESS.json] Path to the deployment progress file.
+  --deploy-rules-file=<value>     [default: config/deploy-rules.json] Path to the deployment rules file.
+  --instance-url=<value>          Salesforce login/instance URL, used for JWT authentication.
+  --jwt-key-file=<value>          Path to the JWT private key file.
+  --start-from=<value>            Start (or resume) the deployment from a specific job name, overriding the progress
+                                  file.
+  --test-level=<value>            [default: RunLocalTests] The Apex test level to run.
+  --test-suite=<value>            The Apex test suite to run. If specified, overrides --test-level.
+  --tests=<value>                 Specific Apex tests to run.
+  --username=<value>              Salesforce username, used for JWT authentication.
+  --vcs-host=<value>              [default: gitlab.com] The source-control host to talk to (e.g. gitlab.com).
+  --vcs-provider=<option>         [default: gitlab] The source-control-hosting platform to talk to.
+                                  <options: gitlab>
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Run the pre-destructive stage of a project deployment.
+
+  Runs the `bin/preDestructive.sh` script (if present) against the local project directory, resuming from the deployment
+  progress file unless --start-from is given.
+
+EXAMPLES
+  $ sf simply cicd deploy project pre-destructive --ci-job-token $CI_JOB_TOKEN --alias my-org
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/pre-destructive.js)_
+
+## `sf simply cicd deploy project run-apex-tests`
+
+Run Apex tests against the target org for a project deployment.
+
+```
+USAGE
+  $ sf simply cicd deploy project run-apex-tests --ci-job-token <value> [--json] [--flags-dir <value>] [--alias <value>] [--auth-url <value>]
+    [--client-id <value>] [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--debug]
+    [--deploy-config-file <value>] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--start-from <value>]
+    [--test-level <value>] [--test-suite <value>] [--tests <value>]
+
+FLAGS
+  --alias=<value>                 Salesforce org alias.
+  --auth-url=<value>              Salesforce authorization (SFDX auth) URL, used as an alternative to JWT
+                                  authentication.
+  --ci-job-token=<value>          (required) The CI job token used to authenticate read-only repository clones.
+  --client-id=<value>             Connected app client ID, used for JWT authentication.
+  --debug                         Enable verbose debug logging.
+  --deploy-config-file=<value>    [default: config/deploy.json] Path to the deployment configuration file.
+  --deploy-progress-file=<value>  [default: DEPLOY_PROGRESS.json] Path to the deployment progress file.
+  --deploy-rules-file=<value>     [default: config/deploy-rules.json] Path to the deployment rules file.
+  --instance-url=<value>          Salesforce login/instance URL, used for JWT authentication.
+  --jwt-key-file=<value>          Path to the JWT private key file.
+  --start-from=<value>            Start (or resume) the deployment from a specific job name, overriding the progress
+                                  file.
+  --test-level=<value>            [default: RunLocalTests] The Apex test level to run.
+  --test-suite=<value>            The Apex test suite to run. If specified, overrides --test-level.
+  --tests=<value>                 Specific Apex tests to run.
+  --username=<value>              Salesforce username, used for JWT authentication.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Run Apex tests against the target org for a project deployment.
+
+  Authenticates to the target org and runs its Apex tests, if any exist in the project's package directories.
+
+EXAMPLES
+  $ sf simply cicd deploy project run-apex-tests --ci-job-token $CI_JOB_TOKEN --alias my-org
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/run-apex-tests.js)_
+
+## `sf simply cicd deploy project validate`
+
+Validate deployment configuration files for a project deployment.
+
+```
+USAGE
+  $ sf simply cicd deploy project validate [--json] [--flags-dir <value>] [--deploy-config-file <value>] [--deploy-progress-file <value>]
+    [--deploy-rules-file <value>]
+
+FLAGS
+  --deploy-config-file=<value>    [default: config/deploy.json] Path to the deployment configuration file.
+  --deploy-progress-file=<value>  [default: DEPLOY_PROGRESS.json] Path to the deployment progress file. Accepted for
+                                  consistency with the other project deployment commands; not used by validation.
+  --deploy-rules-file=<value>     Path to the deployment rules file.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Validate deployment configuration files for a project deployment.
+
+  Validates `config/deploy.json` (or the path given by --deploy-config-file) and, if --deploy-rules-file is given, the
+  deployment rules file. A missing file is skipped with a warning; a malformed or schema-invalid file fails the command.
+
+EXAMPLES
+  $ sf simply cicd deploy project validate
+
+  $ sf simply cicd deploy project validate --deploy-config-file config/deploy.json --deploy-rules-file config/deploy-rules.json
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/validate.js)_
+
+## `sf simply cicd deploy validate`
+
+Validate deployment configuration files against their JSON schemas.
+
+```
+USAGE
+  $ sf simply cicd deploy validate [--json] [--flags-dir <value>] [--deploy-config-file <value>] [--deploy-rules-file <value>]
+    [--source-branch-name <value>]
+
+FLAGS
+  --deploy-config-file=<value>  Path to the deployment configuration file.
+  --deploy-rules-file=<value>   Path to the deployment rules file.
+  --source-branch-name=<value>  The source branch name for the deployment, used to derive the deployment config file
+                                path if --deploy-config-file is not provided.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Validate deployment configuration files against their JSON schemas.
+
+  Validates the deployment config file (`deploy.json`) and deployment rules file independently against their schemas. A
+  missing file is skipped with a warning; a malformed or schema-invalid file fails the command.
+
+  This is the generic form of the command, with no namespace-specific default file paths — see `deploy project validate`
+  and `deploy happy-soup validate` for versions with sensible defaults for those deployment styles.
+
+EXAMPLES
+  $ sf simply cicd deploy validate --deploy-config-file config/deploy.json --deploy-rules-file config/deploy-rules.json
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/deploy/validate.js)_
+
+## `sf simply cicd notify happy-soup`
+
+Send a happy-soup deployment stage notification to Microsoft Teams, without Jira story integration.
+
+```
+USAGE
+  $ sf simply cicd notify happy-soup [--json] [--flags-dir <value>] [--after-script] [--before-script] [--ci-commit-ref-name
+    <value>] [--ci-environment-name <value>] [--ci-job-name <value>] [--ci-job-stage <value>] [--ci-job-status <value>]
+    [--ci-pipeline-id <value>] [--ci-pipeline-url <value>] [--enabled] [--teams-webhook-url <value>...]
+    [--notify-on-completion] [--is-final-job] [--debug]
+
+FLAGS
+  --after-script                  Run the after-stage notification logic.
+  --before-script                 Run the before-stage (starting) notification logic.
+  --ci-commit-ref-name=<value>    The git branch or tag ref for this pipeline run.
+  --ci-environment-name=<value>   The name of the target CI environment.
+  --ci-job-name=<value>           The name of the current CI job.
+  --ci-job-stage=<value>          The stage of the current CI job.
+  --ci-job-status=<value>         The status of the current CI job (e.g. success, failed).
+  --ci-pipeline-id=<value>        The ID of the current CI pipeline.
+  --ci-pipeline-url=<value>       The URL of the current CI pipeline.
+  --debug                         Enable verbose debug logging.
+  --enabled                       Whether the notification is actually sent. Defaults to false so pipelines can gate
+                                  this behind their own condition.
+  --is-final-job                  Marks this job as the final job in the pipeline. Combined with --after-script and
+                                  --notify-on-completion, this is what actually triggers the final notification.
+  --notify-on-completion          Only send a notification on the final job of the pipeline, suppressing per-stage
+                                  notifications.
+  --teams-webhook-url=<value>...  One or more Teams webhook URLs to send the notification to.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Send a happy-soup deployment stage notification to Microsoft Teams, without Jira story integration.
+
+  Run with `--before-script` at the start of a stage to post a "starting" card, and with `--after-script` at the end to
+  post a success or failure card. With `--notify-on-completion`, intermediate stage notifications are suppressed and
+  only the final job (`--is-final-job` combined with `--after-script`) posts a card.
+
+EXAMPLES
+  $ sf simply cicd notify happy-soup --before-script --ci-job-stage pre-destructive --teams-webhook-url https://outlook.office.com/webhook/... --enabled
+
+  $ sf simply cicd notify happy-soup --after-script --is-final-job --notify-on-completion --ci-job-status success --teams-webhook-url https://outlook.office.com/webhook/... --enabled
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/notify/happy-soup.js)_
+
+## `sf simply cicd notify project`
+
+Send a project deployment notification to Microsoft Teams, with Jira story integration.
+
+```
+USAGE
+  $ sf simply cicd notify project [--json] [--flags-dir <value>] [--after-script] [--alias <value>] [--before-script]
+    [--ci-commit-ref-name <value>] [--ci-environment-name <value>] [--ci-job-name <value>] [--ci-job-stage <value>]
+    [--ci-job-status <value>] [--ci-pipeline-id <value>] [--ci-pipeline-url <value>] [--ci-project-title <value>]
+    [--client-id <value>] [--devhub-tooling-client-id <value>] [--devhub-tooling-instance-url <value>]
+    [--devhub-tooling-username <value>] [--enabled] [--instance-url <value>] [--jira-base-url <value>]
+    [--jira-project-key <value>] [--jwt-key-file <value>] [--prev-installed-package-version <value>]
+    [--subscriber-package-version-id <value>] [--target-package-version <value>] [--teams-webhook-url <value>...]
+    [--username <value>] [--debug]
+
+FLAGS
+  --after-script                            Run the after-deployment notification logic.
+  --alias=<value>                           The target Salesforce org alias to authenticate and query for the previously
+                                            installed package version.
+  --before-script                           Run the before-deployment setup logic (resolves and records package
+                                            versions).
+  --ci-commit-ref-name=<value>              The git branch or tag ref for this pipeline run.
+  --ci-environment-name=<value>             The name of the target CI environment.
+  --ci-job-name=<value>                     The name of the current CI job.
+  --ci-job-stage=<value>                    The stage of the current CI job (e.g. pre-destructive, post-destructive).
+  --ci-job-status=<value>                   The status of the current CI job (e.g. success, failed, canceled).
+  --ci-pipeline-id=<value>                  The ID of the current CI pipeline.
+  --ci-pipeline-url=<value>                 The URL of the current CI pipeline.
+  --ci-project-title=<value>                The project title shown in the notification card's heading.
+  --client-id=<value>                       Connected app client ID for JWT authentication to the target org.
+  --debug                                   Enable verbose debug logging.
+  --devhub-tooling-client-id=<value>        Connected app client ID for JWT authentication to the tooling DevHub.
+  --devhub-tooling-instance-url=<value>     Login instance URL for the tooling DevHub.
+  --devhub-tooling-username=<value>         Username for JWT authentication to the tooling DevHub.
+  --enabled                                 Whether the notification is actually sent. Defaults to false so pipelines
+                                            can gate this behind their own condition.
+  --instance-url=<value>                    Login instance URL for the target org.
+  --jira-base-url=<value>                   Base URL for linking a Jira issue key, e.g. https://jira.example.com/browse.
+                                            Story keys are shown without links if not provided.
+  --jira-project-key=<value>                Fallback Jira project key(s) used to search commit messages for story
+                                            references, if none are configured in .sfdevrc.json.
+  --jwt-key-file=<value>                    Path to the JWT private key file, used for both the target org and tooling
+                                            DevHub authentication.
+  --prev-installed-package-version=<value>  The previously installed package version. Only needed if re-running
+                                            --after-script without having run --before-script first in the same job.
+  --subscriber-package-version-id=<value>   The subscriber package version ID (04t...) being deployed, used to resolve
+                                            the target package version from the tooling DevHub.
+  --target-package-version=<value>          The target package version. Only needed if re-running --after-script without
+                                            having run --before-script first in the same job.
+  --teams-webhook-url=<value>...            One or more Teams webhook URLs to send the notification to.
+  --username=<value>                        Username for JWT authentication to the target org.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Send a project deployment notification to Microsoft Teams, with Jira story integration.
+
+  Run once with `--before-script` at the start of a deployment pipeline (to record the previously installed and target
+  package versions), and once with `--after-script` at the end (to post a success or failure card to Teams, including
+  the Jira stories that shipped between those two versions).
+
+EXAMPLES
+  $ sf simply cicd notify project --before-script --ci-job-stage pre-destructive --alias my-org --username user@example.com --jwt-key-file server.key --client-id abc123 --instance-url https://login.salesforce.com --enabled
+
+  $ sf simply cicd notify project --after-script --ci-job-stage post-destructive --ci-job-status success --teams-webhook-url https://outlook.office.com/webhook/... --enabled
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/notify/project.js)_
+
+## `sf simply cicd notify teams`
+
+Send a serialized JSON payload to a Microsoft Teams webhook.
+
+```
+USAGE
+  $ sf simply cicd notify teams --payload <value> --webhook-url <value> [--json] [--flags-dir <value>] [--enabled]
+  [--debug]
+
+FLAGS
+  --debug                Enable verbose debug logging.
+  --enabled              Whether the notification is actually sent. Defaults to false so pipelines can gate this behind
+                         their own condition.
+  --payload=<value>      (required) The JSON payload to send to Teams, as a serialized string.
+  --webhook-url=<value>  (required) The Teams webhook URL to send the payload to.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Send a serialized JSON payload to a Microsoft Teams webhook.
+
+  Posts a payload as-is to one or more Microsoft Teams incoming webhook URLs. Use this for custom notifications that
+  don't fit the built-in `notify project` or `notify happy-soup` card templates.
+
+EXAMPLES
+  $ sf simply cicd notify teams --payload '{"text":"Deployment complete"}' --webhook-url https://outlook.office.com/webhook/... --enabled
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/notify/teams.js)_
+
+## `sf simply cicd sfdx-dependabot`
+
+Automatically update downstream projects with a newly released Salesforce 2GP package version.
+
+```
+USAGE
+  $ sf simply cicd sfdx-dependabot [--json] [--flags-dir <value>] [--gitlab-api-url <value>] [--gitlab-token <value>]
+    [--root-group-id <value>] [--subscriber-package-version-id <value>] [--devhub-username <value>] [--dry-run]
+    [--project-allowlist <value>] [--project-denylist <value>] [--skip-archived] [--skip-forks] [--branch-prefix
+    <value>] [--mr-labels <value>] [--fail-on-error] [--max-projects <value>] [--vcs-provider gitlab]
+
+FLAGS
+  --branch-prefix=<value>                  Prefix used for generated branch names.
+  --devhub-username=<value>                Salesforce DevHub username or alias used to resolve the package's name and
+                                           version.
+  --dry-run                                Run discovery and parsing, but perform zero write, commit, or merge request
+                                           operations.
+  --fail-on-error                          Return a non-zero exit code if one or more per-project operations fail.
+  --gitlab-api-url=<value>                 GitLab API v4 base URL.
+  --gitlab-token=<value>                   GitLab access token with file-writing and merge request privileges.
+  --max-projects=<value>                   Optional safety limit restricting the maximum number of eligible projects to
+                                           scan.
+  --mr-labels=<value>                      Comma-separated labels to apply to created or updated merge requests.
+  --project-allowlist=<value>              Comma-separated list of GitLab project paths to include in the scan. If
+                                           specified, only matching projects are scanned.
+  --project-denylist=<value>               Comma-separated list of GitLab project paths to exclude from scanning.
+  --root-group-id=<value>                  GitLab group ID or URL-encoded path to scan for downstream projects.
+  --[no-]skip-archived                     Skip archived GitLab repositories.
+  --[no-]skip-forks                        Skip forked GitLab repositories.
+  --subscriber-package-version-id=<value>  The newly released Salesforce subscriber package version ID (04t...).
+  --vcs-provider=<option>                  [default: gitlab] The source-control-hosting platform to talk to.
+                                           <options: gitlab>
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Automatically update downstream projects with a newly released Salesforce 2GP package version.
+
+  Discovers repositories under a GitLab group, reads each one's `sfdx-project.json`, and for any repository that both
+  depends on the released package and has opted in via the `SFDX_DEPENDABOT_ENABLED=TRUE` project-level CI/CD variable,
+  opens (or updates) a merge request bumping the dependency to the newly released version.
+
+  Each eligible repository must explicitly opt in — this command never touches a downstream repository's dependencies
+  without that variable set.
+
+EXAMPLES
+  $ sf simply cicd sfdx-dependabot --root-group-id 12345 --subscriber-package-version-id 04tXXXXXXXXXXXXXXX --devhub-username hub@example.com --dry-run
+
+  $ sf simply cicd sfdx-dependabot --root-group-id 12345 --subscriber-package-version-id 04tXXXXXXXXXXXXXXX --devhub-username hub@example.com --branch-prefix devops/dependabot --mr-labels dependencies
+
+FLAG DESCRIPTIONS
+  --gitlab-api-url=<value>  GitLab API v4 base URL.
+
+    Falls back to the SFDX_DEPENDABOT_GITLAB_API_URL or CI_API_V4_URL environment variables if not provided.
+```
+
+_See code: [@simplysf/simply-cicd](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/sfdx-dependabot.js)_
+
+## `sf simply data file upload`
+
+Upload a file to a Salesforce org.
+
+```
+USAGE
+  $ sf simply data file upload --file-path <value> -o <value> [--json] [--flags-dir <value>] [--api-version <value>]
+    [--first-publish-location-id <value>] [--title <value>]
+
+FLAGS
+  -o, --target-org=<value>                 (required) Username or alias of the target org. Not required if the
+                                           `target-org` configuration variable is already set.
+      --api-version=<value>                Override the api version used for api requests made by this command
+      --file-path=<value>                  (required) Path to the file to upload.
+      --first-publish-location-id=<value>  Specify a record Id that the file should be linked to.
+      --title=<value>                      Specify the title for the file being uploaded.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Upload a file to a Salesforce org.
+
+  Uploads a file to a Salesforce org.
+
+EXAMPLES
+  $ sf simply data file upload --file-path fileToUpload.txt --target-org myTargetOrg
+
+  $ sf simply data file upload --file-path fileToUpload.txt --first-publish-location-id 0019000000DmehK --target-org myTargetOrg
+```
+
+_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-data@2.3.11/packages/simply-data/lib/commands/simply/data/file/upload.js)_
+
+## `sf simply data files download`
+
+Download files from a Salesforce org.
+
+```
+USAGE
+  $ sf simply data files download -o <value> --where-content-version <value> [--json] [--flags-dir <value>] [--api-version
+    <value>] [--max-parallel-jobs <value>]
+
+FLAGS
+  -o, --target-org=<value>             (required) Username or alias of the target org. Not required if the `target-org`
+                                       configuration variable is already set.
+      --api-version=<value>            Override the api version used for api requests made by this command
+      --max-parallel-jobs=<value>      [default: 1] Maximum number of parallel jobs.
+      --where-content-version=<value>  (required) WHERE clause for ContentVersion query.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Download files from a Salesforce org.
+
+  Downloads files specified by a where clause for a ContentVersion query from a Salesforce org. By default, the plugin
+  uses the REST API for the download as to allow for the streaming of large files without issue. This means that each
+  file will use one REST API request.
+
+EXAMPLES
+  $ sf simply data files download --where-content-version "IsLatest=true" --target-org myTargetOrg
+
+  $ sf simply data files download --where-content-version "IsLatest=true" --max-parallel-jobs 5 --target-org myTargetOrg
+
+FLAG DESCRIPTIONS
+  --max-parallel-jobs=<value>  Maximum number of parallel jobs.
+
+    By default the plugin will only process a single file download at a time. You can increase this value to allow for
+    quasi concurrent downloads. Please note that setting this value too high can cause performance issues.
+
+  --where-content-version=<value>  WHERE clause for ContentVersion query.
+
+    Provide a WHERE clause to allow the plugin to specify which ContentVersion records should be downloaded.
+```
+
+_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-data@2.3.11/packages/simply-data/lib/commands/simply/data/files/download.js)_
+
+## `sf simply data files upload`
+
+Upload files to a Salesforce org.
+
+```
+USAGE
+  $ sf simply data files upload --file-path <value> -o <value> [--json] [--flags-dir <value>] [--api-version <value>]
+    [--max-parallel-jobs <value>]
+
+FLAGS
+  -o, --target-org=<value>         (required) Username or alias of the target org. Not required if the `target-org`
+                                   configuration variable is already set.
+      --api-version=<value>        Override the api version used for api requests made by this command
+      --file-path=<value>          (required) Path to the csv file that specifies the upload.
+      --max-parallel-jobs=<value>  [default: 1] Maximum number of parallel jobs.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Upload files to a Salesforce org.
+
+  Uploads files specified by a csv to a Salesforce org. By default, the plugin uses the REST API for the upload as the
+  Bulk API is limited in its payload size. This means that each file will use one REST API request.
+
+EXAMPLES
+  $ sf simply data files upload --file-path filesToUpload.csv --target-org myTargetOrg
+
+  $ sf simply data files upload --file-path filesToUpload.csv --max-parallel-jobs 5 --target-org myTargetOrg
+
+FLAG DESCRIPTIONS
+  --file-path=<value>  Path to the csv file that specifies the upload.
+
+    The csv file must specify the columns PathOnClient and Title. Optionally, a FirstPublishLocationId can be specified
+    to have it linked directly to a Salesforce record after upload.
+
+  --max-parallel-jobs=<value>  Maximum number of parallel jobs.
+
+    By default the plugin will only process a single file upload at a time. You can increase this value to allow for
+    quasi concurrent uploads. Please note that setting this value too high can cause performance issues.
+```
+
+_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-data@2.3.11/packages/simply-data/lib/commands/simply/data/files/upload.js)_
+
+## `sf simply document diff`
+
+Generate a change report between two git refs.
+
+```
+USAGE
+  $ sf simply document diff --from-tag <value> --to-tag <value> [--json] [--flags-dir <value>] [--output-file <value>]
+    [--template-file <value>] [--output-format html]
+
+FLAGS
+  --from-tag=<value>        (required) The starting git ref for the diff report.
+  --output-file=<value>     Path to write the generated report to.
+  --output-format=<option>  [default: html] Output format to render the report in.
+                            <options: html>
+  --template-file=<value>   Path to a custom Handlebars template to render instead of the built-in one.
+  --to-tag=<value>          (required) The ending git ref for the diff report.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Generate a change report between two git refs.
+
+  Runs `git diff --name-status` between two git refs (tags, branches, or commits) in the current working directory,
+  groups the changed files by Salesforce metadata component type, and renders a Confluence-storage-format change report
+  suitable for pasting into a release or change-management page.
+
+EXAMPLES
+  $ sf simply document diff --from-tag v1.0.0 --to-tag v1.1.0
+
+  $ sf simply document diff --from-tag v1.0.0 --to-tag v1.1.0 --output-file change-report.html
+
+  $ sf simply document diff --from-tag v1.0.0 --to-tag v1.1.0 --template-file my-change-report.hbs
+
+FLAG DESCRIPTIONS
+  --output-file=<value>  Path to write the generated report to.
+
+    When specified, the generated report is written to this path instead of being printed to the terminal.
+
+  --output-format=html  Output format to render the report in.
+
+    Currently only `html` is supported. Reserved for future formats (e.g. Markdown).
+
+  --template-file=<value>  Path to a custom Handlebars template to render instead of the built-in one.
+
+    When specified, this template is rendered with the same data the built-in report template receives, and can reuse
+    the built-in `changeTable` partial. See this package's README "Custom Templates" section for the data shape and
+    available partials.
+```
+
+_See code: [@simplysf/simply-document](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-document@0.3.1/packages/simply-document/lib/commands/simply/document/diff.js)_
+
+## `sf simply document generate`
+
+Generate a technical design document for a Salesforce project.
+
+```
+USAGE
+  $ sf simply document generate -d <value> --output-file <value> [--json] [--flags-dir <value>] [--template-file <value>]
+    [--output-format html]
+
+FLAGS
+  -d, --directory=<value>       (required) Salesforce project source directory to scan.
+      --output-file=<value>     (required) Path to write the generated document to.
+      --output-format=<option>  [default: html] Output format to render the document in.
+                                <options: html>
+      --template-file=<value>   Path to a custom Handlebars template to render instead of the built-in one.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Generate a technical design document for a Salesforce project.
+
+  Scans a Salesforce DX project's source directory for metadata (objects, fields, Apex, Lightning components, flows,
+  permissions, and more) and renders a Confluence-storage-format technical design document covering the data model,
+  security model, groups/queues/permissions, solution inventory, and custom code inventory.
+
+EXAMPLES
+  $ sf simply document generate --directory force-app --output-file technical-design-document.html
+
+  $ sf simply document generate --directory force-app --output-file technical-design-document.html --template-file my-tdd-template.hbs
+
+FLAG DESCRIPTIONS
+  --output-format=html  Output format to render the document in.
+
+    Currently only `html` is supported. Reserved for future formats (e.g. Markdown).
+
+  --template-file=<value>  Path to a custom Handlebars template to render instead of the built-in one.
+
+    When specified, this template is rendered with the same scanned project data the built-in technical design document
+    template receives, and can reuse the built-in `loud` helper. See this package's README "Custom Templates" section
+    for the data shape.
+```
+
+_See code: [@simplysf/simply-document](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-document@0.3.1/packages/simply-document/lib/commands/simply/document/generate.js)_
+
+## `sf simply package dependencies install`
+
+Install package dependencies for a Salesforce project.
+
+```
+USAGE
+  $ sf simply package dependencies install -o <value> [--json] [--flags-dir <value>] [-a all|package] [--api-version <value>] [-z
+    <value>] [-i All|Delta|Upgrade] [-k <value>...] [-r] [--output-file <value>] [-b <value>] [-s AllUsers|AdminsOnly]
+    [-v <value>] [-t DeprecateOnly|Mixed|Delete] [-w <value>]
+
+FLAGS
+  -a, --apex-compile=<option>        Compile all Apex in the org and package, or only Apex in the package; unlocked
+                                     packages only.
+                                     <options: all|package>
+  -b, --publish-wait=<value>         Maximum number of minutes to wait for the Subscriber Package Version ID to become
+                                     available in the target org before canceling the install request.
+  -i, --install-type=<option>        [default: Upgrade] Install all packages, only deltas, or only newer versions.
+                                     <options: All|Delta|Upgrade>
+  -k, --installation-key=<value>...  Installation key for key-protected packages
+  -o, --target-org=<value>           (required) Username or alias of the target org. Not required if the `target-org`
+                                     configuration variable is already set.
+  -r, --no-prompt                    Don't prompt for confirmation.
+  -s, --security-type=<option>       [default: AdminsOnly] Security access type for the installed package. (deprecation
+                                     notice: The default --security-type value will change from AllUsers to AdminsOnly
+                                     in v47.0 or later.)
+                                     <options: AllUsers|AdminsOnly>
+  -t, --upgrade-type=<option>        [default: Mixed] Upgrade type for the package installation; available only for
+                                     unlocked packages.
+                                     <options: DeprecateOnly|Mixed|Delete>
+  -v, --target-dev-hub=<value>       Username or alias of the Dev Hub org.
+  -w, --wait=<value>                 Number of minutes to wait for installation status.
+  -z, --branch=<value>               Package branch to consider when specifiying a Package/VersionNumber combination
+      --api-version=<value>          Override the api version used for api requests made by this command
+      --output-file=<value>          Path to write a JSON install report to.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Install package dependencies for a Salesforce project.
+
+  Installs all specified package dependencies in a Salesforce DX project using the sfdx-project.json definition.
+
+EXAMPLES
+  $ sf simply package dependencies install --target-org myTargetOrg --target-dev-hub myTargetDevHub
+
+  $ sf simply package dependencies install --target-org myTargetOrg --target-dev-hub myTargetDevHub --installation-key "MyPackage1Alias:MyPackage1Key"
+
+  $ sf simply package dependencies install --target-org myTargetOrg --target-dev-hub myTargetDevHub --installation-key "MyPackage1Alias:MyPackage1Key" --installation-key "MyPackage2Alias:MyPackage2Key"
+
+  $ sf simply package dependencies install --target-org myTargetOrg --target-dev-hub myTargetDevHub --output-file install-report.json
+
+FLAG DESCRIPTIONS
+  -a, --apex-compile=all|package
+
+    Compile all Apex in the org and package, or only Apex in the package; unlocked packages only.
+
+    Applies to unlocked packages only. Specifies whether to compile all Apex in the org and package, or only the Apex in
+    the package.
+
+    For package installs into production orgs, or any org that has Apex Compile on Deploy enabled, the platform compiles
+    all Apex in the org after the package install or upgrade operation completes.
+
+    This approach assures that package installs and upgrades don’t impact the performance of an org, and is done even if
+    --apex-compile package is specified.
+
+  -i, --install-type=All|Delta|Upgrade  Install all packages, only deltas, or only newer versions.
+
+    If 'All' is specified, then all packages specified in package dependencies are installed, regardless of if the
+    version already is installed in the org. If 'Delta' is specified, then only packages that differ from what is
+    installed in the org will be installed. If 'Upgrade' is specified, then a package is installed only if it isn't
+    already installed, or if its semantic version (major.minor.patch.build) is newer than the version currently
+    installed in the org; packages with an installed version that is the same as or newer than the target version are
+    skipped.
+
+  -k, --installation-key=<value>...  Installation key for key-protected packages
+
+    Installation key for key-protected packages in the key:value format of SubscriberPackageVersionId:Key
+
+  -r, --no-prompt  Don't prompt for confirmation.
+
+    Allows the following without an explicit confirmation response: 1) Remote Site Settings and Content Security Policy
+    websites to send or receive data, and 2) --upgrade-type Delete to proceed.
+
+  -t, --upgrade-type=DeprecateOnly|Mixed|Delete
+
+    Upgrade type for the package installation; available only for unlocked packages.
+
+    For package upgrades, specifies whether to mark all removed components as deprecated (DeprecateOnly), to delete
+    removed components that can be safely deleted and deprecate the others (Mixed), or to delete all removed components,
+    except for custom objects and custom fields, that don't have dependencies (Delete). The default is Mixed. Can
+    specify DeprecateOnly or Delete only for unlocked package upgrades.
+
+  -z, --branch=<value>  Package branch to consider when specifiying a Package/VersionNumber combination
+
+    For dependencies specified by Package/VersionNumber combination, you can specify the branch group of builds to work
+    from by entering the branch build name. If not specified, the builds from NULL branch will be considered.
+
+  --output-file=<value>  Path to write a JSON install report to.
+
+    When specified, a JSON report of the install outcome for every resolved dependency is written to this path, in
+    addition to the normal terminal output you can continue to monitor as the command runs. Each entry includes the
+    package name, the SubscriberPackageVersionId already installed in the org (if any), the SubscriberPackageVersionId
+    that was attempted, and the decision made (Skipped, Installed, Installing, or Failed).
+```
+
+_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-package@2.8.3/packages/simply-package/lib/commands/simply/package/dependencies/install.js)_
+
+## `sf simply package dependencies manage`
+
+Manage package dependency versions for a Salesforce project.
+
+```
+USAGE
+  $ sf simply package dependencies manage -v <value> [--json] [--flags-dir <value>] [-b <value>] [--update-to-released |
+    --update-to-latest] [--api-version <value>]
+
+FLAGS
+  -b, --branch=<value>          Package branch to consider when evaluating version options.
+  -v, --target-dev-hub=<value>  (required) Username or alias of the Dev Hub org. Not required if the `target-dev-hub`
+                                configuration variable is already set.
+      --api-version=<value>     Override the api version used for api requests made by this command
+      --update-to-latest        Automatically set all dependencies to the latest non-pinned build.
+      --update-to-released      Automatically update all dependencies to the latest released version.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Manage package dependency versions for a Salesforce project.
+
+  Interactively updates package dependency versions in sfdx-project.json by querying the Dev Hub for available versions.
+  Supports interactive selection or automatic update to the latest released or latest build version.
+
+  Project-level configuration (in sfdx-project.json) is read from the following keys:
+
+  - plugins.simply.dependencies.ignore — array of Package2Ids or aliases to leave unchanged
+  - plugins.simply.package.brancheswithreleasedversions — array of branch names that contain released versions
+
+EXAMPLES
+  $ sf simply package dependencies manage --target-dev-hub myDevHub
+
+  $ sf simply package dependencies manage --target-dev-hub myDevHub --branch my-feature-branch
+
+  $ sf simply package dependencies manage --target-dev-hub myDevHub --update-to-released
+
+  $ sf simply package dependencies manage --target-dev-hub myDevHub --update-to-latest
+
+FLAG DESCRIPTIONS
+  -b, --branch=<value>  Package branch to consider when evaluating version options.
+
+    When specified, the command will include the latest build on this branch as a selectable option for each dependency.
+
+  --update-to-latest  Automatically set all dependencies to the latest non-pinned build.
+
+    When specified, all dependencies managed by the Dev Hub are automatically set to a non-pinned X.Y.Z.LATEST version
+    number without interactive prompts. Mutually exclusive with --update-to-released.
+
+  --update-to-released  Automatically update all dependencies to the latest released version.
+
+    When specified, all dependencies managed by the Dev Hub are automatically updated to the latest released package
+    version without interactive prompts. Mutually exclusive with --update-to-latest.
+```
+
+_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-package@2.8.3/packages/simply-package/lib/commands/simply/package/dependencies/manage.js)_
+
+## `sf simply package version cleanup`
+
+Cleanup package versions.
+
+```
+USAGE
+  $ sf simply package version cleanup -p <value> -v <value> [--json] [--flags-dir <value>] [--api-version <value>] [-s <value> | -x
+    <value>]
+
+FLAGS
+  -p, --package=<value>          (required) Package Id
+  -s, --matcher=<value>          MAJOR.MINOR.PATCH to select on
+  -v, --target-dev-hub=<value>   (required) Username or alias of the Dev Hub org. Not required if the `target-dev-hub`
+                                 configuration variable is already set.
+  -x, --exclude-matcher=<value>  MAJOR.MINOR.PATCH to exclude on
+      --api-version=<value>      Override the api version used for api requests made by this command
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Cleanup package versions.
+
+  Delete package versions for a given package provided a MAJOR.MINOR.PATCH matcher, either to select on or to exclude
+  on. Does not delete released package versions.
+
+  If --matcher is provided, only the unreleased versions matching MAJOR.MINOR.PATCH are deleted. If --exclude-matcher is
+  provided instead, every unreleased version that does _not_ match MAJOR.MINOR.PATCH is deleted. Exactly one of
+  --matcher or --exclude-matcher must be specified.
+
+EXAMPLES
+  $ sf simply package version cleanup --package 0Hoxx00000000CqCAI --matcher 2.10.0 --target-dev-hub myDevHub
+
+  $ sf simply package version cleanup --package 0Hoxx00000000CqCAI --exclude-matcher 2.10.0 --target-dev-hub myDevHub
+
+FLAG DESCRIPTIONS
+  -p, --package=<value>  Package Id
+
+    The 0Ht Package Id that you wish to cleanup versions for.
+
+  -s, --matcher=<value>  MAJOR.MINOR.PATCH to select on
+
+    The MAJOR.MINOR.PATCH matcher that should be used to find package versions to delete. Only versions matching this
+    matcher are deleted. Mutually exclusive with --exclude-matcher.
+
+  -x, --exclude-matcher=<value>  MAJOR.MINOR.PATCH to exclude on
+
+    The MAJOR.MINOR.PATCH matcher that should be used to find package versions to keep. Every unreleased version that
+    does not match this matcher is deleted. Mutually exclusive with --matcher.
+```
+
+_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-package@2.8.3/packages/simply-package/lib/commands/simply/package/version/cleanup.js)_
+
+## `sf simply permissions analyze`
+
+Analyze permission sets and permission set groups in an org.
+
+```
+USAGE
+  $ sf simply permissions analyze -o <value> [--json] [--flags-dir <value>] [--api-version <value>] [-f <value>...] [--output
+    <value>]
+
+FLAGS
+  -f, --filter=<value>...    Permission set or group names to include
+  -o, --target-org=<value>   (required) Username or alias of the target org. Not required if the `target-org`
+                             configuration variable is already set.
+      --api-version=<value>  Override the api version used for api requests made by this command
+      --output=<value>       [default: permissions_report.html] Output HTML file path
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Analyze permission sets and permission set groups in an org.
+
+  Generates an HTML report of every permission set and permission set group in the target org, grouped by installed
+  package, including their object and field permissions.
+
+EXAMPLES
+  $ sf simply permissions analyze --target-org myOrg
+
+  $ sf simply permissions analyze --target-org myOrg --output reports/permissions.html --filter My_Permission_Set --filter Another_Set
+
+FLAG DESCRIPTIONS
+  -f, --filter=<value>...  Permission set or group names to include
+
+    One or more PermissionSet (Name) or PermissionSetGroup (DeveloperName) API names to restrict the report to. If
+    omitted, all permission sets and groups are included.
+
+  --output=<value>  Output HTML file path
+
+    The path to write the generated HTML report to.
+```
+
+_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-permissions@1.2.15/packages/simply-permissions/lib/commands/simply/permissions/analyze.js)_
+
+## `sf simply permissions build`
+
+Generate a permission set from Salesforce source metadata.
+
+```
+USAGE
+  $ sf simply permissions build --type read-only|view-all|modify-all -n <value> -d <value> --output <value> [--json]
+    [--flags-dir <value>] [-c <value>] [--include-record-types] [--label <value>] [--description <value>]
+
+FLAGS
+  -c, --config=<value>        Path to a permission set configuration file
+  -d, --directory=<value>     (required) Path to the Salesforce project directory
+  -n, --name=<value>          (required) API name for the permission set
+      --description=<value>   Description for the permission set
+      --include-record-types  Include record type visibilities
+      --label=<value>         Label for the permission set
+      --output=<value>        (required) Output directory
+      --type=<option>         (required) Baseline permission type
+                              <options: read-only|view-all|modify-all>
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Generate a permission set from Salesforce source metadata.
+
+  Scans a Salesforce project directory for custom objects, fields, tabs, and (optionally) record types, then generates a
+  permission set XML file with a baseline of permissions determined by --type. An optional JSON --config file can
+  override individual object, field, tab, record type, and user permission settings, as well as whether the permission
+  set requires activation.
+
+EXAMPLES
+  $ sf simply permissions build --type read-only --name My_Read_Only_Access --directory force-app --output force-app/main/default/permissionsets
+
+  $ sf simply permissions build --type modify-all --name My_Admin_Access --directory force-app --config config/permission-overrides.json --output force-app/main/default/permissionsets --include-record-types
+
+FLAG DESCRIPTIONS
+  -c, --config=<value>  Path to a permission set configuration file
+
+    The path to a JSON file that overrides individual object, field, tab, record type, and user permission settings, as
+    well as whether the permission set requires activation, on top of the --type baseline.
+
+  -d, --directory=<value>  Path to the Salesforce project directory
+
+    The path to the Salesforce source directory to scan for custom objects, fields, tabs, and record types.
+
+  -n, --name=<value>  API name for the permission set
+
+    The API name for the generated permission set; also used to derive the output filename.
+
+  --include-record-types  Include record type visibilities
+
+    Automatically include record type visibilities discovered from the source metadata, marked as visible by default.
+
+  --output=<value>  Output directory
+
+    The directory to write the generated permission set XML file to.
+
+  --type=read-only|view-all|modify-all  Baseline permission type
+
+    The baseline permission level to generate: 'read-only' grants read access to all discovered objects and fields,
+    'view-all' additionally grants view-all-records, and 'modify-all' grants full CRUD and modify-all-records access.
+```
+
+_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-permissions@1.2.15/packages/simply-permissions/lib/commands/simply/permissions/build.js)_
+
+## `sf simply project update api-version`
+
+Update the Salesforce API version across a project's metadata.
+
+```
+USAGE
+  $ sf simply project update api-version -d <value> -a <value> [--json] [--flags-dir <value>]
+
+FLAGS
+  -a, --api-version=<value>  (required) Target Salesforce API version
+  -d, --directory=<value>    (required) Path to the Salesforce project directory
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Update the Salesforce API version across a project's metadata.
+
+  Recursively scans a directory for `-meta.xml` files and updates every `<apiVersion>` tag to the target version. If the
+  directory contains an `sfdx-project.json` file, its `sourceApiVersion` property is updated to match.
+
+EXAMPLES
+  $ sf simply project update api-version --directory force-app --api-version 62.0
+
+  $ sf simply project update api-version --directory . --api-version 63.0
+
+FLAG DESCRIPTIONS
+  -a, --api-version=<value>  Target Salesforce API version
+
+    The Salesforce API version to set on all metadata files and, if present, sfdx-project.json.
+
+  -d, --directory=<value>  Path to the Salesforce project directory
+
+    The path to the Salesforce project directory to scan for metadata files.
+```
+
+_See code: [@simplysf/simply-project](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-project@1.2.12/packages/simply-project/lib/commands/simply/project/update/api-version.js)_
+
+## `sf simply schema generate`
+
+Generate Salesforce CustomObject/CustomField/RecordType metadata from a CSV or Excel schema definition file.
+
+```
+USAGE
+  $ sf simply schema generate -f <value> -d <value> [--json] [--flags-dir <value>]
+
+FLAGS
+  -d, --output-dir=<value>  (required) The output directory to write the generated metadata into.
+  -f, --file=<value>        (required) Path to the CSV or Excel (.xlsx/.xls) schema definition file.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Generate Salesforce CustomObject/CustomField/RecordType metadata from a CSV or Excel schema definition file.
+
+  Reads a flat CSV or an Excel workbook describing one or more custom objects, their fields, and (CSV only) their record
+  types, and writes Salesforce DX source-format metadata (`.object-meta.xml`, `.field-meta.xml`, `.recordType-meta.xml`)
+  into `--output-dir`.
+
+  For CSV input, each row's `Type` column (`CustomObject`, `CustomField`, or `RecordType`) and `ObjectName` column group
+  the rows by object. For Excel input (`.xlsx`/`.xls`), the workbook must contain an `object` worksheet (a two-column
+  key/value sheet describing the sObject) and a `fields` worksheet (one row per field); picklist fields may reference an
+  additional values worksheet by name.
+
+EXAMPLES
+  $ sf simply schema generate --file schema.csv --output-dir force-app/main/default/objects
+
+  $ sf simply schema generate --file MyObject__c.xlsx --output-dir force-app/main/default/objects
+
+FLAG DESCRIPTIONS
+  -f, --file=<value>  Path to the CSV or Excel (.xlsx/.xls) schema definition file.
+
+    A `.csv` file processed as the flat CSV flow, or a `.xlsx`/`.xls` file processed as the Excel flow.
+```
+
+_See code: [@simplysf/simply-schema](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-schema@0.3.1/packages/simply-schema/lib/commands/simply/schema/generate.js)_
+
+## `sf simply schema visualize`
+
+Generate visualizations of Salesforce schema from a live org or local source files.
+
+```
+USAGE
+  $ sf simply schema visualize [--json] [--flags-dir <value>] [-o <value>] [--api-version <value>] [-d <value>...]
+    [--source-objects <value>] [--related-objects <value>] [--object-type custom|standard|all] [--field-type
+    custom|standard|all] [--output-type html|md|csv...] [--output-dir <value>]
+
+FLAGS
+  -d, --source-dir=<value>...    One or more paths to directories containing Salesforce DX source. Use this for
+                                 local-source generation.
+  -o, --target-org=<value>       Username or alias of the org to visualize. Use this for live-org generation.
+      --api-version=<value>      Override the api version used for api requests made by this command
+      --field-type=<option>      [default: custom] Scope of relationship fields to include: custom, standard, or all.
+                                 <options: custom|standard|all>
+      --object-type=<option>     [default: custom] Scope of objects to include: custom, standard, or all.
+                                 <options: custom|standard|all>
+      --output-dir=<value>       The output directory for the generated files.
+      --output-type=<option>...  [default: html,md] Output format(s) to generate.
+                                 <options: html|md|csv>
+      --related-objects=<value>  Comma-separated list of related objects to filter the visualization to, or `all`.
+      --source-objects=<value>   Comma-separated list of source objects to start from, or `all`.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Generate visualizations of Salesforce schema from a live org or local source files.
+
+  Builds an object-relationship diagram (interactive HTML), a Mermaid entity-relationship diagram (Markdown), and/or a
+  relationship CSV, either from a live org's Tooling API or from local Salesforce DX source directories. Exactly one of
+  `--target-org` or `--source-dir` must be specified.
+
+EXAMPLES
+  $ sf simply schema visualize --target-org myTargetOrg
+
+  $ sf simply schema visualize --target-org myTargetOrg --source-objects Account,Contact --related-objects all
+
+  $ sf simply schema visualize --source-dir force-app --output-type html,md
+
+FLAG DESCRIPTIONS
+  --output-type=html|md|csv...  Output format(s) to generate.
+
+    One or more of `html` (interactive diagram), `md` (Mermaid entity-relationship diagram), or `csv` (relationship
+    data).
+
+  --related-objects=<value>  Comma-separated list of related objects to filter the visualization to, or `all`.
+
+    Comma-separated API names of related objects to include in the visualization. If `all` is specified, every related
+    object is included regardless of `--object-type`. If not specified, related objects aren't filtered.
+
+  --source-objects=<value>  Comma-separated list of source objects to start from, or `all`.
+
+    Comma-separated API names of the objects to start the visualization from (e.g. `Account,MyObject__c`). If `all` is
+    specified, every discovered object is included. If not specified, every object matching `--object-type` is included.
+```
+
+_See code: [@simplysf/simply-schema](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-schema@0.3.1/packages/simply-schema/lib/commands/simply/schema/visualize.js)_
+
+## `sf simply sobject backup`
+
+Back up SObject data to a CSV file.
+
+```
+USAGE
+  $ sf simply sobject backup -s <value> -o <value> [--json] [--flags-dir <value>] [--api-version <value>] [-d <value>]
+
+FLAGS
+  -d, --output-dir=<value>   Output directory
+  -o, --target-org=<value>   (required) Username or alias of the target org. Not required if the `target-org`
+                             configuration variable is already set.
+  -s, --sobject=<value>      (required) SObject API name
+      --api-version=<value>  Override the api version used for api requests made by this command
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Back up SObject data to a CSV file.
+
+  Describes the given SObject, queries every field via the Bulk API, and writes the results to a timestamped CSV file.
+
+EXAMPLES
+  $ sf simply sobject backup --target-org myOrg --sobject Account
+
+  $ sf simply sobject backup --target-org myOrg --sobject Custom_Object__c --output-dir backups
+
+FLAG DESCRIPTIONS
+  -d, --output-dir=<value>  Output directory
+
+    The directory to save the backup CSV file to. Defaults to the current directory.
+
+  -s, --sobject=<value>  SObject API name
+
+    The API name of the SObject to back up.
+```
+
+_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-sobject@1.4.2/packages/simply-sobject/lib/commands/simply/sobject/backup.js)_
+
+## `sf simply sobject deduplicate`
+
+Identify and prepare deduplication of an SObject's records.
+
+```
+USAGE
+  $ sf simply sobject deduplicate -c <value> -o <value> [--json] [--flags-dir <value>] [--api-version <value>] [--dry-run]
+    [--output-dir <value>]
+
+FLAGS
+  -c, --config=<value>       (required) Path to a deduplication configuration file
+  -o, --target-org=<value>   (required) Username or alias of the target org. Not required if the `target-org`
+                             configuration variable is already set.
+      --api-version=<value>  Override the api version used for api requests made by this command
+      --dry-run              Skip calculating associated object lookup replacements
+      --output-dir=<value>   Output directory
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Identify and prepare deduplication of an SObject's records.
+
+  Queries an SObject, groups records by a composite key built from configured fields, and writes CSV files listing which
+  records are unique and which are duplicates that should be deleted. For each associated object with lookups to the
+  primary object, also writes a CSV of the lookup field updates needed to re-point duplicate references at the surviving
+  unique record. This command does not perform any deletes or updates in the org; it only prepares the CSV files for a
+  subsequent data load.
+
+EXAMPLES
+  $ sf simply sobject deduplicate --target-org myOrg --config config/deduplicate-account.json
+
+  $ sf simply sobject deduplicate --target-org myOrg --config config/deduplicate-account.json --dry-run
+
+FLAG DESCRIPTIONS
+  -c, --config=<value>  Path to a deduplication configuration file
+
+    The path to a JSON file describing the primary object, its composite key fields, and any associated objects with
+    lookups to it.
+
+  --dry-run  Skip calculating associated object lookup replacements
+
+    When set, only the primary object's unique/duplicate CSV files are generated; associated object lookup replacement
+    files are not calculated.
+
+  --output-dir=<value>  Output directory
+
+    The directory to write the generated CSV files to. Defaults to ./temp/<primaryObjectApiName>.
+```
+
+_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-sobject@1.4.2/packages/simply-sobject/lib/commands/simply/sobject/deduplicate.js)_
+
+## `sf simply sobject history export`
+
+Export field history for an SObject within a date range to a CSV file.
+
+```
+USAGE
+  $ sf simply sobject history export -s <value> --start-date <value> --end-date <value> -o <value> [--json] [--flags-dir <value>]
+    [--api-version <value>] [-d <value>]
+
+FLAGS
+  -d, --output-dir=<value>   Output directory
+  -o, --target-org=<value>   (required) Username or alias of the target org. Not required if the `target-org`
+                             configuration variable is already set.
+  -s, --sobject=<value>      (required) SObject API name
+      --api-version=<value>  Override the api version used for api requests made by this command
+      --end-date=<value>     (required) End date (YYYY-MM-DD)
+      --start-date=<value>   (required) Start date (YYYY-MM-DD)
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Export field history for an SObject within a date range to a CSV file.
+
+  Queries the field history object for the given SObject (e.g. `AccountHistory`, `Custom_Object__History`, or
+  `OpportunityFieldHistory`) for changes created within the given date range, and writes the results to a timestamped
+  CSV file.
+
+EXAMPLES
+  $ sf simply sobject history export --target-org myOrg --sobject Account --start-date 2026-01-01 --end-date 2026-01-31
+
+  $ sf simply sobject history export --target-org myOrg --sobject Custom_Object__c --start-date 2026-01-01 --end-date 2026-01-31 --output-dir exports
+
+FLAG DESCRIPTIONS
+  -d, --output-dir=<value>  Output directory
+
+    The directory to save the exported CSV file to. Defaults to the current directory.
+
+  -s, --sobject=<value>  SObject API name
+
+    The API name of the SObject to export field history for (e.g. Account or Custom_Object__c).
+
+  --end-date=<value>  End date (YYYY-MM-DD)
+
+    The end of the date range to export history for, inclusive.
+
+  --start-date=<value>  Start date (YYYY-MM-DD)
+
+    The start of the date range to export history for, inclusive.
+```
+
+_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-sobject@1.4.2/packages/simply-sobject/lib/commands/simply/sobject/history/export.js)_
+
+## `sf simply sobject history query`
+
+Query the field history of an SObject, with optional filtering.
+
+```
+USAGE
+  $ sf simply sobject history query --object <value> -o <value> [--json] [--flags-dir <value>] [--api-version <value>] [--filters
+    <value>] [-d <value>]
+
+FLAGS
+  -d, --output-dir=<value>   Output directory
+  -o, --target-org=<value>   (required) Username or alias of the target org. Not required if the `target-org`
+                             configuration variable is already set.
+      --api-version=<value>  Override the api version used for api requests made by this command
+      --filters=<value>      Path to a filter configuration file, or a raw JSON filter string
+      --object=<value>       (required) SObject API name
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Query the field history of an SObject, with optional filtering.
+
+  Queries the field history object for the given SObject (e.g. `AccountHistory`, `Custom_Object__History`, or
+  `OpportunityFieldHistory`) and writes the results to a timestamped CSV file. An optional filter tree can be supplied
+  to narrow the results: conditions on Field, CreatedById, CreatedDate, or the parent lookup field are pushed into the
+  SOQL WHERE clause; conditions on any other field (e.g. OldValue or NewValue) are applied client-side after the query
+  runs.
+
+EXAMPLES
+  $ sf simply sobject history query --target-org myOrg --object Account
+
+  $ sf simply sobject history query --target-org myOrg --object Custom_Object__c --filters config/history-filters.json
+
+  $ sf simply sobject history query --target-org myOrg --object Account --filters '{"logic":"AND","filters":[{"field":"Field","operator":"=","value":"Name"}]}'
+
+FLAG DESCRIPTIONS
+  -d, --output-dir=<value>  Output directory
+
+    The directory to save the query results CSV file to. Defaults to the current directory.
+
+  --filters=<value>  Path to a filter configuration file, or a raw JSON filter string
+
+    A JSON object describing a tree of filter conditions: `{ "logic": "AND", "filters": [ { "field": "Field",
+    "operator": "=", "value": "Status__c" } ] }`. Each entry in `filters` is either a condition (`field`, `operator`,
+    `value`) or another nested group with its own `logic`/`filters`. Supported operators are =, !=, >, <, >=, <=, IN,
+    NOT IN, and LIKE (using `%` as a wildcard).
+
+  --object=<value>  SObject API name
+
+    The API name of the SObject to query field history for (e.g. Account or Custom_Object__c).
+```
+
+_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-sobject@1.4.2/packages/simply-sobject/lib/commands/simply/sobject/history/query.js)_
+
+## `sf simply sobject history schema`
+
+Report on which objects and fields have field history tracking enabled.
+
+```
+USAGE
+  $ sf simply sobject history schema -o <value> [--json] [--flags-dir <value>] [--api-version <value>] [-d <value>]
+
+FLAGS
+  -d, --output-dir=<value>   Output directory
+  -o, --target-org=<value>   (required) Username or alias of the target org. Not required if the `target-org`
+                             configuration variable is already set.
+      --api-version=<value>  Override the api version used for api requests made by this command
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Report on which objects and fields have field history tracking enabled.
+
+  Identifies every object with field history tracking enabled, and every tracked field on each, resolving the
+  managed/unlocked package each field belongs to, and writes the results to a timestamped CSV file and a browsable HTML
+  report.
+
+EXAMPLES
+  $ sf simply sobject history schema --target-org myOrg
+
+  $ sf simply sobject history schema --target-org myOrg --output-dir reports
+
+FLAG DESCRIPTIONS
+  -d, --output-dir=<value>  Output directory
+
+    The directory to save the generated CSV and HTML report files to. Defaults to the current directory.
+```
+
+_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-sobject@1.4.2/packages/simply-sobject/lib/commands/simply/sobject/history/schema.js)_
+<!-- commandsstop -->
+
+- [`sf simply apex execute`](#sf-simply-apex-execute)
+- [`sf simply apex logs purge`](#sf-simply-apex-logs-purge)
+- [`sf simply apex trace setup`](#sf-simply-apex-trace-setup)
+- [`sf simply apex trace silence`](#sf-simply-apex-trace-silence)
 - [`sf simply data file upload`](#sf-simply-data-file-upload)
 - [`sf simply data files download`](#sf-simply-data-files-download)
 - [`sf simply data files upload`](#sf-simply-data-files-upload)
