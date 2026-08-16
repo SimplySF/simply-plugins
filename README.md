@@ -10,11 +10,11 @@ sf plugins install @simplysf/simply-project
 
 ## Issues
 
-Please report any issues at https://github.com/SimplySF/simply/issues
+Please report any issues at https://github.com/SimplySF/simply-node/issues
 
 ## Contributing
 
-This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/simply) monorepo. See the repo's [CONTRIBUTING.md](https://github.com/SimplySF/simply/blob/main/CONTRIBUTING.md) for the repo structure, how to set up and build the project, our commit conventions, and how to submit a pull request. Please also read our [Code of Conduct](https://github.com/SimplySF/simply/blob/main/CODE_OF_CONDUCT.md).
+This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/simply-node) monorepo. See the repo's [CONTRIBUTING.md](https://github.com/SimplySF/simply-node/blob/main/CONTRIBUTING.md) for the repo structure, how to set up and build the project, our commit conventions, and how to submit a pull request. Please also read our [Code of Conduct](https://github.com/SimplySF/simply-node/blob/main/CODE_OF_CONDUCT.md).
 
 ## Commands
 
@@ -59,5 +59,5 @@ FLAG DESCRIPTIONS
     The path to the Salesforce project directory to scan for metadata files.
 ```
 
-_See code: [lib/commands/simply/project/update/api-version.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-project@1.2.1/packages/simply-project/lib/commands/simply/project/update/api-version.js)_
+_See code: [lib/commands/simply/project/update/api-version.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-project@1.2.10/packages/simply-project/lib/commands/simply/project/update/api-version.js)_
 <!-- commandsstop -->
