@@ -1,6 +1,6 @@
 # @simplysf/simply-permissions
 
-[![NPM](https://img.shields.io/npm/v/@simplysf/simply-permissions?label=@simplysf/simply-permissions)](https://npmjs.com/@simplysf/simply-permissions) [![Downloads/week](https://img.shields.io/npm/dw/@simplysf/simply-permissions.svg)](https://npmjs.com/@simplysf/simply-permissions) [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://raw.githubusercontent.com/SimplySF/simply/main/LICENSE.txt)
+[![NPM](https://img.shields.io/npm/v/@simplysf/simply-permissions?label=@simplysf/simply-permissions)](https://npmjs.com/@simplysf/simply-permissions) [![Downloads/week](https://img.shields.io/npm/dw/@simplysf/simply-permissions.svg)](https://npmjs.com/@simplysf/simply-permissions) [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://raw.githubusercontent.com/SimplySF/simply-node/main/LICENSE.txt)
 
 ## Install
 
