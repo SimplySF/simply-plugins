@@ -149,6 +149,14 @@
   },
   {
     "alias": [],
+    "command": "simply:schema:generate",
+    "flagAliases": [],
+    "flagChars": ["d", "f"],
+    "flags": ["file", "flags-dir", "json", "output-dir"],
+    "plugin": "@simplysf/simply-schema"
+  },
+  {
+    "alias": [],
     "command": "simply:schema:visualize",
     "flagAliases": [],
     "flagChars": ["d", "o"],
