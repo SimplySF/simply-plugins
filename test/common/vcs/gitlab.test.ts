@@ -136,10 +136,11 @@ describe('GitLabProvider', () => {
   });
 
   it('createMergeRequest includes labels only when provided', async () => {
-    /* eslint-disable-next-line camelcase -- GitLab API field names */
+    /* eslint-disable camelcase -- GitLab API field names */
     fetchMock.mockResolvedValueOnce(
       jsonResponse({ id: 1, iid: 1, title: 't', source_branch: 'a', target_branch: 'b' }),
     );
+    /* eslint-enable camelcase */
 
     const provider = new GitLabProvider(apiUrl, token);
     await provider.createMergeRequest('123', 'a', 'b', 't', 'd');

@@ -1,1 +1,28 @@
-[]
+[
+  {
+    "alias": [],
+    "command": "simply:cicd:sfdx-dependabot",
+    "flagAliases": [],
+    "flagChars": [],
+    "flags": [
+      "branch-prefix",
+      "devhub-username",
+      "dry-run",
+      "fail-on-error",
+      "flags-dir",
+      "gitlab-api-url",
+      "gitlab-token",
+      "json",
+      "max-projects",
+      "mr-labels",
+      "project-allowlist",
+      "project-denylist",
+      "root-group-id",
+      "skip-archived",
+      "skip-forks",
+      "subscriber-package-version-id",
+      "vcs-provider"
+    ],
+    "plugin": "@simplysf/simply-cicd"
+  }
+]
