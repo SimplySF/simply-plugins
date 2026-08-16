@@ -1,0 +1,210 @@
+/*
+ * Copyright (c) 2026, Clay Chipps; Copyright (c) 2026 Salesforce, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import { promises as fsPromises } from 'node:fs';
+import { execa } from 'execa';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { logger } from '../../../src/common/logger.js';
+import { authenticateDevHubs } from '../../../src/common/sfAuth.js';
+import { createScratchOrg } from '../../../src/common/build/createScratchOrg.js';
+
+vi.mock('execa');
+vi.mock('node:fs', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('node:fs')>();
+  return { ...actual, promises: { ...actual.promises, readFile: vi.fn(), writeFile: vi.fn() } };
+});
+vi.mock('../../../src/common/logger.js', () => ({
+  logger: {
+    info: vi.fn(),
+    warn: vi.fn(),
+    error: vi.fn(),
+    success: vi.fn(),
+    log: vi.fn(),
+    raw: vi.fn(),
+    debug: vi.fn(),
+  },
+}));
+vi.mock('../../../src/common/sfAuth.js', () => ({ authenticateDevHubs: vi.fn() }));
+
+const hubA = { name: 'hub-a', username: 'a@hub.com', clientId: 'id-a', instanceUrl: 'https://a.com' };
+const hubB = { name: 'hub-b', username: 'b@hub.com', clientId: 'id-b', instanceUrl: 'https://b.com' };
+
+function mockSfdxProjectJson(overrides: Record<string, unknown> = {}): void {
+  vi.mocked(fsPromises.readFile).mockResolvedValue(
+    JSON.stringify({
+      packageDirectories: [{ default: true, definitionFile: 'config/project-scratch-def.json', ...overrides }],
+    }),
+  );
+}
+
+function mockLimits(remaining: number): { stdout: string } {
+  return { stdout: JSON.stringify({ result: [{ name: 'DailyScratchOrgs', remaining }] }) };
+}
+
+const createResult = { username: 'scratch@test', orgId: '00D...' };
+
+describe('createScratchOrg', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    vi.mocked(authenticateDevHubs).mockResolvedValue([hubA.username, hubB.username]);
+    mockSfdxProjectJson();
+    vi.mocked(execa).mockImplementation((async (cmd: string, args: readonly string[] = []) => {
+      if (cmd === 'sf' && args[0] === 'org' && args[1] === 'list' && args[2] === 'limits') {
+        return mockLimits(5);
+      }
+      if (cmd === 'sf' && args[0] === 'org' && args[1] === 'create' && args[2] === 'scratch') {
+        return { stdout: JSON.stringify({ result: createResult }) };
+      }
+      if (cmd === 'sf' && args[0] === 'data' && args[1] === 'query') {
+        return Promise.reject(new Error('no picklist'));
+      }
+      return { stdout: '' };
+    }) as never);
+  });
+
+  it('should create a scratch org with the first Dev Hub that has capacity', async () => {
+    const result = await createScratchOrg({ jwtKeyFile: 'key.file' }, [hubA, hubB]);
+
+    expect(result).toEqual(createResult);
+    expect(execa).toHaveBeenCalledWith(
+      'sf',
+      expect.arrayContaining([
+        'org',
+        'create',
+        'scratch',
+        '--target-dev-hub',
+        hubA.username,
+        '--duration-days',
+        '1',
+        '--definition-file',
+        'config/project-scratch-def.json',
+      ]),
+    );
+    expect(fsPromises.writeFile).toHaveBeenCalledWith('SCRATCH_ORG_INFO.json', JSON.stringify(createResult, null, 2));
+    expect(logger.success).toHaveBeenCalledWith(`Scratch org created successfully using Dev Hub ${hubA.name}.`);
+  });
+
+  it('should skip a Dev Hub with no remaining daily capacity and try the next one', async () => {
+    vi.mocked(execa).mockImplementation((async (cmd: string, args: readonly string[] = []) => {
+      if (cmd === 'sf' && args[0] === 'org' && args[1] === 'list' && args[2] === 'limits') {
+        return args.includes(hubA.username) ? mockLimits(0) : mockLimits(5);
+      }
+      if (cmd === 'sf' && args[0] === 'org' && args[1] === 'create' && args[2] === 'scratch') {
+        return { stdout: JSON.stringify({ result: createResult }) };
+      }
+      if (cmd === 'sf' && args[0] === 'data' && args[1] === 'query') {
+        return Promise.reject(new Error('no picklist'));
+      }
+      return { stdout: '' };
+    }) as never);
+
+    const result = await createScratchOrg({ jwtKeyFile: 'key.file' }, [hubA, hubB]);
+
+    expect(result).toEqual(createResult);
+    expect(logger.warn).toHaveBeenCalledWith(`Dev Hub ${hubA.name} has no remaining scratch orgs. Skipping.`);
+    expect(execa).toHaveBeenCalledWith('sf', expect.arrayContaining(['--target-dev-hub', hubB.username]));
+  });
+
+  it('should try the next Dev Hub when creation fails with a scratch org limit error', async () => {
+    vi.mocked(execa).mockImplementation((async (cmd: string, args: readonly string[] = []) => {
+      if (cmd === 'sf' && args[0] === 'org' && args[1] === 'list' && args[2] === 'limits') {
+        return mockLimits(5);
+      }
+      if (cmd === 'sf' && args[0] === 'org' && args[1] === 'create' && args[2] === 'scratch') {
+        if (args.includes(hubA.username)) {
+          const error = Object.assign(new Error('LIMIT_EXCEEDED'), {
+            stdout: JSON.stringify({ message: 'LIMIT_EXCEEDED' }),
+          });
+          return Promise.reject(error);
+        }
+        return { stdout: JSON.stringify({ result: createResult }) };
+      }
+      if (cmd === 'sf' && args[0] === 'data' && args[1] === 'query') {
+        return Promise.reject(new Error('no picklist'));
+      }
+      return { stdout: '' };
+    }) as never);
+
+    const result = await createScratchOrg({ jwtKeyFile: 'key.file' }, [hubA, hubB]);
+
+    expect(result).toEqual(createResult);
+    expect(logger.warn).toHaveBeenCalledWith(`Dev Hub ${hubA.name} reached its daily limit. Trying next Dev Hub...`);
+  });
+
+  it('should throw immediately on a non-recoverable creation error, without trying the next Dev Hub', async () => {
+    vi.mocked(execa).mockImplementation((async (cmd: string, args: readonly string[] = []) => {
+      if (cmd === 'sf' && args[0] === 'org' && args[1] === 'list' && args[2] === 'limits') {
+        return mockLimits(5);
+      }
+      if (cmd === 'sf' && args[0] === 'org' && args[1] === 'create' && args[2] === 'scratch') {
+        return Promise.reject(new Error('unexpected failure'));
+      }
+      return { stdout: '' };
+    }) as never);
+
+    await expect(createScratchOrg({ jwtKeyFile: 'key.file' }, [hubA, hubB])).rejects.toThrow(
+      `Scratch org creation failed with a non-recoverable error using Dev Hub ${hubA.name}.`,
+    );
+    expect(execa).not.toHaveBeenCalledWith('sf', expect.arrayContaining(['--target-dev-hub', hubB.username]));
+  });
+
+  it('should throw once every Dev Hub has been exhausted', async () => {
+    vi.mocked(execa).mockImplementation((async (cmd: string, args: readonly string[] = []) => {
+      if (cmd === 'sf' && args[0] === 'org' && args[1] === 'list' && args[2] === 'limits') {
+        return mockLimits(0);
+      }
+      return { stdout: '' };
+    }) as never);
+
+    await expect(createScratchOrg({ jwtKeyFile: 'key.file' }, [hubA, hubB])).rejects.toThrow(
+      'Scratch org creation failed for all available Dev Hubs.',
+    );
+  });
+
+  it('should throw when no definitionFile is available anywhere', async () => {
+    vi.mocked(fsPromises.readFile).mockResolvedValue(JSON.stringify({ packageDirectories: [{ default: true }] }));
+
+    await expect(createScratchOrg({ jwtKeyFile: 'key.file' }, [hubA])).rejects.toThrow(
+      'You must specify a definitionFile in the default package directory in sfdx-project.json',
+    );
+  });
+
+  it('should assign declared permission sets and permission set licenses after creation', async () => {
+    mockSfdxProjectJson({
+      packageMetadataAccess: { permissionSets: ['MyPermSet'], permissionSetLicenses: ['MyLicense'] },
+    });
+    vi.mocked(execa).mockImplementation((async (cmd: string, args: readonly string[] = []) => {
+      if (cmd === 'sf' && args[0] === 'org' && args[1] === 'list' && args[2] === 'limits') {
+        return mockLimits(5);
+      }
+      if (cmd === 'sf' && args[0] === 'org' && args[1] === 'create' && args[2] === 'scratch') {
+        return { stdout: JSON.stringify({ result: createResult }) };
+      }
+      if (cmd === 'sf' && args[0] === 'org' && args[1] === 'assign') {
+        return { stdout: JSON.stringify({ status: 0 }) };
+      }
+      if (cmd === 'sf' && args[0] === 'data' && args[1] === 'query') {
+        return Promise.reject(new Error('no picklist'));
+      }
+      return { stdout: '' };
+    }) as never);
+
+    await createScratchOrg({ jwtKeyFile: 'key.file' }, [hubA]);
+
+    expect(execa).toHaveBeenCalledWith('sf', ['org', 'assign', 'permset', '--json', '--name', 'MyPermSet']);
+    expect(execa).toHaveBeenCalledWith('sf', ['org', 'assign', 'permset-license', '--json', '--name', 'MyLicense']);
+  });
+});
