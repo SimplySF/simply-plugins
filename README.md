@@ -10,11 +10,11 @@ sf plugins install @simplysf/simply-sobject
 
 ## Issues
 
-Please report any issues at https://github.com/SimplySF/simply/issues
+Please report any issues at https://github.com/SimplySF/simply-node/issues
 
 ## Contributing
 
-This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/simply) monorepo. See the repo's [CONTRIBUTING.md](https://github.com/SimplySF/simply/blob/main/CONTRIBUTING.md) for the repo structure, how to set up and build the project, our commit conventions, and how to submit a pull request. Please also read our [Code of Conduct](https://github.com/SimplySF/simply/blob/main/CODE_OF_CONDUCT.md).
+This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/simply-node) monorepo. See the repo's [CONTRIBUTING.md](https://github.com/SimplySF/simply-node/blob/main/CONTRIBUTING.md) for the repo structure, how to set up and build the project, our commit conventions, and how to submit a pull request. Please also read our [Code of Conduct](https://github.com/SimplySF/simply-node/blob/main/CODE_OF_CONDUCT.md).
 
 ## Commands
 
@@ -24,6 +24,7 @@ This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/sim
 - [`sf simply sobject deduplicate`](#sf-simply-sobject-deduplicate)
 - [`sf simply sobject history export`](#sf-simply-sobject-history-export)
 - [`sf simply sobject history query`](#sf-simply-sobject-history-query)
+- [`sf simply sobject history schema`](#sf-simply-sobject-history-schema)
 
 ## `sf simply sobject backup`
 
@@ -64,7 +65,7 @@ FLAG DESCRIPTIONS
     The API name of the SObject to back up.
 ```
 
-_See code: [lib/commands/simply/sobject/backup.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-sobject@1.2.1/packages/simply-sobject/lib/commands/simply/sobject/backup.js)_
+_See code: [lib/commands/simply/sobject/backup.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-sobject@1.4.0/packages/simply-sobject/lib/commands/simply/sobject/backup.js)_
 
 ## `sf simply sobject deduplicate`
 
@@ -117,7 +118,7 @@ FLAG DESCRIPTIONS
     The directory to write the generated CSV files to. Defaults to ./temp/<primaryObjectApiName>.
 ```
 
-_See code: [lib/commands/simply/sobject/deduplicate.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-sobject@1.2.1/packages/simply-sobject/lib/commands/simply/sobject/deduplicate.js)_
+_See code: [lib/commands/simply/sobject/deduplicate.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-sobject@1.4.0/packages/simply-sobject/lib/commands/simply/sobject/deduplicate.js)_
 
 ## `sf simply sobject history export`
 
@@ -171,7 +172,7 @@ FLAG DESCRIPTIONS
     The start of the date range to export history for, inclusive.
 ```
 
-_See code: [lib/commands/simply/sobject/history/export.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-sobject@1.2.1/packages/simply-sobject/lib/commands/simply/sobject/history/export.js)_
+_See code: [lib/commands/simply/sobject/history/export.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-sobject@1.4.0/packages/simply-sobject/lib/commands/simply/sobject/history/export.js)_
 
 ## `sf simply sobject history query`
 
@@ -227,7 +228,45 @@ FLAG DESCRIPTIONS
     The API name of the SObject to query field history for (e.g. Account or Custom_Object__c).
 ```
 
-_See code: [lib/commands/simply/sobject/history/query.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-sobject@1.2.1/packages/simply-sobject/lib/commands/simply/sobject/history/query.js)_
+_See code: [lib/commands/simply/sobject/history/query.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-sobject@1.4.0/packages/simply-sobject/lib/commands/simply/sobject/history/query.js)_
+
+## `sf simply sobject history schema`
+
+Report on which objects and fields have field history tracking enabled.
+
+```
+USAGE
+  $ sf simply sobject history schema -o <value> [--json] [--flags-dir <value>] [--api-version <value>] [-d <value>]
+
+FLAGS
+  -d, --output-dir=<value>   Output directory
+  -o, --target-org=<value>   (required) Username or alias of the target org. Not required if the `target-org`
+                             configuration variable is already set.
+      --api-version=<value>  Override the api version used for api requests made by this command
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Report on which objects and fields have field history tracking enabled.
+
+  Identifies every object with field history tracking enabled, and every tracked field on each, resolving the
+  managed/unlocked package each field belongs to, and writes the results to a timestamped CSV file and a browsable HTML
+  report.
+
+EXAMPLES
+  $ sf simply sobject history schema --target-org myOrg
+
+  $ sf simply sobject history schema --target-org myOrg --output-dir reports
+
+FLAG DESCRIPTIONS
+  -d, --output-dir=<value>  Output directory
+
+    The directory to save the generated CSV and HTML report files to. Defaults to the current directory.
+```
+
+_See code: [lib/commands/simply/sobject/history/schema.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-sobject@1.4.0/packages/simply-sobject/lib/commands/simply/sobject/history/schema.js)_
 <!-- commandsstop -->
 
 ## Configuration Files
