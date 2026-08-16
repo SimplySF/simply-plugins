@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.14](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-permissions%401.2.13...%40simplysf%2Fsimply-permissions%401.2.14) (2026-08-16)
+
+### Bug Fixes
+
+- update repository urls ([bfae56d](https://github.com/SimplySF/simply-node/commit/bfae56d1f6526c5627746b56cd69120cf75b3c1c))
+
 ## [1.2.13](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-permissions%401.2.12...%40simplysf%2Fsimply-permissions%401.2.13) (2026-08-14)
 
 **Note:** Version bump only for package @simplysf/simply-permissions
