@@ -20,7 +20,7 @@ import fsp from 'node:fs/promises';
 import path from 'node:path';
 import { parse } from 'csv-parse/sync';
 import ExcelJS from 'exceljs';
-import { Builder as XMLBuilder } from 'fast-xml-builder';
+import XMLBuilder from 'fast-xml-builder';
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import {
@@ -39,7 +39,7 @@ import {
   type PicklistValueSettingEntry,
   type RecordTypeData,
 } from '../../../common/schemaGenerateTypes.js';
-import { toBoolean, XML_BUILDER_OPTIONS } from '../../../common/schemaGenerateUtils.js';
+import { blankToUndefined, toBoolean, XML_BUILDER_OPTIONS } from '../../../common/schemaGenerateUtils.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-schema', 'simply.schema.generate');
@@ -164,11 +164,9 @@ export function generateFieldXml(fieldData: NormalizedFieldData, workbook?: Exce
     if (!normalized.RelationshipLabel && !normalized.RelationshipName) {
       normalized.RelationshipLabel = `${normalized.Label ?? normalized.ApiName ?? ''} Records`;
     }
-    if (!normalized.RelationshipName) {
-      normalized.RelationshipName = (normalized.RelationshipLabel ?? 'Records')
-        .replace(/\s+/g, '_')
-        .replace(/[\W_]+/g, '_');
-    }
+    normalized.RelationshipName =
+      blankToUndefined(normalized.RelationshipName) ??
+      (normalized.RelationshipLabel ?? 'Records').replace(/\s+/g, '_').replace(/[\W_]+/g, '_');
 
     normalized.Length = undefined;
   }
@@ -209,25 +207,25 @@ export function generateFieldXml(fieldData: NormalizedFieldData, workbook?: Exce
     fullName: normalized.ApiName,
     label: normalized.Label,
     type: normalized.FieldType,
-    description: normalized.Description || undefined,
-    inlineHelpText: normalized.InlineHelpText || undefined,
+    description: blankToUndefined(normalized.Description),
+    inlineHelpText: blankToUndefined(normalized.InlineHelpText),
     required: toBoolean(normalized.Required),
     externalId: toBoolean(normalized.ExternalId),
     trackHistory: toBoolean(normalized.TrackHistory),
     trackTrending: toBoolean(normalized.TrackTrending),
     unique: toBoolean(normalized.Unique),
-    formula: normalized.Formula || undefined,
-    formulaTreatBlanksAs: normalized.FormulaTreatBlanksAs || undefined,
+    formula: blankToUndefined(normalized.Formula),
+    formulaTreatBlanksAs: blankToUndefined(normalized.FormulaTreatBlanksAs),
     length: normalized.Length ? parseInt(String(normalized.Length), 10) : undefined,
     precision: normalized.Precision ? parseInt(String(normalized.Precision), 10) : undefined,
     scale: normalized.Scale ? parseInt(String(normalized.Scale), 10) : undefined,
     visibleLines: normalized.VisibleLines ? parseInt(String(normalized.VisibleLines), 10) : undefined,
-    displayFormat: normalized.DisplayFormat || undefined,
+    displayFormat: blankToUndefined(normalized.DisplayFormat),
     startingNumber: normalized.StartingNumber ? parseInt(String(normalized.StartingNumber), 10) : undefined,
-    referenceTo: normalized.ReferenceTo || undefined,
-    relationshipLabel: normalized.RelationshipLabel || undefined,
-    relationshipName: normalized.RelationshipName || undefined,
-    deleteConstraint: normalized.DeleteConstraint || undefined,
+    referenceTo: blankToUndefined(normalized.ReferenceTo),
+    relationshipLabel: blankToUndefined(normalized.RelationshipLabel),
+    relationshipName: blankToUndefined(normalized.RelationshipName),
+    deleteConstraint: blankToUndefined(normalized.DeleteConstraint),
     valueSet: buildPicklistValueSet(normalized, workbook),
   };
 
@@ -252,7 +250,7 @@ function generateRecordTypeXml(recordTypeData: RecordTypeData): string {
     fullName: recordTypeData.ApiName,
     label: recordTypeData.Label,
     active: toBoolean(recordTypeData.Active),
-    description: recordTypeData.Description || undefined,
+    description: blankToUndefined(recordTypeData.Description),
   };
 
   if (recordTypeData.PicklistAssignments) {
@@ -305,8 +303,8 @@ export function generateObjectXml(objectData: ObjectData, fields: Array<{ ApiNam
   const obj: Record<string, unknown> = {
     allowInChatterGroups: false,
     compactLayoutAssignment: 'SYSTEM',
-    deploymentStatus: objectData.DeploymentStatus || 'Deployed',
-    description: objectData.Description || undefined,
+    deploymentStatus: blankToUndefined(objectData.DeploymentStatus) ?? 'Deployed',
+    description: blankToUndefined(objectData.Description),
     enableActivities: toBoolean(objectData.EnableActivities),
     enableBulkApi: toBoolean(objectData.EnableBulkApi),
     enableFeeds: toBoolean(objectData.EnableFeeds),
@@ -316,20 +314,20 @@ export function generateObjectXml(objectData: ObjectData, fields: Array<{ ApiNam
     enableSearch: true,
     enableSharing: toBoolean(objectData.EnableSharing),
     enableStreamingApi: toBoolean(objectData.EnableStreamingApi),
-    externalSharingModel: objectData.ExternalSharingModel || 'ReadWrite',
+    externalSharingModel: blankToUndefined(objectData.ExternalSharingModel) ?? 'ReadWrite',
     label: objectData.Label,
     nameField: {
-      label: objectData.NameFieldLabel || `${objectData.Label ?? ''} Name`,
-      type: objectData.NameFieldType || 'Text',
-      displayFormat: objectData.NameFieldDisplayFormat || undefined,
+      label: blankToUndefined(objectData.NameFieldLabel) ?? `${objectData.Label ?? ''} Name`,
+      type: blankToUndefined(objectData.NameFieldType) ?? 'Text',
+      displayFormat: blankToUndefined(objectData.NameFieldDisplayFormat),
       startingNumber: objectData.NameFieldStartingNumber
         ? parseInt(String(objectData.NameFieldStartingNumber), 10)
         : undefined,
     },
-    pluralLabel: objectData.PluralLabel || `${objectData.Label ?? ''}s`,
+    pluralLabel: blankToUndefined(objectData.PluralLabel) ?? `${objectData.Label ?? ''}s`,
     searchLayouts: { searchResultsAdditionalFields },
-    sharingModel: objectData.SharingModel || 'ReadWrite',
-    visibility: objectData.Visibility || 'Public',
+    sharingModel: blankToUndefined(objectData.SharingModel) ?? 'ReadWrite',
+    visibility: blankToUndefined(objectData.Visibility) ?? 'Public',
   };
 
   const builder = new XMLBuilder(XML_BUILDER_OPTIONS);
@@ -416,7 +414,9 @@ export function normalizeExcelField(
     normalizedField.DeleteConstraint = field.deleteConstraint ?? 'SetNull';
     let relationshipApiName = field.relationshipName ? field.relationshipName.trim() : '';
     if (relationshipApiName.length === 0) {
-      relationshipApiName = `${appPrefix}_${field.relationshipLabel ?? ''}`.replace(/\s+/g, '_').replace(/[\W_]+/g, '_');
+      relationshipApiName = `${appPrefix}_${field.relationshipLabel ?? ''}`
+        .replace(/\s+/g, '_')
+        .replace(/[\W_]+/g, '_');
     } else if (!relationshipApiName.startsWith(`${appPrefix}_`)) {
       relationshipApiName = `${appPrefix}_${relationshipApiName}`;
     }
@@ -574,7 +574,8 @@ export default class SchemaGenerate extends SfCommand<SchemaGenerateResult> {
 
     let records: CsvRecord[];
     try {
-      records = parse(csvContent, { columns: true, skip_empty_lines: true, trim: true }) as CsvRecord[];
+      // eslint-disable-next-line camelcase -- csv-parse's option name, not ours to rename
+      records = parse(csvContent, { columns: true, skip_empty_lines: true, trim: true });
     } catch (error) {
       this.spinner.stop();
       throw messages.createError('error.parseCsvFailed', [(error as Error).message]);

@@ -20,7 +20,49 @@ This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/sim
 
 <!-- commands -->
 
+- [`sf simply schema generate`](#sf-simply-schema-generate)
 - [`sf simply schema visualize`](#sf-simply-schema-visualize)
+
+## `sf simply schema generate`
+
+Generate Salesforce CustomObject/CustomField/RecordType metadata from a CSV or Excel schema definition file.
+
+```
+USAGE
+  $ sf simply schema generate -f <value> -d <value> [--json] [--flags-dir <value>]
+
+FLAGS
+  -d, --output-dir=<value>  (required) The output directory to write the generated metadata into.
+  -f, --file=<value>        (required) Path to the CSV or Excel (.xlsx/.xls) schema definition file.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Generate Salesforce CustomObject/CustomField/RecordType metadata from a CSV or Excel schema definition file.
+
+  Reads a flat CSV or an Excel workbook describing one or more custom objects, their fields, and (CSV only) their record
+  types, and writes Salesforce DX source-format metadata (`.object-meta.xml`, `.field-meta.xml`, `.recordType-meta.xml`)
+  into `--output-dir`.
+
+  For CSV input, each row's `Type` column (`CustomObject`, `CustomField`, or `RecordType`) and `ObjectName` column group
+  the rows by object. For Excel input (`.xlsx`/`.xls`), the workbook must contain an `object` worksheet (a two-column
+  key/value sheet describing the sObject) and a `fields` worksheet (one row per field); picklist fields may reference an
+  additional values worksheet by name.
+
+EXAMPLES
+  $ sf simply schema generate --file schema.csv --output-dir force-app/main/default/objects
+
+  $ sf simply schema generate --file MyObject__c.xlsx --output-dir force-app/main/default/objects
+
+FLAG DESCRIPTIONS
+  -f, --file=<value>  Path to the CSV or Excel (.xlsx/.xls) schema definition file.
+
+    A `.csv` file processed as the flat CSV flow, or a `.xlsx`/`.xls` file processed as the Excel flow.
+```
+
+_See code: [lib/commands/simply/schema/generate.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-schema@0.2.2/packages/simply-schema/lib/commands/simply/schema/generate.js)_
 
 ## `sf simply schema visualize`
 
@@ -82,7 +124,7 @@ FLAG DESCRIPTIONS
     specified, every discovered object is included. If not specified, every object matching `--object-type` is included.
 ```
 
-_See code: [lib/commands/simply/schema/visualize.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-schema@0.1.0/packages/simply-schema/lib/commands/simply/schema/visualize.js)_
+_See code: [lib/commands/simply/schema/visualize.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-schema@0.2.2/packages/simply-schema/lib/commands/simply/schema/visualize.js)_
 <!-- commandsstop -->
 
 ## Data Source: `--target-org` vs. `--source-dir`
