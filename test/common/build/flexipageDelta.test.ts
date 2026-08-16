@@ -125,7 +125,7 @@ describe('flexipageDelta', () => {
       });
 
       expect(execa).toHaveBeenCalledWith('flexipage-delta-gitlab', ['--in', 'custom-out', '--token', 'token'], {
-        env: { FlexipageDelta_GITLAB_TOKEN: 'token', CI_PROJECT_ID: '123', CI_MERGE_REQUEST_IID: '456' },
+        env: { ['FlexipageDelta_GITLAB_TOKEN']: 'token', CI_PROJECT_ID: '123', CI_MERGE_REQUEST_IID: '456' },
         stdio: 'inherit',
       });
     });

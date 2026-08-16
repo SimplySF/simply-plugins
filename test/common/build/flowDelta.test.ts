@@ -112,7 +112,7 @@ describe('flowDelta', () => {
         { stdio: 'inherit' },
       );
       expect(execa).toHaveBeenCalledWith('flow-delta-gitlab', ['--in', 'test-out', '--token', 'token'], {
-        env: { FlowDelta_GITLAB_TOKEN: 'token', CI_PROJECT_ID: '123', CI_MERGE_REQUEST_IID: '456' },
+        env: { ['FlowDelta_GITLAB_TOKEN']: 'token', CI_PROJECT_ID: '123', CI_MERGE_REQUEST_IID: '456' },
         stdio: 'inherit',
       });
     });
