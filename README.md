@@ -10,11 +10,11 @@ sf plugins install @simplysf/simply-data
 
 ## Issues
 
-Please report any issues at https://github.com/SimplySF/simply/issues
+Please report any issues at https://github.com/SimplySF/simply-node/issues
 
 ## Contributing
 
-This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/simply) monorepo. See the repo's [CONTRIBUTING.md](https://github.com/SimplySF/simply/blob/main/CONTRIBUTING.md) for the repo structure, how to set up and build the project, our commit conventions, and how to submit a pull request. Please also read our [Code of Conduct](https://github.com/SimplySF/simply/blob/main/CODE_OF_CONDUCT.md).
+This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/simply-node) monorepo. See the repo's [CONTRIBUTING.md](https://github.com/SimplySF/simply-node/blob/main/CONTRIBUTING.md) for the repo structure, how to set up and build the project, our commit conventions, and how to submit a pull request. Please also read our [Code of Conduct](https://github.com/SimplySF/simply-node/blob/main/CODE_OF_CONDUCT.md).
 
 ## Commands
 
@@ -56,7 +56,7 @@ EXAMPLES
   $ sf simply data file upload --file-path fileToUpload.txt --first-publish-location-id 0019000000DmehK --target-org myTargetOrg
 ```
 
-_See code: [lib/commands/simply/data/file/upload.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-data@2.1.9/packages/simply-data/lib/commands/simply/data/file/upload.js)_
+_See code: [lib/commands/simply/data/file/upload.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-data@2.3.9/packages/simply-data/lib/commands/simply/data/file/upload.js)_
 
 ## `sf simply data files download`
 
@@ -101,7 +101,7 @@ FLAG DESCRIPTIONS
     Provide a WHERE clause to allow the plugin to specify which ContentVersion records should be downloaded.
 ```
 
-_See code: [lib/commands/simply/data/files/download.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-data@2.1.9/packages/simply-data/lib/commands/simply/data/files/download.js)_
+_See code: [lib/commands/simply/data/files/download.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-data@2.3.9/packages/simply-data/lib/commands/simply/data/files/download.js)_
 
 ## `sf simply data files upload`
 
@@ -146,5 +146,5 @@ FLAG DESCRIPTIONS
     quasi concurrent uploads. Please note that setting this value too high can cause performance issues.
 ```
 
-_See code: [lib/commands/simply/data/files/upload.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-data@2.1.9/packages/simply-data/lib/commands/simply/data/files/upload.js)_
+_See code: [lib/commands/simply/data/files/upload.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-data@2.3.9/packages/simply-data/lib/commands/simply/data/files/upload.js)_
 <!-- commandsstop -->
