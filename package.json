@@ -3,11 +3,11 @@
   "description": "Utilities for working with permissions",
   "version": "1.2.13",
   "author": "@ClayChipps",
-  "homepage": "https://github.com/SimplySF/simply",
-  "bugs": "https://github.com/SimplySF/simply/issues",
+  "homepage": "https://github.com/SimplySF/simply-node",
+  "bugs": "https://github.com/SimplySF/simply-node/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SimplySF/simply",
+    "url": "https://github.com/SimplySF/simply-node",
     "directory": "packages/simply-permissions"
   },
   "engines": {

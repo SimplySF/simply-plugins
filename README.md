@@ -10,11 +10,11 @@ sf plugins install @simplysf/simply-permissions
 
 ## Issues
 
-Please report any issues at https://github.com/SimplySF/simply/issues
+Please report any issues at https://github.com/SimplySF/simply-node/issues
 
 ## Contributing
 
-This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/simply) monorepo. See the repo's [CONTRIBUTING.md](https://github.com/SimplySF/simply/blob/main/CONTRIBUTING.md) for the repo structure, how to set up and build the project, our commit conventions, and how to submit a pull request. Please also read our [Code of Conduct](https://github.com/SimplySF/simply/blob/main/CODE_OF_CONDUCT.md).
+This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/simply-node) monorepo. See the repo's [CONTRIBUTING.md](https://github.com/SimplySF/simply-node/blob/main/CONTRIBUTING.md) for the repo structure, how to set up and build the project, our commit conventions, and how to submit a pull request. Please also read our [Code of Conduct](https://github.com/SimplySF/simply-node/blob/main/CODE_OF_CONDUCT.md).
 
 ## Commands
 
@@ -65,7 +65,7 @@ FLAG DESCRIPTIONS
     The path to write the generated HTML report to.
 ```
 
-_See code: [lib/commands/simply/permissions/analyze.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-permissions@1.2.1/packages/simply-permissions/lib/commands/simply/permissions/analyze.js)_
+_See code: [lib/commands/simply/permissions/analyze.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-permissions@1.2.13/packages/simply-permissions/lib/commands/simply/permissions/analyze.js)_
 
 ## `sf simply permissions build`
 
@@ -107,8 +107,8 @@ EXAMPLES
 FLAG DESCRIPTIONS
   -c, --config=<value>  Path to a permission set configuration file
 
-    The path to a JSON file that overrides individual object, field, tab, record type, and user permission settings,
-    as well as whether the permission set requires activation, on top of the --type baseline.
+    The path to a JSON file that overrides individual object, field, tab, record type, and user permission settings, as
+    well as whether the permission set requires activation, on top of the --type baseline.
 
   -d, --directory=<value>  Path to the Salesforce project directory
 
@@ -132,7 +132,7 @@ FLAG DESCRIPTIONS
     'view-all' additionally grants view-all-records, and 'modify-all' grants full CRUD and modify-all-records access.
 ```
 
-_See code: [lib/commands/simply/permissions/build.js](https://github.com/SimplySF/simply/blob/@simplysf/simply-permissions@1.2.1/packages/simply-permissions/lib/commands/simply/permissions/build.js)_
+_See code: [lib/commands/simply/permissions/build.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-permissions@1.2.13/packages/simply-permissions/lib/commands/simply/permissions/build.js)_
 <!-- commandsstop -->
 
 ## Configuration Files
