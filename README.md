@@ -1,6 +1,6 @@
 # @simplysf/simply-package
 
-[![NPM](https://img.shields.io/npm/v/@simplysf/simply-package.svg?label=@simplysf/simply-package)](https://www.npmjs.com/package/@simplysf/simply-package) [![Downloads/week](https://img.shields.io/npm/dw/@simplysf/simply-package.svg)](https://npmjs.org/package/@simplysf/simply-package) [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://raw.githubusercontent.com/SimplySF/simply/main/LICENSE.txt)
+[![NPM](https://img.shields.io/npm/v/@simplysf/simply-package.svg?label=@simplysf/simply-package)](https://www.npmjs.com/package/@simplysf/simply-package) [![Downloads/week](https://img.shields.io/npm/dw/@simplysf/simply-package.svg)](https://npmjs.org/package/@simplysf/simply-package) [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://raw.githubusercontent.com/SimplySF/simply-node/main/LICENSE.txt)
 
 ## Install
 
