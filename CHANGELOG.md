@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.3](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-sobject%401.4.2...%40simplysf%2Fsimply-sobject%401.4.3) (2026-08-16)
+
+### Bug Fixes
+
+- documentation fixes ([7855aac](https://github.com/SimplySF/simply-node/commit/7855aac511916147d3ab542e5c4d660b2a348386))
+
 ## [1.4.2](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-sobject%401.4.1...%40simplysf%2Fsimply-sobject%401.4.2) (2026-08-16)
 
 **Note:** Version bump only for package @simplysf/simply-sobject
