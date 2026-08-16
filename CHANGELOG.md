@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.1](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-document%400.3.0...%40simplysf%2Fsimply-document%400.3.1) (2026-08-16)
+
+**Note:** Version bump only for package @simplysf/simply-document
+
 # 0.3.0 (2026-08-16)
 
 ### Bug Fixes
