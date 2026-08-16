@@ -1,0 +1,17 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# 0.3.0 (2026-08-16)
+
+### Bug Fixes
+
+- update repository urls ([bfae56d](https://github.com/SimplySF/simply-node/commit/bfae56d1f6526c5627746b56cd69120cf75b3c1c))
+
+### Features
+
+- add ability to specify own template ([5c63e8c](https://github.com/SimplySF/simply-node/commit/5c63e8c2d624b0b87511672c5f352b53d9e83fe9))
+- add document tool ([2c739ca](https://github.com/SimplySF/simply-node/commit/2c739cafe8280e1ac5f1a4374766897a3e0a2e22))
+- add future support for other format types ([be74f41](https://github.com/SimplySF/simply-node/commit/be74f41c415b05903993cbf83d9de5822bdd9dce))
+- reset document and schema versions ([754ffee](https://github.com/SimplySF/simply-node/commit/754ffeed3afd9ba29bfa70aecbb6ac21393e2579))
