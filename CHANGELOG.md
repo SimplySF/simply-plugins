@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-cicd%400.2.0...%40simplysf%2Fsimply-cicd%400.2.1) (2026-08-16)
+
+### Bug Fixes
+
+- incorrect plugins directory ([1b8ee04](https://github.com/SimplySF/simply-node/commit/1b8ee0494fe191a5cdfca011722efeb739442061))
+
 # 0.2.0 (2026-08-16)
 
 ### Bug Fixes
