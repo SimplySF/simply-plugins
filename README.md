@@ -64,14 +64,12 @@ USAGE
 
 FLAGS
   --debug                            [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
-  --dev-hub-client-id=<value>...     (required) [env: SIMPLY_CICD_DEV_HUB_CLIENT_ID] Connected app client ID for a Dev
-                                     Hub.
-  --dev-hub-instance-url=<value>...  (required) [env: SIMPLY_CICD_DEV_HUB_INSTANCE_URL] Login instance URL for a Dev
-                                     Hub.
-  --dev-hub-name=<value>...          (required) [env: SIMPLY_CICD_DEV_HUB_NAME] Friendly name of a Dev Hub. Repeat this
-                                     flag alongside --dev-hub-username, --dev-hub-client-id, and --dev-hub-instance-url
-                                     (in the same order) for each Dev Hub to try.
-  --dev-hub-username=<value>...      (required) [env: SIMPLY_CICD_DEV_HUB_USERNAME] Username of a Dev Hub.
+  --dev-hub-client-id=<value>...     (required) Connected app client ID for a Dev Hub.
+  --dev-hub-instance-url=<value>...  (required) Login instance URL for a Dev Hub.
+  --dev-hub-name=<value>...          (required) Friendly name of a Dev Hub. Repeat this flag alongside
+                                     --dev-hub-username, --dev-hub-client-id, and --dev-hub-instance-url (in the same
+                                     order) for each Dev Hub to try.
+  --dev-hub-username=<value>...      (required) Username of a Dev Hub.
   --disabled                         [env: SIMPLY_CICD_DISABLED] Skip this job entirely, logging a warning instead of
                                      running it.
   --jwt-key-file=<value>             (required) [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file used
@@ -228,14 +226,12 @@ USAGE
 
 FLAGS
   --debug                            [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
-  --dev-hub-client-id=<value>...     (required) [env: SIMPLY_CICD_DEV_HUB_CLIENT_ID] Connected app client ID for a Dev
-                                     Hub.
-  --dev-hub-instance-url=<value>...  (required) [env: SIMPLY_CICD_DEV_HUB_INSTANCE_URL] Login instance URL for a Dev
-                                     Hub.
-  --dev-hub-name=<value>...          (required) [env: SIMPLY_CICD_DEV_HUB_NAME] Friendly name of a Dev Hub. Repeat this
-                                     flag alongside --dev-hub-username, --dev-hub-client-id, and --dev-hub-instance-url
-                                     (in the same order) for each Dev Hub to try.
-  --dev-hub-username=<value>...      (required) [env: SIMPLY_CICD_DEV_HUB_USERNAME] Username of a Dev Hub.
+  --dev-hub-client-id=<value>...     (required) Connected app client ID for a Dev Hub.
+  --dev-hub-instance-url=<value>...  (required) Login instance URL for a Dev Hub.
+  --dev-hub-name=<value>...          (required) Friendly name of a Dev Hub. Repeat this flag alongside
+                                     --dev-hub-username, --dev-hub-client-id, and --dev-hub-instance-url (in the same
+                                     order) for each Dev Hub to try.
+  --dev-hub-username=<value>...      (required) Username of a Dev Hub.
   --disabled                         [env: SIMPLY_CICD_DISABLED] Skip this job entirely, logging a warning instead of
                                      running it.
   --jwt-key-file=<value>             (required) [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file used
@@ -276,14 +272,12 @@ USAGE
 
 FLAGS
   --debug                            [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
-  --dev-hub-client-id=<value>...     (required) [env: SIMPLY_CICD_DEV_HUB_CLIENT_ID] Connected app client ID for a Dev
-                                     Hub.
-  --dev-hub-instance-url=<value>...  (required) [env: SIMPLY_CICD_DEV_HUB_INSTANCE_URL] Login instance URL for a Dev
-                                     Hub.
-  --dev-hub-name=<value>...          (required) [env: SIMPLY_CICD_DEV_HUB_NAME] Friendly name of a Dev Hub. Repeat this
-                                     flag alongside --dev-hub-username, --dev-hub-client-id, and --dev-hub-instance-url
-                                     (in the same order) for each Dev Hub to try.
-  --dev-hub-username=<value>...      (required) [env: SIMPLY_CICD_DEV_HUB_USERNAME] Username of a Dev Hub.
+  --dev-hub-client-id=<value>...     (required) Connected app client ID for a Dev Hub.
+  --dev-hub-instance-url=<value>...  (required) Login instance URL for a Dev Hub.
+  --dev-hub-name=<value>...          (required) Friendly name of a Dev Hub. Repeat this flag alongside
+                                     --dev-hub-username, --dev-hub-client-id, and --dev-hub-instance-url (in the same
+                                     order) for each Dev Hub to try.
+  --dev-hub-username=<value>...      (required) Username of a Dev Hub.
   --disabled                         [env: SIMPLY_CICD_DISABLED] Skip this job entirely, logging a warning instead of
                                      running it.
   --jwt-key-file=<value>             (required) [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file used
@@ -1422,8 +1416,7 @@ FLAGS
                                   --notify-on-completion, this is what actually triggers the final notification.
   --notify-on-completion          Only send a notification on the final job of the pipeline, suppressing per-stage
                                   notifications.
-  --teams-webhook-url=<value>...  [env: SIMPLY_CICD_TEAMS_WEBHOOK_URL] One or more Teams webhook URLs to send the
-                                  notification to.
+  --teams-webhook-url=<value>...  One or more Teams webhook URLs to send the notification to.
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -1504,8 +1497,7 @@ FLAGS
                                             the target package version from the tooling DevHub.
   --target-package-version=<value>          The target package version. Only needed if re-running --after-script without
                                             having run --before-script first in the same job.
-  --teams-webhook-url=<value>...            [env: SIMPLY_CICD_TEAMS_WEBHOOK_URL] One or more Teams webhook URLs to send
-                                            the notification to.
+  --teams-webhook-url=<value>...            One or more Teams webhook URLs to send the notification to.
   --username=<value>                        [env: SIMPLY_CICD_USERNAME] Username for JWT authentication to the target
                                             org.
 

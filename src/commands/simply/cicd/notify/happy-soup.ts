@@ -84,7 +84,6 @@ export default class NotifyHappySoup extends SfCommand<NotifyHappySoupResult> {
     'teams-webhook-url': Flags.string({
       summary: messages.getMessage('flags.teams-webhook-url.summary'),
       multiple: true,
-      env: 'SIMPLY_CICD_TEAMS_WEBHOOK_URL',
     }),
     'notify-on-completion': Flags.boolean({
       summary: messages.getMessage('flags.notify-on-completion.summary'),

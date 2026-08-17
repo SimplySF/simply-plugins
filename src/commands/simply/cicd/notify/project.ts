@@ -165,7 +165,6 @@ export default class NotifyProject extends SfCommand<NotifyProjectResult> {
     'teams-webhook-url': Flags.string({
       summary: messages.getMessage('flags.teams-webhook-url.summary'),
       multiple: true,
-      env: 'SIMPLY_CICD_TEAMS_WEBHOOK_URL',
     }),
     username: Flags.string({ summary: messages.getMessage('flags.username.summary'), env: 'SIMPLY_CICD_USERNAME' }),
     debug: Flags.boolean({
