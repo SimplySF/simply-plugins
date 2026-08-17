@@ -17,6 +17,12 @@ export default defineConfig({
     starlight({
       title: 'Simply',
       description: 'Salesforce CLI plugins by SimplySF — including simply-cicd for CI/CD pipelines.',
+      logo: {
+        light: './src/assets/logo-icon.png',
+        dark: './src/assets/logo-icon-dark.png',
+        alt: 'Simply SF logo',
+      },
+      favicon: '/favicon.png',
       social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/SimplySF/simply-node' }],
       editLink: {
         baseUrl: 'https://github.com/SimplySF/simply-node/edit/main/site/',
