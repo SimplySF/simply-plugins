@@ -1,5 +1,6 @@
 {
   "name": "@simplysf/simply-cicd",
+  "private": true,
   "description": "Commands for Salesforce CI/CD pipelines",
   "version": "0.2.3",
   "author": "@ClayChipps",
