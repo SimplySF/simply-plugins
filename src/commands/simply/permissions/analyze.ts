@@ -17,7 +17,7 @@
 import fs from 'node:fs/promises';
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
-import { chunk, queryRecords } from '@simplysf/simply-core';
+import { LOCAL_PACKAGE_LABEL, queryRecords, resolvePackageNamesBySubjectId } from '@simplysf/simply-core';
 import {
   buildPermissionsReportHtml,
   FieldPermissionEntry,
@@ -140,36 +140,25 @@ export default class PermissionsAnalyze extends SfCommand<PermissionsAnalyzeResu
 
     this.spinner.start(messages.getMessage('info.resolvingPackages'));
     const packageMap = new Map<string, string>();
-    permissionSetsInScope.forEach((ps) => packageMap.set(ps.Id, ps.NamespacePrefix ?? 'Local (Unpackaged)'));
-    permissionSetGroups.forEach((psg) => packageMap.set(psg.Id, psg.NamespacePrefix ?? 'Local (Unpackaged)'));
+    permissionSetsInScope.forEach((ps) => packageMap.set(ps.Id, ps.NamespacePrefix ?? LOCAL_PACKAGE_LABEL));
+    permissionSetGroups.forEach((psg) => packageMap.set(psg.Id, psg.NamespacePrefix ?? LOCAL_PACKAGE_LABEL));
 
     const allIds = [...permissionSetsInScope.map((r) => r.Id), ...permissionSetGroups.map((r) => r.Id)];
 
-    for (const idChunk of chunk(allIds, ID_CHUNK_SIZE)) {
-      const idsClause = idChunk.map((id) => `'${id.substring(0, 15)}'`).join(',');
+    // Unlocked-package components aren't attributed by NamespacePrefix, so anything Package2Member
+    // knows about overrides the namespace-derived label seeded above. Tolerated because
+    // Package2Member isn't queryable at all in orgs that have never had a 2GP package.
+    const unlockedPackageNames = await resolvePackageNamesBySubjectId(connection, allIds, {
+      chunkSize: ID_CHUNK_SIZE,
+      tolerateFailure: true,
+    });
 
-      try {
-        // eslint-disable-next-line no-await-in-loop
-        const pkgResult = await connection.autoFetchQuery(
-          `SELECT SubjectId, SubscriberPackage.Name FROM Package2Member WHERE SubjectId IN (${idsClause})`,
-          { tooling: true },
-        );
-
-        const pkgRecords = pkgResult.records as unknown as Array<{
-          SubjectId: string;
-          SubscriberPackage: { Name: string };
-        }>;
-
-        pkgRecords.forEach((r) => {
-          const fullId = allIds.find((id) => id.startsWith(r.SubjectId));
-          if (fullId) {
-            packageMap.set(fullId, r.SubscriberPackage.Name);
-          }
-        });
-      } catch {
-        // Tooling API query for Package2Member can fail for orgs without unlocked packages; ignore.
+    allIds.forEach((id) => {
+      const packageName = unlockedPackageNames.get(id.substring(0, 15));
+      if (packageName) {
+        packageMap.set(id, packageName);
       }
-    }
+    });
     this.spinner.stop();
 
     this.spinner.start(messages.getMessage('info.fetchingPermissions'));
@@ -255,7 +244,7 @@ export default class PermissionsAnalyze extends SfCommand<PermissionsAnalyzeResu
     };
 
     regularPermissionSets.forEach((ps) => {
-      const pkg = packageMap.get(ps.Id) ?? 'Local (Unpackaged)';
+      const pkg = packageMap.get(ps.Id) ?? LOCAL_PACKAGE_LABEL;
       addToGroup(pkg, 'permissionSets', {
         Id: ps.Id,
         Name: ps.Name,
@@ -267,7 +256,7 @@ export default class PermissionsAnalyze extends SfCommand<PermissionsAnalyzeResu
     });
 
     permissionSetGroups.forEach((psg) => {
-      const pkg = packageMap.get(psg.Id) ?? 'Local (Unpackaged)';
+      const pkg = packageMap.get(psg.Id) ?? LOCAL_PACKAGE_LABEL;
       const companionPs = companionPSMap.get(psg.DeveloperName);
       const companionPerms = companionPs
         ? {
