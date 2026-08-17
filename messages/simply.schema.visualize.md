@@ -62,10 +62,6 @@ The output directory for the generated files.
 
 You must specify either --target-org or --source-dir, but not both.
 
-# error.targetOrgConnectionFailed
-
-Unable to establish connection to the org.
-
 # error.localScanFailed
 
 Failed to scan the project directory: %s
