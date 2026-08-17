@@ -17,11 +17,16 @@
 import { promises as fsPromises } from 'node:fs';
 import { execa } from 'execa';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { readSfdxProject } from '@simplysf/simply-core';
 import { addGitRemote } from '../../../src/common/git.js';
 import { logger } from '../../../src/common/logger.js';
 import { createFallbackTag } from '../../../src/common/build/createFallbackTag.js';
 
 vi.mock('execa');
+vi.mock('@simplysf/simply-core', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@simplysf/simply-core')>();
+  return { ...actual, readSfdxProject: vi.fn() };
+});
 vi.mock('node:fs', async (importOriginal) => {
   const actual = await importOriginal<typeof import('node:fs')>();
   return { ...actual, promises: { ...actual.promises, readFile: vi.fn(), writeFile: vi.fn() } };
@@ -53,7 +58,7 @@ describe('createFallbackTag', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.mocked(addGitRemote).mockResolvedValue('origin-alias');
-    vi.mocked(fsPromises.readFile).mockRejectedValue(Object.assign(new Error('ENOENT'), { code: 'ENOENT' }));
+    vi.mocked(readSfdxProject).mockRejectedValue(Object.assign(new Error('ENOENT'), { code: 'ENOENT' }));
   });
 
   it('should successfully create and push a fallback tag incrementing the suffix and writing the output env', async () => {
@@ -122,9 +127,9 @@ describe('createFallbackTag', () => {
   });
 
   it('should filter tags by major.minor.patch version prefix from sfdx-project.json', async () => {
-    vi.mocked(fsPromises.readFile).mockResolvedValue(
-      JSON.stringify({ packageDirectories: [{ path: 'force-app', default: true, versionNumber: '6.50.0.NEXT' }] }),
-    );
+    vi.mocked(readSfdxProject).mockResolvedValue({
+      packageDirectories: [{ path: 'force-app', default: true, versionNumber: '6.50.0.NEXT' }],
+    });
     vi.mocked(execa).mockImplementation((async (cmd: string, args: readonly string[] = []) => {
       if (cmd === 'git' && args[0] === 'describe') {
         expect(args).toContain('v6.50.0*');

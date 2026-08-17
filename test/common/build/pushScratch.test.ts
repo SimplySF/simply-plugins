@@ -17,11 +17,16 @@
 import { promises as fsPromises } from 'node:fs';
 import { execa } from 'execa';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { readSfdxProject } from '@simplysf/simply-core';
 import { logger } from '../../../src/common/logger.js';
 import { authenticateOrg } from '../../../src/common/sfAuth.js';
 import { pushToScratch } from '../../../src/common/build/pushScratch.js';
 
 vi.mock('execa');
+vi.mock('@simplysf/simply-core', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@simplysf/simply-core')>();
+  return { ...actual, readSfdxProject: vi.fn() };
+});
 vi.mock('node:fs', async (importOriginal) => {
   const actual = await importOriginal<typeof import('node:fs')>();
   return { ...actual, promises: { ...actual.promises, readFile: vi.fn() } };
@@ -44,12 +49,8 @@ const mockScratchOrgInfo = { authFields: { username: 'test', clientId: 'id', ins
 describe('pushToScratch', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(fsPromises.readFile).mockImplementation(async (filePath) => {
-      if ((filePath as string).includes('SCRATCH_ORG_INFO.json')) {
-        return JSON.stringify(mockScratchOrgInfo);
-      }
-      return JSON.stringify({ packageDirectories: [{ default: true }] });
-    });
+    vi.mocked(fsPromises.readFile).mockResolvedValue(JSON.stringify(mockScratchOrgInfo));
+    vi.mocked(readSfdxProject).mockResolvedValue({ packageDirectories: [{ default: true }] });
     vi.mocked(execa).mockResolvedValue({ stdout: '' } as never);
   });
 
@@ -78,11 +79,8 @@ describe('pushToScratch', () => {
   });
 
   it('should push scratchOrgSourceDir and the default package directory seedMetadata path, when declared', async () => {
-    vi.mocked(fsPromises.readFile).mockImplementation(async (filePath) => {
-      if ((filePath as string).includes('SCRATCH_ORG_INFO.json')) {
-        return JSON.stringify(mockScratchOrgInfo);
-      }
-      return JSON.stringify({ packageDirectories: [{ default: true, seedMetadata: { path: 'seed-app' } }] });
+    vi.mocked(readSfdxProject).mockResolvedValue({
+      packageDirectories: [{ default: true, seedMetadata: { path: 'seed-app' } }],
     });
 
     await pushToScratch({ jwtKeyFile: 'key.file', scratchOrgSourceDir: 'force-app' });

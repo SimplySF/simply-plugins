@@ -17,11 +17,16 @@
 import { promises as fsPromises } from 'node:fs';
 import { execa } from 'execa';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { readSfdxProject } from '@simplysf/simply-core';
 import { logger } from '../../../src/common/logger.js';
 import { authenticateDevHubs } from '../../../src/common/sfAuth.js';
 import { createScratchOrg } from '../../../src/common/build/createScratchOrg.js';
 
 vi.mock('execa');
+vi.mock('@simplysf/simply-core', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@simplysf/simply-core')>();
+  return { ...actual, readSfdxProject: vi.fn() };
+});
 vi.mock('node:fs', async (importOriginal) => {
   const actual = await importOriginal<typeof import('node:fs')>();
   return { ...actual, promises: { ...actual.promises, readFile: vi.fn(), writeFile: vi.fn() } };
@@ -43,11 +48,9 @@ const hubA = { name: 'hub-a', username: 'a@hub.com', clientId: 'id-a', instanceU
 const hubB = { name: 'hub-b', username: 'b@hub.com', clientId: 'id-b', instanceUrl: 'https://b.com' };
 
 function mockSfdxProjectJson(overrides: Record<string, unknown> = {}): void {
-  vi.mocked(fsPromises.readFile).mockResolvedValue(
-    JSON.stringify({
-      packageDirectories: [{ default: true, definitionFile: 'config/project-scratch-def.json', ...overrides }],
-    }),
-  );
+  vi.mocked(readSfdxProject).mockResolvedValue({
+    packageDirectories: [{ default: true, definitionFile: 'config/project-scratch-def.json', ...overrides }],
+  });
 }
 
 function mockLimits(remaining: number): { stdout: string } {
@@ -175,7 +178,7 @@ describe('createScratchOrg', () => {
   });
 
   it('should throw when no definitionFile is available anywhere', async () => {
-    vi.mocked(fsPromises.readFile).mockResolvedValue(JSON.stringify({ packageDirectories: [{ default: true }] }));
+    vi.mocked(readSfdxProject).mockResolvedValue({ packageDirectories: [{ default: true }] });
 
     await expect(createScratchOrg({ jwtKeyFile: 'key.file' }, [hubA])).rejects.toThrow(
       'You must specify a definitionFile in the default package directory in sfdx-project.json',

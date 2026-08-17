@@ -17,12 +17,17 @@
 import { promises as fsPromises } from 'node:fs';
 import { execa } from 'execa';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { readSfdxProject } from '@simplysf/simply-core';
 import { addGitRemote } from '../../../src/common/git.js';
 import { logger } from '../../../src/common/logger.js';
 import { authenticateOrg } from '../../../src/common/sfAuth.js';
 import { createPackageVersion } from '../../../src/common/build/createPackageVersion.js';
 
 vi.mock('execa');
+vi.mock('@simplysf/simply-core', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@simplysf/simply-core')>();
+  return { ...actual, readSfdxProject: vi.fn() };
+});
 vi.mock('node:fs', async (importOriginal) => {
   const actual = await importOriginal<typeof import('node:fs')>();
   return { ...actual, promises: { ...actual.promises, readFile: vi.fn(), writeFile: vi.fn() } };
@@ -62,7 +67,7 @@ const sfdxProjectJson = {
 };
 
 function mockHappyPath(overrides: { coverage?: number; version?: string } = {}): void {
-  vi.mocked(fsPromises.readFile).mockResolvedValue(JSON.stringify(sfdxProjectJson));
+  vi.mocked(readSfdxProject).mockResolvedValue(sfdxProjectJson);
   vi.mocked(addGitRemote).mockResolvedValue('origin-alias');
   vi.mocked(execa).mockImplementation((async (cmd: string, args: readonly string[] = []) => {
     if (
@@ -153,13 +158,11 @@ describe('createPackageVersion', () => {
   });
 
   it('should suffix the version tag with the branch attribute for branched packages', async () => {
-    vi.mocked(fsPromises.readFile).mockResolvedValue(
-      JSON.stringify({
-        packageDirectories: [
-          { default: true, definitionFile: 'config/scratch-def.json', package: 'MyPackage', branch: 'feature-branch' },
-        ],
-      }),
-    );
+    vi.mocked(readSfdxProject).mockResolvedValue({
+      packageDirectories: [
+        { default: true, definitionFile: 'config/scratch-def.json', package: 'MyPackage', branch: 'feature-branch' },
+      ],
+    });
     vi.mocked(addGitRemote).mockResolvedValue('origin-alias');
     vi.mocked(execa).mockImplementation((async (cmd: string, args: readonly string[] = []) => {
       if (args[0] === 'package' && args[1] === 'version' && args[2] === 'create' && args[3] === 'report') {
@@ -185,7 +188,7 @@ describe('createPackageVersion', () => {
   });
 
   it('should poll until the report status is no longer InProgress', async () => {
-    vi.mocked(fsPromises.readFile).mockResolvedValue(JSON.stringify(sfdxProjectJson));
+    vi.mocked(readSfdxProject).mockResolvedValue(sfdxProjectJson);
     vi.mocked(addGitRemote).mockResolvedValue('origin-alias');
     let reportCalls = 0;
     vi.useFakeTimers();
@@ -217,7 +220,7 @@ describe('createPackageVersion', () => {
   });
 
   it('should throw when the package version creation report status is Error', async () => {
-    vi.mocked(fsPromises.readFile).mockResolvedValue(JSON.stringify(sfdxProjectJson));
+    vi.mocked(readSfdxProject).mockResolvedValue(sfdxProjectJson);
     vi.mocked(addGitRemote).mockResolvedValue('origin-alias');
     vi.mocked(execa).mockImplementation((async (cmd: string, args: readonly string[] = []) => {
       if (args[0] === 'package' && args[1] === 'version' && args[2] === 'create' && args[3] === 'report') {
@@ -242,12 +245,10 @@ describe('createPackageVersion', () => {
   });
 
   it("should prefer the project's own minimum coverage requirement over --code-coverage-minimum", async () => {
-    vi.mocked(fsPromises.readFile).mockResolvedValue(
-      JSON.stringify({
-        ...sfdxProjectJson,
-        plugins: { simply: { coverageRequirement: { minimumCoverageRequired: '95' } } },
-      }),
-    );
+    vi.mocked(readSfdxProject).mockResolvedValue({
+      ...sfdxProjectJson,
+      plugins: { simply: { coverageRequirement: { minimumCoverageRequired: '95' } } },
+    });
     vi.mocked(addGitRemote).mockResolvedValue('origin-alias');
     vi.mocked(execa).mockImplementation((async (cmd: string, args: readonly string[] = []) => {
       if (args[0] === 'package' && args[1] === 'version' && args[2] === 'create' && args[3] === 'report') {
@@ -272,7 +273,7 @@ describe('createPackageVersion', () => {
   });
 
   it('should throw when the default package directory is missing package or definitionFile', async () => {
-    vi.mocked(fsPromises.readFile).mockResolvedValue(JSON.stringify({ packageDirectories: [{ default: true }] }));
+    vi.mocked(readSfdxProject).mockResolvedValue({ packageDirectories: [{ default: true }] });
     vi.mocked(addGitRemote).mockResolvedValue('origin-alias');
 
     await expect(createPackageVersion(baseOptions)).rejects.toThrow(

@@ -18,6 +18,7 @@ import { promises as fs } from 'node:fs';
 import { execa } from 'execa';
 import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
+import { getDefaultPackageDirectory, isSubscriberPackageVersionId, readSfdxProject } from '@simplysf/simply-core';
 import { logger } from '../../../../common/logger.js';
 import { appendToEnvFile } from '../../../../common/env.js';
 import { authenticateOrg } from '../../../../common/sfAuth.js';
@@ -192,10 +193,7 @@ export default class NotifyProject extends SfCommand<NotifyProjectResult> {
 
       logger.success('Sandbox Auth successful.');
 
-      const sfdxProject = JSON.parse(await fs.readFile('sfdx-project.json', 'utf-8')) as {
-        packageDirectories: Array<{ default?: boolean; package?: string }>;
-      };
-      const packageName = sfdxProject.packageDirectories.find((d) => d.default)?.package;
+      const packageName = getDefaultPackageDirectory(await readSfdxProject())?.package;
 
       logger.info(`Get installed package version from alias ${alias} for package ${packageName ?? 'unknown'}...`);
       const { stdout } = await execa('sf', ['package', 'installed', 'list', '--target-org', alias, '--json']);
@@ -257,7 +255,7 @@ export default class NotifyProject extends SfCommand<NotifyProjectResult> {
 
       logger.success('Tooling Auth successful.');
 
-      if (!subscriberPackageVersionId?.startsWith('04t')) {
+      if (!subscriberPackageVersionId || !isSubscriberPackageVersionId(subscriberPackageVersionId)) {
         return undefined;
       }
 

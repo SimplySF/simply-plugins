@@ -17,10 +17,15 @@
 import { promises as fsPromises } from 'node:fs';
 import { execa } from 'execa';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { readSfdxProject } from '@simplysf/simply-core';
 import { appendToEnvFile } from '../../../../../src/common/env.js';
 import NotifyProject from '../../../../../src/commands/simply/cicd/notify/project.js';
 
 vi.mock('execa');
+vi.mock('@simplysf/simply-core', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@simplysf/simply-core')>();
+  return { ...actual, readSfdxProject: vi.fn() };
+});
 vi.mock('node:fs', async (importOriginal) => {
   const actual = await importOriginal<typeof import('node:fs')>();
   return { ...actual, promises: { ...actual.promises, readFile: vi.fn(), writeFile: vi.fn() } };
@@ -115,9 +120,7 @@ describe('notify project', () => {
     });
 
     it('authenticates via execa (no shell string) and resolves both package versions on success', async () => {
-      vi.mocked(fsPromises.readFile).mockResolvedValue(
-        JSON.stringify({ packageDirectories: [{ default: true, package: 'my-pkg' }] }),
-      );
+      vi.mocked(readSfdxProject).mockResolvedValue({ packageDirectories: [{ default: true, package: 'my-pkg' }] });
       vi.mocked(execa).mockImplementation((async (command: string, args: string[] = []) => {
         if (command === 'sf' && args.includes('login') && args.includes('--alias')) {
           return { stdout: JSON.stringify({ status: 0, result: {} }) };

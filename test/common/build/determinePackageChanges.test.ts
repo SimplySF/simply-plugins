@@ -17,9 +17,15 @@
 import { promises as fsPromises } from 'node:fs';
 import { execa } from 'execa';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { SfError } from '@salesforce/core';
+import { readSfdxProject } from '@simplysf/simply-core';
 import { determinePackageChanges } from '../../../src/common/build/determinePackageChanges.js';
 
 vi.mock('execa');
+vi.mock('@simplysf/simply-core', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@simplysf/simply-core')>();
+  return { ...actual, readSfdxProject: vi.fn() };
+});
 vi.mock('node:fs', async (importOriginal) => {
   const actual = await importOriginal<typeof import('node:fs')>();
   return { ...actual, promises: { ...actual.promises, readFile: vi.fn(), writeFile: vi.fn() } };
@@ -31,9 +37,7 @@ describe('determinePackageChanges', () => {
   });
 
   it('should write PACKAGE_CHANGED=TRUE if there are files changed in the default package directory', async () => {
-    vi.mocked(fsPromises.readFile).mockResolvedValue(
-      JSON.stringify({ packageDirectories: [{ path: 'force-app', default: true }] }),
-    );
+    vi.mocked(readSfdxProject).mockResolvedValue({ packageDirectories: [{ path: 'force-app', default: true }] });
     vi.mocked(execa).mockImplementation((async (cmd: string, args: readonly string[] = []) => {
       if (cmd === 'git' && args[0] === 'fetch') return { stdout: '' };
       if (cmd === 'git' && args[0] === 'describe') return { stdout: 'v1.0.0\n' };
@@ -51,9 +55,7 @@ describe('determinePackageChanges', () => {
   });
 
   it('should write PACKAGE_CHANGED=FALSE if there are no files changed since the last tag', async () => {
-    vi.mocked(fsPromises.readFile).mockResolvedValue(
-      JSON.stringify({ packageDirectories: [{ path: 'force-app', default: true }] }),
-    );
+    vi.mocked(readSfdxProject).mockResolvedValue({ packageDirectories: [{ path: 'force-app', default: true }] });
     vi.mocked(execa).mockImplementation((async (cmd: string, args: readonly string[] = []) => {
       if (cmd === 'git' && args[0] === 'fetch') return { stdout: '' };
       if (cmd === 'git' && args[0] === 'describe') return { stdout: 'v1.0.0\n' };
@@ -71,9 +73,7 @@ describe('determinePackageChanges', () => {
   });
 
   it('should write PACKAGE_CHANGED=TRUE if no last tag is found', async () => {
-    vi.mocked(fsPromises.readFile).mockResolvedValue(
-      JSON.stringify({ packageDirectories: [{ path: 'force-app', default: true }] }),
-    );
+    vi.mocked(readSfdxProject).mockResolvedValue({ packageDirectories: [{ path: 'force-app', default: true }] });
     vi.mocked(execa).mockImplementation((async (cmd: string, args: readonly string[] = []) => {
       if (cmd === 'git' && args[0] === 'fetch') return { stdout: '' };
       if (cmd === 'git' && args[0] === 'describe') return Promise.reject(new Error('No tags found'));
@@ -86,7 +86,7 @@ describe('determinePackageChanges', () => {
   });
 
   it('should fallback to PACKAGE_CHANGED=TRUE if sfdx-project.json is corrupted or invalid', async () => {
-    vi.mocked(fsPromises.readFile).mockResolvedValue('{ invalid-json: ');
+    vi.mocked(readSfdxProject).mockRejectedValue(new SyntaxError('Unexpected token i in JSON at position 2'));
 
     await determinePackageChanges({ out: 'changes.env' });
 
@@ -94,7 +94,9 @@ describe('determinePackageChanges', () => {
   });
 
   it('should fallback to PACKAGE_CHANGED=TRUE if packageDirectories is not an array', async () => {
-    vi.mocked(fsPromises.readFile).mockResolvedValue(JSON.stringify({ packageDirectories: 'not-an-array' }));
+    vi.mocked(readSfdxProject).mockRejectedValue(
+      new SfError('Invalid or missing packageDirectories array in sfdx-project.json', 'InvalidSfdxProjectError'),
+    );
 
     await determinePackageChanges({ out: 'changes.env' });
 
@@ -102,7 +104,7 @@ describe('determinePackageChanges', () => {
   });
 
   it('should write PACKAGE_CHANGED=FALSE if no default package directory is found in sfdx-project.json', async () => {
-    vi.mocked(fsPromises.readFile).mockResolvedValue(JSON.stringify({ packageDirectories: [{ path: 'force-app' }] }));
+    vi.mocked(readSfdxProject).mockResolvedValue({ packageDirectories: [{ path: 'force-app' }] });
 
     await determinePackageChanges({ out: 'changes.env' });
 
@@ -110,7 +112,7 @@ describe('determinePackageChanges', () => {
   });
 
   it('should write PACKAGE_CHANGED=FALSE if default package directory has no path', async () => {
-    vi.mocked(fsPromises.readFile).mockResolvedValue(JSON.stringify({ packageDirectories: [{ default: true }] }));
+    vi.mocked(readSfdxProject).mockResolvedValue({ packageDirectories: [{ default: true }] });
 
     await determinePackageChanges({ out: 'changes.env' });
 
@@ -118,9 +120,9 @@ describe('determinePackageChanges', () => {
   });
 
   it('should filter tags by major.minor.patch version prefix from sfdx-project.json', async () => {
-    vi.mocked(fsPromises.readFile).mockResolvedValue(
-      JSON.stringify({ packageDirectories: [{ path: 'force-app', default: true, versionNumber: '6.40.0.NEXT' }] }),
-    );
+    vi.mocked(readSfdxProject).mockResolvedValue({
+      packageDirectories: [{ path: 'force-app', default: true, versionNumber: '6.40.0.NEXT' }],
+    });
     vi.mocked(execa).mockImplementation((async (cmd: string, args: readonly string[] = []) => {
       if (cmd === 'git' && args[0] === 'fetch') return { stdout: '' };
       if (cmd === 'git' && args[0] === 'describe') {
@@ -141,7 +143,7 @@ describe('determinePackageChanges', () => {
   });
 
   it('should default the output file to changes.env', async () => {
-    vi.mocked(fsPromises.readFile).mockResolvedValue(JSON.stringify({ packageDirectories: [{ default: true }] }));
+    vi.mocked(readSfdxProject).mockResolvedValue({ packageDirectories: [{ default: true }] });
 
     await determinePackageChanges({});
 
