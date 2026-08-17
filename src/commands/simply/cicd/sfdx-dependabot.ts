@@ -277,51 +277,65 @@ export default class SfdxDependabot extends SfCommand<SfdxDependabotSummary> {
     'gitlab-api-url': Flags.string({
       summary: messages.getMessage('flags.gitlab-api-url.summary'),
       description: messages.getMessage('flags.gitlab-api-url.description'),
+      env: 'SIMPLY_CICD_GITLAB_API_URL',
     }),
     'gitlab-token': Flags.string({
       summary: messages.getMessage('flags.gitlab-token.summary'),
+      env: 'SIMPLY_CICD_GITLAB_TOKEN',
     }),
     'root-group-id': Flags.string({
       summary: messages.getMessage('flags.root-group-id.summary'),
+      env: 'SIMPLY_CICD_ROOT_GROUP_ID',
     }),
     'subscriber-package-version-id': Flags.string({
       summary: messages.getMessage('flags.subscriber-package-version-id.summary'),
     }),
     'devhub-username': Flags.string({
       summary: messages.getMessage('flags.devhub-username.summary'),
+      env: 'SIMPLY_CICD_DEVHUB_USERNAME',
     }),
     'dry-run': Flags.boolean({
       summary: messages.getMessage('flags.dry-run.summary'),
+      env: 'SIMPLY_CICD_DRY_RUN',
     }),
     'project-allowlist': Flags.string({
       summary: messages.getMessage('flags.project-allowlist.summary'),
+      env: 'SIMPLY_CICD_PROJECT_ALLOWLIST',
     }),
     'project-denylist': Flags.string({
       summary: messages.getMessage('flags.project-denylist.summary'),
+      env: 'SIMPLY_CICD_PROJECT_DENYLIST',
     }),
     'skip-archived': Flags.boolean({
       summary: messages.getMessage('flags.skip-archived.summary'),
       allowNo: true,
+      env: 'SIMPLY_CICD_SKIP_ARCHIVED',
     }),
     'skip-forks': Flags.boolean({
       summary: messages.getMessage('flags.skip-forks.summary'),
       allowNo: true,
+      env: 'SIMPLY_CICD_SKIP_FORKS',
     }),
     'branch-prefix': Flags.string({
       summary: messages.getMessage('flags.branch-prefix.summary'),
+      env: 'SIMPLY_CICD_BRANCH_PREFIX',
     }),
     'mr-labels': Flags.string({
       summary: messages.getMessage('flags.mr-labels.summary'),
+      env: 'SIMPLY_CICD_MR_LABELS',
     }),
     'fail-on-error': Flags.boolean({
       summary: messages.getMessage('flags.fail-on-error.summary'),
+      env: 'SIMPLY_CICD_FAIL_ON_ERROR',
     }),
     'max-projects': Flags.integer({
       summary: messages.getMessage('flags.max-projects.summary'),
+      env: 'SIMPLY_CICD_MAX_PROJECTS',
     }),
     'vcs-provider': Flags.custom<VcsProviderKind>({ options: ['gitlab'] })({
       summary: messages.getMessage('flags.vcs-provider.summary'),
       default: 'gitlab',
+      env: 'SIMPLY_CICD_VCS_PROVIDER',
     }),
   };
 

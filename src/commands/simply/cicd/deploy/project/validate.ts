@@ -32,12 +32,17 @@ export default class DeployProjectValidate extends SfCommand<void> {
     'deploy-config-file': Flags.string({
       summary: messages.getMessage('flags.deploy-config-file.summary'),
       default: 'config/deploy.json',
+      env: 'SIMPLY_CICD_DEPLOY_CONFIG_FILE',
     }),
     'deploy-progress-file': Flags.string({
       summary: messages.getMessage('flags.deploy-progress-file.summary'),
       default: 'DEPLOY_PROGRESS.json',
+      env: 'SIMPLY_CICD_DEPLOY_PROGRESS_FILE',
     }),
-    'deploy-rules-file': Flags.string({ summary: messages.getMessage('flags.deploy-rules-file.summary') }),
+    'deploy-rules-file': Flags.string({
+      summary: messages.getMessage('flags.deploy-rules-file.summary'),
+      env: 'SIMPLY_CICD_DEPLOY_RULES_FILE',
+    }),
   };
 
   public async run(): Promise<void> {

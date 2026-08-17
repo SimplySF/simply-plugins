@@ -48,24 +48,54 @@ export default class NotifyHappySoup extends SfCommand<NotifyHappySoupResult> {
     ...SfCommand.baseFlags,
     'after-script': Flags.boolean({ summary: messages.getMessage('flags.after-script.summary') }),
     'before-script': Flags.boolean({ summary: messages.getMessage('flags.before-script.summary') }),
-    'ci-commit-ref-name': Flags.string({ summary: messages.getMessage('flags.ci-commit-ref-name.summary') }),
-    'ci-environment-name': Flags.string({ summary: messages.getMessage('flags.ci-environment-name.summary') }),
-    'ci-job-name': Flags.string({ summary: messages.getMessage('flags.ci-job-name.summary') }),
-    'ci-job-stage': Flags.string({ summary: messages.getMessage('flags.ci-job-stage.summary') }),
-    'ci-job-status': Flags.string({ summary: messages.getMessage('flags.ci-job-status.summary') }),
-    'ci-pipeline-id': Flags.string({ summary: messages.getMessage('flags.ci-pipeline-id.summary') }),
-    'ci-pipeline-url': Flags.string({ summary: messages.getMessage('flags.ci-pipeline-url.summary') }),
-    enabled: Flags.boolean({ summary: messages.getMessage('flags.enabled.summary'), default: false }),
+    'ci-commit-ref-name': Flags.string({
+      summary: messages.getMessage('flags.ci-commit-ref-name.summary'),
+      env: 'SIMPLY_CICD_CI_COMMIT_REF_NAME',
+    }),
+    'ci-environment-name': Flags.string({
+      summary: messages.getMessage('flags.ci-environment-name.summary'),
+      env: 'SIMPLY_CICD_CI_ENVIRONMENT_NAME',
+    }),
+    'ci-job-name': Flags.string({
+      summary: messages.getMessage('flags.ci-job-name.summary'),
+      env: 'SIMPLY_CICD_CI_JOB_NAME',
+    }),
+    'ci-job-stage': Flags.string({
+      summary: messages.getMessage('flags.ci-job-stage.summary'),
+      env: 'SIMPLY_CICD_CI_JOB_STAGE',
+    }),
+    'ci-job-status': Flags.string({
+      summary: messages.getMessage('flags.ci-job-status.summary'),
+      env: 'SIMPLY_CICD_CI_JOB_STATUS',
+    }),
+    'ci-pipeline-id': Flags.string({
+      summary: messages.getMessage('flags.ci-pipeline-id.summary'),
+      env: 'SIMPLY_CICD_CI_PIPELINE_ID',
+    }),
+    'ci-pipeline-url': Flags.string({
+      summary: messages.getMessage('flags.ci-pipeline-url.summary'),
+      env: 'SIMPLY_CICD_CI_PIPELINE_URL',
+    }),
+    enabled: Flags.boolean({
+      summary: messages.getMessage('flags.enabled.summary'),
+      default: false,
+      env: 'SIMPLY_CICD_ENABLED',
+    }),
     'teams-webhook-url': Flags.string({
       summary: messages.getMessage('flags.teams-webhook-url.summary'),
       multiple: true,
+      env: 'SIMPLY_CICD_TEAMS_WEBHOOK_URL',
     }),
     'notify-on-completion': Flags.boolean({
       summary: messages.getMessage('flags.notify-on-completion.summary'),
       default: false,
     }),
     'is-final-job': Flags.boolean({ summary: messages.getMessage('flags.is-final-job.summary'), default: false }),
-    debug: Flags.boolean({ summary: messages.getMessage('flags.debug.summary'), default: false }),
+    debug: Flags.boolean({
+      summary: messages.getMessage('flags.debug.summary'),
+      default: false,
+      env: 'SIMPLY_CICD_DEBUG',
+    }),
   };
 
   /** Posts a "starting stage" card to Teams. */

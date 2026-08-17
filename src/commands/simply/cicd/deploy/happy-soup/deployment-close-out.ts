@@ -38,19 +38,35 @@ export default class DeployHappySoupDeploymentCloseOut extends SfCommand<void> {
     'ci-commit-ref-name': Flags.string({
       summary: messages.getMessage('flags.ci-commit-ref-name.summary'),
       required: true,
+      env: 'SIMPLY_CICD_CI_COMMIT_REF_NAME',
     }),
-    'ci-pipeline-id': Flags.string({ summary: messages.getMessage('flags.ci-pipeline-id.summary'), required: true }),
-    'ci-project-path': Flags.string({ summary: messages.getMessage('flags.ci-project-path.summary'), required: true }),
+    'ci-pipeline-id': Flags.string({
+      summary: messages.getMessage('flags.ci-pipeline-id.summary'),
+      required: true,
+      env: 'SIMPLY_CICD_CI_PIPELINE_ID',
+    }),
+    'ci-project-path': Flags.string({
+      summary: messages.getMessage('flags.ci-project-path.summary'),
+      required: true,
+      env: 'SIMPLY_CICD_CI_PROJECT_PATH',
+    }),
     'project-access-token': Flags.string({
       summary: messages.getMessage('flags.project-access-token.summary'),
       required: true,
+      env: 'SIMPLY_CICD_PROJECT_ACCESS_TOKEN',
     }),
     ...debugFlag,
-    'deploy-config-file': Flags.string({ summary: messages.getMessage('flags.deploy-config-file.summary') }),
+    'deploy-config-file': Flags.string({
+      summary: messages.getMessage('flags.deploy-config-file.summary'),
+      env: 'SIMPLY_CICD_DEPLOY_CONFIG_FILE',
+    }),
     ...deployProgressFileFlag,
     ...deployRulesFileFlag,
     'deploy-release-date': Flags.string({ summary: messages.getMessage('flags.deploy-release-date.summary') }),
-    'source-branch-name': Flags.string({ summary: messages.getMessage('flags.source-branch-name.summary') }),
+    'source-branch-name': Flags.string({
+      summary: messages.getMessage('flags.source-branch-name.summary'),
+      env: 'SIMPLY_CICD_SOURCE_BRANCH_NAME',
+    }),
     ...vcsFlags,
   };
 

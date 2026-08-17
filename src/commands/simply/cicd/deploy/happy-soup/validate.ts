@@ -30,10 +30,16 @@ export default class DeployHappySoupValidate extends SfCommand<void> {
 
   public static readonly flags = {
     ...SfCommand.baseFlags,
-    'deploy-config-file': Flags.string({ summary: messages.getMessage('flags.deploy-config-file.summary') }),
+    'deploy-config-file': Flags.string({
+      summary: messages.getMessage('flags.deploy-config-file.summary'),
+      env: 'SIMPLY_CICD_DEPLOY_CONFIG_FILE',
+    }),
     ...deployProgressFileFlag,
     ...deployRulesFileFlag,
-    'source-branch-name': Flags.string({ summary: messages.getMessage('flags.source-branch-name.summary') }),
+    'source-branch-name': Flags.string({
+      summary: messages.getMessage('flags.source-branch-name.summary'),
+      env: 'SIMPLY_CICD_SOURCE_BRANCH_NAME',
+    }),
   };
 
   public async run(): Promise<void> {

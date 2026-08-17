@@ -39,17 +39,32 @@ export default class DeployHappySoupTagDeployment extends SfCommand<void> {
     'ci-merge-request-iid': Flags.string({
       summary: messages.getMessage('flags.ci-merge-request-iid.summary'),
       required: true,
+      env: 'SIMPLY_CICD_CI_MERGE_REQUEST_IID',
     }),
     'ci-merge-request-project-url': Flags.string({
       summary: messages.getMessage('flags.ci-merge-request-project-url.summary'),
       required: true,
+      env: 'SIMPLY_CICD_CI_MERGE_REQUEST_PROJECT_URL',
     }),
-    'ci-pipeline-id': Flags.string({ summary: messages.getMessage('flags.ci-pipeline-id.summary'), required: true }),
-    'ci-pipeline-url': Flags.string({ summary: messages.getMessage('flags.ci-pipeline-url.summary'), required: true }),
-    'ci-project-path': Flags.string({ summary: messages.getMessage('flags.ci-project-path.summary'), required: true }),
+    'ci-pipeline-id': Flags.string({
+      summary: messages.getMessage('flags.ci-pipeline-id.summary'),
+      required: true,
+      env: 'SIMPLY_CICD_CI_PIPELINE_ID',
+    }),
+    'ci-pipeline-url': Flags.string({
+      summary: messages.getMessage('flags.ci-pipeline-url.summary'),
+      required: true,
+      env: 'SIMPLY_CICD_CI_PIPELINE_URL',
+    }),
+    'ci-project-path': Flags.string({
+      summary: messages.getMessage('flags.ci-project-path.summary'),
+      required: true,
+      env: 'SIMPLY_CICD_CI_PROJECT_PATH',
+    }),
     'project-access-token': Flags.string({
       summary: messages.getMessage('flags.project-access-token.summary'),
       required: true,
+      env: 'SIMPLY_CICD_PROJECT_ACCESS_TOKEN',
     }),
     ...orgAuthFlags,
     ...debugFlag,

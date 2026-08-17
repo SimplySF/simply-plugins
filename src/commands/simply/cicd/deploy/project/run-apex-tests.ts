@@ -44,6 +44,7 @@ export default class DeployProjectRunApexTests extends SfCommand<void> {
     'deploy-config-file': Flags.string({
       summary: messages.getMessage('flags.deploy-config-file.summary'),
       default: 'config/deploy.json',
+      env: 'SIMPLY_CICD_DEPLOY_CONFIG_FILE',
     }),
     ...deployProgressFileFlag,
     ...deployRulesFileFlag,

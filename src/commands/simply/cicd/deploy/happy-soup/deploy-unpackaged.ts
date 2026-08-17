@@ -42,10 +42,16 @@ export default class DeployHappySoupDeployUnpackaged extends SfCommand<void> {
     ...ciJobTokenFlag,
     ...orgAuthFlags,
     ...debugFlag,
-    'deploy-config-file': Flags.string({ summary: messages.getMessage('flags.deploy-config-file.summary') }),
+    'deploy-config-file': Flags.string({
+      summary: messages.getMessage('flags.deploy-config-file.summary'),
+      env: 'SIMPLY_CICD_DEPLOY_CONFIG_FILE',
+    }),
     ...deployProgressFileFlag,
     ...deployRulesFileFlag,
-    'source-branch-name': Flags.string({ summary: messages.getMessage('flags.source-branch-name.summary') }),
+    'source-branch-name': Flags.string({
+      summary: messages.getMessage('flags.source-branch-name.summary'),
+      env: 'SIMPLY_CICD_SOURCE_BRANCH_NAME',
+    }),
     ...startFromFlag,
     ...testFlags,
     ...vcsFlags,

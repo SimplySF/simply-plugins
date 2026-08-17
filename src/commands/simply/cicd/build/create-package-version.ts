@@ -39,20 +39,34 @@ export default class BuildCreatePackageVersion extends SfCommand<BuildCreatePack
     ...jwtKeyFileFlag,
     ...debugFlag,
     ...disabledFlag,
-    'ci-commit-sha': Flags.string({ summary: messages.getMessage('flags.ci-commit-sha.summary'), required: true }),
-    'ci-pipeline-source': Flags.string({ summary: messages.getMessage('flags.ci-pipeline-source.summary') }),
-    'ci-pipeline-url': Flags.string({ summary: messages.getMessage('flags.ci-pipeline-url.summary'), required: true }),
+    'ci-commit-sha': Flags.string({
+      summary: messages.getMessage('flags.ci-commit-sha.summary'),
+      required: true,
+      env: 'SIMPLY_CICD_CI_COMMIT_SHA',
+    }),
+    'ci-pipeline-source': Flags.string({
+      summary: messages.getMessage('flags.ci-pipeline-source.summary'),
+      env: 'SIMPLY_CICD_CI_PIPELINE_SOURCE',
+    }),
+    'ci-pipeline-url': Flags.string({
+      summary: messages.getMessage('flags.ci-pipeline-url.summary'),
+      required: true,
+      env: 'SIMPLY_CICD_CI_PIPELINE_URL',
+    }),
     'devhub-tooling-username': Flags.string({
       summary: messages.getMessage('flags.devhub-tooling-username.summary'),
       required: true,
+      env: 'SIMPLY_CICD_DEVHUB_TOOLING_USERNAME',
     }),
     'devhub-tooling-client-id': Flags.string({
       summary: messages.getMessage('flags.devhub-tooling-client-id.summary'),
       required: true,
+      env: 'SIMPLY_CICD_DEVHUB_TOOLING_CLIENT_ID',
     }),
     'devhub-tooling-instance-url': Flags.string({
       summary: messages.getMessage('flags.devhub-tooling-instance-url.summary'),
       required: true,
+      env: 'SIMPLY_CICD_DEVHUB_TOOLING_INSTANCE_URL',
     }),
     'always-create-package': Flags.boolean({
       summary: messages.getMessage('flags.always-create-package.summary'),

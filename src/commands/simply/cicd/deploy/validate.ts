@@ -29,9 +29,18 @@ export default class DeployValidate extends SfCommand<void> {
 
   public static readonly flags = {
     ...SfCommand.baseFlags,
-    'deploy-config-file': Flags.string({ summary: messages.getMessage('flags.deploy-config-file.summary') }),
-    'deploy-rules-file': Flags.string({ summary: messages.getMessage('flags.deploy-rules-file.summary') }),
-    'source-branch-name': Flags.string({ summary: messages.getMessage('flags.source-branch-name.summary') }),
+    'deploy-config-file': Flags.string({
+      summary: messages.getMessage('flags.deploy-config-file.summary'),
+      env: 'SIMPLY_CICD_DEPLOY_CONFIG_FILE',
+    }),
+    'deploy-rules-file': Flags.string({
+      summary: messages.getMessage('flags.deploy-rules-file.summary'),
+      env: 'SIMPLY_CICD_DEPLOY_RULES_FILE',
+    }),
+    'source-branch-name': Flags.string({
+      summary: messages.getMessage('flags.source-branch-name.summary'),
+      env: 'SIMPLY_CICD_SOURCE_BRANCH_NAME',
+    }),
   };
 
   public async run(): Promise<void> {

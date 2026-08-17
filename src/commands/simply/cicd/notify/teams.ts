@@ -39,14 +39,17 @@ export default class NotifyTeams extends SfCommand<NotifyTeamsResult> {
     'webhook-url': Flags.string({
       summary: messages.getMessage('flags.webhook-url.summary'),
       required: true,
+      env: 'SIMPLY_CICD_WEBHOOK_URL',
     }),
     enabled: Flags.boolean({
       summary: messages.getMessage('flags.enabled.summary'),
       default: false,
+      env: 'SIMPLY_CICD_ENABLED',
     }),
     debug: Flags.boolean({
       summary: messages.getMessage('flags.debug.summary'),
       default: false,
+      env: 'SIMPLY_CICD_DEBUG',
     }),
   };
 

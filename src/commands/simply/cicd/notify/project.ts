@@ -84,29 +84,77 @@ export default class NotifyProject extends SfCommand<NotifyProjectResult> {
   public static readonly flags = {
     ...SfCommand.baseFlags,
     'after-script': Flags.boolean({ summary: messages.getMessage('flags.after-script.summary') }),
-    alias: Flags.string({ summary: messages.getMessage('flags.alias.summary') }),
+    alias: Flags.string({ summary: messages.getMessage('flags.alias.summary'), env: 'SIMPLY_CICD_ALIAS' }),
     'before-script': Flags.boolean({ summary: messages.getMessage('flags.before-script.summary') }),
-    'ci-commit-ref-name': Flags.string({ summary: messages.getMessage('flags.ci-commit-ref-name.summary') }),
-    'ci-environment-name': Flags.string({ summary: messages.getMessage('flags.ci-environment-name.summary') }),
-    'ci-job-name': Flags.string({ summary: messages.getMessage('flags.ci-job-name.summary') }),
-    'ci-job-stage': Flags.string({ summary: messages.getMessage('flags.ci-job-stage.summary') }),
-    'ci-job-status': Flags.string({ summary: messages.getMessage('flags.ci-job-status.summary') }),
-    'ci-pipeline-id': Flags.string({ summary: messages.getMessage('flags.ci-pipeline-id.summary') }),
-    'ci-pipeline-url': Flags.string({ summary: messages.getMessage('flags.ci-pipeline-url.summary') }),
-    'ci-project-title': Flags.string({ summary: messages.getMessage('flags.ci-project-title.summary') }),
-    'client-id': Flags.string({ summary: messages.getMessage('flags.client-id.summary') }),
+    'ci-commit-ref-name': Flags.string({
+      summary: messages.getMessage('flags.ci-commit-ref-name.summary'),
+      env: 'SIMPLY_CICD_CI_COMMIT_REF_NAME',
+    }),
+    'ci-environment-name': Flags.string({
+      summary: messages.getMessage('flags.ci-environment-name.summary'),
+      env: 'SIMPLY_CICD_CI_ENVIRONMENT_NAME',
+    }),
+    'ci-job-name': Flags.string({
+      summary: messages.getMessage('flags.ci-job-name.summary'),
+      env: 'SIMPLY_CICD_CI_JOB_NAME',
+    }),
+    'ci-job-stage': Flags.string({
+      summary: messages.getMessage('flags.ci-job-stage.summary'),
+      env: 'SIMPLY_CICD_CI_JOB_STAGE',
+    }),
+    'ci-job-status': Flags.string({
+      summary: messages.getMessage('flags.ci-job-status.summary'),
+      env: 'SIMPLY_CICD_CI_JOB_STATUS',
+    }),
+    'ci-pipeline-id': Flags.string({
+      summary: messages.getMessage('flags.ci-pipeline-id.summary'),
+      env: 'SIMPLY_CICD_CI_PIPELINE_ID',
+    }),
+    'ci-pipeline-url': Flags.string({
+      summary: messages.getMessage('flags.ci-pipeline-url.summary'),
+      env: 'SIMPLY_CICD_CI_PIPELINE_URL',
+    }),
+    'ci-project-title': Flags.string({
+      summary: messages.getMessage('flags.ci-project-title.summary'),
+      env: 'SIMPLY_CICD_CI_PROJECT_TITLE',
+    }),
+    'client-id': Flags.string({
+      summary: messages.getMessage('flags.client-id.summary'),
+      env: 'SIMPLY_CICD_CLIENT_ID',
+    }),
     'devhub-tooling-client-id': Flags.string({
       summary: messages.getMessage('flags.devhub-tooling-client-id.summary'),
+      env: 'SIMPLY_CICD_DEVHUB_TOOLING_CLIENT_ID',
     }),
     'devhub-tooling-instance-url': Flags.string({
       summary: messages.getMessage('flags.devhub-tooling-instance-url.summary'),
+      env: 'SIMPLY_CICD_DEVHUB_TOOLING_INSTANCE_URL',
     }),
-    'devhub-tooling-username': Flags.string({ summary: messages.getMessage('flags.devhub-tooling-username.summary') }),
-    enabled: Flags.boolean({ summary: messages.getMessage('flags.enabled.summary'), default: false }),
-    'instance-url': Flags.string({ summary: messages.getMessage('flags.instance-url.summary') }),
-    'jira-base-url': Flags.string({ summary: messages.getMessage('flags.jira-base-url.summary') }),
-    'jira-project-key': Flags.string({ summary: messages.getMessage('flags.jira-project-key.summary') }),
-    'jwt-key-file': Flags.string({ summary: messages.getMessage('flags.jwt-key-file.summary') }),
+    'devhub-tooling-username': Flags.string({
+      summary: messages.getMessage('flags.devhub-tooling-username.summary'),
+      env: 'SIMPLY_CICD_DEVHUB_TOOLING_USERNAME',
+    }),
+    enabled: Flags.boolean({
+      summary: messages.getMessage('flags.enabled.summary'),
+      default: false,
+      env: 'SIMPLY_CICD_ENABLED',
+    }),
+    'instance-url': Flags.string({
+      summary: messages.getMessage('flags.instance-url.summary'),
+      env: 'SIMPLY_CICD_INSTANCE_URL',
+    }),
+    'jira-base-url': Flags.string({
+      summary: messages.getMessage('flags.jira-base-url.summary'),
+      env: 'SIMPLY_CICD_JIRA_BASE_URL',
+    }),
+    'jira-project-key': Flags.string({
+      summary: messages.getMessage('flags.jira-project-key.summary'),
+      env: 'SIMPLY_CICD_JIRA_PROJECT_KEY',
+    }),
+    'jwt-key-file': Flags.string({
+      summary: messages.getMessage('flags.jwt-key-file.summary'),
+      env: 'SIMPLY_CICD_JWT_KEY_FILE',
+    }),
     'prev-installed-package-version': Flags.string({
       summary: messages.getMessage('flags.prev-installed-package-version.summary'),
     }),
@@ -117,9 +165,14 @@ export default class NotifyProject extends SfCommand<NotifyProjectResult> {
     'teams-webhook-url': Flags.string({
       summary: messages.getMessage('flags.teams-webhook-url.summary'),
       multiple: true,
+      env: 'SIMPLY_CICD_TEAMS_WEBHOOK_URL',
     }),
-    username: Flags.string({ summary: messages.getMessage('flags.username.summary') }),
-    debug: Flags.boolean({ summary: messages.getMessage('flags.debug.summary'), default: false }),
+    username: Flags.string({ summary: messages.getMessage('flags.username.summary'), env: 'SIMPLY_CICD_USERNAME' }),
+    debug: Flags.boolean({
+      summary: messages.getMessage('flags.debug.summary'),
+      default: false,
+      env: 'SIMPLY_CICD_DEBUG',
+    }),
   };
 
   /** Authenticates to the target org (JWT, via execa — no shell interpolation) and queries the installed package version. */
