@@ -69,6 +69,7 @@
     "@salesforce/core": "^8.30.0",
     "@salesforce/kit": "^3.2.6",
     "@salesforce/sf-plugins-core": "^12.2.16",
+    "@simplysf/simply-core": "workspace:^1.1.10",
     "zod": "^4.1.12"
   },
   "devDependencies": {

@@ -16,6 +16,7 @@
 
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
+import { chunk } from '@simplysf/simply-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-apex', 'simply.apex.logs.purge');
@@ -82,12 +83,13 @@ export default class ApexLogsPurge extends SfCommand<ApexLogsPurgeResult[]> {
 
     this.spinner.start(messages.getMessage('info.purgingLogs', [logIds.length]));
 
-    for (let i = 0; i < logIds.length; i += CHUNK_SIZE) {
-      const chunk = logIds.slice(i, i + CHUNK_SIZE);
-      this.spinner.status = `${Math.min(i + chunk.length, logIds.length)}/${logIds.length}`;
+    let purged = 0;
+    for (const idChunk of chunk(logIds, CHUNK_SIZE)) {
+      purged += idChunk.length;
+      this.spinner.status = `${purged}/${logIds.length}`;
 
       // eslint-disable-next-line no-await-in-loop
-      const deleteResults = await targetOrgConnection.tooling.delete('ApexLog', chunk);
+      const deleteResults = await targetOrgConnection.tooling.delete('ApexLog', idChunk);
       const deleteResultsArray = Array.isArray(deleteResults) ? deleteResults : [deleteResults];
 
       deleteResultsArray.forEach((deleteResult) => {

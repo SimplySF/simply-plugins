@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import fs from 'node:fs';
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
+import { loadJsonConfigSync } from '@simplysf/simply-core';
 import { ClassesToSilenceSchema } from '../../../../schemas/silence/classesToSilence.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -53,11 +53,10 @@ function resolveClasses(classesFlag: string | undefined, classesFileFlag: string
   }
 
   if (classesFileFlag) {
-    const fileContent = fs.readFileSync(classesFileFlag, 'utf-8');
-    const parsed = ClassesToSilenceSchema.safeParse(JSON.parse(fileContent) as unknown);
+    const parsed = loadJsonConfigSync(classesFileFlag, ClassesToSilenceSchema);
 
     if (!parsed.success) {
-      throw messages.createError('error.invalidClassesFile', [parsed.error.message]);
+      throw messages.createError('error.invalidClassesFile', [parsed.message]);
     }
 
     return parsed.data.classes;
