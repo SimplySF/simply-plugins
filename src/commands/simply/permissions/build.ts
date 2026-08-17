@@ -21,6 +21,7 @@ import path from 'node:path';
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import { ComponentSet, SourceComponent } from '@salesforce/source-deploy-retrieve';
+import { loadJsonConfig } from '@simplysf/simply-core';
 import { PermissionSetBuildConfig, PermissionSetBuildConfigSchema } from '../../../schemas/build/permissionConfig.js';
 import {
   buildPermissionSetXml,
@@ -112,11 +113,10 @@ export default class PermissionsBuild extends SfCommand<PermissionsBuildResult> 
 
     if (flags.config) {
       this.spinner.start(messages.getMessage('info.readingConfig'));
-      const configContent = await fs.readFile(flags.config, 'utf-8');
-      const parsed = PermissionSetBuildConfigSchema.safeParse(JSON.parse(configContent) as unknown);
+      const parsed = await loadJsonConfig(flags.config, PermissionSetBuildConfigSchema);
 
       if (!parsed.success) {
-        throw messages.createError('error.invalidConfig', [parsed.error.message]);
+        throw messages.createError('error.invalidConfig', [parsed.message]);
       }
 
       config = parsed.data;

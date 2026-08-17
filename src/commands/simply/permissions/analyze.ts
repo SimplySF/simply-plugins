@@ -17,7 +17,7 @@
 import fs from 'node:fs/promises';
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
-import { queryRecords } from '@simplysf/simply-core';
+import { chunk, queryRecords } from '@simplysf/simply-core';
 import {
   buildPermissionsReportHtml,
   FieldPermissionEntry,
@@ -145,9 +145,8 @@ export default class PermissionsAnalyze extends SfCommand<PermissionsAnalyzeResu
 
     const allIds = [...permissionSetsInScope.map((r) => r.Id), ...permissionSetGroups.map((r) => r.Id)];
 
-    for (let i = 0; i < allIds.length; i += ID_CHUNK_SIZE) {
-      const chunk = allIds.slice(i, i + ID_CHUNK_SIZE);
-      const idsClause = chunk.map((id) => `'${id.substring(0, 15)}'`).join(',');
+    for (const idChunk of chunk(allIds, ID_CHUNK_SIZE)) {
+      const idsClause = idChunk.map((id) => `'${id.substring(0, 15)}'`).join(',');
 
       try {
         // eslint-disable-next-line no-await-in-loop
