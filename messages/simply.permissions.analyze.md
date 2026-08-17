@@ -28,10 +28,6 @@ One or more PermissionSet (Name) or PermissionSetGroup (DeveloperName) API names
 
 - <%= config.bin %> <%= command.id %> --target-org myOrg --output reports/permissions.html --filter My_Permission_Set --filter Another_Set
 
-# error.targetOrgConnectionFailed
-
-Unable to establish connection to the org.
-
 # info.fetchingPermissionSets
 
 Fetching permission sets and groups...

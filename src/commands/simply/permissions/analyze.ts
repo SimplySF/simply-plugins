@@ -17,6 +17,7 @@
 import fs from 'node:fs/promises';
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
+import { requireConnection, targetOrgFlags } from '@simplysf/simply-plugin-kit';
 import { LOCAL_PACKAGE_LABEL, queryRecords, resolvePackageNamesBySubjectId } from '@simplysf/simply-core';
 import {
   buildPermissionsReportHtml,
@@ -85,7 +86,7 @@ export default class PermissionsAnalyze extends SfCommand<PermissionsAnalyzeResu
 
   public static readonly flags = {
     ...SfCommand.baseFlags,
-    'api-version': Flags.orgApiVersion(),
+    ...targetOrgFlags,
     filter: Flags.string({
       summary: messages.getMessage('flags.filter.summary'),
       description: messages.getMessage('flags.filter.description'),
@@ -97,18 +98,13 @@ export default class PermissionsAnalyze extends SfCommand<PermissionsAnalyzeResu
       description: messages.getMessage('flags.output.description'),
       default: 'permissions_report.html',
     }),
-    'target-org': Flags.requiredOrg(),
   };
 
   /** @returns The output file path and the number of permission sets/groups reported on. */
   public async run(): Promise<PermissionsAnalyzeResult> {
     const { flags } = await this.parse(PermissionsAnalyze);
 
-    const connection = flags['target-org']?.getConnection(flags['api-version']);
-
-    if (!connection) {
-      throw messages.createError('error.targetOrgConnectionFailed');
-    }
+    const connection = requireConnection(flags);
 
     this.spinner.start(messages.getMessage('info.fetchingPermissionSets'));
     const psResult = await connection.autoFetchQuery(
