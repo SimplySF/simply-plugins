@@ -16,6 +16,7 @@
 
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
+import { requireConnection, targetOrgFlags } from '@simplysf/simply-plugin-kit';
 import { chunk } from '@simplysf/simply-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -42,8 +43,7 @@ export default class ApexLogsPurge extends SfCommand<ApexLogsPurgeResult[]> {
 
   public static readonly flags = {
     ...SfCommand.baseFlags,
-    'api-version': Flags.orgApiVersion(),
-    'target-org': Flags.requiredOrg(),
+    ...targetOrgFlags,
     where: Flags.string({
       summary: messages.getMessage('flags.where.summary'),
       description: messages.getMessage('flags.where.description'),
@@ -58,11 +58,7 @@ export default class ApexLogsPurge extends SfCommand<ApexLogsPurgeResult[]> {
   public async run(): Promise<ApexLogsPurgeResult[]> {
     const { flags } = await this.parse(ApexLogsPurge);
 
-    const targetOrgConnection = flags['target-org']?.getConnection(flags['api-version']);
-
-    if (!targetOrgConnection) {
-      throw messages.createError('error.targetOrgConnectionFailed');
-    }
+    const targetOrgConnection = requireConnection(flags);
 
     let query = 'SELECT Id FROM ApexLog';
     if (flags.where) {

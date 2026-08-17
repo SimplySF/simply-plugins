@@ -15,7 +15,8 @@
  */
 
 import { Messages } from '@salesforce/core';
-import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
+import { SfCommand } from '@salesforce/sf-plugins-core';
+import { requireConnection, targetOrgFlags } from '@simplysf/simply-plugin-kit';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-apex', 'simply.apex.trace.setup');
@@ -44,8 +45,7 @@ export default class ApexTraceSetup extends SfCommand<ApexTraceSetupResult> {
 
   public static readonly flags = {
     ...SfCommand.baseFlags,
-    'api-version': Flags.orgApiVersion(),
-    'target-org': Flags.requiredOrg(),
+    ...targetOrgFlags,
   };
 
   /**
@@ -55,11 +55,7 @@ export default class ApexTraceSetup extends SfCommand<ApexTraceSetupResult> {
   public async run(): Promise<ApexTraceSetupResult> {
     const { flags } = await this.parse(ApexTraceSetup);
 
-    const targetOrgConnection = flags['target-org']?.getConnection(flags['api-version']);
-
-    if (!targetOrgConnection) {
-      throw messages.createError('error.targetOrgConnectionFailed');
-    }
+    const targetOrgConnection = requireConnection(flags);
 
     this.spinner.start(messages.getMessage('info.findingUser'));
     const username = targetOrgConnection.getUsername() ?? '';

@@ -18,10 +18,6 @@ The path to the local .apex file containing the anonymous Apex code to execute.
 
 - <%= config.bin %> <%= command.id %> --target-org myOrg --file scripts/apex/data-fix.apex
 
-# error.targetOrgConnectionFailed
-
-Unable to establish connection to the org.
-
 # error.compileFailed
 
 Compilation failed at line %s, column %s with the error: %s

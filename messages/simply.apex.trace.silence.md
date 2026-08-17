@@ -28,10 +28,6 @@ The path to a JSON file with the shape { "classes": ["ClassOne", "ClassTwo"] } l
 
 - <%= config.bin %> <%= command.id %> --target-org myOrg --classes-file classesToSilence.json
 
-# error.targetOrgConnectionFailed
-
-Unable to establish connection to the org.
-
 # error.noClassesSpecified
 
 No Apex classes specified to silence. Use --classes or --classes-file.

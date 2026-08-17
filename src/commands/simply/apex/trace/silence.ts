@@ -16,6 +16,7 @@
 
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
+import { requireConnection, targetOrgFlags } from '@simplysf/simply-plugin-kit';
 import { loadJsonConfigSync } from '@simplysf/simply-core';
 import { ClassesToSilenceSchema } from '../../../../schemas/silence/classesToSilence.js';
 
@@ -76,7 +77,7 @@ export default class ApexTraceSilence extends SfCommand<ApexTraceSilenceResult[]
 
   public static readonly flags = {
     ...SfCommand.baseFlags,
-    'api-version': Flags.orgApiVersion(),
+    ...targetOrgFlags,
     classes: Flags.string({
       summary: messages.getMessage('flags.classes.summary'),
       description: messages.getMessage('flags.classes.description'),
@@ -89,7 +90,6 @@ export default class ApexTraceSilence extends SfCommand<ApexTraceSilenceResult[]
       exists: true,
       exclusive: ['classes'],
     }),
-    'target-org': Flags.requiredOrg(),
   };
 
   /**
@@ -100,11 +100,7 @@ export default class ApexTraceSilence extends SfCommand<ApexTraceSilenceResult[]
   public async run(): Promise<ApexTraceSilenceResult[]> {
     const { flags } = await this.parse(ApexTraceSilence);
 
-    const targetOrgConnection = flags['target-org']?.getConnection(flags['api-version']);
-
-    if (!targetOrgConnection) {
-      throw messages.createError('error.targetOrgConnectionFailed');
-    }
+    const targetOrgConnection = requireConnection(flags);
 
     const classes = resolveClasses(flags.classes, flags['classes-file']);
 

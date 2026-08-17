@@ -20,10 +20,6 @@ A WHERE clause used to filter which ApexLog records are purged (e.g. "Status = '
 
 - <%= config.bin %> <%= command.id %> --target-org myOrg --where "Status = 'Success'"
 
-# error.targetOrgConnectionFailed
-
-Unable to establish connection to the org.
-
 # info.queryingLogs
 
 Querying Apex logs...

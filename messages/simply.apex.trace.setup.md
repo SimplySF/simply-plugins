@@ -10,10 +10,6 @@ Creates or updates a 24-hour DEVELOPER_LOG trace flag for the user running the c
 
 - <%= config.bin %> <%= command.id %> --target-org myOrg
 
-# error.targetOrgConnectionFailed
-
-Unable to establish connection to the org.
-
 # error.userNotFound
 
 User not found for username: %s

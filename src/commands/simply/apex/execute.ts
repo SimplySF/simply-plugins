@@ -18,6 +18,7 @@ import path from 'node:path';
 import { ExecuteService } from '@salesforce/apex-node';
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
+import { requireConnection, targetOrgFlags } from '@simplysf/simply-plugin-kit';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-apex', 'simply.apex.execute');
@@ -45,7 +46,7 @@ export default class ApexExecute extends SfCommand<ApexExecuteResult> {
 
   public static readonly flags = {
     ...SfCommand.baseFlags,
-    'api-version': Flags.orgApiVersion(),
+    ...targetOrgFlags,
     file: Flags.file({
       summary: messages.getMessage('flags.file.summary'),
       description: messages.getMessage('flags.file.description'),
@@ -53,7 +54,6 @@ export default class ApexExecute extends SfCommand<ApexExecuteResult> {
       exists: true,
       required: true,
     }),
-    'target-org': Flags.requiredOrg(),
   };
 
   /**
@@ -62,11 +62,7 @@ export default class ApexExecute extends SfCommand<ApexExecuteResult> {
   public async run(): Promise<ApexExecuteResult> {
     const { flags } = await this.parse(ApexExecute);
 
-    const targetOrgConnection = flags['target-org']?.getConnection(flags['api-version']);
-
-    if (!targetOrgConnection) {
-      throw messages.createError('error.targetOrgConnectionFailed');
-    }
+    const targetOrgConnection = requireConnection(flags);
 
     this.spinner.start(`Executing ${path.parse(flags.file).name}`);
 
