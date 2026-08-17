@@ -18,7 +18,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { Messages, type Connection } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
-import { writeRecordsToCsvFile } from '@simplysf/simply-core';
+import { chunk, ensureDirectory, mapChunked, timestampForFileName, writeRecordsToCsvFile } from '@simplysf/simply-core';
 import {
   buildFieldHistorySchemaReportHtml,
   type FieldHistorySchemaEntry,
@@ -90,49 +90,39 @@ async function retrieveTrackedFields(
   const entries: WorkingEntry[] = [];
   const missingPackageIds = new Set<string>();
 
-  for (let i = 0; i < entities.length; i += OBJECT_CONCURRENCY) {
-    const chunk = entities.slice(i, i + OBJECT_CONCURRENCY);
-
-    // eslint-disable-next-line no-await-in-loop
-    await Promise.all(
-      chunk.map(async (entity) => {
-        const fieldResult = await connection.autoFetchQuery(
-          `SELECT DurableId, Label, QualifiedApiName, NamespacePrefix, Publisher.Name FROM FieldDefinition ` +
-            `WHERE EntityDefinitionId = '${entity.DurableId}' AND IsFieldHistoryTracked = true`,
-          { tooling: true },
-        );
-
-        for (const field of fieldResult.records as unknown as FieldDefinitionRecord[]) {
-          const rawPackageName = field.Publisher?.Name ?? 'N/A';
-          const packageName = rawPackageName === '<local>' ? 'Local (Unpackaged)' : rawPackageName;
-
-          entries.push({
-            objectName: entity.Label,
-            objectApiName: entity.QualifiedApiName,
-            fieldName: field.Label,
-            fieldApiName: field.QualifiedApiName,
-            managedPackageNamespace: field.NamespacePrefix ?? 'N/A',
-            packageName,
-            durableId: field.DurableId,
-          });
-
-          // Unlocked (2GP) package fields aren't attributed via Publisher.Name, so their
-          // durable ID is queued to be resolved separately via Package2Member.
-          if (
-            packageName === 'N/A' ||
-            (packageName === 'Local (Unpackaged)' && field.QualifiedApiName.endsWith('__c'))
-          ) {
-            const fieldId = field.DurableId.split('.')[1];
-            if (fieldId) {
-              missingPackageIds.add(fieldId);
-            }
-          }
-        }
-
-        onObjectComplete();
-      }),
+  await mapChunked(entities, OBJECT_CONCURRENCY, async (entity) => {
+    const fieldResult = await connection.autoFetchQuery(
+      `SELECT DurableId, Label, QualifiedApiName, NamespacePrefix, Publisher.Name FROM FieldDefinition ` +
+        `WHERE EntityDefinitionId = '${entity.DurableId}' AND IsFieldHistoryTracked = true`,
+      { tooling: true },
     );
-  }
+
+    for (const field of fieldResult.records as unknown as FieldDefinitionRecord[]) {
+      const rawPackageName = field.Publisher?.Name ?? 'N/A';
+      const packageName = rawPackageName === '<local>' ? 'Local (Unpackaged)' : rawPackageName;
+
+      entries.push({
+        objectName: entity.Label,
+        objectApiName: entity.QualifiedApiName,
+        fieldName: field.Label,
+        fieldApiName: field.QualifiedApiName,
+        managedPackageNamespace: field.NamespacePrefix ?? 'N/A',
+        packageName,
+        durableId: field.DurableId,
+      });
+
+      // Unlocked (2GP) package fields aren't attributed via Publisher.Name, so their
+      // durable ID is queued to be resolved separately via Package2Member.
+      if (packageName === 'N/A' || (packageName === 'Local (Unpackaged)' && field.QualifiedApiName.endsWith('__c'))) {
+        const fieldId = field.DurableId.split('.')[1];
+        if (fieldId) {
+          missingPackageIds.add(fieldId);
+        }
+      }
+    }
+
+    onObjectComplete();
+  });
 
   return { entries, missingPackageIds };
 }
@@ -152,10 +142,8 @@ async function resolveUnlockedPackageNames(
   missingPackageIds: Set<string>,
 ): Promise<number> {
   const packageMap = new Map<string, string>();
-  const idArray = [...missingPackageIds];
 
-  for (let i = 0; i < idArray.length; i += ID_CHUNK_SIZE) {
-    const idChunk = idArray.slice(i, i + ID_CHUNK_SIZE);
+  for (const idChunk of chunk([...missingPackageIds], ID_CHUNK_SIZE)) {
     const idsClause = idChunk.map((id) => `'${id}'`).join(',');
 
     // eslint-disable-next-line no-await-in-loop
@@ -247,12 +235,8 @@ export default class SObjectHistorySchema extends SfCommand<SObjectHistorySchema
       this.info(messages.getMessage('info.packagesResolved', [resolvedCount]));
     }
 
-    const outputDir = flags['output-dir'] ?? '.';
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir, { recursive: true });
-    }
-
-    const timestamp = buildTimestamp();
+    const outputDir = ensureDirectory(flags['output-dir'] ?? '.');
+    const timestamp = timestampForFileName();
     const csvPath = path.join(outputDir, `field_history_schema_${timestamp}.csv`);
     const htmlPath = path.join(outputDir, `field_history_schema_${timestamp}.html`);
 
@@ -307,13 +291,4 @@ function toAsyncIterable<T>(items: T[]): AsyncIterable<T> {
       };
     },
   };
-}
-
-/** @returns The current local time as a `YYYYMMDD_HHMMSS` string, for uniquing output filenames. */
-function buildTimestamp(): string {
-  const now = new Date();
-  const pad = (n: number): string => n.toString().padStart(2, '0');
-  return `${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(
-    now.getMinutes(),
-  )}${pad(now.getSeconds())}`;
 }

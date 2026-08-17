@@ -18,7 +18,14 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
-import { queryRecords, writeRecordsToCsvFile } from '@simplysf/simply-core';
+import {
+  ensureDirectory,
+  parseJsonConfig,
+  queryRecords,
+  timestampForFileName,
+  writeRecordsToCsvFile,
+  type JsonConfigResult,
+} from '@simplysf/simply-core';
 import {
   buildWhereClause,
   getHistoryObjectName,
@@ -43,21 +50,29 @@ export type SObjectHistoryQueryResult = {
 };
 
 /**
- * Parse the `--filters` flag value as either an inline JSON string or a path to a `.json` file.
+ * Resolve the `--filters` flag value — either an inline JSON string or a path to a `.json` file —
+ * into a validated filter config.
  *
  * @param filterInput - The raw `--filters` flag value.
- * @returns The parsed (but not yet schema-validated) filter config.
- * @throws {SfError} If the input isn't valid JSON.
+ * @returns The validated filter config.
+ * @throws {SfError} If the input isn't valid JSON, or doesn't satisfy {@link FilterConfigSchema}.
  */
-function parseFilterConfig(filterInput: string): unknown {
+function resolveFilterConfig(filterInput: string): FilterConfig {
   const raw =
     filterInput.endsWith('.json') && fs.existsSync(filterInput) ? fs.readFileSync(filterInput, 'utf-8') : filterInput;
 
+  let result: JsonConfigResult<FilterConfig>;
   try {
-    return JSON.parse(raw) as unknown;
+    result = parseJsonConfig(raw, FilterConfigSchema);
   } catch (error) {
     throw messages.createError('error.invalidFiltersJson', [(error as Error).message]);
   }
+
+  if (!result.success) {
+    throw messages.createError('error.invalidFilters', [result.message]);
+  }
+
+  return result.data;
 }
 
 /**
@@ -148,17 +163,7 @@ export default class SObjectHistoryQuery extends SfCommand<SObjectHistoryQueryRe
     const parentFieldName = getParentIdField(object);
     const soqlFilterableFields = new Set(['Field', 'CreatedById', 'CreatedDate', 'ParentId', parentFieldName]);
 
-    let filterConfig: FilterConfig | undefined;
-    if (flags.filters) {
-      const rawFilterConfig = parseFilterConfig(flags.filters);
-      const parsed = FilterConfigSchema.safeParse(rawFilterConfig);
-
-      if (!parsed.success) {
-        throw messages.createError('error.invalidFilters', [parsed.error.message]);
-      }
-
-      filterConfig = parsed.data;
-    }
+    const filterConfig: FilterConfig | undefined = flags.filters ? resolveFilterConfig(flags.filters) : undefined;
 
     let soql = `SELECT CreatedById, CreatedDate, Field, Id, NewValue, OldValue, ${parentFieldName} FROM ${historyObject}`;
     const whereClause = buildWhereClause(filterConfig, parentFieldName, soqlFilterableFields);
@@ -169,12 +174,8 @@ export default class SObjectHistoryQuery extends SfCommand<SObjectHistoryQueryRe
 
     this.info(messages.getMessage('info.generatedSoql', [soql]));
 
-    const outputDir = flags['output-dir'] ?? '.';
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir, { recursive: true });
-    }
-
-    const outputPath = path.join(outputDir, `${historyObject}_${buildTimestamp()}.csv`);
+    const outputDir = ensureDirectory(flags['output-dir'] ?? '.');
+    const outputPath = path.join(outputDir, `${historyObject}_${timestampForFileName()}.csv`);
 
     this.spinner.start(messages.getMessage('info.queryingHistory', [historyObject]));
 
@@ -199,13 +200,4 @@ export default class SObjectHistoryQuery extends SfCommand<SObjectHistoryQueryRe
 
     return { object, historyObject, totalQueried, totalWritten, path: outputPath };
   }
-}
-
-/** @returns The current local time as a `YYYYMMDD_HHMMSS` string, for uniquing output filenames. */
-function buildTimestamp(): string {
-  const now = new Date();
-  const pad = (n: number): string => n.toString().padStart(2, '0');
-  return `${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(
-    now.getMinutes(),
-  )}${pad(now.getSeconds())}`;
 }

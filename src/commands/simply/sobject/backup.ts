@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-import fs from 'node:fs';
 import path from 'node:path';
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
-import { queryRecords, writeRecordsToCsvFile } from '@simplysf/simply-core';
+import { ensureDirectory, queryRecords, timestampForFileName, writeRecordsToCsvFile } from '@simplysf/simply-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-sobject', 'simply.sobject.backup');
@@ -75,12 +74,8 @@ export default class SObjectBackup extends SfCommand<SObjectBackupResult> {
 
     const soql = `SELECT ${queryableFields.join(',')} FROM ${sobjectName}`;
 
-    const outputDir = flags['output-dir'] ?? '.';
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir, { recursive: true });
-    }
-
-    const outputPath = path.join(outputDir, `${sobjectName}_${buildTimestamp()}.csv`);
+    const outputDir = ensureDirectory(flags['output-dir'] ?? '.');
+    const outputPath = path.join(outputDir, `${sobjectName}_${timestampForFileName()}.csv`);
 
     this.spinner.start(messages.getMessage('info.exportingData', [sobjectName]));
 
@@ -96,13 +91,4 @@ export default class SObjectBackup extends SfCommand<SObjectBackupResult> {
 
     return { sobject: sobjectName, recordCount, path: outputPath };
   }
-}
-
-/** @returns The current local time as a `YYYYMMDD_HHMMSS` string, for uniquing backup filenames. */
-function buildTimestamp(): string {
-  const now = new Date();
-  const pad = (n: number): string => n.toString().padStart(2, '0');
-  return `${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(
-    now.getMinutes(),
-  )}${pad(now.getSeconds())}`;
 }

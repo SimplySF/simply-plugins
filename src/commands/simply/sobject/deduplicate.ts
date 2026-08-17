@@ -19,7 +19,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { Connection, Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
-import { createCsvFileWriter, queryRecords } from '@simplysf/simply-core';
+import { createCsvFileWriter, loadJsonConfigSync, queryRecords } from '@simplysf/simply-core';
 import { DeduplicateConfig, DeduplicateConfigSchema } from '../../../schemas/deduplicate/deduplicateConfig.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -155,11 +155,10 @@ export default class SObjectDeduplicate extends SfCommand<SObjectDeduplicateResu
     }
 
     this.spinner.start(messages.getMessage('info.readingConfig'));
-    const configContent = fs.readFileSync(flags.config, 'utf-8');
-    const parsed = DeduplicateConfigSchema.safeParse(JSON.parse(configContent) as unknown);
+    const parsed = loadJsonConfigSync(flags.config, DeduplicateConfigSchema);
 
     if (!parsed.success) {
-      throw messages.createError('error.invalidConfig', [parsed.error.message]);
+      throw messages.createError('error.invalidConfig', [parsed.message]);
     }
 
     const config: DeduplicateConfig = parsed.data;

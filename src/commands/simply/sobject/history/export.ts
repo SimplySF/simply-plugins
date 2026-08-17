@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-import fs from 'node:fs';
 import path from 'node:path';
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
-import { queryRecords, writeRecordsToCsvFile } from '@simplysf/simply-core';
+import { ensureDirectory, queryRecords, timestampForFileName, writeRecordsToCsvFile } from '@simplysf/simply-core';
 import { getHistoryObjectName, getParentIdField } from '../../../../common/fieldHistory.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -144,12 +143,8 @@ export default class SObjectHistoryExport extends SfCommand<SObjectHistoryExport
       `SELECT Id, ${parentIdField}, CreatedDate, CreatedById, CreatedBy.Name, Field, OldValue, NewValue ` +
       `FROM ${historyObject} WHERE CreatedDate >= ${startDateTime} AND CreatedDate <= ${endDateTime} ORDER BY CreatedDate DESC`;
 
-    const outputDir = flags['output-dir'] ?? '.';
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir, { recursive: true });
-    }
-
-    const outputPath = path.join(outputDir, `${historyObject}_${buildTimestamp()}.csv`);
+    const outputDir = ensureDirectory(flags['output-dir'] ?? '.');
+    const outputPath = path.join(outputDir, `${historyObject}_${timestampForFileName()}.csv`);
 
     this.spinner.start(messages.getMessage('info.exportingHistory', [historyObject]));
 
@@ -165,13 +160,4 @@ export default class SObjectHistoryExport extends SfCommand<SObjectHistoryExport
 
     return { sobject, historyObject, recordCount, path: outputPath };
   }
-}
-
-/** @returns The current local time as a `YYYYMMDD_HHMMSS` string, for uniquing export filenames. */
-function buildTimestamp(): string {
-  const now = new Date();
-  const pad = (n: number): string => n.toString().padStart(2, '0');
-  return `${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(
-    now.getMinutes(),
-  )}${pad(now.getSeconds())}`;
 }
