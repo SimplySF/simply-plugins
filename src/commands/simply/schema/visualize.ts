@@ -16,13 +16,12 @@
 
 /* eslint-disable no-await-in-loop */
 /* eslint-disable complexity */
-import fs from 'node:fs';
 import fsp from 'node:fs/promises';
 import path from 'node:path';
 import { type Connection, Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import { ComponentSet, SourceComponent } from '@salesforce/source-deploy-retrieve';
-import { writeRecordsToCsvFile } from '@simplysf/simply-core';
+import { chunk, ensureDirectory, mapChunked, timestampForFileName, writeRecordsToCsvFile } from '@simplysf/simply-core';
 import {
   buildSchemaReportHtml,
   type SchemaDiagramEdge,
@@ -259,9 +258,8 @@ const DESCRIBE_CHUNK_SIZE = 10;
 async function resolvePackageNames(connection: Connection, objectNames: string[]): Promise<Map<string, string>> {
   const packageMap = new Map<string, string>();
 
-  for (let i = 0; i < objectNames.length; i += PACKAGE_QUERY_CHUNK_SIZE) {
-    const chunk = objectNames.slice(i, i + PACKAGE_QUERY_CHUNK_SIZE);
-    const inClause = chunk.map((name) => `'${name}'`).join(',');
+  for (const nameChunk of chunk(objectNames, PACKAGE_QUERY_CHUNK_SIZE)) {
+    const inClause = nameChunk.map((name) => `'${name}'`).join(',');
 
     const result = await connection.autoFetchQuery(
       `SELECT DurableId, QualifiedApiName, Publisher.Name FROM EntityDefinition WHERE QualifiedApiName IN (${inClause})`,
@@ -294,9 +292,8 @@ async function retrieveOrgRelationships(
 ): Promise<RawRelationship[]> {
   const relationships: RawRelationship[] = [];
 
-  for (let i = 0; i < objectNames.length; i += FIELD_QUERY_CHUNK_SIZE) {
-    const chunk = objectNames.slice(i, i + FIELD_QUERY_CHUNK_SIZE);
-    const inClause = chunk.map((name) => `'${name}'`).join(',');
+  for (const nameChunk of chunk(objectNames, FIELD_QUERY_CHUNK_SIZE)) {
+    const inClause = nameChunk.map((name) => `'${name}'`).join(',');
 
     const result = await connection.autoFetchQuery(
       'SELECT EntityDefinition.QualifiedApiName, ReferenceTo, QualifiedApiName, Label, DataType FROM FieldDefinition ' +
@@ -394,34 +391,29 @@ export async function scanOrgSchema(
   }
 
   const incomingObjects = new Set<string>();
-  for (let i = 0; i < relatedObjectsToProcess.length; i += DESCRIBE_CHUNK_SIZE) {
-    const chunk = relatedObjectsToProcess.slice(i, i + DESCRIBE_CHUNK_SIZE);
-    await Promise.all(
-      chunk.map(async (objectName) => {
-        const describeResult = await connection.describe(objectName);
-        for (const childRelationship of describeResult.childRelationships) {
-          const childSObject = childRelationship.childSObject;
-          if (!childSObject || childSObject.includes('$')) {
-            continue;
-          }
+  await mapChunked(relatedObjectsToProcess, DESCRIBE_CHUNK_SIZE, async (objectName) => {
+    const describeResult = await connection.describe(objectName);
+    for (const childRelationship of describeResult.childRelationships) {
+      const childSObject = childRelationship.childSObject;
+      if (!childSObject || childSObject.includes('$')) {
+        continue;
+      }
 
-          const isCustom = objectMap.get(childSObject)?.custom ?? childSObject.endsWith('__c');
-          const isExplicit = explicitSourceObjects.includes(childSObject);
-          const isAllowedByRelatedFilter = !relatedObjectsFilter || relatedObjectsFilter.includes(childSObject);
+      const isCustom = objectMap.get(childSObject)?.custom ?? childSObject.endsWith('__c');
+      const isExplicit = explicitSourceObjects.includes(childSObject);
+      const isAllowedByRelatedFilter = !relatedObjectsFilter || relatedObjectsFilter.includes(childSObject);
 
-          if (
-            isAllowedByRelatedFilter &&
-            (isExplicit ||
-              options.objectType === 'all' ||
-              (options.objectType === 'custom' && isCustom) ||
-              (options.objectType === 'standard' && !isCustom))
-          ) {
-            incomingObjects.add(childSObject);
-          }
-        }
-      }),
-    );
-  }
+      if (
+        isAllowedByRelatedFilter &&
+        (isExplicit ||
+          options.objectType === 'all' ||
+          (options.objectType === 'custom' && isCustom) ||
+          (options.objectType === 'standard' && !isCustom))
+      ) {
+        incomingObjects.add(childSObject);
+      }
+    }
+  });
 
   objectsToProcess = [...new Set([...objectsToProcess, ...relatedObjectsToProcess, ...incomingObjects])];
 
@@ -662,10 +654,9 @@ export default class SchemaVisualize extends SfCommand<SchemaVisualizeResult> {
       };
     }
 
-    const outputDir = flags['output-dir'] ?? path.join('temp', 'simply-schema-visualize', buildTimestamp());
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir, { recursive: true });
-    }
+    const outputDir = ensureDirectory(
+      flags['output-dir'] ?? path.join('temp', 'simply-schema-visualize', timestampForFileName()),
+    );
 
     this.spinner.start(messages.getMessage('info.generatingOutputs'));
     const result = await generateOutputs(data, flags['output-type'], outputDir);
@@ -769,13 +760,4 @@ async function generateOutputs(
   }
 
   return result;
-}
-
-/** @returns The current local time as a `YYYYMMDD_HHMMSS` string, for uniquing default output directories. */
-function buildTimestamp(): string {
-  const now = new Date();
-  const pad = (n: number): string => n.toString().padStart(2, '0');
-  return `${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(
-    now.getMinutes(),
-  )}${pad(now.getSeconds())}`;
 }
