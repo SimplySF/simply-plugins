@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.11.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply%402.9.4...%40simplysf%2Fsimply%402.11.0) (2026-08-17)
+
+### Bug Fixes
+
+- documentation fixes ([558f0a0](https://github.com/SimplySF/simply-node/commit/558f0a0e3c0bfce2c43bbf38719c31c314b615d6))
+
+### Features
+
+- **cicd:** wire simply-cicd into the orchestrator plugin ([b3daf2f](https://github.com/SimplySF/simply-node/commit/b3daf2f197fb9522e1eabee830d0507448ef7c30))
+
 ## [2.10.3](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply%402.10.2...%40simplysf%2Fsimply%402.10.3) (2026-08-17)
 
 **Note:** Version bump only for package @simplysf/simply
