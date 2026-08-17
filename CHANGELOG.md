@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.3.0 (2026-08-17)
+
+### Bug Fixes
+
+- **cicd:** remove SIMPLY_CICD_* env support from multi-value flags ([9c399c7](https://github.com/SimplySF/simply-node/commit/9c399c719ea7ee05aa31165bbbc96fadbc2229ca))
+- **cicd:** satisfy camelcase lint rule for flow/flexipage-delta env var test keys ([d192e1b](https://github.com/SimplySF/simply-node/commit/d192e1bd0473cdd5f7cd136c52bb9fa09750668f))
+- **cicd:** satisfy EnvLogger's call signature in appendToEnvFile test mocks ([922700b](https://github.com/SimplySF/simply-node/commit/922700b3816a6cb80df66d599916359c35b46c5f))
+- **ci:** guard the manual "publish missing from npm" path too ([2cbb8a6](https://github.com/SimplySF/simply-node/commit/2cbb8a6b8e8c0b8658c40f8ccdfa2b2b9ff04593))
+- documentation fixes ([558f0a0](https://github.com/SimplySF/simply-node/commit/558f0a0e3c0bfce2c43bbf38719c31c314b615d6))
+- incorrect plugins directory ([201c46e](https://github.com/SimplySF/simply-node/commit/201c46e1d15626eebdb8413a9e01cda7a0e9b1eb))
+
+### Features
+
+- **cicd:** add build diff and lwc-jest tooling commands ([ba32587](https://github.com/SimplySF/simply-node/commit/ba3258791991fd9f5a3e3be77147a77691947d99))
+- **cicd:** add build package-version and tag lifecycle commands ([908829c](https://github.com/SimplySF/simply-node/commit/908829c3337392108d5f7f625076023439235235))
+- **cicd:** add build scratch-org lifecycle commands ([1b95d10](https://github.com/SimplySF/simply-node/commit/1b95d107e9ac11b886315dbdaedc3546cc017a86))
+- **cicd:** add deploy happy-soup command group ([63c0430](https://github.com/SimplySF/simply-node/commit/63c0430a68ac8e190a04d4aeb9e5c995d28df913))
+- **cicd:** add deploy orchestration core and generic validate command ([3ade31e](https://github.com/SimplySF/simply-node/commit/3ade31e96bc044077276d8ea29e0885d9d6e0cfe))
+- **cicd:** add deploy project command group ([d0f2fa3](https://github.com/SimplySF/simply-node/commit/d0f2fa36f317470676d0f7684d0628a7925d430c))
+- **cicd:** add notify command group ([c496e5b](https://github.com/SimplySF/simply-node/commit/c496e5b3b62888ac1f943510c0a6477ecc39a89b))
+- **cicd:** add sfdx-dependabot command ([8b1c566](https://github.com/SimplySF/simply-node/commit/8b1c5667bccf20833e15d5a823f5a105887c271b))
+- **cicd:** add simply-cicd shared infrastructure ([acc9522](https://github.com/SimplySF/simply-node/commit/acc952213cda287f9cc729844758f83e296868fc))
+- **cicd:** support SIMPLY_CICD_* environment variables for common flags ([8a8be9e](https://github.com/SimplySF/simply-node/commit/8a8be9ebd4fc604f4eb9ed266f482e6e4ad73676))
+
 ## [0.2.3](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-cicd%400.2.2...%40simplysf%2Fsimply-cicd%400.2.3) (2026-08-17)
 
 **Note:** Version bump only for package @simplysf/simply-cicd
