@@ -14,14 +14,12 @@ USAGE
 
 FLAGS
   --debug                            [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
-  --dev-hub-client-id=<value>...     (required) [env: SIMPLY_CICD_DEV_HUB_CLIENT_ID] Connected app client ID for a Dev
-                                     Hub.
-  --dev-hub-instance-url=<value>...  (required) [env: SIMPLY_CICD_DEV_HUB_INSTANCE_URL] Login instance URL for a Dev
-                                     Hub.
-  --dev-hub-name=<value>...          (required) [env: SIMPLY_CICD_DEV_HUB_NAME] Friendly name of a Dev Hub. Repeat this
-                                     flag alongside --dev-hub-username, --dev-hub-client-id, and --dev-hub-instance-url
-                                     (in the same order) for each Dev Hub to try.
-  --dev-hub-username=<value>...      (required) [env: SIMPLY_CICD_DEV_HUB_USERNAME] Username of a Dev Hub.
+  --dev-hub-client-id=<value>...     (required) Connected app client ID for a Dev Hub.
+  --dev-hub-instance-url=<value>...  (required) Login instance URL for a Dev Hub.
+  --dev-hub-name=<value>...          (required) Friendly name of a Dev Hub. Repeat this flag alongside
+                                     --dev-hub-username, --dev-hub-client-id, and --dev-hub-instance-url (in the same
+                                     order) for each Dev Hub to try.
+  --dev-hub-username=<value>...      (required) Username of a Dev Hub.
   --disabled                         [env: SIMPLY_CICD_DISABLED] Skip this job entirely, logging a warning instead of
                                      running it.
   --jwt-key-file=<value>             (required) [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file used
@@ -178,14 +176,12 @@ USAGE
 
 FLAGS
   --debug                            [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
-  --dev-hub-client-id=<value>...     (required) [env: SIMPLY_CICD_DEV_HUB_CLIENT_ID] Connected app client ID for a Dev
-                                     Hub.
-  --dev-hub-instance-url=<value>...  (required) [env: SIMPLY_CICD_DEV_HUB_INSTANCE_URL] Login instance URL for a Dev
-                                     Hub.
-  --dev-hub-name=<value>...          (required) [env: SIMPLY_CICD_DEV_HUB_NAME] Friendly name of a Dev Hub. Repeat this
-                                     flag alongside --dev-hub-username, --dev-hub-client-id, and --dev-hub-instance-url
-                                     (in the same order) for each Dev Hub to try.
-  --dev-hub-username=<value>...      (required) [env: SIMPLY_CICD_DEV_HUB_USERNAME] Username of a Dev Hub.
+  --dev-hub-client-id=<value>...     (required) Connected app client ID for a Dev Hub.
+  --dev-hub-instance-url=<value>...  (required) Login instance URL for a Dev Hub.
+  --dev-hub-name=<value>...          (required) Friendly name of a Dev Hub. Repeat this flag alongside
+                                     --dev-hub-username, --dev-hub-client-id, and --dev-hub-instance-url (in the same
+                                     order) for each Dev Hub to try.
+  --dev-hub-username=<value>...      (required) Username of a Dev Hub.
   --disabled                         [env: SIMPLY_CICD_DISABLED] Skip this job entirely, logging a warning instead of
                                      running it.
   --jwt-key-file=<value>             (required) [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file used
@@ -226,14 +222,12 @@ USAGE
 
 FLAGS
   --debug                            [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
-  --dev-hub-client-id=<value>...     (required) [env: SIMPLY_CICD_DEV_HUB_CLIENT_ID] Connected app client ID for a Dev
-                                     Hub.
-  --dev-hub-instance-url=<value>...  (required) [env: SIMPLY_CICD_DEV_HUB_INSTANCE_URL] Login instance URL for a Dev
-                                     Hub.
-  --dev-hub-name=<value>...          (required) [env: SIMPLY_CICD_DEV_HUB_NAME] Friendly name of a Dev Hub. Repeat this
-                                     flag alongside --dev-hub-username, --dev-hub-client-id, and --dev-hub-instance-url
-                                     (in the same order) for each Dev Hub to try.
-  --dev-hub-username=<value>...      (required) [env: SIMPLY_CICD_DEV_HUB_USERNAME] Username of a Dev Hub.
+  --dev-hub-client-id=<value>...     (required) Connected app client ID for a Dev Hub.
+  --dev-hub-instance-url=<value>...  (required) Login instance URL for a Dev Hub.
+  --dev-hub-name=<value>...          (required) Friendly name of a Dev Hub. Repeat this flag alongside
+                                     --dev-hub-username, --dev-hub-client-id, and --dev-hub-instance-url (in the same
+                                     order) for each Dev Hub to try.
+  --dev-hub-username=<value>...      (required) Username of a Dev Hub.
   --disabled                         [env: SIMPLY_CICD_DISABLED] Skip this job entirely, logging a warning instead of
                                      running it.
   --jwt-key-file=<value>             (required) [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file used

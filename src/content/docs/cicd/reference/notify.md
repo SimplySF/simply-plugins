@@ -32,8 +32,7 @@ FLAGS
                                   --notify-on-completion, this is what actually triggers the final notification.
   --notify-on-completion          Only send a notification on the final job of the pipeline, suppressing per-stage
                                   notifications.
-  --teams-webhook-url=<value>...  [env: SIMPLY_CICD_TEAMS_WEBHOOK_URL] One or more Teams webhook URLs to send the
-                                  notification to.
+  --teams-webhook-url=<value>...  One or more Teams webhook URLs to send the notification to.
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -114,8 +113,7 @@ FLAGS
                                             the target package version from the tooling DevHub.
   --target-package-version=<value>          The target package version. Only needed if re-running --after-script without
                                             having run --before-script first in the same job.
-  --teams-webhook-url=<value>...            [env: SIMPLY_CICD_TEAMS_WEBHOOK_URL] One or more Teams webhook URLs to send
-                                            the notification to.
+  --teams-webhook-url=<value>...            One or more Teams webhook URLs to send the notification to.
   --username=<value>                        [env: SIMPLY_CICD_USERNAME] Username for JWT authentication to the target
                                             org.
 

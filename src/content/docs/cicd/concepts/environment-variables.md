@@ -17,7 +17,7 @@ This is oclif's built-in `env` flag option — there's no custom parsing involve
 
 ## Naming convention
 
-All variables use the form `SIMPLY_CICD_<FLAG_NAME>`, uppercased with hyphens converted to underscores — e.g. `--vcs-provider` is backed by `SIMPLY_CICD_VCS_PROVIDER`. Flags that are inherently per-invocation (a specific package version ID, a `--dry-run` toggle passed once, `--from`/`--to` diff ranges) intentionally do **not** have an environment variable — only flags a team would reasonably want to set once across a whole pipeline are covered.
+All variables use the form `SIMPLY_CICD_<FLAG_NAME>`, uppercased with hyphens converted to underscores — e.g. `--vcs-provider` is backed by `SIMPLY_CICD_VCS_PROVIDER`. Flags that are inherently per-invocation (a specific package version ID, a `--dry-run` toggle passed once, `--from`/`--to` diff ranges) intentionally do **not** have an environment variable — only flags a team would reasonably want to set once across a whole pipeline are covered. Flags that accept **multiple values** (`--dev-hub-name`, `--dev-hub-username`, `--dev-hub-client-id`, `--dev-hub-instance-url`, `--teams-webhook-url`) also don't have an environment variable — a single variable can't cleanly represent a repeated flag, so these must still be passed explicitly, once per value.
 
 ## Reference by category
 
@@ -78,23 +78,22 @@ Most of these correspond 1:1 with a predefined GitLab CI variable of the same sh
 
 | Flag                            | Environment variable                      |
 | ------------------------------- | ----------------------------------------- |
-| `--dev-hub-name`                | `SIMPLY_CICD_DEV_HUB_NAME`                |
-| `--dev-hub-username`            | `SIMPLY_CICD_DEV_HUB_USERNAME`            |
-| `--dev-hub-client-id`           | `SIMPLY_CICD_DEV_HUB_CLIENT_ID`           |
-| `--dev-hub-instance-url`        | `SIMPLY_CICD_DEV_HUB_INSTANCE_URL`        |
 | `--devhub-tooling-username`     | `SIMPLY_CICD_DEVHUB_TOOLING_USERNAME`     |
 | `--devhub-tooling-client-id`    | `SIMPLY_CICD_DEVHUB_TOOLING_CLIENT_ID`    |
 | `--devhub-tooling-instance-url` | `SIMPLY_CICD_DEVHUB_TOOLING_INSTANCE_URL` |
 
+`--dev-hub-name`, `--dev-hub-username`, `--dev-hub-client-id`, and `--dev-hub-instance-url` accept multiple values (one Dev Hub per repeated flag) and are not backed by an environment variable — see the note on multi-value flags above.
+
 ### Notifications (see [Teams notifications](/cicd/guides/teams-notifications/))
 
-| Flag                             | Environment variable            |
-| -------------------------------- | ------------------------------- |
-| `--enabled`                      | `SIMPLY_CICD_ENABLED`           |
-| `--teams-webhook-url`            | `SIMPLY_CICD_TEAMS_WEBHOOK_URL` |
-| `--webhook-url` (`notify teams`) | `SIMPLY_CICD_WEBHOOK_URL`       |
-| `--jira-base-url`                | `SIMPLY_CICD_JIRA_BASE_URL`     |
-| `--jira-project-key`             | `SIMPLY_CICD_JIRA_PROJECT_KEY`  |
+| Flag                             | Environment variable           |
+| -------------------------------- | ------------------------------ |
+| `--enabled`                      | `SIMPLY_CICD_ENABLED`          |
+| `--webhook-url` (`notify teams`) | `SIMPLY_CICD_WEBHOOK_URL`      |
+| `--jira-base-url`                | `SIMPLY_CICD_JIRA_BASE_URL`    |
+| `--jira-project-key`             | `SIMPLY_CICD_JIRA_PROJECT_KEY` |
+
+`--teams-webhook-url` (`notify project`/`notify happy-soup`) accepts multiple values, one per Teams channel, and is not backed by an environment variable — see the note on multi-value flags above.
 
 ### `sfdx-dependabot`
 

@@ -190,7 +190,7 @@ A happy-soup pipeline follows the same environment-tier/branch-gating shape, but
 
 ## Simplifying with environment variables
 
-Every flag above that repeats across jobs — `--ci-job-token`, `--ci-commit-ref-name`, `--dev-hub-name`/`--dev-hub-username`/`--dev-hub-client-id`/`--dev-hub-instance-url`, `--jwt-key-file`, `--project-access-token`, and the rest — can be set **once** as a `SIMPLY_CICD_*` CI/CD variable instead of being passed on every command. See [Environment variables](/cicd/concepts/environment-variables/) for the full flag-to-variable mapping.
+Most flags above that repeat across jobs — `--ci-job-token`, `--ci-commit-ref-name`, `--jwt-key-file`, `--project-access-token`, and the rest — can be set **once** as a `SIMPLY_CICD_*` CI/CD variable instead of being passed on every command. See [Environment variables](/cicd/concepts/environment-variables/) for the full flag-to-variable mapping. The one exception in this pipeline is `--dev-hub-name`/`--dev-hub-username`/`--dev-hub-client-id`/`--dev-hub-instance-url` — since these accept multiple values (one Dev Hub per repeated flag), they aren't backed by an environment variable and must still be passed explicitly on every `build *` command.
 
 For example, GitLab already exposes `CI_JOB_TOKEN` and `CI_COMMIT_REF_NAME` automatically — mapping them once at the pipeline level:
 
