@@ -19,6 +19,7 @@ import { execa } from 'execa';
 import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { getDefaultPackageDirectory, isSubscriberPackageVersionId, readSfdxProject } from '@simplysf/simply-core';
+import { runSf, runSfJson } from '../../../../common/exec/sfCli.js';
 import { logger } from '../../../../common/logger.js';
 import { appendToEnvFile } from '../../../../common/env.js';
 import { authenticateOrg } from '../../../../common/sfAuth.js';
@@ -196,10 +197,9 @@ export default class NotifyProject extends SfCommand<NotifyProjectResult> {
       const packageName = getDefaultPackageDirectory(await readSfdxProject())?.package;
 
       logger.info(`Get installed package version from alias ${alias} for package ${packageName ?? 'unknown'}...`);
-      const { stdout } = await execa('sf', ['package', 'installed', 'list', '--target-org', alias, '--json']);
-      const installedList = JSON.parse(stdout) as {
+      const installedList = await runSfJson<{
         result: Array<{ SubscriberPackageName?: string; SubscriberPackageVersionNumber?: string }>;
-      };
+      }>(['package', 'installed', 'list', '--target-org', alias, '--json']);
       const pkg = installedList.result.find((p) => p.SubscriberPackageName === packageName);
       return pkg?.SubscriberPackageVersionNumber ? `v${pkg.SubscriberPackageVersionNumber}` : 'N/A';
     } catch (error) {
@@ -260,7 +260,7 @@ export default class NotifyProject extends SfCommand<NotifyProjectResult> {
       }
 
       logger.info(`Get latest package version for package version ID ${subscriberPackageVersionId}...`);
-      const { stdout } = await execa('sf', [
+      const { stdout } = await runSf([
         'package',
         'version',
         'report',

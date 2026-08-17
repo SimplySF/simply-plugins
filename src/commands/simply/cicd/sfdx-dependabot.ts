@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import { execa } from 'execa';
 import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
+import { runSfJson } from '../../../common/exec/sfCli.js';
 import { logger } from '../../../common/logger.js';
-import { parseBooleanString } from '../../../common/optionProcessors.js';
+import { resolveBoolean, resolveOptionalString, resolveString } from '../../../common/flags/env.js';
 import { updateSfdxProject } from '../../../common/sfdxDependabot/updater.js';
 import type { UpdateSfdxProjectResult } from '../../../common/sfdxDependabot/updater.js';
 import { getVcsProvider } from '../../../common/vcs/index.js';
@@ -55,11 +55,10 @@ export async function resolvePackageDetails(
   const args = ['data', 'query', '-o', devhubUsername, '-q', query, '--use-tooling-api', '--json'];
 
   try {
-    const { stdout } = await execa('sf', args);
-    const queryResult = JSON.parse(stdout) as {
+    const queryResult = await runSfJson<{
       records?: SubscriberPackageVersionRecord[];
       result?: { records?: SubscriberPackageVersionRecord[] };
-    };
+    }>(args);
     const records = queryResult.result?.records ?? queryResult.records;
 
     if (!records || records.length === 0) {
@@ -226,24 +225,6 @@ type SfdxDependabotCounters = {
   skipped: number;
   failed: number;
 };
-
-/** Returns the first defined value among the flag and the given env vars, or `fallback`. */
-function resolveString(flagValue: string | undefined, envVars: Array<string | undefined>, fallback = ''): string {
-  return flagValue ?? envVars.find((value) => value !== undefined) ?? fallback;
-}
-
-/** Returns the first defined value among the flag and the given env vars, or `undefined`. */
-function resolveOptionalString(flagValue: string | undefined, envVars: Array<string | undefined>): string | undefined {
-  return flagValue ?? envVars.find((value) => value !== undefined);
-}
-
-/** Resolves a boolean flag with CLI flag > env var (string-coerced) > hardcoded fallback precedence. */
-function resolveBoolean(flagValue: boolean | undefined, envVar: string | undefined, fallback: boolean): boolean {
-  if (flagValue !== undefined) {
-    return flagValue;
-  }
-  return envVar !== undefined ? parseBooleanString(envVar) : fallback;
-}
 
 /** Applies the `--max-projects` safety cap, returning the trimmed list and how many extra projects that skipped. */
 function applyMaxProjectsLimit(

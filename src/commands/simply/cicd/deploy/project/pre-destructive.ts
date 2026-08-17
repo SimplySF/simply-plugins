@@ -15,18 +15,9 @@
  */
 
 import { Messages } from '@salesforce/core';
-import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
+import { SfCommand } from '@salesforce/sf-plugins-core';
 import { deployProject } from '../../../../../common/deploy/deployProject.js';
-import {
-  ciJobTokenFlag,
-  debugFlag,
-  deployProgressFileFlag,
-  deployRulesFileFlag,
-  orgAuthFlags,
-  startFromFlag,
-  testFlags,
-  vcsFlags,
-} from '../../../../../common/deploy/flags.js';
+import { projectStageFlags, toProjectStageOptions } from '../../../../../common/deploy/stageCommand.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-cicd', 'simply.cicd.deploy.project.pre-destructive');
@@ -39,43 +30,12 @@ export default class DeployProjectPreDestructive extends SfCommand<void> {
 
   public static readonly flags = {
     ...SfCommand.baseFlags,
-    ...ciJobTokenFlag,
-    ...orgAuthFlags,
-    ...debugFlag,
-    'deploy-config-file': Flags.string({
-      summary: messages.getMessage('flags.deploy-config-file.summary'),
-      default: 'config/deploy.json',
-      env: 'SIMPLY_CICD_DEPLOY_CONFIG_FILE',
-    }),
-    ...deployProgressFileFlag,
-    ...deployRulesFileFlag,
-    ...startFromFlag,
-    ...testFlags,
-    ...vcsFlags,
+    ...projectStageFlags,
   };
 
   public async run(): Promise<void> {
     const { flags } = await this.parse(DeployProjectPreDestructive);
 
-    await deployProject({
-      stage: 'pre-destructive',
-      ciJobToken: flags['ci-job-token'],
-      alias: flags.alias,
-      authUrl: flags['auth-url'],
-      clientId: flags['client-id'],
-      instanceUrl: flags['instance-url'],
-      jwtKeyFile: flags['jwt-key-file'],
-      username: flags.username,
-      debug: flags.debug,
-      deployConfigFile: flags['deploy-config-file'],
-      deployProgressFile: flags['deploy-progress-file'],
-      deployRulesFile: flags['deploy-rules-file'],
-      startFrom: flags['start-from'],
-      testLevel: flags['test-level'],
-      testSuite: flags['test-suite'],
-      tests: flags.tests,
-      vcsHost: flags['vcs-host'],
-      vcsProvider: flags['vcs-provider'],
-    });
+    await deployProject(toProjectStageOptions('pre-destructive', flags));
   }
 }

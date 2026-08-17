@@ -78,7 +78,7 @@ describe('deployHappySoup', () => {
 
     expect(installPackageDependencies).toHaveBeenCalledOnce();
     expect(logger.success).toHaveBeenCalledWith(
-      expect.stringMatching(/Completed Stage: install-packaged in \d+(\.\d+)?s/),
+      expect.stringMatching(/Completed stage install-packaged in \d+(\.\d+)?s/),
     );
   });
 
@@ -121,7 +121,7 @@ describe('deployHappySoup', () => {
       ]);
       expect(execa).toHaveBeenCalledWith('git', ['push', 'test-remote', '--tags']);
       expect(logger.success).toHaveBeenCalledWith(
-        expect.stringMatching(/Completed Stage: tag-deployment in \d+(\.\d+)?s/),
+        expect.stringMatching(/Completed stage tag-deployment in \d+(\.\d+)?s/),
       );
     });
 

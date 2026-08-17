@@ -15,18 +15,9 @@
  */
 
 import { Messages } from '@salesforce/core';
-import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
+import { SfCommand } from '@salesforce/sf-plugins-core';
 import { deployHappySoup } from '../../../../../common/deploy/deployHappySoup.js';
-import {
-  ciJobTokenFlag,
-  debugFlag,
-  deployProgressFileFlag,
-  deployRulesFileFlag,
-  orgAuthFlags,
-  startFromFlag,
-  testFlags,
-  vcsFlags,
-} from '../../../../../common/deploy/flags.js';
+import { happySoupStageFlags, toHappySoupStageOptions } from '../../../../../common/deploy/stageCommand.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-cicd', 'simply.cicd.deploy.happy-soup.pre-destructive');
@@ -39,46 +30,12 @@ export default class DeployHappySoupPreDestructive extends SfCommand<void> {
 
   public static readonly flags = {
     ...SfCommand.baseFlags,
-    ...ciJobTokenFlag,
-    ...orgAuthFlags,
-    ...debugFlag,
-    'deploy-config-file': Flags.string({
-      summary: messages.getMessage('flags.deploy-config-file.summary'),
-      env: 'SIMPLY_CICD_DEPLOY_CONFIG_FILE',
-    }),
-    ...deployProgressFileFlag,
-    ...deployRulesFileFlag,
-    'source-branch-name': Flags.string({
-      summary: messages.getMessage('flags.source-branch-name.summary'),
-      env: 'SIMPLY_CICD_SOURCE_BRANCH_NAME',
-    }),
-    ...startFromFlag,
-    ...testFlags,
-    ...vcsFlags,
+    ...happySoupStageFlags,
   };
 
   public async run(): Promise<void> {
     const { flags } = await this.parse(DeployHappySoupPreDestructive);
 
-    await deployHappySoup({
-      stage: 'pre-destructive',
-      ciJobToken: flags['ci-job-token'],
-      alias: flags.alias,
-      authUrl: flags['auth-url'],
-      clientId: flags['client-id'],
-      instanceUrl: flags['instance-url'],
-      jwtKeyFile: flags['jwt-key-file'],
-      username: flags.username,
-      debug: flags.debug,
-      deployConfigFile: flags['deploy-config-file'],
-      deployProgressFile: flags['deploy-progress-file'],
-      deployRulesFile: flags['deploy-rules-file'],
-      sourceBranchName: flags['source-branch-name'],
-      startFrom: flags['start-from'],
-      testLevel: flags['test-level'],
-      tests: flags.tests,
-      vcsHost: flags['vcs-host'],
-      vcsProvider: flags['vcs-provider'],
-    });
+    await deployHappySoup(toHappySoupStageOptions('pre-destructive', flags));
   }
 }

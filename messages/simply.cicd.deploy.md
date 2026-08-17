@@ -61,3 +61,15 @@ Path to the deployment rules file.
 # flags.ci-job-token.summary
 
 The CI job token used to authenticate read-only repository clones.
+
+# flags.project-deploy-config-file.summary
+
+Path to the deployment configuration file.
+
+# flags.happy-soup-deploy-config-file.summary
+
+Path to the deployment configuration file. If not provided, derived from --source-branch-name.
+
+# flags.source-branch-name.summary
+
+The source branch name for the deployment, used to derive the deployment config file path if --deploy-config-file is not provided.
