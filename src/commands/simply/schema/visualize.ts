@@ -21,7 +21,14 @@ import path from 'node:path';
 import { type Connection, Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import { ComponentSet, SourceComponent } from '@salesforce/source-deploy-retrieve';
-import { chunk, ensureDirectory, mapChunked, timestampForFileName, writeRecordsToCsvFile } from '@simplysf/simply-core';
+import {
+  chunkedInQuery,
+  ensureDirectory,
+  mapChunked,
+  resolvePackageNamesByApiName,
+  timestampForFileName,
+  writeRecordsToCsvFile,
+} from '@simplysf/simply-core';
 import {
   buildSchemaReportHtml,
   type SchemaDiagramEdge,
@@ -224,13 +231,6 @@ function scanLocalSchema(
 
 // --- Org scanning ------------------------------------------------------------------------------
 
-/** An `EntityDefinition` record identifying an org object and its publishing package. */
-type EntityDefinitionRecord = {
-  DurableId: string;
-  QualifiedApiName: string;
-  Publisher?: { Name: string };
-};
-
 /** A `FieldDefinition` record identifying a relationship field on an org object. */
 type FieldDefinitionRecord = {
   EntityDefinition: { QualifiedApiName: string };
@@ -242,39 +242,16 @@ type FieldDefinitionRecord = {
 
 /** Chunk size for `QualifiedApiName IN (...)` clauses when resolving package names. */
 const PACKAGE_QUERY_CHUNK_SIZE = 100;
+/**
+ * How this report labels an object whose `EntityDefinition` carries no publisher at all — which
+ * is what standard, Salesforce-shipped objects look like, as distinct from the explicit `<local>`
+ * publisher that unpackaged custom objects get.
+ */
+const STANDARD_OR_LOCAL_LABEL = 'Standard/Local';
 /** Chunk size for `EntityDefinition.QualifiedApiName IN (...)` clauses when retrieving relationship fields. */
 const FIELD_QUERY_CHUNK_SIZE = 20;
 /** Chunk size for per-object `describe()` calls run concurrently while searching for reverse lookups. */
 const DESCRIBE_CHUNK_SIZE = 10;
-
-/**
- * Resolve the publisher package name for each of the given object API names, chunked to stay
- * under SOQL query-length limits.
- *
- * @param connection - The org connection to query against.
- * @param objectNames - The object API names to resolve package names for.
- * @returns A map of object API name to publisher/package name.
- */
-async function resolvePackageNames(connection: Connection, objectNames: string[]): Promise<Map<string, string>> {
-  const packageMap = new Map<string, string>();
-
-  for (const nameChunk of chunk(objectNames, PACKAGE_QUERY_CHUNK_SIZE)) {
-    const inClause = nameChunk.map((name) => `'${name}'`).join(',');
-
-    const result = await connection.autoFetchQuery(
-      `SELECT DurableId, QualifiedApiName, Publisher.Name FROM EntityDefinition WHERE QualifiedApiName IN (${inClause})`,
-      { tooling: true },
-    );
-
-    for (const record of result.records as unknown as EntityDefinitionRecord[]) {
-      const packageName =
-        record.Publisher?.Name === '<local>' ? 'Local (Unpackaged)' : (record.Publisher?.Name ?? 'Standard/Local');
-      packageMap.set(record.QualifiedApiName, packageName);
-    }
-  }
-
-  return packageMap;
-}
 
 /**
  * Retrieve relationship (Lookup/Master-Detail) fields for the given org objects, chunked to stay
@@ -292,39 +269,38 @@ async function retrieveOrgRelationships(
 ): Promise<RawRelationship[]> {
   const relationships: RawRelationship[] = [];
 
-  for (const nameChunk of chunk(objectNames, FIELD_QUERY_CHUNK_SIZE)) {
-    const inClause = nameChunk.map((name) => `'${name}'`).join(',');
-
-    const result = await connection.autoFetchQuery(
+  const fields = await chunkedInQuery<FieldDefinitionRecord>(
+    connection,
+    objectNames,
+    (inClause) =>
       'SELECT EntityDefinition.QualifiedApiName, ReferenceTo, QualifiedApiName, Label, DataType FROM FieldDefinition ' +
-        `WHERE EntityDefinition.QualifiedApiName IN (${inClause})`,
-      { tooling: true },
-    );
+      `WHERE EntityDefinition.QualifiedApiName IN (${inClause})`,
+    { chunkSize: FIELD_QUERY_CHUNK_SIZE, tooling: true },
+  );
 
-    for (const field of result.records as unknown as FieldDefinitionRecord[]) {
-      const match = /(Lookup|Master-Detail)\((.*?)\)/.exec(field.DataType);
-      if (!match) {
-        continue;
-      }
+  for (const field of fields) {
+    const match = /(Lookup|Master-Detail)\((.*?)\)/.exec(field.DataType);
+    if (!match) {
+      continue;
+    }
 
-      const isCustom = field.QualifiedApiName.endsWith('__c');
-      if (fieldType === 'custom' && !isCustom) {
-        continue;
-      }
-      if (fieldType === 'standard' && isCustom) {
-        continue;
-      }
+    const isCustom = field.QualifiedApiName.endsWith('__c');
+    if (fieldType === 'custom' && !isCustom) {
+      continue;
+    }
+    if (fieldType === 'standard' && isCustom) {
+      continue;
+    }
 
-      for (const referenceTo of field.ReferenceTo?.referenceTo ?? []) {
-        relationships.push({
-          from: field.EntityDefinition.QualifiedApiName,
-          to: referenceTo,
-          type: match[1] === 'Master-Detail' ? 'MasterDetail' : 'Lookup',
-          name: field.QualifiedApiName,
-          field: field.QualifiedApiName,
-          label: field.Label,
-        });
-      }
+    for (const referenceTo of field.ReferenceTo?.referenceTo ?? []) {
+      relationships.push({
+        from: field.EntityDefinition.QualifiedApiName,
+        to: referenceTo,
+        type: match[1] === 'Master-Detail' ? 'MasterDetail' : 'Lookup',
+        name: field.QualifiedApiName,
+        field: field.QualifiedApiName,
+        label: field.Label,
+      });
     }
   }
 
@@ -352,7 +328,7 @@ export async function scanOrgSchema(
   const objectMap = new Map<string, SchemaObject>(
     globalDescribe.sobjects.map((sobject) => [
       sobject.name,
-      { name: sobject.name, label: sobject.label, custom: sobject.custom, project: 'Standard/Local' },
+      { name: sobject.name, label: sobject.label, custom: sobject.custom, project: STANDARD_OR_LOCAL_LABEL },
     ]),
   );
 
@@ -417,7 +393,10 @@ export async function scanOrgSchema(
 
   objectsToProcess = [...new Set([...objectsToProcess, ...relatedObjectsToProcess, ...incomingObjects])];
 
-  const packageMap = await resolvePackageNames(connection, objectsToProcess);
+  const packageMap = await resolvePackageNamesByApiName(connection, objectsToProcess, {
+    chunkSize: PACKAGE_QUERY_CHUNK_SIZE,
+    fallbackLabel: STANDARD_OR_LOCAL_LABEL,
+  });
   for (const [objectName, packageName] of packageMap) {
     const object = objectMap.get(objectName);
     if (object) {
@@ -714,7 +693,7 @@ async function generateOutputs(
 
     let mermaid = 'erDiagram\n';
     for (const objectName of objectsToProcess) {
-      const project = objectMap.get(objectName)?.project ?? 'Standard/Local';
+      const project = objectMap.get(objectName)?.project ?? STANDARD_OR_LOCAL_LABEL;
       mermaid += `    ${entityLabel(objectName)} {\n`;
       mermaid += `        string PACKAGE "${project}"\n`;
       mermaid += `        string API_NAME "${objectName}"\n`;
@@ -736,7 +715,7 @@ async function generateOutputs(
     const nodes: SchemaDiagramNode[] = objectsToProcess.map((objectName) => {
       const object = objectMap.get(objectName);
       const label = object?.label ?? objectName;
-      const project = object?.project ?? 'Standard/Local';
+      const project = object?.project ?? STANDARD_OR_LOCAL_LABEL;
       return {
         id: objectName,
         label: `${label}\n(${objectName})`,
