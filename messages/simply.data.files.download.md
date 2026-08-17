@@ -27,7 +27,3 @@ Provide a WHERE clause to allow the plugin to specify which ContentVersion recor
 - <%= config.bin %> <%= command.id %> --where-content-version "IsLatest=true" --target-org myTargetOrg
 
 - <%= config.bin %> <%= command.id %> --where-content-version "IsLatest=true" --max-parallel-jobs 5 --target-org myTargetOrg
-
-# error.targetOrgConnectionFailed
-
-Unable to establish connection to the org.

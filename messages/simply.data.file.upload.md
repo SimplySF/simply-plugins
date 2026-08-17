@@ -23,7 +23,3 @@ Specify the title for the file being uploaded.
 - <%= config.bin %> <%= command.id %> --file-path fileToUpload.txt --target-org myTargetOrg
 
 - <%= config.bin %> <%= command.id %> --file-path fileToUpload.txt --first-publish-location-id 0019000000DmehK --target-org myTargetOrg
-
-# error.targetOrgConnectionFailed
-
-Unable to establish connection to the org.

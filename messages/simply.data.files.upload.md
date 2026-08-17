@@ -27,7 +27,3 @@ By default the plugin will only process a single file upload at a time. You can 
 - <%= config.bin %> <%= command.id %> --file-path filesToUpload.csv --target-org myTargetOrg
 
 - <%= config.bin %> <%= command.id %> --file-path filesToUpload.csv --max-parallel-jobs 5 --target-org myTargetOrg
-
-# error.targetOrgConnectionFailed
-
-Unable to establish connection to the org.

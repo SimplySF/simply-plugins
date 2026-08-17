@@ -19,6 +19,7 @@ import { parse } from 'csv-parse';
 import PQueue from 'p-queue';
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
+import { requireConnection, targetOrgFlags } from '@simplysf/simply-plugin-kit';
 import { createCsvFileWriter } from '@simplysf/simply-core';
 import { uploadContentVersion } from '../../../../common/contentVersionUtils.js';
 import { ContentVersionToUpload } from '../../../../common/contentVersionTypes.js';
@@ -42,7 +43,7 @@ export default class DataFilesUpload extends SfCommand<void> {
 
   public static readonly flags = {
     ...SfCommand.baseFlags,
-    'api-version': Flags.orgApiVersion(),
+    ...targetOrgFlags,
     'file-path': Flags.directory({
       summary: messages.getMessage('flags.file-path.summary'),
       description: messages.getMessage('flags.file-path.description'),
@@ -53,18 +54,13 @@ export default class DataFilesUpload extends SfCommand<void> {
       description: messages.getMessage('flags.max-parallel-jobs.description'),
       default: 1,
     }),
-    'target-org': Flags.requiredOrg(),
   };
 
   public async run(): Promise<void> {
     const { flags } = await this.parse(DataFilesUpload);
 
     // Authorize to the target org
-    const targetOrgConnection = flags['target-org']?.getConnection(flags['api-version']);
-
-    if (!targetOrgConnection) {
-      throw messages.createError('error.targetOrgConnectionFailed');
-    }
+    const targetOrgConnection = requireConnection(flags);
 
     this.spinner.start('Initializing file upload', '\n', { stdout: true });
 

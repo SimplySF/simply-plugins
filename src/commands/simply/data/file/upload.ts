@@ -16,6 +16,7 @@
 
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
+import { requireConnection, targetOrgFlags } from '@simplysf/simply-plugin-kit';
 import { uploadContentVersion } from '../../../../common/contentVersionUtils.js';
 import { ContentVersion } from '../../../../common/contentVersionTypes.js';
 
@@ -30,7 +31,7 @@ export default class DataFileUpload extends SfCommand<ContentVersion> {
 
   public static readonly flags = {
     ...SfCommand.baseFlags,
-    'api-version': Flags.orgApiVersion(),
+    ...targetOrgFlags,
     'file-path': Flags.directory({
       summary: messages.getMessage('flags.file-path.summary'),
       required: true,
@@ -38,7 +39,6 @@ export default class DataFileUpload extends SfCommand<ContentVersion> {
     'first-publish-location-id': Flags.string({
       summary: messages.getMessage('flags.first-publish-location-id.summary'),
     }),
-    'target-org': Flags.requiredOrg(),
     title: Flags.string({
       summary: messages.getMessage('flags.title.summary'),
     }),
@@ -49,11 +49,7 @@ export default class DataFileUpload extends SfCommand<ContentVersion> {
     const { flags } = await this.parse(DataFileUpload);
 
     // Authorize to the target org
-    const targetOrgConnection = flags['target-org']?.getConnection(flags['api-version']);
-
-    if (!targetOrgConnection) {
-      throw messages.createError('error.targetOrgConnectionFailed');
-    }
+    const targetOrgConnection = requireConnection(flags);
 
     this.spinner.start('Uploading file', '', { stdout: true });
 

@@ -18,6 +18,7 @@ import fs from 'node:fs';
 import PQueue from 'p-queue';
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
+import { requireConnection, targetOrgFlags } from '@simplysf/simply-plugin-kit';
 import { createCsvFileWriter } from '@simplysf/simply-core';
 import { downloadContentVersion } from '../../../../common/contentVersionUtils.js';
 import { ContentVersionDownload } from '../../../../common/contentVersionTypes.js';
@@ -40,13 +41,12 @@ export default class DataFilesDownload extends SfCommand<void> {
 
   public static readonly flags = {
     ...SfCommand.baseFlags,
-    'api-version': Flags.orgApiVersion(),
+    ...targetOrgFlags,
     'max-parallel-jobs': Flags.integer({
       summary: messages.getMessage('flags.max-parallel-jobs.summary'),
       description: messages.getMessage('flags.max-parallel-jobs.description'),
       default: 1,
     }),
-    'target-org': Flags.requiredOrg(),
     'where-content-version': Flags.string({
       summary: messages.getMessage('flags.where-content-version.summary'),
       description: messages.getMessage('flags.where-content-version.description'),
@@ -58,11 +58,7 @@ export default class DataFilesDownload extends SfCommand<void> {
     const { flags } = await this.parse(DataFilesDownload);
 
     // Authorize to the target org
-    const targetOrgConnection = flags['target-org']?.getConnection(flags['api-version']);
-
-    if (!targetOrgConnection) {
-      throw messages.createError('error.targetOrgConnectionFailed');
-    }
+    const targetOrgConnection = requireConnection(flags);
 
     this.spinner.start('Querying for files', '\n', { stdout: true });
 
