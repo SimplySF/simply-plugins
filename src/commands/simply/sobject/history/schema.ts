@@ -18,7 +18,15 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { Messages, type Connection } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
-import { chunk, ensureDirectory, mapChunked, timestampForFileName, writeRecordsToCsvFile } from '@simplysf/simply-core';
+import {
+  ensureDirectory,
+  LOCAL_PACKAGE_LABEL,
+  mapChunked,
+  normalizePublisherName,
+  resolvePackageNamesBySubjectId,
+  timestampForFileName,
+  writeRecordsToCsvFile,
+} from '@simplysf/simply-core';
 import {
   buildFieldHistorySchemaReportHtml,
   type FieldHistorySchemaEntry,
@@ -43,6 +51,9 @@ const OBJECT_CONCURRENCY = 5;
 
 /** Maximum number of field IDs per `WHERE SubjectId IN (...)` chunk for the `Package2Member` query. */
 const ID_CHUNK_SIZE = 200;
+
+/** How this report labels a field with no namespace, or no publisher of any kind. */
+const NOT_APPLICABLE_LABEL = 'N/A';
 
 /** A queried `EntityDefinition` record for an object with field history tracking enabled. */
 type EntityDefinitionRecord = {
@@ -98,22 +109,24 @@ async function retrieveTrackedFields(
     );
 
     for (const field of fieldResult.records as unknown as FieldDefinitionRecord[]) {
-      const rawPackageName = field.Publisher?.Name ?? 'N/A';
-      const packageName = rawPackageName === '<local>' ? 'Local (Unpackaged)' : rawPackageName;
+      const packageName = normalizePublisherName(field.Publisher?.Name, NOT_APPLICABLE_LABEL);
 
       entries.push({
         objectName: entity.Label,
         objectApiName: entity.QualifiedApiName,
         fieldName: field.Label,
         fieldApiName: field.QualifiedApiName,
-        managedPackageNamespace: field.NamespacePrefix ?? 'N/A',
+        managedPackageNamespace: field.NamespacePrefix ?? NOT_APPLICABLE_LABEL,
         packageName,
         durableId: field.DurableId,
       });
 
       // Unlocked (2GP) package fields aren't attributed via Publisher.Name, so their
       // durable ID is queued to be resolved separately via Package2Member.
-      if (packageName === 'N/A' || (packageName === 'Local (Unpackaged)' && field.QualifiedApiName.endsWith('__c'))) {
+      if (
+        packageName === NOT_APPLICABLE_LABEL ||
+        (packageName === LOCAL_PACKAGE_LABEL && field.QualifiedApiName.endsWith('__c'))
+      ) {
         const fieldId = field.DurableId.split('.')[1];
         if (fieldId) {
           missingPackageIds.add(fieldId);
@@ -141,27 +154,12 @@ async function resolveUnlockedPackageNames(
   entries: WorkingEntry[],
   missingPackageIds: Set<string>,
 ): Promise<number> {
-  const packageMap = new Map<string, string>();
-
-  for (const idChunk of chunk([...missingPackageIds], ID_CHUNK_SIZE)) {
-    const idsClause = idChunk.map((id) => `'${id}'`).join(',');
-
-    // eslint-disable-next-line no-await-in-loop
-    const packageResult = await connection.autoFetchQuery(
-      `SELECT SubjectId, SubscriberPackage.Name FROM Package2Member WHERE SubjectId IN (${idsClause})`,
-      { tooling: true },
-    );
-
-    for (const record of packageResult.records as unknown as Array<{
-      SubjectId: string;
-      SubscriberPackage: { Name: string };
-    }>) {
-      packageMap.set(record.SubjectId.substring(0, 15), record.SubscriberPackage.Name);
-    }
-  }
+  const packageMap = await resolvePackageNamesBySubjectId(connection, [...missingPackageIds], {
+    chunkSize: ID_CHUNK_SIZE,
+  });
 
   entries.forEach((entry) => {
-    if (entry.packageName !== 'N/A' && entry.packageName !== 'Local (Unpackaged)') {
+    if (entry.packageName !== NOT_APPLICABLE_LABEL && entry.packageName !== LOCAL_PACKAGE_LABEL) {
       return;
     }
 
