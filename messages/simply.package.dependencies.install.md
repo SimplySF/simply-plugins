@@ -138,10 +138,6 @@ Unable to establish connection to the org.
 
 This command requires a DevHub to be specified if providing a Package2Id and VersionNumber instead of a SubscriberPackageVersionId.
 
-# error.targetOrgConnectionFailed
-
-Unable to establish connection to the org.
-
 # info.canceledPackageInstall
 
 We canceled this package installation per your request.
