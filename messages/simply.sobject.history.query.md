@@ -38,10 +38,6 @@ The directory to save the query results CSV file to. Defaults to the current dir
 
 - <%= config.bin %> <%= command.id %> --target-org myOrg --object Account --filters '{"logic":"AND","filters":[{"field":"Field","operator":"=","value":"Name"}]}'
 
-# error.targetOrgConnectionFailed
-
-Unable to establish connection to the org.
-
 # error.invalidFiltersJson
 
 Invalid filter configuration: %s

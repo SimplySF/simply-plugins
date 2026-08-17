@@ -18,6 +18,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
+import { requireConnection, targetOrgFlags } from '@simplysf/simply-plugin-kit';
 import {
   ensureDirectory,
   parseJsonConfig,
@@ -130,7 +131,7 @@ export default class SObjectHistoryQuery extends SfCommand<SObjectHistoryQueryRe
 
   public static readonly flags = {
     ...SfCommand.baseFlags,
-    'api-version': Flags.orgApiVersion(),
+    ...targetOrgFlags,
     object: Flags.string({
       summary: messages.getMessage('flags.object.summary'),
       description: messages.getMessage('flags.object.description'),
@@ -145,18 +146,13 @@ export default class SObjectHistoryQuery extends SfCommand<SObjectHistoryQueryRe
       description: messages.getMessage('flags.output-dir.description'),
       char: 'd',
     }),
-    'target-org': Flags.requiredOrg(),
   };
 
   /** @returns The output CSV path and the total/written record counts. */
   public async run(): Promise<SObjectHistoryQueryResult> {
     const { flags } = await this.parse(SObjectHistoryQuery);
 
-    const targetOrgConnection = flags['target-org']?.getConnection(flags['api-version']);
-
-    if (!targetOrgConnection) {
-      throw messages.createError('error.targetOrgConnectionFailed');
-    }
+    const targetOrgConnection = requireConnection(flags);
 
     const object = flags.object;
     const historyObject = getHistoryObjectName(object);

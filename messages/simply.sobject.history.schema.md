@@ -20,10 +20,6 @@ The directory to save the generated CSV and HTML report files to. Defaults to th
 
 - <%= config.bin %> <%= command.id %> --target-org myOrg --output-dir reports
 
-# error.targetOrgConnectionFailed
-
-Unable to establish connection to the org.
-
 # info.identifyingObjects
 
 Identifying objects with field history tracking enabled...

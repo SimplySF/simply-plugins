@@ -18,6 +18,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { Messages, type Connection } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
+import { requireConnection, targetOrgFlags } from '@simplysf/simply-plugin-kit';
 import {
   ensureDirectory,
   LOCAL_PACKAGE_LABEL,
@@ -186,24 +187,19 @@ export default class SObjectHistorySchema extends SfCommand<SObjectHistorySchema
 
   public static readonly flags = {
     ...SfCommand.baseFlags,
-    'api-version': Flags.orgApiVersion(),
+    ...targetOrgFlags,
     'output-dir': Flags.directory({
       summary: messages.getMessage('flags.output-dir.summary'),
       description: messages.getMessage('flags.output-dir.description'),
       char: 'd',
     }),
-    'target-org': Flags.requiredOrg(),
   };
 
   /** @returns The output CSV/HTML paths and the number of tracked objects/fields found. */
   public async run(): Promise<SObjectHistorySchemaResult> {
     const { flags } = await this.parse(SObjectHistorySchema);
 
-    const connection = flags['target-org']?.getConnection(flags['api-version']);
-
-    if (!connection) {
-      throw messages.createError('error.targetOrgConnectionFailed');
-    }
+    const connection = requireConnection(flags);
 
     const username = connection.getUsername() ?? '';
 

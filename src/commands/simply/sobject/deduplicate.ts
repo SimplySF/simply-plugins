@@ -19,6 +19,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { Connection, Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
+import { requireConnection, targetOrgFlags } from '@simplysf/simply-plugin-kit';
 import { createCsvFileWriter, loadJsonConfigSync, queryRecords } from '@simplysf/simply-core';
 import { DeduplicateConfig, DeduplicateConfigSchema } from '../../../schemas/deduplicate/deduplicateConfig.js';
 
@@ -124,7 +125,7 @@ export default class SObjectDeduplicate extends SfCommand<SObjectDeduplicateResu
 
   public static readonly flags = {
     ...SfCommand.baseFlags,
-    'api-version': Flags.orgApiVersion(),
+    ...targetOrgFlags,
     config: Flags.file({
       summary: messages.getMessage('flags.config.summary'),
       description: messages.getMessage('flags.config.description'),
@@ -141,18 +142,13 @@ export default class SObjectDeduplicate extends SfCommand<SObjectDeduplicateResu
       summary: messages.getMessage('flags.output-dir.summary'),
       description: messages.getMessage('flags.output-dir.description'),
     }),
-    'target-org': Flags.requiredOrg(),
   };
 
   /** @returns Summary counts and output file paths for the deduplication run. */
   public async run(): Promise<SObjectDeduplicateResult> {
     const { flags } = await this.parse(SObjectDeduplicate);
 
-    const targetOrgConnection = flags['target-org']?.getConnection(flags['api-version']);
-
-    if (!targetOrgConnection) {
-      throw messages.createError('error.targetOrgConnectionFailed');
-    }
+    const targetOrgConnection = requireConnection(flags);
 
     this.spinner.start(messages.getMessage('info.readingConfig'));
     const parsed = loadJsonConfigSync(flags.config, DeduplicateConfigSchema);

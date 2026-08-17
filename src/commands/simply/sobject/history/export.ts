@@ -17,6 +17,7 @@
 import path from 'node:path';
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
+import { requireConnection, targetOrgFlags } from '@simplysf/simply-plugin-kit';
 import { ensureDirectory, queryRecords, timestampForFileName, writeRecordsToCsvFile } from '@simplysf/simply-core';
 import { getHistoryObjectName, getParentIdField } from '../../../../common/fieldHistory.js';
 
@@ -83,7 +84,7 @@ export default class SObjectHistoryExport extends SfCommand<SObjectHistoryExport
 
   public static readonly flags = {
     ...SfCommand.baseFlags,
-    'api-version': Flags.orgApiVersion(),
+    ...targetOrgFlags,
     sobject: Flags.string({
       summary: messages.getMessage('flags.sobject.summary'),
       description: messages.getMessage('flags.sobject.description'),
@@ -119,18 +120,13 @@ export default class SObjectHistoryExport extends SfCommand<SObjectHistoryExport
       description: messages.getMessage('flags.output-dir.description'),
       char: 'd',
     }),
-    'target-org': Flags.requiredOrg(),
   };
 
   /** @returns The output CSV path and the number of history records written. */
   public async run(): Promise<SObjectHistoryExportResult> {
     const { flags } = await this.parse(SObjectHistoryExport);
 
-    const targetOrgConnection = flags['target-org']?.getConnection(flags['api-version']);
-
-    if (!targetOrgConnection) {
-      throw messages.createError('error.targetOrgConnectionFailed');
-    }
+    const targetOrgConnection = requireConnection(flags);
 
     const sobject = flags.sobject;
     const historyObject = getHistoryObjectName(sobject);

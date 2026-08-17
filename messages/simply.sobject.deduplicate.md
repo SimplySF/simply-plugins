@@ -36,10 +36,6 @@ The directory to write the generated CSV files to. Defaults to ./temp/<primaryOb
 
 - <%= config.bin %> <%= command.id %> --target-org myOrg --config config/deduplicate-account.json --dry-run
 
-# error.targetOrgConnectionFailed
-
-Unable to establish connection to the org.
-
 # error.invalidConfig
 
 The deduplication configuration file is invalid: %s

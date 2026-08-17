@@ -44,10 +44,6 @@ The directory to save the exported CSV file to. Defaults to the current director
 
 - <%= config.bin %> <%= command.id %> --target-org myOrg --sobject Custom_Object__c --start-date 2026-01-01 --end-date 2026-01-31 --output-dir exports
 
-# error.targetOrgConnectionFailed
-
-Unable to establish connection to the org.
-
 # error.invalidDate
 
 Invalid value for --%s: "%s". Expected a date in YYYY-MM-DD format.

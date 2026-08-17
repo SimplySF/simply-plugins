@@ -28,10 +28,6 @@ The directory to save the backup CSV file to. Defaults to the current directory.
 
 - <%= config.bin %> <%= command.id %> --target-org myOrg --sobject Custom_Object__c --output-dir backups
 
-# error.targetOrgConnectionFailed
-
-Unable to establish connection to the org.
-
 # info.describingSobject
 
 Describing SObject: %s...

@@ -17,6 +17,7 @@
 import path from 'node:path';
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
+import { requireConnection, targetOrgFlags } from '@simplysf/simply-plugin-kit';
 import { ensureDirectory, queryRecords, timestampForFileName, writeRecordsToCsvFile } from '@simplysf/simply-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -40,7 +41,7 @@ export default class SObjectBackup extends SfCommand<SObjectBackupResult> {
 
   public static readonly flags = {
     ...SfCommand.baseFlags,
-    'api-version': Flags.orgApiVersion(),
+    ...targetOrgFlags,
     'output-dir': Flags.directory({
       summary: messages.getMessage('flags.output-dir.summary'),
       description: messages.getMessage('flags.output-dir.description'),
@@ -52,18 +53,13 @@ export default class SObjectBackup extends SfCommand<SObjectBackupResult> {
       char: 's',
       required: true,
     }),
-    'target-org': Flags.requiredOrg(),
   };
 
   /** @returns The output CSV path and the number of records written. */
   public async run(): Promise<SObjectBackupResult> {
     const { flags } = await this.parse(SObjectBackup);
 
-    const targetOrgConnection = flags['target-org']?.getConnection(flags['api-version']);
-
-    if (!targetOrgConnection) {
-      throw messages.createError('error.targetOrgConnectionFailed');
-    }
+    const targetOrgConnection = requireConnection(flags);
 
     const sobjectName = flags.sobject;
 
