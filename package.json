@@ -1,7 +1,7 @@
 {
   "name": "@simplysf/simply",
   "description": "Salesforce CLI Plugins created by @SimplySF",
-  "version": "2.11.1",
+  "version": "2.11.2",
   "author": "@ClayChipps",
   "homepage": "https://github.com/SimplySF/simply-node",
   "bugs": "https://github.com/SimplySF/simply-node/issues",
@@ -72,14 +72,14 @@
   },
   "dependencies": {
     "@oclif/core": "^4.11.2",
-    "@simplysf/simply-apex": "workspace:^1.1.15",
-    "@simplysf/simply-data": "workspace:^2.3.14",
+    "@simplysf/simply-apex": "workspace:^1.1.16",
+    "@simplysf/simply-data": "workspace:^2.3.15",
     "@simplysf/simply-document": "workspace:^0.3.3",
     "@simplysf/simply-package": "workspace:^2.8.5",
-    "@simplysf/simply-permissions": "workspace:^1.2.18",
+    "@simplysf/simply-permissions": "workspace:^1.2.19",
     "@simplysf/simply-project": "workspace:^1.2.14",
-    "@simplysf/simply-schema": "workspace:^0.3.4",
-    "@simplysf/simply-sobject": "workspace:^1.4.5",
+    "@simplysf/simply-schema": "workspace:^0.3.5",
+    "@simplysf/simply-sobject": "workspace:^1.4.6",
     "debug": "^4.4.3"
   },
   "devDependencies": {
