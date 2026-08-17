@@ -13,10 +13,10 @@ USAGE
     [--source-branch-name <value>]
 
 FLAGS
-  --deploy-config-file=<value>  Path to the deployment configuration file.
-  --deploy-rules-file=<value>   Path to the deployment rules file.
-  --source-branch-name=<value>  The source branch name for the deployment, used to derive the deployment config file
-                                path if --deploy-config-file is not provided.
+  --deploy-config-file=<value>  [env: SIMPLY_CICD_DEPLOY_CONFIG_FILE] Path to the deployment configuration file.
+  --deploy-rules-file=<value>   [env: SIMPLY_CICD_DEPLOY_RULES_FILE] Path to the deployment rules file.
+  --source-branch-name=<value>  [env: SIMPLY_CICD_SOURCE_BRANCH_NAME] The source branch name for the deployment, used to
+                                derive the deployment config file path if --deploy-config-file is not provided.
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -35,4 +35,4 @@ EXAMPLES
   $ sf simply cicd deploy validate --deploy-config-file config/deploy.json --deploy-rules-file config/deploy-rules.json
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/validate.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/deploy/validate.js)_
+_See code: [lib/commands/simply/cicd/deploy/validate.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/deploy/validate.js)_

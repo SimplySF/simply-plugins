@@ -16,28 +16,35 @@ USAGE
     [--vcs-provider gitlab]
 
 FLAGS
-  --alias=<value>                 Salesforce org alias.
-  --auth-url=<value>              Salesforce authorization (SFDX auth) URL, used as an alternative to JWT
+  --alias=<value>                 [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
+  --auth-url=<value>              [env: SIMPLY_CICD_AUTH_URL] Salesforce authorization (SFDX auth) URL, used as an
+                                  alternative to JWT authentication.
+  --ci-job-token=<value>          (required) [env: SIMPLY_CICD_CI_JOB_TOKEN] The CI job token used to authenticate
+                                  read-only repository clones.
+  --client-id=<value>             [env: SIMPLY_CICD_CLIENT_ID] Connected app client ID, used for JWT authentication.
+  --debug                         [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
+  --deploy-config-file=<value>    [env: SIMPLY_CICD_DEPLOY_CONFIG_FILE] Path to the deployment configuration file. If
+                                  not provided, derived from --source-branch-name.
+  --deploy-progress-file=<value>  [default: DEPLOY_PROGRESS.json, env: SIMPLY_CICD_DEPLOY_PROGRESS_FILE] Path to the
+                                  deployment progress file.
+  --deploy-rules-file=<value>     [default: config/deploy-rules.json, env: SIMPLY_CICD_DEPLOY_RULES_FILE] Path to the
+                                  deployment rules file.
+  --instance-url=<value>          [env: SIMPLY_CICD_INSTANCE_URL] Salesforce login/instance URL, used for JWT
                                   authentication.
-  --ci-job-token=<value>          (required) The CI job token used to authenticate read-only repository clones.
-  --client-id=<value>             Connected app client ID, used for JWT authentication.
-  --debug                         Enable verbose debug logging.
-  --deploy-config-file=<value>    Path to the deployment configuration file. If not provided, derived from
-                                  --source-branch-name.
-  --deploy-progress-file=<value>  [default: DEPLOY_PROGRESS.json] Path to the deployment progress file.
-  --deploy-rules-file=<value>     [default: config/deploy-rules.json] Path to the deployment rules file.
-  --instance-url=<value>          Salesforce login/instance URL, used for JWT authentication.
-  --jwt-key-file=<value>          Path to the JWT private key file.
-  --source-branch-name=<value>    The source branch name for the deployment, used to derive the deployment config file
-                                  path if --deploy-config-file is not provided.
+  --jwt-key-file=<value>          [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file.
+  --source-branch-name=<value>    [env: SIMPLY_CICD_SOURCE_BRANCH_NAME] The source branch name for the deployment, used
+                                  to derive the deployment config file path if --deploy-config-file is not provided.
   --start-from=<value>            Start (or resume) the deployment from a specific job name, overriding the progress
                                   file.
-  --test-level=<value>            [default: RunLocalTests] The Apex test level to run.
-  --test-suite=<value>            The Apex test suite to run. If specified, overrides --test-level.
-  --tests=<value>                 Specific Apex tests to run.
-  --username=<value>              Salesforce username, used for JWT authentication.
-  --vcs-host=<value>              [default: gitlab.com] The source-control host to talk to (e.g. gitlab.com).
-  --vcs-provider=<option>         [default: gitlab] The source-control-hosting platform to talk to.
+  --test-level=<value>            [default: RunLocalTests, env: SIMPLY_CICD_TEST_LEVEL] The Apex test level to run.
+  --test-suite=<value>            [env: SIMPLY_CICD_TEST_SUITE] The Apex test suite to run. If specified, overrides
+                                  --test-level.
+  --tests=<value>                 [env: SIMPLY_CICD_TESTS] Specific Apex tests to run.
+  --username=<value>              [env: SIMPLY_CICD_USERNAME] Salesforce username, used for JWT authentication.
+  --vcs-host=<value>              [default: gitlab.com, env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to
+                                  (e.g. gitlab.com).
+  --vcs-provider=<option>         [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting platform
+                                  to talk to.
                                   <options: gitlab>
 
 GLOBAL FLAGS
@@ -54,7 +61,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup deploy-unpackaged --ci-job-token $CI_JOB_TOKEN --alias my-org --source-branch-name release/uat
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/deploy-unpackaged.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/deploy-unpackaged.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/deploy-unpackaged.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/deploy-unpackaged.js)_
 
 ## `sf simply cicd deploy happy-soup deployment-close-out`
 
@@ -68,22 +75,29 @@ USAGE
     <value>] [--vcs-host <value>] [--vcs-provider gitlab]
 
 FLAGS
-  --ci-commit-ref-name=<value>    (required) The commit ref (branch) to fetch and switch to before archiving.
-  --ci-pipeline-id=<value>        (required) The CI pipeline ID, used to build the authenticated push remote.
-  --ci-project-path=<value>       (required) The project path (e.g. group/project), used to build the authenticated push
-                                  remote.
-  --debug                         Enable verbose debug logging.
-  --deploy-config-file=<value>    Path to the deployment configuration file to archive, if --deploy-release-date is not
-                                  provided.
-  --deploy-progress-file=<value>  [default: DEPLOY_PROGRESS.json] Path to the deployment progress file.
+  --ci-commit-ref-name=<value>    (required) [env: SIMPLY_CICD_CI_COMMIT_REF_NAME] The commit ref (branch) to fetch and
+                                  switch to before archiving.
+  --ci-pipeline-id=<value>        (required) [env: SIMPLY_CICD_CI_PIPELINE_ID] The CI pipeline ID, used to build the
+                                  authenticated push remote.
+  --ci-project-path=<value>       (required) [env: SIMPLY_CICD_CI_PROJECT_PATH] The project path (e.g. group/project),
+                                  used to build the authenticated push remote.
+  --debug                         [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
+  --deploy-config-file=<value>    [env: SIMPLY_CICD_DEPLOY_CONFIG_FILE] Path to the deployment configuration file to
+                                  archive, if --deploy-release-date is not provided.
+  --deploy-progress-file=<value>  [default: DEPLOY_PROGRESS.json, env: SIMPLY_CICD_DEPLOY_PROGRESS_FILE] Path to the
+                                  deployment progress file.
   --deploy-release-date=<value>   The release date (e.g. 2026-01-15) used to resolve the source file as
                                   `deployment-configs/<date>.json`, taking priority over --deploy-config-file.
-  --deploy-rules-file=<value>     [default: config/deploy-rules.json] Path to the deployment rules file.
-  --project-access-token=<value>  (required) A project access token with write access, used to push the archive commit.
-  --source-branch-name=<value>    The source branch name for the deployment, used to derive the deployment config file
-                                  path if --deploy-config-file is not provided.
-  --vcs-host=<value>              [default: gitlab.com] The source-control host to talk to (e.g. gitlab.com).
-  --vcs-provider=<option>         [default: gitlab] The source-control-hosting platform to talk to.
+  --deploy-rules-file=<value>     [default: config/deploy-rules.json, env: SIMPLY_CICD_DEPLOY_RULES_FILE] Path to the
+                                  deployment rules file.
+  --project-access-token=<value>  (required) [env: SIMPLY_CICD_PROJECT_ACCESS_TOKEN] A project access token with write
+                                  access, used to push the archive commit.
+  --source-branch-name=<value>    [env: SIMPLY_CICD_SOURCE_BRANCH_NAME] The source branch name for the deployment, used
+                                  to derive the deployment config file path if --deploy-config-file is not provided.
+  --vcs-host=<value>              [default: gitlab.com, env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to
+                                  (e.g. gitlab.com).
+  --vcs-provider=<option>         [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting platform
+                                  to talk to.
                                   <options: gitlab>
 
 GLOBAL FLAGS
@@ -102,7 +116,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup deployment-close-out --ci-commit-ref-name main --ci-pipeline-id 123 --ci-project-path group/project --project-access-token $PROJECT_ACCESS_TOKEN --deploy-release-date 2026-01-15
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/deployment-close-out.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/deployment-close-out.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/deployment-close-out.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/deployment-close-out.js)_
 
 ## `sf simply cicd deploy happy-soup install-packaged`
 
@@ -115,18 +129,21 @@ USAGE
     [--deploy-rules-file <value>] [--install-type All|Delta|Upgrade]
 
 FLAGS
-  --alias=<value>                 Salesforce org alias.
-  --auth-url=<value>              Salesforce authorization (SFDX auth) URL, used as an alternative to JWT
-                                  authentication.
-  --client-id=<value>             Connected app client ID, used for JWT authentication.
-  --debug                         Enable verbose debug logging.
-  --deploy-progress-file=<value>  [default: DEPLOY_PROGRESS.json] Path to the deployment progress file.
-  --deploy-rules-file=<value>     [default: config/deploy-rules.json] Path to the deployment rules file.
+  --alias=<value>                 [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
+  --auth-url=<value>              [env: SIMPLY_CICD_AUTH_URL] Salesforce authorization (SFDX auth) URL, used as an
+                                  alternative to JWT authentication.
+  --client-id=<value>             [env: SIMPLY_CICD_CLIENT_ID] Connected app client ID, used for JWT authentication.
+  --debug                         [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
+  --deploy-progress-file=<value>  [default: DEPLOY_PROGRESS.json, env: SIMPLY_CICD_DEPLOY_PROGRESS_FILE] Path to the
+                                  deployment progress file.
+  --deploy-rules-file=<value>     [default: config/deploy-rules.json, env: SIMPLY_CICD_DEPLOY_RULES_FILE] Path to the
+                                  deployment rules file.
   --install-type=<option>         [default: Upgrade] The type of dependency installation to perform.
                                   <options: All|Delta|Upgrade>
-  --instance-url=<value>          Salesforce login/instance URL, used for JWT authentication.
-  --jwt-key-file=<value>          Path to the JWT private key file.
-  --username=<value>              Salesforce username, used for JWT authentication.
+  --instance-url=<value>          [env: SIMPLY_CICD_INSTANCE_URL] Salesforce login/instance URL, used for JWT
+                                  authentication.
+  --jwt-key-file=<value>          [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file.
+  --username=<value>              [env: SIMPLY_CICD_USERNAME] Salesforce username, used for JWT authentication.
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -141,7 +158,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup install-packaged --alias my-org
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/install-packaged.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/install-packaged.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/install-packaged.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/install-packaged.js)_
 
 ## `sf simply cicd deploy happy-soup post-deploy`
 
@@ -156,28 +173,35 @@ USAGE
     [--vcs-provider gitlab]
 
 FLAGS
-  --alias=<value>                 Salesforce org alias.
-  --auth-url=<value>              Salesforce authorization (SFDX auth) URL, used as an alternative to JWT
+  --alias=<value>                 [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
+  --auth-url=<value>              [env: SIMPLY_CICD_AUTH_URL] Salesforce authorization (SFDX auth) URL, used as an
+                                  alternative to JWT authentication.
+  --ci-job-token=<value>          (required) [env: SIMPLY_CICD_CI_JOB_TOKEN] The CI job token used to authenticate
+                                  read-only repository clones.
+  --client-id=<value>             [env: SIMPLY_CICD_CLIENT_ID] Connected app client ID, used for JWT authentication.
+  --debug                         [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
+  --deploy-config-file=<value>    [env: SIMPLY_CICD_DEPLOY_CONFIG_FILE] Path to the deployment configuration file. If
+                                  not provided, derived from --source-branch-name.
+  --deploy-progress-file=<value>  [default: DEPLOY_PROGRESS.json, env: SIMPLY_CICD_DEPLOY_PROGRESS_FILE] Path to the
+                                  deployment progress file.
+  --deploy-rules-file=<value>     [default: config/deploy-rules.json, env: SIMPLY_CICD_DEPLOY_RULES_FILE] Path to the
+                                  deployment rules file.
+  --instance-url=<value>          [env: SIMPLY_CICD_INSTANCE_URL] Salesforce login/instance URL, used for JWT
                                   authentication.
-  --ci-job-token=<value>          (required) The CI job token used to authenticate read-only repository clones.
-  --client-id=<value>             Connected app client ID, used for JWT authentication.
-  --debug                         Enable verbose debug logging.
-  --deploy-config-file=<value>    Path to the deployment configuration file. If not provided, derived from
-                                  --source-branch-name.
-  --deploy-progress-file=<value>  [default: DEPLOY_PROGRESS.json] Path to the deployment progress file.
-  --deploy-rules-file=<value>     [default: config/deploy-rules.json] Path to the deployment rules file.
-  --instance-url=<value>          Salesforce login/instance URL, used for JWT authentication.
-  --jwt-key-file=<value>          Path to the JWT private key file.
-  --source-branch-name=<value>    The source branch name for the deployment, used to derive the deployment config file
-                                  path if --deploy-config-file is not provided.
+  --jwt-key-file=<value>          [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file.
+  --source-branch-name=<value>    [env: SIMPLY_CICD_SOURCE_BRANCH_NAME] The source branch name for the deployment, used
+                                  to derive the deployment config file path if --deploy-config-file is not provided.
   --start-from=<value>            Start (or resume) the deployment from a specific job name, overriding the progress
                                   file.
-  --test-level=<value>            [default: RunLocalTests] The Apex test level to run.
-  --test-suite=<value>            The Apex test suite to run. If specified, overrides --test-level.
-  --tests=<value>                 Specific Apex tests to run.
-  --username=<value>              Salesforce username, used for JWT authentication.
-  --vcs-host=<value>              [default: gitlab.com] The source-control host to talk to (e.g. gitlab.com).
-  --vcs-provider=<option>         [default: gitlab] The source-control-hosting platform to talk to.
+  --test-level=<value>            [default: RunLocalTests, env: SIMPLY_CICD_TEST_LEVEL] The Apex test level to run.
+  --test-suite=<value>            [env: SIMPLY_CICD_TEST_SUITE] The Apex test suite to run. If specified, overrides
+                                  --test-level.
+  --tests=<value>                 [env: SIMPLY_CICD_TESTS] Specific Apex tests to run.
+  --username=<value>              [env: SIMPLY_CICD_USERNAME] Salesforce username, used for JWT authentication.
+  --vcs-host=<value>              [default: gitlab.com, env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to
+                                  (e.g. gitlab.com).
+  --vcs-provider=<option>         [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting platform
+                                  to talk to.
                                   <options: gitlab>
 
 GLOBAL FLAGS
@@ -194,7 +218,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup post-deploy --ci-job-token $CI_JOB_TOKEN --alias my-org --source-branch-name release/uat
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/post-deploy.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/post-deploy.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/post-deploy.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/post-deploy.js)_
 
 ## `sf simply cicd deploy happy-soup post-destructive`
 
@@ -209,28 +233,35 @@ USAGE
     [--vcs-provider gitlab]
 
 FLAGS
-  --alias=<value>                 Salesforce org alias.
-  --auth-url=<value>              Salesforce authorization (SFDX auth) URL, used as an alternative to JWT
+  --alias=<value>                 [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
+  --auth-url=<value>              [env: SIMPLY_CICD_AUTH_URL] Salesforce authorization (SFDX auth) URL, used as an
+                                  alternative to JWT authentication.
+  --ci-job-token=<value>          (required) [env: SIMPLY_CICD_CI_JOB_TOKEN] The CI job token used to authenticate
+                                  read-only repository clones.
+  --client-id=<value>             [env: SIMPLY_CICD_CLIENT_ID] Connected app client ID, used for JWT authentication.
+  --debug                         [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
+  --deploy-config-file=<value>    [env: SIMPLY_CICD_DEPLOY_CONFIG_FILE] Path to the deployment configuration file. If
+                                  not provided, derived from --source-branch-name.
+  --deploy-progress-file=<value>  [default: DEPLOY_PROGRESS.json, env: SIMPLY_CICD_DEPLOY_PROGRESS_FILE] Path to the
+                                  deployment progress file.
+  --deploy-rules-file=<value>     [default: config/deploy-rules.json, env: SIMPLY_CICD_DEPLOY_RULES_FILE] Path to the
+                                  deployment rules file.
+  --instance-url=<value>          [env: SIMPLY_CICD_INSTANCE_URL] Salesforce login/instance URL, used for JWT
                                   authentication.
-  --ci-job-token=<value>          (required) The CI job token used to authenticate read-only repository clones.
-  --client-id=<value>             Connected app client ID, used for JWT authentication.
-  --debug                         Enable verbose debug logging.
-  --deploy-config-file=<value>    Path to the deployment configuration file. If not provided, derived from
-                                  --source-branch-name.
-  --deploy-progress-file=<value>  [default: DEPLOY_PROGRESS.json] Path to the deployment progress file.
-  --deploy-rules-file=<value>     [default: config/deploy-rules.json] Path to the deployment rules file.
-  --instance-url=<value>          Salesforce login/instance URL, used for JWT authentication.
-  --jwt-key-file=<value>          Path to the JWT private key file.
-  --source-branch-name=<value>    The source branch name for the deployment, used to derive the deployment config file
-                                  path if --deploy-config-file is not provided.
+  --jwt-key-file=<value>          [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file.
+  --source-branch-name=<value>    [env: SIMPLY_CICD_SOURCE_BRANCH_NAME] The source branch name for the deployment, used
+                                  to derive the deployment config file path if --deploy-config-file is not provided.
   --start-from=<value>            Start (or resume) the deployment from a specific job name, overriding the progress
                                   file.
-  --test-level=<value>            [default: RunLocalTests] The Apex test level to run.
-  --test-suite=<value>            The Apex test suite to run. If specified, overrides --test-level.
-  --tests=<value>                 Specific Apex tests to run.
-  --username=<value>              Salesforce username, used for JWT authentication.
-  --vcs-host=<value>              [default: gitlab.com] The source-control host to talk to (e.g. gitlab.com).
-  --vcs-provider=<option>         [default: gitlab] The source-control-hosting platform to talk to.
+  --test-level=<value>            [default: RunLocalTests, env: SIMPLY_CICD_TEST_LEVEL] The Apex test level to run.
+  --test-suite=<value>            [env: SIMPLY_CICD_TEST_SUITE] The Apex test suite to run. If specified, overrides
+                                  --test-level.
+  --tests=<value>                 [env: SIMPLY_CICD_TESTS] Specific Apex tests to run.
+  --username=<value>              [env: SIMPLY_CICD_USERNAME] Salesforce username, used for JWT authentication.
+  --vcs-host=<value>              [default: gitlab.com, env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to
+                                  (e.g. gitlab.com).
+  --vcs-provider=<option>         [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting platform
+                                  to talk to.
                                   <options: gitlab>
 
 GLOBAL FLAGS
@@ -247,7 +278,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup post-destructive --ci-job-token $CI_JOB_TOKEN --alias my-org --source-branch-name release/uat
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/post-destructive.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/post-destructive.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/post-destructive.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/post-destructive.js)_
 
 ## `sf simply cicd deploy happy-soup pre-destructive`
 
@@ -262,28 +293,35 @@ USAGE
     [--vcs-provider gitlab]
 
 FLAGS
-  --alias=<value>                 Salesforce org alias.
-  --auth-url=<value>              Salesforce authorization (SFDX auth) URL, used as an alternative to JWT
+  --alias=<value>                 [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
+  --auth-url=<value>              [env: SIMPLY_CICD_AUTH_URL] Salesforce authorization (SFDX auth) URL, used as an
+                                  alternative to JWT authentication.
+  --ci-job-token=<value>          (required) [env: SIMPLY_CICD_CI_JOB_TOKEN] The CI job token used to authenticate
+                                  read-only repository clones.
+  --client-id=<value>             [env: SIMPLY_CICD_CLIENT_ID] Connected app client ID, used for JWT authentication.
+  --debug                         [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
+  --deploy-config-file=<value>    [env: SIMPLY_CICD_DEPLOY_CONFIG_FILE] Path to the deployment configuration file. If
+                                  not provided, derived from --source-branch-name.
+  --deploy-progress-file=<value>  [default: DEPLOY_PROGRESS.json, env: SIMPLY_CICD_DEPLOY_PROGRESS_FILE] Path to the
+                                  deployment progress file.
+  --deploy-rules-file=<value>     [default: config/deploy-rules.json, env: SIMPLY_CICD_DEPLOY_RULES_FILE] Path to the
+                                  deployment rules file.
+  --instance-url=<value>          [env: SIMPLY_CICD_INSTANCE_URL] Salesforce login/instance URL, used for JWT
                                   authentication.
-  --ci-job-token=<value>          (required) The CI job token used to authenticate read-only repository clones.
-  --client-id=<value>             Connected app client ID, used for JWT authentication.
-  --debug                         Enable verbose debug logging.
-  --deploy-config-file=<value>    Path to the deployment configuration file. If not provided, derived from
-                                  --source-branch-name.
-  --deploy-progress-file=<value>  [default: DEPLOY_PROGRESS.json] Path to the deployment progress file.
-  --deploy-rules-file=<value>     [default: config/deploy-rules.json] Path to the deployment rules file.
-  --instance-url=<value>          Salesforce login/instance URL, used for JWT authentication.
-  --jwt-key-file=<value>          Path to the JWT private key file.
-  --source-branch-name=<value>    The source branch name for the deployment, used to derive the deployment config file
-                                  path if --deploy-config-file is not provided.
+  --jwt-key-file=<value>          [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file.
+  --source-branch-name=<value>    [env: SIMPLY_CICD_SOURCE_BRANCH_NAME] The source branch name for the deployment, used
+                                  to derive the deployment config file path if --deploy-config-file is not provided.
   --start-from=<value>            Start (or resume) the deployment from a specific job name, overriding the progress
                                   file.
-  --test-level=<value>            [default: RunLocalTests] The Apex test level to run.
-  --test-suite=<value>            The Apex test suite to run. If specified, overrides --test-level.
-  --tests=<value>                 Specific Apex tests to run.
-  --username=<value>              Salesforce username, used for JWT authentication.
-  --vcs-host=<value>              [default: gitlab.com] The source-control host to talk to (e.g. gitlab.com).
-  --vcs-provider=<option>         [default: gitlab] The source-control-hosting platform to talk to.
+  --test-level=<value>            [default: RunLocalTests, env: SIMPLY_CICD_TEST_LEVEL] The Apex test level to run.
+  --test-suite=<value>            [env: SIMPLY_CICD_TEST_SUITE] The Apex test suite to run. If specified, overrides
+                                  --test-level.
+  --tests=<value>                 [env: SIMPLY_CICD_TESTS] Specific Apex tests to run.
+  --username=<value>              [env: SIMPLY_CICD_USERNAME] Salesforce username, used for JWT authentication.
+  --vcs-host=<value>              [default: gitlab.com, env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to
+                                  (e.g. gitlab.com).
+  --vcs-provider=<option>         [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting platform
+                                  to talk to.
                                   <options: gitlab>
 
 GLOBAL FLAGS
@@ -300,7 +338,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup pre-destructive --ci-job-token $CI_JOB_TOKEN --alias my-org --source-branch-name release/uat
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/pre-destructive.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/pre-destructive.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/pre-destructive.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/pre-destructive.js)_
 
 ## `sf simply cicd deploy happy-soup tag-deployment`
 
@@ -315,27 +353,35 @@ USAGE
     [--vcs-provider gitlab]
 
 FLAGS
-  --alias=<value>                         Salesforce org alias.
-  --auth-url=<value>                      Salesforce authorization (SFDX auth) URL, used as an alternative to JWT
+  --alias=<value>                         [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
+  --auth-url=<value>                      [env: SIMPLY_CICD_AUTH_URL] Salesforce authorization (SFDX auth) URL, used as
+                                          an alternative to JWT authentication.
+  --ci-merge-request-iid=<value>          (required) [env: SIMPLY_CICD_CI_MERGE_REQUEST_IID] The merge request's
+                                          internal ID (IID), used to build the merge request link in the tag message.
+  --ci-merge-request-project-url=<value>  (required) [env: SIMPLY_CICD_CI_MERGE_REQUEST_PROJECT_URL] The project's URL,
+                                          used to build the merge request link in the tag message.
+  --ci-pipeline-id=<value>                (required) [env: SIMPLY_CICD_CI_PIPELINE_ID] The CI pipeline ID.
+  --ci-pipeline-url=<value>               (required) [env: SIMPLY_CICD_CI_PIPELINE_URL] The CI pipeline URL, included in
+                                          the tag message if provided.
+  --ci-project-path=<value>               (required) [env: SIMPLY_CICD_CI_PROJECT_PATH] The project path (e.g.
+                                          group/project), used to build the authenticated push remote.
+  --client-id=<value>                     [env: SIMPLY_CICD_CLIENT_ID] Connected app client ID, used for JWT
                                           authentication.
-  --ci-merge-request-iid=<value>          (required) The merge request's internal ID (IID), used to build the merge
-                                          request link in the tag message.
-  --ci-merge-request-project-url=<value>  (required) The project's URL, used to build the merge request link in the tag
-                                          message.
-  --ci-pipeline-id=<value>                (required) The CI pipeline ID.
-  --ci-pipeline-url=<value>               (required) The CI pipeline URL, included in the tag message if provided.
-  --ci-project-path=<value>               (required) The project path (e.g. group/project), used to build the
-                                          authenticated push remote.
-  --client-id=<value>                     Connected app client ID, used for JWT authentication.
-  --debug                                 Enable verbose debug logging.
-  --deploy-progress-file=<value>          [default: DEPLOY_PROGRESS.json] Path to the deployment progress file.
-  --deploy-rules-file=<value>             [default: config/deploy-rules.json] Path to the deployment rules file.
-  --instance-url=<value>                  Salesforce login/instance URL, used for JWT authentication.
-  --jwt-key-file=<value>                  Path to the JWT private key file.
-  --project-access-token=<value>          (required) A project access token with write access, used to push the tag.
-  --username=<value>                      Salesforce username, used for JWT authentication.
-  --vcs-host=<value>                      [default: gitlab.com] The source-control host to talk to (e.g. gitlab.com).
-  --vcs-provider=<option>                 [default: gitlab] The source-control-hosting platform to talk to.
+  --debug                                 [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
+  --deploy-progress-file=<value>          [default: DEPLOY_PROGRESS.json, env: SIMPLY_CICD_DEPLOY_PROGRESS_FILE] Path to
+                                          the deployment progress file.
+  --deploy-rules-file=<value>             [default: config/deploy-rules.json, env: SIMPLY_CICD_DEPLOY_RULES_FILE] Path
+                                          to the deployment rules file.
+  --instance-url=<value>                  [env: SIMPLY_CICD_INSTANCE_URL] Salesforce login/instance URL, used for JWT
+                                          authentication.
+  --jwt-key-file=<value>                  [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file.
+  --project-access-token=<value>          (required) [env: SIMPLY_CICD_PROJECT_ACCESS_TOKEN] A project access token with
+                                          write access, used to push the tag.
+  --username=<value>                      [env: SIMPLY_CICD_USERNAME] Salesforce username, used for JWT authentication.
+  --vcs-host=<value>                      [default: gitlab.com, env: SIMPLY_CICD_VCS_HOST] The source-control host to
+                                          talk to (e.g. gitlab.com).
+  --vcs-provider=<option>                 [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting
+                                          platform to talk to.
                                           <options: gitlab>
 
 GLOBAL FLAGS
@@ -353,7 +399,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup tag-deployment --alias my-org --ci-pipeline-id 123 --ci-pipeline-url https://gitlab.example.com/group/project/-/pipelines/123 --ci-project-path group/project --ci-merge-request-iid 45 --ci-merge-request-project-url https://gitlab.example.com/group/project --project-access-token $PROJECT_ACCESS_TOKEN
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/tag-deployment.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/tag-deployment.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/tag-deployment.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/tag-deployment.js)_
 
 ## `sf simply cicd deploy happy-soup validate`
 
@@ -365,12 +411,14 @@ USAGE
     [--deploy-rules-file <value>] [--source-branch-name <value>]
 
 FLAGS
-  --deploy-config-file=<value>    Path to the deployment configuration file. If not provided, derived from
-                                  --source-branch-name.
-  --deploy-progress-file=<value>  [default: DEPLOY_PROGRESS.json] Path to the deployment progress file.
-  --deploy-rules-file=<value>     [default: config/deploy-rules.json] Path to the deployment rules file.
-  --source-branch-name=<value>    The source branch name for the deployment, used to derive the deployment config file
-                                  path if --deploy-config-file is not provided.
+  --deploy-config-file=<value>    [env: SIMPLY_CICD_DEPLOY_CONFIG_FILE] Path to the deployment configuration file. If
+                                  not provided, derived from --source-branch-name.
+  --deploy-progress-file=<value>  [default: DEPLOY_PROGRESS.json, env: SIMPLY_CICD_DEPLOY_PROGRESS_FILE] Path to the
+                                  deployment progress file.
+  --deploy-rules-file=<value>     [default: config/deploy-rules.json, env: SIMPLY_CICD_DEPLOY_RULES_FILE] Path to the
+                                  deployment rules file.
+  --source-branch-name=<value>    [env: SIMPLY_CICD_SOURCE_BRANCH_NAME] The source branch name for the deployment, used
+                                  to derive the deployment config file path if --deploy-config-file is not provided.
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -389,4 +437,4 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup validate --deploy-config-file deployment-configs/uat.json --deploy-rules-file config/deploy-rules.json
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/validate.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/validate.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/validate.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/validate.js)_

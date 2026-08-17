@@ -29,7 +29,9 @@ sfdx-dependabot:
       --fail-on-error
 ```
 
-`--gitlab-token` (or `SFDX_DEPENDABOT_GITLAB_TOKEN`) needs file-writing and merge-request privileges across every downstream project it might touch — this is necessarily a broader-scoped token than a single project's `CI_JOB_TOKEN`, since the whole point is acting across repositories the triggering pipeline doesn't own.
+`--gitlab-token` (or `SIMPLY_CICD_GITLAB_TOKEN`, or the legacy `SFDX_DEPENDABOT_GITLAB_TOKEN`) needs file-writing and merge-request privileges across every downstream project it might touch — this is necessarily a broader-scoped token than a single project's `CI_JOB_TOKEN`, since the whole point is acting across repositories the triggering pipeline doesn't own.
+
+Every flag in the job above — `--root-group-id`, `--devhub-username`, `--branch-prefix`, `--mr-labels`, `--fail-on-error` — is also settable once as a `SIMPLY_CICD_*` CI/CD variable (`SIMPLY_CICD_ROOT_GROUP_ID`, `SIMPLY_CICD_DEVHUB_USERNAME`, `SIMPLY_CICD_BRANCH_PREFIX`, `SIMPLY_CICD_MR_LABELS`, `SIMPLY_CICD_FAIL_ON_ERROR`), leaving only the per-run `--subscriber-package-version-id` to be passed explicitly. See [Environment variables](/cicd/concepts/environment-variables/).
 
 ## Try it safely first
 

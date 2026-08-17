@@ -77,6 +77,10 @@ sf simply cicd notify teams \
 
 See [Teams' incoming webhook payload format](https://learn.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/connectors-using) for what `--payload` accepts. All three notify commands accept multiple `--teams-webhook-url` values if you need to post to more than one channel.
 
+## Setting the webhook and Jira config once
+
+`--teams-webhook-url` (`notify project`/`notify happy-soup`), `--webhook-url` (`notify teams`), `--enabled`, `--jira-base-url`, and `--jira-project-key` are all backed by `SIMPLY_CICD_*` CI/CD variables (`SIMPLY_CICD_TEAMS_WEBHOOK_URL`, `SIMPLY_CICD_WEBHOOK_URL`, `SIMPLY_CICD_ENABLED`, `SIMPLY_CICD_JIRA_BASE_URL`, `SIMPLY_CICD_JIRA_PROJECT_KEY` — see [Environment variables](/cicd/concepts/environment-variables/)). Setting these once at the pipeline or group level means every `notify *` job across every stage can drop the corresponding flag entirely, rather than repeating the same webhook URL and `--enabled` on every `--before-script`/`--after-script` call shown above.
+
 ## Getting a webhook URL
 
 Microsoft retired the old Office 365 Connector webhooks — set one up through Teams' **Workflows** app (Power Automate) instead:

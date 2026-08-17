@@ -13,15 +13,19 @@ USAGE
     --dev-hub-instance-url <value>... --jwt-key-file <value> [--json] [--flags-dir <value>] [--debug] [--disabled]
 
 FLAGS
-  --debug                            Enable verbose debug logging.
-  --dev-hub-client-id=<value>...     (required) Connected app client ID for a Dev Hub.
-  --dev-hub-instance-url=<value>...  (required) Login instance URL for a Dev Hub.
-  --dev-hub-name=<value>...          (required) Friendly name of a Dev Hub. Repeat this flag alongside
-                                     --dev-hub-username, --dev-hub-client-id, and --dev-hub-instance-url (in the same
-                                     order) for each Dev Hub to try.
-  --dev-hub-username=<value>...      (required) Username of a Dev Hub.
-  --disabled                         Skip this job entirely, logging a warning instead of running it.
-  --jwt-key-file=<value>             (required) Path to the JWT private key file used for authentication.
+  --debug                            [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
+  --dev-hub-client-id=<value>...     (required) [env: SIMPLY_CICD_DEV_HUB_CLIENT_ID] Connected app client ID for a Dev
+                                     Hub.
+  --dev-hub-instance-url=<value>...  (required) [env: SIMPLY_CICD_DEV_HUB_INSTANCE_URL] Login instance URL for a Dev
+                                     Hub.
+  --dev-hub-name=<value>...          (required) [env: SIMPLY_CICD_DEV_HUB_NAME] Friendly name of a Dev Hub. Repeat this
+                                     flag alongside --dev-hub-username, --dev-hub-client-id, and --dev-hub-instance-url
+                                     (in the same order) for each Dev Hub to try.
+  --dev-hub-username=<value>...      (required) [env: SIMPLY_CICD_DEV_HUB_USERNAME] Username of a Dev Hub.
+  --disabled                         [env: SIMPLY_CICD_DISABLED] Skip this job entirely, logging a warning instead of
+                                     running it.
+  --jwt-key-file=<value>             (required) [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file used
+                                     for authentication.
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -37,7 +41,7 @@ EXAMPLES
   $ sf simply cicd build cleanup-scratch-orgs --dev-hub-name main --dev-hub-username devhub@example.com --dev-hub-client-id 3MVG9... --dev-hub-instance-url https://login.salesforce.com --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/cleanup-scratch-orgs.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/build/cleanup-scratch-orgs.js)_
+_See code: [lib/commands/simply/cicd/build/cleanup-scratch-orgs.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/build/cleanup-scratch-orgs.js)_
 
 ## `sf simply cicd build create-fallback-tag`
 
@@ -50,17 +54,22 @@ USAGE
     [--disabled] [--last-tag <value>] [--out <value>]
 
 FLAGS
-  --ci-commit-ref-name=<value>    (required) Git branch or ref name being built.
-  --ci-pipeline-id=<value>        (required) CI pipeline ID, used to name the temporary authenticated git remote.
-  --ci-project-path=<value>       (required) CI project's git path (e.g. group/project), used to build the authenticated
-                                  git remote URL.
-  --debug                         Enable verbose debug logging.
-  --disabled                      Skip this job entirely, logging a warning instead of running it.
+  --ci-commit-ref-name=<value>    (required) [env: SIMPLY_CICD_CI_COMMIT_REF_NAME] Git branch or ref name being built.
+  --ci-pipeline-id=<value>        (required) [env: SIMPLY_CICD_CI_PIPELINE_ID] CI pipeline ID, used to name the
+                                  temporary authenticated git remote.
+  --ci-project-path=<value>       (required) [env: SIMPLY_CICD_CI_PROJECT_PATH] CI project's git path (e.g.
+                                  group/project), used to build the authenticated git remote URL.
+  --debug                         [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
+  --disabled                      [env: SIMPLY_CICD_DISABLED] Skip this job entirely, logging a warning instead of
+                                  running it.
   --last-tag=<value>              Manually specify the last tag to increment, instead of resolving it from git.
   --out=<value>                   [default: subscriberPackageVersionId.env] Output dotenv file path.
-  --project-access-token=<value>  (required) Access token used to authenticate git remote operations (tagging, pushing).
-  --vcs-host=<value>              [default: gitlab.com] Hostname of the VCS instance hosting this project.
-  --vcs-provider=<option>         [default: gitlab] The VCS platform hosting this project.
+  --project-access-token=<value>  (required) [env: SIMPLY_CICD_PROJECT_ACCESS_TOKEN] Access token used to authenticate
+                                  git remote operations (tagging, pushing).
+  --vcs-host=<value>              [default: gitlab.com, env: SIMPLY_CICD_VCS_HOST] Hostname of the VCS instance hosting
+                                  this project.
+  --vcs-provider=<option>         [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The VCS platform hosting this
+                                  project.
                                   <options: gitlab>
 
 GLOBAL FLAGS
@@ -84,7 +93,7 @@ EXAMPLES
   $ sf simply cicd build create-fallback-tag --ci-commit-ref-name main --ci-project-path group/project --project-access-token glpat-... --ci-pipeline-id 123
 ```
 
-_See code: [lib/commands/simply/cicd/build/create-fallback-tag.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/build/create-fallback-tag.js)_
+_See code: [lib/commands/simply/cicd/build/create-fallback-tag.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/build/create-fallback-tag.js)_
 
 ## `sf simply cicd build create-package-version`
 
@@ -100,30 +109,40 @@ USAGE
 
 FLAGS
   --always-create-package                  Create a package version even when this isn't a release-branch build.
-  --ci-commit-ref-name=<value>             (required) Git branch or ref name being built.
-  --ci-commit-sha=<value>                  (required) Commit SHA to tag as the package version's source.
-  --ci-pipeline-id=<value>                 (required) CI pipeline ID, used to name the temporary authenticated git
-                                           remote.
-  --ci-pipeline-source=<value>             Source trigger of the CI pipeline (e.g. merge_request_event). When set to
-                                           merge_request_event, package creation is skipped.
-  --ci-pipeline-url=<value>                (required) URL of the CI pipeline, used as the package version's description.
-  --ci-project-path=<value>                (required) CI project's git path (e.g. group/project), used to build the
-                                           authenticated git remote URL.
+  --ci-commit-ref-name=<value>             (required) [env: SIMPLY_CICD_CI_COMMIT_REF_NAME] Git branch or ref name being
+                                           built.
+  --ci-commit-sha=<value>                  (required) [env: SIMPLY_CICD_CI_COMMIT_SHA] Commit SHA to tag as the package
+                                           version's source.
+  --ci-pipeline-id=<value>                 (required) [env: SIMPLY_CICD_CI_PIPELINE_ID] CI pipeline ID, used to name the
+                                           temporary authenticated git remote.
+  --ci-pipeline-source=<value>             [env: SIMPLY_CICD_CI_PIPELINE_SOURCE] Source trigger of the CI pipeline (e.g.
+                                           merge_request_event). When set to merge_request_event, package creation is
+                                           skipped.
+  --ci-pipeline-url=<value>                (required) [env: SIMPLY_CICD_CI_PIPELINE_URL] URL of the CI pipeline, used as
+                                           the package version's description.
+  --ci-project-path=<value>                (required) [env: SIMPLY_CICD_CI_PROJECT_PATH] CI project's git path (e.g.
+                                           group/project), used to build the authenticated git remote URL.
   --code-coverage-minimum=<value>          [default: 75] Minimum Apex code coverage percentage required for the new
                                            package version.
-  --debug                                  Enable verbose debug logging.
-  --devhub-tooling-client-id=<value>       (required) Connected app client ID for the tooling Dev Hub.
-  --devhub-tooling-instance-url=<value>    (required) Login instance URL for the tooling Dev Hub.
-  --devhub-tooling-username=<value>        (required) Username of the Dev Hub used for tooling operations like package
-                                           version creation.
-  --disabled                               Skip this job entirely, logging a warning instead of running it.
-  --jwt-key-file=<value>                   (required) Path to the JWT private key file used for authentication.
+  --debug                                  [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
+  --devhub-tooling-client-id=<value>       (required) [env: SIMPLY_CICD_DEVHUB_TOOLING_CLIENT_ID] Connected app client
+                                           ID for the tooling Dev Hub.
+  --devhub-tooling-instance-url=<value>    (required) [env: SIMPLY_CICD_DEVHUB_TOOLING_INSTANCE_URL] Login instance URL
+                                           for the tooling Dev Hub.
+  --devhub-tooling-username=<value>        (required) [env: SIMPLY_CICD_DEVHUB_TOOLING_USERNAME] Username of the Dev Hub
+                                           used for tooling operations like package version creation.
+  --disabled                               [env: SIMPLY_CICD_DISABLED] Skip this job entirely, logging a warning instead
+                                           of running it.
+  --jwt-key-file=<value>                   (required) [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file
+                                           used for authentication.
   --package-release-branch-prefix=<value>  Prefix identifying release branches. Determines whether this build creates a
                                            package version and how the resulting git tag is named.
-  --project-access-token=<value>           (required) Access token used to authenticate git remote operations (tagging,
-                                           pushing).
-  --vcs-host=<value>                       [default: gitlab.com] Hostname of the VCS instance hosting this project.
-  --vcs-provider=<option>                  [default: gitlab] The VCS platform hosting this project.
+  --project-access-token=<value>           (required) [env: SIMPLY_CICD_PROJECT_ACCESS_TOKEN] Access token used to
+                                           authenticate git remote operations (tagging, pushing).
+  --vcs-host=<value>                       [default: gitlab.com, env: SIMPLY_CICD_VCS_HOST] Hostname of the VCS instance
+                                           hosting this project.
+  --vcs-provider=<option>                  [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The VCS platform hosting
+                                           this project.
                                            <options: gitlab>
 
 GLOBAL FLAGS
@@ -136,8 +155,8 @@ DESCRIPTION
   Skips entirely (without error) when the pipeline was triggered by a merge request, or when this isn't a release-branch
   build and `--always-create-package` wasn't passed. Otherwise, creates a new version of the default package directory's
   package, polls until creation finishes, verifies the resulting version's Apex code coverage meets
-  `--code-coverage-minimum` (or the project's own `plugins.simply.coverageRequirement.minimumCoverageRequired`, if declared
-  in `sfdx-project.json`), and creates/pushes a git tag annotated with the new package version's `04t` ID.
+  `--code-coverage-minimum` (or the project's own `plugins.simply.coverageRequirement.minimumCoverageRequired`, if
+  declared in `sfdx-project.json`), and creates/pushes a git tag annotated with the new package version's `04t` ID.
 
   Skipped automatically when `PACKAGE_CHANGED=FALSE` is set in the environment (see `build determine-package-changes`).
 
@@ -145,7 +164,7 @@ EXAMPLES
   $ sf simply cicd build create-package-version --ci-commit-ref-name main --ci-commit-sha a1b2c3d --ci-pipeline-id 123 --ci-pipeline-url https://gitlab.example.com/pipelines/123 --ci-project-path group/project --project-access-token glpat-... --devhub-tooling-username devhub-tooling@example.com --devhub-tooling-client-id 3MVG9... --devhub-tooling-instance-url https://login.salesforce.com --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/create-package-version.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/build/create-package-version.js)_
+_See code: [lib/commands/simply/cicd/build/create-package-version.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/build/create-package-version.js)_
 
 ## `sf simply cicd build create-scratch`
 
@@ -158,15 +177,19 @@ USAGE
     [--scratch-definition-file <value>] [--scratch-duration-days <value>]
 
 FLAGS
-  --debug                            Enable verbose debug logging.
-  --dev-hub-client-id=<value>...     (required) Connected app client ID for a Dev Hub.
-  --dev-hub-instance-url=<value>...  (required) Login instance URL for a Dev Hub.
-  --dev-hub-name=<value>...          (required) Friendly name of a Dev Hub. Repeat this flag alongside
-                                     --dev-hub-username, --dev-hub-client-id, and --dev-hub-instance-url (in the same
-                                     order) for each Dev Hub to try.
-  --dev-hub-username=<value>...      (required) Username of a Dev Hub.
-  --disabled                         Skip this job entirely, logging a warning instead of running it.
-  --jwt-key-file=<value>             (required) Path to the JWT private key file used for authentication.
+  --debug                            [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
+  --dev-hub-client-id=<value>...     (required) [env: SIMPLY_CICD_DEV_HUB_CLIENT_ID] Connected app client ID for a Dev
+                                     Hub.
+  --dev-hub-instance-url=<value>...  (required) [env: SIMPLY_CICD_DEV_HUB_INSTANCE_URL] Login instance URL for a Dev
+                                     Hub.
+  --dev-hub-name=<value>...          (required) [env: SIMPLY_CICD_DEV_HUB_NAME] Friendly name of a Dev Hub. Repeat this
+                                     flag alongside --dev-hub-username, --dev-hub-client-id, and --dev-hub-instance-url
+                                     (in the same order) for each Dev Hub to try.
+  --dev-hub-username=<value>...      (required) [env: SIMPLY_CICD_DEV_HUB_USERNAME] Username of a Dev Hub.
+  --disabled                         [env: SIMPLY_CICD_DISABLED] Skip this job entirely, logging a warning instead of
+                                     running it.
+  --jwt-key-file=<value>             (required) [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file used
+                                     for authentication.
   --scratch-definition-file=<value>  Definition file used to create the scratch org, if not specified in
                                      sfdx-project.json.
   --scratch-duration-days=<value>    [default: 1] Duration of the scratch org in days.
@@ -190,7 +213,7 @@ EXAMPLES
   $ sf simply cicd build create-scratch --dev-hub-name main --dev-hub-username devhub@example.com --dev-hub-client-id 3MVG9... --dev-hub-instance-url https://login.salesforce.com --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/create-scratch.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/build/create-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/create-scratch.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/build/create-scratch.js)_
 
 ## `sf simply cicd build delete-scratch`
 
@@ -202,15 +225,19 @@ USAGE
     --dev-hub-instance-url <value>... --jwt-key-file <value> [--json] [--flags-dir <value>] [--debug] [--disabled]
 
 FLAGS
-  --debug                            Enable verbose debug logging.
-  --dev-hub-client-id=<value>...     (required) Connected app client ID for a Dev Hub.
-  --dev-hub-instance-url=<value>...  (required) Login instance URL for a Dev Hub.
-  --dev-hub-name=<value>...          (required) Friendly name of a Dev Hub. Repeat this flag alongside
-                                     --dev-hub-username, --dev-hub-client-id, and --dev-hub-instance-url (in the same
-                                     order) for each Dev Hub to try.
-  --dev-hub-username=<value>...      (required) Username of a Dev Hub.
-  --disabled                         Skip this job entirely, logging a warning instead of running it.
-  --jwt-key-file=<value>             (required) Path to the JWT private key file used for authentication.
+  --debug                            [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
+  --dev-hub-client-id=<value>...     (required) [env: SIMPLY_CICD_DEV_HUB_CLIENT_ID] Connected app client ID for a Dev
+                                     Hub.
+  --dev-hub-instance-url=<value>...  (required) [env: SIMPLY_CICD_DEV_HUB_INSTANCE_URL] Login instance URL for a Dev
+                                     Hub.
+  --dev-hub-name=<value>...          (required) [env: SIMPLY_CICD_DEV_HUB_NAME] Friendly name of a Dev Hub. Repeat this
+                                     flag alongside --dev-hub-username, --dev-hub-client-id, and --dev-hub-instance-url
+                                     (in the same order) for each Dev Hub to try.
+  --dev-hub-username=<value>...      (required) [env: SIMPLY_CICD_DEV_HUB_USERNAME] Username of a Dev Hub.
+  --disabled                         [env: SIMPLY_CICD_DISABLED] Skip this job entirely, logging a warning instead of
+                                     running it.
+  --jwt-key-file=<value>             (required) [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file used
+                                     for authentication.
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -230,7 +257,7 @@ EXAMPLES
   $ sf simply cicd build delete-scratch --dev-hub-name main --dev-hub-username devhub@example.com --dev-hub-client-id 3MVG9... --dev-hub-instance-url https://login.salesforce.com --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/delete-scratch.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/build/delete-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/delete-scratch.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/build/delete-scratch.js)_
 
 ## `sf simply cicd build determine-package-changes`
 
@@ -241,8 +268,8 @@ USAGE
   $ sf simply cicd build determine-package-changes [--json] [--flags-dir <value>] [--debug] [--disabled] [--out <value>]
 
 FLAGS
-  --debug        Enable verbose debug logging.
-  --disabled     Skip this job entirely, logging a warning instead of running it.
+  --debug        [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
+  --disabled     [env: SIMPLY_CICD_DISABLED] Skip this job entirely, logging a warning instead of running it.
   --out=<value>  [default: changes.env] Output dotenv file path.
 
 GLOBAL FLAGS
@@ -262,7 +289,7 @@ EXAMPLES
   $ sf simply cicd build determine-package-changes --out changes.env
 ```
 
-_See code: [lib/commands/simply/cicd/build/determine-package-changes.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/build/determine-package-changes.js)_
+_See code: [lib/commands/simply/cicd/build/determine-package-changes.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/build/determine-package-changes.js)_
 
 ## `sf simply cicd build generate-flexipage-diff`
 
@@ -274,14 +301,16 @@ USAGE
     --project-access-token <value> [--json] [--flags-dir <value>] [--out <value>] [--debug] [--disabled]
 
 FLAGS
-  --ci-merge-request-iid=<value>  (required) GitLab CI merge request internal ID.
-  --ci-project-id=<value>         (required) GitLab CI project ID.
-  --debug                         Enable verbose debug logging.
-  --disabled                      Skip this job entirely, logging a warning instead of running it.
+  --ci-merge-request-iid=<value>  (required) [env: SIMPLY_CICD_CI_MERGE_REQUEST_IID] GitLab CI merge request internal
+                                  ID.
+  --ci-project-id=<value>         (required) [env: SIMPLY_CICD_CI_PROJECT_ID] GitLab CI project ID.
+  --debug                         [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
+  --disabled                      [env: SIMPLY_CICD_DISABLED] Skip this job entirely, logging a warning instead of
+                                  running it.
   --from=<value>                  (required) Base commit SHA to diff from.
   --out=<value>                   Output directory or file path for the delta results.
-  --project-access-token=<value>  (required) Project access token used to post the diff results back to the merge
-                                  request.
+  --project-access-token=<value>  (required) [env: SIMPLY_CICD_PROJECT_ACCESS_TOKEN] Project access token used to post
+                                  the diff results back to the merge request.
   --to=<value>                    (required) Head commit SHA to diff to.
 
 GLOBAL FLAGS
@@ -300,7 +329,7 @@ EXAMPLES
   $ sf simply cicd build generate-flexipage-diff --ci-project-id 123 --ci-merge-request-iid 45 --from abc123 --to def456 --project-access-token glpat-...
 ```
 
-_See code: [lib/commands/simply/cicd/build/generate-flexipage-diff.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flexipage-diff.js)_
+_See code: [lib/commands/simply/cicd/build/generate-flexipage-diff.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flexipage-diff.js)_
 
 ## `sf simply cicd build generate-flow-diff`
 
@@ -312,14 +341,16 @@ USAGE
     --project-access-token <value> [--json] [--flags-dir <value>] [--out <value>] [--debug] [--disabled]
 
 FLAGS
-  --ci-merge-request-iid=<value>  (required) GitLab CI merge request internal ID.
-  --ci-project-id=<value>         (required) GitLab CI project ID.
-  --debug                         Enable verbose debug logging.
-  --disabled                      Skip this job entirely, logging a warning instead of running it.
+  --ci-merge-request-iid=<value>  (required) [env: SIMPLY_CICD_CI_MERGE_REQUEST_IID] GitLab CI merge request internal
+                                  ID.
+  --ci-project-id=<value>         (required) [env: SIMPLY_CICD_CI_PROJECT_ID] GitLab CI project ID.
+  --debug                         [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
+  --disabled                      [env: SIMPLY_CICD_DISABLED] Skip this job entirely, logging a warning instead of
+                                  running it.
   --from=<value>                  (required) Base commit SHA to diff from.
   --out=<value>                   Output directory or file path for the delta results.
-  --project-access-token=<value>  (required) Project access token used to post the diff results back to the merge
-                                  request.
+  --project-access-token=<value>  (required) [env: SIMPLY_CICD_PROJECT_ACCESS_TOKEN] Project access token used to post
+                                  the diff results back to the merge request.
   --to=<value>                    (required) Head commit SHA to diff to.
 
 GLOBAL FLAGS
@@ -338,7 +369,7 @@ EXAMPLES
   $ sf simply cicd build generate-flow-diff --ci-project-id 123 --ci-merge-request-iid 45 --from abc123 --to def456 --project-access-token glpat-...
 ```
 
-_See code: [lib/commands/simply/cicd/build/generate-flow-diff.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flow-diff.js)_
+_See code: [lib/commands/simply/cicd/build/generate-flow-diff.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flow-diff.js)_
 
 ## `sf simply cicd build install-dependencies`
 
@@ -350,11 +381,12 @@ USAGE
     All|Delta|Upgrade]
 
 FLAGS
-  --debug                  Enable verbose debug logging.
-  --disabled               Skip this job entirely, logging a warning instead of running it.
+  --debug                  [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
+  --disabled               [env: SIMPLY_CICD_DISABLED] Skip this job entirely, logging a warning instead of running it.
   --install-type=<option>  [default: Upgrade] The type of dependency installation to perform.
                            <options: All|Delta|Upgrade>
-  --jwt-key-file=<value>   (required) Path to the JWT private key file used for authentication.
+  --jwt-key-file=<value>   (required) [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file used for
+                           authentication.
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -372,7 +404,7 @@ EXAMPLES
   $ sf simply cicd build install-dependencies --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/install-dependencies.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/build/install-dependencies.js)_
+_See code: [lib/commands/simply/cicd/build/install-dependencies.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/build/install-dependencies.js)_
 
 ## `sf simply cicd build lwc-jest`
 
@@ -383,8 +415,8 @@ USAGE
   $ sf simply cicd build lwc-jest [--json] [--flags-dir <value>] [--debug] [--disabled]
 
 FLAGS
-  --debug     Enable verbose debug logging.
-  --disabled  Skip this job entirely, logging a warning instead of running it.
+  --debug     [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
+  --disabled  [env: SIMPLY_CICD_DISABLED] Skip this job entirely, logging a warning instead of running it.
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -400,7 +432,7 @@ EXAMPLES
   $ sf simply cicd build lwc-jest
 ```
 
-_See code: [lib/commands/simply/cicd/build/lwc-jest.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/build/lwc-jest.js)_
+_See code: [lib/commands/simply/cicd/build/lwc-jest.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/build/lwc-jest.js)_
 
 ## `sf simply cicd build push-scratch`
 
@@ -412,10 +444,12 @@ USAGE
     [--ignore-warnings] [--scratch-org-source-dir <value>]
 
 FLAGS
-  --debug                           Enable verbose debug logging.
-  --disabled                        Skip this job entirely, logging a warning instead of running it.
+  --debug                           [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
+  --disabled                        [env: SIMPLY_CICD_DISABLED] Skip this job entirely, logging a warning instead of
+                                    running it.
   --ignore-warnings                 Append --ignore-warnings to the underlying sf project deploy start call.
-  --jwt-key-file=<value>            (required) Path to the JWT private key file used for authentication.
+  --jwt-key-file=<value>            (required) [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file used for
+                                    authentication.
   --scratch-org-source-dir=<value>  Source directory to push to the scratch org, in addition to the default package
                                     directory.
 
@@ -437,7 +471,7 @@ EXAMPLES
   $ sf simply cicd build push-scratch --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/push-scratch.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/build/push-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/push-scratch.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/build/push-scratch.js)_
 
 ## `sf simply cicd build test-scratch`
 
@@ -449,10 +483,11 @@ USAGE
     [--disable-apex-tests]
 
 FLAGS
-  --debug                 Enable verbose debug logging.
+  --debug                 [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
   --disable-apex-tests    Skip running Apex tests, without skipping the rest of the job.
-  --disabled              Skip this job entirely, logging a warning instead of running it.
-  --jwt-key-file=<value>  (required) Path to the JWT private key file used for authentication.
+  --disabled              [env: SIMPLY_CICD_DISABLED] Skip this job entirely, logging a warning instead of running it.
+  --jwt-key-file=<value>  (required) [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file used for
+                          authentication.
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -470,4 +505,4 @@ EXAMPLES
   $ sf simply cicd build test-scratch --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/test-scratch.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/build/test-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/test-scratch.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/build/test-scratch.js)_

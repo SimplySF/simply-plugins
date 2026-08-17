@@ -23,8 +23,10 @@ Commands under `deploy project`, `deploy happy-soup`, and the tagging build comm
 
 This command talks to the GitLab API directly (listing group projects, reading `sfdx-project.json`, opening merge requests) rather than just building git remote URLs, so it needs richer GitLab-specific config:
 
-- `--gitlab-api-url` — GitLab API v4 base URL. Falls back to `SFDX_DEPENDABOT_GITLAB_API_URL`, then `CI_API_V4_URL` (GitLab CI's own built-in variable) if not passed explicitly — so in a GitLab CI job, you often don't need to set this at all.
-- `--gitlab-token` — a GitLab access token with file-writing and merge-request privileges. Falls back to `SFDX_DEPENDABOT_GITLAB_TOKEN`. There's no fallback to a CI-provided token here, since `CI_JOB_TOKEN` doesn't have the cross-project API scope `sfdx-dependabot` needs to open MRs in other repositories — you need a real personal or project access token.
+- `--gitlab-api-url` — GitLab API v4 base URL. Falls back to `SIMPLY_CICD_GITLAB_API_URL`, then the legacy `SFDX_DEPENDABOT_GITLAB_API_URL`, then `CI_API_V4_URL` (GitLab CI's own built-in variable) if not passed explicitly — so in a GitLab CI job, you often don't need to set this at all.
+- `--gitlab-token` — a GitLab access token with file-writing and merge-request privileges. Falls back to `SIMPLY_CICD_GITLAB_TOKEN`, then the legacy `SFDX_DEPENDABOT_GITLAB_TOKEN`. There's no fallback to a CI-provided token here, since `CI_JOB_TOKEN` doesn't have the cross-project API scope `sfdx-dependabot` needs to open MRs in other repositories — you need a real personal or project access token.
+
+All of the flags above can also be set once as a `SIMPLY_CICD_*` environment variable — e.g. `SIMPLY_CICD_VCS_HOST`, `SIMPLY_CICD_VCS_PROVIDER`, `SIMPLY_CICD_GITLAB_API_URL` — instead of repeating them on every command in a pipeline. See [Environment variables](/cicd/concepts/environment-variables/) for the full list and precedence rules.
 
 ## Practical implication
 

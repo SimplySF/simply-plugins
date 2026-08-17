@@ -187,3 +187,18 @@ Each `.deploy-*` template's `START_FROM` variable maps to `--start-from`, lettin
 ## Happy-soup differences
 
 A happy-soup pipeline follows the same environment-tier/branch-gating shape, but: `deploy happy-soup *` instead of `deploy project *`; drop everything Dev Hub/package-related (there's no `create-package-version`/`install-packaged` step tied to a single package — dependency installation still happens, but via `deploy happy-soup install-packaged`, unconditionally, not gated by branch/environment rules); add `--source-branch-name $CI_COMMIT_REF_NAME` so each stage derives the right `deployment-configs/*.json`; wrap **every** stage with `notify happy-soup --before-script`/`--after-script` rather than just the first/last job; and add a `deployment-close-out` job after `post-deploy` to archive the config that was actually used onto `config/deploy.json`, plus a `tag-deployment` job to record the deployment on the merged commit.
+
+## Simplifying with environment variables
+
+Every flag above that repeats across jobs — `--ci-job-token`, `--ci-commit-ref-name`, `--dev-hub-name`/`--dev-hub-username`/`--dev-hub-client-id`/`--dev-hub-instance-url`, `--jwt-key-file`, `--project-access-token`, and the rest — can be set **once** as a `SIMPLY_CICD_*` CI/CD variable instead of being passed on every command. See [Environment variables](/cicd/concepts/environment-variables/) for the full flag-to-variable mapping.
+
+For example, GitLab already exposes `CI_JOB_TOKEN` and `CI_COMMIT_REF_NAME` automatically — mapping them once at the pipeline level:
+
+```yaml
+variables:
+  SIMPLY_CICD_CI_JOB_TOKEN: $CI_JOB_TOKEN
+  SIMPLY_CICD_CI_COMMIT_REF_NAME: $CI_COMMIT_REF_NAME
+  SIMPLY_CICD_JWT_KEY_FILE: $DEVHUB_JWT_KEY_FILE
+```
+
+lets every `.deploy-*` template above drop `--ci-job-token "${CI_JOB_TOKEN}"` and every `build *` job drop `--jwt-key-file $DEVHUB_JWT_KEY_FILE`, since the commands pick the variable up automatically when the flag isn't passed. Per-stage values that genuinely change between jobs — `--alias`, `--auth-url`, `--start-from` — are still set per-job via `variables:` overrides the same way they are today; only the flags that are truly constant across the whole pipeline are worth hoisting to a `SIMPLY_CICD_*` variable.

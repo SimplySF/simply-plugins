@@ -15,25 +15,32 @@ USAGE
     <value>] [--mr-labels <value>] [--fail-on-error] [--max-projects <value>] [--vcs-provider gitlab]
 
 FLAGS
-  --branch-prefix=<value>                  Prefix used for generated branch names.
-  --devhub-username=<value>                Salesforce DevHub username or alias used to resolve the package's name and
-                                           version.
-  --dry-run                                Run discovery and parsing, but perform zero write, commit, or merge request
-                                           operations.
-  --fail-on-error                          Return a non-zero exit code if one or more per-project operations fail.
-  --gitlab-api-url=<value>                 GitLab API v4 base URL.
-  --gitlab-token=<value>                   GitLab access token with file-writing and merge request privileges.
-  --max-projects=<value>                   Optional safety limit restricting the maximum number of eligible projects to
-                                           scan.
-  --mr-labels=<value>                      Comma-separated labels to apply to created or updated merge requests.
-  --project-allowlist=<value>              Comma-separated list of GitLab project paths to include in the scan. If
-                                           specified, only matching projects are scanned.
-  --project-denylist=<value>               Comma-separated list of GitLab project paths to exclude from scanning.
-  --root-group-id=<value>                  GitLab group ID or URL-encoded path to scan for downstream projects.
-  --[no-]skip-archived                     Skip archived GitLab repositories.
-  --[no-]skip-forks                        Skip forked GitLab repositories.
+  --branch-prefix=<value>                  [env: SIMPLY_CICD_BRANCH_PREFIX] Prefix used for generated branch names.
+  --devhub-username=<value>                [env: SIMPLY_CICD_DEVHUB_USERNAME] Salesforce DevHub username or alias used
+                                           to resolve the package's name and version.
+  --dry-run                                [env: SIMPLY_CICD_DRY_RUN] Run discovery and parsing, but perform zero write,
+                                           commit, or merge request operations.
+  --fail-on-error                          [env: SIMPLY_CICD_FAIL_ON_ERROR] Return a non-zero exit code if one or more
+                                           per-project operations fail.
+  --gitlab-api-url=<value>                 [env: SIMPLY_CICD_GITLAB_API_URL] GitLab API v4 base URL.
+  --gitlab-token=<value>                   [env: SIMPLY_CICD_GITLAB_TOKEN] GitLab access token with file-writing and
+                                           merge request privileges.
+  --max-projects=<value>                   [env: SIMPLY_CICD_MAX_PROJECTS] Optional safety limit restricting the maximum
+                                           number of eligible projects to scan.
+  --mr-labels=<value>                      [env: SIMPLY_CICD_MR_LABELS] Comma-separated labels to apply to created or
+                                           updated merge requests.
+  --project-allowlist=<value>              [env: SIMPLY_CICD_PROJECT_ALLOWLIST] Comma-separated list of GitLab project
+                                           paths to include in the scan. If specified, only matching projects are
+                                           scanned.
+  --project-denylist=<value>               [env: SIMPLY_CICD_PROJECT_DENYLIST] Comma-separated list of GitLab project
+                                           paths to exclude from scanning.
+  --root-group-id=<value>                  [env: SIMPLY_CICD_ROOT_GROUP_ID] GitLab group ID or URL-encoded path to scan
+                                           for downstream projects.
+  --[no-]skip-archived                     [env: SIMPLY_CICD_SKIP_ARCHIVED] Skip archived GitLab repositories.
+  --[no-]skip-forks                        [env: SIMPLY_CICD_SKIP_FORKS] Skip forked GitLab repositories.
   --subscriber-package-version-id=<value>  The newly released Salesforce subscriber package version ID (04t...).
-  --vcs-provider=<option>                  [default: gitlab] The source-control-hosting platform to talk to.
+  --vcs-provider=<option>                  [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting
+                                           platform to talk to.
                                            <options: gitlab>
 
 GLOBAL FLAGS
@@ -61,4 +68,4 @@ FLAG DESCRIPTIONS
     Falls back to the SFDX_DEPENDABOT_GITLAB_API_URL or CI_API_V4_URL environment variables if not provided.
 ```
 
-_See code: [lib/commands/simply/cicd/sfdx-dependabot.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.1.0/packages/simply-cicd/lib/commands/simply/cicd/sfdx-dependabot.js)_
+_See code: [lib/commands/simply/cicd/sfdx-dependabot.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/sfdx-dependabot.js)_
