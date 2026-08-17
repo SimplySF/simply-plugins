@@ -2,7 +2,10 @@ import starlight from '@astrojs/starlight';
 import { defineConfig } from 'astro/config';
 import { remarkBaseLinks } from './plugins/remark-base-links.mjs';
 
-const base = '/simply';
+// Matches the repo's actual current name/Pages URL (SimplySF/simply-node) —
+// GitHub's "simply" -> "simply-node" rename redirect covers git/API access,
+// but the Pages hosting URL itself is tied to the current repo name.
+const base = '/simply-node';
 
 export default defineConfig({
   site: 'https://simplysf.github.io',
@@ -14,9 +17,9 @@ export default defineConfig({
     starlight({
       title: 'Simply',
       description: 'Salesforce CLI plugins by SimplySF — including simply-cicd for CI/CD pipelines.',
-      social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/SimplySF/simply' }],
+      social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/SimplySF/simply-node' }],
       editLink: {
-        baseUrl: 'https://github.com/SimplySF/simply/edit/main/site/',
+        baseUrl: 'https://github.com/SimplySF/simply-node/edit/main/site/',
       },
       sidebar: [
         { label: 'Get Started', slug: 'getting-started' },
