@@ -20,7 +20,7 @@ import path from 'node:path';
 import { Connection, SfError } from '@salesforce/core';
 import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
 import * as simplyCore from '@simplysf/simply-core';
-import type { SinonStub } from 'sinon';
+import sinon, { type SinonStub } from 'sinon';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import SObjectBackup from '../../../../src/commands/simply/sobject/backup.js';
 
@@ -30,7 +30,7 @@ vi.mock('@simplysf/simply-core', async () => {
 });
 
 describe('simply sobject backup', () => {
-  const $$ = new TestContext();
+  const $$ = new TestContext({ sinon });
   const testOrg = new MockTestOrgData();
 
   beforeAll(async () => {

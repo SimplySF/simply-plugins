@@ -19,11 +19,12 @@ import os from 'node:os';
 import path from 'node:path';
 import { Connection } from '@salesforce/core';
 import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
+import sinon from 'sinon';
 import { afterEach, beforeAll, describe, expect, it } from 'vitest';
 import SObjectHistorySchema from '../../../../../src/commands/simply/sobject/history/schema.js';
 
 describe('simply sobject history schema', () => {
-  const $$ = new TestContext();
+  const $$ = new TestContext({ sinon });
   const testOrg = new MockTestOrgData();
 
   beforeAll(async () => {

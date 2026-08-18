@@ -20,6 +20,7 @@ import path from 'node:path';
 import { SfError } from '@salesforce/core';
 import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
 import * as simplyCore from '@simplysf/simply-core';
+import sinon from 'sinon';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import SObjectHistoryQuery from '../../../../../src/commands/simply/sobject/history/query.js';
 
@@ -29,7 +30,7 @@ vi.mock('@simplysf/simply-core', async () => {
 });
 
 describe('simply sobject history query', () => {
-  const $$ = new TestContext();
+  const $$ = new TestContext({ sinon });
   const testOrg = new MockTestOrgData();
 
   beforeAll(async () => {
