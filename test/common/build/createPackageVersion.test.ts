@@ -135,7 +135,7 @@ describe('createPackageVersion', () => {
 
     await createPackageVersion(baseOptions);
 
-    expect(addGitRemote).toHaveBeenCalledWith('999', 'secret-token', 'group/project', 'gitlab.com', expect.anything());
+    expect(addGitRemote).toHaveBeenCalledWith('999', 'secret-token', 'group/project', expect.anything());
     expect(execa).toHaveBeenCalledWith(
       'sf',
       expect.arrayContaining([

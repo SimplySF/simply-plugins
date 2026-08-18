@@ -71,13 +71,7 @@ describe('createFallbackTag', () => {
     const result = await createFallbackTag(baseOptions);
 
     expect(result).toEqual({ created: true, tag: 'v1.1.0-1', packageId: '04t123456789012' });
-    expect(addGitRemote).toHaveBeenCalledWith(
-      '999',
-      'secret-token',
-      'bems/my-project',
-      'gitlab.com',
-      expect.anything(),
-    );
+    expect(addGitRemote).toHaveBeenCalledWith('999', 'secret-token', 'bems/my-project', expect.anything());
     expect(execa).toHaveBeenCalledWith('git', ['tag', '-a', 'v1.1.0-1', '-m', '04t123456789012']);
     expect(execa).toHaveBeenCalledWith('git', ['push', 'origin-alias', 'v1.1.0-1']);
     expect(fsPromises.writeFile).toHaveBeenCalledWith(

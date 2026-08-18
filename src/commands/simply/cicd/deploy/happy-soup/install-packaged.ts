@@ -22,6 +22,7 @@ import {
   deployProgressFileFlag,
   deployRulesFileFlag,
   orgAuthFlags,
+  vcsFlags,
 } from '../../../../../common/deploy/flags.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -36,6 +37,7 @@ export default class DeployHappySoupInstallPackaged extends SfCommand<void> {
   public static readonly flags = {
     ...SfCommand.baseFlags,
     ...orgAuthFlags,
+    ...vcsFlags,
     ...debugFlag,
     ...deployProgressFileFlag,
     ...deployRulesFileFlag,
@@ -60,8 +62,8 @@ export default class DeployHappySoupInstallPackaged extends SfCommand<void> {
       deployProgressFile: flags['deploy-progress-file'],
       deployRulesFile: flags['deploy-rules-file'],
       installType: flags['install-type'],
-      vcsHost: 'gitlab.com',
-      vcsProvider: 'gitlab',
+      vcsHost: flags['vcs-host'],
+      vcsProvider: flags['vcs-provider'],
     });
   }
 }

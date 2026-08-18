@@ -23,6 +23,7 @@ import {
   deployProgressFileFlag,
   deployRulesFileFlag,
   orgAuthFlags,
+  vcsFlags,
   startFromFlag,
   testFlags,
 } from '../../../../../common/deploy/flags.js';
@@ -40,6 +41,7 @@ export default class DeployProjectRunApexTests extends SfCommand<void> {
     ...SfCommand.baseFlags,
     ...ciJobTokenFlag,
     ...orgAuthFlags,
+    ...vcsFlags,
     ...debugFlag,
     'deploy-config-file': Flags.string({
       summary: messages.getMessage('flags.deploy-config-file.summary'),
@@ -72,8 +74,8 @@ export default class DeployProjectRunApexTests extends SfCommand<void> {
       testLevel: flags['test-level'],
       testSuite: flags['test-suite'],
       tests: flags.tests,
-      vcsHost: 'gitlab.com',
-      vcsProvider: 'gitlab',
+      vcsHost: flags['vcs-host'],
+      vcsProvider: flags['vcs-provider'],
     });
   }
 }
