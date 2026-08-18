@@ -15,7 +15,7 @@
  */
 
 import { Messages } from '@salesforce/core';
-import { SfCommand } from '@salesforce/sf-plugins-core';
+import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import { requireConnection, targetOrgFlags } from '@simplysf/simply-plugin-kit';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -35,8 +35,9 @@ export type ApexTraceSetupResult = {
 };
 
 /**
- * Creates or updates a 24-hour DEVELOPER_LOG trace flag for the user running the command, using
- * a FINEST/FINER debug level suitable for the Apex Replay Debugger.
+ * Creates or updates a 24-hour DEVELOPER_LOG trace flag for the specified user (or the user
+ * running the command if `--user-id` isn't provided), using a FINEST/FINER debug level suitable
+ * for the Apex Replay Debugger.
  */
 export default class ApexTraceSetup extends SfCommand<ApexTraceSetupResult> {
   public static readonly summary = messages.getMessage('summary');
@@ -46,6 +47,12 @@ export default class ApexTraceSetup extends SfCommand<ApexTraceSetupResult> {
   public static readonly flags = {
     ...SfCommand.baseFlags,
     ...targetOrgFlags,
+    'user-id': Flags.salesforceId({
+      summary: messages.getMessage('flags.user-id.summary'),
+      description: messages.getMessage('flags.user-id.description'),
+      char: 'u',
+      startsWith: '005',
+    }),
   };
 
   /**
@@ -58,13 +65,16 @@ export default class ApexTraceSetup extends SfCommand<ApexTraceSetupResult> {
     const targetOrgConnection = requireConnection(flags);
 
     this.spinner.start(messages.getMessage('info.findingUser'));
+    const requestedUserId = flags['user-id'];
     const username = targetOrgConnection.getUsername() ?? '';
-    const userQueryResult = await targetOrgConnection.query<{ Id: string }>(
-      `SELECT Id FROM User WHERE Username = '${username}'`,
-    );
+    const userQueryResult = requestedUserId
+      ? await targetOrgConnection.query<{ Id: string }>(`SELECT Id FROM User WHERE Id = '${requestedUserId}'`)
+      : await targetOrgConnection.query<{ Id: string }>(`SELECT Id FROM User WHERE Username = '${username}'`);
 
     if (userQueryResult.records.length === 0) {
-      throw messages.createError('error.userNotFound', [username]);
+      throw messages.createError(requestedUserId ? 'error.userIdNotFound' : 'error.userNotFound', [
+        requestedUserId ?? username,
+      ]);
     }
 
     const userId = userQueryResult.records[0].Id;
