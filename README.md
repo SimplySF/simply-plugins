@@ -1673,3 +1673,7 @@ FLAG DESCRIPTIONS
 
 _See code: [lib/commands/simply/cicd/sfdx-dependabot.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/sfdx-dependabot.js)_
 <!-- commandsstop -->
+
+## License
+
+Licensed under the [Apache-2.0](https://raw.githubusercontent.com/SimplySF/simply-node/main/LICENSE.txt) license.
