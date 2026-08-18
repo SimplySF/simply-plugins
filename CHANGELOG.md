@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.8](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-schema%400.3.7...%40simplysf%2Fsimply-schema%400.3.8) (2026-08-18)
+
+**Note:** Version bump only for package @simplysf/simply-schema
+
 ## [0.3.7](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-schema%400.3.6...%40simplysf%2Fsimply-schema%400.3.7) (2026-08-17)
 
 **Note:** Version bump only for package @simplysf/simply-schema
