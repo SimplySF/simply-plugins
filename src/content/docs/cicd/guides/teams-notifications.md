@@ -5,7 +5,7 @@ description: Wiring notify project/happy-soup/teams into a pipeline, including i
 
 Three commands post to Microsoft Teams, from most to least opinionated:
 
-- **`notify project`** — deployment cards with issue-tracker linking, for project (2GP packaged) pipelines.
+- **`notify project`** — deployment cards with issue-tracker linking, for project pipelines. Its issue-linking looks up commits between package versions, so it needs the project to be packaged (2GP Unlocked Package preferred) to have anything to link.
 - **`notify happy-soup`** — the same stage-notification pattern, without issue-tracker integration.
 - **`notify teams`** — posts an arbitrary JSON payload you build yourself, for anything the other two don't cover.
 

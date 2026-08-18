@@ -1,13 +1,17 @@
 ---
 title: Wiring up a GitLab CI pipeline
-description: An end-to-end walkthrough of a project (2GP packaged) build and deploy pipeline, generalized from a real production pipeline.
+description: An end-to-end walkthrough of both project (2GP Unlocked Package preferred) and happy-soup (unpackaged) build and deploy pipelines, generalized from real production pipelines.
 ---
 
-This walks through a real **project** (2GP unlocked package) pipeline's shape, generalized and stripped of anything org-specific. If you're deploying unpackaged org metadata instead, read [Project vs. Happy Soup](/cicd/concepts/happy-soup-vs-project/) first — the stage commands are named differently (`deploy happy-soup *`), several flags (like `--source-branch-name`) don't apply here, and a happy-soup pipeline notifies per-stage rather than once for the whole run.
+This walks through both pipeline shapes, generalized and stripped of anything org-specific: a **project** (2GP Unlocked Package preferred) pipeline, and a **happy-soup** (unpackaged org metadata) pipeline. Read [Project vs. Happy Soup](/cicd/concepts/happy-soup-vs-project/) first if you haven't — this guide assumes you already know which one applies to your repo.
 
-A full pipeline is really **two pipelines**: a **build** pipeline that runs on every push and, on release branches, produces a package version; and a **deploy** pipeline that promotes that package version through environment tiers. They're connected by a child-pipeline trigger, not by manually copying values between unrelated jobs.
+## Project pipeline
 
-## Build pipeline
+This section walks through the preferred shape: a project packaged as a 2GP Unlocked Package. (A project doesn't have to be packaged — see [Project vs. Happy Soup](/cicd/concepts/happy-soup-vs-project/#project-one-repo-one-app-sandbox-promotion) — in which case skip the build pipeline below entirely and promote your source through the deploy pipeline's `deploy-unpackaged` stage alone.)
+
+A full packaged project pipeline is really **two pipelines**: a **build** pipeline that runs on every push and, on release branches, produces a package version; and a **deploy** pipeline that promotes that package version through environment tiers. They're connected by a child-pipeline trigger, not by manually copying values between unrelated jobs.
+
+### Build stage
 
 ```yaml
 stages:
@@ -98,7 +102,7 @@ start-deployment:
 
 `create-package-version` skips itself (without failing) on non-release branches and on merge-request pipelines; `create-fallback-tag` is a no-op unless a build actually needed a fallback (see [`build create-fallback-tag`](/cicd/reference/build/) — it does nothing when a real package version was just created). `start-deployment` re-triggers this same repo's pipeline as a **child pipeline**, forwarding the `04t...` ID that either command produced — that's the entire build → deploy handoff; nothing is copied by hand.
 
-## Deploy pipeline
+### Deploy stage
 
 Environment tiers are just repeated blocks of the same five jobs, each gated to only accept merge requests from a release branch into that tier's target branch, and each requiring manual approval per stage (`when: manual`) except the unpackaged-deploy stage itself:
 
@@ -180,13 +184,120 @@ Wrap every stage's `before_script`/`after_script` with [`notify project --before
 `$DEVHUB_*`, `$PROJECT_ACCESS_TOKEN`, `$SANDBOX_*`, `$DEPLOY_BRANCH_*` — every `$VAR` above is a GitLab CI/CD variable you define under Settings → CI/CD → Variables (masked and protected on release branches). The `$CI_*` variables are GitLab's own [predefined variables](https://docs.gitlab.com/ee/ci/variables/predefined_variables.html) — pass them straight through, don't hardcode them.
 :::
 
+## Happy-soup pipeline
+
+There's no build phase — nothing gets compiled or packaged, so a happy-soup pipeline is just the deploy stages, triggered when a merge request targets an environment branch. The key structural difference from a project pipeline: every stage command takes `--source-branch-name` instead of a fixed config path, so the CLI can derive that MR's `deployment-configs/*.json` on its own (see [Project vs. Happy Soup](/cicd/concepts/happy-soup-vs-project/#branches-pick-the-config-file-deployments-close-out-archives-it)):
+
+```yaml
+stages:
+  - validate
+  - pre-destructive
+  - install-packaged
+  - deploy-unpackaged
+  - post-deploy
+  - post-destructive
+  - close-out
+
+validate:
+  stage: validate
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ $DEPLOY_ENVIRONMENT_BRANCHES'
+  script:
+    - sf plugins install @simplysf/simply-cicd
+    - sf simply cicd deploy happy-soup validate --source-branch-name "${CI_COMMIT_REF_NAME}"
+
+uat-pre-destructive:
+  extends: .happy-soup-pre-destructive
+  environment:
+    name: uat
+    url: $UAT_INSTANCE_URL
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $DEPLOY_BRANCH_UAT'
+      when: manual
+    - when: never
+  variables:
+    ALIAS: uat
+    AUTH_URL: $UAT_AUTH_URL
+
+# ...install-packaged, deploy-unpackaged, post-deploy, post-destructive follow the same
+# pattern for each environment tier — same shape as the project deploy stage above, just
+# gated on target branch alone rather than a source/target branch pair, since a happy-soup
+# deployment isn't tied to a single release branch.
+```
+
+The shared `.happy-soup-*` templates carry the actual `sf simply cicd deploy happy-soup *` calls, and — unlike project's single before/after pair — wrap **every** stage with [`notify happy-soup`](/cicd/guides/teams-notifications/):
+
+```yaml
+.happy-soup-pre-destructive:
+  stage: pre-destructive
+  timeout: 6h
+  artifacts:
+    expire_in: 2 weeks
+    paths: [DEPLOY_PROGRESS.json]
+  variables:
+    START_FROM: ''
+  before_script:
+    - sf simply cicd notify happy-soup --before-script --ci-job-stage pre-destructive
+      --teams-webhook-url $TEAMS_WEBHOOK_URL --enabled
+  script:
+    - sf simply cicd deploy happy-soup pre-destructive
+      --alias "${ALIAS}" --auth-url "${AUTH_URL}" --ci-job-token "${CI_JOB_TOKEN}"
+      --source-branch-name "${CI_COMMIT_REF_NAME}" --start-from "${START_FROM}"
+  after_script:
+    - sf simply cicd notify happy-soup --after-script --ci-job-stage pre-destructive
+      --ci-job-status $CI_JOB_STATUS --teams-webhook-url $TEAMS_WEBHOOK_URL --enabled
+
+.happy-soup-install-packaged:
+  stage: install-packaged
+  timeout: 2h
+  before_script:
+    - sf simply cicd notify happy-soup --before-script --ci-job-stage install-packaged
+      --teams-webhook-url $TEAMS_WEBHOOK_URL --enabled
+  script:
+    - sf simply cicd deploy happy-soup install-packaged --alias "${ALIAS}" --auth-url "${AUTH_URL}"
+  after_script:
+    - sf simply cicd notify happy-soup --after-script --ci-job-stage install-packaged
+      --ci-job-status $CI_JOB_STATUS --teams-webhook-url $TEAMS_WEBHOOK_URL --enabled
+
+# ...deploy-unpackaged, post-deploy, and post-destructive templates follow the same shape,
+# each calling its matching `sf simply cicd deploy happy-soup <stage>`. install-packaged
+# takes no --source-branch-name/--deploy-config-file — its dependency install always runs,
+# unconditionally, regardless of the deployment config's `deployments[]` array.
+```
+
+`install-packaged` has no environment-tier gating of its own beyond the `needs:`/`rules:` on its job — the command itself doesn't read the deploy config, so there's nothing in `deployments[]` to skip.
+
+Once the MR merges and the pipeline runs directly on the environment branch (a `push` pipeline, not an MR pipeline), close out the config that was actually used and tag the deployment:
+
+```yaml
+deployment-close-out:
+  stage: close-out
+  needs: [uat-post-destructive]
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $DEPLOY_BRANCH_UAT'
+  script:
+    - sf simply cicd deploy happy-soup deployment-close-out
+      --ci-commit-ref-name "${CI_COMMIT_REF_NAME}" --ci-pipeline-id "${CI_PIPELINE_ID}"
+      --ci-project-path "${CI_PROJECT_PATH}" --project-access-token "${PROJECT_ACCESS_TOKEN}"
+
+tag-deployment:
+  stage: close-out
+  needs: [deployment-close-out]
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $DEPLOY_BRANCH_UAT'
+  script:
+    - sf simply cicd deploy happy-soup tag-deployment
+      --alias uat --ci-pipeline-id "${CI_PIPELINE_ID}" --ci-pipeline-url "${CI_PIPELINE_URL}"
+      --ci-project-path "${CI_PROJECT_PATH}" --ci-merge-request-iid "${CI_MERGE_REQUEST_IID}"
+      --ci-merge-request-project-url "${CI_MERGE_REQUEST_PROJECT_URL}"
+      --project-access-token "${PROJECT_ACCESS_TOKEN}"
+```
+
+`deployment-close-out` copies whichever config file this MR's stages actually used onto `config/deploy.json` and commits it (`[skip ci]`), so a later pipeline running on this same branch has a fixed config with no `--source-branch-name` needed. `tag-deployment` records an annotated git tag on that commit — repeat both jobs per environment tier, same as the deploy stage jobs above.
+
 ## Retrying and resuming
 
-Each `.deploy-*` template's `START_FROM` variable maps to `--start-from`, letting you manually restart a specific stage from a specific point without editing the pipeline — see [Deploy pipeline stages](/cicd/concepts/deploy-pipeline-stages/) for exactly how `DEPLOY_PROGRESS.json` resume semantics work. `DEPLOY_PROGRESS.json` itself needs to be a CI artifact passed between stage jobs (as shown above) since each job runs in a fresh checkout.
-
-## Happy-soup differences
-
-A happy-soup pipeline follows the same environment-tier/branch-gating shape, but: `deploy happy-soup *` instead of `deploy project *`; drop everything Dev Hub/package-related (there's no `create-package-version`/`install-packaged` step tied to a single package — dependency installation still happens, but via `deploy happy-soup install-packaged`, unconditionally, not gated by branch/environment rules); add `--source-branch-name $CI_COMMIT_REF_NAME` so each stage derives the right `deployment-configs/*.json`; wrap **every** stage with `notify happy-soup --before-script`/`--after-script` rather than just the first/last job; and add a `deployment-close-out` job after `post-deploy` to archive the config that was actually used onto `config/deploy.json`, plus a `tag-deployment` job to record the deployment on the merged commit.
+Each `.deploy-*`/`.happy-soup-*` template's `START_FROM` variable maps to `--start-from`, letting you manually restart a specific stage from a specific point without editing the pipeline — see [Deploy pipeline stages](/cicd/concepts/deploy-pipeline-stages/) for exactly how `DEPLOY_PROGRESS.json` resume semantics work. `DEPLOY_PROGRESS.json` itself needs to be a CI artifact passed between stage jobs (as shown above) since each job runs in a fresh checkout.
 
 ## Simplifying with environment variables
 
@@ -201,4 +312,4 @@ variables:
   SIMPLY_CICD_JWT_KEY_FILE: $DEVHUB_JWT_KEY_FILE
 ```
 
-lets every `.deploy-*` template above drop `--ci-job-token "${CI_JOB_TOKEN}"` and every `build *` job drop `--jwt-key-file $DEVHUB_JWT_KEY_FILE`, since the commands pick the variable up automatically when the flag isn't passed. Per-stage values that genuinely change between jobs — `--alias`, `--auth-url`, `--start-from` — are still set per-job via `variables:` overrides the same way they are today; only the flags that are truly constant across the whole pipeline are worth hoisting to a `SIMPLY_CICD_*` variable.
+lets every `.deploy-*`/`.happy-soup-*` template above drop `--ci-job-token "${CI_JOB_TOKEN}"` and every `build *` job drop `--jwt-key-file $DEVHUB_JWT_KEY_FILE`, since the commands pick the variable up automatically when the flag isn't passed. Per-stage values that genuinely change between jobs — `--alias`, `--auth-url`, `--start-from` — are still set per-job via `variables:` overrides the same way they are today; only the flags that are truly constant across the whole pipeline are worth hoisting to a `SIMPLY_CICD_*` variable. `--source-branch-name` is one worth hoisting the same way in a happy-soup pipeline — it's `$CI_COMMIT_REF_NAME` on every stage job, so `SIMPLY_CICD_SOURCE_BRANCH_NAME: $CI_COMMIT_REF_NAME` in the block above drops it from every `deploy happy-soup *` call too.

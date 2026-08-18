@@ -5,17 +5,17 @@ sidebar:
   order: 1
 ---
 
-Simply supports two deployment paradigms: **Project** and **Happy Soup**. A Project builds and packages a single application's metadata — standalone or with dependencies on other packages. Happy Soup deploys a collection of packages plus org-specific metadata into one or more environments.
+Simply supports two deployment paradigms: **Project** and **Happy Soup**. A Project assembles a single application's metadata for promotion — most commonly packaged as a 2GP Unlocked Package, though packaging isn't required. Happy Soup deploys a collection of packages plus org-specific metadata into one or more environments.
 
 Project is how an individual application gets assembled; Happy Soup is how that application, alongside many others, gets delivered to an org. Keeping them in separate repositories lets each Project define its own SDLC rules, while Happy Soup enforces the stricter governance and approvals needed to prevent unilateral changes to an environment. Happy Soup is the deployment orchestrator and the source of truth for what's actually been deployed.
 
-## Project: one repo, one unlocked package, sandbox promotion
+## Project: one repo, one app, sandbox promotion
 
-A **project** repository holds the source for a single Salesforce application, built as a second-generation **unlocked** package. The `build` topic commands compile it, push it to a scratch org, test it, and create a package version from it. From there, `deploy project *` promotes **that one project's package — plus its declared dependencies — into a sandbox environment**. It's deliberately narrow: one repository, one package, one target at a time.
+A **project** repository holds the source for a single Salesforce application. It doesn't have to be packaged at all — `deploy project *` promotes whatever this one repo produces into a sandbox environment regardless — but Simply's preference, and what the `build` topic commands are built around, is a **2GP Unlocked Package**: compile it, push it to a scratch org, test it, and create a package version from it. Either way, the shape is deliberately narrow: one repository, one app, one target at a time.
 
-1. `deploy project install-packaged` installs the packaged dependencies declared in `sfdx-project.json`, then the project's own package — resolving the version to install from `--subscriber-package-version-id`, or by reading the `04t...` ID annotated on the git tag at `HEAD` if not given explicitly.
-2. `deploy project deploy-unpackaged` **also exists** — a project pipeline isn't limited to installing the package as-is. Anything that has to ship as source rather than inside the package (org-specific config, metadata the package intentionally excludes) runs through `bin/unpackagedDeploy.sh`, same as happy-soup's equivalent stage.
-3. `deploy project run-apex-tests` authenticates to the target org directly and runs its Apex tests, since the tests live inside the installed package.
+1. `deploy project install-packaged` installs the packaged dependencies declared in `sfdx-project.json`, then the project's own package — resolving the version to install from `--subscriber-package-version-id`, or by reading the `04t...` ID annotated on the git tag at `HEAD` if not given explicitly. **Skip this stage entirely** if the project isn't packaged; there's no package version for it to install.
+2. `deploy project deploy-unpackaged` **also exists** — a project pipeline isn't limited to installing a package as-is. Anything that has to ship as source rather than inside a package (org-specific config, metadata a package intentionally excludes, or the project's entire source if it isn't packaged at all) runs through `bin/unpackagedDeploy.sh`, same as happy-soup's equivalent stage.
+3. `deploy project run-apex-tests` authenticates to the target org directly and runs its Apex tests, since the tests live inside the installed package. An unpackaged project has no installed package to point this at — it runs its tests via `--test-level`/`--test-suite`/`--tests` on the `deploy-unpackaged` stage instead, the same way happy-soup does.
 
 There's exactly one deploy config path per environment (`config/deploy.json` by default), and no `--source-branch-name` flag on `deploy project *` commands — there's nothing to derive, since a project pipeline only ever has one implicit deployment target (internally called `local`).
 
@@ -76,15 +76,15 @@ When a merge request targets one of those branches, the pipeline finds the match
 
 ## Picking the right one
 
-|                               | Project                                            | Happy Soup                                                                               |
-| ----------------------------- | -------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| Repository holds              | One app's source, built as an unlocked 2GP package | Its own `sfdx-project.json` + unpackaged org metadata                                    |
-| Scope per pipeline run        | One package + its dependencies, into one sandbox   | Multiple named applications, into one environment                                        |
-| Dependency install            | `install-packaged`, always runs                    | `install-packaged`, always runs                                                          |
-| Unpackaged/destructive stages | Single implicit `local` deployment                 | Explicit `deployments[]` array, gated per stage per app                                  |
-| Config resolution             | Fixed path (`config/deploy.json`)                  | Derived from `--source-branch-name`, archived on merge                                   |
-| Apex tests                    | `run-apex-tests` against the installed package     | Covered by `--test-level`/`--test-suite`/`--tests` on the deploy-unpackaged stage itself |
+|                               | Project                                                         | Happy Soup                                                                               |
+| ----------------------------- | --------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Repository holds              | One app's source — 2GP Unlocked Package preferred, not required | Its own `sfdx-project.json` + unpackaged org metadata                                    |
+| Scope per pipeline run        | One package + its dependencies, into one sandbox                | Multiple named applications, into one environment                                        |
+| Dependency install            | `install-packaged`, always runs                                 | `install-packaged`, always runs                                                          |
+| Unpackaged/destructive stages | Single implicit `local` deployment                              | Explicit `deployments[]` array, gated per stage per app                                  |
+| Config resolution             | Fixed path (`config/deploy.json`)                               | Derived from `--source-branch-name`, archived on merge                                   |
+| Apex tests                    | `run-apex-tests` against the installed package                  | Covered by `--test-level`/`--test-suite`/`--tests` on the deploy-unpackaged stage itself |
 
-If your org installs a single namespaced package with a version number, you're doing `project`. If your org is one shared environment receiving unpackaged metadata from several application repos, you're doing `happy-soup`. Don't mix flags from one topic into the other — `deploy project *` commands reject `--source-branch-name` (it doesn't exist on them), and `deploy happy-soup *` commands have no concept of `--subscriber-package-version-id`.
+If your org receives one app's metadata — packaged or not — from its own dedicated repo, you're doing `project`. If your org is one shared environment receiving unpackaged metadata from several application repos, you're doing `happy-soup`. Don't mix flags from one topic into the other — `deploy project *` commands reject `--source-branch-name` (it doesn't exist on them), and `deploy happy-soup *` commands have no concept of `--subscriber-package-version-id`.
 
 See [Deploy pipeline stages](/cicd/concepts/deploy-pipeline-stages/) for how the stage commands within either topic chain together, and the [command reference](/cicd/reference/deploy-project/) for exact flags.
