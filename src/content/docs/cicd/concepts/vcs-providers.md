@@ -1,6 +1,8 @@
 ---
 title: VCS providers
 description: How simply-cicd talks to source control, which platforms are supported, and how to point it at one.
+sidebar:
+  order: 6
 ---
 
 Every command that clones, tags, pushes to, or opens change requests against a repository goes through a small internal abstraction, `VcsProvider` (`src/common/vcs/`), rather than talking to any one host directly. The interface covers listing an org/group's repositories, reading file content, branch existence/creation, committing files, finding/creating/updating merge or pull requests, reading repository-level CI variables, reading the upstream repo's identity from CI environment variables, and building URLs — authenticated remotes for push and read-only clone, plus the browser URL of a change request.

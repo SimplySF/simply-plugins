@@ -1,6 +1,8 @@
 ---
 title: Environment variables
 description: Configure simply-cicd's common flags once via SIMPLY_CICD_* environment variables instead of repeating them on every command.
+sidebar:
+  order: 5
 ---
 
 Every `simply-cicd` command flag can still be passed explicitly, but flags that represent **common configuration** — org credentials, VCS provider settings, CI pipeline context, file locations — can also be set once as an environment variable, typically in your CI platform's project- or group-level variables. This avoids re-specifying the same values on every stage of a pipeline.
