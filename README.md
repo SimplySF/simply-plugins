@@ -80,13 +80,16 @@ Purge Apex debug logs.
 
 ```
 USAGE
-  $ sf simply apex logs purge -o <value> [--json] [--flags-dir <value>] [--api-version <value>] [-w <value>]
+  $ sf simply apex logs purge -o <value> [--json] [--flags-dir <value>] [--api-version <value>] [-w <value>] [-b] [--wait
+    <value>]
 
 FLAGS
+  -b, --use-bulk-api         Use Bulk API v2 to query and delete the logs.
   -o, --target-org=<value>   (required) Username or alias of the target org. Not required if the `target-org`
                              configuration variable is already set.
   -w, --where=<value>        SOQL WHERE clause
       --api-version=<value>  Override the api version used for api requests made by this command
+      --wait=<value>         Number of minutes to wait for the Bulk API jobs to finish.
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -103,10 +106,26 @@ EXAMPLES
 
   $ sf simply apex logs purge --target-org myOrg --where "Status = 'Success'"
 
+  $ sf simply apex logs purge --target-org myOrg --use-bulk-api
+
+  $ sf simply apex logs purge --target-org myOrg --use-bulk-api --wait 60
+
 FLAG DESCRIPTIONS
+  -b, --use-bulk-api  Use Bulk API v2 to query and delete the logs.
+
+    Runs the whole purge as two Bulk API v2 jobs instead of a Tooling API query followed by chunked REST deletes. Bulk
+    API processes the deletion asynchronously and does not consume the org's REST API request limit, which suits purges
+    of tens of thousands of logs. For small purges the default REST path is faster, since it avoids the overhead of
+    creating, uploading, and polling a job.
+
   -w, --where=<value>  SOQL WHERE clause
 
     A WHERE clause used to filter which ApexLog records are purged (e.g. "Status = 'Success'").
+
+  --wait=<value>  Number of minutes to wait for the Bulk API jobs to finish.
+
+    Only applies with --use-bulk-api. The command polls the query and delete jobs until they complete or this timeout
+    elapses, then throws.
 ```
 
 _See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.1.18/packages/simply-apex/lib/commands/simply/apex/logs/purge.js)_
