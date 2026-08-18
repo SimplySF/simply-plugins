@@ -29,7 +29,10 @@ export type ApexLogsPurgeResult = {
   Error?: string;
 };
 
-/** Maximum number of `ApexLog` records to delete per Tooling API `delete` call. */
+/**
+ * Maximum number of `ApexLog` records to delete per SObject Collections call, which is the API's
+ * own ceiling and matches jsforce's `MAX_DML_COUNT`.
+ */
 const CHUNK_SIZE = 200;
 
 /**
@@ -84,13 +87,17 @@ export default class ApexLogsPurge extends SfCommand<ApexLogsPurgeResult[]> {
       purged += idChunk.length;
       this.spinner.status = `${purged}/${logIds.length}`;
 
-      // eslint-disable-next-line no-await-in-loop
-      const deleteResults = await targetOrgConnection.tooling.delete('ApexLog', idChunk);
+      // Deleted through the core connection, not `.tooling`. ApexLog is exposed on both APIs, but
+      // only core REST implements the SObject Collections resource that a bulk delete needs;
+      // `/tooling/composite/sobjects` does not exist and answers 404 "The requested resource does
+      // not exist". The records were queried via the Tooling API, which returns the same IDs.
+      // eslint-disable-next-line no-await-in-loop -- batches are sequential so the spinner tracks real progress
+      const deleteResults = await targetOrgConnection.delete('ApexLog', idChunk);
       const deleteResultsArray = Array.isArray(deleteResults) ? deleteResults : [deleteResults];
 
-      deleteResultsArray.forEach((deleteResult) => {
+      deleteResultsArray.forEach((deleteResult, index) => {
         results.push({
-          Id: deleteResult.id ?? 'unknown',
+          Id: deleteResult.id ?? idChunk[index] ?? 'unknown',
           Success: deleteResult.success,
           Error: deleteResult.success ? undefined : deleteResult.errors.map((e) => e.message).join(', '),
         });
