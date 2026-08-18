@@ -61,3 +61,7 @@ FLAG DESCRIPTIONS
 
 _See code: [lib/commands/simply/project/update/api-version.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-project@1.2.10/packages/simply-project/lib/commands/simply/project/update/api-version.js)_
 <!-- commandsstop -->
+
+## License
+
+Licensed under the [Apache-2.0](https://raw.githubusercontent.com/SimplySF/simply-node/main/LICENSE.txt) license.
