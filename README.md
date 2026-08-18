@@ -151,3 +151,7 @@ Each `--output-type` writes one file into `--output-dir` (default: a new timesta
 | `csv`           | `schema.csv`         | One row per relationship: `SOURCE_OBJECT`, `SOURCE_PACKAGE`, `TARGET_OBJECT`, `TARGET_PACKAGE`, `FIELD_API_NAME`, `LABEL`, `IS_MASTER_DETAIL`.                                                  |
 
 `--output-type` accepts a comma-separated list (e.g. `--output-type html,md,csv`); it defaults to `html,md`.
+
+## License
+
+Licensed under the [Apache-2.0](https://raw.githubusercontent.com/SimplySF/simply-node/main/LICENSE.txt) license.
