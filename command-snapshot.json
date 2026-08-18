@@ -11,8 +11,8 @@
     "alias": [],
     "command": "simply:apex:logs:purge",
     "flagAliases": [],
-    "flagChars": ["o", "w"],
-    "flags": ["api-version", "flags-dir", "json", "target-org", "where"],
+    "flagChars": ["b", "o", "w"],
+    "flags": ["api-version", "flags-dir", "json", "target-org", "use-bulk-api", "wait", "where"],
     "plugin": "@simplysf/simply-apex"
   },
   {
