@@ -332,3 +332,7 @@ A filter tree is either a **condition** or a **group**:
 | `filters`   | `Array<Condition \| Group>` | One or more conditions or nested groups, combined per `logic`. |
 
 Conditions on `Field`, `CreatedById`, `CreatedDate`, or the parent lookup field are pushed into the underlying SOQL query; conditions on any other field (e.g. `OldValue`/`NewValue`) are applied client-side after the query runs.
+
+## License
+
+Licensed under the [Apache-2.0](https://raw.githubusercontent.com/SimplySF/simply-node/main/LICENSE.txt) license.
