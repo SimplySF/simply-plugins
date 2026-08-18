@@ -291,6 +291,17 @@ describe('GitHubProvider', () => {
     await expect(provider.getProjectVariables(project)).resolves.toEqual([]);
   });
 
+  it('builds pull request URLs under GitHub’s /pull/ path', () => {
+    const provider = new GitHubProvider({ host, token });
+
+    expect(provider.buildChangeRequestUrl('https://github.com/my-org/downstream', 45)).toBe(
+      'https://github.com/my-org/downstream/pull/45',
+    );
+    expect(provider.buildChangeRequestUrl('https://github.com/my-org/downstream/', '45')).toBe(
+      'https://github.com/my-org/downstream/pull/45',
+    );
+  });
+
   it('builds x-access-token remote URLs for push/tag and clone operations', () => {
     const provider = new GitHubProvider({ host, token });
 

@@ -133,6 +133,18 @@ describe('GitLabProvider', () => {
     expect(variables).toEqual([{ key: 'FOO', value: 'bar', raw: { key: 'FOO', value: 'bar' } }]);
   });
 
+  it('builds merge request URLs under GitLab’s /-/merge_requests/ path', () => {
+    const provider = new GitLabProvider({ host, token });
+
+    expect(provider.buildChangeRequestUrl('https://gitlab.com/group/project', 45)).toBe(
+      'https://gitlab.com/group/project/-/merge_requests/45',
+    );
+    // A trailing slash on the project URL shouldn't double up.
+    expect(provider.buildChangeRequestUrl('https://gitlab.com/group/project/', '45')).toBe(
+      'https://gitlab.com/group/project/-/merge_requests/45',
+    );
+  });
+
   it('builds authenticated remote URLs for push/tag and CI-job clone operations', () => {
     const provider = new GitLabProvider({ host, token });
 
