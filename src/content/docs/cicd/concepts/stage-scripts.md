@@ -32,7 +32,7 @@ For every deployment that has a matching script, `simply-cicd`:
 ```
 
 - **`--target-org`** — the value passed to the stage command's `--alias` flag (an empty string if none was given).
-- **`--test-level`** — the deployment's own `testLevel` (an optional per-entry override in `deploy.json`'s `deployments[]`; see [Happy Soup vs. Project deploys](/cicd/concepts/happy-soup-vs-project/)), falling back to the stage command's `--test-level` flag, falling back to `RunLocalTests`.
+- **`--test-level`** — the deployment's own `testLevel` (an optional per-entry override in `deploy.json`'s `deployments[]`; see [Project vs. Happy Soup](/cicd/concepts/happy-soup-vs-project/)), falling back to the stage command's `--test-level` flag, falling back to `RunLocalTests`.
 - **`--tests`** — only appended when a value resolves, from the deployment's own `tests` or the stage command's `--tests` flag; omitted entirely otherwise.
 
 The script is invoked directly, not through a shell — its first line needs its own shebang (`#!/usr/bin/env bash` or equivalent), and it needs to be executable.

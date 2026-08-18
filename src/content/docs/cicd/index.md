@@ -15,7 +15,7 @@ sf plugins install @simplysf/simply-cicd
 
 ## Where to start
 
-- **New to the plugin?** Read [Happy Soup vs. Project deploys](/cicd/concepts/happy-soup-vs-project/) first — nearly everything else assumes you know which of the two deployment styles you're using.
+- **New to the plugin?** Read [Project vs. Happy Soup](/cicd/concepts/happy-soup-vs-project/) first — nearly everything else assumes you know which of the two deployment styles you're using.
 - **Wiring up a pipeline?** [Deploy pipeline stages](/cicd/concepts/deploy-pipeline-stages/) explains how the stage commands (`validate`, `pre-destructive`, `deploy-unpackaged`/`install-packaged`, `post-destructive`, `post-deploy`) fit together, and the [GitLab CI pipeline guide](/cicd/guides/gitlab-ci-pipeline/) walks through a working `.gitlab-ci.yml`.
 - **Just need a flag reference?** See [Command Reference](/cicd/reference/build/) for the full, auto-generated `--help` output of every command, grouped by topic.
 

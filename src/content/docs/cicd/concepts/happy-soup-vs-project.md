@@ -5,7 +5,7 @@ sidebar:
   order: 1
 ---
 
-Simply views the Salesforce deployment world through two distinct lenses, the view of the Project and the view of the Happy Soup. The Project defines a discrete application or package of metadata that is being defined for later deployment into an environment. It could contain many dependencies on other packages, or it could be standalone. The Happy Soup defines a collection of Packages and org-centric metadata that needs to be deployed into one or many environments.
+Simply views the Salesforce deployment world through two distinct lenses, the view of the Project and the view of the Happy Soup. The Project defines a discrete application or package of metadata that is being defined for later deployment into an environment. It could contain many dependencies on other packages, or it could be standalone. The Happy Soup defines a collection of packages and org-centric metadata that needs to be deployed into one or many environments.
 
 The Project is the mechanism through which an individual application gets assembled, and the Happy Soup is how that Project and many others get delivered to an end-user environment.
 

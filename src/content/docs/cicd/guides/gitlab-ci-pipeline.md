@@ -3,7 +3,7 @@ title: Wiring up a GitLab CI pipeline
 description: An end-to-end walkthrough of a project (2GP packaged) build and deploy pipeline, generalized from a real production pipeline.
 ---
 
-This walks through a real **project** (2GP unlocked package) pipeline's shape, generalized and stripped of anything org-specific. If you're deploying unpackaged org metadata instead, read [Happy Soup vs. Project deploys](/cicd/concepts/happy-soup-vs-project/) first — the stage commands are named differently (`deploy happy-soup *`), several flags (like `--source-branch-name`) don't apply here, and a happy-soup pipeline notifies per-stage rather than once for the whole run.
+This walks through a real **project** (2GP unlocked package) pipeline's shape, generalized and stripped of anything org-specific. If you're deploying unpackaged org metadata instead, read [Project vs. Happy Soup](/cicd/concepts/happy-soup-vs-project/) first — the stage commands are named differently (`deploy happy-soup *`), several flags (like `--source-branch-name`) don't apply here, and a happy-soup pipeline notifies per-stage rather than once for the whole run.
 
 A full pipeline is really **two pipelines**: a **build** pipeline that runs on every push and, on release branches, produces a package version; and a **deploy** pipeline that promotes that package version through environment tiers. They're connected by a child-pipeline trigger, not by manually copying values between unrelated jobs.
 
