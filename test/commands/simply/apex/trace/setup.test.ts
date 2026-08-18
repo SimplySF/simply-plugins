@@ -40,4 +40,24 @@ describe('simply apex trace setup', () => {
       expect(error.message.toLowerCase()).to.include('org');
     }
   });
+
+  it('should reject an invalid --start-date format', async () => {
+    try {
+      await ApexTraceSetup.run(['--target-org', testOrg.username, '--start-date', 'not-a-date']);
+      expect.fail('should have thrown an invalid date-time error');
+    } catch (err) {
+      const error = err as SfError;
+      expect(error.message).to.include('start-date');
+    }
+  });
+
+  it('should reject an invalid --end-date format', async () => {
+    try {
+      await ApexTraceSetup.run(['--target-org', testOrg.username, '--end-date', '2026-08-18']);
+      expect.fail('should have thrown an invalid date-time error');
+    } catch (err) {
+      const error = err as SfError;
+      expect(error.message).to.include('end-date');
+    }
+  });
 });
