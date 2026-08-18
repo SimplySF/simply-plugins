@@ -148,3 +148,7 @@ FLAG DESCRIPTIONS
 
 _See code: [lib/commands/simply/data/files/upload.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-data@2.3.9/packages/simply-data/lib/commands/simply/data/files/upload.js)_
 <!-- commandsstop -->
+
+## License
+
+Licensed under the [Apache-2.0](https://raw.githubusercontent.com/SimplySF/simply-node/main/LICENSE.txt) license.
