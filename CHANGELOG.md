@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.3](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply%402.12.2...%40simplysf%2Fsimply%402.12.3) (2026-08-18)
+
+### Bug Fixes
+
+- **apex:** update simply command-snapshot for --on-behalf-of flag ([96c5976](https://github.com/SimplySF/simply-node/commit/96c5976399c3fd7441af654e69f1c3c24ab31b23))
+
 ## [2.12.2](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply%402.12.1...%40simplysf%2Fsimply%402.12.2) (2026-08-18)
 
 ### Bug Fixes
