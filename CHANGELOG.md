@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-apex%401.2.0...%40simplysf%2Fsimply-apex%401.3.0) (2026-08-18)
+
+### Features
+
+- **apex:** add --on-behalf-of flag to trace setup ([0c1d801](https://github.com/SimplySF/simply-node/commit/0c1d80199a2f007de80eaa765171ad0c544d74d3))
+
 # [1.2.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-apex%401.1.19...%40simplysf%2Fsimply-apex%401.2.0) (2026-08-18)
 
 ### Bug Fixes
