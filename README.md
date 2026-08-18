@@ -41,3 +41,15 @@ export default class MyCommand extends SfCommand<void> {
 | `targetOrgFlags`           | The `--target-org` / `--api-version` flag pair every org-touching command declares.                                                    |
 | `requireConnection(flags)` | Resolves the connection for `--target-org` at `--api-version`, throwing `TargetOrgConnectionFailedError` if none could be established. |
 | `TargetOrgFlagValues`      | Structural type for the parsed flags `requireConnection` reads.                                                                        |
+
+## Issues
+
+Please report any issues at https://github.com/SimplySF/simply-node/issues
+
+## Contributing
+
+This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/simply-node) monorepo. See [CONTRIBUTING.md](CONTRIBUTING.md) for what's specific to this package, and the repo's [root CONTRIBUTING.md](https://github.com/SimplySF/simply-node/blob/main/CONTRIBUTING.md) for repo structure, setup, commit conventions, and how to submit a pull request. Please also read our [Code of Conduct](https://github.com/SimplySF/simply-node/blob/main/CODE_OF_CONDUCT.md).
+
+## License
+
+Licensed under the [Apache-2.0](https://raw.githubusercontent.com/SimplySF/simply-node/main/LICENSE.txt) license.
