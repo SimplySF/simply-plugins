@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-cicd%400.3.0...%40simplysf%2Fsimply-cicd%400.4.0) (2026-08-18)
+
+### Features
+
+- publish cicd ([87057f1](https://github.com/SimplySF/simply-node/commit/87057f14d9d7721058c732265969c1025c1726fd))
+
 # 0.3.0 (2026-08-17)
 
 ### Bug Fixes
