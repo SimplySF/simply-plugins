@@ -1,11 +1,15 @@
 ---
-title: Happy Soup vs. Project deploys
-description: The single most important concept in simply-cicd — which deployment style your pipeline is using and why it matters.
+title: Project vs. Happy Soup
+description: Understanding the different deployment paradigms supported by Simply and how they can fit into your development workflow.
 sidebar:
   order: 1
 ---
 
-Every deploy command in `simply-cicd` lives under one of two topics: `deploy project ...` or `deploy happy-soup ...`. They're not two ways of doing the same thing — they model two fundamentally different ways a Salesforce org gets its metadata, and picking the wrong one will make every other command's flags and defaults confusing. This distinction isn't written down anywhere else in the plugin's docs, so read this page first.
+Simply views the Salesforce deployment world through two distinct lenses, the view of the Project and the view of the Happy Soup. The Project defines a discrete application or package of metadata that is being defined for later deployment into an environment. It could contain many dependencies on other packages, or it could be standalone. The Happy Soup defines a collection of Packages and org-centric metadata that needs to be deployed into one or many environments.
+
+The Project is the mechanism through which an individual application gets assembled, and the Happy Soup is how that Project and many others get delivered to an end-user environment.
+
+The Project repositories and the Happy Soup repositories are separated for many reasons. The primary one is that it allows for Projects to define their own rules in terms of SDLC and governance around how and when changes to application code are managed. The Happy Soup, however, has strong governance and required approvals in place to prevent unilateral change to environments. The Happy Soup is the deployment orchestrator and it is the "source of truth" of what has been deployed into an environment.
 
 ## Project: one repo, one unlocked package, sandbox promotion
 
