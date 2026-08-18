@@ -1,18 +1,18 @@
 # summary
 
-Configure a debug log trace flag for a user.
+Configure a debug log trace flag for the current user, or another user.
 
 # description
 
-Creates or updates a DEVELOPER_LOG trace flag for the specified user, or the user running the command if --user-id isn't provided. By default the trace flag uses the FINEST/FINER "ReplayDebuggerLevels" debug level suitable for the Apex Replay Debugger and runs for 24 hours starting now; --log-level, --start-date, and --end-date override those defaults.
+Creates or updates a DEVELOPER_LOG trace flag for the target user, using the FINEST/FINER "ReplayDebuggerLevels" debug level suitable for the Apex Replay Debugger and running for 24 hours starting now, by default. Use --on-behalf-of to configure the trace flag for a different user instead; --log-level, --start-date, and --end-date override the other defaults.
 
-# flags.user-id.summary
+# flags.on-behalf-of.summary
 
-ID of the user to configure the trace flag for.
+Configure the trace flag for another user, identified by a "Field:Value" pair.
 
-# flags.user-id.description
+# flags.on-behalf-of.description
 
-Defaults to the user running the command.
+Any unique User field can be used, for example "Username:someuser@example.com" or "FederationIdentifier:123456".
 
 # flags.log-level.summary
 
@@ -42,17 +42,23 @@ Defaults to 24 hours after the start date/time.
 
 - <%= config.bin %> <%= command.id %> --target-org myOrg
 
-- <%= config.bin %> <%= command.id %> --target-org myOrg --user-id 005XXXXXXXXXXXXXXX
+- <%= config.bin %> <%= command.id %> --target-org myOrg --on-behalf-of Username:someuser@example.com
+
+- <%= config.bin %> <%= command.id %> --target-org myOrg --on-behalf-of FederationIdentifier:123456
 
 - <%= config.bin %> <%= command.id %> --target-org myOrg --log-level MyCustomDebugLevel --start-date 2026-08-18T09:00:00Z --end-date 2026-08-19T09:00:00Z
 
+# error.invalidOnBehalfOf
+
+Invalid --on-behalf-of value: %s. Expected a "Field:Value" pair, for example "Username:someuser@example.com".
+
 # error.userNotFound
 
-User not found for username: %s
+User not found for %s
 
-# error.userIdNotFound
+# error.ambiguousOnBehalfOf
 
-User not found for user ID: %s
+Multiple users found for %s. Use a field/value pair that uniquely identifies one user.
 
 # error.debugLevelNotFound
 
