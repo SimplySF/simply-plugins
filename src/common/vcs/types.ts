@@ -95,7 +95,7 @@ export type VcsCiContext = {
 /** Everything a provider needs to talk to a specific instance of its platform. */
 export type VcsProviderOptions = {
   /** The instance hostname, e.g. `gitlab.com` or `github.com`. */
-  host: string;
+  host?: string;
   token: string;
   /** Overrides the provider's derived API base URL. Rarely needed outside self-hosted instances. */
   apiUrl?: string;
@@ -113,6 +113,9 @@ export interface VcsProvider {
 
   /** The instance hostname this provider was built for. */
   readonly host: string;
+
+  /** The API base URL this provider talks to, derived from the host unless overridden. */
+  readonly apiUrl: string;
 
   /** Reads the upstream repository's identity from this platform's CI environment variables. */
   getCiContext(): VcsCiContext;
@@ -166,6 +169,12 @@ export interface VcsProvider {
 
   /** Fetches project/repo-level CI variables. Returns an empty array if unreadable. */
   getProjectVariables(project: VcsProjectRef): Promise<VcsProjectVariable[]>;
+
+  /**
+   * Builds the browser URL for a merge/pull request, given the project's own web URL. The path
+   * differs per platform — GitLab nests it under `/-/merge_requests/`, GitHub under `/pull/`.
+   */
+  buildChangeRequestUrl(projectUrl: string, changeRequestIid: string | number): string;
 
   /** Builds a token-authenticated remote URL suitable for push/tag operations (e.g. `git remote add`). */
   buildAuthenticatedRemoteUrl(token: string, projectPath: string): string;

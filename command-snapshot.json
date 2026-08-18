@@ -119,8 +119,13 @@
     "flagAliases": [],
     "flagChars": [],
     "flags": [
+      "ci-commit-sha",
       "ci-merge-request-iid",
       "ci-project-id",
+      "ci-pull-request-number",
+      "ci-repository",
+      "ci-run-id",
+      "ci-server-url",
       "debug",
       "disabled",
       "flags-dir",
@@ -128,7 +133,9 @@
       "json",
       "out",
       "project-access-token",
-      "to"
+      "to",
+      "vcs-host",
+      "vcs-provider"
     ],
     "plugin": "@simplysf/simply-cicd"
   },
@@ -138,8 +145,13 @@
     "flagAliases": [],
     "flagChars": [],
     "flags": [
+      "ci-commit-sha",
       "ci-merge-request-iid",
       "ci-project-id",
+      "ci-pull-request-number",
+      "ci-repository",
+      "ci-run-id",
+      "ci-server-url",
       "debug",
       "disabled",
       "flags-dir",
@@ -147,7 +159,9 @@
       "json",
       "out",
       "project-access-token",
-      "to"
+      "to",
+      "vcs-host",
+      "vcs-provider"
     ],
     "plugin": "@simplysf/simply-cicd"
   },
@@ -603,6 +617,9 @@
     "flags": [
       "after-script",
       "alias",
+      "alm-base-url",
+      "alm-project-key",
+      "alm-provider",
       "before-script",
       "ci-commit-ref-name",
       "ci-environment-name",
@@ -620,8 +637,6 @@
       "enabled",
       "flags-dir",
       "instance-url",
-      "jira-base-url",
-      "jira-project-key",
       "json",
       "jwt-key-file",
       "prev-installed-package-version",
@@ -647,22 +662,23 @@
     "flagChars": [],
     "flags": [
       "branch-prefix",
+      "change-request-labels",
       "devhub-username",
       "dry-run",
       "fail-on-error",
       "flags-dir",
-      "gitlab-api-url",
-      "gitlab-token",
       "json",
       "max-projects",
-      "mr-labels",
       "project-allowlist",
       "project-denylist",
       "root-group-id",
       "skip-archived",
       "skip-forks",
       "subscriber-package-version-id",
-      "vcs-provider"
+      "vcs-api-url",
+      "vcs-host",
+      "vcs-provider",
+      "vcs-token"
     ],
     "plugin": "@simplysf/simply-cicd"
   }
