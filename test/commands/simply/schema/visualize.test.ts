@@ -20,6 +20,7 @@ import path from 'node:path';
 import type { Connection } from '@salesforce/core';
 import { SfError } from '@salesforce/core';
 import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
+import sinon from 'sinon';
 import { afterEach, beforeAll, describe, expect, it } from 'vitest';
 import SchemaVisualize, {
   resolveRelationships,
@@ -27,7 +28,7 @@ import SchemaVisualize, {
 } from '../../../../src/commands/simply/schema/visualize.js';
 
 describe('simply schema visualize', () => {
-  const $$ = new TestContext();
+  const $$ = new TestContext({ sinon });
   const testOrg = new MockTestOrgData();
 
   beforeAll(async () => {
