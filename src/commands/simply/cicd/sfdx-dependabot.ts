@@ -27,8 +27,7 @@ import {
   type SfdxDependabotCounters,
   type SfdxDependabotSummary,
 } from '../../../common/sfdxDependabot/dependabotRun.js';
-import { getVcsProvider } from '../../../common/vcs/index.js';
-import type { VcsProviderKind } from '../../../common/vcs/index.js';
+import { createVcsProvider, listVcsProviderKinds, type VcsProviderKind } from '../../../common/vcs/index.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-cicd', 'simply.cicd.sfdx-dependabot');
@@ -102,7 +101,7 @@ export default class SfdxDependabot extends SfCommand<SfdxDependabotSummary> {
       summary: messages.getMessage('flags.max-projects.summary'),
       env: 'SIMPLY_CICD_MAX_PROJECTS',
     }),
-    'vcs-provider': Flags.custom<VcsProviderKind>({ options: ['gitlab'] })({
+    'vcs-provider': Flags.custom<VcsProviderKind>({ options: listVcsProviderKinds() })({
       summary: messages.getMessage('flags.vcs-provider.summary'),
       default: 'gitlab',
       env: 'SIMPLY_CICD_VCS_PROVIDER',
@@ -175,7 +174,11 @@ export default class SfdxDependabot extends SfCommand<SfdxDependabotSummary> {
       options.devhubUsername,
       options.subscriberPackageVersionId,
     );
-    const vcsProvider = getVcsProvider(flags['vcs-provider'], options.gitlabApiUrl, options.gitlabToken);
+    const vcsProvider = createVcsProvider(flags['vcs-provider'], {
+      host: '',
+      apiUrl: options.gitlabApiUrl,
+      token: options.gitlabToken,
+    });
 
     const { allProjects, filteredProjects, skippedCount } = await discoverEligibleProjects(
       vcsProvider,

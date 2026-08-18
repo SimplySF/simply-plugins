@@ -105,6 +105,7 @@ describe('sfdx-dependabot', () => {
   describe('filterProject', () => {
     const baseProject: VcsProject = {
       id: 101,
+      key: '101',
       name: 'downstream-repo',
       pathWithNamespace: 'my-group/downstream-repo',
       archived: false,

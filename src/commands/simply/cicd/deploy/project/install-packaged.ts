@@ -23,6 +23,7 @@ import {
   deployProgressFileFlag,
   deployRulesFileFlag,
   orgAuthFlags,
+  vcsFlags,
 } from '../../../../../common/deploy/flags.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -38,6 +39,7 @@ export default class DeployProjectInstallPackaged extends SfCommand<void> {
     ...SfCommand.baseFlags,
     ...ciJobTokenFlag,
     ...orgAuthFlags,
+    ...vcsFlags,
     ...debugFlag,
     'deploy-config-file': Flags.string({
       summary: messages.getMessage('flags.deploy-config-file.summary'),
@@ -73,8 +75,8 @@ export default class DeployProjectInstallPackaged extends SfCommand<void> {
       deployRulesFile: flags['deploy-rules-file'],
       subscriberPackageVersionId: flags['subscriber-package-version-id'],
       installType: flags['install-type'],
-      vcsHost: 'gitlab.com',
-      vcsProvider: 'gitlab',
+      vcsHost: flags['vcs-host'],
+      vcsProvider: flags['vcs-provider'],
     });
   }
 }

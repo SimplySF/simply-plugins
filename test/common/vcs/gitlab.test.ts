@@ -33,7 +33,8 @@ function jsonResponse(
 }
 
 describe('GitLabProvider', () => {
-  const apiUrl = 'https://gitlab.example.com/api/v4';
+  const host = 'gitlab.example.com';
+  const apiUrl = `https://${host}/api/v4`;
   const token = 'test-token';
   let fetchMock: ReturnType<typeof vi.fn>;
 
@@ -46,12 +47,17 @@ describe('GitLabProvider', () => {
     vi.unstubAllGlobals();
   });
 
-  it('throws if apiUrl or token is missing', () => {
-    expect(() => new GitLabProvider('', token)).toThrow('GitLab API URL is required.');
-    expect(() => new GitLabProvider(apiUrl, '')).toThrow('GitLab access token is required.');
+  it('throws if host and token are both missing', () => {
+    expect(() => new GitLabProvider({ host: '', token })).toThrow('GitLab host is required.');
+    expect(() => new GitLabProvider({ host, token: '' })).toThrow('GitLab access token is required.');
   });
 
-  it('paginates getGroupProjects using the X-Next-Page header', async () => {
+  it('derives the API URL from the host, and the host from an explicit API URL', () => {
+    expect(new GitLabProvider({ host, token }).host).toBe(host);
+    expect(new GitLabProvider({ host: '', token, apiUrl }).host).toBe(host);
+  });
+
+  it('paginates listProjects using the X-Next-Page header', async () => {
     /* eslint-disable camelcase -- GitLab API field names */
     fetchMock
       .mockResolvedValueOnce(
@@ -64,8 +70,8 @@ describe('GitLabProvider', () => {
       );
     /* eslint-enable camelcase */
 
-    const provider = new GitLabProvider(apiUrl, token);
-    const projects = await provider.getGroupProjects('123');
+    const provider = new GitLabProvider({ host, token });
+    const projects = await provider.listProjects('123');
 
     expect(projects).toHaveLength(2);
     expect(projects[0]).toMatchObject({ id: 1, name: 'proj-1', pathWithNamespace: 'group/proj-1' });
@@ -76,8 +82,8 @@ describe('GitLabProvider', () => {
   it('stops pagination when a page returns no results', async () => {
     fetchMock.mockResolvedValueOnce(jsonResponse([]));
 
-    const provider = new GitLabProvider(apiUrl, token);
-    const projects = await provider.getGroupProjects('123');
+    const provider = new GitLabProvider({ host, token });
+    const projects = await provider.listProjects('123');
 
     expect(projects).toHaveLength(0);
     expect(fetchMock).toHaveBeenCalledTimes(1);
@@ -88,7 +94,7 @@ describe('GitLabProvider', () => {
       .mockResolvedValueOnce(jsonResponse('Not Found', { ok: false, status: 404, statusText: 'Not Found' }))
       .mockResolvedValueOnce(jsonResponse('Server Error', { ok: false, status: 500, statusText: 'Server Error' }));
 
-    const provider = new GitLabProvider(apiUrl, token);
+    const provider = new GitLabProvider({ host, token });
 
     await expect(provider.branchExists('123', 'missing-branch')).resolves.toBe(false);
     await expect(provider.branchExists('123', 'other-branch')).rejects.toThrow(/GitLab API error: 500/);
@@ -99,7 +105,7 @@ describe('GitLabProvider', () => {
       jsonResponse('Unauthorized', { ok: false, status: 401, statusText: 'Unauthorized' }),
     );
 
-    const provider = new GitLabProvider(apiUrl, token);
+    const provider = new GitLabProvider({ host, token });
 
     await expect(provider.getFileContent('123', 'sfdx-project.json', 'main')).rejects.toThrow(
       'GitLab API error: 401 Unauthorized - Unauthorized',
@@ -109,7 +115,7 @@ describe('GitLabProvider', () => {
   it('getProjectVariables swallows errors and returns an empty array', async () => {
     fetchMock.mockResolvedValueOnce(jsonResponse('Forbidden', { ok: false, status: 403, statusText: 'Forbidden' }));
 
-    const provider = new GitLabProvider(apiUrl, token);
+    const provider = new GitLabProvider({ host, token });
     const variables = await provider.getProjectVariables('123');
 
     expect(variables).toEqual([]);
@@ -118,20 +124,20 @@ describe('GitLabProvider', () => {
   it('getProjectVariables normalizes key/value pairs', async () => {
     fetchMock.mockResolvedValueOnce(jsonResponse([{ key: 'FOO', value: 'bar' }]));
 
-    const provider = new GitLabProvider(apiUrl, token);
+    const provider = new GitLabProvider({ host, token });
     const variables = await provider.getProjectVariables('123');
 
     expect(variables).toEqual([{ key: 'FOO', value: 'bar', raw: { key: 'FOO', value: 'bar' } }]);
   });
 
   it('builds authenticated remote URLs for push/tag and CI-job clone operations', () => {
-    const provider = new GitLabProvider(apiUrl, token);
+    const provider = new GitLabProvider({ host, token });
 
-    expect(provider.buildAuthenticatedRemoteUrl('gitlab.com', 'access-token', 'group/project')).toBe(
-      'https://oauth2:access-token@gitlab.com/group/project.git',
+    expect(provider.buildAuthenticatedRemoteUrl('access-token', 'group/project')).toBe(
+      `https://oauth2:access-token@${host}/group/project.git`,
     );
-    expect(provider.buildCiCloneUrl('gitlab.com', 'ci-job-token', 'group/project')).toBe(
-      'https://gitlab-ci-token:ci-job-token@gitlab.com/group/project.git',
+    expect(provider.buildCiCloneUrl('ci-job-token', 'group/project')).toBe(
+      `https://gitlab-ci-token:ci-job-token@${host}/group/project.git`,
     );
   });
 
@@ -142,7 +148,7 @@ describe('GitLabProvider', () => {
     );
     /* eslint-enable camelcase */
 
-    const provider = new GitLabProvider(apiUrl, token);
+    const provider = new GitLabProvider({ host, token });
     await provider.createMergeRequest('123', 'a', 'b', 't', 'd');
 
     const [, options] = fetchMock.mock.calls[0] as [string, RequestInit];
@@ -153,7 +159,7 @@ describe('GitLabProvider', () => {
   it('findOpenMergeRequest returns undefined when none are open', async () => {
     fetchMock.mockResolvedValueOnce(jsonResponse([]));
 
-    const provider = new GitLabProvider(apiUrl, token);
+    const provider = new GitLabProvider({ host, token });
     const result = await provider.findOpenMergeRequest('123', 'a', 'b');
 
     expect(result).toBeUndefined();

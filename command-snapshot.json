@@ -252,7 +252,9 @@
       "instance-url",
       "json",
       "jwt-key-file",
-      "username"
+      "username",
+      "vcs-host",
+      "vcs-provider"
     ],
     "plugin": "@simplysf/simply-cicd"
   },
@@ -434,7 +436,9 @@
       "json",
       "jwt-key-file",
       "subscriber-package-version-id",
-      "username"
+      "username",
+      "vcs-host",
+      "vcs-provider"
     ],
     "plugin": "@simplysf/simply-cicd"
   },
@@ -544,7 +548,9 @@
       "test-level",
       "test-suite",
       "tests",
-      "username"
+      "username",
+      "vcs-host",
+      "vcs-provider"
     ],
     "plugin": "@simplysf/simply-cicd"
   },
