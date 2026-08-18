@@ -338,3 +338,7 @@ In this example: `MyDependency` was already at the target version, so it was ski
 | `ExistingSubscriberPackageVersionId` | `string` | The `SubscriberPackageVersionId` already installed in the org for this package, or `""` if none was. |
 | `SubscriberPackageVersionId`         | `string` | The `SubscriberPackageVersionId` this command attempted to install.                                  |
 | `Status`                             | `string` | `""`, `"Skipped"`, `"Installing"`, `"Installed"`, or `"Failed"`.                                     |
+
+## License
+
+Licensed under the [Apache-2.0](https://raw.githubusercontent.com/SimplySF/simply-node/main/LICENSE.txt) license.
