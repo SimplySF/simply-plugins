@@ -86,7 +86,7 @@
     "readme": "oclif readme --no-aliases",
     "test": "wireit",
     "test:coverage": "vitest run --coverage --project simply-cicd",
-    "test:nuts": "vitest run --config vitest.nuts.config.ts --project simply-cicd",
+    "test:nuts": "vitest run --config ../../vitest.nuts.config.ts --project simply-cicd",
     "test:only": "wireit",
     "test:watch": "vitest watch --project simply-cicd"
   },
