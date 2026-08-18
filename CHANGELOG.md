@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-cicd%400.4.2...%40simplysf%2Fsimply-cicd%400.5.0) (2026-08-18)
+
+- refactor(cicd)!: abstract the issue tracker behind an AlmProvider ([06423e2](https://github.com/SimplySF/simply-node/commit/06423e2d17ba945818c57a5547a4f467180dabba)), closes [#123](https://github.com/SimplySF/simply-node/issues/123)
+- refactor(cicd)!: make sfdx-dependabot provider-neutral ([6cb7742](https://github.com/SimplySF/simply-node/commit/6cb77429d9beee15d918c036bd520df875e6fccd))
+
+### Features
+
+- **cicd:** add a GitHub VCS provider ([d1e7e34](https://github.com/SimplySF/simply-node/commit/d1e7e34cdbd7c02ae66e38fc08620415b877e13a))
+
+### BREAKING CHANGES
+
+- notify project's --jira-base-url and --jira-project-key
+  flags are renamed to --alm-base-url and --alm-project-key, along with
+  their SIMPLY_CICD_* environment variables. No aliases are kept.
+  The .sfdevrc.json jiraProjectKey/jiraProjectKeys fields are NOT breaking
+  — they still work, with a deprecation warning.
+- sfdx-dependabot's --gitlab-api-url, --gitlab-token, and
+  --mr-labels flags are renamed to --vcs-api-url, --vcs-token, and
+  --change-request-labels, along with their SIMPLY_CICD_* and
+  SFDX_DEPENDABOT_* environment variables. No aliases are kept; pipelines
+  invoking this command must be updated.
+
 ## [0.4.2](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-cicd%400.4.1...%40simplysf%2Fsimply-cicd%400.4.2) (2026-08-18)
 
 **Note:** Version bump only for package @simplysf/simply-cicd
