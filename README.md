@@ -170,3 +170,7 @@ The `--config` flag on `sf simply permissions build` takes the path to a JSON fi
 | `recordTypeVisibilities` | `Record<string, RecordTypeVisibility>` | `Object.RecordType` API name | Overrides record type visibility. Fields: `visible` (optional boolean). Only applied when `--include-record-types` is also passed.                       |
 | `userPermissions`        | `Record<string, boolean>`              | User permission API name     | Enables (`true`) or disables (`false`) individual user permissions.                                                                                      |
 | `hasActivationRequired`  | `boolean`                              | —                            | Whether the generated permission set requires activation before it grants access. Defaults to `false`.                                                   |
+
+## License
+
+Licensed under the [Apache-2.0](https://raw.githubusercontent.com/SimplySF/simply-node/main/LICENSE.txt) license.
