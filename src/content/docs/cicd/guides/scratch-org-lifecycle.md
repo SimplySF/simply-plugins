@@ -3,7 +3,7 @@ title: Scratch org build lifecycle
 description: create-scratch through cleanup-scratch-orgs — the commands behind a CI-driven scratch org build/test cycle.
 ---
 
-The `build` topic's scratch-org commands form a linear lifecycle, each reading state the previous one wrote to a JSON file in the job's working directory — so they need to run as ordered stages sharing a workspace (or artifacts) within one CI pipeline, not independently.
+The `build` topic's scratch-org commands form a linear lifecycle, each reading state the previous one wrote to a JSON file in the job's working directory — so they need to run as ordered stages sharing a workspace (or artifacts) within one CI pipeline, not independently. Several steps below also read `sfdx-project.json` fields specific to `simply-cicd` — see [sfdx-project.json fields simply-cicd reads](/cicd/concepts/sfdx-project-fields/) for the full set and their exact shape.
 
 ## The lifecycle
 

@@ -16,7 +16,7 @@ Both [`deploy project`](/cicd/reference/deploy-project/) and [`deploy happy-soup
 
 Project deployments also have a standalone **`run-apex-tests`** command, run separately from `deploy-unpackaged`, since a project's Apex tests live inside the installed package rather than being triggered inline.
 
-Every `bin/*.sh` script is optional — a stage with no matching script for a given repo is effectively a no-op for that repo. This is what makes the same `simply-cicd` pipeline reusable across projects with very different deployment needs: the CLI provides the orchestration (auth, config resolution, per-app selection, progress tracking, resuming); your repo provides the actual deployment logic in shell scripts it owns.
+Every `bin/*.sh` script is optional — a stage with no matching script for a given repo is effectively a no-op for that repo. This is what makes the same `simply-cicd` pipeline reusable across projects with very different deployment needs: the CLI provides the orchestration (auth, config resolution, per-app selection, progress tracking, resuming); your repo provides the actual deployment logic in shell scripts it owns. See [The bin/*.sh stage script contract](/cicd/concepts/stage-scripts/) for exactly how those scripts are invoked — arguments, working directory, and environment.
 
 ## State lives in files, not in command chaining
 

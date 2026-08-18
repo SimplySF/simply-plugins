@@ -45,7 +45,24 @@ There's exactly one deploy config path per environment (`config/deploy.json` by 
 
   `slug` is the VCS project path `simply-cicd` clones fresh for that deployment (skipped for the reserved name `local`, since that always means "this repo, already checked out" — the same mechanism a project pipeline uses internally for its one implicit deployment). `ref` pins a branch/tag to check out; if omitted, `simply-cicd` first tries to deduce a version tag from this deployment's own dependency entry in `sfdx-project.json` (a `"<name>@<version>"` dependency resolves to git tag `v<version>`), and only falls back to the repo's default branch if that lookup finds nothing. Each of the four boolean stage flags controls **only** whether that named deployment participates in that specific stage — `reporting-app` above only ever runs its unpackaged deploy, never pre/post-destructive or post-deploy.
 
-- An optional **`deploy-rules.json`** enforces minimums on top of that — e.g. "the `production` deployment must include a `postDeploy` stage" — by matching rules against a deployment's `name` or `slug` and listing `requireStages`. `deploy *validate` fails the pipeline if a deployment config violates a rule, rather than silently letting someone ship an environment missing a required stage.
+- An optional **`deploy-rules.json`** enforces minimums on top of that. Each entry in its `rules` array matches a `deployments[]` entry by `deploymentName` or `deploymentSlug` (at least one of the two is required) and lists `requireStages` — the stage flags (`unpackagedDeploy`, `preDestructive`, `postDestructive`, `postDeploy`) that matched deployment must have set to `true`:
+
+  ```json
+  {
+    "rules": [
+      {
+        "deploymentName": "billing-app",
+        "requireStages": ["postDeploy"]
+      },
+      {
+        "deploymentSlug": "org/reporting-app",
+        "requireStages": ["unpackagedDeploy", "postDestructive"]
+      }
+    ]
+  }
+  ```
+
+  `deploy *validate` fails the pipeline if a deployment config violates a rule, rather than silently letting someone ship an environment missing a required stage.
 
 ### Branches pick the config file, deployments-close-out archives it
 
