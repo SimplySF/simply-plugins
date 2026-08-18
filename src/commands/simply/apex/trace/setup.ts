@@ -15,8 +15,9 @@
  */
 
 import { Messages } from '@salesforce/core';
-import { SfCommand } from '@salesforce/sf-plugins-core';
+import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { requireConnection, targetOrgFlags } from '@simplysf/simply-plugin-kit';
+import { escapeSoqlLiteral } from '@simplysf/simply-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-apex', 'simply.apex.trace.setup');
@@ -25,8 +26,16 @@ const messages = Messages.loadMessages('@simplysf/simply-apex', 'simply.apex.tra
 const DEBUG_LEVEL_NAME = 'ReplayDebuggerLevels';
 /** How long a configured trace flag stays active before expiring, in milliseconds (24 hours). */
 const TRACE_DURATION_MS = 24 * 60 * 60 * 1000;
+/**
+ * Matches `Field:Value` for `--on-behalf-of`. The field name is restricted to safe SOQL
+ * identifier characters since, unlike the value, it can't be quoted/escaped in the query.
+ */
+const ON_BEHALF_OF_PATTERN = /^([A-Za-z_][A-Za-z0-9_]*):(.+)$/;
 
-/** IDs of the debug level and trace flag configured for the running user, and when it expires. */
+/** A `Field:Value` pair identifying the user to configure the trace flag for. */
+type OnBehalfOf = { field: string; value: string };
+
+/** IDs of the debug level and trace flag configured for the target user, and when it expires. */
 export type ApexTraceSetupResult = {
   userId: string;
   debugLevelId: string;
@@ -35,8 +44,9 @@ export type ApexTraceSetupResult = {
 };
 
 /**
- * Creates or updates a 24-hour DEVELOPER_LOG trace flag for the user running the command, using
- * a FINEST/FINER debug level suitable for the Apex Replay Debugger.
+ * Creates or updates a 24-hour DEVELOPER_LOG trace flag for the target user, using a
+ * FINEST/FINER debug level suitable for the Apex Replay Debugger. The target user is the one
+ * running the command by default, or the user identified by `--on-behalf-of` if provided.
  */
 export default class ApexTraceSetup extends SfCommand<ApexTraceSetupResult> {
   public static readonly summary = messages.getMessage('summary');
@@ -46,6 +56,22 @@ export default class ApexTraceSetup extends SfCommand<ApexTraceSetupResult> {
   public static readonly flags = {
     ...SfCommand.baseFlags,
     ...targetOrgFlags,
+    'on-behalf-of': Flags.custom<OnBehalfOf>({
+      // eslint-disable-next-line @typescript-eslint/require-await
+      parse: async (input) => {
+        const match = ON_BEHALF_OF_PATTERN.exec(input);
+
+        if (!match) {
+          throw messages.createError('error.invalidOnBehalfOf', [input]);
+        }
+
+        const [, field, value] = match;
+        return { field, value };
+      },
+    })({
+      summary: messages.getMessage('flags.on-behalf-of.summary'),
+      description: messages.getMessage('flags.on-behalf-of.description'),
+    }),
   };
 
   /**
@@ -57,14 +83,22 @@ export default class ApexTraceSetup extends SfCommand<ApexTraceSetupResult> {
 
     const targetOrgConnection = requireConnection(flags);
 
+    const onBehalfOf = flags['on-behalf-of'];
+    const userFilterField = onBehalfOf?.field ?? 'Username';
+    const userFilterValue = onBehalfOf?.value ?? targetOrgConnection.getUsername() ?? '';
+    const userIdentifier = onBehalfOf ? `${onBehalfOf.field}:${onBehalfOf.value}` : userFilterValue;
+
     this.spinner.start(messages.getMessage('info.findingUser'));
-    const username = targetOrgConnection.getUsername() ?? '';
     const userQueryResult = await targetOrgConnection.query<{ Id: string }>(
-      `SELECT Id FROM User WHERE Username = '${username}'`,
+      `SELECT Id FROM User WHERE ${userFilterField} = '${escapeSoqlLiteral(userFilterValue)}' LIMIT 2`,
     );
 
     if (userQueryResult.records.length === 0) {
-      throw messages.createError('error.userNotFound', [username]);
+      throw messages.createError('error.userNotFound', [userIdentifier]);
+    }
+
+    if (userQueryResult.records.length > 1) {
+      throw messages.createError('error.ambiguousOnBehalfOf', [userIdentifier]);
     }
 
     const userId = userQueryResult.records[0].Id;
