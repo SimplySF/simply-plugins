@@ -20,7 +20,7 @@
     "command": "simply:apex:trace:setup",
     "flagAliases": [],
     "flagChars": ["o"],
-    "flags": ["api-version", "flags-dir", "json", "target-org"],
+    "flags": ["api-version", "flags-dir", "json", "on-behalf-of", "target-org"],
     "plugin": "@simplysf/simply-apex"
   },
   {
