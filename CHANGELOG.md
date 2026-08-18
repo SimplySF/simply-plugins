@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-apex%401.1.19...%40simplysf%2Fsimply-apex%401.2.0) (2026-08-18)
+
+### Bug Fixes
+
+- **apex:** commit the orchestrator command snapshot for the new purge flags ([7c4c614](https://github.com/SimplySF/simply-node/commit/7c4c614599d39bb5dc219ace94e6e1b461a1e4f5))
+
+### Features
+
+- **apex:** add --use-bulk-api to purge logs through Bulk API v2 ([dc5ecf3](https://github.com/SimplySF/simply-node/commit/dc5ecf3b87e4a782345106d63e058ab2ac06b842))
+
 ## [1.1.19](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-apex%401.1.18...%40simplysf%2Fsimply-apex%401.1.19) (2026-08-18)
 
 ### Bug Fixes
