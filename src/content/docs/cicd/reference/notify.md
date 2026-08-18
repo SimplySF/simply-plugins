@@ -51,11 +51,11 @@ EXAMPLES
   $ sf simply cicd notify happy-soup --after-script --is-final-job --notify-on-completion --ci-job-status success --teams-webhook-url https://outlook.office.com/webhook/... --enabled
 ```
 
-_See code: [lib/commands/simply/cicd/notify/happy-soup.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/notify/happy-soup.js)_
+_See code: [lib/commands/simply/cicd/notify/happy-soup.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/notify/happy-soup.js)_
 
 ## `sf simply cicd notify project`
 
-Send a project deployment notification to Microsoft Teams, with Jira story integration.
+Send a project deployment notification to Microsoft Teams, with issue-tracker integration.
 
 ```
 USAGE
@@ -63,8 +63,8 @@ USAGE
     [--ci-commit-ref-name <value>] [--ci-environment-name <value>] [--ci-job-name <value>] [--ci-job-stage <value>]
     [--ci-job-status <value>] [--ci-pipeline-id <value>] [--ci-pipeline-url <value>] [--ci-project-title <value>]
     [--client-id <value>] [--devhub-tooling-client-id <value>] [--devhub-tooling-instance-url <value>]
-    [--devhub-tooling-username <value>] [--enabled] [--instance-url <value>] [--jira-base-url <value>]
-    [--jira-project-key <value>] [--jwt-key-file <value>] [--prev-installed-package-version <value>]
+    [--devhub-tooling-username <value>] [--enabled] [--instance-url <value>] [--alm-base-url <value>] [--alm-project-key
+    <value>] [--alm-provider gitlab-issues|jira] [--jwt-key-file <value>] [--prev-installed-package-version <value>]
     [--subscriber-package-version-id <value>] [--target-package-version <value>] [--teams-webhook-url <value>...]
     [--username <value>] [--debug]
 
@@ -72,6 +72,16 @@ FLAGS
   --after-script                            Run the after-deployment notification logic.
   --alias=<value>                           [env: SIMPLY_CICD_ALIAS] The target Salesforce org alias to authenticate and
                                             query for the previously installed package version.
+  --alm-base-url=<value>                    [env: SIMPLY_CICD_ALM_BASE_URL] Base URL that an issue reference is appended
+                                            to, e.g. https://jira.example.com/browse for Jira or
+                                            https://gitlab.com/group/project/-/issues for GitLab Issues. References are
+                                            shown without links if not provided.
+  --alm-project-key=<value>                 [env: SIMPLY_CICD_ALM_PROJECT_KEY] Fallback project key(s) used to search
+                                            commit messages for issue references, if none are configured in
+                                            .sfdevrc.json. Only used by prefix-keyed trackers such as Jira.
+  --alm-provider=<option>                   [default: jira, env: SIMPLY_CICD_ALM_PROVIDER] The issue tracker whose
+                                            reference format to look for in commit messages.
+                                            <options: gitlab-issues|jira>
   --before-script                           Run the before-deployment setup logic (resolves and records package
                                             versions).
   --ci-commit-ref-name=<value>              [env: SIMPLY_CICD_CI_COMMIT_REF_NAME] The git branch or tag ref for this
@@ -99,12 +109,6 @@ FLAGS
   --enabled                                 [env: SIMPLY_CICD_ENABLED] Whether the notification is actually sent.
                                             Defaults to false so pipelines can gate this behind their own condition.
   --instance-url=<value>                    [env: SIMPLY_CICD_INSTANCE_URL] Login instance URL for the target org.
-  --jira-base-url=<value>                   [env: SIMPLY_CICD_JIRA_BASE_URL] Base URL for linking a Jira issue key, e.g.
-                                            https://jira.example.com/browse. Story keys are shown without links if not
-                                            provided.
-  --jira-project-key=<value>                [env: SIMPLY_CICD_JIRA_PROJECT_KEY] Fallback Jira project key(s) used to
-                                            search commit messages for story references, if none are configured in
-                                            .sfdevrc.json.
   --jwt-key-file=<value>                    [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file, used for
                                             both the target org and tooling DevHub authentication.
   --prev-installed-package-version=<value>  The previously installed package version. Only needed if re-running
@@ -122,11 +126,11 @@ GLOBAL FLAGS
   --json               Format output as json.
 
 DESCRIPTION
-  Send a project deployment notification to Microsoft Teams, with Jira story integration.
+  Send a project deployment notification to Microsoft Teams, with issue-tracker integration.
 
   Run once with `--before-script` at the start of a deployment pipeline (to record the previously installed and target
   package versions), and once with `--after-script` at the end (to post a success or failure card to Teams, including
-  the Jira stories that shipped between those two versions).
+  the tracked issues that shipped between those two versions).
 
 EXAMPLES
   $ sf simply cicd notify project --before-script --ci-job-stage pre-destructive --alias my-org --username user@example.com --jwt-key-file server.key --client-id abc123 --instance-url https://login.salesforce.com --enabled
@@ -134,7 +138,7 @@ EXAMPLES
   $ sf simply cicd notify project --after-script --ci-job-stage post-destructive --ci-job-status success --teams-webhook-url https://outlook.office.com/webhook/... --enabled
 ```
 
-_See code: [lib/commands/simply/cicd/notify/project.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/notify/project.js)_
+_See code: [lib/commands/simply/cicd/notify/project.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/notify/project.js)_
 
 ## `sf simply cicd notify teams`
 
@@ -166,4 +170,4 @@ EXAMPLES
   $ sf simply cicd notify teams --payload '{"text":"Deployment complete"}' --webhook-url https://outlook.office.com/webhook/... --enabled
 ```
 
-_See code: [lib/commands/simply/cicd/notify/teams.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/notify/teams.js)_
+_See code: [lib/commands/simply/cicd/notify/teams.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/notify/teams.js)_

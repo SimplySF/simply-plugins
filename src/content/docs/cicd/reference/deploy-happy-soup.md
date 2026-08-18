@@ -13,7 +13,7 @@ USAGE
     [--client-id <value>] [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--debug]
     [--deploy-config-file <value>] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--source-branch-name
     <value>] [--start-from <value>] [--test-level <value>] [--test-suite <value>] [--tests <value>] [--vcs-host <value>]
-    [--vcs-provider gitlab]
+    [--vcs-provider github|gitlab]
 
 FLAGS
   --alias=<value>                 [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
@@ -41,11 +41,10 @@ FLAGS
                                   --test-level.
   --tests=<value>                 [env: SIMPLY_CICD_TESTS] Specific Apex tests to run.
   --username=<value>              [env: SIMPLY_CICD_USERNAME] Salesforce username, used for JWT authentication.
-  --vcs-host=<value>              [default: gitlab.com, env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to
-                                  (e.g. gitlab.com).
+  --vcs-host=<value>              [env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to (e.g. gitlab.com).
   --vcs-provider=<option>         [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting platform
                                   to talk to.
-                                  <options: gitlab>
+                                  <options: github|gitlab>
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -61,7 +60,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup deploy-unpackaged --ci-job-token $CI_JOB_TOKEN --alias my-org --source-branch-name release/uat
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/deploy-unpackaged.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/deploy-unpackaged.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/deploy-unpackaged.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/deploy-unpackaged.js)_
 
 ## `sf simply cicd deploy happy-soup deployment-close-out`
 
@@ -72,7 +71,7 @@ USAGE
   $ sf simply cicd deploy happy-soup deployment-close-out --ci-commit-ref-name <value> --ci-pipeline-id <value> --ci-project-path <value>
     --project-access-token <value> [--json] [--flags-dir <value>] [--debug] [--deploy-config-file <value>]
     [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--deploy-release-date <value>] [--source-branch-name
-    <value>] [--vcs-host <value>] [--vcs-provider gitlab]
+    <value>] [--vcs-host <value>] [--vcs-provider github|gitlab]
 
 FLAGS
   --ci-commit-ref-name=<value>    (required) [env: SIMPLY_CICD_CI_COMMIT_REF_NAME] The commit ref (branch) to fetch and
@@ -94,11 +93,10 @@ FLAGS
                                   access, used to push the archive commit.
   --source-branch-name=<value>    [env: SIMPLY_CICD_SOURCE_BRANCH_NAME] The source branch name for the deployment, used
                                   to derive the deployment config file path if --deploy-config-file is not provided.
-  --vcs-host=<value>              [default: gitlab.com, env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to
-                                  (e.g. gitlab.com).
+  --vcs-host=<value>              [env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to (e.g. gitlab.com).
   --vcs-provider=<option>         [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting platform
                                   to talk to.
-                                  <options: gitlab>
+                                  <options: github|gitlab>
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -116,7 +114,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup deployment-close-out --ci-commit-ref-name main --ci-pipeline-id 123 --ci-project-path group/project --project-access-token $PROJECT_ACCESS_TOKEN --deploy-release-date 2026-01-15
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/deployment-close-out.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/deployment-close-out.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/deployment-close-out.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/deployment-close-out.js)_
 
 ## `sf simply cicd deploy happy-soup install-packaged`
 
@@ -125,8 +123,9 @@ Install packaged dependencies into the target org for a happy-soup deployment.
 ```
 USAGE
   $ sf simply cicd deploy happy-soup install-packaged [--json] [--flags-dir <value>] [--alias <value>] [--auth-url <value>] [--client-id <value>]
-    [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--debug] [--deploy-progress-file <value>]
-    [--deploy-rules-file <value>] [--install-type All|Delta|Upgrade]
+    [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--vcs-host <value>] [--vcs-provider
+    github|gitlab] [--debug] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--install-type
+    All|Delta|Upgrade]
 
 FLAGS
   --alias=<value>                 [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
@@ -144,6 +143,10 @@ FLAGS
                                   authentication.
   --jwt-key-file=<value>          [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file.
   --username=<value>              [env: SIMPLY_CICD_USERNAME] Salesforce username, used for JWT authentication.
+  --vcs-host=<value>              [env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to (e.g. gitlab.com).
+  --vcs-provider=<option>         [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting platform
+                                  to talk to.
+                                  <options: github|gitlab>
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -158,7 +161,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup install-packaged --alias my-org
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/install-packaged.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/install-packaged.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/install-packaged.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/install-packaged.js)_
 
 ## `sf simply cicd deploy happy-soup post-deploy`
 
@@ -170,7 +173,7 @@ USAGE
     [--client-id <value>] [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--debug]
     [--deploy-config-file <value>] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--source-branch-name
     <value>] [--start-from <value>] [--test-level <value>] [--test-suite <value>] [--tests <value>] [--vcs-host <value>]
-    [--vcs-provider gitlab]
+    [--vcs-provider github|gitlab]
 
 FLAGS
   --alias=<value>                 [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
@@ -198,11 +201,10 @@ FLAGS
                                   --test-level.
   --tests=<value>                 [env: SIMPLY_CICD_TESTS] Specific Apex tests to run.
   --username=<value>              [env: SIMPLY_CICD_USERNAME] Salesforce username, used for JWT authentication.
-  --vcs-host=<value>              [default: gitlab.com, env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to
-                                  (e.g. gitlab.com).
+  --vcs-host=<value>              [env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to (e.g. gitlab.com).
   --vcs-provider=<option>         [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting platform
                                   to talk to.
-                                  <options: gitlab>
+                                  <options: github|gitlab>
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -218,7 +220,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup post-deploy --ci-job-token $CI_JOB_TOKEN --alias my-org --source-branch-name release/uat
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/post-deploy.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/post-deploy.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/post-deploy.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/post-deploy.js)_
 
 ## `sf simply cicd deploy happy-soup post-destructive`
 
@@ -230,7 +232,7 @@ USAGE
     [--client-id <value>] [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--debug]
     [--deploy-config-file <value>] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--source-branch-name
     <value>] [--start-from <value>] [--test-level <value>] [--test-suite <value>] [--tests <value>] [--vcs-host <value>]
-    [--vcs-provider gitlab]
+    [--vcs-provider github|gitlab]
 
 FLAGS
   --alias=<value>                 [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
@@ -258,11 +260,10 @@ FLAGS
                                   --test-level.
   --tests=<value>                 [env: SIMPLY_CICD_TESTS] Specific Apex tests to run.
   --username=<value>              [env: SIMPLY_CICD_USERNAME] Salesforce username, used for JWT authentication.
-  --vcs-host=<value>              [default: gitlab.com, env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to
-                                  (e.g. gitlab.com).
+  --vcs-host=<value>              [env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to (e.g. gitlab.com).
   --vcs-provider=<option>         [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting platform
                                   to talk to.
-                                  <options: gitlab>
+                                  <options: github|gitlab>
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -278,7 +279,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup post-destructive --ci-job-token $CI_JOB_TOKEN --alias my-org --source-branch-name release/uat
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/post-destructive.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/post-destructive.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/post-destructive.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/post-destructive.js)_
 
 ## `sf simply cicd deploy happy-soup pre-destructive`
 
@@ -290,7 +291,7 @@ USAGE
     [--client-id <value>] [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--debug]
     [--deploy-config-file <value>] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--source-branch-name
     <value>] [--start-from <value>] [--test-level <value>] [--test-suite <value>] [--tests <value>] [--vcs-host <value>]
-    [--vcs-provider gitlab]
+    [--vcs-provider github|gitlab]
 
 FLAGS
   --alias=<value>                 [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
@@ -318,11 +319,10 @@ FLAGS
                                   --test-level.
   --tests=<value>                 [env: SIMPLY_CICD_TESTS] Specific Apex tests to run.
   --username=<value>              [env: SIMPLY_CICD_USERNAME] Salesforce username, used for JWT authentication.
-  --vcs-host=<value>              [default: gitlab.com, env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to
-                                  (e.g. gitlab.com).
+  --vcs-host=<value>              [env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to (e.g. gitlab.com).
   --vcs-provider=<option>         [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting platform
                                   to talk to.
-                                  <options: gitlab>
+                                  <options: github|gitlab>
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -338,7 +338,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup pre-destructive --ci-job-token $CI_JOB_TOKEN --alias my-org --source-branch-name release/uat
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/pre-destructive.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/pre-destructive.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/pre-destructive.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/pre-destructive.js)_
 
 ## `sf simply cicd deploy happy-soup tag-deployment`
 
@@ -350,7 +350,7 @@ USAGE
     --ci-pipeline-url <value> --ci-project-path <value> --project-access-token <value> [--json] [--flags-dir <value>]
     [--alias <value>] [--auth-url <value>] [--client-id <value>] [--instance-url <value>] [--jwt-key-file <value>]
     [--username <value>] [--debug] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--vcs-host <value>]
-    [--vcs-provider gitlab]
+    [--vcs-provider github|gitlab]
 
 FLAGS
   --alias=<value>                         [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
@@ -378,11 +378,11 @@ FLAGS
   --project-access-token=<value>          (required) [env: SIMPLY_CICD_PROJECT_ACCESS_TOKEN] A project access token with
                                           write access, used to push the tag.
   --username=<value>                      [env: SIMPLY_CICD_USERNAME] Salesforce username, used for JWT authentication.
-  --vcs-host=<value>                      [default: gitlab.com, env: SIMPLY_CICD_VCS_HOST] The source-control host to
-                                          talk to (e.g. gitlab.com).
+  --vcs-host=<value>                      [env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to (e.g.
+                                          gitlab.com).
   --vcs-provider=<option>                 [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting
                                           platform to talk to.
-                                          <options: gitlab>
+                                          <options: github|gitlab>
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -399,7 +399,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup tag-deployment --alias my-org --ci-pipeline-id 123 --ci-pipeline-url https://gitlab.example.com/group/project/-/pipelines/123 --ci-project-path group/project --ci-merge-request-iid 45 --ci-merge-request-project-url https://gitlab.example.com/group/project --project-access-token $PROJECT_ACCESS_TOKEN
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/tag-deployment.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/tag-deployment.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/tag-deployment.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/tag-deployment.js)_
 
 ## `sf simply cicd deploy happy-soup validate`
 
@@ -437,4 +437,4 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup validate --deploy-config-file deployment-configs/uat.json --deploy-rules-file config/deploy-rules.json
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/validate.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/validate.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/validate.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/validate.js)_

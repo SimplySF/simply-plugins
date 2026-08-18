@@ -12,7 +12,7 @@ USAGE
   $ sf simply cicd deploy project deploy-unpackaged --ci-job-token <value> [--json] [--flags-dir <value>] [--alias <value>] [--auth-url <value>]
     [--client-id <value>] [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--debug]
     [--deploy-config-file <value>] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--start-from <value>]
-    [--test-level <value>] [--test-suite <value>] [--tests <value>] [--vcs-host <value>] [--vcs-provider gitlab]
+    [--test-level <value>] [--test-suite <value>] [--tests <value>] [--vcs-host <value>] [--vcs-provider github|gitlab]
 
 FLAGS
   --alias=<value>                 [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
@@ -38,11 +38,10 @@ FLAGS
                                   --test-level.
   --tests=<value>                 [env: SIMPLY_CICD_TESTS] Specific Apex tests to run.
   --username=<value>              [env: SIMPLY_CICD_USERNAME] Salesforce username, used for JWT authentication.
-  --vcs-host=<value>              [default: gitlab.com, env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to
-                                  (e.g. gitlab.com).
+  --vcs-host=<value>              [env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to (e.g. gitlab.com).
   --vcs-provider=<option>         [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting platform
                                   to talk to.
-                                  <options: gitlab>
+                                  <options: github|gitlab>
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -58,7 +57,7 @@ EXAMPLES
   $ sf simply cicd deploy project deploy-unpackaged --ci-job-token $CI_JOB_TOKEN --alias my-org
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/project/deploy-unpackaged.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/deploy-unpackaged.js)_
+_See code: [lib/commands/simply/cicd/deploy/project/deploy-unpackaged.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/deploy-unpackaged.js)_
 
 ## `sf simply cicd deploy project install-packaged`
 
@@ -67,9 +66,9 @@ Install packaged dependencies and the project's own package into the target org.
 ```
 USAGE
   $ sf simply cicd deploy project install-packaged --ci-job-token <value> [--json] [--flags-dir <value>] [--alias <value>] [--auth-url <value>]
-    [--client-id <value>] [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--debug]
-    [--deploy-config-file <value>] [--deploy-progress-file <value>] [--deploy-rules-file <value>]
-    [--subscriber-package-version-id <value>] [--install-type All|Delta|Upgrade]
+    [--client-id <value>] [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--vcs-host <value>]
+    [--vcs-provider github|gitlab] [--debug] [--deploy-config-file <value>] [--deploy-progress-file <value>]
+    [--deploy-rules-file <value>] [--subscriber-package-version-id <value>] [--install-type All|Delta|Upgrade]
 
 FLAGS
   --alias=<value>                          [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
@@ -94,6 +93,11 @@ FLAGS
   --subscriber-package-version-id=<value>  The subscriber package version ID (04t...) to install. If not provided, the
                                            ID is looked up from the git tag annotation at HEAD.
   --username=<value>                       [env: SIMPLY_CICD_USERNAME] Salesforce username, used for JWT authentication.
+  --vcs-host=<value>                       [env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to (e.g.
+                                           gitlab.com).
+  --vcs-provider=<option>                  [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting
+                                           platform to talk to.
+                                           <options: github|gitlab>
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -110,7 +114,7 @@ EXAMPLES
   $ sf simply cicd deploy project install-packaged --ci-job-token $CI_JOB_TOKEN --alias my-org
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/project/install-packaged.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/install-packaged.js)_
+_See code: [lib/commands/simply/cicd/deploy/project/install-packaged.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/install-packaged.js)_
 
 ## `sf simply cicd deploy project post-deploy`
 
@@ -121,7 +125,7 @@ USAGE
   $ sf simply cicd deploy project post-deploy --ci-job-token <value> [--json] [--flags-dir <value>] [--alias <value>] [--auth-url <value>]
     [--client-id <value>] [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--debug]
     [--deploy-config-file <value>] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--start-from <value>]
-    [--test-level <value>] [--test-suite <value>] [--tests <value>] [--vcs-host <value>] [--vcs-provider gitlab]
+    [--test-level <value>] [--test-suite <value>] [--tests <value>] [--vcs-host <value>] [--vcs-provider github|gitlab]
 
 FLAGS
   --alias=<value>                 [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
@@ -147,11 +151,10 @@ FLAGS
                                   --test-level.
   --tests=<value>                 [env: SIMPLY_CICD_TESTS] Specific Apex tests to run.
   --username=<value>              [env: SIMPLY_CICD_USERNAME] Salesforce username, used for JWT authentication.
-  --vcs-host=<value>              [default: gitlab.com, env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to
-                                  (e.g. gitlab.com).
+  --vcs-host=<value>              [env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to (e.g. gitlab.com).
   --vcs-provider=<option>         [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting platform
                                   to talk to.
-                                  <options: gitlab>
+                                  <options: github|gitlab>
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -167,7 +170,7 @@ EXAMPLES
   $ sf simply cicd deploy project post-deploy --ci-job-token $CI_JOB_TOKEN --alias my-org
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/project/post-deploy.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/post-deploy.js)_
+_See code: [lib/commands/simply/cicd/deploy/project/post-deploy.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/post-deploy.js)_
 
 ## `sf simply cicd deploy project post-destructive`
 
@@ -178,7 +181,7 @@ USAGE
   $ sf simply cicd deploy project post-destructive --ci-job-token <value> [--json] [--flags-dir <value>] [--alias <value>] [--auth-url <value>]
     [--client-id <value>] [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--debug]
     [--deploy-config-file <value>] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--start-from <value>]
-    [--test-level <value>] [--test-suite <value>] [--tests <value>] [--vcs-host <value>] [--vcs-provider gitlab]
+    [--test-level <value>] [--test-suite <value>] [--tests <value>] [--vcs-host <value>] [--vcs-provider github|gitlab]
 
 FLAGS
   --alias=<value>                 [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
@@ -204,11 +207,10 @@ FLAGS
                                   --test-level.
   --tests=<value>                 [env: SIMPLY_CICD_TESTS] Specific Apex tests to run.
   --username=<value>              [env: SIMPLY_CICD_USERNAME] Salesforce username, used for JWT authentication.
-  --vcs-host=<value>              [default: gitlab.com, env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to
-                                  (e.g. gitlab.com).
+  --vcs-host=<value>              [env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to (e.g. gitlab.com).
   --vcs-provider=<option>         [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting platform
                                   to talk to.
-                                  <options: gitlab>
+                                  <options: github|gitlab>
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -224,7 +226,7 @@ EXAMPLES
   $ sf simply cicd deploy project post-destructive --ci-job-token $CI_JOB_TOKEN --alias my-org
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/project/post-destructive.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/post-destructive.js)_
+_See code: [lib/commands/simply/cicd/deploy/project/post-destructive.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/post-destructive.js)_
 
 ## `sf simply cicd deploy project pre-destructive`
 
@@ -235,7 +237,7 @@ USAGE
   $ sf simply cicd deploy project pre-destructive --ci-job-token <value> [--json] [--flags-dir <value>] [--alias <value>] [--auth-url <value>]
     [--client-id <value>] [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--debug]
     [--deploy-config-file <value>] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--start-from <value>]
-    [--test-level <value>] [--test-suite <value>] [--tests <value>] [--vcs-host <value>] [--vcs-provider gitlab]
+    [--test-level <value>] [--test-suite <value>] [--tests <value>] [--vcs-host <value>] [--vcs-provider github|gitlab]
 
 FLAGS
   --alias=<value>                 [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
@@ -261,11 +263,10 @@ FLAGS
                                   --test-level.
   --tests=<value>                 [env: SIMPLY_CICD_TESTS] Specific Apex tests to run.
   --username=<value>              [env: SIMPLY_CICD_USERNAME] Salesforce username, used for JWT authentication.
-  --vcs-host=<value>              [default: gitlab.com, env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to
-                                  (e.g. gitlab.com).
+  --vcs-host=<value>              [env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to (e.g. gitlab.com).
   --vcs-provider=<option>         [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting platform
                                   to talk to.
-                                  <options: gitlab>
+                                  <options: github|gitlab>
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -281,7 +282,7 @@ EXAMPLES
   $ sf simply cicd deploy project pre-destructive --ci-job-token $CI_JOB_TOKEN --alias my-org
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/project/pre-destructive.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/pre-destructive.js)_
+_See code: [lib/commands/simply/cicd/deploy/project/pre-destructive.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/pre-destructive.js)_
 
 ## `sf simply cicd deploy project run-apex-tests`
 
@@ -290,9 +291,9 @@ Run Apex tests against the target org for a project deployment.
 ```
 USAGE
   $ sf simply cicd deploy project run-apex-tests --ci-job-token <value> [--json] [--flags-dir <value>] [--alias <value>] [--auth-url <value>]
-    [--client-id <value>] [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--debug]
-    [--deploy-config-file <value>] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--start-from <value>]
-    [--test-level <value>] [--test-suite <value>] [--tests <value>]
+    [--client-id <value>] [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--vcs-host <value>]
+    [--vcs-provider github|gitlab] [--debug] [--deploy-config-file <value>] [--deploy-progress-file <value>]
+    [--deploy-rules-file <value>] [--start-from <value>] [--test-level <value>] [--test-suite <value>] [--tests <value>]
 
 FLAGS
   --alias=<value>                 [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
@@ -318,6 +319,10 @@ FLAGS
                                   --test-level.
   --tests=<value>                 [env: SIMPLY_CICD_TESTS] Specific Apex tests to run.
   --username=<value>              [env: SIMPLY_CICD_USERNAME] Salesforce username, used for JWT authentication.
+  --vcs-host=<value>              [env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to (e.g. gitlab.com).
+  --vcs-provider=<option>         [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting platform
+                                  to talk to.
+                                  <options: github|gitlab>
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -332,7 +337,7 @@ EXAMPLES
   $ sf simply cicd deploy project run-apex-tests --ci-job-token $CI_JOB_TOKEN --alias my-org
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/project/run-apex-tests.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/run-apex-tests.js)_
+_See code: [lib/commands/simply/cicd/deploy/project/run-apex-tests.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/run-apex-tests.js)_
 
 ## `sf simply cicd deploy project validate`
 
@@ -367,4 +372,4 @@ EXAMPLES
   $ sf simply cicd deploy project validate --deploy-config-file config/deploy.json --deploy-rules-file config/deploy-rules.json
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/project/validate.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/validate.js)_
+_See code: [lib/commands/simply/cicd/deploy/project/validate.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/validate.js)_

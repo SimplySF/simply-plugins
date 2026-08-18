@@ -21,4 +21,4 @@ sf plugins install @simplysf/simply-cicd
 
 ## What it doesn't do (yet)
 
-Every command that talks to source control goes through a small `VcsProvider` abstraction (see [VCS providers](/cicd/concepts/vcs-providers/)) — today only GitLab is implemented. The commands, flags, and concepts on this site are written from that GitLab-first reality; a GitHub provider is a planned addition, not a currently-supported one.
+Every command that talks to source control goes through a small `VcsProvider` abstraction (see [VCS providers](/cicd/concepts/vcs-providers/)). GitLab and GitHub are both implemented; `--vcs-provider` selects between them and defaults to `gitlab`. Most examples on this site are written GitLab-first, since that's the more common setup for these pipelines, but the flags and concepts apply to either platform.

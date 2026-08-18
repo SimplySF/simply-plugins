@@ -39,7 +39,7 @@ EXAMPLES
   $ sf simply cicd build cleanup-scratch-orgs --dev-hub-name main --dev-hub-username devhub@example.com --dev-hub-client-id 3MVG9... --dev-hub-instance-url https://login.salesforce.com --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/cleanup-scratch-orgs.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/build/cleanup-scratch-orgs.js)_
+_See code: [lib/commands/simply/cicd/build/cleanup-scratch-orgs.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/build/cleanup-scratch-orgs.js)_
 
 ## `sf simply cicd build create-fallback-tag`
 
@@ -48,8 +48,8 @@ Create a fallback git tag carrying forward the previous package version's ID, fo
 ```
 USAGE
   $ sf simply cicd build create-fallback-tag --ci-commit-ref-name <value> --ci-pipeline-id <value> --ci-project-path <value>
-    --project-access-token <value> [--json] [--flags-dir <value>] [--vcs-host <value>] [--vcs-provider gitlab] [--debug]
-    [--disabled] [--last-tag <value>] [--out <value>]
+    --project-access-token <value> [--json] [--flags-dir <value>] [--vcs-host <value>] [--vcs-provider github|gitlab]
+    [--debug] [--disabled] [--last-tag <value>] [--out <value>]
 
 FLAGS
   --ci-commit-ref-name=<value>    (required) [env: SIMPLY_CICD_CI_COMMIT_REF_NAME] Git branch or ref name being built.
@@ -64,11 +64,10 @@ FLAGS
   --out=<value>                   [default: subscriberPackageVersionId.env] Output dotenv file path.
   --project-access-token=<value>  (required) [env: SIMPLY_CICD_PROJECT_ACCESS_TOKEN] Access token used to authenticate
                                   git remote operations (tagging, pushing).
-  --vcs-host=<value>              [default: gitlab.com, env: SIMPLY_CICD_VCS_HOST] Hostname of the VCS instance hosting
-                                  this project.
+  --vcs-host=<value>              [env: SIMPLY_CICD_VCS_HOST] Hostname of the VCS instance hosting this project.
   --vcs-provider=<option>         [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The VCS platform hosting this
                                   project.
-                                  <options: gitlab>
+                                  <options: github|gitlab>
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -91,7 +90,7 @@ EXAMPLES
   $ sf simply cicd build create-fallback-tag --ci-commit-ref-name main --ci-project-path group/project --project-access-token glpat-... --ci-pipeline-id 123
 ```
 
-_See code: [lib/commands/simply/cicd/build/create-fallback-tag.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/build/create-fallback-tag.js)_
+_See code: [lib/commands/simply/cicd/build/create-fallback-tag.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/build/create-fallback-tag.js)_
 
 ## `sf simply cicd build create-package-version`
 
@@ -102,8 +101,9 @@ USAGE
   $ sf simply cicd build create-package-version --ci-commit-ref-name <value> --ci-pipeline-id <value> --ci-project-path <value>
     --project-access-token <value> --jwt-key-file <value> --ci-commit-sha <value> --ci-pipeline-url <value>
     --devhub-tooling-username <value> --devhub-tooling-client-id <value> --devhub-tooling-instance-url <value> [--json]
-    [--flags-dir <value>] [--vcs-host <value>] [--vcs-provider gitlab] [--debug] [--disabled] [--ci-pipeline-source
-    <value>] [--always-create-package] [--code-coverage-minimum <value>] [--package-release-branch-prefix <value>]
+    [--flags-dir <value>] [--vcs-host <value>] [--vcs-provider github|gitlab] [--debug] [--disabled]
+    [--ci-pipeline-source <value>] [--always-create-package] [--code-coverage-minimum <value>]
+    [--package-release-branch-prefix <value>]
 
 FLAGS
   --always-create-package                  Create a package version even when this isn't a release-branch build.
@@ -137,11 +137,11 @@ FLAGS
                                            package version and how the resulting git tag is named.
   --project-access-token=<value>           (required) [env: SIMPLY_CICD_PROJECT_ACCESS_TOKEN] Access token used to
                                            authenticate git remote operations (tagging, pushing).
-  --vcs-host=<value>                       [default: gitlab.com, env: SIMPLY_CICD_VCS_HOST] Hostname of the VCS instance
-                                           hosting this project.
+  --vcs-host=<value>                       [env: SIMPLY_CICD_VCS_HOST] Hostname of the VCS instance hosting this
+                                           project.
   --vcs-provider=<option>                  [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The VCS platform hosting
                                            this project.
-                                           <options: gitlab>
+                                           <options: github|gitlab>
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -162,7 +162,7 @@ EXAMPLES
   $ sf simply cicd build create-package-version --ci-commit-ref-name main --ci-commit-sha a1b2c3d --ci-pipeline-id 123 --ci-pipeline-url https://gitlab.example.com/pipelines/123 --ci-project-path group/project --project-access-token glpat-... --devhub-tooling-username devhub-tooling@example.com --devhub-tooling-client-id 3MVG9... --devhub-tooling-instance-url https://login.salesforce.com --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/create-package-version.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/build/create-package-version.js)_
+_See code: [lib/commands/simply/cicd/build/create-package-version.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/build/create-package-version.js)_
 
 ## `sf simply cicd build create-scratch`
 
@@ -209,7 +209,7 @@ EXAMPLES
   $ sf simply cicd build create-scratch --dev-hub-name main --dev-hub-username devhub@example.com --dev-hub-client-id 3MVG9... --dev-hub-instance-url https://login.salesforce.com --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/create-scratch.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/build/create-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/create-scratch.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/build/create-scratch.js)_
 
 ## `sf simply cicd build delete-scratch`
 
@@ -251,7 +251,7 @@ EXAMPLES
   $ sf simply cicd build delete-scratch --dev-hub-name main --dev-hub-username devhub@example.com --dev-hub-client-id 3MVG9... --dev-hub-instance-url https://login.salesforce.com --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/delete-scratch.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/build/delete-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/delete-scratch.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/build/delete-scratch.js)_
 
 ## `sf simply cicd build determine-package-changes`
 
@@ -283,87 +283,123 @@ EXAMPLES
   $ sf simply cicd build determine-package-changes --out changes.env
 ```
 
-_See code: [lib/commands/simply/cicd/build/determine-package-changes.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/build/determine-package-changes.js)_
+_See code: [lib/commands/simply/cicd/build/determine-package-changes.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/build/determine-package-changes.js)_
 
 ## `sf simply cicd build generate-flexipage-diff`
 
-Generate a FlexiPage delta between two commits and post the results to the merge request.
+Generate a Flexipage delta between two commits and post the results to the change request.
 
 ```
 USAGE
-  $ sf simply cicd build generate-flexipage-diff --ci-project-id <value> --ci-merge-request-iid <value> --from <value> --to <value>
-    --project-access-token <value> [--json] [--flags-dir <value>] [--out <value>] [--debug] [--disabled]
+  $ sf simply cicd build generate-flexipage-diff --from <value> --to <value> --project-access-token <value> [--json] [--flags-dir <value>]
+    [--vcs-host <value>] [--vcs-provider github|gitlab] [--ci-project-id <value>] [--ci-merge-request-iid <value>]
+    [--ci-repository <value>] [--ci-pull-request-number <value>] [--ci-run-id <value>] [--ci-server-url <value>]
+    [--ci-commit-sha <value>] [--out <value>] [--debug] [--disabled]
 
 FLAGS
-  --ci-merge-request-iid=<value>  (required) [env: SIMPLY_CICD_CI_MERGE_REQUEST_IID] GitLab CI merge request internal
-                                  ID.
-  --ci-project-id=<value>         (required) [env: SIMPLY_CICD_CI_PROJECT_ID] GitLab CI project ID.
-  --debug                         [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
-  --disabled                      [env: SIMPLY_CICD_DISABLED] Skip this job entirely, logging a warning instead of
-                                  running it.
-  --from=<value>                  (required) Base commit SHA to diff from.
-  --out=<value>                   Output directory or file path for the delta results.
-  --project-access-token=<value>  (required) [env: SIMPLY_CICD_PROJECT_ACCESS_TOKEN] Project access token used to post
-                                  the diff results back to the merge request.
-  --to=<value>                    (required) Head commit SHA to diff to.
+  --ci-commit-sha=<value>           [env: SIMPLY_CICD_CI_COMMIT_SHA] Commit SHA to attribute the posted diff to.
+  --ci-merge-request-iid=<value>    [env: SIMPLY_CICD_CI_MERGE_REQUEST_IID] GitLab only: internal ID of the merge
+                                    request to post the diff to.
+  --ci-project-id=<value>           [env: SIMPLY_CICD_CI_PROJECT_ID] GitLab only: numeric CI project ID of the project
+                                    to post the diff to.
+  --ci-pull-request-number=<value>  [env: SIMPLY_CICD_CI_PULL_REQUEST_NUMBER] GitHub only: number of the pull request to
+                                    post the diff to.
+  --ci-repository=<value>           [env: SIMPLY_CICD_CI_REPOSITORY] GitHub only: repository to post the diff to, as
+                                    owner/repo.
+  --ci-run-id=<value>               [env: SIMPLY_CICD_CI_RUN_ID] GitHub only: Actions run ID, used to build links back
+                                    to the run's artifacts.
+  --ci-server-url=<value>           [env: SIMPLY_CICD_CI_SERVER_URL] GitHub only: server URL, for instances other than
+                                    github.com.
+  --debug                           [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
+  --disabled                        [env: SIMPLY_CICD_DISABLED] Skip this job entirely, logging a warning instead of
+                                    running it.
+  --from=<value>                    (required) Base commit SHA to diff from.
+  --out=<value>                     Output directory or file path for the delta results.
+  --project-access-token=<value>    (required) [env: SIMPLY_CICD_PROJECT_ACCESS_TOKEN] Project access token used to post
+                                    the diff results back to the merge request.
+  --to=<value>                      (required) Head commit SHA to diff to.
+  --vcs-host=<value>                [env: SIMPLY_CICD_VCS_HOST] Hostname of the VCS instance hosting this project.
+  --vcs-provider=<option>           [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The VCS platform hosting this
+                                    project.
+                                    <options: github|gitlab>
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
   --json               Format output as json.
 
 DESCRIPTION
-  Generate a FlexiPage delta between two commits and post the results to the merge request.
+  Generate a Flexipage delta between two commits and post the results to the change request.
 
   Runs the upstream `flexipage-delta` binary to diff `**/*.flexipage-meta.xml` files between `--from` and `--to`, then
-  `flexipage-delta-gitlab` to post the results back to the GitLab merge request. Both binaries are GitLab-specific, so
-  this command isn't routed through the VCS provider abstraction. Failures are logged, not thrown — a diff-posting step
-  shouldn't fail the build.
+  the reporter binary for the platform `--vcs-provider` selects — `flexipage-delta-gitlab` or `flexipage-delta-github` —
+  to post the results back to the merge or pull request. Failures are logged, not thrown — a diff-posting step shouldn't
+  fail the build.
 
 EXAMPLES
   $ sf simply cicd build generate-flexipage-diff --ci-project-id 123 --ci-merge-request-iid 45 --from abc123 --to def456 --project-access-token glpat-...
+
+  $ sf simply cicd build generate-flexipage-diff --vcs-provider github --ci-repository my-org/my-repo --ci-pull-request-number 45 --ci-run-id 987 --from abc123 --to def456 --project-access-token ghp-...
 ```
 
-_See code: [lib/commands/simply/cicd/build/generate-flexipage-diff.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flexipage-diff.js)_
+_See code: [lib/commands/simply/cicd/build/generate-flexipage-diff.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flexipage-diff.js)_
 
 ## `sf simply cicd build generate-flow-diff`
 
-Generate a Flow delta between two commits and post the results to the merge request.
+Generate a Flow delta between two commits and post the results to the change request.
 
 ```
 USAGE
-  $ sf simply cicd build generate-flow-diff --ci-project-id <value> --ci-merge-request-iid <value> --from <value> --to <value>
-    --project-access-token <value> [--json] [--flags-dir <value>] [--out <value>] [--debug] [--disabled]
+  $ sf simply cicd build generate-flow-diff --from <value> --to <value> --project-access-token <value> [--json] [--flags-dir <value>]
+    [--vcs-host <value>] [--vcs-provider github|gitlab] [--ci-project-id <value>] [--ci-merge-request-iid <value>]
+    [--ci-repository <value>] [--ci-pull-request-number <value>] [--ci-run-id <value>] [--ci-server-url <value>]
+    [--ci-commit-sha <value>] [--out <value>] [--debug] [--disabled]
 
 FLAGS
-  --ci-merge-request-iid=<value>  (required) [env: SIMPLY_CICD_CI_MERGE_REQUEST_IID] GitLab CI merge request internal
-                                  ID.
-  --ci-project-id=<value>         (required) [env: SIMPLY_CICD_CI_PROJECT_ID] GitLab CI project ID.
-  --debug                         [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
-  --disabled                      [env: SIMPLY_CICD_DISABLED] Skip this job entirely, logging a warning instead of
-                                  running it.
-  --from=<value>                  (required) Base commit SHA to diff from.
-  --out=<value>                   Output directory or file path for the delta results.
-  --project-access-token=<value>  (required) [env: SIMPLY_CICD_PROJECT_ACCESS_TOKEN] Project access token used to post
-                                  the diff results back to the merge request.
-  --to=<value>                    (required) Head commit SHA to diff to.
+  --ci-commit-sha=<value>           [env: SIMPLY_CICD_CI_COMMIT_SHA] Commit SHA to attribute the posted diff to.
+  --ci-merge-request-iid=<value>    [env: SIMPLY_CICD_CI_MERGE_REQUEST_IID] GitLab only: internal ID of the merge
+                                    request to post the diff to.
+  --ci-project-id=<value>           [env: SIMPLY_CICD_CI_PROJECT_ID] GitLab only: numeric CI project ID of the project
+                                    to post the diff to.
+  --ci-pull-request-number=<value>  [env: SIMPLY_CICD_CI_PULL_REQUEST_NUMBER] GitHub only: number of the pull request to
+                                    post the diff to.
+  --ci-repository=<value>           [env: SIMPLY_CICD_CI_REPOSITORY] GitHub only: repository to post the diff to, as
+                                    owner/repo.
+  --ci-run-id=<value>               [env: SIMPLY_CICD_CI_RUN_ID] GitHub only: Actions run ID, used to build links back
+                                    to the run's artifacts.
+  --ci-server-url=<value>           [env: SIMPLY_CICD_CI_SERVER_URL] GitHub only: server URL, for instances other than
+                                    github.com.
+  --debug                           [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
+  --disabled                        [env: SIMPLY_CICD_DISABLED] Skip this job entirely, logging a warning instead of
+                                    running it.
+  --from=<value>                    (required) Base commit SHA to diff from.
+  --out=<value>                     Output directory or file path for the delta results.
+  --project-access-token=<value>    (required) [env: SIMPLY_CICD_PROJECT_ACCESS_TOKEN] Project access token used to post
+                                    the diff results back to the merge request.
+  --to=<value>                      (required) Head commit SHA to diff to.
+  --vcs-host=<value>                [env: SIMPLY_CICD_VCS_HOST] Hostname of the VCS instance hosting this project.
+  --vcs-provider=<option>           [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The VCS platform hosting this
+                                    project.
+                                    <options: github|gitlab>
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
   --json               Format output as json.
 
 DESCRIPTION
-  Generate a Flow delta between two commits and post the results to the merge request.
+  Generate a Flow delta between two commits and post the results to the change request.
 
-  Runs the upstream `flow-delta` binary to diff `**/*.flow-meta.xml` files between `--from` and `--to`, then
-  `flow-delta-gitlab` to post the results back to the GitLab merge request. Both binaries are GitLab-specific, so this
-  command isn't routed through the VCS provider abstraction. Failures are logged, not thrown — a diff-posting step
-  shouldn't fail the build.
+  Runs the upstream `flow-delta` binary to diff `**/*.flow-meta.xml` files between `--from` and `--to`, then the
+  reporter binary for the platform `--vcs-provider` selects — `flow-delta-gitlab` or `flow-delta-github` — to post the
+  results back to the merge or pull request. Failures are logged, not thrown — a diff-posting step shouldn't fail the
+  build.
 
 EXAMPLES
   $ sf simply cicd build generate-flow-diff --ci-project-id 123 --ci-merge-request-iid 45 --from abc123 --to def456 --project-access-token glpat-...
+
+  $ sf simply cicd build generate-flow-diff --vcs-provider github --ci-repository my-org/my-repo --ci-pull-request-number 45 --ci-run-id 987 --from abc123 --to def456 --project-access-token ghp-...
 ```
 
-_See code: [lib/commands/simply/cicd/build/generate-flow-diff.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flow-diff.js)_
+_See code: [lib/commands/simply/cicd/build/generate-flow-diff.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flow-diff.js)_
 
 ## `sf simply cicd build install-dependencies`
 
@@ -398,7 +434,7 @@ EXAMPLES
   $ sf simply cicd build install-dependencies --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/install-dependencies.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/build/install-dependencies.js)_
+_See code: [lib/commands/simply/cicd/build/install-dependencies.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/build/install-dependencies.js)_
 
 ## `sf simply cicd build lwc-jest`
 
@@ -426,7 +462,7 @@ EXAMPLES
   $ sf simply cicd build lwc-jest
 ```
 
-_See code: [lib/commands/simply/cicd/build/lwc-jest.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/build/lwc-jest.js)_
+_See code: [lib/commands/simply/cicd/build/lwc-jest.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/build/lwc-jest.js)_
 
 ## `sf simply cicd build push-scratch`
 
@@ -465,7 +501,7 @@ EXAMPLES
   $ sf simply cicd build push-scratch --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/push-scratch.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/build/push-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/push-scratch.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/build/push-scratch.js)_
 
 ## `sf simply cicd build test-scratch`
 
@@ -499,4 +535,4 @@ EXAMPLES
   $ sf simply cicd build test-scratch --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/test-scratch.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.2.3/packages/simply-cicd/lib/commands/simply/cicd/build/test-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/test-scratch.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/build/test-scratch.js)_
