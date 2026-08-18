@@ -17,7 +17,7 @@
 import { Connection, SfError } from '@salesforce/core';
 import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
 import { escapeSoqlLiteral } from '@simplysf/simply-core';
-import type { SinonStub } from 'sinon';
+import sinon, { type SinonStub } from 'sinon';
 import { afterEach, beforeAll, describe, expect, it } from 'vitest';
 import ApexTraceSetup from '../../../../../src/commands/simply/apex/trace/setup.js';
 
@@ -80,7 +80,7 @@ function decodedQuery(request: CapturedRequest): string {
 }
 
 describe('simply apex trace setup', () => {
-  const $$ = new TestContext();
+  const $$ = new TestContext({ sinon });
   const testOrg = new MockTestOrgData();
 
   beforeAll(async () => {
