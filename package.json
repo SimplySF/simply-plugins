@@ -61,6 +61,7 @@
     "@salesforce/sf-plugins-core": "^12.2.16",
     "@salesforce/source-deploy-retrieve": "^12.37.2",
     "@simplysf/simply-core": "workspace:^1.1.13",
+    "@simplysf/simply-report": "workspace:^1.0.0",
     "csv-parse": "^7.0.2",
     "exceljs": "^4.4.0",
     "fast-xml-builder": "^1.3.0",
