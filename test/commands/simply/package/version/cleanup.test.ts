@@ -17,6 +17,7 @@
 import { SfError } from '@salesforce/core';
 import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
 import { Package, PackageVersion, PackageVersionListResult } from '@salesforce/packaging';
+import sinon from 'sinon';
 import { afterEach, beforeAll, describe, expect, it } from 'vitest';
 import { PackageVersionCleanupResult } from '../../../../../src/commands/simply/package/version/cleanup.js';
 import PackageVersionCleanup from '../../../../../src/commands/simply/package/version/cleanup.js';
@@ -152,7 +153,7 @@ const packageVersion0202ListResult: PackageVersionListResult = {
 };
 
 describe('simply package version cleanup', () => {
-  const $$ = new TestContext();
+  const $$ = new TestContext({ sinon });
   const testOrg = new MockTestOrgData();
 
   beforeAll(async () => {

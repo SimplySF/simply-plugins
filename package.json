@@ -100,7 +100,7 @@
     "readme": "oclif readme --no-aliases",
     "test": "wireit",
     "test:coverage": "vitest run --coverage --project simply-package",
-    "test:nuts": "vitest run --config vitest.nuts.config.ts --project simply-package",
+    "test:nuts": "vitest run --config ../../vitest.nuts.config.ts --project simply-package",
     "test:only": "wireit",
     "test:watch": "vitest watch --project simply-package"
   },

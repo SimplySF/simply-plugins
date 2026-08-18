@@ -21,6 +21,7 @@ import path from 'node:path';
 import { NamedPackageDir, SfProject } from '@salesforce/core';
 import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
 import { InstalledPackages, PackagingSObjects, SubscriberPackageVersion, VersionNumber } from '@salesforce/packaging';
+import sinon from 'sinon';
 import { afterEach, beforeAll, describe, expect, it } from 'vitest';
 import PackageDependenciesInstall from '../../../../../src/commands/simply/package/dependencies/install.js';
 
@@ -80,7 +81,7 @@ function buildMockPackageDirectories(dependencyIds: string[]): NamedPackageDir[]
 }
 
 describe('simply package dependencies install', () => {
-  const $$ = new TestContext();
+  const $$ = new TestContext({ sinon });
   const testOrg = new MockTestOrgData();
 
   beforeAll(async () => {

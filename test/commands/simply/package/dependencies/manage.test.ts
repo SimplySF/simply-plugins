@@ -17,6 +17,7 @@
 import { Connection, NamedPackageDir, SfError, SfProject } from '@salesforce/core';
 import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
 import { Package, PackageVersionListResult } from '@salesforce/packaging';
+import sinon from 'sinon';
 import { afterEach, beforeAll, describe, expect, it } from 'vitest';
 import PackageDependenciesManage from '../../../../../src/commands/simply/package/dependencies/manage.js';
 
@@ -105,7 +106,7 @@ function buildMockProjectJson(contents = mockProjectContents) {
 }
 
 describe('simply package dependencies manage', () => {
-  const $$ = new TestContext();
+  const $$ = new TestContext({ sinon });
   const testOrg = new MockTestOrgData();
   testOrg.isDevHub = true;
 
