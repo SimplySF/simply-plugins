@@ -5,7 +5,7 @@ description: Commands for Salesforce CI/CD pipelines — orchestrating scratch-o
 
 `@simplysf/simply-cicd` is an [oclif](https://oclif.io/) plugin for the [Salesforce CLI](https://developer.salesforce.com/tools/salesforcecli) that provides the building blocks for a Salesforce CI/CD pipeline: creating and tearing down scratch orgs, creating and validating 2GP package versions, running multi-stage deployments, and posting pipeline notifications to Microsoft Teams (with issue-tracker linking).
 
-It's a successor to an internal tool (`coi-cicd`), rebuilt as a proper `sf` plugin under the `sf simply cicd` topic — same pipeline model, now installable via `sf plugins install` like any other Salesforce CLI plugin, with full `--help` output and JSON support on every command.
+It's a proper `sf` plugin under the `sf simply cicd` topic, installable via `sf plugins install` like any other Salesforce CLI plugin, with full `--help` output and JSON support on every command.
 
 ## Install
 
