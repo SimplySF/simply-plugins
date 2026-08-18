@@ -201,3 +201,7 @@ FLAG DESCRIPTIONS
 
 _See code: [lib/commands/simply/apex/trace/silence.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.1.18/packages/simply-apex/lib/commands/simply/apex/trace/silence.js)_
 <!-- commandsstop -->
+
+## License
+
+Licensed under the [Apache-2.0](https://raw.githubusercontent.com/SimplySF/simply-node/main/LICENSE.txt) license.
