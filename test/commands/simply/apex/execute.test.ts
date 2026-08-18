@@ -20,11 +20,12 @@ import path from 'node:path';
 import { ExecuteAnonymousResponse, ExecuteService } from '@salesforce/apex-node';
 import { SfError } from '@salesforce/core';
 import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
+import sinon from 'sinon';
 import { afterEach, beforeAll, describe, expect, it } from 'vitest';
 import ApexExecute from '../../../../src/commands/simply/apex/execute.js';
 
 describe('simply apex execute', () => {
-  const $$ = new TestContext();
+  const $$ = new TestContext({ sinon });
   const testOrg = new MockTestOrgData();
 
   beforeAll(async () => {

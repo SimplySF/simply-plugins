@@ -92,7 +92,7 @@
     "readme": "oclif readme --no-aliases",
     "test": "wireit",
     "test:coverage": "vitest run --coverage --project simply-apex",
-    "test:nuts": "vitest run --config vitest.nuts.config.ts --project simply-apex",
+    "test:nuts": "vitest run --config ../../vitest.nuts.config.ts --project simply-apex",
     "test:only": "wireit",
     "test:watch": "vitest watch --project simply-apex"
   },
