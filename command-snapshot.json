@@ -11,16 +11,16 @@
     "alias": [],
     "command": "simply:apex:logs:purge",
     "flagAliases": [],
-    "flagChars": ["o", "w"],
-    "flags": ["api-version", "flags-dir", "json", "target-org", "where"],
+    "flagChars": ["b", "o", "w"],
+    "flags": ["api-version", "flags-dir", "json", "target-org", "use-bulk-api", "wait", "where"],
     "plugin": "@simplysf/simply-apex"
   },
   {
     "alias": [],
     "command": "simply:apex:trace:setup",
     "flagAliases": [],
-    "flagChars": ["o", "u"],
-    "flags": ["api-version", "end-date", "flags-dir", "json", "log-level", "start-date", "target-org", "user-id"],
+    "flagChars": ["o"],
+    "flags": ["api-version", "end-date", "flags-dir", "json", "on-behalf-of", "log-level", "start-date", "target-org"],
     "plugin": "@simplysf/simply-apex"
   },
   {

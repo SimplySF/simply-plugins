@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.3](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply%402.12.2...%40simplysf%2Fsimply%402.12.3) (2026-08-18)
+
+### Bug Fixes
+
+- **apex:** update simply command-snapshot for --on-behalf-of flag ([96c5976](https://github.com/SimplySF/simply-node/commit/96c5976399c3fd7441af654e69f1c3c24ab31b23))
+
+## [2.12.2](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply%402.12.1...%40simplysf%2Fsimply%402.12.2) (2026-08-18)
+
+### Bug Fixes
+
+- **apex:** commit the orchestrator command snapshot for the new purge flags ([7c4c614](https://github.com/SimplySF/simply-node/commit/7c4c614599d39bb5dc219ace94e6e1b461a1e4f5))
+
+## [2.12.1](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply%402.12.0...%40simplysf%2Fsimply%402.12.1) (2026-08-18)
+
+**Note:** Version bump only for package @simplysf/simply
+
 # [2.12.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply%402.11.5...%40simplysf%2Fsimply%402.12.0) (2026-08-18)
 
 ### Features

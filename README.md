@@ -12,6 +12,10 @@ sf plugins install @simplysf/simply
 
 Please report any issues at https://github.com/SimplySF/simply-node/issues
 
+## Contributing
+
+This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/simply-node) monorepo. See [CONTRIBUTING.md](CONTRIBUTING.md) for what's specific to this package, and the repo's [root CONTRIBUTING.md](https://github.com/SimplySF/simply-node/blob/main/CONTRIBUTING.md) for repo structure, setup, commit conventions, and how to submit a pull request. Please also read our [Code of Conduct](https://github.com/SimplySF/simply-node/blob/main/CODE_OF_CONDUCT.md).
+
 ## Commands
 
 <!-- commands -->
@@ -80,13 +84,16 @@ Purge Apex debug logs.
 
 ```
 USAGE
-  $ sf simply apex logs purge -o <value> [--json] [--flags-dir <value>] [--api-version <value>] [-w <value>]
+  $ sf simply apex logs purge -o <value> [--json] [--flags-dir <value>] [--api-version <value>] [-w <value>] [-b] [--wait
+    <value>]
 
 FLAGS
+  -b, --use-bulk-api         Use Bulk API v2 to query and delete the logs.
   -o, --target-org=<value>   (required) Username or alias of the target org. Not required if the `target-org`
                              configuration variable is already set.
   -w, --where=<value>        SOQL WHERE clause
       --api-version=<value>  Override the api version used for api requests made by this command
+      --wait=<value>         Number of minutes to wait for the Bulk API jobs to finish.
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -103,10 +110,26 @@ EXAMPLES
 
   $ sf simply apex logs purge --target-org myOrg --where "Status = 'Success'"
 
+  $ sf simply apex logs purge --target-org myOrg --use-bulk-api
+
+  $ sf simply apex logs purge --target-org myOrg --use-bulk-api --wait 60
+
 FLAG DESCRIPTIONS
+  -b, --use-bulk-api  Use Bulk API v2 to query and delete the logs.
+
+    Runs the whole purge as two Bulk API v2 jobs instead of a Tooling API query followed by chunked REST deletes. Bulk
+    API processes the deletion asynchronously and does not consume the org's REST API request limit, which suits purges
+    of tens of thousands of logs. For small purges the default REST path is faster, since it avoids the overhead of
+    creating, uploading, and polling a job.
+
   -w, --where=<value>  SOQL WHERE clause
 
     A WHERE clause used to filter which ApexLog records are purged (e.g. "Status = 'Success'").
+
+  --wait=<value>  Number of minutes to wait for the Bulk API jobs to finish.
+
+    Only applies with --use-bulk-api. The command polls the query and delete jobs until they complete or this timeout
+    elapses, then throws.
 ```
 
 _See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.1.18/packages/simply-apex/lib/commands/simply/apex/logs/purge.js)_
@@ -1124,3 +1147,7 @@ FLAG DESCRIPTIONS
 
 _See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-sobject@1.4.9/packages/simply-sobject/lib/commands/simply/sobject/history/schema.js)_
 <!-- commandsstop -->
+
+## License
+
+Licensed under the [Apache-2.0](https://raw.githubusercontent.com/SimplySF/simply-node/main/LICENSE.txt) license.
