@@ -1,6 +1,8 @@
 ---
 title: The bin/*.sh stage script contract
 description: Exactly how simply-cicd invokes bin/preDestructive.sh, bin/unpackagedDeploy.sh, bin/postDestructive.sh, and bin/postDeploy.sh — arguments, working directory, and environment.
+sidebar:
+  order: 3
 ---
 
 [Deploy pipeline stages](/cicd/concepts/deploy-pipeline-stages/) explains that `pre-destructive`, `deploy-unpackaged`, `post-destructive`, and `post-deploy` each run a matching `bin/*.sh` script if one exists in the repo. This page is the contract those scripts are written against: the arguments they receive, the directory they run in, and what `simply-cicd` does to the repo before invoking them. None of this is written down anywhere else, so read it before writing your first script.

@@ -1,6 +1,8 @@
 ---
 title: sfdx-project.json fields simply-cicd reads
 description: The extra sfdx-project.json fields the build commands read beyond standard dependencies — definitionFile, packageMetadataAccess, seedMetadata.path, and the coverage-requirement override.
+sidebar:
+  order: 4
 ---
 
 Beyond the dependencies every `install-packaged`/`install-dependencies` command installs (`packageDirectories[].dependencies`, standard `sfdx-project.json`), a handful of `build *` commands read a few extra fields. The package-directory-level ones all belong on the **default** package directory — the entry with `"default": true`.

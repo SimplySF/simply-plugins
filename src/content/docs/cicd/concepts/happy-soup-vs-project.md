@@ -1,6 +1,8 @@
 ---
 title: Happy Soup vs. Project deploys
 description: The single most important concept in simply-cicd — which deployment style your pipeline is using and why it matters.
+sidebar:
+  order: 1
 ---
 
 Every deploy command in `simply-cicd` lives under one of two topics: `deploy project ...` or `deploy happy-soup ...`. They're not two ways of doing the same thing — they model two fundamentally different ways a Salesforce org gets its metadata, and picking the wrong one will make every other command's flags and defaults confusing. This distinction isn't written down anywhere else in the plugin's docs, so read this page first.

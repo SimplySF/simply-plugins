@@ -1,6 +1,8 @@
 ---
 title: Deploy pipeline stages
 description: How validate, pre-destructive, deploy-unpackaged/install-packaged, post-destructive, and post-deploy chain together — and why it's files, not command chaining.
+sidebar:
+  order: 2
 ---
 
 Both [`deploy project`](/cicd/reference/deploy-project/) and [`deploy happy-soup`](/cicd/reference/deploy-happy-soup/) expose the same shape of pipeline, one command per stage. Read [Happy Soup vs. Project deploys](/cicd/concepts/happy-soup-vs-project/) first if you haven't — this page assumes you already know which topic you're using.
