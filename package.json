@@ -90,7 +90,7 @@
     "lint": "wireit",
     "test": "wireit",
     "test:coverage": "vitest run --coverage --project simply-data",
-    "test:nuts": "vitest run --config vitest.nuts.config.ts --project simply-data",
+    "test:nuts": "vitest run --config ../../vitest.nuts.config.ts --project simply-data",
     "test:only": "wireit",
     "test:watch": "vitest watch --project simply-data",
     "version": "oclif readme"

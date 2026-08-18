@@ -17,11 +17,12 @@
 import got from 'got';
 import { Connection, SfError } from '@salesforce/core';
 import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
+import sinon from 'sinon';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import DataFileUpload from '../../../../../src/commands/simply/data/file/upload.js';
 
 describe('simply data file upload', () => {
-  const $$ = new TestContext();
+  const $$ = new TestContext({ sinon });
   const testOrg = new MockTestOrgData();
 
   beforeEach(async () => {

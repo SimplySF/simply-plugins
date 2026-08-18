@@ -19,12 +19,13 @@ import { parse } from 'csv-parse/sync';
 import got from 'got';
 import { Connection, SfError } from '@salesforce/core';
 import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
+import sinon from 'sinon';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import DataFilesUpload from '../../../../../src/commands/simply/data/files/upload.js';
 import { ContentVersionToUpload } from '../../../../../src/common/contentVersionTypes.js';
 
 describe('simply data files upload', () => {
-  const $$ = new TestContext();
+  const $$ = new TestContext({ sinon });
   const testOrg = new MockTestOrgData();
 
   beforeEach(async () => {
