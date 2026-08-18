@@ -6,21 +6,28 @@ description: Requirements and installation for the Simply Salesforce CLI plugins
 ## Requirements
 
 - [Salesforce CLI](https://developer.salesforce.com/tools/salesforcecli) (`sf`)
-- Node.js `^22.13.0`, `^24.0.0`, or `^26.0.0`
+- Node.js `>=22.0.0`
 
 ## Install
 
-Install the orchestrator plugin to get every command from every plugin in one shot:
+The orchestrator plugin bundles the eight general-purpose plugins in one install:
 
 ```sh
 sf plugins install @simplysf/simply
 ```
 
-Or install only the plugin(s) you need — each one works standalone:
+That covers `simply-apex`, `simply-data`, `simply-document`, `simply-package`, `simply-permissions`, `simply-project`, `simply-schema`, and `simply-sobject`.
+
+[`simply-cicd`](/cicd/) is **not** part of that bundle — it's built for CI runners rather than day-to-day desktop use, so install it on its own:
+
+```sh
+sf plugins install @simplysf/simply-cicd
+```
+
+Any plugin can also be installed individually if you'd rather not take the whole bundle — each works standalone:
 
 ```sh
 sf plugins install @simplysf/simply-apex
-sf plugins install @simplysf/simply-cicd
 sf plugins install @simplysf/simply-data
 sf plugins install @simplysf/simply-document
 sf plugins install @simplysf/simply-package
@@ -34,6 +41,12 @@ sf plugins install @simplysf/simply-sobject
 
 ```sh
 sf simply --help
+```
+
+If you installed `simply-cicd`, check it separately — it registers its own topic:
+
+```sh
+sf simply cicd --help
 ```
 
 ## Where to go next

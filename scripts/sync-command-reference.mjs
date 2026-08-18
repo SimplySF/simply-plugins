@@ -44,13 +44,24 @@ function splitCommands(block) {
   return chunks.map((c) => c.lines.join('\n').trim());
 }
 
+/**
+ * Quotes a YAML scalar the way Prettier does — single quotes unless the value itself contains
+ * one. Matching Prettier matters: these files are written by this script but formatted by the
+ * repo's Prettier hook, and any disagreement leaves every generated page permanently dirty in
+ * `git status` after a `pnpm --filter site run dev`.
+ */
+function yamlQuote(value) {
+  return value.includes("'") ? JSON.stringify(value) : `'${value}'`;
+}
+
 function frontmatter(title, description) {
-  return `---\ntitle: ${JSON.stringify(title)}\ndescription: ${JSON.stringify(description)}\n---\n\n`;
+  return `---\ntitle: ${yamlQuote(title)}\ndescription: ${yamlQuote(description)}\n---\n\n`;
 }
 
 function writeFile(filePath, content) {
   fs.mkdirSync(path.dirname(filePath), { recursive: true });
-  fs.writeFileSync(filePath, content);
+  // Trailing newline, again to agree with Prettier rather than fight it.
+  fs.writeFileSync(filePath, content.endsWith('\n') ? content : `${content}\n`);
   console.log(`wrote ${path.relative(repoRoot, filePath)}`);
 }
 

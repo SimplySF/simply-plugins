@@ -19,6 +19,8 @@ sf plugins install @simplysf/simply-cicd
 - **Wiring up a pipeline?** [Deploy pipeline stages](/cicd/concepts/deploy-pipeline-stages/) explains how the stage commands (`validate`, `pre-destructive`, `deploy-unpackaged`/`install-packaged`, `post-destructive`, `post-deploy`) fit together, and the [GitLab CI pipeline guide](/cicd/guides/gitlab-ci-pipeline/) walks through a working `.gitlab-ci.yml`.
 - **Just need a flag reference?** See [Command Reference](/cicd/reference/build/) for the full, auto-generated `--help` output of every command, grouped by topic.
 
-## What it doesn't do (yet)
+## Which platforms it works with
 
 Every command that talks to source control goes through a small `VcsProvider` abstraction (see [VCS providers](/cicd/concepts/vcs-providers/)). GitLab and GitHub are both implemented; `--vcs-provider` selects between them and defaults to `gitlab`. Most examples on this site are written GitLab-first, since that's the more common setup for these pipelines, but the flags and concepts apply to either platform.
+
+Issue linking in `notify project` goes through a matching `AlmProvider` abstraction, with Jira (the default) and GitLab Issues implemented — see [Teams notifications](/cicd/guides/teams-notifications/).
