@@ -99,29 +99,41 @@ _See code: [lib/commands/simply/apex/logs/purge.js](https://github.com/SimplySF/
 
 ## `sf simply apex trace setup`
 
-Configure a debug log trace flag for the current user.
+Configure a debug log trace flag for the current user, or another user.
 
 ```
 USAGE
-  $ sf simply apex trace setup -o <value> [--json] [--flags-dir <value>] [--api-version <value>]
+  $ sf simply apex trace setup -o <value> [--json] [--flags-dir <value>] [--api-version <value>] [--on-behalf-of
+    <value>]
 
 FLAGS
-  -o, --target-org=<value>   (required) Username or alias of the target org. Not required if the `target-org`
-                             configuration variable is already set.
-      --api-version=<value>  Override the api version used for api requests made by this command
+  -o, --target-org=<value>    (required) Username or alias of the target org. Not required if the `target-org`
+                              configuration variable is already set.
+      --api-version=<value>   Override the api version used for api requests made by this command
+      --on-behalf-of=<value>  Configure the trace flag for another user, identified by a "Field:Value" pair.
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
   --json               Format output as json.
 
 DESCRIPTION
-  Configure a debug log trace flag for the current user.
+  Configure a debug log trace flag for the current user, or another user.
 
   Creates or updates a 24-hour DEVELOPER_LOG trace flag for the user running the command, using a FINEST/FINER debug
-  level suitable for the Apex Replay Debugger.
+  level suitable for the Apex Replay Debugger. Use --on-behalf-of to configure the trace flag for a different user
+  instead.
 
 EXAMPLES
   $ sf simply apex trace setup --target-org myOrg
+
+  $ sf simply apex trace setup --target-org myOrg --on-behalf-of Username:someuser@example.com
+
+  $ sf simply apex trace setup --target-org myOrg --on-behalf-of FederationIdentifier:123456
+
+FLAG DESCRIPTIONS
+  --on-behalf-of=<value>  Configure the trace flag for another user, identified by a "Field:Value" pair.
+
+    Any unique User field can be used, for example "Username:someuser@example.com" or "FederationIdentifier:123456".
 ```
 
 _See code: [lib/commands/simply/apex/trace/setup.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.1.10/packages/simply-apex/lib/commands/simply/apex/trace/setup.js)_
