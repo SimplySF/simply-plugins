@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-apex%401.5.0...%40simplysf%2Fsimply-apex%401.6.0) (2026-08-19)
+
+### Features
+
+- **apex:** add preset flags to silence common base classes ([bcb0acb](https://github.com/SimplySF/simply-node/commit/bcb0acbc1cff712f11660a67571ed759ca0e21b7))
+
 # [1.5.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-apex%401.4.0...%40simplysf%2Fsimply-apex%401.5.0) (2026-08-19)
 
 ### Features
