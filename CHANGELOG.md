@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.14.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply%402.13.1...%40simplysf%2Fsimply%402.14.0) (2026-08-19)
+
+### Features
+
+- **apex:** add preset flags to silence common base classes ([bcb0acb](https://github.com/SimplySF/simply-node/commit/bcb0acbc1cff712f11660a67571ed759ca0e21b7))
+
 ## [2.13.1](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply%402.13.0...%40simplysf%2Fsimply%402.13.1) (2026-08-19)
 
 **Note:** Version bump only for package @simplysf/simply
