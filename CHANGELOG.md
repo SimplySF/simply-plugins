@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-apex%401.4.0...%40simplysf%2Fsimply-apex%401.5.0) (2026-08-19)
+
+### Features
+
+- add support to update an existing trace flags duration ([c45792e](https://github.com/SimplySF/simply-node/commit/c45792e661a9c4f622ab8fdde64fc2335f8e988e))
+
 # [1.4.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-apex%401.3.3...%40simplysf%2Fsimply-apex%401.4.0) (2026-08-19)
 
 ### Bug Fixes
