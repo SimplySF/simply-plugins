@@ -67,8 +67,10 @@ function resolveClasses(classesFlag: string | undefined, classesFileFlag: string
 }
 
 /**
- * Creates a 24-hour CLASS_TRACING trace flag with a fully suppressed (NONE) debug level for each
- * specified Apex class, preventing those classes from generating debug log output.
+ * Creates or updates a 24-hour CLASS_TRACING trace flag with a fully suppressed (NONE) debug
+ * level for each specified Apex class, preventing those classes from generating debug log
+ * output. Classes that already have a trace flag have its expiration extended instead of getting
+ * a duplicate.
  */
 export default class ApexTraceSilence extends SfCommand<ApexTraceSilenceResult[]> {
   public static readonly summary = messages.getMessage('summary');
@@ -93,9 +95,9 @@ export default class ApexTraceSilence extends SfCommand<ApexTraceSilenceResult[]
   };
 
   /**
-   * @returns The trace flag created for each Apex class that was found and successfully
-   * silenced. Classes that couldn't be found or whose trace flag creation failed are warned
-   * about and omitted.
+   * @returns The trace flag created or updated for each Apex class that was found and
+   * successfully silenced. Classes that couldn't be found or whose trace flag couldn't be
+   * created/updated are warned about and omitted.
    */
   public async run(): Promise<ApexTraceSilenceResult[]> {
     const { flags } = await this.parse(ApexTraceSilence);
@@ -165,10 +167,47 @@ export default class ApexTraceSilence extends SfCommand<ApexTraceSilenceResult[]
     const startDate = now.toISOString();
     const expirationDate = expiration.toISOString();
 
+    const classIdsClause = classResult.records.map((record) => `'${record.Id}'`).join(',');
+    const existingTraceFlagResult = await targetOrgConnection.tooling.query<{ Id: string; TracedEntityId: string }>(
+      `SELECT Id, TracedEntityId FROM TraceFlag WHERE LogType = 'CLASS_TRACING' AND TracedEntityId IN (${classIdsClause})`,
+    );
+    const existingTraceFlagIdByClassId = new Map(
+      existingTraceFlagResult.records.map((record) => [record.TracedEntityId, record.Id]),
+    );
+
     const results: ApexTraceSilenceResult[] = [];
 
     this.spinner.start(messages.getMessage('info.creatingTraceFlags'));
     for (const classRecord of classResult.records) {
+      const existingTraceFlagId = existingTraceFlagIdByClassId.get(classRecord.Id);
+
+      if (existingTraceFlagId) {
+        // eslint-disable-next-line no-await-in-loop
+        const updateResult = await targetOrgConnection.tooling.sobject('TraceFlag').update({
+          Id: existingTraceFlagId,
+          DebugLevelId: debugLevelId,
+          StartDate: startDate,
+          ExpirationDate: expirationDate,
+        });
+
+        if (!updateResult.success) {
+          this.warn(
+            messages.getMessage('warning.traceFlagUpdateFailed', [
+              classRecord.Name,
+              updateResult.errors.map((e) => e.message).join(', '),
+            ]),
+          );
+          continue;
+        }
+
+        results.push({
+          class: classRecord.Name,
+          classId: classRecord.Id,
+          traceFlagId: existingTraceFlagId,
+        });
+        continue;
+      }
+
       // eslint-disable-next-line no-await-in-loop
       const createResult = await targetOrgConnection.tooling.sobject('TraceFlag').create({
         StartDate: startDate,

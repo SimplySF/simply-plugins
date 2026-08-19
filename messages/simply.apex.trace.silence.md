@@ -4,7 +4,7 @@ Silence debug logs for specific Apex classes.
 
 # description
 
-Creates a 24-hour CLASS_TRACING trace flag with a fully suppressed (NONE) debug level for each specified Apex class, preventing those classes from generating debug log output.
+Creates or updates a 24-hour CLASS_TRACING trace flag with a fully suppressed (NONE) debug level for each specified Apex class, preventing those classes from generating debug log output. If a class already has a trace flag, its expiration is extended instead of creating a duplicate.
 
 # flags.classes.summary
 
@@ -63,3 +63,7 @@ The following classes were not found and were skipped: %s
 # warning.traceFlagCreateFailed
 
 Failed to create a trace flag for class %s: %s
+
+# warning.traceFlagUpdateFailed
+
+Failed to update the existing trace flag for class %s: %s
