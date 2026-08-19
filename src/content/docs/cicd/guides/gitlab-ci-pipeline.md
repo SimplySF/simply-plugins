@@ -202,14 +202,3 @@ variables:
 ```
 
 lets every `.deploy-*` template above drop `--ci-job-token "${CI_JOB_TOKEN}"` and every `build *` job drop `--jwt-key-file $DEVHUB_JWT_KEY_FILE`, since the commands pick the variable up automatically when the flag isn't passed. Per-stage values that genuinely change between jobs — `--alias`, `--auth-url`, `--start-from` — are still set per-job via `variables:` overrides the same way they are today; only the flags that are truly constant across the whole pipeline are worth hoisting to a `SIMPLY_CICD_*` variable.
-
-## Running the same pipeline on GitHub Actions
-
-The pipeline shape above is GitLab-flavoured, but nothing about the commands is. `simply-cicd` talks to source control through a provider abstraction (see [VCS providers](/cicd/concepts/vcs-providers/)), so the same jobs run against GitHub with a handful of substitutions:
-
-- Pass `--vcs-provider github` — or set `SIMPLY_CICD_VCS_PROVIDER: github` once for the whole workflow. `--vcs-host` can stay unset; each provider defaults to its own public instance.
-- Use a token with repository write access where the GitLab jobs use `$PROJECT_ACCESS_TOKEN`, and Actions' own `${{ secrets.GITHUB_TOKEN }}` where they use `$CI_JOB_TOKEN`.
-- Map the CI context variables to their GitHub equivalents — `GITHUB_REF_NAME` for `SIMPLY_CICD_CI_COMMIT_REF_NAME`, `GITHUB_SHA` for `SIMPLY_CICD_CI_COMMIT_SHA`, `GITHUB_RUN_ID` for `SIMPLY_CICD_CI_PIPELINE_ID`, and so on.
-- For the flow and flexipage diff jobs, swap the GitLab context flags for the GitHub ones: `--ci-repository`, `--ci-pull-request-number`, `--ci-run-id`, and `--ci-server-url` in place of `--ci-project-id` and `--ci-merge-request-iid`. The commands then run the `flow-delta-github` reporter and post to the pull request instead of a merge request.
-
-Everything else — the Dev Hub flags, the deploy stage ordering, the progress file, the notification jobs — is identical, since none of it touches source control.

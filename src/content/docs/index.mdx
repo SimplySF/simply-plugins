@@ -44,32 +44,26 @@ import { Card, CardGrid } from '@astrojs/starlight/components';
     guide](/cicd/guides/gitlab-ci-pipeline/).
   </Card>
   <Card title="Command reference" icon="document">
-    Full `--help` output for every command, grouped by topic. [Browse the reference](/cicd/reference/build/).
+    Full `--help` output for all 31 commands, grouped by topic. [Browse the reference](/cicd/reference/build/).
   </Card>
 </CardGrid>
 
 ## All plugins
 
-Simply is a monorepo of independently-installable Salesforce CLI plugins. The orchestrator bundles the eight general-purpose plugins in one install:
+Simply is a monorepo of independently-installable Salesforce CLI plugins. Install the orchestrator to get everything in one shot, or grab just what you need:
 
 ```sh
 sf plugins install @simplysf/simply
 ```
 
-| Plugin                                               | What it's for                                       | In the orchestrator? |
-| ---------------------------------------------------- | --------------------------------------------------- | -------------------- |
-| [`simply-apex`](/plugins/simply-apex/)               | Working with Apex                                   | ✅                   |
-| [`simply-data`](/plugins/simply-data/)               | Uploading and downloading files in a Salesforce org | ✅                   |
-| [`simply-document`](/plugins/simply-document/)       | Generating project documentation                    | ✅                   |
-| [`simply-package`](/plugins/simply-package/)         | Managing package dependencies                       | ✅                   |
-| [`simply-permissions`](/plugins/simply-permissions/) | Working with permissions                            | ✅                   |
-| [`simply-project`](/plugins/simply-project/)         | Working with Salesforce projects                    | ✅                   |
-| [`simply-schema`](/plugins/simply-schema/)           | Visualizing Salesforce schema                       | ✅                   |
-| [`simply-sobject`](/plugins/simply-sobject/)         | Working with SObjects                               | ✅                   |
-| [`simply-cicd`](/cicd/)                              | Salesforce CI/CD pipelines — the flagship           | Install separately   |
-
-`simply-cicd` is deliberately kept out of the orchestrator — it's built for CI runners rather than day-to-day desktop use, so it's installed on its own:
-
-```sh
-sf plugins install @simplysf/simply-cicd
-```
+| Plugin                                               | What it's for                                          |
+| ---------------------------------------------------- | ------------------------------------------------------ |
+| [`simply-cicd`](/cicd/)                              | Salesforce CI/CD pipelines — the flagship of this site |
+| [`simply-apex`](/plugins/simply-apex/)               | Working with Apex                                      |
+| [`simply-data`](/plugins/simply-data/)               | Uploading and downloading files in a Salesforce org    |
+| [`simply-document`](/plugins/simply-document/)       | Generating project documentation                       |
+| [`simply-package`](/plugins/simply-package/)         | Managing package dependencies                          |
+| [`simply-permissions`](/plugins/simply-permissions/) | Working with permissions                               |
+| [`simply-project`](/plugins/simply-project/)         | Working with Salesforce projects                       |
+| [`simply-schema`](/plugins/simply-schema/)           | Visualizing Salesforce schema                          |
+| [`simply-sobject`](/plugins/simply-sobject/)         | Working with SObjects                                  |
