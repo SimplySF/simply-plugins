@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.13.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply%402.12.7...%40simplysf%2Fsimply%402.13.0) (2026-08-19)
+
+### Bug Fixes
+
+- **simply:** sync command-snapshot with apex trace setup flag order ([14eb58a](https://github.com/SimplySF/simply-node/commit/14eb58a47aea18b983ec2a3127434416b66a3212))
+- **simply:** sync command-snapshot with sobject backup additional-fields flag ([a2f4de4](https://github.com/SimplySF/simply-node/commit/a2f4de4df8032f5338b014abd3077256240bacfd))
+
+### Features
+
+- add start end date and log level to trace setup ([bdacb57](https://github.com/SimplySF/simply-node/commit/bdacb5759f803f3bd96114a98d2f1d86db0e747b))
+
 ## [2.12.7](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply%402.12.6...%40simplysf%2Fsimply%402.12.7) (2026-08-19)
 
 **Note:** Version bump only for package @simplysf/simply
