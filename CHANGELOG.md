@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-apex%401.3.3...%40simplysf%2Fsimply-apex%401.4.0) (2026-08-19)
+
+### Bug Fixes
+
+- snapshot ([a195e82](https://github.com/SimplySF/simply-node/commit/a195e82f9b23242ec80e01b6ef4213fd8550bff5))
+
+### Features
+
+- accept userId ([7108164](https://github.com/SimplySF/simply-node/commit/7108164535f895bf7879e49562080f7aff3d67f1))
+- add start end date and log level to trace setup ([bdacb57](https://github.com/SimplySF/simply-node/commit/bdacb5759f803f3bd96114a98d2f1d86db0e747b))
+
 ## [1.3.3](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-apex%401.3.2...%40simplysf%2Fsimply-apex%401.3.3) (2026-08-18)
 
 **Note:** Version bump only for package @simplysf/simply-apex
