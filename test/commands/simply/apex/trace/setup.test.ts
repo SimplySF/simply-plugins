@@ -101,6 +101,66 @@ describe('simply apex trace setup', () => {
     }
   });
 
+  it('should reject an invalid --start-date format', async () => {
+    try {
+      await ApexTraceSetup.run(['--target-org', testOrg.username, '--start-date', 'not-a-date']);
+      expect.fail('should have thrown an invalid date-time error');
+    } catch (err) {
+      const error = err as SfError;
+      expect(error.message).to.include('start-date');
+    }
+  });
+
+  it('should reject an invalid --end-date format', async () => {
+    try {
+      await ApexTraceSetup.run(['--target-org', testOrg.username, '--end-date', '2026-08-18']);
+      expect.fail('should have thrown an invalid date-time error');
+    } catch (err) {
+      const error = err as SfError;
+      expect(error.message).to.include('end-date');
+    }
+  });
+
+  it('should error when --end-date is not after --start-date', async () => {
+    stubOrgRequests();
+
+    try {
+      await ApexTraceSetup.run([
+        '--target-org',
+        testOrg.username,
+        '--start-date',
+        '2026-08-18T12:00:00Z',
+        '--end-date',
+        '2026-08-18T12:00:00Z',
+      ]);
+      expect.fail('should have thrown an Error');
+    } catch (err) {
+      const error = err as SfError;
+      expect(error.message).to.include('must be after');
+    }
+  });
+
+  it('should error when --log-level does not match an existing debug level', async () => {
+    stubOrgRequests({ debugLevelRecords: [] });
+
+    try {
+      await ApexTraceSetup.run(['--target-org', testOrg.username, '--log-level', 'NoSuchLevel']);
+      expect.fail('should have thrown an Error');
+    } catch (err) {
+      const error = err as SfError;
+      expect(error.message).to.include('No debug level found with developer name: NoSuchLevel');
+    }
+  });
+
+  it('should use an existing debug level matched by --log-level without creating one', async () => {
+    const calls = stubOrgRequests({ debugLevelRecords: [{ Id: '01p000000000005AAA' }] });
+
+    const result = await ApexTraceSetup.run(['--target-org', testOrg.username, '--log-level', 'CustomLevel']);
+
+    expect(result.debugLevelId).to.equal('01p000000000005AAA');
+    expect(calls.some((c) => c.method === 'POST' && c.url.endsWith('/tooling/sobjects/DebugLevel'))).to.be.false;
+  });
+
   it('should error when --on-behalf-of is not a Field:Value pair', async () => {
     try {
       await ApexTraceSetup.run(['--target-org', testOrg.username, '--on-behalf-of', 'not-a-pair']);

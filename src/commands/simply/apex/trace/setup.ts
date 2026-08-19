@@ -26,6 +26,8 @@ const messages = Messages.loadMessages('@simplysf/simply-apex', 'simply.apex.tra
 const DEBUG_LEVEL_NAME = 'ReplayDebuggerLevels';
 /** How long a configured trace flag stays active before expiring, in milliseconds (24 hours). */
 const TRACE_DURATION_MS = 24 * 60 * 60 * 1000;
+/** Matches the ISO 8601 date-time format required by the `--start-date`/`--end-date` flags. */
+const DATE_TIME_PATTERN = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$/;
 /**
  * Matches `Field:Value` for `--on-behalf-of`. The field name is restricted to safe SOQL
  * identifier characters since, unlike the value, it can't be quoted/escaped in the query.
@@ -44,9 +46,11 @@ export type ApexTraceSetupResult = {
 };
 
 /**
- * Creates or updates a 24-hour DEVELOPER_LOG trace flag for the target user, using a
- * FINEST/FINER debug level suitable for the Apex Replay Debugger. The target user is the one
- * running the command by default, or the user identified by `--on-behalf-of` if provided.
+ * Creates or updates a DEVELOPER_LOG trace flag for the target user. The target user is the one
+ * running the command by default, or the user identified by `--on-behalf-of` if provided. By
+ * default the trace flag uses the FINEST/FINER `ReplayDebuggerLevels` debug level suitable for
+ * the Apex Replay Debugger and runs for 24 hours starting now; `--log-level`, `--start-date`, and
+ * `--end-date` override those defaults.
  */
 export default class ApexTraceSetup extends SfCommand<ApexTraceSetupResult> {
   public static readonly summary = messages.getMessage('summary');
@@ -71,6 +75,32 @@ export default class ApexTraceSetup extends SfCommand<ApexTraceSetupResult> {
     })({
       summary: messages.getMessage('flags.on-behalf-of.summary'),
       description: messages.getMessage('flags.on-behalf-of.description'),
+    }),
+    'log-level': Flags.string({
+      summary: messages.getMessage('flags.log-level.summary'),
+      description: messages.getMessage('flags.log-level.description'),
+    }),
+    'start-date': Flags.string({
+      summary: messages.getMessage('flags.start-date.summary'),
+      description: messages.getMessage('flags.start-date.description'),
+      // eslint-disable-next-line @typescript-eslint/require-await
+      parse: async (input: string): Promise<string> => {
+        if (!DATE_TIME_PATTERN.test(input)) {
+          throw messages.createError('error.invalidDateTime', ['start-date', input]);
+        }
+        return input;
+      },
+    }),
+    'end-date': Flags.string({
+      summary: messages.getMessage('flags.end-date.summary'),
+      description: messages.getMessage('flags.end-date.description'),
+      // eslint-disable-next-line @typescript-eslint/require-await
+      parse: async (input: string): Promise<string> => {
+        if (!DATE_TIME_PATTERN.test(input)) {
+          throw messages.createError('error.invalidDateTime', ['end-date', input]);
+        }
+        return input;
+      },
     }),
   };
 
@@ -104,15 +134,20 @@ export default class ApexTraceSetup extends SfCommand<ApexTraceSetupResult> {
     const userId = userQueryResult.records[0].Id;
     this.spinner.stop();
 
+    const requestedLogLevel = flags['log-level'];
+    const debugLevelName = requestedLogLevel ?? DEBUG_LEVEL_NAME;
+
     this.spinner.start(messages.getMessage('info.checkingDebugLevel'));
     const debugLevelResult = await targetOrgConnection.tooling.query<{ Id: string }>(
-      `SELECT Id FROM DebugLevel WHERE DeveloperName = '${DEBUG_LEVEL_NAME}'`,
+      `SELECT Id FROM DebugLevel WHERE DeveloperName = '${debugLevelName}'`,
     );
 
     let debugLevelId: string;
 
     if (debugLevelResult.records.length > 0) {
       debugLevelId = debugLevelResult.records[0].Id;
+    } else if (requestedLogLevel) {
+      throw messages.createError('error.debugLevelNotFound', [debugLevelName]);
     } else {
       const createResult = await targetOrgConnection.tooling.sobject('DebugLevel').create({
         DeveloperName: DEBUG_LEVEL_NAME,
@@ -136,10 +171,13 @@ export default class ApexTraceSetup extends SfCommand<ApexTraceSetupResult> {
       `SELECT Id FROM TraceFlag WHERE LogType = 'DEVELOPER_LOG' AND TracedEntityId = '${userId}'`,
     );
 
-    const now = new Date();
-    const expiration = new Date(now.getTime() + TRACE_DURATION_MS);
-    const startDate = now.toISOString();
-    const expirationDate = expiration.toISOString();
+    const startDate = flags['start-date'] ?? new Date().toISOString();
+    const expirationDate =
+      flags['end-date'] ?? new Date(new Date(startDate).getTime() + TRACE_DURATION_MS).toISOString();
+
+    if (new Date(expirationDate).getTime() <= new Date(startDate).getTime()) {
+      throw messages.createError('error.invalidDateRange', [expirationDate, startDate]);
+    }
 
     let traceFlagId: string;
 
