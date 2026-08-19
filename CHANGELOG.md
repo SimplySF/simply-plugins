@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-sobject%401.5.0...%40simplysf%2Fsimply-sobject%401.6.0) (2026-08-19)
+
+### Features
+
+- **sobject:** allow additional fields to be specified for backup ([5ee8eb7](https://github.com/SimplySF/simply-node/commit/5ee8eb7178677a56e6e8f669dc032b5e0152eb5d))
+
 # [1.5.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-sobject%401.4.13...%40simplysf%2Fsimply-sobject%401.5.0) (2026-08-19)
 
 ### Features
