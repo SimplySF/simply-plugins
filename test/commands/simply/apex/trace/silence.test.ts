@@ -76,6 +76,10 @@ function stubOrgRequests(
   return calls;
 }
 
+function decodedQuery(request: CapturedRequest): string {
+  return new URL(request.url, 'https://example.com').searchParams.get('q') ?? '';
+}
+
 describe('simply apex trace silence', () => {
   const $$ = new TestContext({ sinon });
   const testOrg = new MockTestOrgData();
@@ -88,7 +92,7 @@ describe('simply apex trace silence', () => {
     $$.restore();
   });
 
-  it('should error when neither --classes nor --classes-file is provided', async () => {
+  it('should error when neither --classes, --classes-file, --fflib, --at4dx, nor --force-di is provided', async () => {
     try {
       await ApexTraceSilence.run(['--target-org', testOrg.username]);
       expect.fail('should have thrown Error');
@@ -127,5 +131,56 @@ describe('simply apex trace silence', () => {
     const body = JSON.parse(traceFlagUpdate!.body ?? '{}') as { StartDate: string; ExpirationDate: string };
     expect(body.StartDate).to.not.be.undefined;
     expect(body.ExpirationDate).to.not.be.undefined;
+  });
+
+  it('should query the fflib preset classes when --fflib is provided', async () => {
+    const calls = stubOrgRequests();
+
+    await ApexTraceSilence.run(['--target-org', testOrg.username, '--fflib']);
+
+    const classQuery = calls.find((c) => c.method === 'GET' && c.url.includes('FROM%20ApexClass'));
+    expect(classQuery).to.not.be.undefined;
+    expect(decodedQuery(classQuery!)).to.equal(
+      "SELECT Id, Name FROM ApexClass WHERE Name IN ('fflib_SObjectDescribe','fflib_SObjectDomain')",
+    );
+  });
+
+  it('should query the at4dx preset classes when --at4dx is provided', async () => {
+    const calls = stubOrgRequests();
+
+    await ApexTraceSilence.run(['--target-org', testOrg.username, '--at4dx']);
+
+    const classQuery = calls.find((c) => c.method === 'GET' && c.url.includes('FROM%20ApexClass'));
+    expect(decodedQuery(classQuery!)).to.equal(
+      "SELECT Id, Name FROM ApexClass WHERE Name IN ('ApplicationSObjectDomain')",
+    );
+  });
+
+  it('should query the force-di preset classes when --force-di is provided', async () => {
+    const calls = stubOrgRequests();
+
+    await ApexTraceSilence.run(['--target-org', testOrg.username, '--force-di']);
+
+    const classQuery = calls.find((c) => c.method === 'GET' && c.url.includes('FROM%20ApexClass'));
+    expect(decodedQuery(classQuery!)).to.equal(
+      "SELECT Id, Name FROM ApexClass WHERE Name IN ('di_Binding','di_Module','di_PlatformCache','di_Injector')",
+    );
+  });
+
+  it('should combine --classes with preset flags and dedupe overlapping names', async () => {
+    const calls = stubOrgRequests();
+
+    await ApexTraceSilence.run([
+      '--target-org',
+      testOrg.username,
+      '--classes',
+      'NoisyClass,fflib_SObjectDescribe',
+      '--fflib',
+    ]);
+
+    const classQuery = calls.find((c) => c.method === 'GET' && c.url.includes('FROM%20ApexClass'));
+    expect(decodedQuery(classQuery!)).to.equal(
+      "SELECT Id, Name FROM ApexClass WHERE Name IN ('NoisyClass','fflib_SObjectDescribe','fflib_SObjectDomain')",
+    );
   });
 });

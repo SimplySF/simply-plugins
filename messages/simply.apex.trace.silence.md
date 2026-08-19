@@ -22,15 +22,43 @@ Path to a JSON file listing classes to silence
 
 The path to a JSON file with the shape { "classes": ["ClassOne", "ClassTwo"] } listing the Apex class names to silence.
 
+# flags.fflib.summary
+
+Silence fflib base classes
+
+# flags.fflib.description
+
+Adds fflib_SObjectDescribe and fflib_SObjectDomain to the classes to silence.
+
+# flags.at4dx.summary
+
+Silence at4dx base classes
+
+# flags.at4dx.description
+
+Adds ApplicationSObjectDomain to the classes to silence.
+
+# flags.force-di.summary
+
+Silence force-di base classes
+
+# flags.force-di.description
+
+Adds di_Binding, di_Module, di_PlatformCache, and di_Injector to the classes to silence.
+
 # examples
 
 - <%= config.bin %> <%= command.id %> --target-org myOrg --classes NoisyClass,ChattyTrigger
 
 - <%= config.bin %> <%= command.id %> --target-org myOrg --classes-file classesToSilence.json
 
+- <%= config.bin %> <%= command.id %> --target-org myOrg --fflib --at4dx --force-di
+
+- <%= config.bin %> <%= command.id %> --target-org myOrg --classes NoisyClass --fflib
+
 # error.noClassesSpecified
 
-No Apex classes specified to silence. Use --classes or --classes-file.
+No Apex classes specified to silence. Use --classes, --classes-file, --fflib, --at4dx, and/or --force-di.
 
 # error.invalidClassesFile
 

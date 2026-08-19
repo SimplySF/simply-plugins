@@ -58,7 +58,7 @@ FLAG DESCRIPTIONS
     The path to the local .apex file containing the anonymous Apex code to execute.
 ```
 
-_See code: [lib/commands/simply/apex/execute.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.1.18/packages/simply-apex/lib/commands/simply/apex/execute.js)_
+_See code: [lib/commands/simply/apex/execute.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.4.0/packages/simply-apex/lib/commands/simply/apex/execute.js)_
 
 ## `sf simply apex logs purge`
 
@@ -114,7 +114,7 @@ FLAG DESCRIPTIONS
     elapses, then throws.
 ```
 
-_See code: [lib/commands/simply/apex/logs/purge.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.1.18/packages/simply-apex/lib/commands/simply/apex/logs/purge.js)_
+_See code: [lib/commands/simply/apex/logs/purge.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.4.0/packages/simply-apex/lib/commands/simply/apex/logs/purge.js)_
 
 ## `sf simply apex trace setup`
 
@@ -122,14 +122,17 @@ Configure a debug log trace flag for the current user, or another user.
 
 ```
 USAGE
-  $ sf simply apex trace setup -o <value> [--json] [--flags-dir <value>] [--api-version <value>] [--on-behalf-of
-    <value>]
+  $ sf simply apex trace setup -o <value> [--json] [--flags-dir <value>] [--api-version <value>] [--on-behalf-of <value>]
+    [--log-level <value>] [--start-date <value>] [--end-date <value>]
 
 FLAGS
   -o, --target-org=<value>    (required) Username or alias of the target org. Not required if the `target-org`
                               configuration variable is already set.
       --api-version=<value>   Override the api version used for api requests made by this command
+      --end-date=<value>      Expiration date/time of the trace flag, as an ISO 8601 date-time.
+      --log-level=<value>     Developer name of an existing debug level to use for the trace flag.
       --on-behalf-of=<value>  Configure the trace flag for another user, identified by a "Field:Value" pair.
+      --start-date=<value>    Start date/time of the trace flag, as an ISO 8601 date-time.
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -138,9 +141,10 @@ GLOBAL FLAGS
 DESCRIPTION
   Configure a debug log trace flag for the current user, or another user.
 
-  Creates or updates a 24-hour DEVELOPER_LOG trace flag for the user running the command, using a FINEST/FINER debug
-  level suitable for the Apex Replay Debugger. Use --on-behalf-of to configure the trace flag for a different user
-  instead.
+  Creates or updates a DEVELOPER_LOG trace flag for the target user, using the FINEST/FINER "ReplayDebuggerLevels" debug
+  level suitable for the Apex Replay Debugger and running for 24 hours starting now, by default. Use --on-behalf-of to
+  configure the trace flag for a different user instead; --log-level, --start-date, and --end-date override the other
+  defaults.
 
 EXAMPLES
   $ sf simply apex trace setup --target-org myOrg
@@ -149,13 +153,28 @@ EXAMPLES
 
   $ sf simply apex trace setup --target-org myOrg --on-behalf-of FederationIdentifier:123456
 
+  $ sf simply apex trace setup --target-org myOrg --log-level MyCustomDebugLevel --start-date 2026-08-18T09:00:00Z --end-date 2026-08-19T09:00:00Z
+
 FLAG DESCRIPTIONS
+  --end-date=<value>  Expiration date/time of the trace flag, as an ISO 8601 date-time.
+
+    Defaults to 24 hours after the start date/time.
+
+  --log-level=<value>  Developer name of an existing debug level to use for the trace flag.
+
+    Must already exist in the org; it's looked up but never created or modified. Defaults to the "ReplayDebuggerLevels"
+    debug level, which is created automatically if it doesn't exist.
+
   --on-behalf-of=<value>  Configure the trace flag for another user, identified by a "Field:Value" pair.
 
     Any unique User field can be used, for example "Username:someuser@example.com" or "FederationIdentifier:123456".
+
+  --start-date=<value>  Start date/time of the trace flag, as an ISO 8601 date-time.
+
+    Defaults to the current date/time.
 ```
 
-_See code: [lib/commands/simply/apex/trace/setup.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.1.18/packages/simply-apex/lib/commands/simply/apex/trace/setup.js)_
+_See code: [lib/commands/simply/apex/trace/setup.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.4.0/packages/simply-apex/lib/commands/simply/apex/trace/setup.js)_
 
 ## `sf simply apex trace silence`
 
@@ -164,14 +183,17 @@ Silence debug logs for specific Apex classes.
 ```
 USAGE
   $ sf simply apex trace silence -o <value> [--json] [--flags-dir <value>] [--api-version <value>] [-c <value> | --classes-file
-    <value>]
+    <value>] [--fflib] [--at4dx] [--force-di]
 
 FLAGS
   -c, --classes=<value>       Comma-separated Apex class names
   -o, --target-org=<value>    (required) Username or alias of the target org. Not required if the `target-org`
                               configuration variable is already set.
       --api-version=<value>   Override the api version used for api requests made by this command
+      --at4dx                 Silence at4dx base classes
       --classes-file=<value>  Path to a JSON file listing classes to silence
+      --fflib                 Silence fflib base classes
+      --force-di              Silence force-di base classes
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -180,26 +202,43 @@ GLOBAL FLAGS
 DESCRIPTION
   Silence debug logs for specific Apex classes.
 
-  Creates a 24-hour CLASS_TRACING trace flag with a fully suppressed (NONE) debug level for each specified Apex class,
-  preventing those classes from generating debug log output.
+  Creates or updates a 24-hour CLASS_TRACING trace flag with a fully suppressed (NONE) debug level for each specified
+  Apex class, preventing those classes from generating debug log output. If a class already has a trace flag, its
+  expiration is extended instead of creating a duplicate.
 
 EXAMPLES
   $ sf simply apex trace silence --target-org myOrg --classes NoisyClass,ChattyTrigger
 
   $ sf simply apex trace silence --target-org myOrg --classes-file classesToSilence.json
 
+  $ sf simply apex trace silence --target-org myOrg --fflib --at4dx --force-di
+
+  $ sf simply apex trace silence --target-org myOrg --classes NoisyClass --fflib
+
 FLAG DESCRIPTIONS
   -c, --classes=<value>  Comma-separated Apex class names
 
     A comma-separated list of Apex class names to silence.
 
+  --at4dx  Silence at4dx base classes
+
+    Adds ApplicationSObjectDomain to the classes to silence.
+
   --classes-file=<value>  Path to a JSON file listing classes to silence
 
     The path to a JSON file with the shape { "classes": ["ClassOne", "ClassTwo"] } listing the Apex class names to
     silence.
+
+  --fflib  Silence fflib base classes
+
+    Adds fflib_SObjectDescribe and fflib_SObjectDomain to the classes to silence.
+
+  --force-di  Silence force-di base classes
+
+    Adds di_Binding, di_Module, di_PlatformCache, and di_Injector to the classes to silence.
 ```
 
-_See code: [lib/commands/simply/apex/trace/silence.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.1.18/packages/simply-apex/lib/commands/simply/apex/trace/silence.js)_
+_See code: [lib/commands/simply/apex/trace/silence.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.4.0/packages/simply-apex/lib/commands/simply/apex/trace/silence.js)_
 <!-- commandsstop -->
 
 ## License
