@@ -3,8 +3,17 @@
     "alias": [],
     "command": "simply:sobject:backup",
     "flagAliases": [],
-    "flagChars": ["d", "o", "s"],
-    "flags": ["api-version", "flags-dir", "include-relationship-fields", "json", "output-dir", "sobject", "target-org"],
+    "flagChars": ["d", "f", "o", "s"],
+    "flags": [
+      "additional-fields",
+      "api-version",
+      "flags-dir",
+      "include-relationship-fields",
+      "json",
+      "output-dir",
+      "sobject",
+      "target-org"
+    ],
     "plugin": "@simplysf/simply-sobject"
   },
   {

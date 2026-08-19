@@ -59,6 +59,12 @@ export default class SObjectBackup extends SfCommand<SObjectBackupResult> {
       description: messages.getMessage('flags.include-relationship-fields.description'),
       default: false,
     }),
+    'additional-fields': Flags.string({
+      summary: messages.getMessage('flags.additional-fields.summary'),
+      description: messages.getMessage('flags.additional-fields.description'),
+      char: 'f',
+      multiple: true,
+    }),
   };
 
   /** @returns The output CSV path and the number of records written. */
@@ -82,7 +88,9 @@ export default class SObjectBackup extends SfCommand<SObjectBackupResult> {
       this.spinner.stop();
     }
 
-    const fieldsToQuery = [...queryableFields, ...relationshipFields];
+    const additionalFields = flags['additional-fields'] ?? [];
+
+    const fieldsToQuery = [...new Set([...queryableFields, ...relationshipFields, ...additionalFields])];
 
     const soql = `SELECT ${fieldsToQuery.join(',')} FROM ${sobjectName}`;
 

@@ -153,6 +153,38 @@ describe('simply sobject backup', () => {
     }
   });
 
+  it('includes --additional-fields in the query and dedupes against existing fields', async () => {
+    (Connection.prototype.request as unknown as SinonStub).resolves({
+      fields: [{ name: 'Id' }, { name: 'Name' }],
+    });
+
+    vi.mocked(simplyCore.queryRecords).mockImplementation(async function* () {
+      yield { Id: '001', Name: 'Foo', 'Owner.Manager.Name': 'Bar' };
+    });
+
+    const outputDir = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-sobject-backup-'));
+
+    try {
+      await SObjectBackup.run([
+        '--target-org',
+        testOrg.username,
+        '--sobject',
+        'Account',
+        '--output-dir',
+        outputDir,
+        '--additional-fields',
+        'Owner.Manager.Name',
+        '--additional-fields',
+        'Name',
+      ]);
+
+      const [, soqlArg] = vi.mocked(simplyCore.queryRecords).mock.calls[0];
+      expect(soqlArg).to.equal('SELECT Id,Name,Owner.Manager.Name FROM Account');
+    } finally {
+      fs.rmSync(outputDir, { recursive: true, force: true });
+    }
+  });
+
   it('does not discover relationship fields when --include-relationship-fields is not set', async () => {
     (Connection.prototype.request as unknown as SinonStub).resolves({
       fields: [

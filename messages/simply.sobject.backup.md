@@ -30,6 +30,14 @@ Include parent relationship fields
 
 For every lookup/master-detail field, describe its parent SObject and include its identifying fields (e.g. RecordTypeId includes RecordType.Name and RecordType.DeveloperName). Polymorphic relationship fields, such as OwnerId, are skipped.
 
+# flags.additional-fields.summary
+
+Additional fields to include
+
+# flags.additional-fields.description
+
+Extra field API names to include in the query, on top of the SObject's own fields and any fields discovered via --include-relationship-fields. Useful for fields --include-relationship-fields won't discover, such as multi-hop relationship paths (e.g. Owner.Manager.Name) or fields through a polymorphic relationship. Fields already included are not duplicated.
+
 # examples
 
 - <%= config.bin %> <%= command.id %> --target-org myOrg --sobject Account
@@ -37,6 +45,8 @@ For every lookup/master-detail field, describe its parent SObject and include it
 - <%= config.bin %> <%= command.id %> --target-org myOrg --sobject Custom_Object__c --output-dir backups
 
 - <%= config.bin %> <%= command.id %> --target-org myOrg --sobject Account --include-relationship-fields
+
+- <%= config.bin %> <%= command.id %> --target-org myOrg --sobject Account --additional-fields Owner.Manager.Name --additional-fields Parent.Owner.Email
 
 # info.describingSobject
 
