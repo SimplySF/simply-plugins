@@ -16,7 +16,8 @@ export default defineConfig({
   integrations: [
     starlight({
       title: 'Simply',
-      description: 'Salesforce CLI plugins by SimplySF — including simply-cicd for CI/CD pipelines.',
+      description:
+        'Salesforce CLI plugins by SimplySF for Apex, data, documentation, packages, permissions, projects, schema, and SObjects — plus simply-cicd for CI/CD pipelines.',
       logo: {
         light: './src/assets/logo-icon.png',
         dark: './src/assets/logo-icon-dark.png',
@@ -30,7 +31,23 @@ export default defineConfig({
       sidebar: [
         { label: 'Get Started', slug: 'getting-started' },
         {
+          label: 'Plugins',
+          items: [
+            { label: 'Overview', slug: 'plugins' },
+            { label: 'Apex', slug: 'plugins/simply-apex' },
+            { label: 'Data', slug: 'plugins/simply-data' },
+            { label: 'Document', slug: 'plugins/simply-document' },
+            { label: 'Package', slug: 'plugins/simply-package' },
+            { label: 'Permissions', slug: 'plugins/simply-permissions' },
+            { label: 'Project', slug: 'plugins/simply-project' },
+            { label: 'Schema', slug: 'plugins/simply-schema' },
+            { label: 'SObject', slug: 'plugins/simply-sobject' },
+            { label: 'All Commands (simply)', slug: 'plugins/simply' },
+          ],
+        },
+        {
           label: 'simply-cicd',
+          collapsed: true,
           items: [
             { label: 'Overview', slug: 'cicd' },
             { label: 'Concepts', items: [{ autogenerate: { directory: 'cicd/concepts' } }] },
@@ -38,7 +55,6 @@ export default defineConfig({
             { label: 'Command Reference', items: [{ autogenerate: { directory: 'cicd/reference' } }] },
           ],
         },
-        { label: 'Other Plugins', items: [{ autogenerate: { directory: 'plugins' } }] },
       ],
     }),
   ],

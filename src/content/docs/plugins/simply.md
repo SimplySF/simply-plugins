@@ -44,7 +44,7 @@ FLAG DESCRIPTIONS
     The path to the local .apex file containing the anonymous Apex code to execute.
 ```
 
-_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.1.18/packages/simply-apex/lib/commands/simply/apex/execute.js)_
+_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.4.0/packages/simply-apex/lib/commands/simply/apex/execute.js)_
 
 ## `sf simply apex logs purge`
 
@@ -100,36 +100,67 @@ FLAG DESCRIPTIONS
     elapses, then throws.
 ```
 
-_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.1.18/packages/simply-apex/lib/commands/simply/apex/logs/purge.js)_
+_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.4.0/packages/simply-apex/lib/commands/simply/apex/logs/purge.js)_
 
 ## `sf simply apex trace setup`
 
-Configure a debug log trace flag for the current user.
+Configure a debug log trace flag for the current user, or another user.
 
 ```
 USAGE
-  $ sf simply apex trace setup -o <value> [--json] [--flags-dir <value>] [--api-version <value>]
+  $ sf simply apex trace setup -o <value> [--json] [--flags-dir <value>] [--api-version <value>] [--on-behalf-of <value>]
+    [--log-level <value>] [--start-date <value>] [--end-date <value>]
 
 FLAGS
-  -o, --target-org=<value>   (required) Username or alias of the target org. Not required if the `target-org`
-                             configuration variable is already set.
-      --api-version=<value>  Override the api version used for api requests made by this command
+  -o, --target-org=<value>    (required) Username or alias of the target org. Not required if the `target-org`
+                              configuration variable is already set.
+      --api-version=<value>   Override the api version used for api requests made by this command
+      --end-date=<value>      Expiration date/time of the trace flag, as an ISO 8601 date-time.
+      --log-level=<value>     Developer name of an existing debug level to use for the trace flag.
+      --on-behalf-of=<value>  Configure the trace flag for another user, identified by a "Field:Value" pair.
+      --start-date=<value>    Start date/time of the trace flag, as an ISO 8601 date-time.
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
   --json               Format output as json.
 
 DESCRIPTION
-  Configure a debug log trace flag for the current user.
+  Configure a debug log trace flag for the current user, or another user.
 
-  Creates or updates a 24-hour DEVELOPER_LOG trace flag for the user running the command, using a FINEST/FINER debug
-  level suitable for the Apex Replay Debugger.
+  Creates or updates a DEVELOPER_LOG trace flag for the target user, using the FINEST/FINER "ReplayDebuggerLevels" debug
+  level suitable for the Apex Replay Debugger and running for 24 hours starting now, by default. Use --on-behalf-of to
+  configure the trace flag for a different user instead; --log-level, --start-date, and --end-date override the other
+  defaults.
 
 EXAMPLES
   $ sf simply apex trace setup --target-org myOrg
+
+  $ sf simply apex trace setup --target-org myOrg --on-behalf-of Username:someuser@example.com
+
+  $ sf simply apex trace setup --target-org myOrg --on-behalf-of FederationIdentifier:123456
+
+  $ sf simply apex trace setup --target-org myOrg --log-level MyCustomDebugLevel --start-date 2026-08-18T09:00:00Z --end-date 2026-08-19T09:00:00Z
+
+FLAG DESCRIPTIONS
+  --end-date=<value>  Expiration date/time of the trace flag, as an ISO 8601 date-time.
+
+    Defaults to 24 hours after the start date/time.
+
+  --log-level=<value>  Developer name of an existing debug level to use for the trace flag.
+
+    Must already exist in the org; it's looked up but never created or modified. Defaults to the "ReplayDebuggerLevels"
+    debug level, which is created automatically if it doesn't exist.
+
+  --on-behalf-of=<value>  Configure the trace flag for another user, identified by a "Field:Value" pair.
+
+    Any unique User field can be used, for example "Username:someuser@example.com" or "FederationIdentifier:123456".
+
+  --start-date=<value>  Start date/time of the trace flag, as an ISO 8601 date-time.
+
+    Defaults to the current date/time.
 ```
 
-_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.1.18/packages/simply-apex/lib/commands/simply/apex/trace/setup.js)_
+_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.4.0/packages/simply-apex/lib/commands/simply/apex/trace/setup.js)_
 
 ## `sf simply apex trace silence`
 
@@ -138,14 +169,17 @@ Silence debug logs for specific Apex classes.
 ```
 USAGE
   $ sf simply apex trace silence -o <value> [--json] [--flags-dir <value>] [--api-version <value>] [-c <value> | --classes-file
-    <value>]
+    <value>] [--fflib] [--at4dx] [--force-di]
 
 FLAGS
   -c, --classes=<value>       Comma-separated Apex class names
   -o, --target-org=<value>    (required) Username or alias of the target org. Not required if the `target-org`
                               configuration variable is already set.
       --api-version=<value>   Override the api version used for api requests made by this command
+      --at4dx                 Silence at4dx base classes
       --classes-file=<value>  Path to a JSON file listing classes to silence
+      --fflib                 Silence fflib base classes
+      --force-di              Silence force-di base classes
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -154,26 +188,43 @@ GLOBAL FLAGS
 DESCRIPTION
   Silence debug logs for specific Apex classes.
 
-  Creates a 24-hour CLASS_TRACING trace flag with a fully suppressed (NONE) debug level for each specified Apex class,
-  preventing those classes from generating debug log output.
+  Creates or updates a 24-hour CLASS_TRACING trace flag with a fully suppressed (NONE) debug level for each specified
+  Apex class, preventing those classes from generating debug log output. If a class already has a trace flag, its
+  expiration is extended instead of creating a duplicate.
 
 EXAMPLES
   $ sf simply apex trace silence --target-org myOrg --classes NoisyClass,ChattyTrigger
 
   $ sf simply apex trace silence --target-org myOrg --classes-file classesToSilence.json
 
+  $ sf simply apex trace silence --target-org myOrg --fflib --at4dx --force-di
+
+  $ sf simply apex trace silence --target-org myOrg --classes NoisyClass --fflib
+
 FLAG DESCRIPTIONS
   -c, --classes=<value>  Comma-separated Apex class names
 
     A comma-separated list of Apex class names to silence.
 
+  --at4dx  Silence at4dx base classes
+
+    Adds ApplicationSObjectDomain to the classes to silence.
+
   --classes-file=<value>  Path to a JSON file listing classes to silence
 
     The path to a JSON file with the shape { "classes": ["ClassOne", "ClassTwo"] } listing the Apex class names to
     silence.
+
+  --fflib  Silence fflib base classes
+
+    Adds fflib_SObjectDescribe and fflib_SObjectDomain to the classes to silence.
+
+  --force-di  Silence force-di base classes
+
+    Adds di_Binding, di_Module, di_PlatformCache, and di_Injector to the classes to silence.
 ```
 
-_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.1.18/packages/simply-apex/lib/commands/simply/apex/trace/silence.js)_
+_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.4.0/packages/simply-apex/lib/commands/simply/apex/trace/silence.js)_
 
 ## `sf simply data file upload`
 
@@ -207,7 +258,7 @@ EXAMPLES
   $ sf simply data file upload --file-path fileToUpload.txt --first-publish-location-id 0019000000DmehK --target-org myTargetOrg
 ```
 
-_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-data@2.3.17/packages/simply-data/lib/commands/simply/data/file/upload.js)_
+_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-data@2.3.21/packages/simply-data/lib/commands/simply/data/file/upload.js)_
 
 ## `sf simply data files download`
 
@@ -252,7 +303,7 @@ FLAG DESCRIPTIONS
     Provide a WHERE clause to allow the plugin to specify which ContentVersion records should be downloaded.
 ```
 
-_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-data@2.3.17/packages/simply-data/lib/commands/simply/data/files/download.js)_
+_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-data@2.3.21/packages/simply-data/lib/commands/simply/data/files/download.js)_
 
 ## `sf simply data files upload`
 
@@ -297,7 +348,7 @@ FLAG DESCRIPTIONS
     quasi concurrent uploads. Please note that setting this value too high can cause performance issues.
 ```
 
-_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-data@2.3.17/packages/simply-data/lib/commands/simply/data/files/upload.js)_
+_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-data@2.3.21/packages/simply-data/lib/commands/simply/data/files/upload.js)_
 
 ## `sf simply document diff`
 
@@ -350,7 +401,7 @@ FLAG DESCRIPTIONS
     available partials.
 ```
 
-_See code: [@simplysf/simply-document](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-document@0.3.3/packages/simply-document/lib/commands/simply/document/diff.js)_
+_See code: [@simplysf/simply-document](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-document@0.3.6/packages/simply-document/lib/commands/simply/document/diff.js)_
 
 ## `sf simply document generate`
 
@@ -396,7 +447,7 @@ FLAG DESCRIPTIONS
     for the data shape.
 ```
 
-_See code: [@simplysf/simply-document](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-document@0.3.3/packages/simply-document/lib/commands/simply/document/generate.js)_
+_See code: [@simplysf/simply-document](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-document@0.3.6/packages/simply-document/lib/commands/simply/document/generate.js)_
 
 ## `sf simply package dependencies install`
 
@@ -505,7 +556,7 @@ FLAG DESCRIPTIONS
     that was attempted, and the decision made (Skipped, Installed, Installing, or Failed).
 ```
 
-_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-package@2.8.7/packages/simply-package/lib/commands/simply/package/dependencies/install.js)_
+_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-package@2.8.11/packages/simply-package/lib/commands/simply/package/dependencies/install.js)_
 
 ## `sf simply package dependencies manage`
 
@@ -564,7 +615,7 @@ FLAG DESCRIPTIONS
     version without interactive prompts. Mutually exclusive with --update-to-latest.
 ```
 
-_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-package@2.8.7/packages/simply-package/lib/commands/simply/package/dependencies/manage.js)_
+_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-package@2.8.11/packages/simply-package/lib/commands/simply/package/dependencies/manage.js)_
 
 ## `sf simply package version cleanup`
 
@@ -618,7 +669,7 @@ FLAG DESCRIPTIONS
     does not match this matcher is deleted. Mutually exclusive with --matcher.
 ```
 
-_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-package@2.8.7/packages/simply-package/lib/commands/simply/package/version/cleanup.js)_
+_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-package@2.8.11/packages/simply-package/lib/commands/simply/package/version/cleanup.js)_
 
 ## `sf simply permissions analyze`
 
@@ -662,7 +713,7 @@ FLAG DESCRIPTIONS
     The path to write the generated HTML report to.
 ```
 
-_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-permissions@1.2.22/packages/simply-permissions/lib/commands/simply/permissions/analyze.js)_
+_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-permissions@1.2.26/packages/simply-permissions/lib/commands/simply/permissions/analyze.js)_
 
 ## `sf simply permissions build`
 
@@ -729,7 +780,7 @@ FLAG DESCRIPTIONS
     'view-all' additionally grants view-all-records, and 'modify-all' grants full CRUD and modify-all-records access.
 ```
 
-_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-permissions@1.2.22/packages/simply-permissions/lib/commands/simply/permissions/build.js)_
+_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-permissions@1.2.26/packages/simply-permissions/lib/commands/simply/permissions/build.js)_
 
 ## `sf simply project update api-version`
 
@@ -768,7 +819,7 @@ FLAG DESCRIPTIONS
     The path to the Salesforce project directory to scan for metadata files.
 ```
 
-_See code: [@simplysf/simply-project](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-project@1.2.14/packages/simply-project/lib/commands/simply/project/update/api-version.js)_
+_See code: [@simplysf/simply-project](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-project@1.2.17/packages/simply-project/lib/commands/simply/project/update/api-version.js)_
 
 ## `sf simply schema generate`
 
@@ -809,7 +860,7 @@ FLAG DESCRIPTIONS
     A `.csv` file processed as the flat CSV flow, or a `.xlsx`/`.xls` file processed as the Excel flow.
 ```
 
-_See code: [@simplysf/simply-schema](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-schema@0.3.8/packages/simply-schema/lib/commands/simply/schema/generate.js)_
+_See code: [@simplysf/simply-schema](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-schema@0.3.12/packages/simply-schema/lib/commands/simply/schema/generate.js)_
 
 ## `sf simply schema visualize`
 
@@ -871,7 +922,7 @@ FLAG DESCRIPTIONS
     specified, every discovered object is included. If not specified, every object matching `--object-type` is included.
 ```
 
-_See code: [@simplysf/simply-schema](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-schema@0.3.8/packages/simply-schema/lib/commands/simply/schema/visualize.js)_
+_See code: [@simplysf/simply-schema](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-schema@0.3.12/packages/simply-schema/lib/commands/simply/schema/visualize.js)_
 
 ## `sf simply sobject backup`
 
@@ -880,13 +931,16 @@ Back up SObject data to a CSV file.
 ```
 USAGE
   $ sf simply sobject backup -o <value> -s <value> [--json] [--flags-dir <value>] [--api-version <value>] [-d <value>]
+    [--include-relationship-fields] [-f <value>...]
 
 FLAGS
-  -d, --output-dir=<value>   Output directory
-  -o, --target-org=<value>   (required) Username or alias of the target org. Not required if the `target-org`
-                             configuration variable is already set.
-  -s, --sobject=<value>      (required) SObject API name
-      --api-version=<value>  Override the api version used for api requests made by this command
+  -d, --output-dir=<value>            Output directory
+  -f, --additional-fields=<value>...  Additional fields to include
+  -o, --target-org=<value>            (required) Username or alias of the target org. Not required if the `target-org`
+                                      configuration variable is already set.
+  -s, --sobject=<value>               (required) SObject API name
+      --api-version=<value>           Override the api version used for api requests made by this command
+      --include-relationship-fields   Include parent relationship fields
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -902,17 +956,34 @@ EXAMPLES
 
   $ sf simply sobject backup --target-org myOrg --sobject Custom_Object__c --output-dir backups
 
+  $ sf simply sobject backup --target-org myOrg --sobject Account --include-relationship-fields
+
+  $ sf simply sobject backup --target-org myOrg --sobject Account --additional-fields Owner.Manager.Name --additional-fields Parent.Owner.Email
+
 FLAG DESCRIPTIONS
   -d, --output-dir=<value>  Output directory
 
     The directory to save the backup CSV file to. Defaults to the current directory.
 
+  -f, --additional-fields=<value>...  Additional fields to include
+
+    Extra field API names to include in the query, on top of the SObject's own fields and any fields discovered via
+    --include-relationship-fields. Useful for fields --include-relationship-fields won't discover, such as multi-hop
+    relationship paths (e.g. Owner.Manager.Name) or fields through a polymorphic relationship. Fields already included
+    are not duplicated.
+
   -s, --sobject=<value>  SObject API name
 
     The API name of the SObject to back up.
+
+  --include-relationship-fields  Include parent relationship fields
+
+    For every lookup/master-detail field, describe its parent SObject and include its identifying fields (e.g.
+    RecordTypeId includes RecordType.Name and RecordType.DeveloperName). Polymorphic relationship fields, such as
+    OwnerId, are skipped.
 ```
 
-_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-sobject@1.4.9/packages/simply-sobject/lib/commands/simply/sobject/backup.js)_
+_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-sobject@1.6.0/packages/simply-sobject/lib/commands/simply/sobject/backup.js)_
 
 ## `sf simply sobject deduplicate`
 
@@ -965,7 +1036,7 @@ FLAG DESCRIPTIONS
     The directory to write the generated CSV files to. Defaults to ./temp/<primaryObjectApiName>.
 ```
 
-_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-sobject@1.4.9/packages/simply-sobject/lib/commands/simply/sobject/deduplicate.js)_
+_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-sobject@1.6.0/packages/simply-sobject/lib/commands/simply/sobject/deduplicate.js)_
 
 ## `sf simply sobject history export`
 
@@ -1019,7 +1090,7 @@ FLAG DESCRIPTIONS
     The start of the date range to export history for, inclusive.
 ```
 
-_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-sobject@1.4.9/packages/simply-sobject/lib/commands/simply/sobject/history/export.js)_
+_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-sobject@1.6.0/packages/simply-sobject/lib/commands/simply/sobject/history/export.js)_
 
 ## `sf simply sobject history query`
 
@@ -1075,7 +1146,7 @@ FLAG DESCRIPTIONS
     The API name of the SObject to query field history for (e.g. Account or Custom_Object__c).
 ```
 
-_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-sobject@1.4.9/packages/simply-sobject/lib/commands/simply/sobject/history/query.js)_
+_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-sobject@1.6.0/packages/simply-sobject/lib/commands/simply/sobject/history/query.js)_
 
 ## `sf simply sobject history schema`
 
@@ -1113,4 +1184,4 @@ FLAG DESCRIPTIONS
     The directory to save the generated CSV and HTML report files to. Defaults to the current directory.
 ```
 
-_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-sobject@1.4.9/packages/simply-sobject/lib/commands/simply/sobject/history/schema.js)_
+_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-sobject@1.6.0/packages/simply-sobject/lib/commands/simply/sobject/history/schema.js)_

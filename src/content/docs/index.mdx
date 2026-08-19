@@ -1,9 +1,9 @@
 ---
 title: Simply
-description: Salesforce CLI plugins by SimplySF — including simply-cicd for CI/CD pipelines.
+description: Salesforce CLI plugins by SimplySF for Apex, data, documentation, packages, permissions, projects, schema, and SObjects — plus simply-cicd for CI/CD pipelines.
 template: splash
 hero:
-  tagline: Salesforce CLI plugins by SimplySF, for Apex, CI/CD, data, documentation, packages, permissions, projects, schema, and SObjects.
+  tagline: A monorepo of independently-installable Salesforce CLI plugins for Apex, data, documentation, packages, permissions, projects, schema, and SObjects — plus simply-cicd for CI/CD pipelines.
   image:
     alt: Simply SF logo — a stylized cloud
     light: ../../assets/logo-full.png
@@ -16,9 +16,9 @@ hero:
       link: /simply-node/getting-started/
       icon: right-arrow
       variant: primary
-    - text: simply-cicd docs
-      link: /simply-node/cicd/
-      icon: rocket
+    - text: Browse plugins
+      link: /simply-node/plugins/
+      icon: puzzle
       variant: secondary
     - text: View on GitHub
       link: https://github.com/SimplySF/simply-node
@@ -28,25 +28,28 @@ hero:
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
 
-## Featured: simply-cicd
+## Featured: Simply plugins
 
 <CardGrid>
-  <Card title="Project vs. Happy Soup" icon="puzzle">
-    The one concept every simply-cicd pipeline assumes you already know. [Start
-    here](/cicd/concepts/happy-soup-vs-project/).
+  <Card title="Apex" icon="rocket">
+    Execute anonymous Apex, purge debug logs, and manage trace flags. [See the Apex commands](/plugins/simply-apex/).
   </Card>
-  <Card title="Deploy pipeline stages" icon="rocket">
-    How validate, pre/post-destructive, and deploy chain together across CI jobs. [Read the
-    concept](/cicd/concepts/deploy-pipeline-stages/).
+  <Card title="SObject" icon="puzzle">
+    Back up, deduplicate, and track field history for SObject data. [See the SObject
+    commands](/plugins/simply-sobject/).
   </Card>
-  <Card title="GitLab CI pipeline guide" icon="setting">
-    A working `.gitlab-ci.yml` walkthrough, from build through notify. [Read the
-    guide](/cicd/guides/gitlab-ci-pipeline/).
+  <Card title="Schema & permissions" icon="setting">
+    Generate and visualize Salesforce schema, or build permission sets from source metadata. [See the Schema
+    commands](/plugins/simply-schema/).
   </Card>
-  <Card title="Command reference" icon="document">
-    Full `--help` output for all 31 commands, grouped by topic. [Browse the reference](/cicd/reference/build/).
+  <Card title="Full command reference" icon="document">
+    Every command, from every plugin, in one page. [Browse the reference](/plugins/simply/).
   </Card>
 </CardGrid>
+
+## Also included: simply-cicd
+
+Need Salesforce CI/CD pipelines? `simply-cicd` handles scratch-org builds, packaged and unpackaged deployments, and pipeline notifications. [Read the simply-cicd docs](/cicd/).
 
 ## All plugins
 
@@ -56,14 +59,14 @@ Simply is a monorepo of independently-installable Salesforce CLI plugins. Instal
 sf plugins install @simplysf/simply
 ```
 
-| Plugin                                               | What it's for                                          |
-| ---------------------------------------------------- | ------------------------------------------------------ |
-| [`simply-cicd`](/cicd/)                              | Salesforce CI/CD pipelines — the flagship of this site |
-| [`simply-apex`](/plugins/simply-apex/)               | Working with Apex                                      |
-| [`simply-data`](/plugins/simply-data/)               | Uploading and downloading files in a Salesforce org    |
-| [`simply-document`](/plugins/simply-document/)       | Generating project documentation                       |
-| [`simply-package`](/plugins/simply-package/)         | Managing package dependencies                          |
-| [`simply-permissions`](/plugins/simply-permissions/) | Working with permissions                               |
-| [`simply-project`](/plugins/simply-project/)         | Working with Salesforce projects                       |
-| [`simply-schema`](/plugins/simply-schema/)           | Visualizing Salesforce schema                          |
-| [`simply-sobject`](/plugins/simply-sobject/)         | Working with SObjects                                  |
+| Plugin                                               | What it's for                                       |
+| ---------------------------------------------------- | --------------------------------------------------- |
+| [`simply-apex`](/plugins/simply-apex/)               | Working with Apex                                   |
+| [`simply-data`](/plugins/simply-data/)               | Uploading and downloading files in a Salesforce org |
+| [`simply-document`](/plugins/simply-document/)       | Generating project documentation                    |
+| [`simply-package`](/plugins/simply-package/)         | Managing package dependencies                       |
+| [`simply-permissions`](/plugins/simply-permissions/) | Working with permissions                            |
+| [`simply-project`](/plugins/simply-project/)         | Working with Salesforce projects                    |
+| [`simply-schema`](/plugins/simply-schema/)           | Visualizing Salesforce schema                       |
+| [`simply-sobject`](/plugins/simply-sobject/)         | Working with SObjects                               |
+| [`simply-cicd`](/cicd/)                              | Salesforce CI/CD pipelines                          |
