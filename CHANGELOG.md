@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-sobject%401.4.13...%40simplysf%2Fsimply-sobject%401.5.0) (2026-08-19)
+
+### Features
+
+- **sobject:** include parent relationship fields in backup ([b31d077](https://github.com/SimplySF/simply-node/commit/b31d07793ba7795a6cabd8c4ee929a170d83396c))
+
 ## [1.4.13](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-sobject%401.4.12...%40simplysf%2Fsimply-sobject%401.4.13) (2026-08-18)
 
 **Note:** Version bump only for package @simplysf/simply-sobject
