@@ -19,6 +19,7 @@ import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import { requireConnection, targetOrgFlags } from '@simplysf/simply-plugin-kit';
 import { ensureDirectory, queryRecords, timestampForFileName, writeRecordsToCsvFile } from '@simplysf/simply-core';
+import { discoverRelationshipFields } from '../../../common/relationshipFields.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-sobject', 'simply.sobject.backup');
@@ -53,6 +54,11 @@ export default class SObjectBackup extends SfCommand<SObjectBackupResult> {
       char: 's',
       required: true,
     }),
+    'include-relationship-fields': Flags.boolean({
+      summary: messages.getMessage('flags.include-relationship-fields.summary'),
+      description: messages.getMessage('flags.include-relationship-fields.description'),
+      default: false,
+    }),
   };
 
   /** @returns The output CSV path and the number of records written. */
@@ -68,7 +74,17 @@ export default class SObjectBackup extends SfCommand<SObjectBackupResult> {
     const queryableFields = sobjectDescribe.fields.map((field) => field.name);
     this.spinner.stop();
 
-    const soql = `SELECT ${queryableFields.join(',')} FROM ${sobjectName}`;
+    let relationshipFields: string[] = [];
+
+    if (flags['include-relationship-fields']) {
+      this.spinner.start(messages.getMessage('info.discoveringRelationshipFields'));
+      relationshipFields = await discoverRelationshipFields(targetOrgConnection, sobjectDescribe.fields);
+      this.spinner.stop();
+    }
+
+    const fieldsToQuery = [...queryableFields, ...relationshipFields];
+
+    const soql = `SELECT ${fieldsToQuery.join(',')} FROM ${sobjectName}`;
 
     const outputDir = ensureDirectory(flags['output-dir'] ?? '.');
     const outputPath = path.join(outputDir, `${sobjectName}_${timestampForFileName()}.csv`);
@@ -78,7 +94,7 @@ export default class SObjectBackup extends SfCommand<SObjectBackupResult> {
     const { recordCount } = await writeRecordsToCsvFile(
       queryRecords(targetOrgConnection, soql),
       outputPath,
-      queryableFields,
+      fieldsToQuery,
     );
 
     this.spinner.stop();

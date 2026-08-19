@@ -91,4 +91,94 @@ describe('simply sobject backup', () => {
       fs.rmSync(outputDir, { recursive: true, force: true });
     }
   });
+
+  it('discovers and includes parent relationship fields when --include-relationship-fields is set', async () => {
+    (Connection.prototype.request as unknown as SinonStub).callsFake(async (request: unknown) => {
+      const url = typeof request === 'string' ? request : (request as { url: string }).url;
+
+      if (url.includes('/sobjects/RecordType/describe')) {
+        return {
+          fields: [{ name: 'Id' }, { name: 'Name', nameField: true }, { name: 'DeveloperName', nameField: false }],
+        };
+      }
+
+      return {
+        fields: [
+          { name: 'Id' },
+          { name: 'Name' },
+          {
+            name: 'RecordTypeId',
+            type: 'reference',
+            relationshipName: 'RecordType',
+            referenceTo: ['RecordType'],
+          },
+        ],
+      };
+    });
+
+    vi.mocked(simplyCore.queryRecords).mockImplementation(async function* () {
+      yield {
+        Id: '001',
+        Name: 'Foo',
+        RecordTypeId: '012',
+        'RecordType.Name': 'Master',
+        'RecordType.DeveloperName': 'Master',
+      };
+    });
+
+    const outputDir = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-sobject-backup-'));
+
+    try {
+      const result = await SObjectBackup.run([
+        '--target-org',
+        testOrg.username,
+        '--sobject',
+        'Account',
+        '--output-dir',
+        outputDir,
+        '--include-relationship-fields',
+      ]);
+
+      expect(result.recordCount).to.equal(1);
+
+      const [, soqlArg] = vi.mocked(simplyCore.queryRecords).mock.calls[0];
+      expect(soqlArg).to.equal('SELECT Id,Name,RecordTypeId,RecordType.Name,RecordType.DeveloperName FROM Account');
+
+      const csvContent = fs.readFileSync(result.path, 'utf-8');
+      expect(csvContent).to.equal(
+        'Id,Name,RecordTypeId,RecordType.Name,RecordType.DeveloperName\n001,Foo,012,Master,Master\n',
+      );
+    } finally {
+      fs.rmSync(outputDir, { recursive: true, force: true });
+    }
+  });
+
+  it('does not discover relationship fields when --include-relationship-fields is not set', async () => {
+    (Connection.prototype.request as unknown as SinonStub).resolves({
+      fields: [
+        { name: 'Id' },
+        {
+          name: 'RecordTypeId',
+          type: 'reference',
+          relationshipName: 'RecordType',
+          referenceTo: ['RecordType'],
+        },
+      ],
+    });
+
+    vi.mocked(simplyCore.queryRecords).mockImplementation(async function* () {
+      yield { Id: '001', RecordTypeId: '012' };
+    });
+
+    const outputDir = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-sobject-backup-'));
+
+    try {
+      await SObjectBackup.run(['--target-org', testOrg.username, '--sobject', 'Account', '--output-dir', outputDir]);
+
+      const [, soqlArg] = vi.mocked(simplyCore.queryRecords).mock.calls[0];
+      expect(soqlArg).to.equal('SELECT Id,RecordTypeId FROM Account');
+    } finally {
+      fs.rmSync(outputDir, { recursive: true, force: true });
+    }
+  });
 });

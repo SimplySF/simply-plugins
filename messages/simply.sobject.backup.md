@@ -22,15 +22,29 @@ Output directory
 
 The directory to save the backup CSV file to. Defaults to the current directory.
 
+# flags.include-relationship-fields.summary
+
+Include parent relationship fields
+
+# flags.include-relationship-fields.description
+
+For every lookup/master-detail field, describe its parent SObject and include its identifying fields (e.g. RecordTypeId includes RecordType.Name and RecordType.DeveloperName). Polymorphic relationship fields, such as OwnerId, are skipped.
+
 # examples
 
 - <%= config.bin %> <%= command.id %> --target-org myOrg --sobject Account
 
 - <%= config.bin %> <%= command.id %> --target-org myOrg --sobject Custom_Object__c --output-dir backups
 
+- <%= config.bin %> <%= command.id %> --target-org myOrg --sobject Account --include-relationship-fields
+
 # info.describingSobject
 
 Describing SObject: %s...
+
+# info.discoveringRelationshipFields
+
+Discovering relationship fields...
 
 # info.exportingData
 
