@@ -4,7 +4,7 @@
     "command": "simply:sobject:backup",
     "flagAliases": [],
     "flagChars": ["d", "o", "s"],
-    "flags": ["api-version", "flags-dir", "json", "output-dir", "sobject", "target-org"],
+    "flags": ["api-version", "flags-dir", "include-relationship-fields", "json", "output-dir", "sobject", "target-org"],
     "plugin": "@simplysf/simply-sobject"
   },
   {
