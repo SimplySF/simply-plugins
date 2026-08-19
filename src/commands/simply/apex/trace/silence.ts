@@ -28,6 +28,13 @@ const DEBUG_LEVEL_NAME = 'Silence';
 /** How long a configured trace flag stays active before expiring, in milliseconds (24 hours). */
 const TRACE_DURATION_MS = 24 * 60 * 60 * 1000;
 
+/** Classes silenced by the `--fflib` flag. */
+const FFLIB_CLASSES = ['fflib_SObjectDescribe', 'fflib_SObjectDomain'];
+/** Classes silenced by the `--at4dx` flag. */
+const AT4DX_CLASSES = ['ApplicationSObjectDomain'];
+/** Classes silenced by the `--force-di` flag. */
+const FORCE_DI_CLASSES = ['di_Binding', 'di_Module', 'di_PlatformCache', 'di_Injector'];
+
 /** The trace flag created to silence debug logs for a single Apex class. */
 export type ApexTraceSilenceResult = {
   class: string;
@@ -36,21 +43,31 @@ export type ApexTraceSilenceResult = {
 };
 
 /**
- * Resolve the list of Apex class names to silence from either the `--classes` flag (a
- * comma-separated list) or the `--classes-file` flag (a JSON config file matching
- * {@link ClassesToSilenceSchema}). Returns an empty array if neither flag was provided.
+ * Resolve the list of Apex class names to silence from the `--classes` flag (a comma-separated
+ * list), the `--classes-file` flag (a JSON config file matching {@link ClassesToSilenceSchema}),
+ * and the `--fflib`, `--at4dx`, and `--force-di` preset flags. All sources are combined and
+ * deduplicated.
  *
  * @param classesFlag - The raw `--classes` flag value, if provided.
  * @param classesFileFlag - The raw `--classes-file` flag value, if provided.
- * @returns The resolved, trimmed list of Apex class names.
+ * @param presetFlags - Which of the built-in class presets were requested.
+ * @returns The resolved, trimmed, deduplicated list of Apex class names.
  * @throws {SfError} If `--classes-file` was provided but fails schema validation.
  */
-function resolveClasses(classesFlag: string | undefined, classesFileFlag: string | undefined): string[] {
+function resolveClasses(
+  classesFlag: string | undefined,
+  classesFileFlag: string | undefined,
+  presetFlags: { fflib: boolean; at4dx: boolean; forceDi: boolean },
+): string[] {
+  const classes: string[] = [];
+
   if (classesFlag) {
-    return classesFlag
-      .split(',')
-      .map((className) => className.trim())
-      .filter(Boolean);
+    classes.push(
+      ...classesFlag
+        .split(',')
+        .map((className) => className.trim())
+        .filter(Boolean),
+    );
   }
 
   if (classesFileFlag) {
@@ -60,10 +77,22 @@ function resolveClasses(classesFlag: string | undefined, classesFileFlag: string
       throw messages.createError('error.invalidClassesFile', [parsed.message]);
     }
 
-    return parsed.data.classes;
+    classes.push(...parsed.data.classes);
   }
 
-  return [];
+  if (presetFlags.fflib) {
+    classes.push(...FFLIB_CLASSES);
+  }
+
+  if (presetFlags.at4dx) {
+    classes.push(...AT4DX_CLASSES);
+  }
+
+  if (presetFlags.forceDi) {
+    classes.push(...FORCE_DI_CLASSES);
+  }
+
+  return [...new Set(classes)];
 }
 
 /**
@@ -92,6 +121,21 @@ export default class ApexTraceSilence extends SfCommand<ApexTraceSilenceResult[]
       exists: true,
       exclusive: ['classes'],
     }),
+    fflib: Flags.boolean({
+      summary: messages.getMessage('flags.fflib.summary'),
+      description: messages.getMessage('flags.fflib.description'),
+      default: false,
+    }),
+    at4dx: Flags.boolean({
+      summary: messages.getMessage('flags.at4dx.summary'),
+      description: messages.getMessage('flags.at4dx.description'),
+      default: false,
+    }),
+    'force-di': Flags.boolean({
+      summary: messages.getMessage('flags.force-di.summary'),
+      description: messages.getMessage('flags.force-di.description'),
+      default: false,
+    }),
   };
 
   /**
@@ -104,7 +148,11 @@ export default class ApexTraceSilence extends SfCommand<ApexTraceSilenceResult[]
 
     const targetOrgConnection = requireConnection(flags);
 
-    const classes = resolveClasses(flags.classes, flags['classes-file']);
+    const classes = resolveClasses(flags.classes, flags['classes-file'], {
+      fflib: flags.fflib,
+      at4dx: flags.at4dx,
+      forceDi: flags['force-di'],
+    });
 
     if (classes.length === 0) {
       throw messages.createError('error.noClassesSpecified');

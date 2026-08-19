@@ -28,7 +28,17 @@
     "command": "simply:apex:trace:silence",
     "flagAliases": [],
     "flagChars": ["c", "o"],
-    "flags": ["api-version", "classes", "classes-file", "flags-dir", "json", "target-org"],
+    "flags": [
+      "api-version",
+      "at4dx",
+      "classes",
+      "classes-file",
+      "fflib",
+      "flags-dir",
+      "force-di",
+      "json",
+      "target-org"
+    ],
     "plugin": "@simplysf/simply-apex"
   }
 ]
