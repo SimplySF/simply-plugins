@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-cicd%400.6.1...%40simplysf%2Fsimply-cicd%400.7.0) (2026-08-20)
+
+- fix(cicd)!: generalize scratch-org Dev Hub auth beyond JWT ([8b6c737](https://github.com/SimplySF/simply-node/commit/8b6c737c029404e83b79fd5d43d41c72e0ae3953))
+
+### BREAKING CHANGES
+
+- --dev-hub-name/--dev-hub-username/--dev-hub-client-id/
+  --dev-hub-instance-url are removed from build create-scratch,
+  delete-scratch, and cleanup-scratch-orgs in favor of a single --dev-hub
+  <alias> flag (repeatable on create-scratch/cleanup-scratch-orgs, single
+  on delete-scratch); each alias must already be authenticated by the
+  calling pipeline. --jwt-key-file is no longer required on
+  create-scratch, delete-scratch, cleanup-scratch-orgs, push-scratch,
+  test-scratch, and install-dependencies.
+
 ## [0.6.1](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-cicd%400.6.0...%40simplysf%2Fsimply-cicd%400.6.1) (2026-08-20)
 
 **Note:** Version bump only for package @simplysf/simply-cicd
