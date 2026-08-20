@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-cicd%400.5.4...%40simplysf%2Fsimply-cicd%400.6.0) (2026-08-20)
+
+### Bug Fixes
+
+- **cicd:** rename devhub-tooling-* flags to packaging-devhub-* ([de2d055](https://github.com/SimplySF/simply-node/commit/de2d055a661354ee49b6100289619acd16ed908f))
+
+### Features
+
+- **cicd:** track upgraded-package stories for happy-soup deployments ([c931249](https://github.com/SimplySF/simply-node/commit/c931249b69cbc6008ed71fc96d9425a6e6ce1e6d))
+
 ## [0.5.4](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-cicd%400.5.3...%40simplysf%2Fsimply-cicd%400.5.4) (2026-08-18)
 
 **Note:** Version bump only for package @simplysf/simply-cicd
