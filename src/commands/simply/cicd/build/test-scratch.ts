@@ -18,7 +18,7 @@ import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { runScratchApexTests } from '../../../../common/build/testScratch.js';
 import { getSkipReason } from '../../../../common/build/skipGuard.js';
-import { debugFlag, disabledFlag, optionalJwtKeyFileFlag } from '../../../../common/build/flags.js';
+import { debugFlag, disabledFlag, jwtKeyFileFlag } from '../../../../common/build/flags.js';
 import { logger } from '../../../../common/logger.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -34,7 +34,7 @@ export default class BuildTestScratch extends SfCommand<BuildTestScratchResult> 
 
   public static readonly flags = {
     ...SfCommand.baseFlags,
-    ...optionalJwtKeyFileFlag,
+    ...jwtKeyFileFlag,
     ...debugFlag,
     ...disabledFlag,
     'disable-apex-tests': Flags.boolean({

@@ -18,7 +18,7 @@ import { Messages } from '@salesforce/core';
 import { SfCommand } from '@salesforce/sf-plugins-core';
 import { deleteScratchOrg } from '../../../../common/build/deleteScratchOrg.js';
 import { getSkipReason } from '../../../../common/build/skipGuard.js';
-import { debugFlag, devHubFlag, disabledFlag, optionalJwtKeyFileFlag } from '../../../../common/build/flags.js';
+import { debugFlag, devHubFlag, disabledFlag, jwtKeyFileFlag } from '../../../../common/build/flags.js';
 import { logger } from '../../../../common/logger.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -35,7 +35,7 @@ export default class BuildDeleteScratch extends SfCommand<BuildDeleteScratchResu
   public static readonly flags = {
     ...SfCommand.baseFlags,
     ...devHubFlag,
-    ...optionalJwtKeyFileFlag,
+    ...jwtKeyFileFlag,
     ...debugFlag,
     ...disabledFlag,
   };
