@@ -7,8 +7,8 @@ The `build` topic's scratch-org commands form a linear lifecycle, each reading s
 
 `simply-cicd` doesn't authenticate the Dev Hub itself — `--dev-hub` takes one or more **already-authenticated** aliases (`sf org login jwt --alias main`, or any other login method, run as its own step before these jobs). It's the one exception to "`simply-cicd` never authenticates orgs itself" (see [Environment variables](/cicd/concepts/environment-variables/)): a scratch org's own username isn't known until `create-scratch` creates it, so later stages — potentially in a fresh CI container with no memory of the Dev Hub login above — need to be able to mint a session for the scratch org **itself** on demand. How that happens depends on how the Dev Hub was authenticated:
 
-- **JWT-authenticated Dev Hub** — pass `--jwt-key-file` to every scratch-org command below. A scratch org under a JWT Dev Hub never gets a refresh token of its own (JWT bearer grants don't produce one), so each later stage re-mints a session using the Dev Hub's key file, exactly like `create-scratch` did.
-- **Web login or SFDX auth URL** — omit `--jwt-key-file` entirely. The scratch org gets its own refresh token at creation time, which `simply-cicd` uses directly to keep the session alive in later stages — no key file needed anywhere past `create-scratch`.
+- **JWT-authenticated Dev Hub** — pass `--jwt-key-file` to `install-dependencies`/`push-scratch`/`test-scratch`/`delete-scratch` (the commands that act on the scratch org's own identity after creation). A scratch org under a JWT Dev Hub never gets a refresh token of its own (JWT bearer grants don't produce one), so each of those re-mints a session using the Dev Hub's key file. `create-scratch` and `cleanup-scratch-orgs` never take `--jwt-key-file` — they only ever touch the Dev Hub itself, which is already authenticated by the `sf org login` step below, and `sf org create scratch` reads the Dev Hub's key file path off that existing session internally.
+- **Web login or SFDX auth URL** — omit `--jwt-key-file` everywhere. The scratch org gets its own refresh token at creation time, which `simply-cicd` uses directly to keep the session alive in later stages — no key file needed anywhere in the lifecycle.
 
 ## The lifecycle
 
@@ -27,7 +27,7 @@ create-scratch:
       --jwt-key-file $DEVHUB_JWT_KEY_FILE --client-id $DEVHUB_CLIENT_ID
       --instance-url $DEVHUB_INSTANCE_URL
   script:
-    - sf simply cicd build create-scratch --dev-hub main --jwt-key-file $DEVHUB_JWT_KEY_FILE
+    - sf simply cicd build create-scratch --dev-hub main
   artifacts:
     paths: [SCRATCH_ORG_INFO.json]
 
@@ -53,7 +53,7 @@ cleanup-scratch:
     - sf simply cicd build delete-scratch --dev-hub main --jwt-key-file $DEVHUB_JWT_KEY_FILE
 ```
 
-`--jwt-key-file` is shown throughout this example because it assumes a JWT-authenticated Dev Hub — the most common setup for unattended CI. Drop it everywhere above if your Dev Hub uses web login or an SFDX auth URL instead.
+`--jwt-key-file` appears on `install-dependencies`/`push-scratch`/`test-scratch`/`delete-scratch` above because this example assumes a JWT-authenticated Dev Hub — the most common setup for unattended CI. Drop it from those four commands if your Dev Hub uses web login or an SFDX auth URL instead; `create-scratch`/`cleanup-scratch-orgs` never take it either way.
 
 Every job that touches the scratch org's own identity (`install-dependencies`/`push-scratch`/`test-scratch`/`delete-scratch`'s second, scratch-org-facing step) runs in a **fresh container with no `sf org login` of its own** — that's fine, because it re-authenticates from what `SCRATCH_ORG_INFO.json` already recorded (plus `--jwt-key-file`, if the Dev Hub needs it). Only jobs that touch the **Dev Hub** directly (`create-scratch`'s capacity check and signup, `delete-scratch`'s Dev-Hub-side deletion call, `cleanup-scratch-orgs`) need their own `sf org login` step, because the Dev Hub alias itself doesn't persist across fresh CI containers any more than the scratch org's does.
 

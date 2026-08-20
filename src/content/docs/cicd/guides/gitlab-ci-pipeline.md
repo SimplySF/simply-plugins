@@ -51,7 +51,7 @@ create-scratch:
   rules:
     - if: '$PACKAGE_CHANGED == "TRUE"'
   script:
-    - sf simply cicd build create-scratch --dev-hub main --jwt-key-file $DEVHUB_JWT_KEY_FILE
+    - sf simply cicd build create-scratch --dev-hub main
   artifacts:
     paths: [SCRATCH_ORG_INFO.json]
 
