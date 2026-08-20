@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.1](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-cicd%400.8.0...%40simplysf%2Fsimply-cicd%400.8.1) (2026-08-20)
+
+**Note:** Version bump only for package @simplysf/simply-cicd
+
 # [0.8.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-cicd%400.7.0...%40simplysf%2Fsimply-cicd%400.8.0) (2026-08-20)
 
 - fix(cicd)!: delegate Salesforce org authentication to the caller ([e31ab58](https://github.com/SimplySF/simply-node/commit/e31ab5883ab70aced45ac774d1026c5ccabfe7c8))
