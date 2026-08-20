@@ -1,0 +1,10 @@
+[
+  {
+    "alias": [],
+    "command": "simply:community:publish",
+    "flagAliases": [],
+    "flagChars": ["o"],
+    "flags": ["api-version", "flags-dir", "json", "name", "target-org", "wait"],
+    "plugin": "@simplysf/simply-community"
+  }
+]
