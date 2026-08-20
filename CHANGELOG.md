@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.8.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-cicd%400.7.0...%40simplysf%2Fsimply-cicd%400.8.0) (2026-08-20)
+
+- fix(cicd)!: delegate Salesforce org authentication to the caller ([e31ab58](https://github.com/SimplySF/simply-node/commit/e31ab5883ab70aced45ac774d1026c5ccabfe7c8))
+
+### BREAKING CHANGES
+
+- --auth-url, --client-id, --instance-url, --jwt-key-file,
+  and --username are removed from every deploy/notify command that targets
+  the deployment org, and --packaging-devhub-username/-client-id/-instance-url
+  are collapsed into a single --packaging-devhub <alias> flag. --alias and
+  --packaging-devhub now expect an already-authenticated org alias instead
+  of driving in-process authentication.
+
 # [0.7.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-cicd%400.6.1...%40simplysf%2Fsimply-cicd%400.7.0) (2026-08-20)
 
 - fix(cicd)!: generalize scratch-org Dev Hub auth beyond JWT ([8b6c737](https://github.com/SimplySF/simply-node/commit/8b6c737c029404e83b79fd5d43d41c72e0ae3953))
