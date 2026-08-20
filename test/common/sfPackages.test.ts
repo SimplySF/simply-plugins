@@ -17,7 +17,6 @@
 import { promises as fs } from 'node:fs';
 import { execa } from 'execa';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { authenticateOrg } from '../../src/common/sfAuth.js';
 import { installPackageDependencies, resolveUpgradedPackages } from '../../src/common/sfPackages.js';
 
 vi.mock('execa');
@@ -25,7 +24,6 @@ vi.mock('node:fs', async (importOriginal) => {
   const actual = await importOriginal<typeof import('node:fs')>();
   return { ...actual, promises: { ...actual.promises, readFile: vi.fn() } };
 });
-vi.mock('../../src/common/sfAuth.js', () => ({ authenticateOrg: vi.fn() }));
 vi.mock('../../src/common/logger.js', () => ({
   logger: {
     info: vi.fn(),
@@ -38,12 +36,7 @@ vi.mock('../../src/common/logger.js', () => ({
   },
 }));
 
-const devhubConfig = {
-  packagingDevhubUsername: 'devhub@example.com',
-  packagingDevhubClientId: 'client-id',
-  packagingDevhubInstanceUrl: 'https://login.salesforce.com',
-  jwtKeyFile: 'server.key',
-};
+const devhubConfig = { packagingDevhub: 'packaging-devhub' };
 
 describe('installPackageDependencies', () => {
   beforeEach(() => {
@@ -91,10 +84,9 @@ describe('resolveUpgradedPackages', () => {
     const result = await resolveUpgradedPackages('/tmp/report.json', devhubConfig);
 
     expect(result).toEqual([]);
-    expect(authenticateOrg).not.toHaveBeenCalled();
   });
 
-  it('returns an empty array and warns when devhub credentials are missing', async () => {
+  it('returns an empty array and warns when no packaging DevHub alias is given', async () => {
     stubReport([
       {
         PackageName: 'A',
@@ -105,23 +97,6 @@ describe('resolveUpgradedPackages', () => {
     ]);
 
     const result = await resolveUpgradedPackages('/tmp/report.json', {});
-
-    expect(result).toEqual([]);
-    expect(authenticateOrg).not.toHaveBeenCalled();
-  });
-
-  it('returns an empty array when devhub auth fails', async () => {
-    stubReport([
-      {
-        PackageName: 'A',
-        ExistingSubscriberPackageVersionId: '04t1',
-        SubscriberPackageVersionId: '04t2',
-        Status: 'Installed',
-      },
-    ]);
-    vi.mocked(authenticateOrg).mockResolvedValue({ success: false, message: 'bad creds' });
-
-    const result = await resolveUpgradedPackages('/tmp/report.json', devhubConfig);
 
     expect(result).toEqual([]);
   });
@@ -135,7 +110,6 @@ describe('resolveUpgradedPackages', () => {
         Status: 'Installed',
       },
     ]);
-    vi.mocked(authenticateOrg).mockResolvedValue({ success: true });
     vi.mocked(execa).mockImplementation((async (_cmd: string, args: string[] = []) => {
       const packageId = args[args.indexOf('--package') + 1];
       const reports: Record<string, unknown> = {
@@ -147,6 +121,7 @@ describe('resolveUpgradedPackages', () => {
 
     const result = await resolveUpgradedPackages('/tmp/report.json', devhubConfig);
 
+    expect(execa).toHaveBeenCalledWith('sf', expect.arrayContaining(['--target-dev-hub', 'packaging-devhub']));
     expect(result).toEqual([
       {
         packageName: 'MyDependency',
@@ -170,7 +145,6 @@ describe('resolveUpgradedPackages', () => {
         Status: 'Installed',
       },
     ]);
-    vi.mocked(authenticateOrg).mockResolvedValue({ success: true });
     vi.mocked(execa).mockRejectedValue(new Error('package not found'));
 
     const result = await resolveUpgradedPackages('/tmp/report.json', devhubConfig);

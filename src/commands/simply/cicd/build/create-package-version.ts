@@ -18,7 +18,7 @@ import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { createPackageVersion } from '../../../../common/build/createPackageVersion.js';
 import { getSkipReason } from '../../../../common/build/skipGuard.js';
-import { debugFlag, disabledFlag, gitOpsFlags, jwtKeyFileFlag, vcsFlags } from '../../../../common/build/flags.js';
+import { debugFlag, disabledFlag, gitOpsFlags, vcsFlags } from '../../../../common/build/flags.js';
 import { logger } from '../../../../common/logger.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -36,7 +36,6 @@ export default class BuildCreatePackageVersion extends SfCommand<BuildCreatePack
     ...SfCommand.baseFlags,
     ...gitOpsFlags,
     ...vcsFlags,
-    ...jwtKeyFileFlag,
     ...debugFlag,
     ...disabledFlag,
     'ci-commit-sha': Flags.string({
@@ -53,20 +52,10 @@ export default class BuildCreatePackageVersion extends SfCommand<BuildCreatePack
       required: true,
       env: 'SIMPLY_CICD_CI_PIPELINE_URL',
     }),
-    'packaging-devhub-username': Flags.string({
-      summary: messages.getMessage('flags.packaging-devhub-username.summary'),
+    'packaging-devhub': Flags.string({
+      summary: messages.getMessage('flags.packaging-devhub.summary'),
       required: true,
-      env: 'SIMPLY_CICD_PACKAGING_DEVHUB_USERNAME',
-    }),
-    'packaging-devhub-client-id': Flags.string({
-      summary: messages.getMessage('flags.packaging-devhub-client-id.summary'),
-      required: true,
-      env: 'SIMPLY_CICD_PACKAGING_DEVHUB_CLIENT_ID',
-    }),
-    'packaging-devhub-instance-url': Flags.string({
-      summary: messages.getMessage('flags.packaging-devhub-instance-url.summary'),
-      required: true,
-      env: 'SIMPLY_CICD_PACKAGING_DEVHUB_INSTANCE_URL',
+      env: 'SIMPLY_CICD_PACKAGING_DEVHUB',
     }),
     'always-create-package': Flags.boolean({
       summary: messages.getMessage('flags.always-create-package.summary'),
@@ -103,10 +92,7 @@ export default class BuildCreatePackageVersion extends SfCommand<BuildCreatePack
       ciPipelineUrl: flags['ci-pipeline-url'],
       ciProjectPath: flags['ci-project-path'],
       projectAccessToken: flags['project-access-token'],
-      packagingDevhubUsername: flags['packaging-devhub-username'],
-      packagingDevhubClientId: flags['packaging-devhub-client-id'],
-      packagingDevhubInstanceUrl: flags['packaging-devhub-instance-url'],
-      jwtKeyFile: flags['jwt-key-file'],
+      packagingDevhub: flags['packaging-devhub'],
       debug: flags.debug,
       alwaysCreatePackage: flags['always-create-package'],
       packageReleaseBranchPrefix: flags['package-release-branch-prefix'],

@@ -20,7 +20,6 @@ import { execa } from 'execa';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { addGitRemote } from '../../../src/common/git.js';
 import { logger } from '../../../src/common/logger.js';
-import { authenticateOrg } from '../../../src/common/sfAuth.js';
 import {
   installPackageDependencies as installPackageDependenciesCommon,
   resolveUpgradedPackages,
@@ -56,7 +55,6 @@ vi.mock('../../../src/common/logger.js', () => ({
     debug: vi.fn(),
   },
 }));
-vi.mock('../../../src/common/sfAuth.js', () => ({ authenticateOrg: vi.fn() }));
 vi.mock('../../../src/common/sfPlugins.js', () => ({ installDeploymentPlugins: vi.fn().mockResolvedValue(undefined) }));
 vi.mock('../../../src/common/sfPackages.js', () => ({
   installPackageDependencies: vi.fn().mockResolvedValue(undefined),
@@ -163,7 +161,7 @@ describe('deployHappySoup', () => {
     it('should create a simple git tag', async () => {
       await deployHappySoup(baseTagOptions);
 
-      expect(authenticateOrg).toHaveBeenCalled();
+      expect(execa).toHaveBeenCalledWith('sf', ['org', 'display', '--target-org', 'my-org', '--json']);
       expect(execa).toHaveBeenCalledWith('git', [
         'tag',
         '-m',

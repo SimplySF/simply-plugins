@@ -20,7 +20,6 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { readSfdxProject } from '@simplysf/simply-core';
 import { addGitRemote } from '../../../src/common/git.js';
 import { logger } from '../../../src/common/logger.js';
-import { authenticateOrg } from '../../../src/common/sfAuth.js';
 import { createPackageVersion } from '../../../src/common/build/createPackageVersion.js';
 
 vi.mock('execa');
@@ -44,7 +43,6 @@ vi.mock('../../../src/common/logger.js', () => ({
     debug: vi.fn(),
   },
 }));
-vi.mock('../../../src/common/sfAuth.js', () => ({ authenticateOrg: vi.fn() }));
 
 const baseOptions = {
   ciCommitRefName: 'release/1.0',
@@ -53,10 +51,7 @@ const baseOptions = {
   ciPipelineUrl: 'https://gitlab.example.com/pipelines/999',
   ciProjectPath: 'group/project',
   projectAccessToken: 'secret-token',
-  packagingDevhubUsername: 'packaging-devhub@example.com',
-  packagingDevhubClientId: 'packaging-client-id',
-  packagingDevhubInstanceUrl: 'https://login.salesforce.com',
-  jwtKeyFile: 'key.file',
+  packagingDevhub: 'packaging-devhub',
   packageReleaseBranchPrefix: 'release/',
   vcsHost: 'gitlab.com',
   vcsProvider: 'gitlab' as const,
@@ -124,9 +119,7 @@ describe('createPackageVersion', () => {
 
     await createPackageVersion({ ...baseOptions, ciCommitRefName: 'feature/foo', alwaysCreatePackage: true });
 
-    expect(authenticateOrg).toHaveBeenCalledWith(
-      expect.objectContaining({ username: baseOptions.packagingDevhubUsername, setDefaultDevHub: true }),
-    );
+    expect(execa).toHaveBeenCalledWith('sf', expect.arrayContaining(['--target-dev-hub', baseOptions.packagingDevhub]));
     expect(execa).toHaveBeenCalledWith('git', ['tag', '-a', 'v1.0.0.1-feature/foo', '-m', '04t000000000001']);
   });
 

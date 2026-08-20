@@ -79,11 +79,6 @@ export default class DeployHappySoupTagDeployment extends SfCommand<void> {
     await deployHappySoup({
       stage: 'tag-deployment',
       alias: flags.alias,
-      authUrl: flags['auth-url'],
-      clientId: flags['client-id'],
-      instanceUrl: flags['instance-url'],
-      jwtKeyFile: flags['jwt-key-file'],
-      username: flags.username,
       debug: flags.debug,
       deployProgressFile: flags['deploy-progress-file'],
       deployRulesFile: flags['deploy-rules-file'],

@@ -32,10 +32,10 @@ describe('deploy happy-soup post-deploy', () => {
   it('wires flags through to deployHappySoup with the correct stage', async () => {
     vi.mocked(deployHappySoup).mockResolvedValue(undefined);
 
-    await DeployHappySoupPostDeploy.run(['--ci-job-token', 'tok', '--vcs-provider', 'gitlab']);
+    await DeployHappySoupPostDeploy.run(['--ci-job-token', 'tok', '--alias', 'my-org', '--vcs-provider', 'gitlab']);
 
     expect(deployHappySoup).toHaveBeenCalledWith(
-      expect.objectContaining({ stage: 'post-deploy', ciJobToken: 'tok', vcsProvider: 'gitlab' }),
+      expect.objectContaining({ stage: 'post-deploy', ciJobToken: 'tok', alias: 'my-org', vcsProvider: 'gitlab' }),
     );
   });
 });

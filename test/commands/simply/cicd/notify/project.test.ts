@@ -119,15 +119,9 @@ describe('notify project', () => {
       );
     });
 
-    it('authenticates via execa (no shell string) and resolves both package versions on success', async () => {
+    it('queries the pre-authenticated alias/packaging DevHub and resolves both package versions on success', async () => {
       vi.mocked(readSfdxProject).mockResolvedValue({ packageDirectories: [{ default: true, package: 'my-pkg' }] });
       vi.mocked(execa).mockImplementation((async (command: string, args: string[] = []) => {
-        if (command === 'sf' && args.includes('login') && args.includes('--alias')) {
-          return { stdout: JSON.stringify({ status: 0, result: {} }) };
-        }
-        if (command === 'sf' && args.includes('login') && args.includes('--set-default-dev-hub')) {
-          return { stdout: JSON.stringify({ status: 0, result: {} }) };
-        }
         if (command === 'sf' && args[0] === 'package' && args[1] === 'installed') {
           return {
             stdout: JSON.stringify({
@@ -150,24 +144,17 @@ describe('notify project', () => {
         'pre-destructive',
         '--alias',
         'my-org',
-        '--username',
-        'user@example.com',
-        '--jwt-key-file',
-        'server.key',
-        '--client-id',
-        'abc123',
-        '--instance-url',
-        'https://login.salesforce.com',
-        '--packaging-devhub-username',
-        'hub@example.com',
-        '--packaging-devhub-client-id',
-        'def456',
-        '--packaging-devhub-instance-url',
-        'https://login.salesforce.com',
+        '--packaging-devhub',
+        'packaging-devhub',
         '--subscriber-package-version-id',
         '04tSJ000000AKwjYAG',
       ]);
 
+      expect(execa).toHaveBeenCalledWith(
+        'sf',
+        expect.arrayContaining(['package', 'installed', 'list', '--target-org', 'my-org']),
+      );
+      expect(execa).toHaveBeenCalledWith('sf', expect.arrayContaining(['--target-dev-hub', 'packaging-devhub']));
       expect(execa).not.toHaveBeenCalledWith(expect.stringContaining('sf login org jwt'), expect.anything());
       expect(appendToEnvFile).toHaveBeenCalledWith(
         'project-build.env',

@@ -32,10 +32,10 @@ describe('deploy project post-destructive', () => {
   it('wires flags through to deployProject with the correct stage', async () => {
     vi.mocked(deployProject).mockResolvedValue(undefined);
 
-    await DeployProjectPostDestructive.run(['--ci-job-token', 'tok', '--debug']);
+    await DeployProjectPostDestructive.run(['--ci-job-token', 'tok', '--alias', 'my-org', '--debug']);
 
     expect(deployProject).toHaveBeenCalledWith(
-      expect.objectContaining({ stage: 'post-destructive', ciJobToken: 'tok', debug: true }),
+      expect.objectContaining({ stage: 'post-destructive', ciJobToken: 'tok', alias: 'my-org', debug: true }),
     );
   });
 });

@@ -32,10 +32,10 @@ describe('deploy project run-apex-tests', () => {
   it('wires flags through to deployProject with the correct stage', async () => {
     vi.mocked(deployProject).mockResolvedValue(undefined);
 
-    await DeployProjectRunApexTests.run(['--ci-job-token', 'tok', '--test-suite', 'MySuite']);
+    await DeployProjectRunApexTests.run(['--ci-job-token', 'tok', '--alias', 'my-org', '--test-suite', 'MySuite']);
 
     expect(deployProject).toHaveBeenCalledWith(
-      expect.objectContaining({ stage: 'run-apex-tests', ciJobToken: 'tok', testSuite: 'MySuite' }),
+      expect.objectContaining({ stage: 'run-apex-tests', ciJobToken: 'tok', alias: 'my-org', testSuite: 'MySuite' }),
     );
   });
 });

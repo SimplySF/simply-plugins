@@ -35,6 +35,8 @@ describe('deploy happy-soup deploy-unpackaged', () => {
     await DeployHappySoupDeployUnpackaged.run([
       '--ci-job-token',
       'tok',
+      '--alias',
+      'my-org',
       '--deploy-config-file',
       'deployment-configs/uat.json',
     ]);
@@ -43,6 +45,7 @@ describe('deploy happy-soup deploy-unpackaged', () => {
       expect.objectContaining({
         stage: 'deploy-unpackaged',
         ciJobToken: 'tok',
+        alias: 'my-org',
         deployConfigFile: 'deployment-configs/uat.json',
       }),
     );

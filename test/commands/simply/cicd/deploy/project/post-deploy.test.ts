@@ -32,12 +32,20 @@ describe('deploy project post-deploy', () => {
   it('wires flags through to deployProject with the correct stage', async () => {
     vi.mocked(deployProject).mockResolvedValue(undefined);
 
-    await DeployProjectPostDeploy.run(['--ci-job-token', 'tok', '--vcs-host', 'gitlab.example.com']);
+    await DeployProjectPostDeploy.run([
+      '--ci-job-token',
+      'tok',
+      '--alias',
+      'my-org',
+      '--vcs-host',
+      'gitlab.example.com',
+    ]);
 
     expect(deployProject).toHaveBeenCalledWith(
       expect.objectContaining({
         stage: 'post-deploy',
         ciJobToken: 'tok',
+        alias: 'my-org',
         vcsHost: 'gitlab.example.com',
         vcsProvider: 'gitlab',
       }),

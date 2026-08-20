@@ -32,12 +32,20 @@ describe('deploy project install-packaged', () => {
   it('wires flags through to deployProject, defaulting install-type to Upgrade', async () => {
     vi.mocked(deployProject).mockResolvedValue(undefined);
 
-    await DeployProjectInstallPackaged.run(['--ci-job-token', 'tok', '--subscriber-package-version-id', '04tXXX']);
+    await DeployProjectInstallPackaged.run([
+      '--ci-job-token',
+      'tok',
+      '--alias',
+      'my-org',
+      '--subscriber-package-version-id',
+      '04tXXX',
+    ]);
 
     expect(deployProject).toHaveBeenCalledWith(
       expect.objectContaining({
         stage: 'install-packaged',
         ciJobToken: 'tok',
+        alias: 'my-org',
         subscriberPackageVersionId: '04tXXX',
         installType: 'Upgrade',
       }),
@@ -47,7 +55,7 @@ describe('deploy project install-packaged', () => {
   it('accepts an explicit --install-type', async () => {
     vi.mocked(deployProject).mockResolvedValue(undefined);
 
-    await DeployProjectInstallPackaged.run(['--ci-job-token', 'tok', '--install-type', 'Delta']);
+    await DeployProjectInstallPackaged.run(['--ci-job-token', 'tok', '--alias', 'my-org', '--install-type', 'Delta']);
 
     expect(deployProject).toHaveBeenCalledWith(expect.objectContaining({ installType: 'Delta' }));
   });

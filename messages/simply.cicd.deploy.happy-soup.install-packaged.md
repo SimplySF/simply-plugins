@@ -4,23 +4,15 @@ Install packaged dependencies into the target org for a happy-soup deployment.
 
 # description
 
-Authenticates to the target org and installs the packaged dependencies declared in `sfdx-project.json`. For every dependency that upgrades an already-installed package, records the previous/target version and origin commit information to the deploy progress file, for `notify happy-soup` to look up related stories from later.
+Installs the packaged dependencies declared in `sfdx-project.json` into the target org (`--alias`), which must already be authenticated. For every dependency that upgrades an already-installed package, records the previous/target version and origin commit information to the deploy progress file, for `notify happy-soup` to look up related stories from later.
 
 # flags.install-type.summary
 
 The type of dependency installation to perform.
 
-# flags.packaging-devhub-client-id.summary
+# flags.packaging-devhub.summary
 
-Connected app client ID for JWT authentication to the packaging DevHub.
-
-# flags.packaging-devhub-instance-url.summary
-
-Login instance URL for the packaging DevHub.
-
-# flags.packaging-devhub-username.summary
-
-Username for JWT authentication to the packaging DevHub. Required (along with the other `--packaging-devhub-*` flags) to look up the previous/target version's origin commit information for upgraded packages; omitted entirely (with a warning) when not provided.
+Alias of the Dev Hub used to look up package version information for upgraded packages. Must already be authenticated. Omitted entirely (with a warning) when not provided, skipping origin lookup for upgraded packages.
 
 # examples
 

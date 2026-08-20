@@ -16,7 +16,7 @@ Run the before-deployment setup logic (resolves and records package versions).
 
 # flags.alias.summary
 
-The target Salesforce org alias to authenticate and query for the previously installed package version.
+Alias of the target Salesforce org to query for the previously installed package version. Must already be authenticated.
 
 # flags.ci-commit-ref-name.summary
 
@@ -50,29 +50,13 @@ The URL of the current CI pipeline.
 
 The project title shown in the notification card's heading.
 
-# flags.client-id.summary
+# flags.packaging-devhub.summary
 
-Connected app client ID for JWT authentication to the target org.
-
-# flags.packaging-devhub-client-id.summary
-
-Connected app client ID for JWT authentication to the packaging DevHub.
-
-# flags.packaging-devhub-instance-url.summary
-
-Login instance URL for the packaging DevHub.
-
-# flags.packaging-devhub-username.summary
-
-Username for JWT authentication to the packaging DevHub.
+Alias of the Dev Hub used to look up target package version information. Must already be authenticated.
 
 # flags.enabled.summary
 
 Whether the notification is actually sent. Defaults to false so pipelines can gate this behind their own condition.
-
-# flags.instance-url.summary
-
-Login instance URL for the target org.
 
 # flags.alm-base-url.summary
 
@@ -85,10 +69,6 @@ Fallback project key(s) used to search commit messages for issue references, if 
 # flags.alm-provider.summary
 
 The issue tracker whose reference format to look for in commit messages.
-
-# flags.jwt-key-file.summary
-
-Path to the JWT private key file, used for both the target org and packaging DevHub authentication.
 
 # flags.prev-installed-package-version.summary
 
@@ -106,17 +86,13 @@ The target package version. Only needed if re-running --after-script without hav
 
 One or more Teams webhook URLs to send the notification to.
 
-# flags.username.summary
-
-Username for JWT authentication to the target org.
-
 # flags.debug.summary
 
 Enable verbose debug logging.
 
 # examples
 
-- <%= config.bin %> <%= command.id %> --before-script --ci-job-stage pre-destructive --alias my-org --username user@example.com --jwt-key-file server.key --client-id abc123 --instance-url https://login.salesforce.com --enabled
+- <%= config.bin %> <%= command.id %> --before-script --ci-job-stage pre-destructive --alias my-org --enabled
 
 - <%= config.bin %> <%= command.id %> --after-script --ci-job-stage post-destructive --ci-job-status success --teams-webhook-url https://outlook.office.com/webhook/... --enabled
 

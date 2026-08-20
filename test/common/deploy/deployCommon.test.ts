@@ -25,7 +25,6 @@ import { cloneRepo } from '../../../src/common/git.js';
 // throughout deployCommon.ts for terminal emphasis).
 chalk.level = 0;
 import { logger } from '../../../src/common/logger.js';
-import { authenticateOrg } from '../../../src/common/sfAuth.js';
 import { runApexTests as runApexTestsCommon } from '../../../src/common/sfApex.js';
 import { installPackageDependencies as installPackageDependenciesCommon } from '../../../src/common/sfPackages.js';
 import {
@@ -60,7 +59,6 @@ vi.mock('../../../src/common/logger.js', () => ({
     debug: vi.fn(),
   },
 }));
-vi.mock('../../../src/common/sfAuth.js', () => ({ authenticateOrg: vi.fn() }));
 vi.mock('../../../src/common/sfApex.js', () => ({ runApexTests: vi.fn() }));
 vi.mock('../../../src/common/sfPackages.js', () => ({ installPackageDependencies: vi.fn() }));
 vi.mock('../../../src/common/sfPlugins.js', () => ({ installDeploymentPlugins: vi.fn() }));
@@ -172,10 +170,9 @@ describe('deployCommon', () => {
   });
 
   describe('installPackageDependencies', () => {
-    it('should authenticate and then install dependencies', async () => {
+    it('should install dependencies against the given alias', async () => {
       await installPackageDependencies({ alias: 'my-org', wait: '60' });
 
-      expect(authenticateOrg).toHaveBeenCalledWith(expect.objectContaining({ alias: 'my-org' }));
       expect(installPackageDependenciesCommon).toHaveBeenCalledWith({
         alias: 'my-org',
         wait: '60',
@@ -185,10 +182,9 @@ describe('deployCommon', () => {
   });
 
   describe('runApexTests', () => {
-    it('should authenticate and then run tests', async () => {
+    it('should run tests against the given alias', async () => {
       await runApexTests({ alias: 'my-org', testLevel: 'RunSpecifiedTests' });
 
-      expect(authenticateOrg).toHaveBeenCalledWith(expect.objectContaining({ alias: 'my-org' }));
       expect(runApexTestsCommon).toHaveBeenCalledWith(
         expect.objectContaining({ alias: 'my-org', testLevel: 'RunSpecifiedTests', wait: '360' }),
       );
@@ -289,7 +285,6 @@ describe('deployCommon', () => {
 
       await runDeploymentSteps({ ...baseRunConfig, stage: 'deploy-unpackaged' });
 
-      expect(authenticateOrg).toHaveBeenCalledWith(expect.objectContaining({ alias: 'test-org' }));
       expect(cloneRepo).toHaveBeenCalledWith(expect.objectContaining({ name: 'step-one' }), expect.any(Object));
       expect(logger.success).toHaveBeenCalledWith(expect.stringMatching(/Completed Job: STEP-ONE in \d+(\.\d+)?s/));
 

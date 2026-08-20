@@ -32,10 +32,10 @@ describe('deploy happy-soup post-destructive', () => {
   it('wires flags through to deployHappySoup with the correct stage', async () => {
     vi.mocked(deployHappySoup).mockResolvedValue(undefined);
 
-    await DeployHappySoupPostDestructive.run(['--ci-job-token', 'tok', '--debug']);
+    await DeployHappySoupPostDestructive.run(['--ci-job-token', 'tok', '--alias', 'my-org', '--debug']);
 
     expect(deployHappySoup).toHaveBeenCalledWith(
-      expect.objectContaining({ stage: 'post-destructive', ciJobToken: 'tok', debug: true }),
+      expect.objectContaining({ stage: 'post-destructive', ciJobToken: 'tok', alias: 'my-org', debug: true }),
     );
   });
 });

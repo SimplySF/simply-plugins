@@ -33,14 +33,8 @@ const baseArgs = [
   'group/project',
   '--project-access-token',
   'secret-token',
-  '--packaging-devhub-username',
-  'packaging-devhub@example.com',
-  '--packaging-devhub-client-id',
-  'packaging-client-id',
-  '--packaging-devhub-instance-url',
-  'https://login.salesforce.com',
-  '--jwt-key-file',
-  'key.file',
+  '--packaging-devhub',
+  'packaging-devhub',
 ];
 
 describe('build create-package-version', () => {
@@ -65,6 +59,7 @@ describe('build create-package-version', () => {
         ciCommitRefName: 'main',
         ciCommitSha: 'abc123',
         ciPipelineId: '999',
+        packagingDevhub: 'packaging-devhub',
         vcsHost: undefined,
         vcsProvider: 'gitlab',
         codeCoverageMinimum: '75',

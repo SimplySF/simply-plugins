@@ -18,7 +18,6 @@ import { execa } from 'execa';
 import chalk from 'chalk';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { logger } from '../../../src/common/logger.js';
-import { authenticateOrg } from '../../../src/common/sfAuth.js';
 import {
   installPackageDependencies,
   printDeploymentSummary,
@@ -41,7 +40,6 @@ vi.mock('../../../src/common/logger.js', () => ({
     debug: vi.fn(),
   },
 }));
-vi.mock('../../../src/common/sfAuth.js', () => ({ authenticateOrg: vi.fn() }));
 vi.mock('../../../src/common/sfPlugins.js', () => ({ installDeploymentPlugins: vi.fn().mockResolvedValue(undefined) }));
 vi.mock('../../../src/common/deploy/deployCommon.js', () => ({
   installPackageDependencies: vi.fn(),
@@ -66,7 +64,6 @@ describe('deployProject', () => {
     await deployProject({ ...baseOptions, stage: 'install-packaged' });
 
     expect(installPackageDependencies).toHaveBeenCalledOnce();
-    expect(authenticateOrg).toHaveBeenCalledOnce();
     expect(logger.success).toHaveBeenCalledWith(
       expect.stringMatching(/Completed stage install-packaged in \d+(\.\d+)?s/),
     );

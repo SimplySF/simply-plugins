@@ -71,30 +71,14 @@ export default class NotifyProject extends SfCommand<NotifyProjectResult> {
       summary: messages.getMessage('flags.ci-project-title.summary'),
       env: 'SIMPLY_CICD_CI_PROJECT_TITLE',
     }),
-    'client-id': Flags.string({
-      summary: messages.getMessage('flags.client-id.summary'),
-      env: 'SIMPLY_CICD_CLIENT_ID',
-    }),
-    'packaging-devhub-client-id': Flags.string({
-      summary: messages.getMessage('flags.packaging-devhub-client-id.summary'),
-      env: 'SIMPLY_CICD_PACKAGING_DEVHUB_CLIENT_ID',
-    }),
-    'packaging-devhub-instance-url': Flags.string({
-      summary: messages.getMessage('flags.packaging-devhub-instance-url.summary'),
-      env: 'SIMPLY_CICD_PACKAGING_DEVHUB_INSTANCE_URL',
-    }),
-    'packaging-devhub-username': Flags.string({
-      summary: messages.getMessage('flags.packaging-devhub-username.summary'),
-      env: 'SIMPLY_CICD_PACKAGING_DEVHUB_USERNAME',
+    'packaging-devhub': Flags.string({
+      summary: messages.getMessage('flags.packaging-devhub.summary'),
+      env: 'SIMPLY_CICD_PACKAGING_DEVHUB',
     }),
     enabled: Flags.boolean({
       summary: messages.getMessage('flags.enabled.summary'),
       default: false,
       env: 'SIMPLY_CICD_ENABLED',
-    }),
-    'instance-url': Flags.string({
-      summary: messages.getMessage('flags.instance-url.summary'),
-      env: 'SIMPLY_CICD_INSTANCE_URL',
     }),
     'alm-base-url': Flags.string({
       summary: messages.getMessage('flags.alm-base-url.summary'),
@@ -109,10 +93,6 @@ export default class NotifyProject extends SfCommand<NotifyProjectResult> {
       default: 'jira',
       env: 'SIMPLY_CICD_ALM_PROVIDER',
     }),
-    'jwt-key-file': Flags.string({
-      summary: messages.getMessage('flags.jwt-key-file.summary'),
-      env: 'SIMPLY_CICD_JWT_KEY_FILE',
-    }),
     'prev-installed-package-version': Flags.string({
       summary: messages.getMessage('flags.prev-installed-package-version.summary'),
     }),
@@ -124,7 +104,6 @@ export default class NotifyProject extends SfCommand<NotifyProjectResult> {
       summary: messages.getMessage('flags.teams-webhook-url.summary'),
       multiple: true,
     }),
-    username: Flags.string({ summary: messages.getMessage('flags.username.summary'), env: 'SIMPLY_CICD_USERNAME' }),
     debug: Flags.boolean({
       summary: messages.getMessage('flags.debug.summary'),
       default: false,
@@ -162,20 +141,14 @@ export default class NotifyProject extends SfCommand<NotifyProjectResult> {
       ciPipelineId: flags['ci-pipeline-id'],
       ciPipelineUrl: flags['ci-pipeline-url'],
       ciProjectTitle: flags['ci-project-title'],
-      clientId: flags['client-id'],
-      packagingDevhubClientId: flags['packaging-devhub-client-id'],
-      packagingDevhubInstanceUrl: flags['packaging-devhub-instance-url'],
-      packagingDevhubUsername: flags['packaging-devhub-username'],
-      instanceUrl: flags['instance-url'],
+      packagingDevhub: flags['packaging-devhub'],
       almBaseUrl: flags['alm-base-url'],
       almProjectKey: flags['alm-project-key'],
       almProvider: flags['alm-provider'],
-      jwtKeyFile: flags['jwt-key-file'],
       prevInstalledPackageVersion: flags['prev-installed-package-version'],
       subscriberPackageVersionId: flags['subscriber-package-version-id'],
       targetPackageVersion: flags['target-package-version'],
       teamsWebhookUrl: flags['teams-webhook-url'],
-      username: flags.username,
       debug: flags.debug,
     };
 

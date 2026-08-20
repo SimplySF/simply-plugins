@@ -35,6 +35,8 @@ describe('deploy project deploy-unpackaged', () => {
     await DeployProjectDeployUnpackaged.run([
       '--ci-job-token',
       'tok',
+      '--alias',
+      'my-org',
       '--test-level',
       'RunSpecifiedTests',
       '--tests',
@@ -45,6 +47,7 @@ describe('deploy project deploy-unpackaged', () => {
       expect.objectContaining({
         stage: 'deploy-unpackaged',
         ciJobToken: 'tok',
+        alias: 'my-org',
         testLevel: 'RunSpecifiedTests',
         tests: 'MyTest',
       }),

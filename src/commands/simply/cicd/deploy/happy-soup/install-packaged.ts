@@ -45,17 +45,9 @@ export default class DeployHappySoupInstallPackaged extends SfCommand<void> {
       summary: messages.getMessage('flags.install-type.summary'),
       default: 'Upgrade',
     }),
-    'packaging-devhub-client-id': Flags.string({
-      summary: messages.getMessage('flags.packaging-devhub-client-id.summary'),
-      env: 'SIMPLY_CICD_PACKAGING_DEVHUB_CLIENT_ID',
-    }),
-    'packaging-devhub-instance-url': Flags.string({
-      summary: messages.getMessage('flags.packaging-devhub-instance-url.summary'),
-      env: 'SIMPLY_CICD_PACKAGING_DEVHUB_INSTANCE_URL',
-    }),
-    'packaging-devhub-username': Flags.string({
-      summary: messages.getMessage('flags.packaging-devhub-username.summary'),
-      env: 'SIMPLY_CICD_PACKAGING_DEVHUB_USERNAME',
+    'packaging-devhub': Flags.string({
+      summary: messages.getMessage('flags.packaging-devhub.summary'),
+      env: 'SIMPLY_CICD_PACKAGING_DEVHUB',
     }),
   };
 
@@ -65,20 +57,13 @@ export default class DeployHappySoupInstallPackaged extends SfCommand<void> {
     await deployHappySoup({
       stage: 'install-packaged',
       alias: flags.alias,
-      authUrl: flags['auth-url'],
-      clientId: flags['client-id'],
-      instanceUrl: flags['instance-url'],
-      jwtKeyFile: flags['jwt-key-file'],
-      username: flags.username,
       debug: flags.debug,
       deployProgressFile: flags['deploy-progress-file'],
       deployRulesFile: flags['deploy-rules-file'],
       installType: flags['install-type'],
       vcsHost: flags['vcs-host'],
       vcsProvider: flags['vcs-provider'],
-      packagingDevhubClientId: flags['packaging-devhub-client-id'],
-      packagingDevhubInstanceUrl: flags['packaging-devhub-instance-url'],
-      packagingDevhubUsername: flags['packaging-devhub-username'],
+      packagingDevhub: flags['packaging-devhub'],
     });
   }
 }
