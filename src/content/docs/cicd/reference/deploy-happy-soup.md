@@ -9,19 +9,15 @@ Run the deploy-unpackaged stage of a happy-soup deployment.
 
 ```
 USAGE
-  $ sf simply cicd deploy happy-soup deploy-unpackaged --ci-job-token <value> [--json] [--flags-dir <value>] [--alias <value>] [--auth-url <value>]
-    [--client-id <value>] [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--debug]
+  $ sf simply cicd deploy happy-soup deploy-unpackaged --ci-job-token <value> --alias <value> [--json] [--flags-dir <value>] [--debug]
     [--deploy-config-file <value>] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--source-branch-name
     <value>] [--start-from <value>] [--test-level <value>] [--test-suite <value>] [--tests <value>] [--vcs-host <value>]
     [--vcs-provider github|gitlab]
 
 FLAGS
-  --alias=<value>                 [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
-  --auth-url=<value>              [env: SIMPLY_CICD_AUTH_URL] Salesforce authorization (SFDX auth) URL, used as an
-                                  alternative to JWT authentication.
+  --alias=<value>                 (required) [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
   --ci-job-token=<value>          (required) [env: SIMPLY_CICD_CI_JOB_TOKEN] The CI job token used to authenticate
                                   read-only repository clones.
-  --client-id=<value>             [env: SIMPLY_CICD_CLIENT_ID] Connected app client ID, used for JWT authentication.
   --debug                         [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
   --deploy-config-file=<value>    [env: SIMPLY_CICD_DEPLOY_CONFIG_FILE] Path to the deployment configuration file. If
                                   not provided, derived from --source-branch-name.
@@ -29,9 +25,6 @@ FLAGS
                                   deployment progress file.
   --deploy-rules-file=<value>     [default: config/deploy-rules.json, env: SIMPLY_CICD_DEPLOY_RULES_FILE] Path to the
                                   deployment rules file.
-  --instance-url=<value>          [env: SIMPLY_CICD_INSTANCE_URL] Salesforce login/instance URL, used for JWT
-                                  authentication.
-  --jwt-key-file=<value>          [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file.
   --source-branch-name=<value>    [env: SIMPLY_CICD_SOURCE_BRANCH_NAME] The source branch name for the deployment, used
                                   to derive the deployment config file path if --deploy-config-file is not provided.
   --start-from=<value>            Start (or resume) the deployment from a specific job name, overriding the progress
@@ -40,7 +33,6 @@ FLAGS
   --test-suite=<value>            [env: SIMPLY_CICD_TEST_SUITE] The Apex test suite to run. If specified, overrides
                                   --test-level.
   --tests=<value>                 [env: SIMPLY_CICD_TESTS] Specific Apex tests to run.
-  --username=<value>              [env: SIMPLY_CICD_USERNAME] Salesforce username, used for JWT authentication.
   --vcs-host=<value>              [env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to (e.g. gitlab.com).
   --vcs-provider=<option>         [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting platform
                                   to talk to.
@@ -60,7 +52,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup deploy-unpackaged --ci-job-token $CI_JOB_TOKEN --alias my-org --source-branch-name release/uat
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/deploy-unpackaged.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/deploy-unpackaged.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/deploy-unpackaged.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.6.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/deploy-unpackaged.js)_
 
 ## `sf simply cicd deploy happy-soup deployment-close-out`
 
@@ -114,7 +106,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup deployment-close-out --ci-commit-ref-name main --ci-pipeline-id 123 --ci-project-path group/project --project-access-token $PROJECT_ACCESS_TOKEN --deploy-release-date 2026-01-15
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/deployment-close-out.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/deployment-close-out.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/deployment-close-out.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.6.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/deployment-close-out.js)_
 
 ## `sf simply cicd deploy happy-soup install-packaged`
 
@@ -122,16 +114,12 @@ Install packaged dependencies into the target org for a happy-soup deployment.
 
 ```
 USAGE
-  $ sf simply cicd deploy happy-soup install-packaged [--json] [--flags-dir <value>] [--alias <value>] [--auth-url <value>] [--client-id <value>]
-    [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--vcs-host <value>] [--vcs-provider
+  $ sf simply cicd deploy happy-soup install-packaged --alias <value> [--json] [--flags-dir <value>] [--vcs-host <value>] [--vcs-provider
     github|gitlab] [--debug] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--install-type
-    All|Delta|Upgrade]
+    All|Delta|Upgrade] [--packaging-devhub <value>]
 
 FLAGS
-  --alias=<value>                 [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
-  --auth-url=<value>              [env: SIMPLY_CICD_AUTH_URL] Salesforce authorization (SFDX auth) URL, used as an
-                                  alternative to JWT authentication.
-  --client-id=<value>             [env: SIMPLY_CICD_CLIENT_ID] Connected app client ID, used for JWT authentication.
+  --alias=<value>                 (required) [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
   --debug                         [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
   --deploy-progress-file=<value>  [default: DEPLOY_PROGRESS.json, env: SIMPLY_CICD_DEPLOY_PROGRESS_FILE] Path to the
                                   deployment progress file.
@@ -139,10 +127,10 @@ FLAGS
                                   deployment rules file.
   --install-type=<option>         [default: Upgrade] The type of dependency installation to perform.
                                   <options: All|Delta|Upgrade>
-  --instance-url=<value>          [env: SIMPLY_CICD_INSTANCE_URL] Salesforce login/instance URL, used for JWT
-                                  authentication.
-  --jwt-key-file=<value>          [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file.
-  --username=<value>              [env: SIMPLY_CICD_USERNAME] Salesforce username, used for JWT authentication.
+  --packaging-devhub=<value>      [env: SIMPLY_CICD_PACKAGING_DEVHUB] Alias of the Dev Hub used to look up package
+                                  version information for upgraded packages. Must already be authenticated. Omitted
+                                  entirely (with a warning) when not provided, skipping origin lookup for upgraded
+                                  packages.
   --vcs-host=<value>              [env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to (e.g. gitlab.com).
   --vcs-provider=<option>         [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting platform
                                   to talk to.
@@ -155,13 +143,16 @@ GLOBAL FLAGS
 DESCRIPTION
   Install packaged dependencies into the target org for a happy-soup deployment.
 
-  Authenticates to the target org and installs the packaged dependencies declared in `sfdx-project.json`.
+  Installs the packaged dependencies declared in `sfdx-project.json` into the target org (`--alias`), which must already
+  be authenticated. For every dependency that upgrades an already-installed package, records the previous/target version
+  and origin commit information to the deploy progress file, for `notify happy-soup` to look up related stories from
+  later.
 
 EXAMPLES
   $ sf simply cicd deploy happy-soup install-packaged --alias my-org
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/install-packaged.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/install-packaged.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/install-packaged.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.6.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/install-packaged.js)_
 
 ## `sf simply cicd deploy happy-soup post-deploy`
 
@@ -169,19 +160,15 @@ Run the post-deploy stage of a happy-soup deployment.
 
 ```
 USAGE
-  $ sf simply cicd deploy happy-soup post-deploy --ci-job-token <value> [--json] [--flags-dir <value>] [--alias <value>] [--auth-url <value>]
-    [--client-id <value>] [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--debug]
+  $ sf simply cicd deploy happy-soup post-deploy --ci-job-token <value> --alias <value> [--json] [--flags-dir <value>] [--debug]
     [--deploy-config-file <value>] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--source-branch-name
     <value>] [--start-from <value>] [--test-level <value>] [--test-suite <value>] [--tests <value>] [--vcs-host <value>]
     [--vcs-provider github|gitlab]
 
 FLAGS
-  --alias=<value>                 [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
-  --auth-url=<value>              [env: SIMPLY_CICD_AUTH_URL] Salesforce authorization (SFDX auth) URL, used as an
-                                  alternative to JWT authentication.
+  --alias=<value>                 (required) [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
   --ci-job-token=<value>          (required) [env: SIMPLY_CICD_CI_JOB_TOKEN] The CI job token used to authenticate
                                   read-only repository clones.
-  --client-id=<value>             [env: SIMPLY_CICD_CLIENT_ID] Connected app client ID, used for JWT authentication.
   --debug                         [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
   --deploy-config-file=<value>    [env: SIMPLY_CICD_DEPLOY_CONFIG_FILE] Path to the deployment configuration file. If
                                   not provided, derived from --source-branch-name.
@@ -189,9 +176,6 @@ FLAGS
                                   deployment progress file.
   --deploy-rules-file=<value>     [default: config/deploy-rules.json, env: SIMPLY_CICD_DEPLOY_RULES_FILE] Path to the
                                   deployment rules file.
-  --instance-url=<value>          [env: SIMPLY_CICD_INSTANCE_URL] Salesforce login/instance URL, used for JWT
-                                  authentication.
-  --jwt-key-file=<value>          [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file.
   --source-branch-name=<value>    [env: SIMPLY_CICD_SOURCE_BRANCH_NAME] The source branch name for the deployment, used
                                   to derive the deployment config file path if --deploy-config-file is not provided.
   --start-from=<value>            Start (or resume) the deployment from a specific job name, overriding the progress
@@ -200,7 +184,6 @@ FLAGS
   --test-suite=<value>            [env: SIMPLY_CICD_TEST_SUITE] The Apex test suite to run. If specified, overrides
                                   --test-level.
   --tests=<value>                 [env: SIMPLY_CICD_TESTS] Specific Apex tests to run.
-  --username=<value>              [env: SIMPLY_CICD_USERNAME] Salesforce username, used for JWT authentication.
   --vcs-host=<value>              [env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to (e.g. gitlab.com).
   --vcs-provider=<option>         [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting platform
                                   to talk to.
@@ -220,7 +203,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup post-deploy --ci-job-token $CI_JOB_TOKEN --alias my-org --source-branch-name release/uat
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/post-deploy.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/post-deploy.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/post-deploy.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.6.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/post-deploy.js)_
 
 ## `sf simply cicd deploy happy-soup post-destructive`
 
@@ -228,19 +211,15 @@ Run the post-destructive stage of a happy-soup deployment.
 
 ```
 USAGE
-  $ sf simply cicd deploy happy-soup post-destructive --ci-job-token <value> [--json] [--flags-dir <value>] [--alias <value>] [--auth-url <value>]
-    [--client-id <value>] [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--debug]
+  $ sf simply cicd deploy happy-soup post-destructive --ci-job-token <value> --alias <value> [--json] [--flags-dir <value>] [--debug]
     [--deploy-config-file <value>] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--source-branch-name
     <value>] [--start-from <value>] [--test-level <value>] [--test-suite <value>] [--tests <value>] [--vcs-host <value>]
     [--vcs-provider github|gitlab]
 
 FLAGS
-  --alias=<value>                 [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
-  --auth-url=<value>              [env: SIMPLY_CICD_AUTH_URL] Salesforce authorization (SFDX auth) URL, used as an
-                                  alternative to JWT authentication.
+  --alias=<value>                 (required) [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
   --ci-job-token=<value>          (required) [env: SIMPLY_CICD_CI_JOB_TOKEN] The CI job token used to authenticate
                                   read-only repository clones.
-  --client-id=<value>             [env: SIMPLY_CICD_CLIENT_ID] Connected app client ID, used for JWT authentication.
   --debug                         [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
   --deploy-config-file=<value>    [env: SIMPLY_CICD_DEPLOY_CONFIG_FILE] Path to the deployment configuration file. If
                                   not provided, derived from --source-branch-name.
@@ -248,9 +227,6 @@ FLAGS
                                   deployment progress file.
   --deploy-rules-file=<value>     [default: config/deploy-rules.json, env: SIMPLY_CICD_DEPLOY_RULES_FILE] Path to the
                                   deployment rules file.
-  --instance-url=<value>          [env: SIMPLY_CICD_INSTANCE_URL] Salesforce login/instance URL, used for JWT
-                                  authentication.
-  --jwt-key-file=<value>          [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file.
   --source-branch-name=<value>    [env: SIMPLY_CICD_SOURCE_BRANCH_NAME] The source branch name for the deployment, used
                                   to derive the deployment config file path if --deploy-config-file is not provided.
   --start-from=<value>            Start (or resume) the deployment from a specific job name, overriding the progress
@@ -259,7 +235,6 @@ FLAGS
   --test-suite=<value>            [env: SIMPLY_CICD_TEST_SUITE] The Apex test suite to run. If specified, overrides
                                   --test-level.
   --tests=<value>                 [env: SIMPLY_CICD_TESTS] Specific Apex tests to run.
-  --username=<value>              [env: SIMPLY_CICD_USERNAME] Salesforce username, used for JWT authentication.
   --vcs-host=<value>              [env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to (e.g. gitlab.com).
   --vcs-provider=<option>         [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting platform
                                   to talk to.
@@ -279,7 +254,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup post-destructive --ci-job-token $CI_JOB_TOKEN --alias my-org --source-branch-name release/uat
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/post-destructive.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/post-destructive.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/post-destructive.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.6.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/post-destructive.js)_
 
 ## `sf simply cicd deploy happy-soup pre-destructive`
 
@@ -287,19 +262,15 @@ Run the pre-destructive stage of a happy-soup deployment.
 
 ```
 USAGE
-  $ sf simply cicd deploy happy-soup pre-destructive --ci-job-token <value> [--json] [--flags-dir <value>] [--alias <value>] [--auth-url <value>]
-    [--client-id <value>] [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--debug]
+  $ sf simply cicd deploy happy-soup pre-destructive --ci-job-token <value> --alias <value> [--json] [--flags-dir <value>] [--debug]
     [--deploy-config-file <value>] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--source-branch-name
     <value>] [--start-from <value>] [--test-level <value>] [--test-suite <value>] [--tests <value>] [--vcs-host <value>]
     [--vcs-provider github|gitlab]
 
 FLAGS
-  --alias=<value>                 [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
-  --auth-url=<value>              [env: SIMPLY_CICD_AUTH_URL] Salesforce authorization (SFDX auth) URL, used as an
-                                  alternative to JWT authentication.
+  --alias=<value>                 (required) [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
   --ci-job-token=<value>          (required) [env: SIMPLY_CICD_CI_JOB_TOKEN] The CI job token used to authenticate
                                   read-only repository clones.
-  --client-id=<value>             [env: SIMPLY_CICD_CLIENT_ID] Connected app client ID, used for JWT authentication.
   --debug                         [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
   --deploy-config-file=<value>    [env: SIMPLY_CICD_DEPLOY_CONFIG_FILE] Path to the deployment configuration file. If
                                   not provided, derived from --source-branch-name.
@@ -307,9 +278,6 @@ FLAGS
                                   deployment progress file.
   --deploy-rules-file=<value>     [default: config/deploy-rules.json, env: SIMPLY_CICD_DEPLOY_RULES_FILE] Path to the
                                   deployment rules file.
-  --instance-url=<value>          [env: SIMPLY_CICD_INSTANCE_URL] Salesforce login/instance URL, used for JWT
-                                  authentication.
-  --jwt-key-file=<value>          [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file.
   --source-branch-name=<value>    [env: SIMPLY_CICD_SOURCE_BRANCH_NAME] The source branch name for the deployment, used
                                   to derive the deployment config file path if --deploy-config-file is not provided.
   --start-from=<value>            Start (or resume) the deployment from a specific job name, overriding the progress
@@ -318,7 +286,6 @@ FLAGS
   --test-suite=<value>            [env: SIMPLY_CICD_TEST_SUITE] The Apex test suite to run. If specified, overrides
                                   --test-level.
   --tests=<value>                 [env: SIMPLY_CICD_TESTS] Specific Apex tests to run.
-  --username=<value>              [env: SIMPLY_CICD_USERNAME] Salesforce username, used for JWT authentication.
   --vcs-host=<value>              [env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to (e.g. gitlab.com).
   --vcs-provider=<option>         [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting platform
                                   to talk to.
@@ -338,7 +305,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup pre-destructive --ci-job-token $CI_JOB_TOKEN --alias my-org --source-branch-name release/uat
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/pre-destructive.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/pre-destructive.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/pre-destructive.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.6.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/pre-destructive.js)_
 
 ## `sf simply cicd deploy happy-soup tag-deployment`
 
@@ -347,15 +314,12 @@ Tag the current commit with details about a happy-soup deployment.
 ```
 USAGE
   $ sf simply cicd deploy happy-soup tag-deployment --ci-merge-request-iid <value> --ci-merge-request-project-url <value> --ci-pipeline-id <value>
-    --ci-pipeline-url <value> --ci-project-path <value> --project-access-token <value> [--json] [--flags-dir <value>]
-    [--alias <value>] [--auth-url <value>] [--client-id <value>] [--instance-url <value>] [--jwt-key-file <value>]
-    [--username <value>] [--debug] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--vcs-host <value>]
+    --ci-pipeline-url <value> --ci-project-path <value> --project-access-token <value> --alias <value> [--json]
+    [--flags-dir <value>] [--debug] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--vcs-host <value>]
     [--vcs-provider github|gitlab]
 
 FLAGS
-  --alias=<value>                         [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
-  --auth-url=<value>                      [env: SIMPLY_CICD_AUTH_URL] Salesforce authorization (SFDX auth) URL, used as
-                                          an alternative to JWT authentication.
+  --alias=<value>                         (required) [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
   --ci-merge-request-iid=<value>          (required) [env: SIMPLY_CICD_CI_MERGE_REQUEST_IID] The merge request's
                                           internal ID (IID), used to build the merge request link in the tag message.
   --ci-merge-request-project-url=<value>  (required) [env: SIMPLY_CICD_CI_MERGE_REQUEST_PROJECT_URL] The project's URL,
@@ -365,19 +329,13 @@ FLAGS
                                           the tag message if provided.
   --ci-project-path=<value>               (required) [env: SIMPLY_CICD_CI_PROJECT_PATH] The project path (e.g.
                                           group/project), used to build the authenticated push remote.
-  --client-id=<value>                     [env: SIMPLY_CICD_CLIENT_ID] Connected app client ID, used for JWT
-                                          authentication.
   --debug                                 [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
   --deploy-progress-file=<value>          [default: DEPLOY_PROGRESS.json, env: SIMPLY_CICD_DEPLOY_PROGRESS_FILE] Path to
                                           the deployment progress file.
   --deploy-rules-file=<value>             [default: config/deploy-rules.json, env: SIMPLY_CICD_DEPLOY_RULES_FILE] Path
                                           to the deployment rules file.
-  --instance-url=<value>                  [env: SIMPLY_CICD_INSTANCE_URL] Salesforce login/instance URL, used for JWT
-                                          authentication.
-  --jwt-key-file=<value>                  [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file.
   --project-access-token=<value>          (required) [env: SIMPLY_CICD_PROJECT_ACCESS_TOKEN] A project access token with
                                           write access, used to push the tag.
-  --username=<value>                      [env: SIMPLY_CICD_USERNAME] Salesforce username, used for JWT authentication.
   --vcs-host=<value>                      [env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to (e.g.
                                           gitlab.com).
   --vcs-provider=<option>                 [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting
@@ -399,7 +357,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup tag-deployment --alias my-org --ci-pipeline-id 123 --ci-pipeline-url https://gitlab.example.com/group/project/-/pipelines/123 --ci-project-path group/project --ci-merge-request-iid 45 --ci-merge-request-project-url https://gitlab.example.com/group/project --project-access-token $PROJECT_ACCESS_TOKEN
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/tag-deployment.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/tag-deployment.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/tag-deployment.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.6.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/tag-deployment.js)_
 
 ## `sf simply cicd deploy happy-soup validate`
 
@@ -437,4 +395,4 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup validate --deploy-config-file deployment-configs/uat.json --deploy-rules-file config/deploy-rules.json
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/validate.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/validate.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/validate.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.6.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/validate.js)_

@@ -30,22 +30,28 @@ determine-changes:
     reports:
       dotenv: changes.env
 
+.authenticate-devhub:
+  before_script:
+    - sf org login jwt --alias main --username $DEVHUB_USERNAME
+      --jwt-key-file $DEVHUB_JWT_KEY_FILE --client-id $DEVHUB_CLIENT_ID
+      --instance-url $DEVHUB_INSTANCE_URL
+    - sf org login jwt --alias secondary --username $DEVHUB_SECONDARY_USERNAME
+      --jwt-key-file $DEVHUB_JWT_KEY_FILE --client-id $DEVHUB_SECONDARY_CLIENT_ID
+      --instance-url $DEVHUB_SECONDARY_INSTANCE_URL
+
 cleanup-scratch-orgs:
+  extends: .authenticate-devhub
   stage: prepare
   script:
-    - sf simply cicd build cleanup-scratch-orgs
-      --dev-hub-name main --dev-hub-username $DEVHUB_USERNAME --dev-hub-client-id $DEVHUB_CLIENT_ID --dev-hub-instance-url $DEVHUB_INSTANCE_URL
-      --dev-hub-name secondary --dev-hub-username $DEVHUB_SECONDARY_USERNAME --dev-hub-client-id $DEVHUB_SECONDARY_CLIENT_ID --dev-hub-instance-url $DEVHUB_SECONDARY_INSTANCE_URL
-      --jwt-key-file $DEVHUB_JWT_KEY_FILE
+    - sf simply cicd build cleanup-scratch-orgs --dev-hub main --dev-hub secondary
 
 create-scratch:
+  extends: .authenticate-devhub
   stage: build
   rules:
     - if: '$PACKAGE_CHANGED == "TRUE"'
   script:
-    - sf simply cicd build create-scratch
-      --dev-hub-name main --dev-hub-username $DEVHUB_USERNAME --dev-hub-client-id $DEVHUB_CLIENT_ID --dev-hub-instance-url $DEVHUB_INSTANCE_URL
-      --jwt-key-file $DEVHUB_JWT_KEY_FILE
+    - sf simply cicd build create-scratch --dev-hub main --jwt-key-file $DEVHUB_JWT_KEY_FILE
   artifacts:
     paths: [SCRATCH_ORG_INFO.json]
 
@@ -62,28 +68,30 @@ build-and-test:
     paths: [SCRATCH_ORG_INFO.json]
 
 delete-scratch:
+  extends: .authenticate-devhub
   stage: test
   needs: [build-and-test]
   when: always
   rules:
     - if: '$PACKAGE_CHANGED == "TRUE"'
   script:
-    - sf simply cicd build delete-scratch
-      --dev-hub-name main --dev-hub-username $DEVHUB_USERNAME --dev-hub-client-id $DEVHUB_CLIENT_ID --dev-hub-instance-url $DEVHUB_INSTANCE_URL
-      --jwt-key-file $DEVHUB_JWT_KEY_FILE
+    - sf simply cicd build delete-scratch --dev-hub main --jwt-key-file $DEVHUB_JWT_KEY_FILE
 
 create-package-version:
   stage: package
   rules:
     - if: '$PACKAGE_CHANGED == "TRUE"'
+  before_script:
+    - sf org login jwt --alias packaging-devhub --username $PACKAGING_DEVHUB_USERNAME
+      --jwt-key-file $PACKAGING_DEVHUB_JWT_KEY_FILE --client-id $PACKAGING_DEVHUB_CLIENT_ID
+      --instance-url $PACKAGING_DEVHUB_INSTANCE_URL
   script:
     - sf simply cicd build create-package-version
       --ci-commit-ref-name $CI_COMMIT_REF_NAME --ci-commit-sha $CI_COMMIT_SHA
       --ci-pipeline-id $CI_PIPELINE_ID --ci-pipeline-url $CI_PIPELINE_URL
       --ci-project-path $CI_PROJECT_PATH --ci-pipeline-source $CI_PIPELINE_SOURCE
       --project-access-token $PROJECT_ACCESS_TOKEN
-      --jwt-key-file $DEVHUB_TOOLING_JWT_KEY_FILE --devhub-tooling-username $DEVHUB_TOOLING_USERNAME
-      --devhub-tooling-client-id $DEVHUB_TOOLING_CLIENT_ID --devhub-tooling-instance-url $DEVHUB_TOOLING_INSTANCE_URL
+      --packaging-devhub packaging-devhub
       --package-release-branch-prefix release/
     - sf simply cicd build create-fallback-tag
       --ci-commit-ref-name $CI_COMMIT_REF_NAME --ci-pipeline-id $CI_PIPELINE_ID
@@ -150,10 +158,16 @@ production-post-destructive:
 
 Stage order (`pre-destructive → install-packaged → deploy-unpackaged → run-apex-tests → post-deploy → post-destructive` above) is a pipeline convention, not something `simply-cicd` enforces — there's no command chaining (see [Deploy pipeline stages](/cicd/concepts/deploy-pipeline-stages/)), so pick whatever order makes sense for your app.
 
-The shared `.deploy-*` job templates (defined once, extended per environment) carry the actual `sf simply cicd deploy project *` calls:
+The shared `.deploy-*` job templates (defined once, extended per environment) authenticate `${ALIAS}` from that tier's `${AUTH_URL}` in a `before_script`, then carry the actual `sf simply cicd deploy project *` calls — `simply-cicd` itself never sees `${AUTH_URL}`, only the alias the login step just created:
 
 ```yaml
+.deploy-authenticate:
+  before_script:
+    - echo "${AUTH_URL}" > /tmp/auth_url.txt
+    - sf org login sfdx-url --sfdx-url-file /tmp/auth_url.txt --alias "${ALIAS}"
+
 .deploy-pre-destructive:
+  extends: .deploy-authenticate
   stage: pre-destructive
   timeout: 6h
   artifacts:
@@ -163,19 +177,21 @@ The shared `.deploy-*` job templates (defined once, extended per environment) ca
     START_FROM: ''
   script:
     - sf simply cicd deploy project pre-destructive
-      --alias "${ALIAS}" --auth-url "${AUTH_URL}" --ci-job-token "${CI_JOB_TOKEN}"
+      --alias "${ALIAS}" --ci-job-token "${CI_JOB_TOKEN}"
       --start-from "${START_FROM}" --test-level "${TEST_LEVEL}"
 
 .deploy-install-packaged:
+  extends: .deploy-authenticate
   stage: install-packaged
   timeout: 2h
   script:
     - sf simply cicd deploy project install-packaged
-      --alias "${ALIAS}" --auth-url "${AUTH_URL}" --ci-job-token "${CI_JOB_TOKEN}"
+      --alias "${ALIAS}" --ci-job-token "${CI_JOB_TOKEN}"
       --subscriber-package-version-id "${SUBSCRIBER_PACKAGE_VERSION_ID}"
 
 # ...deploy-unpackaged, run-apex-tests, post-deploy, and post-destructive templates
-# follow the same shape, each calling its matching `sf simply cicd deploy project <stage>`.
+# follow the same shape (extending .deploy-authenticate too), each calling its matching
+# `sf simply cicd deploy project <stage>`.
 ```
 
 Wrap every stage's `before_script`/`after_script` with [`notify project --before-script`/`--after-script`](/cicd/guides/teams-notifications/) — once at the pipeline's first job and once at its last, not on every stage.
@@ -225,9 +241,14 @@ uat-pre-destructive:
 # deployment isn't tied to a single release branch.
 ```
 
-The shared `.happy-soup-*` templates carry the actual `sf simply cicd deploy happy-soup *` calls, and — unlike project's single before/after pair — wrap **every** stage with [`notify happy-soup`](/cicd/guides/teams-notifications/):
+The shared `.happy-soup-*` templates authenticate `${ALIAS}` the same way as the project pipeline's `.deploy-authenticate` job above, composed in via GitLab's `!reference` tag since each job also needs its own `notify happy-soup` call in `before_script` (a job's `before_script` is a plain list, so `extends:` alone would silently overwrite one or the other rather than combining them). They carry the actual `sf simply cicd deploy happy-soup *` calls, and — unlike project's single before/after pair — wrap **every** stage with [`notify happy-soup`](/cicd/guides/teams-notifications/):
 
 ```yaml
+.deploy-authenticate:
+  before_script:
+    - echo "${AUTH_URL}" > /tmp/auth_url.txt
+    - sf org login sfdx-url --sfdx-url-file /tmp/auth_url.txt --alias "${ALIAS}"
+
 .happy-soup-pre-destructive:
   stage: pre-destructive
   timeout: 6h
@@ -237,11 +258,12 @@ The shared `.happy-soup-*` templates carry the actual `sf simply cicd deploy hap
   variables:
     START_FROM: ''
   before_script:
+    - !reference [.deploy-authenticate, before_script]
     - sf simply cicd notify happy-soup --before-script --ci-job-stage pre-destructive
       --teams-webhook-url $TEAMS_WEBHOOK_URL --enabled
   script:
     - sf simply cicd deploy happy-soup pre-destructive
-      --alias "${ALIAS}" --auth-url "${AUTH_URL}" --ci-job-token "${CI_JOB_TOKEN}"
+      --alias "${ALIAS}" --ci-job-token "${CI_JOB_TOKEN}"
       --source-branch-name "${CI_COMMIT_REF_NAME}" --start-from "${START_FROM}"
   after_script:
     - sf simply cicd notify happy-soup --after-script --ci-job-stage pre-destructive
@@ -251,10 +273,11 @@ The shared `.happy-soup-*` templates carry the actual `sf simply cicd deploy hap
   stage: install-packaged
   timeout: 2h
   before_script:
+    - !reference [.deploy-authenticate, before_script]
     - sf simply cicd notify happy-soup --before-script --ci-job-stage install-packaged
       --teams-webhook-url $TEAMS_WEBHOOK_URL --enabled
   script:
-    - sf simply cicd deploy happy-soup install-packaged --alias "${ALIAS}" --auth-url "${AUTH_URL}"
+    - sf simply cicd deploy happy-soup install-packaged --alias "${ALIAS}"
   after_script:
     - sf simply cicd notify happy-soup --after-script --ci-job-stage install-packaged
       --ci-job-status $CI_JOB_STATUS --teams-webhook-url $TEAMS_WEBHOOK_URL --enabled
@@ -285,6 +308,9 @@ tag-deployment:
   needs: [deployment-close-out]
   rules:
     - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $DEPLOY_BRANCH_UAT'
+  before_script:
+    - echo "${UAT_AUTH_URL}" > /tmp/auth_url.txt
+    - sf org login sfdx-url --sfdx-url-file /tmp/auth_url.txt --alias uat
   script:
     - sf simply cicd deploy happy-soup tag-deployment
       --alias uat --ci-pipeline-id "${CI_PIPELINE_ID}" --ci-pipeline-url "${CI_PIPELINE_URL}"
@@ -292,6 +318,8 @@ tag-deployment:
       --ci-merge-request-project-url "${CI_MERGE_REQUEST_PROJECT_URL}"
       --project-access-token "${PROJECT_ACCESS_TOKEN}"
 ```
+
+`tag-deployment` runs in a fresh container of its own (`needs: [deployment-close-out]`, not the earlier `uat-post-destructive` job that last authenticated `uat`), so it re-authenticates the alias itself before reading the org's instance URL for the tag message — same reasoning as every other job above.
 
 `deployment-close-out` copies whichever config file this MR's stages actually used onto `config/deploy.json` and commits it (`[skip ci]`), so a later pipeline running on this same branch has a fixed config with no `--source-branch-name` needed. `tag-deployment` records an annotated git tag on that commit — repeat both jobs per environment tier, same as the deploy stage jobs above.
 
@@ -301,7 +329,7 @@ Each `.deploy-*`/`.happy-soup-*` template's `START_FROM` variable maps to `--sta
 
 ## Simplifying with environment variables
 
-Most flags above that repeat across jobs — `--ci-job-token`, `--ci-commit-ref-name`, `--jwt-key-file`, `--project-access-token`, and the rest — can be set **once** as a `SIMPLY_CICD_*` CI/CD variable instead of being passed on every command. See [Environment variables](/cicd/concepts/environment-variables/) for the full flag-to-variable mapping. The one exception in this pipeline is `--dev-hub-name`/`--dev-hub-username`/`--dev-hub-client-id`/`--dev-hub-instance-url` — since these accept multiple values (one Dev Hub per repeated flag), they aren't backed by an environment variable and must still be passed explicitly on every `build *` command.
+Most flags above that repeat across jobs — `--ci-job-token`, `--ci-commit-ref-name`, `--jwt-key-file`, `--project-access-token`, and the rest — can be set **once** as a `SIMPLY_CICD_*` CI/CD variable instead of being passed on every command. See [Environment variables](/cicd/concepts/environment-variables/) for the full flag-to-variable mapping. The one exception in this pipeline is `--dev-hub` — since it accepts multiple values (one Dev Hub alias per repeated flag), it isn't backed by an environment variable and must still be passed explicitly on every `build *` command that takes it.
 
 For example, GitLab already exposes `CI_JOB_TOKEN` and `CI_COMMIT_REF_NAME` automatically — mapping them once at the pipeline level:
 
@@ -312,4 +340,4 @@ variables:
   SIMPLY_CICD_JWT_KEY_FILE: $DEVHUB_JWT_KEY_FILE
 ```
 
-lets every `.deploy-*`/`.happy-soup-*` template above drop `--ci-job-token "${CI_JOB_TOKEN}"` and every `build *` job drop `--jwt-key-file $DEVHUB_JWT_KEY_FILE`, since the commands pick the variable up automatically when the flag isn't passed. Per-stage values that genuinely change between jobs — `--alias`, `--auth-url`, `--start-from` — are still set per-job via `variables:` overrides the same way they are today; only the flags that are truly constant across the whole pipeline are worth hoisting to a `SIMPLY_CICD_*` variable. `--source-branch-name` is one worth hoisting the same way in a happy-soup pipeline — it's `$CI_COMMIT_REF_NAME` on every stage job, so `SIMPLY_CICD_SOURCE_BRANCH_NAME: $CI_COMMIT_REF_NAME` in the block above drops it from every `deploy happy-soup *` call too.
+lets every `.deploy-*`/`.happy-soup-*` template above drop `--ci-job-token "${CI_JOB_TOKEN}"` and every `build *` job drop `--jwt-key-file $DEVHUB_JWT_KEY_FILE`, since the commands pick the variable up automatically when the flag isn't passed. Per-stage values that genuinely change between jobs — `--alias`, `--start-from` — are still set per-job via `variables:` overrides the same way they are today; only the flags that are truly constant across the whole pipeline are worth hoisting to a `SIMPLY_CICD_*` variable. `${AUTH_URL}` isn't a `simply-cicd` flag at all in this pipeline — it's a plain CI/CD variable consumed by the `.deploy-authenticate` login step itself, so it isn't part of this mapping. `--source-branch-name` is one worth hoisting the same way in a happy-soup pipeline — it's `$CI_COMMIT_REF_NAME` on every stage job, so `SIMPLY_CICD_SOURCE_BRANCH_NAME: $CI_COMMIT_REF_NAME` in the block above drops it from every `deploy happy-soup *` call too.

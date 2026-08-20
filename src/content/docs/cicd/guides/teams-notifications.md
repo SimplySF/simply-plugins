@@ -23,9 +23,7 @@ pre-destructive:
   stage: deploy
   before_script:
     - sf simply cicd notify project --before-script --ci-job-stage pre-destructive
-      --alias target-org --username $TARGET_ORG_USERNAME --jwt-key-file $TARGET_ORG_JWT_KEY_FILE
-      --client-id $TARGET_ORG_CLIENT_ID --instance-url $TARGET_ORG_INSTANCE_URL
-      --enabled
+      --alias target-org --enabled
   script:
     - sf simply cicd deploy project pre-destructive --ci-job-token $CI_JOB_TOKEN ...
 
@@ -39,6 +37,8 @@ post-destructive:
       --teams-webhook-url $TEAMS_WEBHOOK_URL
       --enabled
 ```
+
+`--alias target-org` must already be an authenticated org alias by the time `--before-script` runs — same as every `deploy *` stage command, `simply-cicd` never authenticates orgs itself. See the [GitLab CI pipeline guide](/cicd/guides/gitlab-ci-pipeline/) for where that authentication step goes in a full pipeline.
 
 If `--after-script` runs in a job that never ran `--before-script` (e.g. a standalone rerun), pass `--prev-installed-package-version` and `--target-package-version` explicitly instead of relying on values `--before-script` would otherwise have resolved and stashed.
 

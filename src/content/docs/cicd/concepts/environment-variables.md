@@ -19,20 +19,20 @@ This is oclif's built-in `env` flag option — there's no custom parsing involve
 
 ## Naming convention
 
-All variables use the form `SIMPLY_CICD_<FLAG_NAME>`, uppercased with hyphens converted to underscores — e.g. `--vcs-provider` is backed by `SIMPLY_CICD_VCS_PROVIDER`. Flags that are inherently per-invocation (a specific package version ID, a `--dry-run` toggle passed once, `--from`/`--to` diff ranges) intentionally do **not** have an environment variable — only flags a team would reasonably want to set once across a whole pipeline are covered. Flags that accept **multiple values** (`--dev-hub-name`, `--dev-hub-username`, `--dev-hub-client-id`, `--dev-hub-instance-url`, `--teams-webhook-url`) also don't have an environment variable — a single variable can't cleanly represent a repeated flag, so these must still be passed explicitly, once per value.
+All variables use the form `SIMPLY_CICD_<FLAG_NAME>`, uppercased with hyphens converted to underscores — e.g. `--vcs-provider` is backed by `SIMPLY_CICD_VCS_PROVIDER`. Flags that are inherently per-invocation (a specific package version ID, a `--dry-run` toggle passed once, `--from`/`--to` diff ranges) intentionally do **not** have an environment variable — only flags a team would reasonably want to set once across a whole pipeline are covered. Flags that accept **multiple values** (`--dev-hub`, `--teams-webhook-url`) also don't have an environment variable — a single variable can't cleanly represent a repeated flag, so these must still be passed explicitly, once per value.
 
 ## Reference by category
 
-### Org authentication (deploy commands)
+### Org aliases (deploy, build, notify commands)
 
-| Flag             | Environment variable       |
-| ---------------- | -------------------------- |
-| `--alias`        | `SIMPLY_CICD_ALIAS`        |
-| `--auth-url`     | `SIMPLY_CICD_AUTH_URL`     |
-| `--client-id`    | `SIMPLY_CICD_CLIENT_ID`    |
-| `--instance-url` | `SIMPLY_CICD_INSTANCE_URL` |
-| `--jwt-key-file` | `SIMPLY_CICD_JWT_KEY_FILE` |
-| `--username`     | `SIMPLY_CICD_USERNAME`     |
+`simply-cicd` never authenticates Salesforce orgs itself — every flag below just takes an alias that must already be authenticated by the pipeline before the command runs, however it chooses to do that (`sf org login jwt`, `sf org login web`, `sf org login sfdx-url`, or the Client Credentials flow available via `@simplysf/simply-core`).
+
+| Flag                 | Environment variable           |
+| -------------------- | ------------------------------ |
+| `--alias`            | `SIMPLY_CICD_ALIAS`            |
+| `--packaging-devhub` | `SIMPLY_CICD_PACKAGING_DEVHUB` |
+
+See [DevHub (build commands)](#devhub-build-commands) below for the scratch-org lifecycle's `--dev-hub`/`--jwt-key-file` flags — the one place `simply-cicd` still authenticates on its own behalf.
 
 ### VCS provider (see [VCS providers](/cicd/concepts/vcs-providers/))
 
@@ -82,13 +82,13 @@ The `--ci-project-id`/`--ci-merge-request-iid` pair is GitLab-only and the `--ci
 
 ### DevHub (build commands)
 
-| Flag                            | Environment variable                      |
-| ------------------------------- | ----------------------------------------- |
-| `--devhub-tooling-username`     | `SIMPLY_CICD_DEVHUB_TOOLING_USERNAME`     |
-| `--devhub-tooling-client-id`    | `SIMPLY_CICD_DEVHUB_TOOLING_CLIENT_ID`    |
-| `--devhub-tooling-instance-url` | `SIMPLY_CICD_DEVHUB_TOOLING_INSTANCE_URL` |
+The scratch-org lifecycle (`build create-scratch`/`delete-scratch`/`cleanup-scratch-orgs`/`push-scratch`/`test-scratch`/`install-dependencies` — see the [scratch org lifecycle guide](/cicd/guides/scratch-org-lifecycle/)) is the one place `simply-cicd` still authenticates on its own behalf, because a scratch org's username isn't known until it's created, so later stages (potentially in a fresh CI container) need to be able to mint a session for it on demand.
 
-`--dev-hub-name`, `--dev-hub-username`, `--dev-hub-client-id`, and `--dev-hub-instance-url` accept multiple values (one Dev Hub per repeated flag) and are not backed by an environment variable — see the note on multi-value flags above.
+| Flag             | Environment variable       |
+| ---------------- | -------------------------- |
+| `--jwt-key-file` | `SIMPLY_CICD_JWT_KEY_FILE` |
+
+`--jwt-key-file` is only required when the Dev Hub that owns the scratch org was itself JWT-authenticated — a Dev Hub authenticated via web login or an SFDX auth URL leaves the scratch org with its own refresh token, which `simply-cicd` uses directly with no key file needed. `--dev-hub` (`create-scratch`/`cleanup-scratch-orgs`/`delete-scratch`, one already-authenticated Dev Hub alias per repeated flag on the first two) accepts multiple values and is not backed by an environment variable — see the note on multi-value flags above.
 
 ### Notifications (see [Teams notifications](/cicd/guides/teams-notifications/))
 

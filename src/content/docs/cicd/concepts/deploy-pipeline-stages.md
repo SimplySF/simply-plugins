@@ -31,4 +31,4 @@ Because state is file-based rather than encoded in command arguments passed betw
 
 ## A minimal stage job
 
-Every stage command needs org authentication (`--alias`, or the `--jwt-key-file`/`--client-id`/`--instance-url`/`--username` JWT flags, or `--auth-url`) and `--ci-job-token` to authenticate the read-only git operations the stage performs (cloning each configured app's repo, for happy-soup). See the [GitLab CI pipeline guide](/cicd/guides/gitlab-ci-pipeline/) for a full working example wiring these into CI jobs.
+`simply-cicd` never authenticates orgs itself — every stage command just takes `--alias`, and the org it names must already be authenticated by the pipeline (e.g. `sf org login jwt`/`sf org login web`/`sf org login sfdx-url`, run as its own CI step before the stage job) before the stage runs. Each stage command also needs `--ci-job-token` to authenticate the read-only git operations it performs (cloning each configured app's repo, for happy-soup). See the [GitLab CI pipeline guide](/cicd/guides/gitlab-ci-pipeline/) for a full working example wiring these into CI jobs.
