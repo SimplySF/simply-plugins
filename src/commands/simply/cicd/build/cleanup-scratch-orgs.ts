@@ -17,8 +17,7 @@
 import { Messages } from '@salesforce/core';
 import { SfCommand } from '@salesforce/sf-plugins-core';
 import { cleanupScratchOrgs } from '../../../../common/build/cleanupScratchOrgs.js';
-import { parseDevHubs } from '../../../../common/build/devHubs.js';
-import { debugFlag, devHubFlags, disabledFlag, jwtKeyFileFlag } from '../../../../common/build/flags.js';
+import { debugFlag, devHubFlags, disabledFlag } from '../../../../common/build/flags.js';
 import { logger } from '../../../../common/logger.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -35,7 +34,6 @@ export default class BuildCleanupScratchOrgs extends SfCommand<BuildCleanupScrat
   public static readonly flags = {
     ...SfCommand.baseFlags,
     ...devHubFlags,
-    ...jwtKeyFileFlag,
     ...debugFlag,
     ...disabledFlag,
   };
@@ -48,14 +46,7 @@ export default class BuildCleanupScratchOrgs extends SfCommand<BuildCleanupScrat
       return { skipped: true };
     }
 
-    const devHubs = parseDevHubs(
-      flags['dev-hub-name'],
-      flags['dev-hub-username'],
-      flags['dev-hub-client-id'],
-      flags['dev-hub-instance-url'],
-    );
-
-    await cleanupScratchOrgs({ jwtKeyFile: flags['jwt-key-file'], debug: flags.debug }, devHubs);
+    await cleanupScratchOrgs(flags['dev-hub']);
 
     return { skipped: false };
   }

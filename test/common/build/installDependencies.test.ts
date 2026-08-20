@@ -17,8 +17,8 @@
 import { promises as fsPromises } from 'node:fs';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { logger } from '../../../src/common/logger.js';
-import { authenticateOrg } from '../../../src/common/sfAuth.js';
 import { installPackageDependencies as installPackageDependenciesCommon } from '../../../src/common/sfPackages.js';
+import { ensureScratchOrgSession } from '../../../src/common/build/scratchOrgAuth.js';
 import { installDependencies } from '../../../src/common/build/installDependencies.js';
 
 vi.mock('node:fs', async (importOriginal) => {
@@ -36,7 +36,7 @@ vi.mock('../../../src/common/logger.js', () => ({
     debug: vi.fn(),
   },
 }));
-vi.mock('../../../src/common/sfAuth.js', () => ({ authenticateOrg: vi.fn() }));
+vi.mock('../../../src/common/build/scratchOrgAuth.js', () => ({ ensureScratchOrgSession: vi.fn() }));
 vi.mock('../../../src/common/sfPackages.js', () => ({ installPackageDependencies: vi.fn() }));
 
 const mockScratchOrgInfo = { authFields: { username: 'test', clientId: 'id', instanceUrl: 'url' } };
@@ -50,10 +50,7 @@ describe('installDependencies', () => {
   it('should authenticate to the scratch org and install its packaged dependencies', async () => {
     await installDependencies({ jwtKeyFile: 'key.file', installType: 'Delta' });
 
-    expect(authenticateOrg).toHaveBeenCalledWith({
-      username: mockScratchOrgInfo.authFields.username,
-      clientId: mockScratchOrgInfo.authFields.clientId,
-      instanceUrl: mockScratchOrgInfo.authFields.instanceUrl,
+    expect(ensureScratchOrgSession).toHaveBeenCalledWith(mockScratchOrgInfo.authFields, {
       jwtKeyFile: 'key.file',
       setDefault: true,
       debug: undefined,

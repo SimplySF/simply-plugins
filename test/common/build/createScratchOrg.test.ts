@@ -19,7 +19,7 @@ import { execa } from 'execa';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { readSfdxProject } from '@simplysf/simply-core';
 import { logger } from '../../../src/common/logger.js';
-import { authenticateDevHubs } from '../../../src/common/sfAuth.js';
+import { resolveDevHubs } from '../../../src/common/build/devHubs.js';
 import { createScratchOrg } from '../../../src/common/build/createScratchOrg.js';
 
 vi.mock('execa');
@@ -42,10 +42,10 @@ vi.mock('../../../src/common/logger.js', () => ({
     debug: vi.fn(),
   },
 }));
-vi.mock('../../../src/common/sfAuth.js', () => ({ authenticateDevHubs: vi.fn() }));
+vi.mock('../../../src/common/build/devHubs.js', () => ({ resolveDevHubs: vi.fn() }));
 
-const hubA = { name: 'hub-a', username: 'a@hub.com', clientId: 'id-a', instanceUrl: 'https://a.com' };
-const hubB = { name: 'hub-b', username: 'b@hub.com', clientId: 'id-b', instanceUrl: 'https://b.com' };
+const hubA = { alias: 'hub-a', username: 'a@hub.com', clientId: 'id-a', instanceUrl: 'https://a.com' };
+const hubB = { alias: 'hub-b', username: 'b@hub.com', clientId: 'id-b', instanceUrl: 'https://b.com' };
 
 function mockSfdxProjectJson(overrides: Record<string, unknown> = {}): void {
   vi.mocked(readSfdxProject).mockResolvedValue({
@@ -62,7 +62,7 @@ const createResult = { username: 'scratch@test', orgId: '00D...' };
 describe('createScratchOrg', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(authenticateDevHubs).mockResolvedValue([hubA.username, hubB.username]);
+    vi.mocked(resolveDevHubs).mockResolvedValue([hubA, hubB]);
     mockSfdxProjectJson();
     vi.mocked(execa).mockImplementation((async (cmd: string, args: readonly string[] = []) => {
       if (cmd === 'sf' && args[0] === 'org' && args[1] === 'list' && args[2] === 'limits') {
@@ -79,8 +79,9 @@ describe('createScratchOrg', () => {
   });
 
   it('should create a scratch org with the first Dev Hub that has capacity', async () => {
-    const result = await createScratchOrg({ jwtKeyFile: 'key.file' }, [hubA, hubB]);
+    const result = await createScratchOrg({}, [hubA.alias, hubB.alias]);
 
+    expect(resolveDevHubs).toHaveBeenCalledWith([hubA.alias, hubB.alias]);
     expect(result).toEqual(createResult);
     expect(execa).toHaveBeenCalledWith(
       'sf',
@@ -97,7 +98,7 @@ describe('createScratchOrg', () => {
       ]),
     );
     expect(fsPromises.writeFile).toHaveBeenCalledWith('SCRATCH_ORG_INFO.json', JSON.stringify(createResult, null, 2));
-    expect(logger.success).toHaveBeenCalledWith(`Scratch org created successfully using Dev Hub ${hubA.name}.`);
+    expect(logger.success).toHaveBeenCalledWith(`Scratch org created successfully using Dev Hub ${hubA.alias}.`);
   });
 
   it('should skip a Dev Hub with no remaining daily capacity and try the next one', async () => {
@@ -114,10 +115,10 @@ describe('createScratchOrg', () => {
       return { stdout: '' };
     }) as never);
 
-    const result = await createScratchOrg({ jwtKeyFile: 'key.file' }, [hubA, hubB]);
+    const result = await createScratchOrg({}, [hubA.alias, hubB.alias]);
 
     expect(result).toEqual(createResult);
-    expect(logger.warn).toHaveBeenCalledWith(`Dev Hub ${hubA.name} has no remaining scratch orgs. Skipping.`);
+    expect(logger.warn).toHaveBeenCalledWith(`Dev Hub ${hubA.alias} has no remaining scratch orgs. Skipping.`);
     expect(execa).toHaveBeenCalledWith('sf', expect.arrayContaining(['--target-dev-hub', hubB.username]));
   });
 
@@ -141,10 +142,10 @@ describe('createScratchOrg', () => {
       return { stdout: '' };
     }) as never);
 
-    const result = await createScratchOrg({ jwtKeyFile: 'key.file' }, [hubA, hubB]);
+    const result = await createScratchOrg({}, [hubA.alias, hubB.alias]);
 
     expect(result).toEqual(createResult);
-    expect(logger.warn).toHaveBeenCalledWith(`Dev Hub ${hubA.name} reached its daily limit. Trying next Dev Hub...`);
+    expect(logger.warn).toHaveBeenCalledWith(`Dev Hub ${hubA.alias} reached its daily limit. Trying next Dev Hub...`);
   });
 
   it('should throw immediately on a non-recoverable creation error, without trying the next Dev Hub', async () => {
@@ -158,8 +159,8 @@ describe('createScratchOrg', () => {
       return { stdout: '' };
     }) as never);
 
-    await expect(createScratchOrg({ jwtKeyFile: 'key.file' }, [hubA, hubB])).rejects.toThrow(
-      `Scratch org creation failed with a non-recoverable error using Dev Hub ${hubA.name}.`,
+    await expect(createScratchOrg({}, [hubA.alias, hubB.alias])).rejects.toThrow(
+      `Scratch org creation failed with a non-recoverable error using Dev Hub ${hubA.alias}.`,
     );
     expect(execa).not.toHaveBeenCalledWith('sf', expect.arrayContaining(['--target-dev-hub', hubB.username]));
   });
@@ -172,7 +173,7 @@ describe('createScratchOrg', () => {
       return { stdout: '' };
     }) as never);
 
-    await expect(createScratchOrg({ jwtKeyFile: 'key.file' }, [hubA, hubB])).rejects.toThrow(
+    await expect(createScratchOrg({}, [hubA.alias, hubB.alias])).rejects.toThrow(
       'Scratch org creation failed for all available Dev Hubs.',
     );
   });
@@ -180,7 +181,7 @@ describe('createScratchOrg', () => {
   it('should throw when no definitionFile is available anywhere', async () => {
     vi.mocked(readSfdxProject).mockResolvedValue({ packageDirectories: [{ default: true }] });
 
-    await expect(createScratchOrg({ jwtKeyFile: 'key.file' }, [hubA])).rejects.toThrow(
+    await expect(createScratchOrg({}, [hubA.alias])).rejects.toThrow(
       'You must specify a definitionFile in the default package directory in sfdx-project.json',
     );
   });
@@ -189,6 +190,7 @@ describe('createScratchOrg', () => {
     mockSfdxProjectJson({
       packageMetadataAccess: { permissionSets: ['MyPermSet'], permissionSetLicenses: ['MyLicense'] },
     });
+    vi.mocked(resolveDevHubs).mockResolvedValue([hubA]);
     vi.mocked(execa).mockImplementation((async (cmd: string, args: readonly string[] = []) => {
       if (cmd === 'sf' && args[0] === 'org' && args[1] === 'list' && args[2] === 'limits') {
         return mockLimits(5);
@@ -205,7 +207,7 @@ describe('createScratchOrg', () => {
       return { stdout: '' };
     }) as never);
 
-    await createScratchOrg({ jwtKeyFile: 'key.file' }, [hubA]);
+    await createScratchOrg({}, [hubA.alias]);
 
     expect(execa).toHaveBeenCalledWith('sf', ['org', 'assign', 'permset', '--json', '--name', 'MyPermSet']);
     expect(execa).toHaveBeenCalledWith('sf', ['org', 'assign', 'permset-license', '--json', '--name', 'MyLicense']);

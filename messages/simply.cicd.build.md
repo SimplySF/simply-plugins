@@ -1,22 +1,10 @@
-# flags.dev-hub-name.summary
+# flags.dev-hub.summary
 
-Friendly name of a Dev Hub. Repeat this flag alongside --dev-hub-username, --dev-hub-client-id, and --dev-hub-instance-url (in the same order) for each Dev Hub to try.
-
-# flags.dev-hub-username.summary
-
-Username of a Dev Hub.
-
-# flags.dev-hub-client-id.summary
-
-Connected app client ID for a Dev Hub.
-
-# flags.dev-hub-instance-url.summary
-
-Login instance URL for a Dev Hub.
+Alias of a Dev Hub. Must already be authenticated. Repeat this flag for each Dev Hub to try, in order.
 
 # flags.jwt-key-file.summary
 
-Path to the JWT private key file used for authentication.
+Path to the JWT private key file used to re-authenticate the scratch org (or its Dev Hub) when it was JWT-authenticated. Not needed when the Dev Hub was authenticated via web login or an SFDX auth URL — the scratch org's own refresh token is used instead.
 
 # flags.debug.summary
 

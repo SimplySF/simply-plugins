@@ -20,18 +20,7 @@ import BuildDeleteScratch from '../../../../../src/commands/simply/cicd/build/de
 
 vi.mock('../../../../../src/common/build/deleteScratchOrg.js', () => ({ deleteScratchOrg: vi.fn() }));
 
-const baseArgs = [
-  '--dev-hub-name',
-  'main',
-  '--dev-hub-username',
-  'devhub@example.com',
-  '--dev-hub-client-id',
-  'id',
-  '--dev-hub-instance-url',
-  'https://login.salesforce.com',
-  '--jwt-key-file',
-  'key.file',
-];
+const baseArgs = ['--dev-hub', 'main', '--jwt-key-file', 'key.file'];
 
 describe('build delete-scratch', () => {
   const originalPackageChanged = process.env.PACKAGE_CHANGED;
@@ -46,13 +35,11 @@ describe('build delete-scratch', () => {
     process.env.PACKAGE_CHANGED = originalPackageChanged;
   });
 
-  it('parses Dev Hub flags and delegates to deleteScratchOrg', async () => {
+  it('parses the --dev-hub alias and delegates to deleteScratchOrg', async () => {
     const result = await BuildDeleteScratch.run(baseArgs);
 
     expect(result.skipped).toBe(false);
-    expect(deleteScratchOrg).toHaveBeenCalledWith({ jwtKeyFile: 'key.file', debug: false }, [
-      { name: 'main', username: 'devhub@example.com', clientId: 'id', instanceUrl: 'https://login.salesforce.com' },
-    ]);
+    expect(deleteScratchOrg).toHaveBeenCalledWith({ jwtKeyFile: 'key.file', debug: false }, 'main');
   });
 
   it('skips when --disabled is passed', async () => {

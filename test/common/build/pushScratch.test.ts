@@ -19,7 +19,7 @@ import { execa } from 'execa';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { readSfdxProject } from '@simplysf/simply-core';
 import { logger } from '../../../src/common/logger.js';
-import { authenticateOrg } from '../../../src/common/sfAuth.js';
+import { ensureScratchOrgSession } from '../../../src/common/build/scratchOrgAuth.js';
 import { pushToScratch } from '../../../src/common/build/pushScratch.js';
 
 vi.mock('execa');
@@ -42,7 +42,7 @@ vi.mock('../../../src/common/logger.js', () => ({
     debug: vi.fn(),
   },
 }));
-vi.mock('../../../src/common/sfAuth.js', () => ({ authenticateOrg: vi.fn() }));
+vi.mock('../../../src/common/build/scratchOrgAuth.js', () => ({ ensureScratchOrgSession: vi.fn() }));
 
 const mockScratchOrgInfo = { authFields: { username: 'test', clientId: 'id', instanceUrl: 'url' } };
 
@@ -57,10 +57,7 @@ describe('pushToScratch', () => {
   it('should authenticate, strip incompatible metadata, and push source to the scratch org', async () => {
     await pushToScratch({ jwtKeyFile: 'key.file' });
 
-    expect(authenticateOrg).toHaveBeenCalledWith({
-      username: mockScratchOrgInfo.authFields.username,
-      clientId: mockScratchOrgInfo.authFields.clientId,
-      instanceUrl: mockScratchOrgInfo.authFields.instanceUrl,
+    expect(ensureScratchOrgSession).toHaveBeenCalledWith(mockScratchOrgInfo.authFields, {
       jwtKeyFile: 'key.file',
       setDefault: true,
       debug: undefined,

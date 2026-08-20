@@ -18,8 +18,8 @@ import { promises as fsPromises } from 'node:fs';
 import { execa } from 'execa';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { cleanupScratchOrgs } from '../../../src/common/build/cleanupScratchOrgs.js';
+import { resolveDevHubs } from '../../../src/common/build/devHubs.js';
 import { logger } from '../../../src/common/logger.js';
-import { authenticateDevHubs } from '../../../src/common/sfAuth.js';
 
 vi.mock('execa');
 vi.mock('node:fs', async (importOriginal) => {
@@ -37,26 +37,35 @@ vi.mock('../../../src/common/logger.js', () => ({
     debug: vi.fn(),
   },
 }));
-vi.mock('../../../src/common/sfAuth.js', () => ({ authenticateDevHubs: vi.fn() }));
+vi.mock('../../../src/common/build/devHubs.js', () => ({ resolveDevHubs: vi.fn() }));
 
-const devHubs = [
-  { name: 'main', username: 'devhub@example.com', clientId: 'id', instanceUrl: 'https://login.salesforce.com' },
-];
-const baseOptions = { jwtKeyFile: 'key.file' };
+const resolvedHub = {
+  alias: 'main',
+  username: 'devhub@example.com',
+  clientId: 'id',
+  instanceUrl: 'https://login.salesforce.com',
+};
 
 describe('cleanupScratchOrgs', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(authenticateDevHubs).mockResolvedValue(['devhub@example.com']);
+    vi.mocked(resolveDevHubs).mockResolvedValue([resolvedHub]);
     vi.mocked(execa).mockResolvedValue({ stdout: '' } as never);
   });
 
-  it('should skip entirely if no Dev Hubs authenticate', async () => {
-    vi.mocked(authenticateDevHubs).mockResolvedValue([]);
+  it('should do nothing when given no Dev Hub aliases', async () => {
+    vi.mocked(resolveDevHubs).mockResolvedValue([]);
 
-    await cleanupScratchOrgs(baseOptions, devHubs);
+    await cleanupScratchOrgs([]);
 
-    expect(logger.warn).toHaveBeenCalledWith('No DevHubs could be authenticated. Skipping cleanup.');
+    expect(execa).not.toHaveBeenCalled();
+    expect(logger.success).toHaveBeenCalledWith('Scratch org cleanup complete.');
+  });
+
+  it('should propagate a resolution failure for an unauthenticated Dev Hub alias', async () => {
+    vi.mocked(resolveDevHubs).mockRejectedValue(new Error('No authorization'));
+
+    await expect(cleanupScratchOrgs(['main'])).rejects.toThrow('No authorization');
     expect(execa).not.toHaveBeenCalled();
   });
 
@@ -65,7 +74,7 @@ describe('cleanupScratchOrgs', () => {
     vi.mocked(execa).mockResolvedValueOnce({ stdout: csv } as never);
     vi.mocked(fsPromises.readFile).mockResolvedValue(csv);
 
-    await cleanupScratchOrgs(baseOptions, devHubs);
+    await cleanupScratchOrgs(['main']);
 
     expect(logger.info).toHaveBeenCalledWith('Found 2 old scratch orgs in devhub@example.com. Deleting...');
     expect(execa).toHaveBeenCalledWith(
@@ -92,7 +101,7 @@ describe('cleanupScratchOrgs', () => {
     vi.mocked(execa).mockResolvedValueOnce({ stdout: csv } as never);
     vi.mocked(fsPromises.readFile).mockResolvedValue(csv);
 
-    await cleanupScratchOrgs(baseOptions, devHubs);
+    await cleanupScratchOrgs(['main']);
 
     expect(logger.info).toHaveBeenCalledWith('No old scratch orgs found in devhub@example.com.');
     expect(execa).not.toHaveBeenCalledWith('sf', expect.arrayContaining(['bulk']), expect.any(Object));
@@ -101,7 +110,7 @@ describe('cleanupScratchOrgs', () => {
   it('should clean up the temp CSV file even when the query fails', async () => {
     vi.mocked(execa).mockRejectedValueOnce(new Error('query failed'));
 
-    await cleanupScratchOrgs(baseOptions, devHubs);
+    await cleanupScratchOrgs(['main']);
 
     expect(logger.error).toHaveBeenCalledWith('Failed to cleanup scratch orgs for devhub@example.com:', undefined);
     expect(fsPromises.unlink).toHaveBeenCalledWith(expect.stringContaining('devhub@example.com_orgs.csv'));
