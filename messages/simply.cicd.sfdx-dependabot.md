@@ -102,7 +102,7 @@ Missing subscriber package version ID. Provide --subscriber-package-version-id o
 
 # error.missingDevhubUsername
 
-Missing DevHub username/alias. Provide --devhub-username or set DEVHUB_TOOLING_USERNAME.
+Missing DevHub username/alias. Provide --devhub-username or set PACKAGING_DEVHUB_USERNAME.
 
 # info.starting
 

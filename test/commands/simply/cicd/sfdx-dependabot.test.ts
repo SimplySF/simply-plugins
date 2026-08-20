@@ -58,7 +58,7 @@ describe('sfdx-dependabot', () => {
     process.env.SFDX_DEPENDABOT_VCS_TOKEN = 'test-token';
     process.env.SFDX_DEPENDABOT_ROOT_GROUP_ID = '12345';
     process.env.SUBSCRIBER_PACKAGE_VERSION_ID = '04tSJ000000AKwjYAG';
-    process.env.DEVHUB_TOOLING_USERNAME = 'hub@example.com';
+    process.env.PACKAGING_DEVHUB_USERNAME = 'hub@example.com';
     delete process.env.CI_PROJECT_PATH;
     delete process.env.CI_PROJECT_ID;
   });

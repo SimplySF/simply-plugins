@@ -53,9 +53,9 @@ const baseOptions = {
   ciPipelineUrl: 'https://gitlab.example.com/pipelines/999',
   ciProjectPath: 'group/project',
   projectAccessToken: 'secret-token',
-  devhubToolingUsername: 'devhub-tooling@example.com',
-  devhubToolingClientId: 'tooling-id',
-  devhubToolingInstanceUrl: 'https://login.salesforce.com',
+  packagingDevhubUsername: 'packaging-devhub@example.com',
+  packagingDevhubClientId: 'packaging-client-id',
+  packagingDevhubInstanceUrl: 'https://login.salesforce.com',
   jwtKeyFile: 'key.file',
   packageReleaseBranchPrefix: 'release/',
   vcsHost: 'gitlab.com',
@@ -125,7 +125,7 @@ describe('createPackageVersion', () => {
     await createPackageVersion({ ...baseOptions, ciCommitRefName: 'feature/foo', alwaysCreatePackage: true });
 
     expect(authenticateOrg).toHaveBeenCalledWith(
-      expect.objectContaining({ username: baseOptions.devhubToolingUsername, setDefaultDevHub: true }),
+      expect.objectContaining({ username: baseOptions.packagingDevhubUsername, setDefaultDevHub: true }),
     );
     expect(execa).toHaveBeenCalledWith('git', ['tag', '-a', 'v1.0.0.1-feature/foo', '-m', '04t000000000001']);
   });

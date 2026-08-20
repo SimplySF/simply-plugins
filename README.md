@@ -150,8 +150,8 @@ Create a new package version, verify minimum code coverage, and create/push a ve
 USAGE
   $ sf simply cicd build create-package-version --ci-commit-ref-name <value> --ci-pipeline-id <value> --ci-project-path <value>
     --project-access-token <value> --jwt-key-file <value> --ci-commit-sha <value> --ci-pipeline-url <value>
-    --devhub-tooling-username <value> --devhub-tooling-client-id <value> --devhub-tooling-instance-url <value> [--json]
-    [--flags-dir <value>] [--vcs-host <value>] [--vcs-provider github|gitlab] [--debug] [--disabled]
+    --packaging-devhub-username <value> --packaging-devhub-client-id <value> --packaging-devhub-instance-url <value>
+    [--json] [--flags-dir <value>] [--vcs-host <value>] [--vcs-provider github|gitlab] [--debug] [--disabled]
     [--ci-pipeline-source <value>] [--always-create-package] [--code-coverage-minimum <value>]
     [--package-release-branch-prefix <value>]
 
@@ -173,18 +173,18 @@ FLAGS
   --code-coverage-minimum=<value>          [default: 75] Minimum Apex code coverage percentage required for the new
                                            package version.
   --debug                                  [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
-  --devhub-tooling-client-id=<value>       (required) [env: SIMPLY_CICD_DEVHUB_TOOLING_CLIENT_ID] Connected app client
-                                           ID for the tooling Dev Hub.
-  --devhub-tooling-instance-url=<value>    (required) [env: SIMPLY_CICD_DEVHUB_TOOLING_INSTANCE_URL] Login instance URL
-                                           for the tooling Dev Hub.
-  --devhub-tooling-username=<value>        (required) [env: SIMPLY_CICD_DEVHUB_TOOLING_USERNAME] Username of the Dev Hub
-                                           used for tooling operations like package version creation.
   --disabled                               [env: SIMPLY_CICD_DISABLED] Skip this job entirely, logging a warning instead
                                            of running it.
   --jwt-key-file=<value>                   (required) [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file
                                            used for authentication.
   --package-release-branch-prefix=<value>  Prefix identifying release branches. Determines whether this build creates a
                                            package version and how the resulting git tag is named.
+  --packaging-devhub-client-id=<value>     (required) [env: SIMPLY_CICD_PACKAGING_DEVHUB_CLIENT_ID] Connected app client
+                                           ID for the packaging Dev Hub.
+  --packaging-devhub-instance-url=<value>  (required) [env: SIMPLY_CICD_PACKAGING_DEVHUB_INSTANCE_URL] Login instance
+                                           URL for the packaging Dev Hub.
+  --packaging-devhub-username=<value>      (required) [env: SIMPLY_CICD_PACKAGING_DEVHUB_USERNAME] Username of the Dev
+                                           Hub used for packaging operations like package version creation.
   --project-access-token=<value>           (required) [env: SIMPLY_CICD_PROJECT_ACCESS_TOKEN] Access token used to
                                            authenticate git remote operations (tagging, pushing).
   --vcs-host=<value>                       [env: SIMPLY_CICD_VCS_HOST] Hostname of the VCS instance hosting this
@@ -209,7 +209,7 @@ DESCRIPTION
   Skipped automatically when `PACKAGE_CHANGED=FALSE` is set in the environment (see `build determine-package-changes`).
 
 EXAMPLES
-  $ sf simply cicd build create-package-version --ci-commit-ref-name main --ci-commit-sha a1b2c3d --ci-pipeline-id 123 --ci-pipeline-url https://gitlab.example.com/pipelines/123 --ci-project-path group/project --project-access-token glpat-... --devhub-tooling-username devhub-tooling@example.com --devhub-tooling-client-id 3MVG9... --devhub-tooling-instance-url https://login.salesforce.com --jwt-key-file ./server.key
+  $ sf simply cicd build create-package-version --ci-commit-ref-name main --ci-commit-sha a1b2c3d --ci-pipeline-id 123 --ci-pipeline-url https://gitlab.example.com/pipelines/123 --ci-project-path group/project --project-access-token glpat-... --packaging-devhub-username packaging-devhub@example.com --packaging-devhub-client-id 3MVG9... --packaging-devhub-instance-url https://login.salesforce.com --jwt-key-file ./server.key
 ```
 
 _See code: [lib/commands/simply/cicd/build/create-package-version.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/build/create-package-version.js)_
@@ -709,39 +709,40 @@ USAGE
   $ sf simply cicd deploy happy-soup install-packaged [--json] [--flags-dir <value>] [--alias <value>] [--auth-url <value>] [--client-id <value>]
     [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--vcs-host <value>] [--vcs-provider
     github|gitlab] [--debug] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--install-type
-    All|Delta|Upgrade] [--devhub-tooling-client-id <value>] [--devhub-tooling-instance-url <value>]
-    [--devhub-tooling-username <value>]
+    All|Delta|Upgrade] [--packaging-devhub-client-id <value>] [--packaging-devhub-instance-url <value>]
+    [--packaging-devhub-username <value>]
 
 FLAGS
-  --alias=<value>                        [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
-  --auth-url=<value>                     [env: SIMPLY_CICD_AUTH_URL] Salesforce authorization (SFDX auth) URL, used as
-                                         an alternative to JWT authentication.
-  --client-id=<value>                    [env: SIMPLY_CICD_CLIENT_ID] Connected app client ID, used for JWT
-                                         authentication.
-  --debug                                [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
-  --deploy-progress-file=<value>         [default: DEPLOY_PROGRESS.json, env: SIMPLY_CICD_DEPLOY_PROGRESS_FILE] Path to
-                                         the deployment progress file.
-  --deploy-rules-file=<value>            [default: config/deploy-rules.json, env: SIMPLY_CICD_DEPLOY_RULES_FILE] Path to
-                                         the deployment rules file.
-  --devhub-tooling-client-id=<value>     [env: SIMPLY_CICD_DEVHUB_TOOLING_CLIENT_ID] Connected app client ID for JWT
-                                         authentication to the tooling DevHub.
-  --devhub-tooling-instance-url=<value>  [env: SIMPLY_CICD_DEVHUB_TOOLING_INSTANCE_URL] Login instance URL for the
-                                         tooling DevHub.
-  --devhub-tooling-username=<value>      [env: SIMPLY_CICD_DEVHUB_TOOLING_USERNAME] Username for JWT authentication to
-                                         the tooling DevHub. Required (along with the other `--devhub-tooling-*` flags)
-                                         to look up the previous/target version's origin commit information for upgraded
-                                         packages; omitted entirely (with a warning) when not provided.
-  --install-type=<option>                [default: Upgrade] The type of dependency installation to perform.
-                                         <options: All|Delta|Upgrade>
-  --instance-url=<value>                 [env: SIMPLY_CICD_INSTANCE_URL] Salesforce login/instance URL, used for JWT
-                                         authentication.
-  --jwt-key-file=<value>                 [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file.
-  --username=<value>                     [env: SIMPLY_CICD_USERNAME] Salesforce username, used for JWT authentication.
-  --vcs-host=<value>                     [env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to (e.g.
-                                         gitlab.com).
-  --vcs-provider=<option>                [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting
-                                         platform to talk to.
-                                         <options: github|gitlab>
+  --alias=<value>                          [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
+  --auth-url=<value>                       [env: SIMPLY_CICD_AUTH_URL] Salesforce authorization (SFDX auth) URL, used as
+                                           an alternative to JWT authentication.
+  --client-id=<value>                      [env: SIMPLY_CICD_CLIENT_ID] Connected app client ID, used for JWT
+                                           authentication.
+  --debug                                  [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
+  --deploy-progress-file=<value>           [default: DEPLOY_PROGRESS.json, env: SIMPLY_CICD_DEPLOY_PROGRESS_FILE] Path
+                                           to the deployment progress file.
+  --deploy-rules-file=<value>              [default: config/deploy-rules.json, env: SIMPLY_CICD_DEPLOY_RULES_FILE] Path
+                                           to the deployment rules file.
+  --install-type=<option>                  [default: Upgrade] The type of dependency installation to perform.
+                                           <options: All|Delta|Upgrade>
+  --instance-url=<value>                   [env: SIMPLY_CICD_INSTANCE_URL] Salesforce login/instance URL, used for JWT
+                                           authentication.
+  --jwt-key-file=<value>                   [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file.
+  --packaging-devhub-client-id=<value>     [env: SIMPLY_CICD_PACKAGING_DEVHUB_CLIENT_ID] Connected app client ID for JWT
+                                           authentication to the packaging DevHub.
+  --packaging-devhub-instance-url=<value>  [env: SIMPLY_CICD_PACKAGING_DEVHUB_INSTANCE_URL] Login instance URL for the
+                                           packaging DevHub.
+  --packaging-devhub-username=<value>      [env: SIMPLY_CICD_PACKAGING_DEVHUB_USERNAME] Username for JWT authentication
+                                           to the packaging DevHub. Required (along with the other
+                                           `--packaging-devhub-*` flags) to look up the previous/target version's origin
+                                           commit information for upgraded packages; omitted entirely (with a warning)
+                                           when not provided.
+  --username=<value>                       [env: SIMPLY_CICD_USERNAME] Salesforce username, used for JWT authentication.
+  --vcs-host=<value>                       [env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to (e.g.
+                                           gitlab.com).
+  --vcs-provider=<option>                  [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting
+                                           platform to talk to.
+                                           <options: github|gitlab>
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -1523,11 +1524,11 @@ USAGE
   $ sf simply cicd notify project [--json] [--flags-dir <value>] [--after-script] [--alias <value>] [--before-script]
     [--ci-commit-ref-name <value>] [--ci-environment-name <value>] [--ci-job-name <value>] [--ci-job-stage <value>]
     [--ci-job-status <value>] [--ci-pipeline-id <value>] [--ci-pipeline-url <value>] [--ci-project-title <value>]
-    [--client-id <value>] [--devhub-tooling-client-id <value>] [--devhub-tooling-instance-url <value>]
-    [--devhub-tooling-username <value>] [--enabled] [--instance-url <value>] [--alm-base-url <value>] [--alm-project-key
-    <value>] [--alm-provider gitlab-issues|jira] [--jwt-key-file <value>] [--prev-installed-package-version <value>]
-    [--subscriber-package-version-id <value>] [--target-package-version <value>] [--teams-webhook-url <value>...]
-    [--username <value>] [--debug]
+    [--client-id <value>] [--packaging-devhub-client-id <value>] [--packaging-devhub-instance-url <value>]
+    [--packaging-devhub-username <value>] [--enabled] [--instance-url <value>] [--alm-base-url <value>]
+    [--alm-project-key <value>] [--alm-provider gitlab-issues|jira] [--jwt-key-file <value>]
+    [--prev-installed-package-version <value>] [--subscriber-package-version-id <value>] [--target-package-version
+    <value>] [--teams-webhook-url <value>...] [--username <value>] [--debug]
 
 FLAGS
   --after-script                            Run the after-deployment notification logic.
@@ -1561,21 +1562,21 @@ FLAGS
   --client-id=<value>                       [env: SIMPLY_CICD_CLIENT_ID] Connected app client ID for JWT authentication
                                             to the target org.
   --debug                                   [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
-  --devhub-tooling-client-id=<value>        [env: SIMPLY_CICD_DEVHUB_TOOLING_CLIENT_ID] Connected app client ID for JWT
-                                            authentication to the tooling DevHub.
-  --devhub-tooling-instance-url=<value>     [env: SIMPLY_CICD_DEVHUB_TOOLING_INSTANCE_URL] Login instance URL for the
-                                            tooling DevHub.
-  --devhub-tooling-username=<value>         [env: SIMPLY_CICD_DEVHUB_TOOLING_USERNAME] Username for JWT authentication
-                                            to the tooling DevHub.
   --enabled                                 [env: SIMPLY_CICD_ENABLED] Whether the notification is actually sent.
                                             Defaults to false so pipelines can gate this behind their own condition.
   --instance-url=<value>                    [env: SIMPLY_CICD_INSTANCE_URL] Login instance URL for the target org.
   --jwt-key-file=<value>                    [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file, used for
-                                            both the target org and tooling DevHub authentication.
+                                            both the target org and packaging DevHub authentication.
+  --packaging-devhub-client-id=<value>      [env: SIMPLY_CICD_PACKAGING_DEVHUB_CLIENT_ID] Connected app client ID for
+                                            JWT authentication to the packaging DevHub.
+  --packaging-devhub-instance-url=<value>   [env: SIMPLY_CICD_PACKAGING_DEVHUB_INSTANCE_URL] Login instance URL for the
+                                            packaging DevHub.
+  --packaging-devhub-username=<value>       [env: SIMPLY_CICD_PACKAGING_DEVHUB_USERNAME] Username for JWT authentication
+                                            to the packaging DevHub.
   --prev-installed-package-version=<value>  The previously installed package version. Only needed if re-running
                                             --after-script without having run --before-script first in the same job.
   --subscriber-package-version-id=<value>   The subscriber package version ID (04t...) being deployed, used to resolve
-                                            the target package version from the tooling DevHub.
+                                            the target package version from the packaging DevHub.
   --target-package-version=<value>          The target package version. Only needed if re-running --after-script without
                                             having run --before-script first in the same job.
   --teams-webhook-url=<value>...            One or more Teams webhook URLs to send the notification to.

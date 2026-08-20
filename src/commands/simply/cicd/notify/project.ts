@@ -75,17 +75,17 @@ export default class NotifyProject extends SfCommand<NotifyProjectResult> {
       summary: messages.getMessage('flags.client-id.summary'),
       env: 'SIMPLY_CICD_CLIENT_ID',
     }),
-    'devhub-tooling-client-id': Flags.string({
-      summary: messages.getMessage('flags.devhub-tooling-client-id.summary'),
-      env: 'SIMPLY_CICD_DEVHUB_TOOLING_CLIENT_ID',
+    'packaging-devhub-client-id': Flags.string({
+      summary: messages.getMessage('flags.packaging-devhub-client-id.summary'),
+      env: 'SIMPLY_CICD_PACKAGING_DEVHUB_CLIENT_ID',
     }),
-    'devhub-tooling-instance-url': Flags.string({
-      summary: messages.getMessage('flags.devhub-tooling-instance-url.summary'),
-      env: 'SIMPLY_CICD_DEVHUB_TOOLING_INSTANCE_URL',
+    'packaging-devhub-instance-url': Flags.string({
+      summary: messages.getMessage('flags.packaging-devhub-instance-url.summary'),
+      env: 'SIMPLY_CICD_PACKAGING_DEVHUB_INSTANCE_URL',
     }),
-    'devhub-tooling-username': Flags.string({
-      summary: messages.getMessage('flags.devhub-tooling-username.summary'),
-      env: 'SIMPLY_CICD_DEVHUB_TOOLING_USERNAME',
+    'packaging-devhub-username': Flags.string({
+      summary: messages.getMessage('flags.packaging-devhub-username.summary'),
+      env: 'SIMPLY_CICD_PACKAGING_DEVHUB_USERNAME',
     }),
     enabled: Flags.boolean({
       summary: messages.getMessage('flags.enabled.summary'),
@@ -163,9 +163,9 @@ export default class NotifyProject extends SfCommand<NotifyProjectResult> {
       ciPipelineUrl: flags['ci-pipeline-url'],
       ciProjectTitle: flags['ci-project-title'],
       clientId: flags['client-id'],
-      devhubToolingClientId: flags['devhub-tooling-client-id'],
-      devhubToolingInstanceUrl: flags['devhub-tooling-instance-url'],
-      devhubToolingUsername: flags['devhub-tooling-username'],
+      packagingDevhubClientId: flags['packaging-devhub-client-id'],
+      packagingDevhubInstanceUrl: flags['packaging-devhub-instance-url'],
+      packagingDevhubUsername: flags['packaging-devhub-username'],
       instanceUrl: flags['instance-url'],
       almBaseUrl: flags['alm-base-url'],
       almProjectKey: flags['alm-project-key'],

@@ -126,7 +126,7 @@ export default class SfdxDependabot extends SfCommand<SfdxDependabotSummary> {
     const subscriberPackageVersionId = resolveOptionalString(flags['subscriber-package-version-id'], [
       process.env.SUBSCRIBER_PACKAGE_VERSION_ID,
     ]);
-    const devhubUsername = resolveOptionalString(flags['devhub-username'], [process.env.DEVHUB_TOOLING_USERNAME]);
+    const devhubUsername = resolveOptionalString(flags['devhub-username'], [process.env.PACKAGING_DEVHUB_USERNAME]);
 
     if (!vcsToken) {
       throw messages.createError('error.missingVcsToken');

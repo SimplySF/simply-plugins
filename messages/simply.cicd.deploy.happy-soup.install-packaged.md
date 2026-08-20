@@ -10,17 +10,17 @@ Authenticates to the target org and installs the packaged dependencies declared 
 
 The type of dependency installation to perform.
 
-# flags.devhub-tooling-client-id.summary
+# flags.packaging-devhub-client-id.summary
 
-Connected app client ID for JWT authentication to the tooling DevHub.
+Connected app client ID for JWT authentication to the packaging DevHub.
 
-# flags.devhub-tooling-instance-url.summary
+# flags.packaging-devhub-instance-url.summary
 
-Login instance URL for the tooling DevHub.
+Login instance URL for the packaging DevHub.
 
-# flags.devhub-tooling-username.summary
+# flags.packaging-devhub-username.summary
 
-Username for JWT authentication to the tooling DevHub. Required (along with the other `--devhub-tooling-*` flags) to look up the previous/target version's origin commit information for upgraded packages; omitted entirely (with a warning) when not provided.
+Username for JWT authentication to the packaging DevHub. Required (along with the other `--packaging-devhub-*` flags) to look up the previous/target version's origin commit information for upgraded packages; omitted entirely (with a warning) when not provided.
 
 # examples
 

@@ -39,9 +39,9 @@ vi.mock('../../src/common/logger.js', () => ({
 }));
 
 const devhubConfig = {
-  devhubToolingUsername: 'devhub@example.com',
-  devhubToolingClientId: 'client-id',
-  devhubToolingInstanceUrl: 'https://login.salesforce.com',
+  packagingDevhubUsername: 'devhub@example.com',
+  packagingDevhubClientId: 'client-id',
+  packagingDevhubInstanceUrl: 'https://login.salesforce.com',
   jwtKeyFile: 'server.key',
 };
 

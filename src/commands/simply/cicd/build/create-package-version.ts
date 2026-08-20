@@ -53,20 +53,20 @@ export default class BuildCreatePackageVersion extends SfCommand<BuildCreatePack
       required: true,
       env: 'SIMPLY_CICD_CI_PIPELINE_URL',
     }),
-    'devhub-tooling-username': Flags.string({
-      summary: messages.getMessage('flags.devhub-tooling-username.summary'),
+    'packaging-devhub-username': Flags.string({
+      summary: messages.getMessage('flags.packaging-devhub-username.summary'),
       required: true,
-      env: 'SIMPLY_CICD_DEVHUB_TOOLING_USERNAME',
+      env: 'SIMPLY_CICD_PACKAGING_DEVHUB_USERNAME',
     }),
-    'devhub-tooling-client-id': Flags.string({
-      summary: messages.getMessage('flags.devhub-tooling-client-id.summary'),
+    'packaging-devhub-client-id': Flags.string({
+      summary: messages.getMessage('flags.packaging-devhub-client-id.summary'),
       required: true,
-      env: 'SIMPLY_CICD_DEVHUB_TOOLING_CLIENT_ID',
+      env: 'SIMPLY_CICD_PACKAGING_DEVHUB_CLIENT_ID',
     }),
-    'devhub-tooling-instance-url': Flags.string({
-      summary: messages.getMessage('flags.devhub-tooling-instance-url.summary'),
+    'packaging-devhub-instance-url': Flags.string({
+      summary: messages.getMessage('flags.packaging-devhub-instance-url.summary'),
       required: true,
-      env: 'SIMPLY_CICD_DEVHUB_TOOLING_INSTANCE_URL',
+      env: 'SIMPLY_CICD_PACKAGING_DEVHUB_INSTANCE_URL',
     }),
     'always-create-package': Flags.boolean({
       summary: messages.getMessage('flags.always-create-package.summary'),
@@ -103,9 +103,9 @@ export default class BuildCreatePackageVersion extends SfCommand<BuildCreatePack
       ciPipelineUrl: flags['ci-pipeline-url'],
       ciProjectPath: flags['ci-project-path'],
       projectAccessToken: flags['project-access-token'],
-      devhubToolingUsername: flags['devhub-tooling-username'],
-      devhubToolingClientId: flags['devhub-tooling-client-id'],
-      devhubToolingInstanceUrl: flags['devhub-tooling-instance-url'],
+      packagingDevhubUsername: flags['packaging-devhub-username'],
+      packagingDevhubClientId: flags['packaging-devhub-client-id'],
+      packagingDevhubInstanceUrl: flags['packaging-devhub-instance-url'],
       jwtKeyFile: flags['jwt-key-file'],
       debug: flags.debug,
       alwaysCreatePackage: flags['always-create-package'],

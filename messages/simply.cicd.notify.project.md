@@ -54,17 +54,17 @@ The project title shown in the notification card's heading.
 
 Connected app client ID for JWT authentication to the target org.
 
-# flags.devhub-tooling-client-id.summary
+# flags.packaging-devhub-client-id.summary
 
-Connected app client ID for JWT authentication to the tooling DevHub.
+Connected app client ID for JWT authentication to the packaging DevHub.
 
-# flags.devhub-tooling-instance-url.summary
+# flags.packaging-devhub-instance-url.summary
 
-Login instance URL for the tooling DevHub.
+Login instance URL for the packaging DevHub.
 
-# flags.devhub-tooling-username.summary
+# flags.packaging-devhub-username.summary
 
-Username for JWT authentication to the tooling DevHub.
+Username for JWT authentication to the packaging DevHub.
 
 # flags.enabled.summary
 
@@ -88,7 +88,7 @@ The issue tracker whose reference format to look for in commit messages.
 
 # flags.jwt-key-file.summary
 
-Path to the JWT private key file, used for both the target org and tooling DevHub authentication.
+Path to the JWT private key file, used for both the target org and packaging DevHub authentication.
 
 # flags.prev-installed-package-version.summary
 
@@ -96,7 +96,7 @@ The previously installed package version. Only needed if re-running --after-scri
 
 # flags.subscriber-package-version-id.summary
 
-The subscriber package version ID (04t...) being deployed, used to resolve the target package version from the tooling DevHub.
+The subscriber package version ID (04t...) being deployed, used to resolve the target package version from the packaging DevHub.
 
 # flags.target-package-version.summary
 

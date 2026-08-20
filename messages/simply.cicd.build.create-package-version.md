@@ -20,17 +20,17 @@ Source trigger of the CI pipeline (e.g. merge_request_event). When set to merge_
 
 URL of the CI pipeline, used as the package version's description.
 
-# flags.devhub-tooling-username.summary
+# flags.packaging-devhub-username.summary
 
-Username of the Dev Hub used for tooling operations like package version creation.
+Username of the Dev Hub used for packaging operations like package version creation.
 
-# flags.devhub-tooling-client-id.summary
+# flags.packaging-devhub-client-id.summary
 
-Connected app client ID for the tooling Dev Hub.
+Connected app client ID for the packaging Dev Hub.
 
-# flags.devhub-tooling-instance-url.summary
+# flags.packaging-devhub-instance-url.summary
 
-Login instance URL for the tooling Dev Hub.
+Login instance URL for the packaging Dev Hub.
 
 # flags.always-create-package.summary
 
@@ -46,4 +46,4 @@ Prefix identifying release branches. Determines whether this build creates a pac
 
 # examples
 
-- <%= config.bin %> <%= command.id %> --ci-commit-ref-name main --ci-commit-sha a1b2c3d --ci-pipeline-id 123 --ci-pipeline-url https://gitlab.example.com/pipelines/123 --ci-project-path group/project --project-access-token glpat-... --devhub-tooling-username devhub-tooling@example.com --devhub-tooling-client-id 3MVG9... --devhub-tooling-instance-url https://login.salesforce.com --jwt-key-file ./server.key
+- <%= config.bin %> <%= command.id %> --ci-commit-ref-name main --ci-commit-sha a1b2c3d --ci-pipeline-id 123 --ci-pipeline-url https://gitlab.example.com/pipelines/123 --ci-project-path group/project --project-access-token glpat-... --packaging-devhub-username packaging-devhub@example.com --packaging-devhub-client-id 3MVG9... --packaging-devhub-instance-url https://login.salesforce.com --jwt-key-file ./server.key
