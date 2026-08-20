@@ -18,7 +18,7 @@ import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { pushToScratch } from '../../../../common/build/pushScratch.js';
 import { getSkipReason } from '../../../../common/build/skipGuard.js';
-import { debugFlag, disabledFlag, jwtKeyFileFlag } from '../../../../common/build/flags.js';
+import { debugFlag, disabledFlag, optionalJwtKeyFileFlag } from '../../../../common/build/flags.js';
 import { logger } from '../../../../common/logger.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -34,7 +34,7 @@ export default class BuildPushScratch extends SfCommand<BuildPushScratchResult> 
 
   public static readonly flags = {
     ...SfCommand.baseFlags,
-    ...jwtKeyFileFlag,
+    ...optionalJwtKeyFileFlag,
     ...debugFlag,
     ...disabledFlag,
     'ignore-warnings': Flags.boolean({ summary: messages.getMessage('flags.ignore-warnings.summary'), default: false }),

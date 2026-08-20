@@ -20,18 +20,7 @@ import BuildCleanupScratchOrgs from '../../../../../src/commands/simply/cicd/bui
 
 vi.mock('../../../../../src/common/build/cleanupScratchOrgs.js', () => ({ cleanupScratchOrgs: vi.fn() }));
 
-const baseArgs = [
-  '--dev-hub-name',
-  'main',
-  '--dev-hub-username',
-  'devhub@example.com',
-  '--dev-hub-client-id',
-  'id',
-  '--dev-hub-instance-url',
-  'https://login.salesforce.com',
-  '--jwt-key-file',
-  'key.file',
-];
+const baseArgs = ['--dev-hub', 'main'];
 
 describe('build cleanup-scratch-orgs', () => {
   beforeEach(() => {
@@ -39,13 +28,11 @@ describe('build cleanup-scratch-orgs', () => {
     vi.mocked(cleanupScratchOrgs).mockResolvedValue(undefined);
   });
 
-  it('parses --dev-hub-* flags into Dev Hub configs and delegates to cleanupScratchOrgs', async () => {
-    const result = await BuildCleanupScratchOrgs.run(baseArgs);
+  it('parses --dev-hub aliases and delegates to cleanupScratchOrgs', async () => {
+    const result = await BuildCleanupScratchOrgs.run(['--dev-hub', 'main', '--dev-hub', 'backup']);
 
     expect(result.skipped).toBe(false);
-    expect(cleanupScratchOrgs).toHaveBeenCalledWith({ jwtKeyFile: 'key.file', debug: false }, [
-      { name: 'main', username: 'devhub@example.com', clientId: 'id', instanceUrl: 'https://login.salesforce.com' },
-    ]);
+    expect(cleanupScratchOrgs).toHaveBeenCalledWith(['main', 'backup']);
   });
 
   it('skips when --disabled is passed', async () => {

@@ -17,8 +17,8 @@
 import { promises as fsPromises } from 'node:fs';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { logger } from '../../../src/common/logger.js';
-import { authenticateOrg } from '../../../src/common/sfAuth.js';
 import { runApexTests as runApexTestsCommon } from '../../../src/common/sfApex.js';
+import { ensureScratchOrgSession } from '../../../src/common/build/scratchOrgAuth.js';
 import { runScratchApexTests } from '../../../src/common/build/testScratch.js';
 
 vi.mock('node:fs', async (importOriginal) => {
@@ -36,7 +36,7 @@ vi.mock('../../../src/common/logger.js', () => ({
     debug: vi.fn(),
   },
 }));
-vi.mock('../../../src/common/sfAuth.js', () => ({ authenticateOrg: vi.fn() }));
+vi.mock('../../../src/common/build/scratchOrgAuth.js', () => ({ ensureScratchOrgSession: vi.fn() }));
 vi.mock('../../../src/common/sfApex.js', () => ({ runApexTests: vi.fn() }));
 
 const mockScratchOrgInfo = { authFields: { username: 'test', clientId: 'id', instanceUrl: 'url' } };
@@ -51,10 +51,7 @@ describe('runScratchApexTests', () => {
     await runScratchApexTests({ jwtKeyFile: 'key.file' });
 
     expect(logger.info).toHaveBeenCalledWith('Authenticating to scratch org for tests...');
-    expect(authenticateOrg).toHaveBeenCalledWith({
-      username: mockScratchOrgInfo.authFields.username,
-      clientId: mockScratchOrgInfo.authFields.clientId,
-      instanceUrl: mockScratchOrgInfo.authFields.instanceUrl,
+    expect(ensureScratchOrgSession).toHaveBeenCalledWith(mockScratchOrgInfo.authFields, {
       jwtKeyFile: 'key.file',
       setDefault: true,
       debug: undefined,
@@ -66,7 +63,7 @@ describe('runScratchApexTests', () => {
     await runScratchApexTests({ jwtKeyFile: 'key.file', disableApexTests: true });
 
     expect(logger.warn).toHaveBeenCalledWith('Apex tests are disabled via --disable-apex-tests. Skipping.');
-    expect(authenticateOrg).not.toHaveBeenCalled();
+    expect(ensureScratchOrgSession).not.toHaveBeenCalled();
     expect(runApexTestsCommon).not.toHaveBeenCalled();
   });
 });

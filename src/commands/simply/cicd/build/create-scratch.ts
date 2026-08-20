@@ -18,8 +18,7 @@ import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { createScratchOrg, type ScratchOrgCreateResult } from '../../../../common/build/createScratchOrg.js';
 import { getSkipReason } from '../../../../common/build/skipGuard.js';
-import { parseDevHubs } from '../../../../common/build/devHubs.js';
-import { debugFlag, devHubFlags, disabledFlag, jwtKeyFileFlag } from '../../../../common/build/flags.js';
+import { debugFlag, devHubFlags, disabledFlag } from '../../../../common/build/flags.js';
 import { logger } from '../../../../common/logger.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -36,7 +35,6 @@ export default class BuildCreateScratch extends SfCommand<BuildCreateScratchResu
   public static readonly flags = {
     ...SfCommand.baseFlags,
     ...devHubFlags,
-    ...jwtKeyFileFlag,
     ...debugFlag,
     ...disabledFlag,
     'scratch-definition-file': Flags.string({ summary: messages.getMessage('flags.scratch-definition-file.summary') }),
@@ -60,21 +58,13 @@ export default class BuildCreateScratch extends SfCommand<BuildCreateScratchResu
       return { skipped: true };
     }
 
-    const devHubs = parseDevHubs(
-      flags['dev-hub-name'],
-      flags['dev-hub-username'],
-      flags['dev-hub-client-id'],
-      flags['dev-hub-instance-url'],
-    );
-
     const scratchOrg = await createScratchOrg(
       {
-        jwtKeyFile: flags['jwt-key-file'],
         debug: flags.debug,
         scratchDefinitionFile: flags['scratch-definition-file'],
         scratchDurationDays: flags['scratch-duration-days'],
       },
-      devHubs,
+      flags['dev-hub'],
     );
 
     return { skipped: false, scratchOrg };

@@ -14,31 +14,76 @@
  * limitations under the License.
  */
 
-import { describe, expect, it } from 'vitest';
-import { parseDevHubs } from '../../../src/common/build/devHubs.js';
+import type { AuthInfo } from '@salesforce/core';
+import { SfError } from '@salesforce/core';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { resolveDevHubs } from '../../../src/common/build/devHubs.js';
 
-describe('parseDevHubs', () => {
-  it('should zip parallel arrays into a list of Dev Hub configs', () => {
-    const devHubs = parseDevHubs(
-      ['main', 'backup'],
-      ['main@hub.com', 'backup@hub.com'],
-      ['id1', 'id2'],
-      ['https://a.com', 'https://b.com'],
-    );
+const authInfoCreateMock = vi.hoisted(() => vi.fn());
 
-    expect(devHubs).toEqual([
-      { name: 'main', username: 'main@hub.com', clientId: 'id1', instanceUrl: 'https://a.com' },
-      { name: 'backup', username: 'backup@hub.com', clientId: 'id2', instanceUrl: 'https://b.com' },
+vi.mock('@salesforce/core', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@salesforce/core')>();
+  return { ...actual, AuthInfo: { create: authInfoCreateMock } };
+});
+
+function fakeAuthInfo(username: string, fields: Record<string, unknown>): AuthInfo {
+  return { getUsername: () => username, getFields: () => fields } as unknown as AuthInfo;
+}
+
+describe('resolveDevHubs', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('resolves each alias via AuthInfo.create, mapping clientId/instanceUrl/privateKey', async () => {
+    authInfoCreateMock.mockImplementation(async (options: { username?: string } = {}) => {
+      const username = options.username as string;
+      return fakeAuthInfo(username, {
+        clientId: `${username}-client-id`,
+        instanceUrl: `https://${username}.my.salesforce.com`,
+        privateKey: `/keys/${username}.key`,
+      });
+    });
+
+    const result = await resolveDevHubs(['main', 'backup']);
+
+    expect(authInfoCreateMock).toHaveBeenCalledWith({ username: 'main' });
+    expect(authInfoCreateMock).toHaveBeenCalledWith({ username: 'backup' });
+    expect(result).toEqual([
+      {
+        alias: 'main',
+        username: 'main',
+        instanceUrl: 'https://main.my.salesforce.com',
+        clientId: 'main-client-id',
+        privateKeyFile: '/keys/main.key',
+      },
+      {
+        alias: 'backup',
+        username: 'backup',
+        instanceUrl: 'https://backup.my.salesforce.com',
+        clientId: 'backup-client-id',
+        privateKeyFile: '/keys/backup.key',
+      },
     ]);
   });
 
-  it('should return an empty array when given no arguments', () => {
-    expect(parseDevHubs()).toEqual([]);
+  it('omits privateKeyFile when the Dev Hub was not JWT-authenticated', async () => {
+    authInfoCreateMock.mockResolvedValue(
+      fakeAuthInfo('hub@example.com', { clientId: 'id', instanceUrl: 'https://hub.my.salesforce.com' }),
+    );
+
+    const [hub] = await resolveDevHubs(['hub']);
+
+    expect(hub.privateKeyFile).toBeUndefined();
   });
 
-  it('should throw when the arrays have mismatched lengths', () => {
-    expect(() =>
-      parseDevHubs(['main', 'backup'], ['main@hub.com'], ['id1', 'id2'], ['https://a.com', 'https://b.com']),
-    ).toThrow(/Mismatched number of Dev Hub arguments/);
+  it('returns an empty array for no aliases', async () => {
+    expect(await resolveDevHubs([])).toEqual([]);
+  });
+
+  it('propagates a resolution failure (e.g. an unauthenticated alias)', async () => {
+    authInfoCreateMock.mockRejectedValue(new SfError('No authorization', 'NamedOrgNotFoundError'));
+
+    await expect(resolveDevHubs(['missing'])).rejects.toThrow('No authorization');
   });
 });

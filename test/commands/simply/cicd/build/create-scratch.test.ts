@@ -20,18 +20,7 @@ import BuildCreateScratch from '../../../../../src/commands/simply/cicd/build/cr
 
 vi.mock('../../../../../src/common/build/createScratchOrg.js', () => ({ createScratchOrg: vi.fn() }));
 
-const baseArgs = [
-  '--dev-hub-name',
-  'main',
-  '--dev-hub-username',
-  'devhub@example.com',
-  '--dev-hub-client-id',
-  'id',
-  '--dev-hub-instance-url',
-  'https://login.salesforce.com',
-  '--jwt-key-file',
-  'key.file',
-];
+const baseArgs = ['--dev-hub', 'main'];
 
 describe('build create-scratch', () => {
   const originalPackageChanged = process.env.PACKAGE_CHANGED;
@@ -46,14 +35,21 @@ describe('build create-scratch', () => {
     process.env.PACKAGE_CHANGED = originalPackageChanged;
   });
 
-  it('parses Dev Hub flags and delegates to createScratchOrg', async () => {
-    const result = await BuildCreateScratch.run([...baseArgs, '--scratch-duration-days', '2']);
+  it('parses --dev-hub aliases and delegates to createScratchOrg', async () => {
+    const result = await BuildCreateScratch.run([
+      '--dev-hub',
+      'main',
+      '--dev-hub',
+      'backup',
+      '--scratch-duration-days',
+      '2',
+    ]);
 
     expect(result.skipped).toBe(false);
     expect(result.scratchOrg).toEqual({ username: 'scratch@test' });
     expect(createScratchOrg).toHaveBeenCalledWith(
-      { jwtKeyFile: 'key.file', debug: false, scratchDefinitionFile: undefined, scratchDurationDays: '2' },
-      [{ name: 'main', username: 'devhub@example.com', clientId: 'id', instanceUrl: 'https://login.salesforce.com' }],
+      { debug: false, scratchDefinitionFile: undefined, scratchDurationDays: '2' },
+      ['main', 'backup'],
     );
   });
 

@@ -4,17 +4,7 @@
     "command": "simply:cicd:build:cleanup-scratch-orgs",
     "flagAliases": [],
     "flagChars": [],
-    "flags": [
-      "debug",
-      "dev-hub-client-id",
-      "dev-hub-instance-url",
-      "dev-hub-name",
-      "dev-hub-username",
-      "disabled",
-      "flags-dir",
-      "json",
-      "jwt-key-file"
-    ],
+    "flags": ["debug", "dev-hub", "disabled", "flags-dir", "json"],
     "plugin": "@simplysf/simply-cicd"
   },
   {
@@ -69,19 +59,7 @@
     "command": "simply:cicd:build:create-scratch",
     "flagAliases": [],
     "flagChars": [],
-    "flags": [
-      "debug",
-      "dev-hub-client-id",
-      "dev-hub-instance-url",
-      "dev-hub-name",
-      "dev-hub-username",
-      "disabled",
-      "flags-dir",
-      "json",
-      "jwt-key-file",
-      "scratch-definition-file",
-      "scratch-duration-days"
-    ],
+    "flags": ["debug", "dev-hub", "disabled", "flags-dir", "json", "scratch-definition-file", "scratch-duration-days"],
     "plugin": "@simplysf/simply-cicd"
   },
   {
@@ -89,17 +67,7 @@
     "command": "simply:cicd:build:delete-scratch",
     "flagAliases": [],
     "flagChars": [],
-    "flags": [
-      "debug",
-      "dev-hub-client-id",
-      "dev-hub-instance-url",
-      "dev-hub-name",
-      "dev-hub-username",
-      "disabled",
-      "flags-dir",
-      "json",
-      "jwt-key-file"
-    ],
+    "flags": ["debug", "dev-hub", "disabled", "flags-dir", "json", "jwt-key-file"],
     "plugin": "@simplysf/simply-cicd"
   },
   {

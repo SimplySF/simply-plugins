@@ -19,6 +19,8 @@ import { execa } from 'execa';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { logger } from '../../../src/common/logger.js';
 import { authenticateOrg } from '../../../src/common/sfAuth.js';
+import { resolveDevHubs } from '../../../src/common/build/devHubs.js';
+import { ensureScratchOrgSession } from '../../../src/common/build/scratchOrgAuth.js';
 import { deleteScratchOrg } from '../../../src/common/build/deleteScratchOrg.js';
 
 vi.mock('execa');
@@ -38,6 +40,8 @@ vi.mock('../../../src/common/logger.js', () => ({
   },
 }));
 vi.mock('../../../src/common/sfAuth.js', () => ({ authenticateOrg: vi.fn() }));
+vi.mock('../../../src/common/build/devHubs.js', () => ({ resolveDevHubs: vi.fn() }));
+vi.mock('../../../src/common/build/scratchOrgAuth.js', () => ({ ensureScratchOrgSession: vi.fn() }));
 
 const mockScratchOrgInfo = {
   authFields: {
@@ -47,9 +51,19 @@ const mockScratchOrgInfo = {
     devHubUsername: 'devhub@example.com',
   },
 };
-const devHubs = [
-  { name: 'main', username: 'devhub@example.com', clientId: 'hub-id', instanceUrl: 'https://login.salesforce.com' },
-];
+const jwtHub = {
+  alias: 'main',
+  username: 'devhub@example.com',
+  clientId: 'hub-id',
+  instanceUrl: 'https://login.salesforce.com',
+  privateKeyFile: 'key.file',
+};
+const refreshTokenHub = {
+  alias: 'main',
+  username: 'devhub@example.com',
+  clientId: 'hub-id',
+  instanceUrl: 'https://login.salesforce.com',
+};
 
 describe('deleteScratchOrg', () => {
   beforeEach(() => {
@@ -58,9 +72,12 @@ describe('deleteScratchOrg', () => {
     vi.mocked(execa).mockResolvedValue({ stdout: '' } as never);
   });
 
-  it('should authenticate to the owning Dev Hub and the scratch org, then delete it', async () => {
-    await deleteScratchOrg({ jwtKeyFile: 'key.file' }, devHubs);
+  it('re-authenticates a JWT-authenticated Dev Hub, ensures the scratch org session, then deletes it', async () => {
+    vi.mocked(resolveDevHubs).mockResolvedValue([jwtHub]);
 
+    await deleteScratchOrg({ jwtKeyFile: 'key.file' }, 'main');
+
+    expect(resolveDevHubs).toHaveBeenCalledWith(['main']);
     expect(authenticateOrg).toHaveBeenCalledWith({
       username: 'devhub@example.com',
       clientId: 'hub-id',
@@ -69,10 +86,7 @@ describe('deleteScratchOrg', () => {
       setDefaultDevHub: true,
       debug: undefined,
     });
-    expect(authenticateOrg).toHaveBeenCalledWith({
-      username: 'scratch@test',
-      clientId: 'scratch-id',
-      instanceUrl: 'scratch-url',
+    expect(ensureScratchOrgSession).toHaveBeenCalledWith(mockScratchOrgInfo.authFields, {
       jwtKeyFile: 'key.file',
       setDefault: true,
       debug: undefined,
@@ -81,20 +95,37 @@ describe('deleteScratchOrg', () => {
     expect(logger.success).toHaveBeenCalledWith('Scratch org deleted.');
   });
 
-  it('should log (not throw) when the owning Dev Hub configuration cannot be found', async () => {
-    await expect(deleteScratchOrg({ jwtKeyFile: 'key.file' }, [])).resolves.toBeUndefined();
+  it('skips explicit Dev Hub re-auth when it has no private key file (refresh-token-authenticated)', async () => {
+    vi.mocked(resolveDevHubs).mockResolvedValue([refreshTokenHub]);
+
+    await deleteScratchOrg({}, 'main');
+
+    expect(authenticateOrg).not.toHaveBeenCalled();
+    expect(ensureScratchOrgSession).toHaveBeenCalledWith(mockScratchOrgInfo.authFields, {
+      jwtKeyFile: undefined,
+      setDefault: true,
+      debug: undefined,
+    });
+    expect(execa).toHaveBeenCalledWith('sf', ['org', 'delete', 'scratch', '--no-prompt'], { stdio: 'inherit' });
+  });
+
+  it('logs (not throws) when the given --dev-hub does not match the org that created the scratch org', async () => {
+    vi.mocked(resolveDevHubs).mockResolvedValue([{ ...jwtHub, username: 'other-hub@example.com' }]);
+
+    await expect(deleteScratchOrg({ jwtKeyFile: 'key.file' }, 'main')).resolves.toBeUndefined();
 
     expect(logger.error).toHaveBeenCalledWith(
       'Failed to delete scratch org. It may need to be deleted manually.',
-      expect.stringContaining('Could not find Dev Hub configuration for username: devhub@example.com'),
+      expect.stringContaining('does not match the Dev Hub that created this scratch org'),
     );
     expect(execa).not.toHaveBeenCalled();
   });
 
   it('should log (not throw) when the delete command fails', async () => {
+    vi.mocked(resolveDevHubs).mockResolvedValue([jwtHub]);
     vi.mocked(execa).mockRejectedValue(new Error('delete failed'));
 
-    await expect(deleteScratchOrg({ jwtKeyFile: 'key.file' }, devHubs)).resolves.toBeUndefined();
+    await expect(deleteScratchOrg({ jwtKeyFile: 'key.file' }, 'main')).resolves.toBeUndefined();
 
     expect(logger.error).toHaveBeenCalledWith(
       'Failed to delete scratch org. It may need to be deleted manually.',

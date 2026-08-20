@@ -17,9 +17,8 @@
 import { Messages } from '@salesforce/core';
 import { SfCommand } from '@salesforce/sf-plugins-core';
 import { deleteScratchOrg } from '../../../../common/build/deleteScratchOrg.js';
-import { parseDevHubs } from '../../../../common/build/devHubs.js';
 import { getSkipReason } from '../../../../common/build/skipGuard.js';
-import { debugFlag, devHubFlags, disabledFlag, jwtKeyFileFlag } from '../../../../common/build/flags.js';
+import { debugFlag, devHubFlag, disabledFlag, optionalJwtKeyFileFlag } from '../../../../common/build/flags.js';
 import { logger } from '../../../../common/logger.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -35,8 +34,8 @@ export default class BuildDeleteScratch extends SfCommand<BuildDeleteScratchResu
 
   public static readonly flags = {
     ...SfCommand.baseFlags,
-    ...devHubFlags,
-    ...jwtKeyFileFlag,
+    ...devHubFlag,
+    ...optionalJwtKeyFileFlag,
     ...debugFlag,
     ...disabledFlag,
   };
@@ -55,14 +54,7 @@ export default class BuildDeleteScratch extends SfCommand<BuildDeleteScratchResu
       return { skipped: true };
     }
 
-    const devHubs = parseDevHubs(
-      flags['dev-hub-name'],
-      flags['dev-hub-username'],
-      flags['dev-hub-client-id'],
-      flags['dev-hub-instance-url'],
-    );
-
-    await deleteScratchOrg({ jwtKeyFile: flags['jwt-key-file'], debug: flags.debug }, devHubs);
+    await deleteScratchOrg({ jwtKeyFile: flags['jwt-key-file'], debug: flags.debug }, flags['dev-hub']);
 
     return { skipped: false };
   }

@@ -18,7 +18,7 @@ import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { installDependencies } from '../../../../common/build/installDependencies.js';
 import { getSkipReason } from '../../../../common/build/skipGuard.js';
-import { debugFlag, disabledFlag, jwtKeyFileFlag } from '../../../../common/build/flags.js';
+import { debugFlag, disabledFlag, optionalJwtKeyFileFlag } from '../../../../common/build/flags.js';
 import { logger } from '../../../../common/logger.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -34,7 +34,7 @@ export default class BuildInstallDependencies extends SfCommand<BuildInstallDepe
 
   public static readonly flags = {
     ...SfCommand.baseFlags,
-    ...jwtKeyFileFlag,
+    ...optionalJwtKeyFileFlag,
     ...debugFlag,
     ...disabledFlag,
     'install-type': Flags.custom<'All' | 'Delta' | 'Upgrade'>({ options: ['All', 'Delta', 'Upgrade'] })({
