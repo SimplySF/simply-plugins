@@ -89,7 +89,7 @@ EXAMPLES
   $ sf simply cicd build cleanup-scratch-orgs --dev-hub-name main --dev-hub-username devhub@example.com --dev-hub-client-id 3MVG9... --dev-hub-instance-url https://login.salesforce.com --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/cleanup-scratch-orgs.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/build/cleanup-scratch-orgs.js)_
+_See code: [lib/commands/simply/cicd/build/cleanup-scratch-orgs.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/build/cleanup-scratch-orgs.js)_
 
 ## `sf simply cicd build create-fallback-tag`
 
@@ -140,7 +140,7 @@ EXAMPLES
   $ sf simply cicd build create-fallback-tag --ci-commit-ref-name main --ci-project-path group/project --project-access-token glpat-... --ci-pipeline-id 123
 ```
 
-_See code: [lib/commands/simply/cicd/build/create-fallback-tag.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/build/create-fallback-tag.js)_
+_See code: [lib/commands/simply/cicd/build/create-fallback-tag.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/build/create-fallback-tag.js)_
 
 ## `sf simply cicd build create-package-version`
 
@@ -212,7 +212,7 @@ EXAMPLES
   $ sf simply cicd build create-package-version --ci-commit-ref-name main --ci-commit-sha a1b2c3d --ci-pipeline-id 123 --ci-pipeline-url https://gitlab.example.com/pipelines/123 --ci-project-path group/project --project-access-token glpat-... --devhub-tooling-username devhub-tooling@example.com --devhub-tooling-client-id 3MVG9... --devhub-tooling-instance-url https://login.salesforce.com --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/create-package-version.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/build/create-package-version.js)_
+_See code: [lib/commands/simply/cicd/build/create-package-version.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/build/create-package-version.js)_
 
 ## `sf simply cicd build create-scratch`
 
@@ -259,7 +259,7 @@ EXAMPLES
   $ sf simply cicd build create-scratch --dev-hub-name main --dev-hub-username devhub@example.com --dev-hub-client-id 3MVG9... --dev-hub-instance-url https://login.salesforce.com --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/create-scratch.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/build/create-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/create-scratch.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/build/create-scratch.js)_
 
 ## `sf simply cicd build delete-scratch`
 
@@ -301,7 +301,7 @@ EXAMPLES
   $ sf simply cicd build delete-scratch --dev-hub-name main --dev-hub-username devhub@example.com --dev-hub-client-id 3MVG9... --dev-hub-instance-url https://login.salesforce.com --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/delete-scratch.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/build/delete-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/delete-scratch.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/build/delete-scratch.js)_
 
 ## `sf simply cicd build determine-package-changes`
 
@@ -333,7 +333,7 @@ EXAMPLES
   $ sf simply cicd build determine-package-changes --out changes.env
 ```
 
-_See code: [lib/commands/simply/cicd/build/determine-package-changes.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/build/determine-package-changes.js)_
+_See code: [lib/commands/simply/cicd/build/determine-package-changes.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/build/determine-package-changes.js)_
 
 ## `sf simply cicd build generate-flexipage-diff`
 
@@ -391,7 +391,7 @@ EXAMPLES
   $ sf simply cicd build generate-flexipage-diff --vcs-provider github --ci-repository my-org/my-repo --ci-pull-request-number 45 --ci-run-id 987 --from abc123 --to def456 --project-access-token ghp-...
 ```
 
-_See code: [lib/commands/simply/cicd/build/generate-flexipage-diff.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flexipage-diff.js)_
+_See code: [lib/commands/simply/cicd/build/generate-flexipage-diff.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flexipage-diff.js)_
 
 ## `sf simply cicd build generate-flow-diff`
 
@@ -449,7 +449,7 @@ EXAMPLES
   $ sf simply cicd build generate-flow-diff --vcs-provider github --ci-repository my-org/my-repo --ci-pull-request-number 45 --ci-run-id 987 --from abc123 --to def456 --project-access-token ghp-...
 ```
 
-_See code: [lib/commands/simply/cicd/build/generate-flow-diff.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flow-diff.js)_
+_See code: [lib/commands/simply/cicd/build/generate-flow-diff.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flow-diff.js)_
 
 ## `sf simply cicd build install-dependencies`
 
@@ -484,7 +484,7 @@ EXAMPLES
   $ sf simply cicd build install-dependencies --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/install-dependencies.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/build/install-dependencies.js)_
+_See code: [lib/commands/simply/cicd/build/install-dependencies.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/build/install-dependencies.js)_
 
 ## `sf simply cicd build lwc-jest`
 
@@ -512,7 +512,7 @@ EXAMPLES
   $ sf simply cicd build lwc-jest
 ```
 
-_See code: [lib/commands/simply/cicd/build/lwc-jest.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/build/lwc-jest.js)_
+_See code: [lib/commands/simply/cicd/build/lwc-jest.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/build/lwc-jest.js)_
 
 ## `sf simply cicd build push-scratch`
 
@@ -551,7 +551,7 @@ EXAMPLES
   $ sf simply cicd build push-scratch --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/push-scratch.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/build/push-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/push-scratch.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/build/push-scratch.js)_
 
 ## `sf simply cicd build test-scratch`
 
@@ -585,7 +585,7 @@ EXAMPLES
   $ sf simply cicd build test-scratch --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/test-scratch.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/build/test-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/test-scratch.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/build/test-scratch.js)_
 
 ## `sf simply cicd deploy happy-soup deploy-unpackaged`
 
@@ -644,7 +644,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup deploy-unpackaged --ci-job-token $CI_JOB_TOKEN --alias my-org --source-branch-name release/uat
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/deploy-unpackaged.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/deploy-unpackaged.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/deploy-unpackaged.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/deploy-unpackaged.js)_
 
 ## `sf simply cicd deploy happy-soup deployment-close-out`
 
@@ -698,7 +698,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup deployment-close-out --ci-commit-ref-name main --ci-pipeline-id 123 --ci-project-path group/project --project-access-token $PROJECT_ACCESS_TOKEN --deploy-release-date 2026-01-15
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/deployment-close-out.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/deployment-close-out.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/deployment-close-out.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/deployment-close-out.js)_
 
 ## `sf simply cicd deploy happy-soup install-packaged`
 
@@ -709,28 +709,39 @@ USAGE
   $ sf simply cicd deploy happy-soup install-packaged [--json] [--flags-dir <value>] [--alias <value>] [--auth-url <value>] [--client-id <value>]
     [--instance-url <value>] [--jwt-key-file <value>] [--username <value>] [--vcs-host <value>] [--vcs-provider
     github|gitlab] [--debug] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--install-type
-    All|Delta|Upgrade]
+    All|Delta|Upgrade] [--devhub-tooling-client-id <value>] [--devhub-tooling-instance-url <value>]
+    [--devhub-tooling-username <value>]
 
 FLAGS
-  --alias=<value>                 [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
-  --auth-url=<value>              [env: SIMPLY_CICD_AUTH_URL] Salesforce authorization (SFDX auth) URL, used as an
-                                  alternative to JWT authentication.
-  --client-id=<value>             [env: SIMPLY_CICD_CLIENT_ID] Connected app client ID, used for JWT authentication.
-  --debug                         [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
-  --deploy-progress-file=<value>  [default: DEPLOY_PROGRESS.json, env: SIMPLY_CICD_DEPLOY_PROGRESS_FILE] Path to the
-                                  deployment progress file.
-  --deploy-rules-file=<value>     [default: config/deploy-rules.json, env: SIMPLY_CICD_DEPLOY_RULES_FILE] Path to the
-                                  deployment rules file.
-  --install-type=<option>         [default: Upgrade] The type of dependency installation to perform.
-                                  <options: All|Delta|Upgrade>
-  --instance-url=<value>          [env: SIMPLY_CICD_INSTANCE_URL] Salesforce login/instance URL, used for JWT
-                                  authentication.
-  --jwt-key-file=<value>          [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file.
-  --username=<value>              [env: SIMPLY_CICD_USERNAME] Salesforce username, used for JWT authentication.
-  --vcs-host=<value>              [env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to (e.g. gitlab.com).
-  --vcs-provider=<option>         [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting platform
-                                  to talk to.
-                                  <options: github|gitlab>
+  --alias=<value>                        [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
+  --auth-url=<value>                     [env: SIMPLY_CICD_AUTH_URL] Salesforce authorization (SFDX auth) URL, used as
+                                         an alternative to JWT authentication.
+  --client-id=<value>                    [env: SIMPLY_CICD_CLIENT_ID] Connected app client ID, used for JWT
+                                         authentication.
+  --debug                                [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
+  --deploy-progress-file=<value>         [default: DEPLOY_PROGRESS.json, env: SIMPLY_CICD_DEPLOY_PROGRESS_FILE] Path to
+                                         the deployment progress file.
+  --deploy-rules-file=<value>            [default: config/deploy-rules.json, env: SIMPLY_CICD_DEPLOY_RULES_FILE] Path to
+                                         the deployment rules file.
+  --devhub-tooling-client-id=<value>     [env: SIMPLY_CICD_DEVHUB_TOOLING_CLIENT_ID] Connected app client ID for JWT
+                                         authentication to the tooling DevHub.
+  --devhub-tooling-instance-url=<value>  [env: SIMPLY_CICD_DEVHUB_TOOLING_INSTANCE_URL] Login instance URL for the
+                                         tooling DevHub.
+  --devhub-tooling-username=<value>      [env: SIMPLY_CICD_DEVHUB_TOOLING_USERNAME] Username for JWT authentication to
+                                         the tooling DevHub. Required (along with the other `--devhub-tooling-*` flags)
+                                         to look up the previous/target version's origin commit information for upgraded
+                                         packages; omitted entirely (with a warning) when not provided.
+  --install-type=<option>                [default: Upgrade] The type of dependency installation to perform.
+                                         <options: All|Delta|Upgrade>
+  --instance-url=<value>                 [env: SIMPLY_CICD_INSTANCE_URL] Salesforce login/instance URL, used for JWT
+                                         authentication.
+  --jwt-key-file=<value>                 [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file.
+  --username=<value>                     [env: SIMPLY_CICD_USERNAME] Salesforce username, used for JWT authentication.
+  --vcs-host=<value>                     [env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to (e.g.
+                                         gitlab.com).
+  --vcs-provider=<option>                [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting
+                                         platform to talk to.
+                                         <options: github|gitlab>
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -739,13 +750,15 @@ GLOBAL FLAGS
 DESCRIPTION
   Install packaged dependencies into the target org for a happy-soup deployment.
 
-  Authenticates to the target org and installs the packaged dependencies declared in `sfdx-project.json`.
+  Authenticates to the target org and installs the packaged dependencies declared in `sfdx-project.json`. For every
+  dependency that upgrades an already-installed package, records the previous/target version and origin commit
+  information to the deploy progress file, for `notify happy-soup` to look up related stories from later.
 
 EXAMPLES
   $ sf simply cicd deploy happy-soup install-packaged --alias my-org
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/install-packaged.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/install-packaged.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/install-packaged.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/install-packaged.js)_
 
 ## `sf simply cicd deploy happy-soup post-deploy`
 
@@ -804,7 +817,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup post-deploy --ci-job-token $CI_JOB_TOKEN --alias my-org --source-branch-name release/uat
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/post-deploy.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/post-deploy.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/post-deploy.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/post-deploy.js)_
 
 ## `sf simply cicd deploy happy-soup post-destructive`
 
@@ -863,7 +876,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup post-destructive --ci-job-token $CI_JOB_TOKEN --alias my-org --source-branch-name release/uat
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/post-destructive.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/post-destructive.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/post-destructive.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/post-destructive.js)_
 
 ## `sf simply cicd deploy happy-soup pre-destructive`
 
@@ -922,7 +935,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup pre-destructive --ci-job-token $CI_JOB_TOKEN --alias my-org --source-branch-name release/uat
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/pre-destructive.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/pre-destructive.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/pre-destructive.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/pre-destructive.js)_
 
 ## `sf simply cicd deploy happy-soup tag-deployment`
 
@@ -983,7 +996,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup tag-deployment --alias my-org --ci-pipeline-id 123 --ci-pipeline-url https://gitlab.example.com/group/project/-/pipelines/123 --ci-project-path group/project --ci-merge-request-iid 45 --ci-merge-request-project-url https://gitlab.example.com/group/project --project-access-token $PROJECT_ACCESS_TOKEN
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/tag-deployment.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/tag-deployment.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/tag-deployment.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/tag-deployment.js)_
 
 ## `sf simply cicd deploy happy-soup validate`
 
@@ -1021,7 +1034,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup validate --deploy-config-file deployment-configs/uat.json --deploy-rules-file config/deploy-rules.json
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/validate.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/validate.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/validate.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/validate.js)_
 
 ## `sf simply cicd deploy project deploy-unpackaged`
 
@@ -1077,7 +1090,7 @@ EXAMPLES
   $ sf simply cicd deploy project deploy-unpackaged --ci-job-token $CI_JOB_TOKEN --alias my-org
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/project/deploy-unpackaged.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/deploy-unpackaged.js)_
+_See code: [lib/commands/simply/cicd/deploy/project/deploy-unpackaged.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/deploy-unpackaged.js)_
 
 ## `sf simply cicd deploy project install-packaged`
 
@@ -1134,7 +1147,7 @@ EXAMPLES
   $ sf simply cicd deploy project install-packaged --ci-job-token $CI_JOB_TOKEN --alias my-org
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/project/install-packaged.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/install-packaged.js)_
+_See code: [lib/commands/simply/cicd/deploy/project/install-packaged.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/install-packaged.js)_
 
 ## `sf simply cicd deploy project post-deploy`
 
@@ -1190,7 +1203,7 @@ EXAMPLES
   $ sf simply cicd deploy project post-deploy --ci-job-token $CI_JOB_TOKEN --alias my-org
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/project/post-deploy.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/post-deploy.js)_
+_See code: [lib/commands/simply/cicd/deploy/project/post-deploy.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/post-deploy.js)_
 
 ## `sf simply cicd deploy project post-destructive`
 
@@ -1246,7 +1259,7 @@ EXAMPLES
   $ sf simply cicd deploy project post-destructive --ci-job-token $CI_JOB_TOKEN --alias my-org
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/project/post-destructive.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/post-destructive.js)_
+_See code: [lib/commands/simply/cicd/deploy/project/post-destructive.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/post-destructive.js)_
 
 ## `sf simply cicd deploy project pre-destructive`
 
@@ -1302,7 +1315,7 @@ EXAMPLES
   $ sf simply cicd deploy project pre-destructive --ci-job-token $CI_JOB_TOKEN --alias my-org
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/project/pre-destructive.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/pre-destructive.js)_
+_See code: [lib/commands/simply/cicd/deploy/project/pre-destructive.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/pre-destructive.js)_
 
 ## `sf simply cicd deploy project run-apex-tests`
 
@@ -1357,7 +1370,7 @@ EXAMPLES
   $ sf simply cicd deploy project run-apex-tests --ci-job-token $CI_JOB_TOKEN --alias my-org
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/project/run-apex-tests.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/run-apex-tests.js)_
+_See code: [lib/commands/simply/cicd/deploy/project/run-apex-tests.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/run-apex-tests.js)_
 
 ## `sf simply cicd deploy project validate`
 
@@ -1392,7 +1405,7 @@ EXAMPLES
   $ sf simply cicd deploy project validate --deploy-config-file config/deploy.json --deploy-rules-file config/deploy-rules.json
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/project/validate.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/validate.js)_
+_See code: [lib/commands/simply/cicd/deploy/project/validate.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/validate.js)_
 
 ## `sf simply cicd deploy validate`
 
@@ -1426,21 +1439,32 @@ EXAMPLES
   $ sf simply cicd deploy validate --deploy-config-file config/deploy.json --deploy-rules-file config/deploy-rules.json
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/validate.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/validate.js)_
+_See code: [lib/commands/simply/cicd/deploy/validate.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/validate.js)_
 
 ## `sf simply cicd notify happy-soup`
 
-Send a happy-soup deployment stage notification to Microsoft Teams, without Jira story integration.
+Send a happy-soup deployment stage notification to Microsoft Teams, with ALM story integration for upgraded packages.
 
 ```
 USAGE
   $ sf simply cicd notify happy-soup [--json] [--flags-dir <value>] [--after-script] [--before-script] [--ci-commit-ref-name
     <value>] [--ci-environment-name <value>] [--ci-job-name <value>] [--ci-job-stage <value>] [--ci-job-status <value>]
-    [--ci-pipeline-id <value>] [--ci-pipeline-url <value>] [--enabled] [--teams-webhook-url <value>...]
-    [--notify-on-completion] [--is-final-job] [--debug]
+    [--ci-job-token <value>] [--ci-pipeline-id <value>] [--ci-pipeline-url <value>] [--deploy-progress-file <value>]
+    [--enabled] [--alm-base-url <value>] [--alm-project-key <value>] [--alm-provider gitlab-issues|jira]
+    [--project-access-token <value>] [--teams-webhook-url <value>...] [--notify-on-completion] [--is-final-job]
+    [--debug]
 
 FLAGS
   --after-script                  Run the after-stage notification logic.
+  --alm-base-url=<value>          [env: SIMPLY_CICD_ALM_BASE_URL] Base URL that an issue reference is appended to, e.g.
+                                  https://jira.example.com/browse for Jira or https://gitlab.com/group/project/-/issues
+                                  for GitLab Issues. References are shown without links if not provided.
+  --alm-project-key=<value>       [env: SIMPLY_CICD_ALM_PROJECT_KEY] Fallback project key(s) used to search commit
+                                  messages for issue references, if none are configured in .sfdevrc.json. Only used by
+                                  prefix-keyed trackers such as Jira.
+  --alm-provider=<option>         [default: jira, env: SIMPLY_CICD_ALM_PROVIDER] The issue tracker whose reference
+                                  format to look for in commit messages.
+                                  <options: gitlab-issues|jira>
   --before-script                 Run the before-stage (starting) notification logic.
   --ci-commit-ref-name=<value>    [env: SIMPLY_CICD_CI_COMMIT_REF_NAME] The git branch or tag ref for this pipeline run.
   --ci-environment-name=<value>   [env: SIMPLY_CICD_CI_ENVIRONMENT_NAME] The name of the target CI environment.
@@ -1448,15 +1472,23 @@ FLAGS
   --ci-job-stage=<value>          [env: SIMPLY_CICD_CI_JOB_STAGE] The stage of the current CI job.
   --ci-job-status=<value>         [env: SIMPLY_CICD_CI_JOB_STATUS] The status of the current CI job (e.g. success,
                                   failed).
+  --ci-job-token=<value>          [env: SIMPLY_CICD_CI_JOB_TOKEN] The CI job token to try first when looking up an
+                                  upgraded package's origin commit history. Falls back to --project-access-token if the
+                                  job token can't read that repository.
   --ci-pipeline-id=<value>        [env: SIMPLY_CICD_CI_PIPELINE_ID] The ID of the current CI pipeline.
   --ci-pipeline-url=<value>       [env: SIMPLY_CICD_CI_PIPELINE_URL] The URL of the current CI pipeline.
   --debug                         [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
+  --deploy-progress-file=<value>  [default: DEPLOY_PROGRESS.json, env: SIMPLY_CICD_DEPLOY_PROGRESS_FILE] Path to the
+                                  deployment progress file to read upgraded package information from.
   --enabled                       [env: SIMPLY_CICD_ENABLED] Whether the notification is actually sent. Defaults to
                                   false so pipelines can gate this behind their own condition.
   --is-final-job                  Marks this job as the final job in the pipeline. Combined with --after-script and
                                   --notify-on-completion, this is what actually triggers the final notification.
   --notify-on-completion          Only send a notification on the final job of the pipeline, suppressing per-stage
                                   notifications.
+  --project-access-token=<value>  [env: SIMPLY_CICD_PROJECT_ACCESS_TOKEN] A personal or project access token, used to
+                                  look up an upgraded package's origin commit history when --ci-job-token isn't provided
+                                  or can't read that repository.
   --teams-webhook-url=<value>...  One or more Teams webhook URLs to send the notification to.
 
 GLOBAL FLAGS
@@ -1464,11 +1496,15 @@ GLOBAL FLAGS
   --json               Format output as json.
 
 DESCRIPTION
-  Send a happy-soup deployment stage notification to Microsoft Teams, without Jira story integration.
+  Send a happy-soup deployment stage notification to Microsoft Teams, with ALM story integration for upgraded packages.
 
   Run with `--before-script` at the start of a stage to post a "starting" card, and with `--after-script` at the end to
   post a success or failure card. With `--notify-on-completion`, intermediate stage notifications are suppressed and
   only the final job (`--is-final-job` combined with `--after-script`) posts a card.
+
+  On a successful `--after-script`, reads the packages upgraded by `deploy happy-soup install-packaged` from the deploy
+  progress file, looks up the commit history between each package's previous and target version in its own origin
+  repository, and includes any matched issue references per package in the notification.
 
 EXAMPLES
   $ sf simply cicd notify happy-soup --before-script --ci-job-stage pre-destructive --teams-webhook-url https://outlook.office.com/webhook/... --enabled
@@ -1476,7 +1512,7 @@ EXAMPLES
   $ sf simply cicd notify happy-soup --after-script --is-final-job --notify-on-completion --ci-job-status success --teams-webhook-url https://outlook.office.com/webhook/... --enabled
 ```
 
-_See code: [lib/commands/simply/cicd/notify/happy-soup.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/notify/happy-soup.js)_
+_See code: [lib/commands/simply/cicd/notify/happy-soup.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/notify/happy-soup.js)_
 
 ## `sf simply cicd notify project`
 
@@ -1563,7 +1599,7 @@ EXAMPLES
   $ sf simply cicd notify project --after-script --ci-job-stage post-destructive --ci-job-status success --teams-webhook-url https://outlook.office.com/webhook/... --enabled
 ```
 
-_See code: [lib/commands/simply/cicd/notify/project.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/notify/project.js)_
+_See code: [lib/commands/simply/cicd/notify/project.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/notify/project.js)_
 
 ## `sf simply cicd notify teams`
 
@@ -1595,7 +1631,7 @@ EXAMPLES
   $ sf simply cicd notify teams --payload '{"text":"Deployment complete"}' --webhook-url https://outlook.office.com/webhook/... --enabled
 ```
 
-_See code: [lib/commands/simply/cicd/notify/teams.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/notify/teams.js)_
+_See code: [lib/commands/simply/cicd/notify/teams.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/notify/teams.js)_
 
 ## `sf simply cicd sfdx-dependabot`
 
@@ -1671,7 +1707,7 @@ FLAG DESCRIPTIONS
     Defaults to the selected provider's public instance if not provided.
 ```
 
-_See code: [lib/commands/simply/cicd/sfdx-dependabot.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.4.1/packages/simply-cicd/lib/commands/simply/cicd/sfdx-dependabot.js)_
+_See code: [lib/commands/simply/cicd/sfdx-dependabot.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.5.4/packages/simply-cicd/lib/commands/simply/cicd/sfdx-dependabot.js)_
 <!-- commandsstop -->
 
 ## License

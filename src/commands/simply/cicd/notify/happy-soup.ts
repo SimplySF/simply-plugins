@@ -16,29 +16,21 @@
 
 import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
+import { listAlmProviderKinds, type AlmProviderKind } from '../../../../common/alm/index.js';
 import { logger } from '../../../../common/logger.js';
-import { renderNotifyTemplate } from '../../../../common/notify/renderTemplate.js';
-import { sendNotification } from '../../../../common/notify/sendNotification.js';
-import type { NotifyTemplateName } from '../../../../common/notify/templates.js';
+import {
+  afterScript,
+  beforeScript,
+  type NotifyHappySoupOptions,
+  type NotifyHappySoupResult,
+} from '../../../../common/notify/happySoupNotification.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-cicd', 'simply.cicd.notify.happy-soup');
 
-export type NotifyHappySoupResult = { sent: boolean };
+export type { NotifyHappySoupResult } from '../../../../common/notify/happySoupNotification.js';
 
-type NotifyHappySoupOptions = {
-  ciCommitRefName?: string;
-  ciEnvironmentName?: string;
-  ciJobName?: string;
-  ciJobStage?: string;
-  ciJobStatus?: string;
-  ciPipelineId?: string;
-  ciPipelineUrl?: string;
-  teamsWebhookUrl?: string[];
-  notifyOnCompletion: boolean;
-};
-
-/** Sends a happy-soup deployment stage notification to Microsoft Teams. */
+/** Sends a happy-soup deployment stage notification to Microsoft Teams, with ALM story integration. */
 export default class NotifyHappySoup extends SfCommand<NotifyHappySoupResult> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
@@ -68,6 +60,10 @@ export default class NotifyHappySoup extends SfCommand<NotifyHappySoupResult> {
       summary: messages.getMessage('flags.ci-job-status.summary'),
       env: 'SIMPLY_CICD_CI_JOB_STATUS',
     }),
+    'ci-job-token': Flags.string({
+      summary: messages.getMessage('flags.ci-job-token.summary'),
+      env: 'SIMPLY_CICD_CI_JOB_TOKEN',
+    }),
     'ci-pipeline-id': Flags.string({
       summary: messages.getMessage('flags.ci-pipeline-id.summary'),
       env: 'SIMPLY_CICD_CI_PIPELINE_ID',
@@ -76,10 +72,32 @@ export default class NotifyHappySoup extends SfCommand<NotifyHappySoupResult> {
       summary: messages.getMessage('flags.ci-pipeline-url.summary'),
       env: 'SIMPLY_CICD_CI_PIPELINE_URL',
     }),
+    'deploy-progress-file': Flags.string({
+      summary: messages.getMessage('flags.deploy-progress-file.summary'),
+      default: 'DEPLOY_PROGRESS.json',
+      env: 'SIMPLY_CICD_DEPLOY_PROGRESS_FILE',
+    }),
     enabled: Flags.boolean({
       summary: messages.getMessage('flags.enabled.summary'),
       default: false,
       env: 'SIMPLY_CICD_ENABLED',
+    }),
+    'alm-base-url': Flags.string({
+      summary: messages.getMessage('flags.alm-base-url.summary'),
+      env: 'SIMPLY_CICD_ALM_BASE_URL',
+    }),
+    'alm-project-key': Flags.string({
+      summary: messages.getMessage('flags.alm-project-key.summary'),
+      env: 'SIMPLY_CICD_ALM_PROJECT_KEY',
+    }),
+    'alm-provider': Flags.custom<AlmProviderKind>({ options: listAlmProviderKinds() })({
+      summary: messages.getMessage('flags.alm-provider.summary'),
+      default: 'jira',
+      env: 'SIMPLY_CICD_ALM_PROVIDER',
+    }),
+    'project-access-token': Flags.string({
+      summary: messages.getMessage('flags.project-access-token.summary'),
+      env: 'SIMPLY_CICD_PROJECT_ACCESS_TOKEN',
     }),
     'teams-webhook-url': Flags.string({
       summary: messages.getMessage('flags.teams-webhook-url.summary'),
@@ -96,71 +114,6 @@ export default class NotifyHappySoup extends SfCommand<NotifyHappySoupResult> {
       env: 'SIMPLY_CICD_DEBUG',
     }),
   };
-
-  /** Posts a "starting stage" card to Teams. */
-  private static async beforeScript(options: NotifyHappySoupOptions): Promise<NotifyHappySoupResult> {
-    const stage = options.ciJobStage ?? 'N/A';
-    const templateData = {
-      stage,
-      environmentName: options.ciEnvironmentName ?? 'N/A',
-      refName: options.ciCommitRefName ?? 'N/A',
-      pipelineUrl: options.ciPipelineUrl ?? '#',
-      pipelineId: options.ciPipelineId ?? 'N/A',
-    };
-
-    const message = renderNotifyTemplate('happy-soup-starting-stage-notification', templateData);
-
-    const payload = {
-      content: message,
-      environmentName: options.ciEnvironmentName,
-      refName: options.ciCommitRefName,
-      pipelineId: options.ciPipelineId,
-      pipelineUrl: options.ciPipelineUrl,
-      jobName: options.ciJobName,
-      jobStage: stage,
-      jobStatus: options.ciJobStatus ?? 'running',
-    };
-
-    await sendNotification(options.teamsWebhookUrl, payload);
-    return { sent: true };
-  }
-
-  /** Posts a stage (or final) success/failure card to Teams, depending on `--notify-on-completion`. */
-  private static async afterScript(options: NotifyHappySoupOptions): Promise<NotifyHappySoupResult> {
-    const stage = options.ciJobStage ?? 'N/A';
-    const templateData = {
-      stage,
-      environmentName: options.ciEnvironmentName ?? 'N/A',
-      refName: options.ciCommitRefName ?? 'N/A',
-      pipelineUrl: options.ciPipelineUrl ?? '#',
-      pipelineId: options.ciPipelineId ?? 'N/A',
-    };
-
-    const failed = options.ciJobStatus === 'failed';
-    const templateName: NotifyTemplateName = options.notifyOnCompletion
-      ? failed
-        ? 'happy-soup-final-failure-notification'
-        : 'happy-soup-final-success-notification'
-      : failed
-        ? 'happy-soup-failure-notification'
-        : 'happy-soup-success-notification';
-
-    const message = renderNotifyTemplate(templateName, templateData);
-
-    const payload = {
-      content: message,
-      environmentName: options.ciEnvironmentName,
-      refName: options.ciCommitRefName,
-      pipelineId: options.ciPipelineId,
-      pipelineUrl: options.ciPipelineUrl,
-      jobName: options.ciJobName,
-      jobStage: options.ciJobStage,
-      jobStatus: options.ciJobStatus,
-    };
-
-    await sendNotification(options.teamsWebhookUrl, payload);
-    return { sent: true };
-  }
 
   public async run(): Promise<NotifyHappySoupResult> {
     const { flags } = await this.parse(NotifyHappySoup);
@@ -188,6 +141,13 @@ export default class NotifyHappySoup extends SfCommand<NotifyHappySoupResult> {
       ciPipelineUrl: flags['ci-pipeline-url'],
       teamsWebhookUrl: flags['teams-webhook-url'],
       notifyOnCompletion: flags['notify-on-completion'],
+      deployProgressFile: flags['deploy-progress-file'],
+      almBaseUrl: flags['alm-base-url'],
+      almProjectKey: flags['alm-project-key'],
+      almProvider: flags['alm-provider'],
+      ciJobToken: flags['ci-job-token'],
+      projectAccessToken: flags['project-access-token'],
+      debug: flags.debug,
     };
 
     try {
@@ -195,15 +155,15 @@ export default class NotifyHappySoup extends SfCommand<NotifyHappySoupResult> {
 
       if (flags['notify-on-completion']) {
         if (flags['is-final-job'] && flags['after-script']) {
-          result = await NotifyHappySoup.afterScript(options);
+          result = await afterScript(options);
         } else {
           logger.info('Skipping intermediate happy soup notification because --notify-on-completion is enabled.');
           result = { sent: false };
         }
       } else if (flags['before-script']) {
-        result = await NotifyHappySoup.beforeScript(options);
+        result = await beforeScript(options);
       } else if (flags['after-script']) {
-        result = await NotifyHappySoup.afterScript(options);
+        result = await afterScript(options);
       } else {
         throw messages.createError('error.missingScriptFlag');
       }

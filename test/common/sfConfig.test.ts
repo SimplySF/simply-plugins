@@ -17,7 +17,7 @@
 import fs from 'node:fs';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { logger } from '../../src/common/logger.js';
-import { getAlmProjectKeys } from '../../src/common/sfConfig.js';
+import { getAlmProjectKeys, getPackageOriginOverride } from '../../src/common/sfConfig.js';
 
 vi.mock('node:fs');
 vi.mock('../../src/common/logger.js', () => ({
@@ -81,5 +81,44 @@ describe('getAlmProjectKeys', () => {
     vi.mocked(fs.readFileSync).mockReturnValue('{ not json');
 
     expect(getAlmProjectKeys('PASSED')).toEqual(['PASSED']);
+  });
+});
+
+describe('getPackageOriginOverride', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('returns undefined when no config file exists', () => {
+    vi.mocked(fs.existsSync).mockReturnValue(false);
+
+    expect(getPackageOriginOverride('MyPackage')).toBeUndefined();
+  });
+
+  it('returns undefined when the package has no override entry', () => {
+    stubConfig({ packageOriginOverrides: { OtherPackage: { vcsProvider: 'gitlab', projectPath: 'group/other' } } });
+
+    expect(getPackageOriginOverride('MyPackage')).toBeUndefined();
+  });
+
+  it('returns the matching override entry', () => {
+    stubConfig({
+      packageOriginOverrides: {
+        MyPackage: { vcsProvider: 'github', host: 'github.example.com', projectPath: 'vendor/my-package' },
+      },
+    });
+
+    expect(getPackageOriginOverride('MyPackage')).toEqual({
+      vcsProvider: 'github',
+      host: 'github.example.com',
+      projectPath: 'vendor/my-package',
+    });
+  });
+
+  it('ignores an unreadable or malformed config file', () => {
+    vi.mocked(fs.existsSync).mockReturnValue(true);
+    vi.mocked(fs.readFileSync).mockReturnValue('{ not json');
+
+    expect(getPackageOriginOverride('MyPackage')).toBeUndefined();
   });
 });

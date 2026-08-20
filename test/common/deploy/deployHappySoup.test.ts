@@ -22,10 +22,15 @@ import { addGitRemote } from '../../../src/common/git.js';
 import { logger } from '../../../src/common/logger.js';
 import { authenticateOrg } from '../../../src/common/sfAuth.js';
 import {
+  installPackageDependencies as installPackageDependenciesCommon,
+  resolveUpgradedPackages,
+} from '../../../src/common/sfPackages.js';
+import {
   determineDeployConfigFile,
-  installPackageDependencies,
+  loadProgress,
   printDeploymentSummary,
   runDeploymentSteps,
+  updateProgress,
 } from '../../../src/common/deploy/deployCommon.js';
 import { deployHappySoup } from '../../../src/common/deploy/deployHappySoup.js';
 
@@ -53,9 +58,14 @@ vi.mock('../../../src/common/logger.js', () => ({
 }));
 vi.mock('../../../src/common/sfAuth.js', () => ({ authenticateOrg: vi.fn() }));
 vi.mock('../../../src/common/sfPlugins.js', () => ({ installDeploymentPlugins: vi.fn().mockResolvedValue(undefined) }));
+vi.mock('../../../src/common/sfPackages.js', () => ({
+  installPackageDependencies: vi.fn().mockResolvedValue(undefined),
+  resolveUpgradedPackages: vi.fn().mockResolvedValue([]),
+}));
 vi.mock('../../../src/common/deploy/deployCommon.js', () => ({
   determineDeployConfigFile: vi.fn(),
-  installPackageDependencies: vi.fn(),
+  loadProgress: vi.fn().mockResolvedValue({}),
+  updateProgress: vi.fn(),
   runDeploymentSteps: vi.fn(),
   printDeploymentSummary: vi.fn(),
 }));
@@ -73,13 +83,54 @@ describe('deployHappySoup', () => {
     vi.restoreAllMocks();
   });
 
-  it("should call installPackageDependencies for the 'install-packaged' stage", async () => {
-    await deployHappySoup({ ...baseOptions, stage: 'install-packaged' });
+  describe("'install-packaged' stage", () => {
+    it('installs dependencies and persists an empty upgradedPackages list when nothing upgraded', async () => {
+      await deployHappySoup({ ...baseOptions, stage: 'install-packaged', alias: 'my-org' });
 
-    expect(installPackageDependencies).toHaveBeenCalledOnce();
-    expect(logger.success).toHaveBeenCalledWith(
-      expect.stringMatching(/Completed stage install-packaged in \d+(\.\d+)?s/),
-    );
+      expect(installPackageDependenciesCommon).toHaveBeenCalledWith(
+        expect.objectContaining({ alias: 'my-org', outputFile: expect.stringContaining('report.json') }),
+      );
+      expect(resolveUpgradedPackages).toHaveBeenCalledWith(
+        expect.stringContaining('report.json'),
+        expect.objectContaining({}),
+      );
+      expect(loadProgress).toHaveBeenCalledWith('DEPLOY_PROGRESS.json');
+      expect(updateProgress).toHaveBeenCalledWith('DEPLOY_PROGRESS.json', { upgradedPackages: [] });
+      expect(logger.success).toHaveBeenCalledWith(
+        expect.stringMatching(/Completed stage install-packaged in \d+(\.\d+)?s/),
+      );
+    });
+
+    it('persists the upgraded packages resolveUpgradedPackages returns', async () => {
+      const upgradedPackages = [
+        {
+          packageName: 'MyDependency',
+          prevVersionId: '04t000000000001AAA',
+          targetVersionId: '04t000000000002AAA',
+          targetTag: 'abc123',
+        },
+      ];
+      vi.mocked(resolveUpgradedPackages).mockResolvedValueOnce(upgradedPackages);
+      vi.mocked(loadProgress).mockResolvedValueOnce({ preDestructive: 'some-job' });
+
+      await deployHappySoup({ ...baseOptions, stage: 'install-packaged' });
+
+      expect(updateProgress).toHaveBeenCalledWith('DEPLOY_PROGRESS.json', {
+        preDestructive: 'some-job',
+        upgradedPackages,
+      });
+    });
+
+    it('uses the configured deploy progress file', async () => {
+      await deployHappySoup({
+        ...baseOptions,
+        stage: 'install-packaged',
+        deployProgressFile: 'custom-progress.json',
+      });
+
+      expect(loadProgress).toHaveBeenCalledWith('custom-progress.json');
+      expect(updateProgress).toHaveBeenCalledWith('custom-progress.json', expect.any(Object));
+    });
   });
 
   describe("'tag-deployment' stage", () => {

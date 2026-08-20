@@ -332,4 +332,33 @@ describe('GitHubProvider', () => {
     expect(provider.terminology.changeRequest).toBe('pull request');
     expect(provider.terminology.changeRequestShort).toBe('PR');
   });
+
+  it('compareRefs normalizes the commits between two refs', async () => {
+    fetchMock.mockResolvedValueOnce(
+      jsonResponse({
+        commits: [
+          { sha: 'abc123', commit: { message: 'fix: ABC-1' } },
+          { sha: 'def456', commit: { message: 'chore: bump' } },
+        ],
+      }),
+    );
+
+    const provider = new GitHubProvider({ host, token });
+    const commits = await provider.compareRefs(project, 'v1.0.0', 'v1.1.0');
+
+    expect(commits).toEqual([
+      { sha: 'abc123', message: 'fix: ABC-1', raw: { sha: 'abc123', commit: { message: 'fix: ABC-1' } } },
+      { sha: 'def456', message: 'chore: bump', raw: { sha: 'def456', commit: { message: 'chore: bump' } } },
+    ]);
+    expect(lastCall().url).toBe('https://api.github.com/repos/my-org/downstream/compare/v1.0.0...v1.1.0');
+  });
+
+  it('compareRefs returns an empty array when there are no commits', async () => {
+    fetchMock.mockResolvedValueOnce(jsonResponse({ commits: [] }));
+
+    const provider = new GitHubProvider({ host, token });
+    const commits = await provider.compareRefs(project, 'v1.0.0', 'v1.0.0');
+
+    expect(commits).toEqual([]);
+  });
 });

@@ -45,6 +45,18 @@ export default class DeployHappySoupInstallPackaged extends SfCommand<void> {
       summary: messages.getMessage('flags.install-type.summary'),
       default: 'Upgrade',
     }),
+    'devhub-tooling-client-id': Flags.string({
+      summary: messages.getMessage('flags.devhub-tooling-client-id.summary'),
+      env: 'SIMPLY_CICD_DEVHUB_TOOLING_CLIENT_ID',
+    }),
+    'devhub-tooling-instance-url': Flags.string({
+      summary: messages.getMessage('flags.devhub-tooling-instance-url.summary'),
+      env: 'SIMPLY_CICD_DEVHUB_TOOLING_INSTANCE_URL',
+    }),
+    'devhub-tooling-username': Flags.string({
+      summary: messages.getMessage('flags.devhub-tooling-username.summary'),
+      env: 'SIMPLY_CICD_DEVHUB_TOOLING_USERNAME',
+    }),
   };
 
   public async run(): Promise<void> {
@@ -64,6 +76,9 @@ export default class DeployHappySoupInstallPackaged extends SfCommand<void> {
       installType: flags['install-type'],
       vcsHost: flags['vcs-host'],
       vcsProvider: flags['vcs-provider'],
+      devhubToolingClientId: flags['devhub-tooling-client-id'],
+      devhubToolingInstanceUrl: flags['devhub-tooling-instance-url'],
+      devhubToolingUsername: flags['devhub-tooling-username'],
     });
   }
 }

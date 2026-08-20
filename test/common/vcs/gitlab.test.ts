@@ -179,4 +179,51 @@ describe('GitLabProvider', () => {
 
     expect(result).toBeUndefined();
   });
+
+  it('compareRefs normalizes the commits between two refs', async () => {
+    fetchMock.mockResolvedValueOnce(
+      jsonResponse({
+        commits: [
+          { id: 'abc123', message: 'fix: ABC-1' },
+          { id: 'def456', message: 'chore: bump' },
+        ],
+      }),
+    );
+
+    const provider = new GitLabProvider({ host, token });
+    const commits = await provider.compareRefs('123', 'v1.0.0', 'v1.1.0');
+
+    expect(commits).toEqual([
+      { sha: 'abc123', message: 'fix: ABC-1', raw: { id: 'abc123', message: 'fix: ABC-1' } },
+      { sha: 'def456', message: 'chore: bump', raw: { id: 'def456', message: 'chore: bump' } },
+    ]);
+    const [url] = fetchMock.mock.calls[0] as [string];
+    expect(url).toBe(`${apiUrl}/projects/123/repository/compare?from=v1.0.0&to=v1.1.0`);
+  });
+
+  it('compareRefs returns an empty array when there are no commits', async () => {
+    fetchMock.mockResolvedValueOnce(jsonResponse({ commits: [] }));
+
+    const provider = new GitLabProvider({ host, token });
+    const commits = await provider.compareRefs('123', 'v1.0.0', 'v1.0.0');
+
+    expect(commits).toEqual([]);
+  });
+
+  it('sends PRIVATE-TOKEN by default, and JOB-TOKEN when tokenKind is "job"', async () => {
+    fetchMock.mockResolvedValue(jsonResponse([]));
+
+    await new GitLabProvider({ host, token }).getProjectVariables('123');
+    let [, options] = fetchMock.mock.calls[0] as [string, RequestInit];
+    let headers = options.headers as Record<string, string>;
+    expect(headers['PRIVATE-TOKEN']).toBe(token);
+    expect(headers['JOB-TOKEN']).toBeUndefined();
+
+    fetchMock.mockClear();
+    await new GitLabProvider({ host, token, tokenKind: 'job' }).getProjectVariables('123');
+    [, options] = fetchMock.mock.calls[0] as [string, RequestInit];
+    headers = options.headers as Record<string, string>;
+    expect(headers['JOB-TOKEN']).toBe(token);
+    expect(headers['PRIVATE-TOKEN']).toBeUndefined();
+  });
 });
