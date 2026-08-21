@@ -1,9 +1,9 @@
 ---
 title: Plugins
-description: The Simply CLI plugins for Apex, data, documentation, package management, permissions, project metadata, schema, and SObjects.
+description: The Simply CLI plugins for Apex, communities, data, documentation, package management, permissions, project metadata, schema, and SObjects.
 ---
 
-`@simplysf/simply` is a monorepo of independently-installable Salesforce CLI plugins that handle the day-to-day work of building and maintaining a Salesforce org: working with Apex, moving data and files, generating documentation, managing package dependencies, building permission sets, updating project metadata, visualizing schema, and backing up or deduplicating SObject data.
+`@simplysf/simply` is a monorepo of independently-installable Salesforce CLI plugins that handle the day-to-day work of building and maintaining a Salesforce org: working with Apex, publishing communities, moving data and files, generating documentation, managing package dependencies, building permission sets, updating project metadata, visualizing schema, and backing up or deduplicating SObject data.
 
 ## Install
 
@@ -17,6 +17,7 @@ Or install only the plugin(s) you need — each one works standalone:
 
 ```sh
 sf plugins install @simplysf/simply-apex
+sf plugins install @simplysf/simply-community
 sf plugins install @simplysf/simply-data
 sf plugins install @simplysf/simply-document
 sf plugins install @simplysf/simply-package
@@ -31,6 +32,7 @@ sf plugins install @simplysf/simply-sobject
 | Plugin                                               | What it's for                                                          |
 | ---------------------------------------------------- | ---------------------------------------------------------------------- |
 | [`simply-apex`](/plugins/simply-apex/)               | Executing anonymous Apex, purging debug logs, and managing trace flags |
+| [`simply-community`](/plugins/simply-community/)     | Publishing Salesforce Communities (Experience Cloud sites)             |
 | [`simply-data`](/plugins/simply-data/)               | Uploading and downloading files in a Salesforce org                    |
 | [`simply-document`](/plugins/simply-document/)       | Generating project documentation and change reports                    |
 | [`simply-package`](/plugins/simply-package/)         | Managing package dependencies and versions                             |

@@ -1,9 +1,9 @@
 ---
 title: Simply
-description: Salesforce CLI plugins by SimplySF for Apex, data, documentation, packages, permissions, projects, schema, and SObjects — plus simply-cicd for CI/CD pipelines.
+description: Salesforce CLI plugins by SimplySF for Apex, communities, data, documentation, packages, permissions, projects, schema, and SObjects — plus simply-cicd for CI/CD pipelines.
 template: splash
 hero:
-  tagline: A monorepo of independently-installable Salesforce CLI plugins for Apex, data, documentation, packages, permissions, projects, schema, and SObjects — plus simply-cicd for CI/CD pipelines.
+  tagline: A monorepo of independently-installable Salesforce CLI plugins for Apex, communities, data, documentation, packages, permissions, projects, schema, and SObjects — plus simply-cicd for CI/CD pipelines.
   image:
     alt: Simply SF logo — a stylized cloud
     light: ../../assets/logo-full.png
@@ -34,6 +34,9 @@ import { Card, CardGrid } from '@astrojs/starlight/components';
   <Card title="Apex" icon="rocket">
     Execute anonymous Apex, purge debug logs, and manage trace flags. [See the Apex commands](/plugins/simply-apex/).
   </Card>
+  <Card title="Community" icon="magnifier">
+    Publish a Salesforce Community and wait for it to finish. [See the Community commands](/plugins/simply-community/).
+  </Card>
   <Card title="SObject" icon="puzzle">
     Back up, deduplicate, and track field history for SObject data. [See the SObject
     commands](/plugins/simply-sobject/).
@@ -61,6 +64,7 @@ sf plugins install @simplysf/simply
 | Plugin                                               | What it's for                                       |
 | ---------------------------------------------------- | --------------------------------------------------- |
 | [`simply-apex`](/plugins/simply-apex/)               | Working with Apex                                   |
+| [`simply-community`](/plugins/simply-community/)     | Publishing Salesforce Communities                   |
 | [`simply-data`](/plugins/simply-data/)               | Uploading and downloading files in a Salesforce org |
 | [`simply-document`](/plugins/simply-document/)       | Generating project documentation                    |
 | [`simply-package`](/plugins/simply-package/)         | Managing package dependencies                       |

@@ -21,6 +21,7 @@ Or install only the plugin(s) you need — each one works standalone:
 ```sh
 sf plugins install @simplysf/simply-apex
 sf plugins install @simplysf/simply-cicd
+sf plugins install @simplysf/simply-community
 sf plugins install @simplysf/simply-data
 sf plugins install @simplysf/simply-document
 sf plugins install @simplysf/simply-package
