@@ -18,9 +18,8 @@ import { Duration } from '@salesforce/kit';
 import { Messages, PollingClient } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { requireConnection, targetOrgFlags } from '@simplysf/simply-plugin-kit';
-import { escapeSoqlLiteral } from '@simplysf/simply-core';
+import { escapeSoqlLiteral, retryWithBackoff } from '@simplysf/simply-core';
 import { checkPublishStatus } from '../../../common/checkPublishStatus.js';
-import { retryWithBackoff } from '../../../common/retryWithBackoff.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-community', 'simply.community.publish');
