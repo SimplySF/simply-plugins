@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.16.1](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply%402.16.0...%40simplysf%2Fsimply%402.16.1) (2026-08-21)
+
+### Bug Fixes
+
+- improve sibling build resolution ([1a0d185](https://github.com/SimplySF/simply-node/commit/1a0d185e619a9523876a928dd527edadcbe09b65))
+
 # [2.16.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply%402.15.0...%40simplysf%2Fsimply%402.16.0) (2026-08-21)
 
 ### Features
