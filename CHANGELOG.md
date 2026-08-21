@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.16.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply%402.15.0...%40simplysf%2Fsimply%402.16.0) (2026-08-21)
+
+### Features
+
+- force release ([a013ea7](https://github.com/SimplySF/simply-node/commit/a013ea76cd52c71f8a959c12d517834f8cf3a048))
+
 # [2.15.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply%402.14.2...%40simplysf%2Fsimply%402.15.0) (2026-08-21)
 
 ### Bug Fixes
