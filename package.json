@@ -119,7 +119,16 @@
         "command-snapshot.json"
       ],
       "dependencies": [
-        "compile"
+        "compile",
+        "../simply-apex:compile",
+        "../simply-community:compile",
+        "../simply-data:compile",
+        "../simply-document:compile",
+        "../simply-package:compile",
+        "../simply-permissions:compile",
+        "../simply-project:compile",
+        "../simply-schema:compile",
+        "../simply-sobject:compile"
       ]
     },
     "compile": {
