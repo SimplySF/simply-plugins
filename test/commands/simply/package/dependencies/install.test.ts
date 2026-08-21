@@ -118,6 +118,14 @@ describe('simply package dependencies install', () => {
     } as never);
   }
 
+  /** Like {@link stubInstallChain}, but lets the test control each `install()` call's outcome. */
+  function stubInstallChainWithFake(installFake: () => Promise<unknown>) {
+    $$.SANDBOX.stub(SubscriberPackageVersion.prototype, 'getId').callsFake(async function (this: { id: string }) {
+      return this.id;
+    });
+    $$.SANDBOX.stub(SubscriberPackageVersion.prototype, 'install').callsFake(installFake as never);
+  }
+
   it('installs newer versions and skips packages that are not newer with --install-type Upgrade', async () => {
     $$.SANDBOX.stub(SfProject.prototype, 'getPackageDirectories').returns(
       buildMockPackageDirectories([INSTALLED_VERSION_ID, SAME_VERSION_ID, NEWER_VERSION_ID, NOT_INSTALLED_VERSION_ID]),
@@ -278,5 +286,150 @@ describe('simply package dependencies install', () => {
     await PackageDependenciesInstall.run(['--target-org', testOrg.username]);
 
     expect(writeFileSpy.called).to.be.false;
+  });
+
+  it('retries a failed install up to --retry-attempts times before succeeding', async () => {
+    $$.SANDBOX.stub(SfProject.prototype, 'getPackageDirectories').returns(
+      buildMockPackageDirectories([NOT_INSTALLED_VERSION_ID]),
+    );
+    $$.SANDBOX.stub(SubscriberPackageVersion, 'installedList').resolves(mockInstalledPackages);
+    stubGetSubscriberPackageId();
+    stubGetVersionNumber();
+
+    let installCalls = 0;
+    stubInstallChainWithFake(async () => {
+      installCalls += 1;
+      if (installCalls < 3) {
+        throw new Error('transient install failure');
+      }
+      return { Id: 'install-request-1', Status: 'SUCCESS' };
+    });
+
+    const results = await PackageDependenciesInstall.run([
+      '--target-org',
+      testOrg.username,
+      '--install-type',
+      'All',
+      '--no-prompt',
+      '--retry-attempts',
+      '2',
+      '--retry-backoff',
+      '1',
+    ]);
+
+    expect(installCalls).to.equal(3);
+    expect(results[0].Status).to.equal('Installed');
+  });
+
+  it('throws after exhausting --retry-attempts on a persistently failing install', async () => {
+    $$.SANDBOX.stub(SfProject.prototype, 'getPackageDirectories').returns(
+      buildMockPackageDirectories([NOT_INSTALLED_VERSION_ID]),
+    );
+    $$.SANDBOX.stub(SubscriberPackageVersion, 'installedList').resolves(mockInstalledPackages);
+    stubGetSubscriberPackageId();
+    stubGetVersionNumber();
+
+    let installCalls = 0;
+    stubInstallChainWithFake(async () => {
+      installCalls += 1;
+      throw new Error('permanent install failure');
+    });
+
+    await expect(
+      PackageDependenciesInstall.run([
+        '--target-org',
+        testOrg.username,
+        '--install-type',
+        'All',
+        '--no-prompt',
+        '--retry-attempts',
+        '2',
+        '--retry-backoff',
+        '1',
+      ]),
+    ).rejects.toThrow('permanent install failure');
+
+    expect(installCalls).to.equal(3);
+  });
+
+  it('applies a --package-retry-attempts override instead of --retry-attempts for that package', async () => {
+    $$.SANDBOX.stub(SfProject.prototype, 'getPackageDirectories').returns(
+      buildMockPackageDirectories([NOT_INSTALLED_VERSION_ID]),
+    );
+    $$.SANDBOX.stub(SubscriberPackageVersion, 'installedList').resolves(mockInstalledPackages);
+    stubGetSubscriberPackageId();
+    stubGetVersionNumber();
+
+    let installCalls = 0;
+    stubInstallChainWithFake(async () => {
+      installCalls += 1;
+      if (installCalls < 2) {
+        throw new Error('transient install failure');
+      }
+      return { Id: 'install-request-1', Status: 'SUCCESS' };
+    });
+
+    // --retry-attempts defaults to 0, so without the override this would fail on the first attempt.
+    const results = await PackageDependenciesInstall.run([
+      '--target-org',
+      testOrg.username,
+      '--install-type',
+      'All',
+      '--no-prompt',
+      '--retry-backoff',
+      '1',
+      '--package-retry-attempts',
+      `${NOT_INSTALLED_VERSION_ID}:1`,
+    ]);
+
+    expect(installCalls).to.equal(2);
+    expect(results[0].Status).to.equal('Installed');
+  });
+
+  it('does not retry when the install is still in progress after the polling timeout', async () => {
+    $$.SANDBOX.stub(SfProject.prototype, 'getPackageDirectories').returns(
+      buildMockPackageDirectories([NOT_INSTALLED_VERSION_ID]),
+    );
+    $$.SANDBOX.stub(SubscriberPackageVersion, 'installedList').resolves(mockInstalledPackages);
+    stubGetSubscriberPackageId();
+    stubGetVersionNumber();
+
+    let installCalls = 0;
+    stubInstallChainWithFake(async () => {
+      installCalls += 1;
+      return { Id: 'install-request-1', Status: 'IN_PROGRESS' };
+    });
+
+    await expect(
+      PackageDependenciesInstall.run([
+        '--target-org',
+        testOrg.username,
+        '--install-type',
+        'All',
+        '--no-prompt',
+        '--retry-attempts',
+        '3',
+        '--retry-backoff',
+        '1',
+      ]),
+    ).rejects.toThrow();
+
+    expect(installCalls).to.equal(1);
+  });
+
+  it('rejects a malformed --package-retry-attempts value', async () => {
+    $$.SANDBOX.stub(SfProject.prototype, 'getPackageDirectories').returns(
+      buildMockPackageDirectories([NOT_INSTALLED_VERSION_ID]),
+    );
+
+    await expect(
+      PackageDependenciesInstall.run([
+        '--target-org',
+        testOrg.username,
+        '--no-prompt',
+        '--package-retry-attempts',
+        'not-a-valid-pair',
+      ]),
+    ).rejects.toThrow();
   });
 });

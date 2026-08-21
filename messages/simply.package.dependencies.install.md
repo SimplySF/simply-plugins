@@ -54,6 +54,22 @@ Allows the following without an explicit confirmation response: 1) Remote Site S
 
 Maximum number of minutes to wait for the Subscriber Package Version ID to become available in the target org before canceling the install request.
 
+# flags.retry-attempts.summary
+
+Number of additional attempts to make if a package install fails, before giving up on that package. Defaults to 0 (no retries). Does not apply when the install is still In-Progress when polling times out, since retrying could race or duplicate an install that may still complete server-side. Overridden per-package by --package-retry-attempts.
+
+# flags.retry-backoff.summary
+
+Factor the delay between install retries grows by after each failed attempt (e.g. 2 doubles the delay each time). Only relevant when a package has retries enabled via --retry-attempts or --package-retry-attempts. Applies to every package's retries; there is no per-package override.
+
+# flags.package-retry-attempts.summary
+
+Number of retry attempts for a specific package, overriding --retry-attempts for that package only.
+
+# flags.package-retry-attempts.description
+
+Retry attempts for a specific package in the key:value format of SubscriberPackageVersionId:RetryAttempts. You can use an alias in place of the SubscriberPackageVersionId. Repeat this flag to set overrides for multiple packages. Packages not listed here use --retry-attempts.
+
 # flags.output-file.summary
 
 Path to write a JSON install report to.
@@ -100,6 +116,10 @@ Number of minutes to wait for installation status.
 
 - <%= config.bin %> <%= command.id %> --target-org myTargetOrg --target-dev-hub myTargetDevHub --output-file install-report.json
 
+- <%= config.bin %> <%= command.id %> --target-org myTargetOrg --target-dev-hub myTargetDevHub --retry-attempts 3 --retry-backoff 2
+
+- <%= config.bin %> <%= command.id %> --target-org myTargetOrg --target-dev-hub myTargetDevHub --retry-attempts 1 --package-retry-attempts "MyPackage1Alias:5"
+
 # error.apiVersionTooLow
 
 This command is supported only on API versions 36.0 and higher.
@@ -130,6 +150,12 @@ The package install is still In-Progress, so subsuequent dependencies cannot be 
 
 Polling timeout exceeded
 
+# error.packageRetryAttemptsFormat
+
+--package-retry-attempts should have the key:value format of SubscriberPackageVersionId:RetryAttempts, where RetryAttempts is a non-negative integer.
+
+You can use an alias in place of the SubscriberPackageVersionId.
+
 # error.targetDevHubConnectionFailed
 
 Unable to establish connection to the org.
@@ -145,6 +171,10 @@ We canceled this package installation per your request.
 # info.reportWritten
 
 Install report written to %s
+
+# warning.packageInstallRetrying
+
+Package %s failed to install (retry %s of %s); retrying in %s seconds...
 
 # prompt.enableRss
 
