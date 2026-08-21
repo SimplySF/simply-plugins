@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.15.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply%402.14.2...%40simplysf%2Fsimply%402.15.0) (2026-08-21)
+
+### Bug Fixes
+
+- out of date snapshot ([95f4fd8](https://github.com/SimplySF/simply-node/commit/95f4fd8693f5263021b29e1c49990b6753065510))
+
+### Features
+
+- **community:** add retry/backoff and ignore-errors flags to publish ([aa70cc2](https://github.com/SimplySF/simply-node/commit/aa70cc25dd4cf6392b6da4d05850961da6475928))
+- **community:** add simply community publish command ([56a0a14](https://github.com/SimplySF/simply-node/commit/56a0a14c45d37247d74bc2e409ec7248fc528b34))
+
 ## [2.14.2](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply%402.14.1...%40simplysf%2Fsimply%402.14.2) (2026-08-20)
 
 **Note:** Version bump only for package @simplysf/simply
