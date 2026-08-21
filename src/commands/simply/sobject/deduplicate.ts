@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-/* eslint-disable no-await-in-loop */
 import fs from 'node:fs';
 import path from 'node:path';
 import { Connection, Messages } from '@salesforce/core';
