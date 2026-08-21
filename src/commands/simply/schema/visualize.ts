@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-/* eslint-disable no-await-in-loop */
-/* eslint-disable complexity */
 import fsp from 'node:fs/promises';
 import path from 'node:path';
 import { type Connection, Messages } from '@salesforce/core';
