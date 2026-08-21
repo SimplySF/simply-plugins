@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.9.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-package%402.8.14...%40simplysf%2Fsimply-package%402.9.0) (2026-08-21)
+
+### Features
+
+- **simply-package:** add retry support to package dependencies install ([cef03f5](https://github.com/SimplySF/simply-node/commit/cef03f59caf26a89e0c2262bf1d5084f643a0cab))
+
 ## [2.8.14](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-package%402.8.13...%40simplysf%2Fsimply-package%402.8.14) (2026-08-21)
 
 **Note:** Version bump only for package @simplysf/simply-package
