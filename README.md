@@ -2,7 +2,7 @@
 
 [![NPM](https://img.shields.io/npm/v/@simplysf/simply.svg?label=@simplysf/simply)](https://www.npmjs.com/package/@simplysf/simply) [![Downloads/week](https://img.shields.io/npm/dw/@simplysf/simply.svg)](https://npmjs.org/package/@simplysf/simply) [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://raw.githubusercontent.com/SimplySF/simply-node/main/LICENSE.txt)
 
-## Install
+## Install1
 
 ```bash
 sf plugins install @simplysf/simply
