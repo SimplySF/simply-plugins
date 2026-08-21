@@ -20,6 +20,7 @@ import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { requireConnection, targetOrgFlags } from '@simplysf/simply-plugin-kit';
 import { escapeSoqlLiteral } from '@simplysf/simply-core';
 import { checkPublishStatus } from '../../../common/checkPublishStatus.js';
+import { retryWithBackoff } from '../../../common/retryWithBackoff.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-community', 'simply.community.publish');
@@ -30,7 +31,13 @@ type NetworkRecord = { Id: string; Name: string };
 /** The response shape of `POST /connect/communities/{id}/publish`. */
 type CommunityPublishResponse = { id: string; jobId: string; name: string; url: string };
 
-export type CommunityPublishResult = { id: string; name: string; url: string };
+export type CommunityPublishResult = {
+  success: boolean;
+  name: string;
+  id?: string;
+  url?: string;
+  error?: string;
+};
 
 /** Publishes a Salesforce Community (Experience Cloud site), waiting until the publish completes. */
 export default class CommunityPublish extends SfCommand<CommunityPublishResult> {
@@ -43,33 +50,64 @@ export default class CommunityPublish extends SfCommand<CommunityPublishResult> 
     ...targetOrgFlags,
     name: Flags.string({ summary: messages.getMessage('flags.name.summary'), required: true }),
     wait: Flags.string({ summary: messages.getMessage('flags.wait.summary'), default: '15' }),
+    'retry-attempts': Flags.integer({
+      summary: messages.getMessage('flags.retry-attempts.summary'),
+      default: 0,
+      min: 0,
+    }),
+    'retry-backoff': Flags.integer({
+      summary: messages.getMessage('flags.retry-backoff.summary'),
+      default: 2,
+      min: 1,
+    }),
+    'ignore-errors': Flags.boolean({
+      summary: messages.getMessage('flags.ignore-errors.summary'),
+      default: false,
+    }),
   };
 
   public async run(): Promise<CommunityPublishResult> {
     const { flags } = await this.parse(CommunityPublish);
     const connection = requireConnection(flags);
 
-    const network = await connection.singleRecordQuery<NetworkRecord>(
-      `SELECT Id, Name FROM Network WHERE Name = '${escapeSoqlLiteral(flags.name)}'`,
-    );
+    try {
+      const network = await connection.singleRecordQuery<NetworkRecord>(
+        `SELECT Id, Name FROM Network WHERE Name = '${escapeSoqlLiteral(flags.name)}'`,
+      );
 
-    this.spinner.start(messages.getMessage('info.publishing', [network.Name]));
-    const publishResponse = await connection.request<CommunityPublishResponse>({
-      method: 'POST',
-      url: `/connect/communities/${network.Id}/publish`,
-    });
+      this.spinner.start(messages.getMessage('info.publishing', [network.Name]));
+      const publishResponse = await retryWithBackoff(
+        async () =>
+          connection.request<CommunityPublishResponse>({
+            method: 'POST',
+            url: `/connect/communities/${network.Id}/publish`,
+          }),
+        { retryAttempts: flags['retry-attempts'], backoffFactor: flags['retry-backoff'] },
+      );
 
-    const client = await PollingClient.create({
-      poll: checkPublishStatus(connection, publishResponse.jobId),
-      frequency: Duration.seconds(15),
-      timeout: Duration.minutes(Number(flags.wait)),
-      timeoutErrorName: 'CommunityPublishTimeoutError',
-    });
-    await client.subscribe();
-    this.spinner.stop();
+      const client = await PollingClient.create({
+        poll: checkPublishStatus(connection, publishResponse.jobId),
+        frequency: Duration.seconds(15),
+        timeout: Duration.minutes(Number(flags.wait)),
+        timeoutErrorName: 'CommunityPublishTimeoutError',
+      });
+      await client.subscribe();
+      this.spinner.stop();
 
-    this.info(messages.getMessage('info.published', [network.Name]));
+      this.info(messages.getMessage('info.published', [network.Name]));
 
-    return { id: publishResponse.id, name: publishResponse.name, url: publishResponse.url };
+      return { success: true, id: publishResponse.id, name: publishResponse.name, url: publishResponse.url };
+    } catch (err) {
+      this.spinner.stop();
+
+      if (!flags['ignore-errors']) {
+        throw err;
+      }
+
+      const error = err as Error;
+      this.warn(messages.getMessage('warning.publishFailed', [flags.name, error.message]));
+
+      return { success: false, name: flags.name, error: error.message };
+    }
   }
 }
