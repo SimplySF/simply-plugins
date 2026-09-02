@@ -22,7 +22,6 @@ import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import { ComponentSet, SourceComponent } from '@salesforce/source-deploy-retrieve';
 import { loadJsonConfig } from '@simplysf/simply-core';
-import { PermissionSetBuildConfig, PermissionSetBuildConfigSchema } from '../../../schemas/build/permissionConfig.js';
 import {
   buildPermissionSetXml,
   FieldPermission,
@@ -30,7 +29,8 @@ import {
   PermissionSetTemplateData,
   RecordTypeVisibility,
   TabSetting,
-} from '../../../common/permissionSetXmlTemplate.js';
+} from '@simplysf/simply-permissions-core';
+import { PermissionSetBuildConfig, PermissionSetBuildConfigSchema } from '../../../schemas/build/permissionConfig.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-permissions', 'simply.permissions.build');

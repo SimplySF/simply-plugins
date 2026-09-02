@@ -484,18 +484,12 @@ importers:
       '@simplysf/simply-core':
         specifier: ^1.5.1
         version: 1.5.1
+      '@simplysf/simply-permissions-core':
+        specifier: ^0.2.0
+        version: 0.2.2
       '@simplysf/simply-plugin-kit':
         specifier: workspace:^1.0.6
         version: link:../simply-plugin-kit
-      '@simplysf/simply-report':
-        specifier: ^1.0.3
-        version: 1.0.3
-      handlebars:
-        specifier: ^4.7.9
-        version: 4.7.9
-      xmlbuilder2:
-        specifier: ^4.0.3
-        version: 4.0.3
       zod:
         specifier: ^4.1.12
         version: 4.5.4
@@ -2740,10 +2734,18 @@ packages:
       { integrity: sha512-wgIbLF2muoLWrWjn9lSwnjvQJRNAPI6B5QoWhXcI6CtA6n0pD24nB3fT07DAygRk4jhcECxQs3QogZBlmsH1Wg== }
     engines: { node: '>=22.0.0' }
 
+  '@simplysf/simply-permissions-core@0.2.2':
+    resolution: {integrity: sha512-NeaoVettLDF1HyzpcEobH14hKC9A2F8eOG/fiOSeGqTNPbK1rRwpDnYDm0pQxmR7X5poYFhiKsNekH6Ue4hnCQ==}
+    engines: {node: '>=22.0.0'}
+
   '@simplysf/simply-report@1.0.3':
     resolution:
       { integrity: sha512-IklE1Qg1sAOOKjfIrNSjMaOtO+CV7piSjwqnOfFZX95j1xjWJos3ZuEelbHfXiMiQq7+vUMvxG5hRH2jESAC0g== }
     engines: { node: '>=22.0.0' }
+
+  '@simplysf/simply-report@1.0.4':
+    resolution: {integrity: sha512-V2eeeouCe2SzVe+1ZIrWILn7NALo1oeCo1tSEnHdVQZ203NOPDswxbDRDiEU84DPKuF1zs2G5MTAUk8Ijxg64A==}
+    engines: {node: '>=22.0.0'}
 
   '@sindresorhus/base62@1.0.0':
     resolution:
@@ -10870,7 +10872,16 @@ snapshots:
     dependencies:
       handlebars: 4.7.9
 
+  '@simplysf/simply-permissions-core@0.2.2':
+    dependencies:
+      '@simplysf/simply-report': 1.0.4
+      xmlbuilder2: 4.0.3
+
   '@simplysf/simply-report@1.0.3':
+    dependencies:
+      handlebars: 4.7.9
+
+  '@simplysf/simply-report@1.0.4':
     dependencies:
       handlebars: 4.7.9
 
