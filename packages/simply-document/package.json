@@ -61,7 +61,7 @@
     "@salesforce/sf-plugins-core": "^12.2.16",
     "@salesforce/source-deploy-retrieve": "^12.37.2",
     "@salesforce/ts-types": "^2.0.12",
-    "@simplysf/simply-document-core": "workspace:^0.2.0"
+    "@simplysf/simply-document-core": "^0.2.0"
   },
   "devDependencies": {
     "@oclif/plugin-command-snapshot": "^5.4.0",

@@ -66,7 +66,7 @@
     "@salesforce/kit": "^3.2.6",
     "@salesforce/sf-plugins-core": "^12.2.16",
     "@salesforce/source-deploy-retrieve": "^12.37.2",
-    "@simplysf/simply-core": "workspace:^1.5.1",
+    "@simplysf/simply-core": "^1.5.1",
     "@simplysf/simply-plugin-kit": "workspace:^1.0.4",
     "glob": "^13.0.6",
     "xmlbuilder2": "^4.0.3"

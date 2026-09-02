@@ -60,8 +60,8 @@
     "@salesforce/core": "^8.30.0",
     "@salesforce/kit": "^3.2.6",
     "@salesforce/sf-plugins-core": "^12.2.16",
-    "@simplysf/simply-aep-core": "workspace:^0.13.1",
-    "@simplysf/simply-core": "workspace:^1.5.1"
+    "@simplysf/simply-aep-core": "^0.13.1",
+    "@simplysf/simply-core": "^1.5.1"
   },
   "devDependencies": {
     "@oclif/plugin-command-snapshot": "^5.4.0",
