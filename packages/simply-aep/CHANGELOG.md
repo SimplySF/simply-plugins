@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.2](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-aep%400.14.1...%40simplysf%2Fsimply-aep%400.14.2) (2026-09-02)
+
+**Note:** Version bump only for package @simplysf/simply-aep
+
 ## [0.14.1](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-aep%400.14.0...%40simplysf%2Fsimply-aep%400.14.1) (2026-09-02)
 
 ### Bug Fixes
