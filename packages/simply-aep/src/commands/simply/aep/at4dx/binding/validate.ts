@@ -69,6 +69,36 @@ const ISSUE_TABLE_COLUMNS: Array<{ key: keyof DisplayRow; name: string }> = [
   { key: 'message', name: 'MESSAGE' },
 ];
 
+/** `missing-domain-trigger` is the only rule that consumes a trigger scan, so skip it entirely when `Domain` isn't among the requested types. */
+async function scanOrgTriggersIfNeeded(
+  requestedTypes: BindingType[],
+  connection: Parameters<typeof scanOrgApexTriggers>[0],
+): Promise<RawApexTriggerRecord[] | undefined> {
+  if (!requestedTypes.includes('Domain')) {
+    return undefined;
+  }
+  try {
+    return await scanOrgApexTriggers(connection);
+  } catch (error) {
+    throw messages.createError('error.orgQueryFailed', [(error as Error).message]);
+  }
+}
+
+/** Local-source counterpart of {@link scanOrgTriggersIfNeeded}. */
+function scanLocalTriggersIfNeeded(
+  requestedTypes: BindingType[],
+  sourceDirs: string[],
+): RawApexTriggerRecord[] | undefined {
+  if (!requestedTypes.includes('Domain')) {
+    return undefined;
+  }
+  try {
+    return scanLocalApexTriggers(sourceDirs);
+  } catch (error) {
+    throw messages.createError('error.localScanFailed', [(error as Error).message]);
+  }
+}
+
 /**
  * Validates the AT4DX Application Factory bindings (Service/Selector/Domain/UnitOfWork) configured in a
  * target org or local DX source — wiring problems that are invisible to `binding list` — and fails
@@ -140,14 +170,7 @@ export default class At4dxBindingValidate extends SfCommand<At4dxBindingValidate
         throw messages.createError('error.at4dxNotDetected');
       }
 
-      let triggers: RawApexTriggerRecord[] | undefined;
-      if (requestedTypes.includes('Domain')) {
-        try {
-          triggers = await scanOrgApexTriggers(connection);
-        } catch (error) {
-          throw messages.createError('error.orgQueryFailed', [(error as Error).message]);
-        }
-      }
+      const triggers = await scanOrgTriggersIfNeeded(requestedTypes, connection);
 
       bindingCount = scanResult.records.length;
       issues = validateBindings(
@@ -175,14 +198,7 @@ export default class At4dxBindingValidate extends SfCommand<At4dxBindingValidate
         throw messages.createError('error.at4dxNotDetected');
       }
 
-      let triggers: RawApexTriggerRecord[] | undefined;
-      if (requestedTypes.includes('Domain')) {
-        try {
-          triggers = scanLocalApexTriggers(sourceDirs);
-        } catch (error) {
-          throw messages.createError('error.localScanFailed', [(error as Error).message]);
-        }
-      }
+      const triggers = scanLocalTriggersIfNeeded(requestedTypes, sourceDirs);
 
       bindingCount = scanResult.records.length;
       issues = validateBindings(

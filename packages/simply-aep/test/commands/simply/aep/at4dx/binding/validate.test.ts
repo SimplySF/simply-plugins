@@ -353,7 +353,7 @@ describe('simply aep at4dx binding validate', () => {
           totalSize: 1,
         } as never;
       }
-      return { records: [], done: true, totalSize: 0 } as never;
+      return { records: [], done: true, totalSize: 0 };
     });
 
     const result = await At4dxBindingValidate.run(['--target-org', testOrg.username, '--type', 'domain', '--json']);
@@ -383,7 +383,7 @@ describe('simply aep at4dx binding validate', () => {
       if (soql.includes('FROM ApexTrigger')) {
         throw new Error('Tooling API request failed');
       }
-      return { records: [], done: true, totalSize: 0 } as never;
+      return { records: [], done: true, totalSize: 0 };
     });
 
     try {
