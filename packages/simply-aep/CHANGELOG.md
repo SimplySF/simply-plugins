@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.15.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-aep%400.14.4...%40simplysf%2Fsimply-aep%400.15.0) (2026-09-03)
+
+### Features
+
+- **simply-aep:** wire missing-domain-trigger trigger scanning into binding validate ([#20](https://github.com/SimplySF/simply-plugins/issues/20)) ([3d2a0d1](https://github.com/SimplySF/simply-plugins/commit/3d2a0d1c7bf666875337c0f682d0457cd6ed9922)), closes [SimplySF/simply-node#183](https://github.com/SimplySF/simply-node/issues/183)
+
 ## [0.14.4](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-aep%400.14.3...%40simplysf%2Fsimply-aep%400.14.4) (2026-09-03)
 
 ### Bug Fixes

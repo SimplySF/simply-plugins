@@ -1,7 +1,7 @@
 {
   "name": "@simplysf/simply-aep",
   "description": "Commands for Apex Enterprise Patterns tooling (fflib, force-di, AT4DX)",
-  "version": "0.14.4",
+  "version": "0.15.0",
   "author": "@ClayChipps",
   "homepage": "https://github.com/SimplySF/simply-plugins",
   "bugs": "https://github.com/SimplySF/simply-plugins/issues",
