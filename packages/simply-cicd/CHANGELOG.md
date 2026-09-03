@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.12](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.8.11...%40simplysf%2Fsimply-cicd%400.8.12) (2026-09-03)
+
+### Bug Fixes
+
+- **docs:** repoint docs site and package docs from simply-node to simply-plugins ([#17](https://github.com/SimplySF/simply-plugins/issues/17)) ([0957e72](https://github.com/SimplySF/simply-plugins/commit/0957e72c110f94fb7ef0d1d7940ae35c4c98d814))
+
 ## [0.8.11](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.8.10...%40simplysf%2Fsimply-cicd%400.8.11) (2026-09-03)
 
 ### Bug Fixes

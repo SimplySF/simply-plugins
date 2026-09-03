@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.5](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-apex%401.8.4...%40simplysf%2Fsimply-apex%401.8.5) (2026-09-03)
+
+### Bug Fixes
+
+- **docs:** repoint docs site and package docs from simply-node to simply-plugins ([#17](https://github.com/SimplySF/simply-plugins/issues/17)) ([0957e72](https://github.com/SimplySF/simply-plugins/commit/0957e72c110f94fb7ef0d1d7940ae35c4c98d814))
+
 ## [1.8.4](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-apex%401.8.3...%40simplysf%2Fsimply-apex%401.8.4) (2026-09-03)
 
 ### Bug Fixes
