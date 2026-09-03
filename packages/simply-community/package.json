@@ -1,7 +1,7 @@
 {
   "name": "@simplysf/simply-community",
   "description": "Utilities for working with Salesforce Communities (Experience Cloud sites)",
-  "version": "0.6.6",
+  "version": "0.6.7",
   "author": "@ClayChipps",
   "homepage": "https://github.com/SimplySF/simply-plugins",
   "bugs": "https://github.com/SimplySF/simply-plugins/issues",
@@ -67,7 +67,7 @@
     "@salesforce/sf-plugins-core": "^12.2.16",
     "@salesforce/source-deploy-retrieve": "^12.37.2",
     "@simplysf/simply-core": "^1.5.1",
-    "@simplysf/simply-plugin-kit": "workspace:^1.0.5",
+    "@simplysf/simply-plugin-kit": "workspace:^1.0.6",
     "glob": "^13.0.6",
     "xmlbuilder2": "^4.0.3"
   },
