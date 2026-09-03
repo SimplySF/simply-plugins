@@ -32,7 +32,7 @@ import {
   type SchemaDiagramEdge,
   type SchemaDiagramNode,
   type SchemaRelationship,
-} from '../../../common/schemaReportTemplate.js';
+} from '@simplysf/simply-schema-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-schema', 'simply.schema.visualize');

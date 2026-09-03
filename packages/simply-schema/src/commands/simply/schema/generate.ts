@@ -27,19 +27,19 @@ import {
   getObjectInfo,
   getFieldInfo,
   getValuesInfo,
-  type ExcelFieldRow,
-  type ExcelObjectInfo,
-} from '../../../common/schemaGenerateExcelParser.js';
-import {
   FIELD_TYPES_WITHOUT_REQUIRED_PROP,
   IMPLEMENTED_FIELD_TYPES,
+  blankToUndefined,
+  toBoolean,
+  XML_BUILDER_OPTIONS,
+  type ExcelFieldRow,
+  type ExcelObjectInfo,
   type NormalizedFieldData,
   type ObjectData,
   type PicklistValueSet,
   type PicklistValueSettingEntry,
   type RecordTypeData,
-} from '../../../common/schemaGenerateTypes.js';
-import { blankToUndefined, toBoolean, XML_BUILDER_OPTIONS } from '../../../common/schemaGenerateUtils.js';
+} from '@simplysf/simply-schema-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-schema', 'simply.schema.generate');
