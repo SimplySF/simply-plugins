@@ -52,15 +52,15 @@ refactors that keep the public surface identical (though a short doc is welcome 
 | [0016](0016-at4dx-selector-config-field-set-inclusion.md)            | `simply aep at4dx field-set-inclusion list`/`validate`/`create`/`update`              | Implemented           |
 | [0017](0017-at4dx-binding-unit-of-work-write-support.md)             | `binding validate`/`create`/`update` for UnitOfWork bindings                          | Implemented           |
 | [0018](0018-domain-process-binding-set-rename-to-update.md)          | Rename `domain-process-binding set` to `update`                                       | Implemented           |
-| [0019](0019-plugin-core-library-extraction.md)                       | Extracting `-core` library packages from the other `simply-*` plugins                 | Draft                 |
+| [0019](0019-plugin-core-library-extraction.md)                       | Extracting `-core` library packages from the other `simply-*` plugins                 | Implemented           |
 | [0020](0020-simply-document-core.md)                                 | Splitting `simply-document-core` out of `simply-document`                             | Implemented           |
 | [0021](0021-package-version-cleanup-multi-selector.md)               | `package version cleanup`: `--selector`/`--selector-exclude`, multiple values         | Implemented           |
 | [0022](0022-at4dx-update-xml-shape-preservation.md)                  | AT4DX `update` commands preserve existing `.md-meta.xml` shape                        | Implemented           |
 | [0023](0023-simply-apex-core.md)                                     | Splitting `simply-apex-core` out of `simply-apex`                                     | Implemented           |
 | [0024](0024-apex-test-suite-generate.md)                             | `simply apex test-suite generate`                                                     | Implemented           |
 | [0025](0025-at4dx-platform-event-subscription-support.md)            | AT4DX Platform Event Subscription support                                             | Draft                 |
-| [0026](0026-split-simply-node-simply-plugins-repos.md)               | Splitting `simply-node` into `simply-node` + `simply-plugins` repos                   | Draft                 |
-| [0027](0027-core-extraction-round-1-post-split.md)                   | Continuing `-core` extraction under the two-repo split (round 1, excl. `simply-cicd`) | Draft                 |
+| [0026](0026-split-simply-node-simply-plugins-repos.md)               | Splitting `simply-node` into `simply-node` + `simply-plugins` repos                   | Implemented           |
+| [0027](0027-core-extraction-round-1-post-split.md)                   | Continuing `-core` extraction under the two-repo split (round 1, excl. `simply-cicd`) | Implemented           |
 | [0028](0028-simply-permissions-core.md)                              | Splitting `simply-permissions-core` out of `simply-permissions`                       | Implemented           |
 | [0029](0029-simply-sobject-core.md)                                  | Splitting `simply-sobject-core` out of `simply-sobject`                               | Implemented           |
 | [0030](0030-simply-community-core.md)                                | Splitting `simply-community-core` out of `simply-community`                           | Implemented           |

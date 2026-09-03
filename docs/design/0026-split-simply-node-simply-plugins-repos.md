@@ -1,6 +1,11 @@
 # 0026 — Splitting `simply-node` into `simply-node` + `simply-plugins`
 
-**Status:** Draft
+**Status:** Implemented — repo split, 436-tag migration, branch-protection parity, and the two
+post-split CI fixes (TypeDoc build ordering, doubled docs-site link prefixes) all landed. The npm
+publishing question resolved itself: `simply-plugins`' `release.yml` reaches its `Publish` step
+fine (the secret is provisioned), though its last two runs on `main` failed one step earlier
+(`lerna ERR! EUNCOMMIT`, an uncommitted `pnpm-workspace.yaml`/`pnpm-lock.yaml` pair left over from a
+manual push) — unrelated to this doc, tracked separately.
 **Package:** repo-wide (`pnpm-workspace.yaml`, `lerna.json`, `.github/`, every `packages/*`, `site/`)
 **Date:** 2026-09-02
 
@@ -38,10 +43,10 @@ runtime coupling exists — confirmed below.
 
 ### Final package placement
 
-| Repo             | Packages                                                                                                                                                                                          |
-| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `simply-node`     | `simply-core`, `simply-aep-core`, `simply-apex-core`, `simply-document-core`, `simply-report`                                                                                                     |
-| `simply-plugins`  | `simply`, `simply-plugin-kit`, `simply-aep`, `simply-apex`, `simply-cicd`, `simply-community`, `simply-data`, `simply-document`, `simply-flow`, `simply-package`, `simply-permissions`, `simply-project`, `simply-schema`, `simply-sobject`, `site/` |
+| Repo             | Packages                                                                                                                                                                                                                                             |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `simply-node`    | `simply-core`, `simply-aep-core`, `simply-apex-core`, `simply-document-core`, `simply-report`                                                                                                                                                        |
+| `simply-plugins` | `simply`, `simply-plugin-kit`, `simply-aep`, `simply-apex`, `simply-cicd`, `simply-community`, `simply-data`, `simply-document`, `simply-flow`, `simply-package`, `simply-permissions`, `simply-project`, `simply-schema`, `simply-sobject`, `site/` |
 
 `simply-plugin-kit` moves with the plugins: it wraps `@oclif/core`'s `Command` class and ships no
 independent value outside an oclif plugin, so it's meaningless as a `simply-node` library the way
@@ -63,20 +68,20 @@ Checked every `packages/*/package.json`:
 - The `simply` orchestrator's `oclif.plugins` list and its `dependencies` only reference other plugin
   packages (all moving to `simply-plugins`) — no cross-repo edge there either.
 
-| Plugin (→ `simply-plugins`) | Depends on (→ `simply-node`)                                          |
-| ---------------------------- | ---------------------------------------------------------------------- |
-| `simply-aep`                  | `simply-aep-core`, `simply-core`                                      |
-| `simply-apex`                 | `simply-apex-core`, `simply-core`, `simply-plugin-kit` (intra-repo)   |
-| `simply-apex-core` *(stays)*  | `simply-core` — intra-`simply-node`, listed for completeness           |
-| `simply-cicd`                 | `simply-core`                                                          |
-| `simply-community`            | `simply-core`, `simply-plugin-kit` (intra-repo)                       |
-| `simply-data`                 | `simply-core`, `simply-plugin-kit` (intra-repo)                       |
-| `simply-document`              | `simply-document-core`                                                |
-| `simply-flow`                 | `simply-core`, `simply-plugin-kit` (intra-repo)                       |
-| `simply-package`               | `simply-core`, `simply-plugin-kit` (intra-repo)                       |
-| `simply-permissions`          | `simply-core`, `simply-plugin-kit` (intra-repo), `simply-report`      |
-| `simply-schema`                | `simply-core`, `simply-report`                                         |
-| `simply-sobject`               | `simply-core`, `simply-plugin-kit` (intra-repo), `simply-report`      |
+| Plugin (→ `simply-plugins`)  | Depends on (→ `simply-node`)                                        |
+| ---------------------------- | ------------------------------------------------------------------- |
+| `simply-aep`                 | `simply-aep-core`, `simply-core`                                    |
+| `simply-apex`                | `simply-apex-core`, `simply-core`, `simply-plugin-kit` (intra-repo) |
+| `simply-apex-core` _(stays)_ | `simply-core` — intra-`simply-node`, listed for completeness        |
+| `simply-cicd`                | `simply-core`                                                       |
+| `simply-community`           | `simply-core`, `simply-plugin-kit` (intra-repo)                     |
+| `simply-data`                | `simply-core`, `simply-plugin-kit` (intra-repo)                     |
+| `simply-document`            | `simply-document-core`                                              |
+| `simply-flow`                | `simply-core`, `simply-plugin-kit` (intra-repo)                     |
+| `simply-package`             | `simply-core`, `simply-plugin-kit` (intra-repo)                     |
+| `simply-permissions`         | `simply-core`, `simply-plugin-kit` (intra-repo), `simply-report`    |
+| `simply-schema`              | `simply-core`, `simply-report`                                      |
+| `simply-sobject`             | `simply-core`, `simply-plugin-kit` (intra-repo), `simply-report`    |
 
 ## Behavior
 
@@ -118,7 +123,7 @@ This doc covers planning only; the split itself is a separate, later change. In 
    - Root-level files needed by both (`.editorconfig`, `.gitignore`, `.husky/`, `.lintstagedrc.mjs`,
      `.prettierrc.mjs`, `commitlint.config.mjs`, `eslint.config.mjs`, `tsconfig.json`,
      `vitest.config.ts`, `vitest.nuts.config.ts`, `LICENSE.txt`, `CODE_OF_CONDUCT.md`) get copied into
-     *both* filtered trees so each repo is self-contained (filter-repo path filtering naturally
+     _both_ filtered trees so each repo is self-contained (filter-repo path filtering naturally
      drops anything not listed, so these need explicit `--path` entries on both runs).
 2. **New `simply-plugins` repo**: create `SimplySF/simply-plugins` on GitHub, push the filtered
    history, and adjust:
@@ -143,7 +148,7 @@ This doc covers planning only; the split itself is a separate, later change. In 
    packages list unchanged in shape, `docs/design/README.md` index trimmed to what remains, README
    rewritten to describe it as the library-only repo with a link to `simply-plugins`.
 4. **Cut a release** of the five `simply-node` libraries first (even at their current versions, so
-   npm has a citable version), *then* update `simply-plugins`' package.json ranges to match, so the
+   npm has a citable version), _then_ update `simply-plugins`' package.json ranges to match, so the
    very first `simply-plugins` CI run resolves real npm versions rather than failing on
    `workspace:^` protocol specifiers that no longer resolve.
 5. **Update `README.md`** in `simply-node` (root) with a "This repo now only contains libraries;
@@ -161,20 +166,34 @@ This doc covers planning only; the split itself is a separate, later change. In 
 
 ## Open questions
 
-- **npm org/team access** for publishing from a second repo's CI — confirm the `NPM_TOKEN` secret
-  (or equivalent) is provisioned for `simply-plugins` before its `release.yml` is expected to
-  publish anything.
-- **GitHub repo settings** (branch protection, required status checks, issue labels) on the new
-  `simply-plugins` repo aren't covered here — needs a pass to mirror whatever's configured on
-  `simply-node` today.
 - **Existing open branches** against packages that are moving — see survey in Resolved below; only
   one needs action.
 
 ## Resolved
 
+- **GitHub repo settings**: branch-protection rulesets (`Main`, `Main Destructive`) copied from
+  `simply-node` to `simply-plugins`; both repos now carry identical rulesets (verified via `gh api
+repos/<owner>/<repo>/rulesets`).
+- **npm org/team access**: `simply-plugins`' `release.yml` reaches its `Publish` step (the
+  `NPM_TOKEN` secret is provisioned) — its last two `main` runs failed one step earlier instead
+  (`lerna ERR! EUNCOMMIT`), unrelated to token/access provisioning.
 - **Design docs 0009/0019/0020/0023** (the `-core` library-extraction stories) are duplicated as-is
   into both repos' `docs/design/`, since each describes both sides of the boundary this split also
   concerns and each repo's design history should be self-contained.
+- **Design doc placement, corrected**: checking every doc's `Package:` line (not just the four
+  extraction stories above) turned up far more cross-boundary docs than expected — most of the AT4DX
+  design history (0010-0018, 0022, 0025) lists both `simply-aep-core` (stays) and `simply-aep`
+  (moves), and 0024 lists both `simply-apex-core` (stays) and `simply-apex` (moves). Since these
+  document the `-core` library's actual data model/behavior, not just the command surface, they stay
+  relevant to `simply-node` even though the plugin half moved out. Full disposition:
+  - **Removed from `simply-node`, present only in `simply-plugins`** (plugin-only, no `-core`
+    package involved): 0001, 0002, 0003, 0004, 0005, 0007, 0008, 0021.
+  - **Kept in `simply-node`, and duplicated into `simply-plugins`** (cross-boundary — reference a
+    `-core` package that stays as well as a plugin that moves, or are one of the four
+    extraction-story docs): 0006, 0009, 0010, 0011, 0012, 0013, 0014, 0015, 0016, 0017, 0018, 0019,
+    0020, 0022, 0023, 0024, 0025, plus this doc (0026).
+  - `simply-plugins` additionally keeps its own copies of the plugin-only docs removed from
+    `simply-node` above, so its design history is complete for everything that lives there.
 - **In-flight branch survey** (2026-09-02): every remote branch on `origin` except one is 0 commits
   ahead of `main` (already merged/stale refs — includes all `dependabot-*`, `feat/*`, `fix/*`,
   `docs/*` branches and the `worktree-fix+at4dx-matcher-rule-values` local worktree branch). The one
@@ -185,3 +204,18 @@ This doc covers planning only; the split itself is a separate, later change. In 
   `pnpm-lock.yaml`. It should land (or be dropped) before the split, or be re-pointed at
   `simply-plugins` afterward — it touches nothing in `simply-node`, so either way it's a
   simply-plugins-side concern.
+- **Release tags** (2026-09-02): Lerna's independent-mode conventional-commits versioning finds each
+  package's last release via `git describe --match '@simplysf/<pkg>@*'`, so `simply-plugins` needed
+  the moved packages' existing tags, not just their commit history — without them, the next `lerna
+publish` there would have no anchor and could recompute the wrong bump. Migrated all 436 tags
+  (across the 14 moved packages) by matching each tag's original commit to its `git subtree split`
+  equivalent by content (the rewritten commit's root tree equals `<original commit>:packages/<pkg>`,
+  since subtree split doesn't touch trees, messages, or dates) rather than by position — a first pass
+  using positional correspondence silently mismatched two packages (`simply-cicd`, `simply-schema`)
+  whose history includes merges that Git's default path-log simplification handles differently from
+  `git subtree split`'s own walk. All 436 tags verified reachable from `simply-plugins:main` and
+  pushed. Also had to clean up: the initial `git fetch <simply-node-path>` (no refspec) pulled every
+  branch, not just the `split/*` ones, which made Git auto-follow-fetch all 498 of `simply-node`'s
+  original tags pointing at pre-split (and, for `simply-plugins`, unreachable) commits — those were
+  deleted before the correct 436 were created, and `git gc --prune=now` reclaimed the now-unreachable
+  objects (`.git` dropped from 6.6M to 3.2M).
