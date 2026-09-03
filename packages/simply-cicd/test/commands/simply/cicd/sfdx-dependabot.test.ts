@@ -24,7 +24,7 @@ import {
   generateMrDescription,
   resolvePackageDetails,
 } from '../../../../src/common/sfdxDependabot/dependabotRun.js';
-import type { VcsProject } from '../../../../src/common/vcs/index.js';
+import type { VcsProject } from '@simplysf/simply-cicd-core';
 
 vi.mock('execa');
 

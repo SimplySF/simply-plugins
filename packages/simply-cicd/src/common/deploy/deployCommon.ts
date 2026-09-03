@@ -19,6 +19,7 @@ import path from 'node:path';
 import chalk from 'chalk';
 import { execa } from 'execa';
 import type { z } from 'zod';
+import { createVcsProvider, type VcsProvider, type VcsProviderKind } from '@simplysf/simply-cicd-core';
 import { cloneRepo } from '../git.js';
 import { logger } from '../logger.js';
 import { runApexTests as runApexTestsCommon } from '../sfApex.js';
@@ -27,7 +28,6 @@ import { installDeploymentPlugins } from '../sfPlugins.js';
 import { deployConfigSchema, type DeployConfig } from '../schemas/deployConfig.js';
 import { deployProgressSchema, type DeployProgress } from '../schemas/deployProgress.js';
 import { deployRulesSchema, type DeployRules } from '../schemas/deployRules.js';
-import { createVcsProvider, type VcsProvider, type VcsProviderKind } from '@simplysf/simply-cicd-core';
 
 /**
  * A Salesforce org this command operates on, referenced by an alias the calling pipeline has

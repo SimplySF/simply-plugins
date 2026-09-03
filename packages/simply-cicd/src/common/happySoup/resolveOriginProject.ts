@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { getPackageOriginOverride } from '../sfConfig.js';
 import { GitHubProvider, GitLabProvider, type VcsProviderKind } from '@simplysf/simply-cicd-core';
+import { getPackageOriginOverride } from '../sfConfig.js';
 
 /** Where a packaged dependency's source lives, resolved for a happy-soup story lookup. */
 export type ResolvedOriginProject = {

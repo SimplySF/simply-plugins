@@ -15,7 +15,7 @@
  */
 
 import { describe, expect, it, vi } from 'vitest';
-import type { VcsProvider } from '../../../src/common/vcs/index.js';
+import type { VcsProvider } from '@simplysf/simply-cicd-core';
 import { getRemoteCommitStories } from '../../../src/common/notify/getRemoteCommitStories.js';
 
 function stubProvider(compareRefs: VcsProvider['compareRefs']): VcsProvider {

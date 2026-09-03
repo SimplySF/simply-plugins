@@ -17,10 +17,10 @@
 import { promises as fs } from 'node:fs';
 import { execa } from 'execa';
 import { getDefaultPackageDirectory, getPluginConfig, readSfdxProject, type SfdxProject } from '@simplysf/simply-core';
+import { createVcsProvider, type VcsProviderKind } from '@simplysf/simply-cicd-core';
 import { runSf } from '../exec/sfCli.js';
 import { addGitRemote } from '../git.js';
 import { logger } from '../logger.js';
-import { createVcsProvider, type VcsProviderKind } from '@simplysf/simply-cicd-core';
 
 type PackageVersionCreateReport = { Status: string; Error?: string; SubscriberPackageVersionId?: string };
 
