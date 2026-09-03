@@ -105,7 +105,7 @@ importers:
         specifier: ^4.11.2
         version: 4.14.0
       '@simplysf/simply-aep':
-        specifier: workspace:^0.14.4
+        specifier: workspace:^0.15.0
         version: link:../simply-aep
       '@simplysf/simply-apex':
         specifier: workspace:^1.8.5
@@ -160,8 +160,8 @@ importers:
         specifier: ^12.2.16
         version: 12.2.28(@types/node@26.4.0)
       '@simplysf/simply-aep-core':
-        specifier: ^0.13.1
-        version: 0.13.1(supports-color@8.1.1)
+        specifier: ^0.14.0
+        version: 0.14.0(supports-color@8.1.1)
       '@simplysf/simply-core':
         specifier: ^1.5.1
         version: 1.5.1
@@ -2369,8 +2369,8 @@ packages:
     resolution: {integrity: sha512-fCTuZK4QBa+39Oz9l4OGfJfz+GpwCp3AqO7Zch3to99xHPgstVsRFpeQ8LNd2o1Gv8raL2mCFwiaHh7bFSp5DQ==}
     engines: {node: '>=22'}
 
-  '@simplysf/simply-aep-core@0.13.1':
-    resolution: {integrity: sha512-fAU9gYytuW7v+C217JzbHZ04bbXRsue3aJijekQ6NgM0xN+qnwCrf4mexSH6EgcoXWnqt0DElb5rvzmcfzZiBg==}
+  '@simplysf/simply-aep-core@0.14.0':
+    resolution: {integrity: sha512-g1wvLEVRs4o8TjVpDOFyw0fAWUvO2ldc7FVsZMlzAxGXkfcNnZIBA0seBEv5Wd9uRLdcws97KrRKKCcKRZVHXA==}
     engines: {node: '>=22.0.0'}
 
   '@simplysf/simply-apex-core@0.3.2':
@@ -9277,7 +9277,7 @@ snapshots:
 
   '@simple-libs/stream-utils@2.0.0': {}
 
-  '@simplysf/simply-aep-core@0.13.1(supports-color@8.1.1)':
+  '@simplysf/simply-aep-core@0.14.0(supports-color@8.1.1)':
     dependencies:
       '@salesforce/core': 8.32.6
       '@salesforce/kit': 3.2.6
