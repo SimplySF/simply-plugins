@@ -67,8 +67,7 @@
     "@salesforce/sf-plugins-core": "^12.2.16",
     "@simplysf/simply-core": "^1.5.1",
     "@simplysf/simply-plugin-kit": "workspace:^1.0.6",
-    "@simplysf/simply-report": "^1.0.3",
-    "handlebars": "^4.7.9",
+    "@simplysf/simply-sobject-core": "^0.2.2",
     "zod": "^4.1.12"
   },
   "devDependencies": {

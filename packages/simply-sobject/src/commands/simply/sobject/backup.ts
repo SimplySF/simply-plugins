@@ -19,7 +19,7 @@ import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import { requireConnection, targetOrgFlags } from '@simplysf/simply-plugin-kit';
 import { ensureDirectory, queryRecords, timestampForFileName, writeRecordsToCsvFile } from '@simplysf/simply-core';
-import { discoverRelationshipFields } from '../../../common/relationshipFields.js';
+import { discoverRelationshipFields } from '@simplysf/simply-sobject-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-sobject', 'simply.sobject.backup');

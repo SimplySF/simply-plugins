@@ -32,7 +32,7 @@ import {
   buildFieldHistorySchemaReportHtml,
   type FieldHistorySchemaEntry,
   type GroupedFieldHistorySchemaData,
-} from '../../../../common/fieldHistorySchemaReportTemplate.js';
+} from '@simplysf/simply-sobject-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-sobject', 'simply.sobject.history.schema');
