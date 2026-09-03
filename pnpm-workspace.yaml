@@ -10,6 +10,8 @@ minimumReleaseAgeExclude:
   - eslint@10.9.0
   - '@simplysf/simply-aep-core@0.13.1'
   - '@simplysf/simply-apex-core@0.3.2'
+  - '@simplysf/simply-permissions-core@0.2.2'
+  - '@simplysf/simply-report@1.0.4'
 allowBuilds:
   esbuild: true
   nx: true

@@ -26,7 +26,7 @@ import {
   ObjectPermissionEntry,
   PermissionSetGroupReportEntry,
   PermissionSetReportEntry,
-} from '../../../common/permissionsReportTemplate.js';
+} from '@simplysf/simply-permissions-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-permissions', 'simply.permissions.analyze');
