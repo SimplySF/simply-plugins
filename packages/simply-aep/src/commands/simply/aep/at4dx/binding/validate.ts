@@ -19,13 +19,16 @@ import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import {
   ALL_BINDING_TYPES,
   BINDING_TYPE_BY_FLAG,
+  scanLocalApexTriggers,
   scanLocalBindings,
+  scanOrgApexTriggers,
   scanOrgBindings,
   validateBindings,
   type At4dxBindingValidateResult,
   type BindingIssue,
   type BindingType,
   type BindingTypeFlag,
+  type RawApexTriggerRecord,
 } from '@simplysf/simply-aep-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -65,6 +68,36 @@ const ISSUE_TABLE_COLUMNS: Array<{ key: keyof DisplayRow; name: string }> = [
   { key: 'source', name: 'SOURCE' },
   { key: 'message', name: 'MESSAGE' },
 ];
+
+/** `missing-domain-trigger` is the only rule that consumes a trigger scan, so skip it entirely when `Domain` isn't among the requested types. */
+async function scanOrgTriggersIfNeeded(
+  requestedTypes: BindingType[],
+  connection: Parameters<typeof scanOrgApexTriggers>[0],
+): Promise<RawApexTriggerRecord[] | undefined> {
+  if (!requestedTypes.includes('Domain')) {
+    return undefined;
+  }
+  try {
+    return await scanOrgApexTriggers(connection);
+  } catch (error) {
+    throw messages.createError('error.orgQueryFailed', [(error as Error).message]);
+  }
+}
+
+/** Local-source counterpart of {@link scanOrgTriggersIfNeeded}. */
+function scanLocalTriggersIfNeeded(
+  requestedTypes: BindingType[],
+  sourceDirs: string[],
+): RawApexTriggerRecord[] | undefined {
+  if (!requestedTypes.includes('Domain')) {
+    return undefined;
+  }
+  try {
+    return scanLocalApexTriggers(sourceDirs);
+  } catch (error) {
+    throw messages.createError('error.localScanFailed', [(error as Error).message]);
+  }
+}
 
 /**
  * Validates the AT4DX Application Factory bindings (Service/Selector/Domain/UnitOfWork) configured in a
@@ -137,11 +170,17 @@ export default class At4dxBindingValidate extends SfCommand<At4dxBindingValidate
         throw messages.createError('error.at4dxNotDetected');
       }
 
+      const triggers = await scanOrgTriggersIfNeeded(requestedTypes, connection);
+
       bindingCount = scanResult.records.length;
-      issues = validateBindings(scanResult.records, {
-        malformed: scanResult.malformed,
-        ambiguous: scanResult.ambiguous,
-      });
+      issues = validateBindings(
+        scanResult.records,
+        {
+          malformed: scanResult.malformed,
+          ambiguous: scanResult.ambiguous,
+        },
+        triggers,
+      );
     } else {
       source = 'local';
 
@@ -159,11 +198,17 @@ export default class At4dxBindingValidate extends SfCommand<At4dxBindingValidate
         throw messages.createError('error.at4dxNotDetected');
       }
 
+      const triggers = scanLocalTriggersIfNeeded(requestedTypes, sourceDirs);
+
       bindingCount = scanResult.records.length;
-      issues = validateBindings(scanResult.records, {
-        malformed: scanResult.malformed,
-        ambiguous: scanResult.ambiguous,
-      });
+      issues = validateBindings(
+        scanResult.records,
+        {
+          malformed: scanResult.malformed,
+          ambiguous: scanResult.ambiguous,
+        },
+        triggers,
+      );
     }
 
     if (issues.length > 0) {
