@@ -15,8 +15,7 @@
  */
 
 import { getPackageOriginOverride } from '../sfConfig.js';
-import { GitHubProvider, GitLabProvider } from '../vcs/index.js';
-import type { VcsProviderKind } from '../vcs/types.js';
+import { GitHubProvider, GitLabProvider, type VcsProviderKind } from '@simplysf/simply-cicd-core';
 
 /** Where a packaged dependency's source lives, resolved for a happy-soup story lookup. */
 export type ResolvedOriginProject = {

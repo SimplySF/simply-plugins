@@ -27,7 +27,7 @@ import {
   type SfdxDependabotCounters,
   type SfdxDependabotSummary,
 } from '../../../common/sfdxDependabot/dependabotRun.js';
-import { createVcsProvider, listVcsProviderKinds, type VcsProviderKind } from '../../../common/vcs/index.js';
+import { createVcsProvider, listVcsProviderKinds, type VcsProviderKind } from '@simplysf/simply-cicd-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-cicd', 'simply.cicd.sfdx-dependabot');

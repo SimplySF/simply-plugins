@@ -20,7 +20,7 @@ import { getDefaultPackageDirectory, getPluginConfig, readSfdxProject, type Sfdx
 import { runSf } from '../exec/sfCli.js';
 import { addGitRemote } from '../git.js';
 import { logger } from '../logger.js';
-import { createVcsProvider, type VcsProviderKind } from '../vcs/index.js';
+import { createVcsProvider, type VcsProviderKind } from '@simplysf/simply-cicd-core';
 
 type PackageVersionCreateReport = { Status: string; Error?: string; SubscriberPackageVersionId?: string };
 

@@ -16,7 +16,7 @@
 
 import { Messages } from '@salesforce/core';
 import { Flags } from '@salesforce/sf-plugins-core';
-import { listVcsProviderKinds, type VcsProviderKind } from '../vcs/index.js';
+import { listVcsProviderKinds, type VcsProviderKind } from '@simplysf/simply-cicd-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-cicd', 'simply.cicd.deploy');

@@ -19,7 +19,7 @@ import { execa } from 'execa';
 import { getDefaultPackageDirectory, isSubscriberPackageVersionId, readSfdxProject } from '@simplysf/simply-core';
 import { addGitRemote } from '../git.js';
 import { logger } from '../logger.js';
-import { createVcsProvider, type VcsProviderKind } from '../vcs/index.js';
+import { createVcsProvider, type VcsProviderKind } from '@simplysf/simply-cicd-core';
 import { buildTagMatchPattern } from './determinePackageChanges.js';
 
 async function resolveTagMatchPattern(): Promise<string> {

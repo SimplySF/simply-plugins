@@ -17,7 +17,7 @@
 import { promises as fs } from 'node:fs';
 import { execa } from 'execa';
 import { getDefaultPackageDirectory, isSubscriberPackageVersionId, readSfdxProject } from '@simplysf/simply-core';
-import { createAlmProvider, type AlmProviderKind } from '../alm/index.js';
+import { createAlmProvider, type AlmProviderKind } from '@simplysf/simply-cicd-core';
 import { runSf, runSfJson } from '../exec/sfCli.js';
 import { logger } from '../logger.js';
 import { appendToEnvFile } from '../env.js';

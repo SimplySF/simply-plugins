@@ -17,7 +17,7 @@
 import { execa } from 'execa';
 import { logger } from '../logger.js';
 import { installFlowDeltaPlugin } from '../sfPlugins.js';
-import { createVcsProvider, type VcsProviderKind } from '../vcs/index.js';
+import { createVcsProvider, type VcsProviderKind } from '@simplysf/simply-cicd-core';
 
 /**
  * One of the upstream `@syntax-syllogism/flow-delta` diff tools. Each ships a diff binary plus one

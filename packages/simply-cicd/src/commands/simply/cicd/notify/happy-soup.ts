@@ -16,7 +16,7 @@
 
 import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
-import { listAlmProviderKinds, type AlmProviderKind } from '../../../../common/alm/index.js';
+import { listAlmProviderKinds, type AlmProviderKind } from '@simplysf/simply-cicd-core';
 import { logger } from '../../../../common/logger.js';
 import {
   afterScript,

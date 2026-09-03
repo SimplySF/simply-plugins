@@ -17,7 +17,7 @@
 import { execa } from 'execa';
 import { isSubscriberPackageVersionId } from '@simplysf/simply-core';
 import { logger } from '../logger.js';
-import type { VcsProviderKind } from '../vcs/index.js';
+import type { VcsProviderKind } from '@simplysf/simply-cicd-core';
 import { runDeployStage } from './runDeployStage.js';
 import {
   installPackageDependencies,

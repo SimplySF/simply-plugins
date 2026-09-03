@@ -16,7 +16,7 @@
 
 import { runSfJson } from '../exec/sfCli.js';
 import { logger } from '../logger.js';
-import type { VcsProject, VcsProvider } from '../vcs/index.js';
+import type { VcsProject, VcsProvider } from '@simplysf/simply-cicd-core';
 import { updateSfdxProject } from './updater.js';
 import type { UpdateSfdxProjectResult } from './updater.js';
 

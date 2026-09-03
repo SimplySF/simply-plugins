@@ -25,8 +25,7 @@ import {
   installPackageDependencies as installPackageDependenciesCommon,
   resolveUpgradedPackages,
 } from '../sfPackages.js';
-import { createVcsProvider } from '../vcs/index.js';
-import type { VcsProvider, VcsProviderKind } from '../vcs/index.js';
+import { createVcsProvider, type VcsProvider, type VcsProviderKind } from '@simplysf/simply-cicd-core';
 import type { UpgradedPackage } from '../schemas/deployProgress.js';
 import { runDeployStage } from './runDeployStage.js';
 import {

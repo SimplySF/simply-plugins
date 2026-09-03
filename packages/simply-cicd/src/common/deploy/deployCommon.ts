@@ -27,8 +27,7 @@ import { installDeploymentPlugins } from '../sfPlugins.js';
 import { deployConfigSchema, type DeployConfig } from '../schemas/deployConfig.js';
 import { deployProgressSchema, type DeployProgress } from '../schemas/deployProgress.js';
 import { deployRulesSchema, type DeployRules } from '../schemas/deployRules.js';
-import { createVcsProvider } from '../vcs/index.js';
-import type { VcsProvider, VcsProviderKind } from '../vcs/index.js';
+import { createVcsProvider, type VcsProvider, type VcsProviderKind } from '@simplysf/simply-cicd-core';
 
 /**
  * A Salesforce org this command operates on, referenced by an alias the calling pipeline has
