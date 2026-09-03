@@ -64,6 +64,7 @@ refactors that keep the public surface identical (though a short doc is welcome 
 | [0028](0028-simply-permissions-core.md)                              | Splitting `simply-permissions-core` out of `simply-permissions`                       | Implemented           |
 | [0029](0029-simply-sobject-core.md)                                  | Splitting `simply-sobject-core` out of `simply-sobject`                               | Implemented           |
 | [0030](0030-simply-community-core.md)                                | Splitting `simply-community-core` out of `simply-community`                           | Implemented           |
+| [0031](0031-simply-data-core.md)                                     | Splitting `simply-data-core` out of `simply-data`                                     | Implemented           |
 
 ## Template
 

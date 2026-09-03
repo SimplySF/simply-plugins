@@ -20,8 +20,8 @@ import { Connection, SfError } from '@salesforce/core';
 import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
 import sinon from 'sinon';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { ContentVersionToUpload } from '@simplysf/simply-data-core';
 import DataFilesUpload from '../../../../../src/commands/simply/data/files/upload.js';
-import { ContentVersionToUpload } from '../../../../../src/common/contentVersionTypes.js';
 
 describe('simply data files upload', () => {
   const $$ = new TestContext({ sinon });
