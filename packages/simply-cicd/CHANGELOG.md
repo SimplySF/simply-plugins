@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.8.12...%40simplysf%2Fsimply-cicd%400.9.0) (2026-09-03)
+
+### Features
+
+- **simply-cicd:** consume simply-cicd-core for alm/vcs ([#21](https://github.com/SimplySF/simply-plugins/issues/21)) ([7af7047](https://github.com/SimplySF/simply-plugins/commit/7af704782ee1c366fa2eb6fd00feb00df4575feb)), closes [SimplySF/simply-node#186](https://github.com/SimplySF/simply-node/issues/186)
+
 ## [0.8.12](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.8.11...%40simplysf%2Fsimply-cicd%400.8.12) (2026-09-03)
 
 ### Bug Fixes
