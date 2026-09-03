@@ -53,7 +53,50 @@ FLAG DESCRIPTIONS
     The path to write the generated HTML report to.
 ```
 
-_See code: [lib/commands/simply/permissions/analyze.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-permissions@1.2.31/packages/simply-permissions/lib/commands/simply/permissions/analyze.js)_
+_See code: [lib/commands/simply/permissions/analyze.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@1.3.6/packages/simply-permissions/lib/commands/simply/permissions/analyze.js)_
+
+## `sf simply permissions assignment delete`
+
+Delete PermissionSetAssignments for one or more PermissionSets/PermissionSetGroups.
+
+```
+USAGE
+  $ sf simply permissions assignment delete -o <value> [--json] [--flags-dir <value>] [--api-version <value>] [-f <value>]
+    [--permission-set-name <value>...] [--permission-set-group-name <value>...]
+
+FLAGS
+  -f, --file=<value>                          Path to a destructiveChanges.xml/package.xml-shaped file
+  -o, --target-org=<value>                    (required) Username or alias of the target org. Not required if the
+                                              `target-org` configuration variable is already set.
+      --api-version=<value>                   Override the api version used for api requests made by this command
+      --permission-set-group-name=<value>...  PermissionSetGroup DeveloperName(s) to delete assignments for
+      --permission-set-name=<value>...        PermissionSet Name(s) to delete assignments for
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Delete PermissionSetAssignments for one or more PermissionSets/PermissionSetGroups.
+
+  Deletes every `PermissionSetAssignment` against the named `PermissionSet`s and/or `PermissionSetGroup`s — the pre-step
+  a destructive metadata deploy of the permission set/group itself needs, so it doesn't fail or leave orphaned
+  assignments behind.
+
+  Targets can be named either via `--file`, pointing at a `destructiveChanges.xml`/`package.xml`-shaped file whose
+  `PermissionSet`/`PermissionSetGroup` type members are the targets, or via
+  `--permission-set-name`/`--permission-set-group-name` flags (which may be combined with each other) for scripted or
+  one-off use. `--file` is mutually exclusive with the two explicit-name flags.
+
+EXAMPLES
+  $ sf simply permissions assignment delete --file destructive/pre/destructiveChanges.xml --target-org myOrg
+
+  $ sf simply permissions assignment delete --permission-set-name My_Permission_Set --target-org myOrg
+
+  $ sf simply permissions assignment delete --permission-set-group-name My_Permission_Set_Group --target-org myOrg
+```
+
+_See code: [lib/commands/simply/permissions/assignment/delete.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@1.3.6/packages/simply-permissions/lib/commands/simply/permissions/assignment/delete.js)_
 
 ## `sf simply permissions build`
 
@@ -120,4 +163,4 @@ FLAG DESCRIPTIONS
     'view-all' additionally grants view-all-records, and 'modify-all' grants full CRUD and modify-all-records access.
 ```
 
-_See code: [lib/commands/simply/permissions/build.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-permissions@1.2.31/packages/simply-permissions/lib/commands/simply/permissions/build.js)_
+_See code: [lib/commands/simply/permissions/build.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@1.3.6/packages/simply-permissions/lib/commands/simply/permissions/build.js)_

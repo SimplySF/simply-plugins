@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.7](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-permissions%401.3.6...%40simplysf%2Fsimply-permissions%401.3.7) (2026-09-03)
+
+### Bug Fixes
+
+- **docs:** repoint docs site and package docs from simply-node to simply-plugins ([#17](https://github.com/SimplySF/simply-plugins/issues/17)) ([0957e72](https://github.com/SimplySF/simply-plugins/commit/0957e72c110f94fb7ef0d1d7940ae35c4c98d814))
+
 ## [1.3.6](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-permissions%401.3.5...%40simplysf%2Fsimply-permissions%401.3.6) (2026-09-03)
 
 **Note:** Version bump only for package @simplysf/simply-permissions

@@ -44,7 +44,7 @@ FLAG DESCRIPTIONS
     The path to the local .apex file containing the anonymous Apex code to execute.
 ```
 
-_See code: [lib/commands/simply/apex/execute.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.6.10/packages/simply-apex/lib/commands/simply/apex/execute.js)_
+_See code: [lib/commands/simply/apex/execute.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-apex@1.8.4/packages/simply-apex/lib/commands/simply/apex/execute.js)_
 
 ## `sf simply apex logs purge`
 
@@ -100,7 +100,7 @@ FLAG DESCRIPTIONS
     elapses, then throws.
 ```
 
-_See code: [lib/commands/simply/apex/logs/purge.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.6.10/packages/simply-apex/lib/commands/simply/apex/logs/purge.js)_
+_See code: [lib/commands/simply/apex/logs/purge.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-apex@1.8.4/packages/simply-apex/lib/commands/simply/apex/logs/purge.js)_
 
 ## `sf simply apex test-suite generate`
 
@@ -148,7 +148,7 @@ FLAG DESCRIPTIONS
     pass that directory explicitly, e.g. force-app/main/default/testSuites.
 ```
 
-_See code: [lib/commands/simply/apex/test-suite/generate.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.6.10/packages/simply-apex/lib/commands/simply/apex/test-suite/generate.js)_
+_See code: [lib/commands/simply/apex/test-suite/generate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-apex@1.8.4/packages/simply-apex/lib/commands/simply/apex/test-suite/generate.js)_
 
 ## `sf simply apex trace setup`
 
@@ -208,7 +208,7 @@ FLAG DESCRIPTIONS
     Defaults to the current date/time.
 ```
 
-_See code: [lib/commands/simply/apex/trace/setup.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.6.10/packages/simply-apex/lib/commands/simply/apex/trace/setup.js)_
+_See code: [lib/commands/simply/apex/trace/setup.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-apex@1.8.4/packages/simply-apex/lib/commands/simply/apex/trace/setup.js)_
 
 ## `sf simply apex trace silence`
 
@@ -272,4 +272,4 @@ FLAG DESCRIPTIONS
     Adds di_Binding, di_Module, di_PlatformCache, and di_Injector to the classes to silence.
 ```
 
-_See code: [lib/commands/simply/apex/trace/silence.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.6.10/packages/simply-apex/lib/commands/simply/apex/trace/silence.js)_
+_See code: [lib/commands/simply/apex/trace/silence.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-apex@1.8.4/packages/simply-apex/lib/commands/simply/apex/trace/silence.js)_

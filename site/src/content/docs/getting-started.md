@@ -43,4 +43,4 @@ sf simply --help
 
 - Looking for a specific plugin's commands? See the [Plugins overview](/plugins/) for what's available, or jump straight to a [command reference](/plugins/simply-apex/) page.
 - Setting up CI/CD? Head to the [simply-cicd overview](/cicd/) for scratch-org builds, packaged and unpackaged deployments, and pipeline notifications.
-- Want to contribute? See [CONTRIBUTING.md](https://github.com/SimplySF/simply-node/blob/main/CONTRIBUTING.md) in the repo.
+- Want to contribute? See [CONTRIBUTING.md](https://github.com/SimplySF/simply-plugins/blob/main/CONTRIBUTING.md) in the repo.

@@ -88,7 +88,7 @@ EXAMPLES
   $ sf simply aep at4dx binding create --source-dir sfdx-source/core --type unit-of-work --developer-name Account_UOW --sobject Account --sequence 10
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/binding/create.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/create.js)_
+_See code: [lib/commands/simply/aep/at4dx/binding/create.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/create.js)_
 
 ## `sf simply aep at4dx binding list`
 
@@ -144,7 +144,7 @@ FLAG DESCRIPTIONS
     Comma-separated list of binding types to include. If not specified, all four are included.
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/binding/list.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/list.js)_
+_See code: [lib/commands/simply/aep/at4dx/binding/list.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/list.js)_
 
 ## `sf simply aep at4dx binding update`
 
@@ -217,7 +217,7 @@ EXAMPLES
   $ sf simply aep at4dx binding update --target-org myOrg --type unit-of-work --developer-name Account_UOW --sequence 20
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/binding/update.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/update.js)_
+_See code: [lib/commands/simply/aep/at4dx/binding/update.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/update.js)_
 
 ## `sf simply aep at4dx binding validate`
 
@@ -273,7 +273,7 @@ FLAG DESCRIPTIONS
     Comma-separated list of binding types to include. If not specified, all four are included.
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/binding/validate.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/validate.js)_
+_See code: [lib/commands/simply/aep/at4dx/binding/validate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/validate.js)_
 
 ## `sf simply aep at4dx domain-process-binding create`
 
@@ -354,7 +354,7 @@ EXAMPLES
   $ sf simply aep at4dx domain-process-binding create --source-dir sfdx-source/core --developer-name ServiceResource_Before_Update_Sync --sobject ServiceResource --sobject-alternate --process-context TriggerExecution --trigger-operation Before_Update --type Action --class-to-inject ServiceResourceSyncAction --order 10
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/domain-process-binding/create.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/create.js)_
+_See code: [lib/commands/simply/aep/at4dx/domain-process-binding/create.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/create.js)_
 
 ## `sf simply aep at4dx domain-process-binding list`
 
@@ -400,7 +400,7 @@ EXAMPLES
   $ sf simply aep at4dx domain-process-binding list --target-org myOrg --active-only --json
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/domain-process-binding/list.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/list.js)_
+_See code: [lib/commands/simply/aep/at4dx/domain-process-binding/list.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/list.js)_
 
 ## `sf simply aep at4dx domain-process-binding update`
 
@@ -479,7 +479,7 @@ EXAMPLES
   $ sf simply aep at4dx domain-process-binding update --target-org myOrg --developer-name Account_Before_Insert_Assign_Owner --class-to-inject AccountAssignOwnerActionV2
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/domain-process-binding/update.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/update.js)_
+_See code: [lib/commands/simply/aep/at4dx/domain-process-binding/update.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/update.js)_
 
 ## `sf simply aep at4dx domain-process-binding validate`
 
@@ -532,7 +532,7 @@ EXAMPLES
   $ sf simply aep at4dx domain-process-binding validate --target-org myOrg --json
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/domain-process-binding/validate.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/validate.js)_
+_See code: [lib/commands/simply/aep/at4dx/domain-process-binding/validate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/validate.js)_
 
 ## `sf simply aep at4dx field-set-inclusion create`
 
@@ -590,7 +590,7 @@ EXAMPLES
   $ sf simply aep at4dx field-set-inclusion create --target-org myOrg --developer-name ServiceResource_Skills --sobject ServiceResource --sobject-alternate --fieldset-name SkillFields
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/field-set-inclusion/create.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/create.js)_
+_See code: [lib/commands/simply/aep/at4dx/field-set-inclusion/create.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/create.js)_
 
 ## `sf simply aep at4dx field-set-inclusion list`
 
@@ -628,7 +628,7 @@ EXAMPLES
   $ sf simply aep at4dx field-set-inclusion list --target-org myOrg --json
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/field-set-inclusion/list.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/list.js)_
+_See code: [lib/commands/simply/aep/at4dx/field-set-inclusion/list.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/list.js)_
 
 ## `sf simply aep at4dx field-set-inclusion update`
 
@@ -685,7 +685,7 @@ EXAMPLES
   $ sf simply aep at4dx field-set-inclusion update --target-org myOrg --developer-name Account_Contact_Fields --fieldset-name ContactRelatedFieldsV2
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/field-set-inclusion/update.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/update.js)_
+_See code: [lib/commands/simply/aep/at4dx/field-set-inclusion/update.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/update.js)_
 
 ## `sf simply aep at4dx field-set-inclusion validate`
 
@@ -729,7 +729,7 @@ EXAMPLES
   $ sf simply aep at4dx field-set-inclusion validate --target-org myOrg --json
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/field-set-inclusion/validate.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/validate.js)_
+_See code: [lib/commands/simply/aep/at4dx/field-set-inclusion/validate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/validate.js)_
 
 ## `sf simply aep at4dx platform-event-subscription create`
 
@@ -738,38 +738,63 @@ Create a new AT4DX Platform Event Distributor subscription (PlatformEvents_Subsc
 ```
 USAGE
   $ sf simply aep at4dx platform-event-subscription create -n <value> --event-bus <value> --consumer <value> --matcher-rule
-    MatchEventBus|MatchEventBusAndCategory|MatchEventBusAndEventName|MatchEventBusAndCategoryAndEventName [--json] [--flags-dir <value>] [-d <value>] [-o
-    <value>] [--api-version <value>] [--wait <value>] [--label <value>] [--event-category <value>] [--event-name
-    <value>] [--active] [--synchronous] [--force]
+    MatchEventBus|MatchEventBusAndCategory|MatchEventBusAndEventName|MatchEventBusAndCategoryAndEventName [--json]
+    [--flags-dir <value>] [-d <value>] [-o <value>] [--api-version <value>] [--wait <value>] [--label <value>]
+    [--event-category <value>] [--event-name <value>] [--active] [--synchronous] [--force]
 
 FLAGS
-  -d, --source-dir=<value>      The package directory to create the platform event subscription's .md-meta.xml under.
-                                Created if the customMetadata folder doesn't exist yet.
-  -n, --developer-name=<value>  (required) The record's DeveloperName. Must start with a letter, contain only letters,
-                                numbers, and single underscores, not end with an underscore, and be 40 characters or
-                                fewer.
-  -o, --target-org=<value>      Deploy the generated platform event subscription to this org after writing it.
-      --[no-]active             IsActive__c. Defaults to true, matching the Custom Metadata Type's own default. Pass
-                                --no-active to create it inactive.
-      --api-version=<value>     Override the api version used for api requests made by this command
-      --consumer=<value>        (required) Consumer__c — the IEventsConsumer-implementing Apex class name. Unique
-                                org-wide across every subscription.
-      --event-bus=<value>       (required) EventBus__c — the platform event object API name this subscription registers
-                                against, e.g. My_Event__e.
-      --event-category=<value>  EventCategory__c. Required when --matcher-rule is MatchEventBusAndCategory or MatchEventBusAndCategoryAndEventName
-                                — leaving it blank for those raises matcher-rule-missing-field.
-      --event-name=<value>      Event__c. Required when --matcher-rule is MatchEventBusAndEventName or MatchEventBusAndCategoryAndEventName — leaving
-                                it blank for those raises matcher-rule-missing-field.
-      --force                   Write (and deploy) even if validation finds an error-severity issue. Validation still
-                                runs and its issues are still printed and returned.
-      --label=<value>           The record's label. Defaults to --developer-name. Must be 40 characters or fewer.
-      --matcher-rule=<option>   (required) MatcherRule__c — which of --event-category/--event-name the distributor's
-                                matcher dereferences for this subscription. One of MatchEventBus, MatchEventBusAndCategory,
-                                MatchEventBusAndEventName, MatchEventBusAndCategoryAndEventName.
-                                <options: MatchEventBus|MatchEventBusAndCategory|MatchEventBusAndEventName|MatchEventBusAndCategoryAndEventName>
-      --[no-]synchronous        Execute_Synchronous__c. Defaults to false. Pass --synchronous to have the distributor
-                                invoke this consumer synchronously.
-      --wait=<value>            [default: 33] Deploy poll timeout, in minutes. Only meaningful with --target-org.
+  -d, --source-dir=<value>
+      The package directory to create the platform event subscription's .md-meta.xml under. Created if the customMetadata
+      folder doesn't exist yet.
+
+  -n, --developer-name=<value>
+      (required) The record's DeveloperName. Must start with a letter, contain only letters, numbers, and single
+      underscores, not end with an underscore, and be 40 characters or fewer.
+
+  -o, --target-org=<value>
+      Deploy the generated platform event subscription to this org after writing it.
+
+  --[no-]active
+      IsActive__c. Defaults to true, matching the Custom Metadata Type's own default. Pass --no-active to create it
+      inactive.
+
+  --api-version=<value>
+      Override the api version used for api requests made by this command
+
+  --consumer=<value>
+      (required) Consumer__c — the IEventsConsumer-implementing Apex class name. Unique org-wide across every
+      subscription.
+
+  --event-bus=<value>
+      (required) EventBus__c — the platform event object API name this subscription registers against, e.g. My_Event__e.
+
+  --event-category=<value>
+      EventCategory__c. Required when --matcher-rule is MatchEventBusAndCategory or MatchEventBusAndCategoryAndEventName —
+      leaving it blank for those raises matcher-rule-missing-field.
+
+  --event-name=<value>
+      Event__c. Required when --matcher-rule is MatchEventBusAndEventName or MatchEventBusAndCategoryAndEventName —
+      leaving it blank for those raises matcher-rule-missing-field.
+
+  --force
+      Write (and deploy) even if validation finds an error-severity issue. Validation still runs and its issues are still
+      printed and returned.
+
+  --label=<value>
+      The record's label. Defaults to --developer-name. Must be 40 characters or fewer.
+
+  --matcher-rule=<option>
+      (required) MatcherRule__c — which of --event-category/--event-name the distributor's matcher dereferences for this
+      subscription. One of MatchEventBus, MatchEventBusAndCategory, MatchEventBusAndEventName,
+      MatchEventBusAndCategoryAndEventName.
+      <options: MatchEventBus|MatchEventBusAndCategory|MatchEventBusAndEventName|MatchEventBusAndCategoryAndEventName>
+
+  --[no-]synchronous
+      Execute_Synchronous__c. Defaults to false. Pass --synchronous to have the distributor invoke this consumer
+      synchronously.
+
+  --wait=<value>
+      [default: 33] Deploy poll timeout, in minutes. Only meaningful with --target-org.
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -789,9 +814,10 @@ DESCRIPTION
   --matcher-rule controls which of --event-category/--event-name the distributor's matcher dereferences for this
   subscription: MatchEventBus dereferences neither (the whole bus matches, once a category or event name gets it past
   the distributor's pre-filter — see `simply aep at4dx platform-event-subscription validate`'s unreachable-subscription
-  rule for why at least one should usually be set anyway), MatchEventBusAndCategory requires --event-category, MatchEventBusAndEventName requires
-  --event-name, and MatchEventBusAndCategoryAndEventName requires both. Leaving the field a MatcherRule needs blank is exactly the
-  matcher-rule-missing-field hazard validation catches — see that command's description for why it matters at runtime.
+  rule for why at least one should usually be set anyway), MatchEventBusAndCategory requires --event-category,
+  MatchEventBusAndEventName requires --event-name, and MatchEventBusAndCategoryAndEventName requires both. Leaving the
+  field a MatcherRule needs blank is exactly the matcher-rule-missing-field hazard validation catches — see that
+  command's description for why it matters at runtime.
 
 EXAMPLES
   $ sf simply aep at4dx platform-event-subscription create --source-dir sfdx-source/core --developer-name Account_Change_Subscriber --event-bus Account_Change__e --consumer AccountChangeConsumer --matcher-rule MatchEventBusAndCategory --event-category Finance
@@ -799,7 +825,7 @@ EXAMPLES
   $ sf simply aep at4dx platform-event-subscription create --target-org myOrg --developer-name Account_Change_Subscriber --event-bus Account_Change__e --consumer AccountChangeConsumer --matcher-rule MatchEventBusAndCategoryAndEventName --event-category Finance --event-name AccountUpdated
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/platform-event-subscription/create.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/create.js)_
+_See code: [lib/commands/simply/aep/at4dx/platform-event-subscription/create.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/create.js)_
 
 ## `sf simply aep at4dx platform-event-subscription list`
 
@@ -837,7 +863,7 @@ EXAMPLES
   $ sf simply aep at4dx platform-event-subscription list --target-org myOrg --json
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/platform-event-subscription/list.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/list.js)_
+_See code: [lib/commands/simply/aep/at4dx/platform-event-subscription/list.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/list.js)_
 
 ## `sf simply aep at4dx platform-event-subscription simulate`
 
@@ -893,7 +919,7 @@ EXAMPLES
   $ sf simply aep at4dx platform-event-subscription simulate --target-org myOrg --event-bus Account_Change__e --json
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/platform-event-subscription/simulate.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/simulate.js)_
+_See code: [lib/commands/simply/aep/at4dx/platform-event-subscription/simulate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/simulate.js)_
 
 ## `sf simply aep at4dx platform-event-subscription update`
 
@@ -903,8 +929,8 @@ Update an existing AT4DX Platform Event Distributor subscription (PlatformEvents
 USAGE
   $ sf simply aep at4dx platform-event-subscription update -n <value> [--json] [--flags-dir <value>] [-d <value>...] [-o <value>] [--api-version <value>]
     [--wait <value>] [--label <value>] [--event-bus <value>] [--consumer <value>] [--matcher-rule
-    MatchEventBus|MatchEventBusAndCategory|MatchEventBusAndEventName|MatchEventBusAndCategoryAndEventName] [--event-category <value>] [--event-name <value>]
-    [--active] [--synchronous] [--force]
+    MatchEventBus|MatchEventBusAndCategory|MatchEventBusAndEventName|MatchEventBusAndCategoryAndEventName]
+    [--event-category <value>] [--event-name <value>] [--active] [--synchronous] [--force]
 
 FLAGS
   -d, --source-dir=<value>...   One or more paths to directories containing Salesforce DX source, searched for the
@@ -917,17 +943,18 @@ FLAGS
                                 subscription.
       --event-bus=<value>       EventBus__c. If not given, the existing value is kept.
       --event-category=<value>  EventCategory__c. If not given, the existing value is kept. Required when the record's
-                                MatcherRule__c is MatchEventBusAndCategory or MatchEventBusAndCategoryAndEventName — leaving it blank for those
-                                raises matcher-rule-missing-field.
+                                MatcherRule__c is MatchEventBusAndCategory or MatchEventBusAndCategoryAndEventName —
+                                leaving it blank for those raises matcher-rule-missing-field.
       --event-name=<value>      Event__c. If not given, the existing value is kept. Required when the record's
-                                MatcherRule__c is MatchEventBusAndEventName or MatchEventBusAndCategoryAndEventName — leaving it blank for those
-                                raises matcher-rule-missing-field.
+                                MatcherRule__c is MatchEventBusAndEventName or MatchEventBusAndCategoryAndEventName —
+                                leaving it blank for those raises matcher-rule-missing-field.
       --force                   Write (and deploy) even if validation finds an error-severity issue. Validation still
                                 runs and its issues are still printed and returned.
       --label=<value>           The record's label. If not given, the existing label is kept.
       --matcher-rule=<option>   MatcherRule__c — which of --event-category/--event-name the distributor's matcher
                                 dereferences for this subscription. If not given, the existing value is kept.
-                                <options: MatchEventBus|MatchEventBusAndCategory|MatchEventBusAndEventName|MatchEventBusAndCategoryAndEventName>
+                                <options: MatchEventBus|MatchEventBusAndCategory|MatchEventBusAndEventName|MatchEventBus
+                                AndCategoryAndEventName>
       --[no-]synchronous        Execute_Synchronous__c. If not given, the existing value is kept. Pass --no-synchronous
                                 to have the distributor invoke this consumer asynchronously.
       --wait=<value>            [default: 33] Deploy poll timeout, in minutes. Only meaningful with --target-org.
@@ -961,7 +988,7 @@ EXAMPLES
   $ sf simply aep at4dx platform-event-subscription update --target-org myOrg --developer-name Account_Change_Subscriber --consumer AccountChangeConsumerV2
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/platform-event-subscription/update.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/update.js)_
+_See code: [lib/commands/simply/aep/at4dx/platform-event-subscription/update.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/update.js)_
 
 ## `sf simply aep at4dx platform-event-subscription validate`
 
@@ -1010,4 +1037,4 @@ EXAMPLES
   $ sf simply aep at4dx platform-event-subscription validate --target-org myOrg --json
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/platform-event-subscription/validate.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/validate.js)_
+_See code: [lib/commands/simply/aep/at4dx/platform-event-subscription/validate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/validate.js)_

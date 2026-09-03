@@ -2,10 +2,10 @@ import starlight from '@astrojs/starlight';
 import { defineConfig } from 'astro/config';
 import { remarkBaseLinks } from './plugins/remark-base-links.mjs';
 
-// Matches the repo's actual current name/Pages URL (SimplySF/simply-node) —
-// GitHub's "simply" -> "simply-node" rename redirect covers git/API access,
-// but the Pages hosting URL itself is tied to the current repo name.
-const base = '/simply-node';
+// Matches the repo's actual current name/Pages URL (SimplySF/simply-plugins) —
+// this site moved here with the plugin packages in the simply-node/simply-plugins
+// split (see docs/design/0026), and the Pages hosting URL is tied to this repo's name.
+const base = '/simply-plugins';
 
 export default defineConfig({
   site: 'https://simplysf.github.io',
@@ -24,9 +24,9 @@ export default defineConfig({
         alt: 'Simply SF logo',
       },
       favicon: '/favicon.png',
-      social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/SimplySF/simply-node' }],
+      social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/SimplySF/simply-plugins' }],
       editLink: {
-        baseUrl: 'https://github.com/SimplySF/simply-node/edit/main/site/',
+        baseUrl: 'https://github.com/SimplySF/simply-plugins/edit/main/site/',
       },
       sidebar: [
         { label: 'Get Started', slug: 'getting-started' },

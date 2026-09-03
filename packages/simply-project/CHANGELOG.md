@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.22](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-project%401.2.21...%40simplysf%2Fsimply-project%401.2.22) (2026-09-03)
+
+### Bug Fixes
+
+- **docs:** repoint docs site and package docs from simply-node to simply-plugins ([#17](https://github.com/SimplySF/simply-plugins/issues/17)) ([0957e72](https://github.com/SimplySF/simply-plugins/commit/0957e72c110f94fb7ef0d1d7940ae35c4c98d814))
+
 ## [1.2.21](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-project%401.2.20...%40simplysf%2Fsimply-project%401.2.21) (2026-09-03)
 
 ### Bug Fixes
