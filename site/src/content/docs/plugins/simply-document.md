@@ -62,7 +62,7 @@ FLAG DESCRIPTIONS
     available partials.
 ```
 
-_See code: [lib/commands/simply/document/diff.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-document@0.3.1/packages/simply-document/lib/commands/simply/document/diff.js)_
+_See code: [lib/commands/simply/document/diff.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-document@0.4.3/packages/simply-document/lib/commands/simply/document/diff.js)_
 
 ## `sf simply document generate`
 
@@ -108,4 +108,4 @@ FLAG DESCRIPTIONS
     for the data shape.
 ```
 
-_See code: [lib/commands/simply/document/generate.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-document@0.3.1/packages/simply-document/lib/commands/simply/document/generate.js)_
+_See code: [lib/commands/simply/document/generate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-document@0.4.3/packages/simply-document/lib/commands/simply/document/generate.js)_

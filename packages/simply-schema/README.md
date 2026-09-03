@@ -1,6 +1,6 @@
 # @simplysf/simply-schema
 
-[![NPM](https://img.shields.io/npm/v/@simplysf/simply-schema?label=@simplysf/simply-schema)](https://npmjs.com/@simplysf/simply-schema) [![Downloads/week](https://img.shields.io/npm/dw/@simplysf/simply-schema.svg)](https://npmjs.com/@simplysf/simply-schema) [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://raw.githubusercontent.com/SimplySF/simply-node/main/LICENSE.txt)
+[![NPM](https://img.shields.io/npm/v/@simplysf/simply-schema?label=@simplysf/simply-schema)](https://npmjs.com/@simplysf/simply-schema) [![Downloads/week](https://img.shields.io/npm/dw/@simplysf/simply-schema.svg)](https://npmjs.com/@simplysf/simply-schema) [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://raw.githubusercontent.com/SimplySF/simply-plugins/main/LICENSE.txt)
 
 ## Install
 
@@ -10,11 +10,11 @@ sf plugins install @simplysf/simply-schema
 
 ## Issues
 
-Please report any issues at https://github.com/SimplySF/simply-node/issues
+Please report any issues at https://github.com/SimplySF/simply-plugins/issues
 
 ## Contributing
 
-This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/simply-node) monorepo. See the repo's [CONTRIBUTING.md](https://github.com/SimplySF/simply-node/blob/main/CONTRIBUTING.md) for the repo structure, how to set up and build the project, our commit conventions, and how to submit a pull request. Please also read our [Code of Conduct](https://github.com/SimplySF/simply-node/blob/main/CODE_OF_CONDUCT.md).
+This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/simply-plugins) monorepo. See the repo's [CONTRIBUTING.md](https://github.com/SimplySF/simply-plugins/blob/main/CONTRIBUTING.md) for the repo structure, how to set up and build the project, our commit conventions, and how to submit a pull request. Please also read our [Code of Conduct](https://github.com/SimplySF/simply-plugins/blob/main/CODE_OF_CONDUCT.md).
 
 ## Commands
 
@@ -62,7 +62,7 @@ FLAG DESCRIPTIONS
     A `.csv` file processed as the flat CSV flow, or a `.xlsx`/`.xls` file processed as the Excel flow.
 ```
 
-_See code: [lib/commands/simply/schema/generate.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-schema@0.3.0/packages/simply-schema/lib/commands/simply/schema/generate.js)_
+_See code: [lib/commands/simply/schema/generate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-schema@0.3.24/packages/simply-schema/lib/commands/simply/schema/generate.js)_
 
 ## `sf simply schema visualize`
 
@@ -124,7 +124,7 @@ FLAG DESCRIPTIONS
     specified, every discovered object is included. If not specified, every object matching `--object-type` is included.
 ```
 
-_See code: [lib/commands/simply/schema/visualize.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-schema@0.3.0/packages/simply-schema/lib/commands/simply/schema/visualize.js)_
+_See code: [lib/commands/simply/schema/visualize.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-schema@0.3.24/packages/simply-schema/lib/commands/simply/schema/visualize.js)_
 <!-- commandsstop -->
 
 ## Data Source: `--target-org` vs. `--source-dir`
@@ -154,4 +154,4 @@ Each `--output-type` writes one file into `--output-dir` (default: a new timesta
 
 ## License
 
-Licensed under the [Apache-2.0](https://raw.githubusercontent.com/SimplySF/simply-node/main/LICENSE.txt) license.
+Licensed under the [Apache-2.0](https://raw.githubusercontent.com/SimplySF/simply-plugins/main/LICENSE.txt) license.

@@ -1,8 +1,8 @@
 # Contributing to @simplysf/simply
 
-Salesforce CLI Plugins created by @SimplySF. This package is part of the [`simply-node`](https://github.com/SimplySF/simply-node) monorepo.
+Salesforce CLI Plugins created by @SimplySF. This package is part of the [`simply-plugins`](https://github.com/SimplySF/simply-plugins) monorepo.
 
-**Start with the [root CONTRIBUTING.md](https://github.com/SimplySF/simply-node/blob/main/CONTRIBUTING.md).** It covers repository structure, environment setup, commit conventions, versioning and publishing, CI, git hooks, and the pull request process — all of which apply here. This file covers only what is specific to this package.
+**Start with the [root CONTRIBUTING.md](https://github.com/SimplySF/simply-plugins/blob/main/CONTRIBUTING.md).** It covers repository structure, environment setup, commit conventions, versioning and publishing, CI, git hooks, and the pull request process — all of which apply here. This file covers only what is specific to this package.
 
 ## Working on this package
 
@@ -50,4 +50,4 @@ Note that `pnpm run readme` here inserts a fresh command block without removing 
 
 ## Reporting issues
 
-Please [open an issue](https://github.com/SimplySF/simply-node/issues) rather than sending a pull request for anything non-trivial without prior discussion.
+Please [open an issue](https://github.com/SimplySF/simply-plugins/issues) rather than sending a pull request for anything non-trivial without prior discussion.

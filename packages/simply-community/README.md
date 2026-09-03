@@ -1,6 +1,6 @@
 # @simplysf/simply-community
 
-[![NPM](https://img.shields.io/npm/v/@simplysf/simply-community?label=@simplysf/simply-community)](https://npmjs.com/@simplysf/simply-community) [![Downloads/week](https://img.shields.io/npm/dw/@simplysf/simply-community.svg)](https://npmjs.com/@simplysf/simply-community) [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://raw.githubusercontent.com/SimplySF/simply-node/main/LICENSE.txt)
+[![NPM](https://img.shields.io/npm/v/@simplysf/simply-community?label=@simplysf/simply-community)](https://npmjs.com/@simplysf/simply-community) [![Downloads/week](https://img.shields.io/npm/dw/@simplysf/simply-community.svg)](https://npmjs.com/@simplysf/simply-community) [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://raw.githubusercontent.com/SimplySF/simply-plugins/main/LICENSE.txt)
 
 ## Install
 
@@ -10,11 +10,11 @@ sf plugins install @simplysf/simply-community
 
 ## Issues
 
-Please report any issues at https://github.com/SimplySF/simply-node/issues
+Please report any issues at https://github.com/SimplySF/simply-plugins/issues
 
 ## Contributing
 
-This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/simply-node) monorepo. See the repo's [CONTRIBUTING.md](https://github.com/SimplySF/simply-node/blob/main/CONTRIBUTING.md) for the repo structure, how to set up and build the project, our commit conventions, and how to submit a pull request. Please also read our [Code of Conduct](https://github.com/SimplySF/simply-node/blob/main/CODE_OF_CONDUCT.md).
+This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/simply-plugins) monorepo. See the repo's [CONTRIBUTING.md](https://github.com/SimplySF/simply-plugins/blob/main/CONTRIBUTING.md) for the repo structure, how to set up and build the project, our commit conventions, and how to submit a pull request. Please also read our [Code of Conduct](https://github.com/SimplySF/simply-plugins/blob/main/CODE_OF_CONDUCT.md).
 
 ## Commands
 
@@ -70,7 +70,7 @@ EXAMPLES
   $ sf simply community publish --target-org my-org --name "My Community" --ignore-errors
 ```
 
-_See code: [lib/commands/simply/community/publish.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-community@0.4.1/packages/simply-community/lib/commands/simply/community/publish.js)_
+_See code: [lib/commands/simply/community/publish.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-community@0.6.8/packages/simply-community/lib/commands/simply/community/publish.js)_
 
 ## `sf simply community url set`
 
@@ -144,5 +144,5 @@ EXAMPLES
   $ sf simply community url set --site Partner_Portal --domain partners.acme.com --deploy --target-org my-org # retrieves the site file first if it isn't found locally
 ```
 
-_See code: [lib/commands/simply/community/url/set.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-community@0.4.1/packages/simply-community/lib/commands/simply/community/url/set.js)_
+_See code: [lib/commands/simply/community/url/set.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-community@0.6.8/packages/simply-community/lib/commands/simply/community/url/set.js)_
 <!-- commandsstop -->

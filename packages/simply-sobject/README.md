@@ -1,6 +1,6 @@
 # @simplysf/simply-sobject
 
-[![NPM](https://img.shields.io/npm/v/@simplysf/simply-sobject?label=@simplysf/simply-sobject)](https://npmjs.com/@simplysf/simply-sobject) [![Downloads/week](https://img.shields.io/npm/dw/@simplysf/simply-sobject.svg)](https://npmjs.com/@simplysf/simply-sobject) [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://raw.githubusercontent.com/SimplySF/simply-node/main/LICENSE.txt)
+[![NPM](https://img.shields.io/npm/v/@simplysf/simply-sobject?label=@simplysf/simply-sobject)](https://npmjs.com/@simplysf/simply-sobject) [![Downloads/week](https://img.shields.io/npm/dw/@simplysf/simply-sobject.svg)](https://npmjs.com/@simplysf/simply-sobject) [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://raw.githubusercontent.com/SimplySF/simply-plugins/main/LICENSE.txt)
 
 ## Install
 
@@ -10,11 +10,11 @@ sf plugins install @simplysf/simply-sobject
 
 ## Issues
 
-Please report any issues at https://github.com/SimplySF/simply-node/issues
+Please report any issues at https://github.com/SimplySF/simply-plugins/issues
 
 ## Contributing
 
-This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/simply-node) monorepo. See the repo's [CONTRIBUTING.md](https://github.com/SimplySF/simply-node/blob/main/CONTRIBUTING.md) for the repo structure, how to set up and build the project, our commit conventions, and how to submit a pull request. Please also read our [Code of Conduct](https://github.com/SimplySF/simply-node/blob/main/CODE_OF_CONDUCT.md).
+This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/simply-plugins) monorepo. See the repo's [CONTRIBUTING.md](https://github.com/SimplySF/simply-plugins/blob/main/CONTRIBUTING.md) for the repo structure, how to set up and build the project, our commit conventions, and how to submit a pull request. Please also read our [Code of Conduct](https://github.com/SimplySF/simply-plugins/blob/main/CODE_OF_CONDUCT.md).
 
 ## Commands
 
@@ -32,14 +32,17 @@ Back up SObject data to a CSV file.
 
 ```
 USAGE
-  $ sf simply sobject backup -s <value> -o <value> [--json] [--flags-dir <value>] [--api-version <value>] [-d <value>]
+  $ sf simply sobject backup -o <value> -s <value> [--json] [--flags-dir <value>] [--api-version <value>] [-d <value>]
+    [--include-relationship-fields] [-f <value>...]
 
 FLAGS
-  -d, --output-dir=<value>   Output directory
-  -o, --target-org=<value>   (required) Username or alias of the target org. Not required if the `target-org`
-                             configuration variable is already set.
-  -s, --sobject=<value>      (required) SObject API name
-      --api-version=<value>  Override the api version used for api requests made by this command
+  -d, --output-dir=<value>            Output directory
+  -f, --additional-fields=<value>...  Additional fields to include
+  -o, --target-org=<value>            (required) Username or alias of the target org. Not required if the `target-org`
+                                      configuration variable is already set.
+  -s, --sobject=<value>               (required) SObject API name
+      --api-version=<value>           Override the api version used for api requests made by this command
+      --include-relationship-fields   Include parent relationship fields
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -55,17 +58,34 @@ EXAMPLES
 
   $ sf simply sobject backup --target-org myOrg --sobject Custom_Object__c --output-dir backups
 
+  $ sf simply sobject backup --target-org myOrg --sobject Account --include-relationship-fields
+
+  $ sf simply sobject backup --target-org myOrg --sobject Account --additional-fields Owner.Manager.Name --additional-fields Parent.Owner.Email
+
 FLAG DESCRIPTIONS
   -d, --output-dir=<value>  Output directory
 
     The directory to save the backup CSV file to. Defaults to the current directory.
 
+  -f, --additional-fields=<value>...  Additional fields to include
+
+    Extra field API names to include in the query, on top of the SObject's own fields and any fields discovered via
+    --include-relationship-fields. Useful for fields --include-relationship-fields won't discover, such as multi-hop
+    relationship paths (e.g. Owner.Manager.Name) or fields through a polymorphic relationship. Fields already included
+    are not duplicated.
+
   -s, --sobject=<value>  SObject API name
 
     The API name of the SObject to back up.
+
+  --include-relationship-fields  Include parent relationship fields
+
+    For every lookup/master-detail field, describe its parent SObject and include its identifying fields (e.g.
+    RecordTypeId includes RecordType.Name and RecordType.DeveloperName). Polymorphic relationship fields, such as
+    OwnerId, are skipped.
 ```
 
-_See code: [lib/commands/simply/sobject/backup.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-sobject@1.4.0/packages/simply-sobject/lib/commands/simply/sobject/backup.js)_
+_See code: [lib/commands/simply/sobject/backup.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@1.6.12/packages/simply-sobject/lib/commands/simply/sobject/backup.js)_
 
 ## `sf simply sobject deduplicate`
 
@@ -73,7 +93,7 @@ Identify and prepare deduplication of an SObject's records.
 
 ```
 USAGE
-  $ sf simply sobject deduplicate -c <value> -o <value> [--json] [--flags-dir <value>] [--api-version <value>] [--dry-run]
+  $ sf simply sobject deduplicate -o <value> -c <value> [--json] [--flags-dir <value>] [--api-version <value>] [--dry-run]
     [--output-dir <value>]
 
 FLAGS
@@ -118,7 +138,7 @@ FLAG DESCRIPTIONS
     The directory to write the generated CSV files to. Defaults to ./temp/<primaryObjectApiName>.
 ```
 
-_See code: [lib/commands/simply/sobject/deduplicate.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-sobject@1.4.0/packages/simply-sobject/lib/commands/simply/sobject/deduplicate.js)_
+_See code: [lib/commands/simply/sobject/deduplicate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@1.6.12/packages/simply-sobject/lib/commands/simply/sobject/deduplicate.js)_
 
 ## `sf simply sobject history export`
 
@@ -126,7 +146,7 @@ Export field history for an SObject within a date range to a CSV file.
 
 ```
 USAGE
-  $ sf simply sobject history export -s <value> --start-date <value> --end-date <value> -o <value> [--json] [--flags-dir <value>]
+  $ sf simply sobject history export -o <value> -s <value> --start-date <value> --end-date <value> [--json] [--flags-dir <value>]
     [--api-version <value>] [-d <value>]
 
 FLAGS
@@ -172,7 +192,7 @@ FLAG DESCRIPTIONS
     The start of the date range to export history for, inclusive.
 ```
 
-_See code: [lib/commands/simply/sobject/history/export.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-sobject@1.4.0/packages/simply-sobject/lib/commands/simply/sobject/history/export.js)_
+_See code: [lib/commands/simply/sobject/history/export.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@1.6.12/packages/simply-sobject/lib/commands/simply/sobject/history/export.js)_
 
 ## `sf simply sobject history query`
 
@@ -180,7 +200,7 @@ Query the field history of an SObject, with optional filtering.
 
 ```
 USAGE
-  $ sf simply sobject history query --object <value> -o <value> [--json] [--flags-dir <value>] [--api-version <value>] [--filters
+  $ sf simply sobject history query -o <value> --object <value> [--json] [--flags-dir <value>] [--api-version <value>] [--filters
     <value>] [-d <value>]
 
 FLAGS
@@ -228,7 +248,7 @@ FLAG DESCRIPTIONS
     The API name of the SObject to query field history for (e.g. Account or Custom_Object__c).
 ```
 
-_See code: [lib/commands/simply/sobject/history/query.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-sobject@1.4.0/packages/simply-sobject/lib/commands/simply/sobject/history/query.js)_
+_See code: [lib/commands/simply/sobject/history/query.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@1.6.12/packages/simply-sobject/lib/commands/simply/sobject/history/query.js)_
 
 ## `sf simply sobject history schema`
 
@@ -266,7 +286,7 @@ FLAG DESCRIPTIONS
     The directory to save the generated CSV and HTML report files to. Defaults to the current directory.
 ```
 
-_See code: [lib/commands/simply/sobject/history/schema.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-sobject@1.4.0/packages/simply-sobject/lib/commands/simply/sobject/history/schema.js)_
+_See code: [lib/commands/simply/sobject/history/schema.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@1.6.12/packages/simply-sobject/lib/commands/simply/sobject/history/schema.js)_
 <!-- commandsstop -->
 
 ## Configuration Files
@@ -335,4 +355,4 @@ Conditions on `Field`, `CreatedById`, `CreatedDate`, or the parent lookup field 
 
 ## License
 
-Licensed under the [Apache-2.0](https://raw.githubusercontent.com/SimplySF/simply-node/main/LICENSE.txt) license.
+Licensed under the [Apache-2.0](https://raw.githubusercontent.com/SimplySF/simply-plugins/main/LICENSE.txt) license.

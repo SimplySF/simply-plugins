@@ -88,7 +88,7 @@ EXAMPLES
   $ sf simply aep at4dx binding create --source-dir sfdx-source/core --type unit-of-work --developer-name Account_UOW --sobject Account --sequence 10
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/create.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/create.js)_
 
 ## `sf simply aep at4dx binding list`
 
@@ -144,7 +144,7 @@ FLAG DESCRIPTIONS
     Comma-separated list of binding types to include. If not specified, all four are included.
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/list.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/list.js)_
 
 ## `sf simply aep at4dx binding update`
 
@@ -217,7 +217,7 @@ EXAMPLES
   $ sf simply aep at4dx binding update --target-org myOrg --type unit-of-work --developer-name Account_UOW --sequence 20
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/update.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/update.js)_
 
 ## `sf simply aep at4dx binding validate`
 
@@ -273,7 +273,7 @@ FLAG DESCRIPTIONS
     Comma-separated list of binding types to include. If not specified, all four are included.
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/validate.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/validate.js)_
 
 ## `sf simply aep at4dx domain-process-binding create`
 
@@ -354,7 +354,7 @@ EXAMPLES
   $ sf simply aep at4dx domain-process-binding create --source-dir sfdx-source/core --developer-name ServiceResource_Before_Update_Sync --sobject ServiceResource --sobject-alternate --process-context TriggerExecution --trigger-operation Before_Update --type Action --class-to-inject ServiceResourceSyncAction --order 10
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/create.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/create.js)_
 
 ## `sf simply aep at4dx domain-process-binding list`
 
@@ -400,7 +400,7 @@ EXAMPLES
   $ sf simply aep at4dx domain-process-binding list --target-org myOrg --active-only --json
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/list.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/list.js)_
 
 ## `sf simply aep at4dx domain-process-binding update`
 
@@ -479,7 +479,7 @@ EXAMPLES
   $ sf simply aep at4dx domain-process-binding update --target-org myOrg --developer-name Account_Before_Insert_Assign_Owner --class-to-inject AccountAssignOwnerActionV2
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/update.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/update.js)_
 
 ## `sf simply aep at4dx domain-process-binding validate`
 
@@ -532,7 +532,7 @@ EXAMPLES
   $ sf simply aep at4dx domain-process-binding validate --target-org myOrg --json
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/validate.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/validate.js)_
 
 ## `sf simply aep at4dx field-set-inclusion create`
 
@@ -590,7 +590,7 @@ EXAMPLES
   $ sf simply aep at4dx field-set-inclusion create --target-org myOrg --developer-name ServiceResource_Skills --sobject ServiceResource --sobject-alternate --fieldset-name SkillFields
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/create.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/create.js)_
 
 ## `sf simply aep at4dx field-set-inclusion list`
 
@@ -628,7 +628,7 @@ EXAMPLES
   $ sf simply aep at4dx field-set-inclusion list --target-org myOrg --json
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/list.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/list.js)_
 
 ## `sf simply aep at4dx field-set-inclusion update`
 
@@ -685,7 +685,7 @@ EXAMPLES
   $ sf simply aep at4dx field-set-inclusion update --target-org myOrg --developer-name Account_Contact_Fields --fieldset-name ContactRelatedFieldsV2
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/update.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/update.js)_
 
 ## `sf simply aep at4dx field-set-inclusion validate`
 
@@ -729,7 +729,7 @@ EXAMPLES
   $ sf simply aep at4dx field-set-inclusion validate --target-org myOrg --json
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/validate.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/validate.js)_
 
 ## `sf simply aep at4dx platform-event-subscription create`
 
@@ -738,38 +738,63 @@ Create a new AT4DX Platform Event Distributor subscription (PlatformEvents_Subsc
 ```
 USAGE
   $ sf simply aep at4dx platform-event-subscription create -n <value> --event-bus <value> --consumer <value> --matcher-rule
-    MatchEventBus|MatchEventBusAndCategory|MatchEventBusAndEventName|MatchEventBusAndCategoryAndEventName [--json] [--flags-dir <value>] [-d <value>] [-o
-    <value>] [--api-version <value>] [--wait <value>] [--label <value>] [--event-category <value>] [--event-name
-    <value>] [--active] [--synchronous] [--force]
+    MatchEventBus|MatchEventBusAndCategory|MatchEventBusAndEventName|MatchEventBusAndCategoryAndEventName [--json]
+    [--flags-dir <value>] [-d <value>] [-o <value>] [--api-version <value>] [--wait <value>] [--label <value>]
+    [--event-category <value>] [--event-name <value>] [--active] [--synchronous] [--force]
 
 FLAGS
-  -d, --source-dir=<value>      The package directory to create the platform event subscription's .md-meta.xml under.
-                                Created if the customMetadata folder doesn't exist yet.
-  -n, --developer-name=<value>  (required) The record's DeveloperName. Must start with a letter, contain only letters,
-                                numbers, and single underscores, not end with an underscore, and be 40 characters or
-                                fewer.
-  -o, --target-org=<value>      Deploy the generated platform event subscription to this org after writing it.
-      --[no-]active             IsActive__c. Defaults to true, matching the Custom Metadata Type's own default. Pass
-                                --no-active to create it inactive.
-      --api-version=<value>     Override the api version used for api requests made by this command
-      --consumer=<value>        (required) Consumer__c — the IEventsConsumer-implementing Apex class name. Unique
-                                org-wide across every subscription.
-      --event-bus=<value>       (required) EventBus__c — the platform event object API name this subscription registers
-                                against, e.g. My_Event__e.
-      --event-category=<value>  EventCategory__c. Required when --matcher-rule is MatchEventBusAndCategory or MatchEventBusAndCategoryAndEventName
-                                — leaving it blank for those raises matcher-rule-missing-field.
-      --event-name=<value>      Event__c. Required when --matcher-rule is MatchEventBusAndEventName or MatchEventBusAndCategoryAndEventName — leaving
-                                it blank for those raises matcher-rule-missing-field.
-      --force                   Write (and deploy) even if validation finds an error-severity issue. Validation still
-                                runs and its issues are still printed and returned.
-      --label=<value>           The record's label. Defaults to --developer-name. Must be 40 characters or fewer.
-      --matcher-rule=<option>   (required) MatcherRule__c — which of --event-category/--event-name the distributor's
-                                matcher dereferences for this subscription. One of MatchEventBus, MatchEventBusAndCategory,
-                                MatchEventBusAndEventName, MatchEventBusAndCategoryAndEventName.
-                                <options: MatchEventBus|MatchEventBusAndCategory|MatchEventBusAndEventName|MatchEventBusAndCategoryAndEventName>
-      --[no-]synchronous        Execute_Synchronous__c. Defaults to false. Pass --synchronous to have the distributor
-                                invoke this consumer synchronously.
-      --wait=<value>            [default: 33] Deploy poll timeout, in minutes. Only meaningful with --target-org.
+  -d, --source-dir=<value>
+      The package directory to create the platform event subscription's .md-meta.xml under. Created if the customMetadata
+      folder doesn't exist yet.
+
+  -n, --developer-name=<value>
+      (required) The record's DeveloperName. Must start with a letter, contain only letters, numbers, and single
+      underscores, not end with an underscore, and be 40 characters or fewer.
+
+  -o, --target-org=<value>
+      Deploy the generated platform event subscription to this org after writing it.
+
+  --[no-]active
+      IsActive__c. Defaults to true, matching the Custom Metadata Type's own default. Pass --no-active to create it
+      inactive.
+
+  --api-version=<value>
+      Override the api version used for api requests made by this command
+
+  --consumer=<value>
+      (required) Consumer__c — the IEventsConsumer-implementing Apex class name. Unique org-wide across every
+      subscription.
+
+  --event-bus=<value>
+      (required) EventBus__c — the platform event object API name this subscription registers against, e.g. My_Event__e.
+
+  --event-category=<value>
+      EventCategory__c. Required when --matcher-rule is MatchEventBusAndCategory or MatchEventBusAndCategoryAndEventName —
+      leaving it blank for those raises matcher-rule-missing-field.
+
+  --event-name=<value>
+      Event__c. Required when --matcher-rule is MatchEventBusAndEventName or MatchEventBusAndCategoryAndEventName —
+      leaving it blank for those raises matcher-rule-missing-field.
+
+  --force
+      Write (and deploy) even if validation finds an error-severity issue. Validation still runs and its issues are still
+      printed and returned.
+
+  --label=<value>
+      The record's label. Defaults to --developer-name. Must be 40 characters or fewer.
+
+  --matcher-rule=<option>
+      (required) MatcherRule__c — which of --event-category/--event-name the distributor's matcher dereferences for this
+      subscription. One of MatchEventBus, MatchEventBusAndCategory, MatchEventBusAndEventName,
+      MatchEventBusAndCategoryAndEventName.
+      <options: MatchEventBus|MatchEventBusAndCategory|MatchEventBusAndEventName|MatchEventBusAndCategoryAndEventName>
+
+  --[no-]synchronous
+      Execute_Synchronous__c. Defaults to false. Pass --synchronous to have the distributor invoke this consumer
+      synchronously.
+
+  --wait=<value>
+      [default: 33] Deploy poll timeout, in minutes. Only meaningful with --target-org.
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -789,9 +814,10 @@ DESCRIPTION
   --matcher-rule controls which of --event-category/--event-name the distributor's matcher dereferences for this
   subscription: MatchEventBus dereferences neither (the whole bus matches, once a category or event name gets it past
   the distributor's pre-filter — see `simply aep at4dx platform-event-subscription validate`'s unreachable-subscription
-  rule for why at least one should usually be set anyway), MatchEventBusAndCategory requires --event-category, MatchEventBusAndEventName requires
-  --event-name, and MatchEventBusAndCategoryAndEventName requires both. Leaving the field a MatcherRule needs blank is exactly the
-  matcher-rule-missing-field hazard validation catches — see that command's description for why it matters at runtime.
+  rule for why at least one should usually be set anyway), MatchEventBusAndCategory requires --event-category,
+  MatchEventBusAndEventName requires --event-name, and MatchEventBusAndCategoryAndEventName requires both. Leaving the
+  field a MatcherRule needs blank is exactly the matcher-rule-missing-field hazard validation catches — see that
+  command's description for why it matters at runtime.
 
 EXAMPLES
   $ sf simply aep at4dx platform-event-subscription create --source-dir sfdx-source/core --developer-name Account_Change_Subscriber --event-bus Account_Change__e --consumer AccountChangeConsumer --matcher-rule MatchEventBusAndCategory --event-category Finance
@@ -799,7 +825,7 @@ EXAMPLES
   $ sf simply aep at4dx platform-event-subscription create --target-org myOrg --developer-name Account_Change_Subscriber --event-bus Account_Change__e --consumer AccountChangeConsumer --matcher-rule MatchEventBusAndCategoryAndEventName --event-category Finance --event-name AccountUpdated
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/create.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/create.js)_
 
 ## `sf simply aep at4dx platform-event-subscription list`
 
@@ -837,7 +863,7 @@ EXAMPLES
   $ sf simply aep at4dx platform-event-subscription list --target-org myOrg --json
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/list.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/list.js)_
 
 ## `sf simply aep at4dx platform-event-subscription simulate`
 
@@ -893,7 +919,7 @@ EXAMPLES
   $ sf simply aep at4dx platform-event-subscription simulate --target-org myOrg --event-bus Account_Change__e --json
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/simulate.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/simulate.js)_
 
 ## `sf simply aep at4dx platform-event-subscription update`
 
@@ -903,8 +929,8 @@ Update an existing AT4DX Platform Event Distributor subscription (PlatformEvents
 USAGE
   $ sf simply aep at4dx platform-event-subscription update -n <value> [--json] [--flags-dir <value>] [-d <value>...] [-o <value>] [--api-version <value>]
     [--wait <value>] [--label <value>] [--event-bus <value>] [--consumer <value>] [--matcher-rule
-    MatchEventBus|MatchEventBusAndCategory|MatchEventBusAndEventName|MatchEventBusAndCategoryAndEventName] [--event-category <value>] [--event-name <value>]
-    [--active] [--synchronous] [--force]
+    MatchEventBus|MatchEventBusAndCategory|MatchEventBusAndEventName|MatchEventBusAndCategoryAndEventName]
+    [--event-category <value>] [--event-name <value>] [--active] [--synchronous] [--force]
 
 FLAGS
   -d, --source-dir=<value>...   One or more paths to directories containing Salesforce DX source, searched for the
@@ -917,17 +943,18 @@ FLAGS
                                 subscription.
       --event-bus=<value>       EventBus__c. If not given, the existing value is kept.
       --event-category=<value>  EventCategory__c. If not given, the existing value is kept. Required when the record's
-                                MatcherRule__c is MatchEventBusAndCategory or MatchEventBusAndCategoryAndEventName — leaving it blank for those
-                                raises matcher-rule-missing-field.
+                                MatcherRule__c is MatchEventBusAndCategory or MatchEventBusAndCategoryAndEventName —
+                                leaving it blank for those raises matcher-rule-missing-field.
       --event-name=<value>      Event__c. If not given, the existing value is kept. Required when the record's
-                                MatcherRule__c is MatchEventBusAndEventName or MatchEventBusAndCategoryAndEventName — leaving it blank for those
-                                raises matcher-rule-missing-field.
+                                MatcherRule__c is MatchEventBusAndEventName or MatchEventBusAndCategoryAndEventName —
+                                leaving it blank for those raises matcher-rule-missing-field.
       --force                   Write (and deploy) even if validation finds an error-severity issue. Validation still
                                 runs and its issues are still printed and returned.
       --label=<value>           The record's label. If not given, the existing label is kept.
       --matcher-rule=<option>   MatcherRule__c — which of --event-category/--event-name the distributor's matcher
                                 dereferences for this subscription. If not given, the existing value is kept.
-                                <options: MatchEventBus|MatchEventBusAndCategory|MatchEventBusAndEventName|MatchEventBusAndCategoryAndEventName>
+                                <options: MatchEventBus|MatchEventBusAndCategory|MatchEventBusAndEventName|MatchEventBus
+                                AndCategoryAndEventName>
       --[no-]synchronous        Execute_Synchronous__c. If not given, the existing value is kept. Pass --no-synchronous
                                 to have the distributor invoke this consumer asynchronously.
       --wait=<value>            [default: 33] Deploy poll timeout, in minutes. Only meaningful with --target-org.
@@ -961,7 +988,7 @@ EXAMPLES
   $ sf simply aep at4dx platform-event-subscription update --target-org myOrg --developer-name Account_Change_Subscriber --consumer AccountChangeConsumerV2
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/update.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/update.js)_
 
 ## `sf simply aep at4dx platform-event-subscription validate`
 
@@ -1010,7 +1037,7 @@ EXAMPLES
   $ sf simply aep at4dx platform-event-subscription validate --target-org myOrg --json
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-aep@0.12.0/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/validate.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.14.3/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/validate.js)_
 
 ## `sf simply apex execute`
 
@@ -1045,7 +1072,7 @@ FLAG DESCRIPTIONS
     The path to the local .apex file containing the anonymous Apex code to execute.
 ```
 
-_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.8.2/packages/simply-apex/lib/commands/simply/apex/execute.js)_
+_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-apex@1.8.4/packages/simply-apex/lib/commands/simply/apex/execute.js)_
 
 ## `sf simply apex logs purge`
 
@@ -1101,7 +1128,7 @@ FLAG DESCRIPTIONS
     elapses, then throws.
 ```
 
-_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.8.2/packages/simply-apex/lib/commands/simply/apex/logs/purge.js)_
+_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-apex@1.8.4/packages/simply-apex/lib/commands/simply/apex/logs/purge.js)_
 
 ## `sf simply apex test-suite generate`
 
@@ -1149,7 +1176,7 @@ FLAG DESCRIPTIONS
     pass that directory explicitly, e.g. force-app/main/default/testSuites.
 ```
 
-_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.8.2/packages/simply-apex/lib/commands/simply/apex/test-suite/generate.js)_
+_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-apex@1.8.4/packages/simply-apex/lib/commands/simply/apex/test-suite/generate.js)_
 
 ## `sf simply apex trace setup`
 
@@ -1209,7 +1236,7 @@ FLAG DESCRIPTIONS
     Defaults to the current date/time.
 ```
 
-_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.8.2/packages/simply-apex/lib/commands/simply/apex/trace/setup.js)_
+_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-apex@1.8.4/packages/simply-apex/lib/commands/simply/apex/trace/setup.js)_
 
 ## `sf simply apex trace silence`
 
@@ -1273,7 +1300,7 @@ FLAG DESCRIPTIONS
     Adds di_Binding, di_Module, di_PlatformCache, and di_Injector to the classes to silence.
 ```
 
-_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-apex@1.8.2/packages/simply-apex/lib/commands/simply/apex/trace/silence.js)_
+_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-apex@1.8.4/packages/simply-apex/lib/commands/simply/apex/trace/silence.js)_
 
 ## `sf simply community publish`
 
@@ -1322,7 +1349,7 @@ EXAMPLES
   $ sf simply community publish --target-org my-org --name "My Community" --ignore-errors
 ```
 
-_See code: [@simplysf/simply-community](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-community@0.6.5/packages/simply-community/lib/commands/simply/community/publish.js)_
+_See code: [@simplysf/simply-community](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-community@0.6.8/packages/simply-community/lib/commands/simply/community/publish.js)_
 
 ## `sf simply community url set`
 
@@ -1396,7 +1423,7 @@ EXAMPLES
   $ sf simply community url set --site Partner_Portal --domain partners.acme.com --deploy --target-org my-org # retrieves the site file first if it isn't found locally
 ```
 
-_See code: [@simplysf/simply-community](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-community@0.6.5/packages/simply-community/lib/commands/simply/community/url/set.js)_
+_See code: [@simplysf/simply-community](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-community@0.6.8/packages/simply-community/lib/commands/simply/community/url/set.js)_
 
 ## `sf simply data file upload`
 
@@ -1452,7 +1479,7 @@ FLAG DESCRIPTIONS
     Setup and Configuration" permission — the command warns and proceeds rather than failing.
 ```
 
-_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-data@2.4.4/packages/simply-data/lib/commands/simply/data/file/upload.js)_
+_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@2.4.7/packages/simply-data/lib/commands/simply/data/file/upload.js)_
 
 ## `sf simply data files download`
 
@@ -1514,7 +1541,7 @@ FLAG DESCRIPTIONS
     Provide a WHERE clause to allow the plugin to specify which ContentVersion records should be downloaded.
 ```
 
-_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-data@2.4.4/packages/simply-data/lib/commands/simply/data/files/download.js)_
+_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@2.4.7/packages/simply-data/lib/commands/simply/data/files/download.js)_
 
 ## `sf simply data files upload`
 
@@ -1580,7 +1607,7 @@ FLAG DESCRIPTIONS
     quasi concurrent uploads. Please note that setting this value too high can cause performance issues.
 ```
 
-_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-data@2.4.4/packages/simply-data/lib/commands/simply/data/files/upload.js)_
+_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@2.4.7/packages/simply-data/lib/commands/simply/data/files/upload.js)_
 
 ## `sf simply document diff`
 
@@ -1633,7 +1660,7 @@ FLAG DESCRIPTIONS
     available partials.
 ```
 
-_See code: [@simplysf/simply-document](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-document@0.4.1/packages/simply-document/lib/commands/simply/document/diff.js)_
+_See code: [@simplysf/simply-document](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-document@0.4.3/packages/simply-document/lib/commands/simply/document/diff.js)_
 
 ## `sf simply document generate`
 
@@ -1679,7 +1706,7 @@ FLAG DESCRIPTIONS
     for the data shape.
 ```
 
-_See code: [@simplysf/simply-document](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-document@0.4.1/packages/simply-document/lib/commands/simply/document/generate.js)_
+_See code: [@simplysf/simply-document](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-document@0.4.3/packages/simply-document/lib/commands/simply/document/generate.js)_
 
 ## `sf simply flow delete`
 
@@ -1722,7 +1749,7 @@ EXAMPLES
   $ sf simply flow delete --manifest destructive/pre/destructiveChanges.xml --target-org myOrg --json
 ```
 
-_See code: [@simplysf/simply-flow](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-flow@0.4.3/packages/simply-flow/lib/commands/simply/flow/delete.js)_
+_See code: [@simplysf/simply-flow](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-flow@0.4.5/packages/simply-flow/lib/commands/simply/flow/delete.js)_
 
 ## `sf simply flow version prune`
 
@@ -1764,7 +1791,7 @@ EXAMPLES
   $ sf simply flow version prune --target-org myOrg --flow-name My_Flow --flow-name Another_Flow
 ```
 
-_See code: [@simplysf/simply-flow](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-flow@0.4.3/packages/simply-flow/lib/commands/simply/flow/version/prune.js)_
+_See code: [@simplysf/simply-flow](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-flow@0.4.5/packages/simply-flow/lib/commands/simply/flow/version/prune.js)_
 
 ## `sf simply package dependencies install`
 
@@ -1898,7 +1925,7 @@ FLAG DESCRIPTIONS
     Packages not listed here use --retry-attempts.
 ```
 
-_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-package@3.0.0/packages/simply-package/lib/commands/simply/package/dependencies/install.js)_
+_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@3.0.3/packages/simply-package/lib/commands/simply/package/dependencies/install.js)_
 
 ## `sf simply package dependencies manage`
 
@@ -1957,7 +1984,7 @@ FLAG DESCRIPTIONS
     version without interactive prompts. Mutually exclusive with --update-to-latest.
 ```
 
-_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-package@3.0.0/packages/simply-package/lib/commands/simply/package/dependencies/manage.js)_
+_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@3.0.3/packages/simply-package/lib/commands/simply/package/dependencies/manage.js)_
 
 ## `sf simply package version cleanup`
 
@@ -2014,7 +2041,7 @@ FLAG DESCRIPTIONS
     that does not match any of the given selectors is deleted. Mutually exclusive with --selector.
 ```
 
-_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-package@3.0.0/packages/simply-package/lib/commands/simply/package/version/cleanup.js)_
+_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@3.0.3/packages/simply-package/lib/commands/simply/package/version/cleanup.js)_
 
 ## `sf simply package version get`
 
@@ -2074,7 +2101,7 @@ FLAG DESCRIPTIONS
     "test-package@0.1.0+2", pass "test-package".
 ```
 
-_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-package@3.0.0/packages/simply-package/lib/commands/simply/package/version/get.js)_
+_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@3.0.3/packages/simply-package/lib/commands/simply/package/version/get.js)_
 
 ## `sf simply permissions analyze`
 
@@ -2118,7 +2145,7 @@ FLAG DESCRIPTIONS
     The path to write the generated HTML report to.
 ```
 
-_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-permissions@1.3.3/packages/simply-permissions/lib/commands/simply/permissions/analyze.js)_
+_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@1.3.6/packages/simply-permissions/lib/commands/simply/permissions/analyze.js)_
 
 ## `sf simply permissions assignment delete`
 
@@ -2161,7 +2188,7 @@ EXAMPLES
   $ sf simply permissions assignment delete --permission-set-group-name My_Permission_Set_Group --target-org myOrg
 ```
 
-_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-permissions@1.3.3/packages/simply-permissions/lib/commands/simply/permissions/assignment/delete.js)_
+_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@1.3.6/packages/simply-permissions/lib/commands/simply/permissions/assignment/delete.js)_
 
 ## `sf simply permissions build`
 
@@ -2228,7 +2255,7 @@ FLAG DESCRIPTIONS
     'view-all' additionally grants view-all-records, and 'modify-all' grants full CRUD and modify-all-records access.
 ```
 
-_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-permissions@1.3.3/packages/simply-permissions/lib/commands/simply/permissions/build.js)_
+_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@1.3.6/packages/simply-permissions/lib/commands/simply/permissions/build.js)_
 
 ## `sf simply project update api-version`
 
@@ -2267,7 +2294,7 @@ FLAG DESCRIPTIONS
     The path to the Salesforce project directory to scan for metadata files.
 ```
 
-_See code: [@simplysf/simply-project](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-project@1.2.19/packages/simply-project/lib/commands/simply/project/update/api-version.js)_
+_See code: [@simplysf/simply-project](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-project@1.2.21/packages/simply-project/lib/commands/simply/project/update/api-version.js)_
 
 ## `sf simply schema generate`
 
@@ -2308,7 +2335,7 @@ FLAG DESCRIPTIONS
     A `.csv` file processed as the flat CSV flow, or a `.xlsx`/`.xls` file processed as the Excel flow.
 ```
 
-_See code: [@simplysf/simply-schema](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-schema@0.3.21/packages/simply-schema/lib/commands/simply/schema/generate.js)_
+_See code: [@simplysf/simply-schema](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-schema@0.3.24/packages/simply-schema/lib/commands/simply/schema/generate.js)_
 
 ## `sf simply schema visualize`
 
@@ -2370,7 +2397,7 @@ FLAG DESCRIPTIONS
     specified, every discovered object is included. If not specified, every object matching `--object-type` is included.
 ```
 
-_See code: [@simplysf/simply-schema](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-schema@0.3.21/packages/simply-schema/lib/commands/simply/schema/visualize.js)_
+_See code: [@simplysf/simply-schema](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-schema@0.3.24/packages/simply-schema/lib/commands/simply/schema/visualize.js)_
 
 ## `sf simply sobject backup`
 
@@ -2431,7 +2458,7 @@ FLAG DESCRIPTIONS
     OwnerId, are skipped.
 ```
 
-_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-sobject@1.6.9/packages/simply-sobject/lib/commands/simply/sobject/backup.js)_
+_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@1.6.12/packages/simply-sobject/lib/commands/simply/sobject/backup.js)_
 
 ## `sf simply sobject deduplicate`
 
@@ -2484,7 +2511,7 @@ FLAG DESCRIPTIONS
     The directory to write the generated CSV files to. Defaults to ./temp/<primaryObjectApiName>.
 ```
 
-_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-sobject@1.6.9/packages/simply-sobject/lib/commands/simply/sobject/deduplicate.js)_
+_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@1.6.12/packages/simply-sobject/lib/commands/simply/sobject/deduplicate.js)_
 
 ## `sf simply sobject history export`
 
@@ -2538,7 +2565,7 @@ FLAG DESCRIPTIONS
     The start of the date range to export history for, inclusive.
 ```
 
-_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-sobject@1.6.9/packages/simply-sobject/lib/commands/simply/sobject/history/export.js)_
+_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@1.6.12/packages/simply-sobject/lib/commands/simply/sobject/history/export.js)_
 
 ## `sf simply sobject history query`
 
@@ -2594,7 +2621,7 @@ FLAG DESCRIPTIONS
     The API name of the SObject to query field history for (e.g. Account or Custom_Object__c).
 ```
 
-_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-sobject@1.6.9/packages/simply-sobject/lib/commands/simply/sobject/history/query.js)_
+_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@1.6.12/packages/simply-sobject/lib/commands/simply/sobject/history/query.js)_
 
 ## `sf simply sobject history schema`
 
@@ -2632,4 +2659,4 @@ FLAG DESCRIPTIONS
     The directory to save the generated CSV and HTML report files to. Defaults to the current directory.
 ```
 
-_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-sobject@1.6.9/packages/simply-sobject/lib/commands/simply/sobject/history/schema.js)_
+_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@1.6.12/packages/simply-sobject/lib/commands/simply/sobject/history/schema.js)_

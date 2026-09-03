@@ -1,6 +1,6 @@
 # @simplysf/simply-document
 
-[![NPM](https://img.shields.io/npm/v/@simplysf/simply-document?label=@simplysf/simply-document)](https://npmjs.com/@simplysf/simply-document) [![Downloads/week](https://img.shields.io/npm/dw/@simplysf/simply-document.svg)](https://npmjs.com/@simplysf/simply-document) [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://raw.githubusercontent.com/SimplySF/simply-node/main/LICENSE.txt)
+[![NPM](https://img.shields.io/npm/v/@simplysf/simply-document?label=@simplysf/simply-document)](https://npmjs.com/@simplysf/simply-document) [![Downloads/week](https://img.shields.io/npm/dw/@simplysf/simply-document.svg)](https://npmjs.com/@simplysf/simply-document) [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://raw.githubusercontent.com/SimplySF/simply-plugins/main/LICENSE.txt)
 
 ## Install
 
@@ -10,11 +10,11 @@ sf plugins install @simplysf/simply-document
 
 ## Issues
 
-Please report any issues at https://github.com/SimplySF/simply-node/issues
+Please report any issues at https://github.com/SimplySF/simply-plugins/issues
 
 ## Contributing
 
-This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/simply-node) monorepo. See [CONTRIBUTING.md](CONTRIBUTING.md) for what's specific to this package, and the repo's [root CONTRIBUTING.md](https://github.com/SimplySF/simply-node/blob/main/CONTRIBUTING.md) for repo structure, setup, commit conventions, and how to submit a pull request. Please also read our [Code of Conduct](https://github.com/SimplySF/simply-node/blob/main/CODE_OF_CONDUCT.md).
+This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/simply-plugins) monorepo. See [CONTRIBUTING.md](CONTRIBUTING.md) for what's specific to this package, and the repo's [root CONTRIBUTING.md](https://github.com/SimplySF/simply-plugins/blob/main/CONTRIBUTING.md) for repo structure, setup, commit conventions, and how to submit a pull request. Please also read our [Code of Conduct](https://github.com/SimplySF/simply-plugins/blob/main/CODE_OF_CONDUCT.md).
 
 ## Commands
 
@@ -74,7 +74,7 @@ FLAG DESCRIPTIONS
     available partials.
 ```
 
-_See code: [lib/commands/simply/document/diff.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-document@0.3.1/packages/simply-document/lib/commands/simply/document/diff.js)_
+_See code: [lib/commands/simply/document/diff.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-document@0.4.3/packages/simply-document/lib/commands/simply/document/diff.js)_
 
 ## `sf simply document generate`
 
@@ -120,7 +120,7 @@ FLAG DESCRIPTIONS
     for the data shape.
 ```
 
-_See code: [lib/commands/simply/document/generate.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-document@0.3.1/packages/simply-document/lib/commands/simply/document/generate.js)_
+_See code: [lib/commands/simply/document/generate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-document@0.4.3/packages/simply-document/lib/commands/simply/document/generate.js)_
 <!-- commandsstop -->
 
 ## Custom Templates
@@ -254,4 +254,4 @@ A `loud` helper is pre-registered and available to your template — it upper-ca
 
 ## License
 
-Licensed under the [Apache-2.0](https://raw.githubusercontent.com/SimplySF/simply-node/main/LICENSE.txt) license.
+Licensed under the [Apache-2.0](https://raw.githubusercontent.com/SimplySF/simply-plugins/main/LICENSE.txt) license.

@@ -1,8 +1,8 @@
 # Contributing to @simplysf/simply-document
 
-Utilities for generating project documentation. This package is part of the [`simply-node`](https://github.com/SimplySF/simply-node) monorepo.
+Utilities for generating project documentation. This package is part of the [`simply-plugins`](https://github.com/SimplySF/simply-plugins) monorepo.
 
-**Start with the [root CONTRIBUTING.md](https://github.com/SimplySF/simply-node/blob/main/CONTRIBUTING.md).** It covers repository structure, environment setup, commit conventions, versioning and publishing, CI, git hooks, and the pull request process — all of which apply here. This file covers only what is specific to this package.
+**Start with the [root CONTRIBUTING.md](https://github.com/SimplySF/simply-plugins/blob/main/CONTRIBUTING.md).** It covers repository structure, environment setup, commit conventions, versioning and publishing, CI, git hooks, and the pull request process — all of which apply here. This file covers only what is specific to this package.
 
 ## Working on this package
 
@@ -44,7 +44,7 @@ Commit the regenerated `README.md`. The docs site derives its command reference 
 
 `command-snapshot.json` records every command and flag so that accidental breaking changes surface in review. It regenerates as part of `pnpm run build` — commit whatever changes. CI re-verifies with `git diff --exit-code`, so a stale snapshot fails the build.
 
-> **If you add, remove, or rename a flag here, also rebuild [`packages/simply`](https://github.com/SimplySF/simply-node/tree/main/packages/simply)'s snapshot.** `@simplysf/simply-document` is bundled into the orchestrator plugin, so its aggregated snapshot carries these flags too. The orchestrator's wireit cache only watches `packages/simply/src/**/*.ts`, so a plain `pnpm run build` there reports cached success without regenerating anything — the drift only surfaces in CI. Force it:
+> **If you add, remove, or rename a flag here, also rebuild [`packages/simply`](https://github.com/SimplySF/simply-plugins/tree/main/packages/simply)'s snapshot.** `@simplysf/simply-document` is bundled into the orchestrator plugin, so its aggregated snapshot carries these flags too. The orchestrator's wireit cache only watches `packages/simply/src/**/*.ts`, so a plain `pnpm run build` there reports cached success without regenerating anything — the drift only surfaces in CI. Force it:
 
 > ```sh
 > cd ../simply
@@ -58,4 +58,4 @@ No pull request is accepted without tests covering the change. Tests live in [`t
 
 ## Reporting issues
 
-Please [open an issue](https://github.com/SimplySF/simply-node/issues) rather than sending a pull request for anything non-trivial without prior discussion.
+Please [open an issue](https://github.com/SimplySF/simply-plugins/issues) rather than sending a pull request for anything non-trivial without prior discussion.
