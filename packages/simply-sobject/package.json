@@ -1,7 +1,7 @@
 {
   "name": "@simplysf/simply-sobject",
   "description": "Utilities for working with SObjects",
-  "version": "1.6.11",
+  "version": "1.6.12",
   "author": "@ClayChipps",
   "homepage": "https://github.com/SimplySF/simply-plugins",
   "bugs": "https://github.com/SimplySF/simply-plugins/issues",
