@@ -52,7 +52,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup deploy-unpackaged --ci-job-token $CI_JOB_TOKEN --alias my-org --source-branch-name release/uat
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/deploy-unpackaged.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.6.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/deploy-unpackaged.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/deploy-unpackaged.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.8.11/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/deploy-unpackaged.js)_
 
 ## `sf simply cicd deploy happy-soup deployment-close-out`
 
@@ -106,7 +106,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup deployment-close-out --ci-commit-ref-name main --ci-pipeline-id 123 --ci-project-path group/project --project-access-token $PROJECT_ACCESS_TOKEN --deploy-release-date 2026-01-15
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/deployment-close-out.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.6.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/deployment-close-out.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/deployment-close-out.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.8.11/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/deployment-close-out.js)_
 
 ## `sf simply cicd deploy happy-soup install-packaged`
 
@@ -152,7 +152,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup install-packaged --alias my-org
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/install-packaged.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.6.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/install-packaged.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/install-packaged.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.8.11/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/install-packaged.js)_
 
 ## `sf simply cicd deploy happy-soup post-deploy`
 
@@ -203,7 +203,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup post-deploy --ci-job-token $CI_JOB_TOKEN --alias my-org --source-branch-name release/uat
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/post-deploy.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.6.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/post-deploy.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/post-deploy.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.8.11/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/post-deploy.js)_
 
 ## `sf simply cicd deploy happy-soup post-destructive`
 
@@ -254,7 +254,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup post-destructive --ci-job-token $CI_JOB_TOKEN --alias my-org --source-branch-name release/uat
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/post-destructive.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.6.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/post-destructive.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/post-destructive.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.8.11/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/post-destructive.js)_
 
 ## `sf simply cicd deploy happy-soup pre-destructive`
 
@@ -305,7 +305,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup pre-destructive --ci-job-token $CI_JOB_TOKEN --alias my-org --source-branch-name release/uat
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/pre-destructive.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.6.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/pre-destructive.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/pre-destructive.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.8.11/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/pre-destructive.js)_
 
 ## `sf simply cicd deploy happy-soup tag-deployment`
 
@@ -357,7 +357,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup tag-deployment --alias my-org --ci-pipeline-id 123 --ci-pipeline-url https://gitlab.example.com/group/project/-/pipelines/123 --ci-project-path group/project --ci-merge-request-iid 45 --ci-merge-request-project-url https://gitlab.example.com/group/project --project-access-token $PROJECT_ACCESS_TOKEN
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/tag-deployment.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.6.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/tag-deployment.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/tag-deployment.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.8.11/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/tag-deployment.js)_
 
 ## `sf simply cicd deploy happy-soup validate`
 
@@ -395,4 +395,4 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup validate --deploy-config-file deployment-configs/uat.json --deploy-rules-file config/deploy-rules.json
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/validate.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.6.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/validate.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/validate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.8.11/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/validate.js)_

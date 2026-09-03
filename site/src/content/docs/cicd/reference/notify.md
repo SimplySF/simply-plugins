@@ -74,7 +74,7 @@ EXAMPLES
   $ sf simply cicd notify happy-soup --after-script --is-final-job --notify-on-completion --ci-job-status success --teams-webhook-url https://outlook.office.com/webhook/... --enabled
 ```
 
-_See code: [lib/commands/simply/cicd/notify/happy-soup.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.6.1/packages/simply-cicd/lib/commands/simply/cicd/notify/happy-soup.js)_
+_See code: [lib/commands/simply/cicd/notify/happy-soup.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.8.11/packages/simply-cicd/lib/commands/simply/cicd/notify/happy-soup.js)_
 
 ## `sf simply cicd notify project`
 
@@ -148,7 +148,7 @@ EXAMPLES
   $ sf simply cicd notify project --after-script --ci-job-stage post-destructive --ci-job-status success --teams-webhook-url https://outlook.office.com/webhook/... --enabled
 ```
 
-_See code: [lib/commands/simply/cicd/notify/project.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.6.1/packages/simply-cicd/lib/commands/simply/cicd/notify/project.js)_
+_See code: [lib/commands/simply/cicd/notify/project.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.8.11/packages/simply-cicd/lib/commands/simply/cicd/notify/project.js)_
 
 ## `sf simply cicd notify teams`
 
@@ -180,4 +180,4 @@ EXAMPLES
   $ sf simply cicd notify teams --payload '{"text":"Deployment complete"}' --webhook-url https://outlook.office.com/webhook/... --enabled
 ```
 
-_See code: [lib/commands/simply/cicd/notify/teams.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.6.1/packages/simply-cicd/lib/commands/simply/cicd/notify/teams.js)_
+_See code: [lib/commands/simply/cicd/notify/teams.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.8.11/packages/simply-cicd/lib/commands/simply/cicd/notify/teams.js)_

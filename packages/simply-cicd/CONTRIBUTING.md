@@ -1,8 +1,8 @@
 # Contributing to @simplysf/simply-cicd
 
-Commands for Salesforce CI/CD pipelines. This package is part of the [`simply-node`](https://github.com/SimplySF/simply-node) monorepo.
+Commands for Salesforce CI/CD pipelines. This package is part of the [`simply-plugins`](https://github.com/SimplySF/simply-plugins) monorepo.
 
-**Start with the [root CONTRIBUTING.md](https://github.com/SimplySF/simply-node/blob/main/CONTRIBUTING.md).** It covers repository structure, environment setup, commit conventions, versioning and publishing, CI, git hooks, and the pull request process — all of which apply here. This file covers only what is specific to this package.
+**Start with the [root CONTRIBUTING.md](https://github.com/SimplySF/simply-plugins/blob/main/CONTRIBUTING.md).** It covers repository structure, environment setup, commit conventions, versioning and publishing, CI, git hooks, and the pull request process — all of which apply here. This file covers only what is specific to this package.
 
 ## Working on this package
 
@@ -44,7 +44,7 @@ Commit the regenerated `README.md`. The docs site derives its command reference 
 
 `command-snapshot.json` records every command and flag so that accidental breaking changes surface in review. It regenerates as part of `pnpm run build` — commit whatever changes. CI re-verifies with `git diff --exit-code`, so a stale snapshot fails the build.
 
-> `@simplysf/simply-cicd` is **not** bundled into the [`@simplysf/simply`](https://github.com/SimplySF/simply-node/tree/main/packages/simply) orchestrator plugin — it is installed on its own — so changing a flag here does not affect the orchestrator's snapshot.
+> `@simplysf/simply-cicd` is **not** bundled into the [`@simplysf/simply`](https://github.com/SimplySF/simply-plugins/tree/main/packages/simply) orchestrator plugin — it is installed on its own — so changing a flag here does not affect the orchestrator's snapshot.
 
 ## Tests
 
@@ -52,4 +52,4 @@ No pull request is accepted without tests covering the change. Tests live in [`t
 
 ## Reporting issues
 
-Please [open an issue](https://github.com/SimplySF/simply-node/issues) rather than sending a pull request for anything non-trivial without prior discussion.
+Please [open an issue](https://github.com/SimplySF/simply-plugins/issues) rather than sending a pull request for anything non-trivial without prior discussion.

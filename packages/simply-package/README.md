@@ -1,6 +1,6 @@
 # @simplysf/simply-package
 
-[![NPM](https://img.shields.io/npm/v/@simplysf/simply-package.svg?label=@simplysf/simply-package)](https://www.npmjs.com/package/@simplysf/simply-package) [![Downloads/week](https://img.shields.io/npm/dw/@simplysf/simply-package.svg)](https://npmjs.org/package/@simplysf/simply-package) [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://raw.githubusercontent.com/SimplySF/simply-node/main/LICENSE.txt)
+[![NPM](https://img.shields.io/npm/v/@simplysf/simply-package.svg?label=@simplysf/simply-package)](https://www.npmjs.com/package/@simplysf/simply-package) [![Downloads/week](https://img.shields.io/npm/dw/@simplysf/simply-package.svg)](https://npmjs.org/package/@simplysf/simply-package) [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://raw.githubusercontent.com/SimplySF/simply-plugins/main/LICENSE.txt)
 
 ## Install
 
@@ -10,11 +10,11 @@ sf plugins install @simplysf/simply-package
 
 ## Issues
 
-Please report any issues at https://github.com/SimplySF/simply-node/issues
+Please report any issues at https://github.com/SimplySF/simply-plugins/issues
 
 ## Contributing
 
-This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/simply-node) monorepo. See the repo's [CONTRIBUTING.md](https://github.com/SimplySF/simply-node/blob/main/CONTRIBUTING.md) for the repo structure, how to set up and build the project, our commit conventions, and how to submit a pull request. Please also read our [Code of Conduct](https://github.com/SimplySF/simply-node/blob/main/CODE_OF_CONDUCT.md).
+This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/simply-plugins) monorepo. See the repo's [CONTRIBUTING.md](https://github.com/SimplySF/simply-plugins/blob/main/CONTRIBUTING.md) for the repo structure, how to set up and build the project, our commit conventions, and how to submit a pull request. Please also read our [Code of Conduct](https://github.com/SimplySF/simply-plugins/blob/main/CODE_OF_CONDUCT.md).
 
 ## Commands
 
@@ -157,7 +157,7 @@ FLAG DESCRIPTIONS
     Packages not listed here use --retry-attempts.
 ```
 
-_See code: [lib/commands/simply/package/dependencies/install.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-package@2.10.6/packages/simply-package/lib/commands/simply/package/dependencies/install.js)_
+_See code: [lib/commands/simply/package/dependencies/install.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@3.0.3/packages/simply-package/lib/commands/simply/package/dependencies/install.js)_
 
 ## `sf simply package dependencies manage`
 
@@ -216,7 +216,7 @@ FLAG DESCRIPTIONS
     version without interactive prompts. Mutually exclusive with --update-to-latest.
 ```
 
-_See code: [lib/commands/simply/package/dependencies/manage.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-package@2.10.6/packages/simply-package/lib/commands/simply/package/dependencies/manage.js)_
+_See code: [lib/commands/simply/package/dependencies/manage.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@3.0.3/packages/simply-package/lib/commands/simply/package/dependencies/manage.js)_
 
 ## `sf simply package version cleanup`
 
@@ -273,7 +273,7 @@ FLAG DESCRIPTIONS
     that does not match any of the given selectors is deleted. Mutually exclusive with --selector.
 ```
 
-_See code: [lib/commands/simply/package/version/cleanup.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-package@2.10.6/packages/simply-package/lib/commands/simply/package/version/cleanup.js)_
+_See code: [lib/commands/simply/package/version/cleanup.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@3.0.3/packages/simply-package/lib/commands/simply/package/version/cleanup.js)_
 
 ## `sf simply package version get`
 
@@ -333,7 +333,7 @@ FLAG DESCRIPTIONS
     "test-package@0.1.0+2", pass "test-package".
 ```
 
-_See code: [lib/commands/simply/package/version/get.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-package@2.10.6/packages/simply-package/lib/commands/simply/package/version/get.js)_
+_See code: [lib/commands/simply/package/version/get.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@3.0.3/packages/simply-package/lib/commands/simply/package/version/get.js)_
 <!-- commandsstop -->
 
 ## Configuration Files
@@ -430,4 +430,4 @@ In this example: `MyDependency` was already at the target version, so it was ski
 
 ## License
 
-Licensed under the [Apache-2.0](https://raw.githubusercontent.com/SimplySF/simply-node/main/LICENSE.txt) license.
+Licensed under the [Apache-2.0](https://raw.githubusercontent.com/SimplySF/simply-plugins/main/LICENSE.txt) license.

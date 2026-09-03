@@ -1,6 +1,6 @@
 # @simplysf/simply-project
 
-[![NPM](https://img.shields.io/npm/v/@simplysf/simply-project?label=@simplysf/simply-project)](https://npmjs.com/@simplysf/simply-project) [![Downloads/week](https://img.shields.io/npm/dw/@simplysf/simply-project.svg)](https://npmjs.com/@simplysf/simply-project) [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://raw.githubusercontent.com/SimplySF/simply-node/main/LICENSE.txt)
+[![NPM](https://img.shields.io/npm/v/@simplysf/simply-project?label=@simplysf/simply-project)](https://npmjs.com/@simplysf/simply-project) [![Downloads/week](https://img.shields.io/npm/dw/@simplysf/simply-project.svg)](https://npmjs.com/@simplysf/simply-project) [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://raw.githubusercontent.com/SimplySF/simply-plugins/main/LICENSE.txt)
 
 ## Install
 
@@ -10,11 +10,11 @@ sf plugins install @simplysf/simply-project
 
 ## Issues
 
-Please report any issues at https://github.com/SimplySF/simply-node/issues
+Please report any issues at https://github.com/SimplySF/simply-plugins/issues
 
 ## Contributing
 
-This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/simply-node) monorepo. See the repo's [CONTRIBUTING.md](https://github.com/SimplySF/simply-node/blob/main/CONTRIBUTING.md) for the repo structure, how to set up and build the project, our commit conventions, and how to submit a pull request. Please also read our [Code of Conduct](https://github.com/SimplySF/simply-node/blob/main/CODE_OF_CONDUCT.md).
+This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/simply-plugins) monorepo. See the repo's [CONTRIBUTING.md](https://github.com/SimplySF/simply-plugins/blob/main/CONTRIBUTING.md) for the repo structure, how to set up and build the project, our commit conventions, and how to submit a pull request. Please also read our [Code of Conduct](https://github.com/SimplySF/simply-plugins/blob/main/CODE_OF_CONDUCT.md).
 
 ## Commands
 
@@ -59,9 +59,9 @@ FLAG DESCRIPTIONS
     The path to the Salesforce project directory to scan for metadata files.
 ```
 
-_See code: [lib/commands/simply/project/update/api-version.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-project@1.2.10/packages/simply-project/lib/commands/simply/project/update/api-version.js)_
+_See code: [lib/commands/simply/project/update/api-version.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-project@1.2.21/packages/simply-project/lib/commands/simply/project/update/api-version.js)_
 <!-- commandsstop -->
 
 ## License
 
-Licensed under the [Apache-2.0](https://raw.githubusercontent.com/SimplySF/simply-node/main/LICENSE.txt) license.
+Licensed under the [Apache-2.0](https://raw.githubusercontent.com/SimplySF/simply-plugins/main/LICENSE.txt) license.

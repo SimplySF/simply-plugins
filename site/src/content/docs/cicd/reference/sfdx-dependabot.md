@@ -77,4 +77,4 @@ FLAG DESCRIPTIONS
     Defaults to the selected provider's public instance if not provided.
 ```
 
-_See code: [lib/commands/simply/cicd/sfdx-dependabot.js](https://github.com/SimplySF/simply-node/blob/@simplysf/simply-cicd@0.6.1/packages/simply-cicd/lib/commands/simply/cicd/sfdx-dependabot.js)_
+_See code: [lib/commands/simply/cicd/sfdx-dependabot.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.8.11/packages/simply-cicd/lib/commands/simply/cicd/sfdx-dependabot.js)_
