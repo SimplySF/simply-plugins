@@ -12,6 +12,7 @@ minimumReleaseAgeExclude:
   - '@simplysf/simply-apex-core@0.3.2'
   - '@simplysf/simply-permissions-core@0.2.2'
   - '@simplysf/simply-report@1.0.4'
+  - '@simplysf/simply-sobject-core@0.2.2'
 allowBuilds:
   esbuild: true
   nx: true

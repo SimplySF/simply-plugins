@@ -29,11 +29,12 @@ import {
 } from '@simplysf/simply-core';
 import {
   buildWhereClause,
+  FilterConfigSchema,
   getHistoryObjectName,
   getParentIdField,
   recordMatchesClientFilters,
-} from '../../../../common/fieldHistory.js';
-import { FilterConfigSchema, type FilterConfig } from '../../../../schemas/history/filterConfig.js';
+  type FilterConfig,
+} from '@simplysf/simply-sobject-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-sobject', 'simply.sobject.history.query');
