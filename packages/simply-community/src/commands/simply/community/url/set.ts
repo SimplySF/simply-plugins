@@ -21,17 +21,19 @@ import { Messages, SfError, type Connection } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { escapeSoqlLiteral } from '@simplysf/simply-core';
 import { requireConnection } from '@simplysf/simply-plugin-kit';
-import { patchCustomSiteXml, patchNetworkXml } from '../../../../common/siteMetadataXml.js';
 import {
+  patchCustomSiteXml,
+  patchNetworkXml,
   resolveNetworkFile,
   resolveRetrieveDestination,
   resolveSearchRoots,
   resolveSiteFile,
-} from '../../../../common/resolveSiteFiles.js';
-import { retrieveCustomSite } from '../../../../common/retrieveCustomSite.js';
-import { verifyDomain, type DomainCheckResult } from '../../../../common/verifyDomain.js';
-import { deployChangedFiles } from '../../../../common/deployChangedFiles.js';
-import { publishCommunity } from '../../../../common/publishCommunity.js';
+  retrieveCustomSite,
+  verifyDomain,
+  type DomainCheckResult,
+  deployChangedFiles,
+  publishCommunity,
+} from '@simplysf/simply-community-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-community', 'simply.community.url.set');

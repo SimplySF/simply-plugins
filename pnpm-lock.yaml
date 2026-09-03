@@ -281,21 +281,15 @@ importers:
       '@salesforce/sf-plugins-core':
         specifier: ^12.2.16
         version: 12.2.28(@types/node@26.4.0)
-      '@salesforce/source-deploy-retrieve':
-        specifier: ^12.37.2
-        version: 12.37.2(supports-color@8.1.1)
+      '@simplysf/simply-community-core':
+        specifier: ^0.1.0
+        version: 0.1.0(supports-color@8.1.1)
       '@simplysf/simply-core':
         specifier: ^1.5.1
         version: 1.5.1
       '@simplysf/simply-plugin-kit':
         specifier: workspace:^1.0.6
         version: link:../simply-plugin-kit
-      glob:
-        specifier: ^13.0.6
-        version: 13.0.6
-      xmlbuilder2:
-        specifier: ^4.0.3
-        version: 4.0.3
     devDependencies:
       '@oclif/plugin-command-snapshot':
         specifier: ^5.4.0
@@ -303,6 +297,9 @@ importers:
       '@salesforce/plugin-command-reference':
         specifier: ^3.1.99
         version: 3.1.132(@types/node@26.4.0)(supports-color@8.1.1)
+      '@salesforce/source-deploy-retrieve':
+        specifier: ^12.37.2
+        version: 12.37.2(supports-color@8.1.1)
       '@vitest/coverage-v8':
         specifier: ^4.1.10
         version: 4.1.11(vitest@4.1.11)
@@ -2720,6 +2717,10 @@ packages:
     resolution:
       { integrity: sha512-zvvs4OSLJ7uC8WsdLhJIUSKbYd0ZKurIh8XofDhGaxsw3rh2UoKfeKucPdFoq6FWGAZ0xqoZ9VDWfmpF/i/L6w== }
     engines: { node: '>=22.0.0' }
+
+  '@simplysf/simply-community-core@0.1.0':
+    resolution: {integrity: sha512-q5sA6tFl6TWOO656Y8OAoIXbNQ5IhUi3m0PhljN9te6urM6qYfot0AjhDNoU54/zvqxtF6ub6pKO1m0rP8wEbA==}
+    engines: {node: '>=22.0.0'}
 
   '@simplysf/simply-core@1.5.1':
     resolution:
@@ -10859,6 +10860,17 @@ snapshots:
       '@salesforce/source-deploy-retrieve': 12.37.2(supports-color@8.1.1)
       '@simplysf/simply-core': 1.5.1
       zod: 4.5.4
+    transitivePeerDependencies:
+      - supports-color
+
+  '@simplysf/simply-community-core@0.1.0(supports-color@8.1.1)':
+    dependencies:
+      '@salesforce/core': 8.32.6
+      '@salesforce/kit': 3.2.6
+      '@salesforce/source-deploy-retrieve': 12.37.2(supports-color@8.1.1)
+      '@simplysf/simply-core': 1.5.1
+      glob: 13.0.6
+      xmlbuilder2: 4.0.3
     transitivePeerDependencies:
       - supports-color
 

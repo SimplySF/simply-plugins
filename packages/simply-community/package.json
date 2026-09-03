@@ -65,15 +65,14 @@
     "@salesforce/core": "^8.30.0",
     "@salesforce/kit": "^3.2.6",
     "@salesforce/sf-plugins-core": "^12.2.16",
-    "@salesforce/source-deploy-retrieve": "^12.37.2",
+    "@simplysf/simply-community-core": "^0.1.0",
     "@simplysf/simply-core": "^1.5.1",
-    "@simplysf/simply-plugin-kit": "workspace:^1.0.6",
-    "glob": "^13.0.6",
-    "xmlbuilder2": "^4.0.3"
+    "@simplysf/simply-plugin-kit": "workspace:^1.0.6"
   },
   "devDependencies": {
     "@oclif/plugin-command-snapshot": "^5.4.0",
     "@salesforce/plugin-command-reference": "^3.1.99",
+    "@salesforce/source-deploy-retrieve": "^12.37.2",
     "@vitest/coverage-v8": "^4.1.10",
     "vitest": "^4.1.10"
   },
