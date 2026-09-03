@@ -19,13 +19,16 @@ import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import {
   ALL_BINDING_TYPES,
   BINDING_TYPE_BY_FLAG,
+  scanLocalApexTriggers,
   scanLocalBindings,
+  scanOrgApexTriggers,
   scanOrgBindings,
   validateBindings,
   type At4dxBindingValidateResult,
   type BindingIssue,
   type BindingType,
   type BindingTypeFlag,
+  type RawApexTriggerRecord,
 } from '@simplysf/simply-aep-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -137,11 +140,24 @@ export default class At4dxBindingValidate extends SfCommand<At4dxBindingValidate
         throw messages.createError('error.at4dxNotDetected');
       }
 
+      let triggers: RawApexTriggerRecord[] | undefined;
+      if (requestedTypes.includes('Domain')) {
+        try {
+          triggers = await scanOrgApexTriggers(connection);
+        } catch (error) {
+          throw messages.createError('error.orgQueryFailed', [(error as Error).message]);
+        }
+      }
+
       bindingCount = scanResult.records.length;
-      issues = validateBindings(scanResult.records, {
-        malformed: scanResult.malformed,
-        ambiguous: scanResult.ambiguous,
-      });
+      issues = validateBindings(
+        scanResult.records,
+        {
+          malformed: scanResult.malformed,
+          ambiguous: scanResult.ambiguous,
+        },
+        triggers,
+      );
     } else {
       source = 'local';
 
@@ -159,11 +175,24 @@ export default class At4dxBindingValidate extends SfCommand<At4dxBindingValidate
         throw messages.createError('error.at4dxNotDetected');
       }
 
+      let triggers: RawApexTriggerRecord[] | undefined;
+      if (requestedTypes.includes('Domain')) {
+        try {
+          triggers = scanLocalApexTriggers(sourceDirs);
+        } catch (error) {
+          throw messages.createError('error.localScanFailed', [(error as Error).message]);
+        }
+      }
+
       bindingCount = scanResult.records.length;
-      issues = validateBindings(scanResult.records, {
-        malformed: scanResult.malformed,
-        ambiguous: scanResult.ambiguous,
-      });
+      issues = validateBindings(
+        scanResult.records,
+        {
+          malformed: scanResult.malformed,
+          ambiguous: scanResult.ambiguous,
+        },
+        triggers,
+      );
     }
 
     if (issues.length > 0) {
