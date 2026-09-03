@@ -18,6 +18,7 @@ import { promises as fs } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { execa } from 'execa';
+import { createVcsProvider, type VcsProvider, type VcsProviderKind } from '@simplysf/simply-cicd-core';
 import { runSf } from '../exec/sfCli.js';
 import { addGitRemote } from '../git.js';
 import { logger } from '../logger.js';
@@ -25,8 +26,6 @@ import {
   installPackageDependencies as installPackageDependenciesCommon,
   resolveUpgradedPackages,
 } from '../sfPackages.js';
-import { createVcsProvider } from '../vcs/index.js';
-import type { VcsProvider, VcsProviderKind } from '../vcs/index.js';
 import type { UpgradedPackage } from '../schemas/deployProgress.js';
 import { runDeployStage } from './runDeployStage.js';
 import {

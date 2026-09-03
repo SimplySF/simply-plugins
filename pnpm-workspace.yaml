@@ -17,6 +17,7 @@ minimumReleaseAgeExclude:
   - '@simplysf/simply-data-core@0.1.0'
   - '@simplysf/simply-package-core@0.1.0'
   - '@simplysf/simply-schema-core@0.1.0'
+  - '@simplysf/simply-cicd-core@0.2.0'
 allowBuilds:
   esbuild: true
   nx: true

@@ -18,7 +18,7 @@ import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { execa } from 'execa';
 import { getDefaultPackageDirectory, readSfdxProject } from '@simplysf/simply-core';
-import type { VcsProvider } from './vcs/types.js';
+import type { VcsProvider } from '@simplysf/simply-cicd-core';
 import { logger } from './logger.js';
 
 export type Deployment = {

@@ -15,16 +15,19 @@
  */
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { createVcsProvider } from '@simplysf/simply-cicd-core';
 import { loadProgress } from '../../../src/common/deploy/deployCommon.js';
 import { resolvePackageOrigin } from '../../../src/common/happySoup/resolveOriginProject.js';
 import { getRemoteCommitStories } from '../../../src/common/notify/getRemoteCommitStories.js';
-import { createVcsProvider } from '../../../src/common/vcs/index.js';
 import { afterScript, beforeScript } from '../../../src/common/notify/happySoupNotification.js';
 
 vi.mock('../../../src/common/deploy/deployCommon.js', () => ({ loadProgress: vi.fn() }));
 vi.mock('../../../src/common/happySoup/resolveOriginProject.js', () => ({ resolvePackageOrigin: vi.fn() }));
 vi.mock('../../../src/common/notify/getRemoteCommitStories.js', () => ({ getRemoteCommitStories: vi.fn() }));
-vi.mock('../../../src/common/vcs/index.js', () => ({ createVcsProvider: vi.fn() }));
+vi.mock('@simplysf/simply-cicd-core', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@simplysf/simply-cicd-core')>()),
+  createVcsProvider: vi.fn(),
+}));
 vi.mock('../../../src/common/logger.js', () => ({
   logger: {
     info: vi.fn(),

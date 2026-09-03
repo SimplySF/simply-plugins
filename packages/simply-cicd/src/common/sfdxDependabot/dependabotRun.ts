@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
+import type { VcsProject, VcsProvider } from '@simplysf/simply-cicd-core';
 import { runSfJson } from '../exec/sfCli.js';
 import { logger } from '../logger.js';
-import type { VcsProject, VcsProvider } from '../vcs/index.js';
 import { updateSfdxProject } from './updater.js';
 import type { UpdateSfdxProjectResult } from './updater.js';
 

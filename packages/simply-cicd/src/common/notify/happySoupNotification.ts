@@ -14,12 +14,16 @@
  * limitations under the License.
  */
 
-import { createAlmProvider, type AlmProvider, type AlmProviderKind } from '../alm/index.js';
+import {
+  createAlmProvider,
+  createVcsProvider,
+  type AlmProvider,
+  type AlmProviderKind,
+} from '@simplysf/simply-cicd-core';
 import { loadProgress } from '../deploy/deployCommon.js';
 import { resolvePackageOrigin } from '../happySoup/resolveOriginProject.js';
 import { logger } from '../logger.js';
 import type { UpgradedPackage } from '../schemas/deployProgress.js';
-import { createVcsProvider } from '../vcs/index.js';
 import { NOT_AVAILABLE, type CommitStories } from './getCommitStories.js';
 
 /** Compares by value rather than by reference, so a mocked/reconstructed `NOT_AVAILABLE` still counts. */

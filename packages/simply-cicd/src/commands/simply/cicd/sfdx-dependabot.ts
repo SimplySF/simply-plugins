@@ -16,6 +16,7 @@
 
 import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
+import { createVcsProvider, listVcsProviderKinds, type VcsProviderKind } from '@simplysf/simply-cicd-core';
 import { logger } from '../../../common/logger.js';
 import { resolveBoolean, resolveOptionalString, resolveString } from '../../../common/flags/env.js';
 import {
@@ -27,7 +28,6 @@ import {
   type SfdxDependabotCounters,
   type SfdxDependabotSummary,
 } from '../../../common/sfdxDependabot/dependabotRun.js';
-import { createVcsProvider, listVcsProviderKinds, type VcsProviderKind } from '../../../common/vcs/index.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-cicd', 'simply.cicd.sfdx-dependabot');

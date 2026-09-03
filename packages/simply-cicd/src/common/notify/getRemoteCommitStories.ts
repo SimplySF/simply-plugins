@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import type { VcsProjectRef, VcsProvider } from '../vcs/index.js';
+import type { VcsProjectRef, VcsProvider } from '@simplysf/simply-cicd-core';
 import { logger } from '../logger.js';
 import {
   NOT_AVAILABLE,

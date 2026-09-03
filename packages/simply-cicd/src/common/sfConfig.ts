@@ -15,7 +15,7 @@
  */
 
 import fs from 'node:fs';
-import type { VcsProviderKind } from './vcs/types.js';
+import type { VcsProviderKind } from '@simplysf/simply-cicd-core';
 import { logger } from './logger.js';
 
 /** Where a packaged dependency's source lives, for happy-soup story lookups. */

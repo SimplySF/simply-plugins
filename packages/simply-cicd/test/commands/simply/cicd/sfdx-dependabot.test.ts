@@ -18,13 +18,13 @@
 
 import { execa } from 'execa';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import type { VcsProject } from '@simplysf/simply-cicd-core';
 import SfdxDependabot from '../../../../src/commands/simply/cicd/sfdx-dependabot.js';
 import {
   filterProject,
   generateMrDescription,
   resolvePackageDetails,
 } from '../../../../src/common/sfdxDependabot/dependabotRun.js';
-import type { VcsProject } from '../../../../src/common/vcs/index.js';
 
 vi.mock('execa');
 

@@ -15,7 +15,7 @@
  */
 
 import { execa } from 'execa';
-import { createAlmProvider, type AlmProvider } from '../alm/index.js';
+import { createAlmProvider, type AlmProvider } from '@simplysf/simply-cicd-core';
 import { getAlmProjectKeys } from '../sfConfig.js';
 import { logger } from '../logger.js';
 
