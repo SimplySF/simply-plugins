@@ -32,13 +32,13 @@ import {
 } from '@salesforce/packaging';
 import { Optional } from '@salesforce/ts-types';
 import { retryWithBackoff } from '@simplysf/simply-core';
-import { PackageDirDependency } from '../../../../schemas/sfdx-project/packageDirs.js';
 import {
   isDependenciesPackagingDirectory,
   isPackage2Id,
   isSubscriberPackageVersionId,
   reducePackageInstallRequestErrors,
-} from '../../../../common/packageUtils.js';
+  type PackageDirDependency,
+} from '@simplysf/simply-package-core';
 
 type PackageInstallRequest = PackagingSObjects.PackageInstallRequest;
 

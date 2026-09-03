@@ -19,9 +19,9 @@ import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import { SfdxProject } from '@simplysf/simply-core';
 import {
   findPackageVersions,
-  PackageVersionMatch,
-  PackageVersionSource,
-} from '../../../../common/packageVersionLookup.js';
+  type PackageVersionMatch,
+  type PackageVersionSource,
+} from '@simplysf/simply-package-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-package', 'simply.package.version.get');

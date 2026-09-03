@@ -65,6 +65,7 @@ refactors that keep the public surface identical (though a short doc is welcome 
 | [0029](0029-simply-sobject-core.md)                                  | Splitting `simply-sobject-core` out of `simply-sobject`                               | Implemented           |
 | [0030](0030-simply-community-core.md)                                | Splitting `simply-community-core` out of `simply-community`                           | Implemented           |
 | [0031](0031-simply-data-core.md)                                     | Splitting `simply-data-core` out of `simply-data`                                     | Implemented           |
+| [0032](0032-simply-package-core.md)                                  | Splitting `simply-package-core` out of `simply-package`                               | Implemented           |
 
 ## Template
 

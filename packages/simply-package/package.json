@@ -78,8 +78,8 @@
     "@salesforce/sf-plugins-core": "^12.2.16",
     "@salesforce/ts-types": "^2.0.12",
     "@simplysf/simply-core": "^1.5.1",
-    "@simplysf/simply-plugin-kit": "workspace:^1.0.6",
-    "zod": "^4.1.12"
+    "@simplysf/simply-package-core": "^0.1.0",
+    "@simplysf/simply-plugin-kit": "workspace:^1.0.6"
   },
   "devDependencies": {
     "@oclif/plugin-command-snapshot": "^5.4.0",

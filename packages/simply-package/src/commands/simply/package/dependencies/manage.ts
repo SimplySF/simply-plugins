@@ -18,15 +18,16 @@
 import { select } from '@inquirer/prompts';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import { Messages } from '@salesforce/core';
-import { DependencyChange, PackageDependenciesManageResult } from '../../../../schemas/manage/dependencyChange.js';
-import { ParsedDependency } from '../../../../schemas/manage/parsedDependency.js';
 import {
+  buildProjectService,
   buildVersionService,
-  VersionChoice,
-  VersionServiceFilterIds,
-} from '../../../../common/packageVersionService.js';
-import { buildProjectService } from '../../../../common/sfdxProjectService.js';
-import { isSubscriberPackageVersionId } from '../../../../common/packageUtils.js';
+  isSubscriberPackageVersionId,
+  type DependencyChange,
+  type PackageDependenciesManageResult,
+  type ParsedDependency,
+  type VersionChoice,
+  type VersionServiceFilterIds,
+} from '@simplysf/simply-package-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-package', 'simply.package.dependencies.manage');
