@@ -68,6 +68,7 @@ refactors that keep the public surface identical (though a short doc is welcome 
 | [0032](0032-simply-package-core.md)                                  | Splitting `simply-package-core` out of `simply-package`                               | Implemented           |
 | [0033](0033-simply-schema-core.md)                                   | Splitting `simply-schema-core` out of `simply-schema`                                 | Implemented           |
 | [0034](0034-at4dx-domain-binding-trigger-validate.md)                | `at4dx binding validate`: wire up `missing-domain-trigger` trigger scanning           | Draft                 |
+| [0035](0035-simply-cicd-core.md)                                     | Splitting `simply-cicd-core` out of `simply-cicd`                                     | Draft                 |
 
 ## Template
 
