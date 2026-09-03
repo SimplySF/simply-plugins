@@ -20,10 +20,13 @@ import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import { requireConnection, targetOrgFlags } from '@simplysf/simply-plugin-kit';
 import { createCsvFileWriter } from '@simplysf/simply-core';
-import { downloadContentVersion } from '../../../../common/contentVersionUtils.js';
+import {
+  downloadContentVersion,
+  REQUESTS_PER_DOWNLOAD,
+  requestsForQuery,
+  type ContentVersionDownload,
+} from '@simplysf/simply-data-core';
 import { apiBudgetFlags, assertApiBudget } from '../../../../common/apiBudgetFlag.js';
-import { REQUESTS_PER_DOWNLOAD, requestsForQuery } from '../../../../common/apiCost.js';
-import { ContentVersionDownload } from '../../../../common/contentVersionTypes.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-data', 'simply.data.files.download');

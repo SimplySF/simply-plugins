@@ -21,8 +21,8 @@ import { Connection, SfError } from '@salesforce/core';
 import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
 import sinon from 'sinon';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { ContentVersionDownload } from '@simplysf/simply-data-core';
 import DataFilesDownload from '../../../../../src/commands/simply/data/files/download.js';
-import { ContentVersionDownload } from '../../../../../src/common/contentVersionTypes.js';
 
 const failedContentVersion = {
   Id: '068Hp00000gjxbEJAQ',

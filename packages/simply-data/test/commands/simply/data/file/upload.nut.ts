@@ -18,7 +18,7 @@ import path from 'node:path';
 import { execCmd, TestSession } from '@salesforce/cli-plugins-testkit';
 import { Duration } from '@salesforce/kit';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import { ContentVersion } from '../../../../../src/common/contentVersionTypes.js';
+import { ContentVersion } from '@simplysf/simply-data-core';
 
 describe('simply data file upload', () => {
   let session: TestSession;
