@@ -110,7 +110,7 @@ importers:
         specifier: workspace:^1.8.4
         version: link:../simply-apex
       '@simplysf/simply-community':
-        specifier: workspace:^0.6.7
+        specifier: workspace:^0.6.8
         version: link:../simply-community
       '@simplysf/simply-data':
         specifier: workspace:^2.4.6
@@ -2719,8 +2719,9 @@ packages:
     engines: { node: '>=22.0.0' }
 
   '@simplysf/simply-community-core@0.1.0':
-    resolution: {integrity: sha512-q5sA6tFl6TWOO656Y8OAoIXbNQ5IhUi3m0PhljN9te6urM6qYfot0AjhDNoU54/zvqxtF6ub6pKO1m0rP8wEbA==}
-    engines: {node: '>=22.0.0'}
+    resolution:
+      { integrity: sha512-q5sA6tFl6TWOO656Y8OAoIXbNQ5IhUi3m0PhljN9te6urM6qYfot0AjhDNoU54/zvqxtF6ub6pKO1m0rP8wEbA== }
+    engines: { node: '>=22.0.0' }
 
   '@simplysf/simply-core@1.5.1':
     resolution:
