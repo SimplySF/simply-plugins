@@ -13,6 +13,7 @@ minimumReleaseAgeExclude:
   - '@simplysf/simply-permissions-core@0.2.2'
   - '@simplysf/simply-report@1.0.4'
   - '@simplysf/simply-sobject-core@0.2.2'
+  - '@simplysf/simply-community-core@0.1.0'
 allowBuilds:
   esbuild: true
   nx: true

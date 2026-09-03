@@ -18,7 +18,7 @@ import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { requireConnection, targetOrgFlags } from '@simplysf/simply-plugin-kit';
 import { escapeSoqlLiteral } from '@simplysf/simply-core';
-import { publishCommunity } from '../../../common/publishCommunity.js';
+import { publishCommunity } from '@simplysf/simply-community-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-community', 'simply.community.publish');
