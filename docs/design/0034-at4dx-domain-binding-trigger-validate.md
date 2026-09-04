@@ -1,6 +1,7 @@
 # 0034 — `at4dx binding validate`: wire up `missing-domain-trigger` trigger scanning
 
-**Status:** Draft
+**Status:** Implemented (PR #20) — `simply-node`'s companion PR (#184, published as `0.14.0`)
+merged first for the underlying `simply-aep-core` rule.
 **Package:** `packages/simply-aep`
 **Date:** 2026-09-03
 

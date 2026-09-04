@@ -1,6 +1,7 @@
 # 0028 — Splitting `simply-permissions-core` out of `simply-permissions`
 
-**Status:** Draft
+**Status:** Implemented (`simply-node` PR #173, published as `0.2.2`; `simply-plugins` companion
+PR #8).
 **Package:** new `packages/simply-permissions-core` (in `simply-node`); `packages/simply-permissions`
 (CLI, slimmed, in `simply-plugins`)
 **Date:** 2026-09-02
