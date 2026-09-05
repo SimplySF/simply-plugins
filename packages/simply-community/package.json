@@ -71,7 +71,7 @@
   },
   "devDependencies": {
     "@oclif/plugin-command-snapshot": "^5.4.0",
-    "@salesforce/plugin-command-reference": "^3.1.99",
+    "@salesforce/plugin-command-reference": "^3.1.133",
     "@salesforce/source-deploy-retrieve": "^12.37.2",
     "@vitest/coverage-v8": "^4.1.10",
     "vitest": "^4.1.10"
