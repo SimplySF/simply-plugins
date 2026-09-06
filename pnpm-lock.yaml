@@ -27,8 +27,8 @@ importers:
         specifier: ^5.3.57
         version: 5.3.66(supports-color@7.2.0)
       '@salesforce/plugin-command-reference':
-        specifier: ^3.1.99
-        version: 3.1.132(@types/node@26.4.1)(supports-color@7.2.0)
+        specifier: ^3.1.133
+        version: 3.1.133(@types/node@26.4.1)(supports-color@7.2.0)
       '@types/debug':
         specifier: ^4.1.12
         version: 4.1.13
@@ -170,8 +170,8 @@ importers:
         specifier: ^5.4.0
         version: 5.4.0
       '@salesforce/plugin-command-reference':
-        specifier: ^3.1.99
-        version: 3.1.132(@types/node@26.4.1)(supports-color@8.1.1)
+        specifier: ^3.1.133
+        version: 3.1.133(@types/node@26.4.1)(supports-color@8.1.1)
       '@salesforce/source-deploy-retrieve':
         specifier: ^12.37.2
         version: 12.37.2(supports-color@8.1.1)
@@ -213,8 +213,8 @@ importers:
         specifier: ^8.4.39
         version: 8.4.39
       '@salesforce/plugin-command-reference':
-        specifier: ^3.1.99
-        version: 3.1.132(@types/node@26.4.1)(supports-color@8.1.1)
+        specifier: ^3.1.133
+        version: 3.1.133(@types/node@26.4.1)(supports-color@8.1.1)
       '@vitest/coverage-v8':
         specifier: ^4.1.10
         version: 4.1.11(vitest@4.1.11)
@@ -262,8 +262,8 @@ importers:
         specifier: ^5.4.0
         version: 5.4.0
       '@salesforce/plugin-command-reference':
-        specifier: ^3.1.99
-        version: 3.1.132(@types/node@26.4.1)(supports-color@8.1.1)
+        specifier: ^3.1.133
+        version: 3.1.133(@types/node@26.4.1)(supports-color@8.1.1)
       '@vitest/coverage-v8':
         specifier: ^4.1.10
         version: 4.1.11(vitest@4.1.11)
@@ -299,8 +299,8 @@ importers:
         specifier: ^5.4.0
         version: 5.4.0
       '@salesforce/plugin-command-reference':
-        specifier: ^3.1.99
-        version: 3.1.132(@types/node@26.4.1)(supports-color@8.1.1)
+        specifier: ^3.1.133
+        version: 3.1.133(@types/node@26.4.1)(supports-color@8.1.1)
       '@salesforce/source-deploy-retrieve':
         specifier: ^12.37.2
         version: 12.37.2(supports-color@8.1.1)
@@ -345,8 +345,8 @@ importers:
         specifier: ^5.4.0
         version: 5.4.0
       '@salesforce/plugin-command-reference':
-        specifier: ^3.1.99
-        version: 3.1.132(@types/node@26.4.1)(supports-color@8.1.1)
+        specifier: ^3.1.133
+        version: 3.1.133(@types/node@26.4.1)(supports-color@8.1.1)
       '@vitest/coverage-v8':
         specifier: ^4.1.10
         version: 4.1.11(vitest@4.1.11)
@@ -379,8 +379,8 @@ importers:
         specifier: ^5.4.0
         version: 5.4.0
       '@salesforce/plugin-command-reference':
-        specifier: ^3.1.99
-        version: 3.1.132(@types/node@26.4.1)(supports-color@8.1.1)
+        specifier: ^3.1.133
+        version: 3.1.133(@types/node@26.4.1)(supports-color@8.1.1)
       '@vitest/coverage-v8':
         specifier: ^4.1.10
         version: 4.1.11(vitest@4.1.11)
@@ -413,8 +413,8 @@ importers:
         specifier: ^5.4.0
         version: 5.4.0
       '@salesforce/plugin-command-reference':
-        specifier: ^3.1.99
-        version: 3.1.132(@types/node@26.4.1)(supports-color@8.1.1)
+        specifier: ^3.1.133
+        version: 3.1.133(@types/node@26.4.1)(supports-color@8.1.1)
       '@vitest/coverage-v8':
         specifier: ^4.1.10
         version: 4.1.11(vitest@4.1.11)
@@ -459,8 +459,8 @@ importers:
         specifier: ^5.4.0
         version: 5.4.0
       '@salesforce/plugin-command-reference':
-        specifier: ^3.1.99
-        version: 3.1.132(@types/node@26.4.1)(supports-color@8.1.1)
+        specifier: ^3.1.133
+        version: 3.1.133(@types/node@26.4.1)(supports-color@8.1.1)
       '@vitest/coverage-v8':
         specifier: ^4.1.10
         version: 4.1.11(vitest@4.1.11)
@@ -502,8 +502,8 @@ importers:
         specifier: ^5.4.0
         version: 5.4.0
       '@salesforce/plugin-command-reference':
-        specifier: ^3.1.99
-        version: 3.1.132(@types/node@26.4.1)(supports-color@8.1.1)
+        specifier: ^3.1.133
+        version: 3.1.133(@types/node@26.4.1)(supports-color@8.1.1)
       '@vitest/coverage-v8':
         specifier: ^4.1.10
         version: 4.1.11(vitest@4.1.11)
@@ -552,8 +552,8 @@ importers:
         specifier: ^5.4.0
         version: 5.4.0
       '@salesforce/plugin-command-reference':
-        specifier: ^3.1.99
-        version: 3.1.132(@types/node@26.4.1)(supports-color@8.1.1)
+        specifier: ^3.1.133
+        version: 3.1.133(@types/node@26.4.1)(supports-color@8.1.1)
       '@vitest/coverage-v8':
         specifier: ^4.1.10
         version: 4.1.11(vitest@4.1.11)
@@ -598,8 +598,8 @@ importers:
         specifier: ^5.4.0
         version: 5.4.0
       '@salesforce/plugin-command-reference':
-        specifier: ^3.1.99
-        version: 3.1.132(@types/node@26.4.1)(supports-color@8.1.1)
+        specifier: ^3.1.133
+        version: 3.1.133(@types/node@26.4.1)(supports-color@8.1.1)
       '@vitest/coverage-v8':
         specifier: ^4.1.10
         version: 4.1.11(vitest@4.1.11)
@@ -638,8 +638,8 @@ importers:
         specifier: ^5.4.0
         version: 5.4.0
       '@salesforce/plugin-command-reference':
-        specifier: ^3.1.99
-        version: 3.1.132(@types/node@26.4.1)(supports-color@8.1.1)
+        specifier: ^3.1.133
+        version: 3.1.133(@types/node@26.4.1)(supports-color@8.1.1)
       '@vitest/coverage-v8':
         specifier: ^4.1.10
         version: 4.1.11(vitest@4.1.11)
@@ -1487,6 +1487,10 @@ packages:
     resolution: {integrity: sha512-3eTuUO1vH2cZm2ZKHeQxnOqlTi9EfZDGgIe3BL3I4u+rJHocr9Fz86M4fjYABPvFnQG/gGK551HqDiIcETwU6Q==}
     engines: {node: '>=23.5.0 || ^22.13.0 || ^20.17.0'}
 
+  '@inquirer/ansi@2.0.8':
+    resolution: {integrity: sha512-WpQM+Ti6Z40EFwwt+uL2p4UabT+W179zHp6HhLVOzfbwnVn05IPO/eXIZXGNqcT1jbQ15SujNLzQ39k4QPPxBQ==}
+    engines: {node: '>=23.5.0 || ^22.13.0 || ^20.17.0'}
+
   '@inquirer/checkbox@4.3.2':
     resolution: {integrity: sha512-VXukHf0RR1doGe6Sm4F0Em7SWYLTHSsbGfJdS9Ja2bX5/D5uwVOEjr07cncLROdBvmnvCATYEWlHqYmXv2IlQA==}
     engines: {node: '>=18'}
@@ -1518,6 +1522,15 @@ packages:
       '@types/node':
         optional: true
 
+  '@inquirer/confirm@6.3.1':
+    resolution: {integrity: sha512-HvnOHal39DTenOVoRpIy8Z+n4YYfNa3Qhi/P8zFqn9/d1crpmQG0DPx34rwOeOFvotgKr9Vov/14OmKR/Iwfjw==}
+    engines: {node: '>=23.5.0 || ^22.13.0 || ^20.17.0'}
+    peerDependencies:
+      '@types/node': '>=18'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+
   '@inquirer/core@10.3.2':
     resolution: {integrity: sha512-43RTuEbfP8MbKzedNqBrlhhNKVwoK//vUFNW3Q3vZ88BLcrs4kYpGg+B2mm5p2K/HfygoCxuKwJJiv8PbGmE0A==}
     engines: {node: '>=18'}
@@ -1529,6 +1542,15 @@ packages:
 
   '@inquirer/core@12.0.1':
     resolution: {integrity: sha512-JMD5Jy/ScL5TZE18m83Nw25HjqGFLoWXwnEkW7IdwwAhZpB9Bus55/WU7zn3UqR1MOCjjTQOIYpiD4vjWA3LPw==}
+    engines: {node: '>=23.5.0 || ^22.13.0 || ^20.17.0'}
+    peerDependencies:
+      '@types/node': '>=18'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+
+  '@inquirer/core@12.0.2':
+    resolution: {integrity: sha512-9pBhkxE14uUlnHhs8lOt7qVPtS4caRY6CjADl8COejl9Mf7w8i6Uoe3DrljCqYtmYM3Iv2Q6EmPxx/oTYbvTAQ==}
     engines: {node: '>=23.5.0 || ^22.13.0 || ^20.17.0'}
     peerDependencies:
       '@types/node': '>=18'
@@ -1575,6 +1597,10 @@ packages:
     resolution: {integrity: sha512-tApbon79GM9ry56ja/Ud3SY2CL4TQsao9fIwDQbgTeNY55025GdMzQ2+UdegV/lx51VNGUB59M0v0nMpybYY4Q==}
     engines: {node: '>=23.5.0 || ^22.13.0 || ^20.17.0'}
 
+  '@inquirer/figures@2.0.9':
+    resolution: {integrity: sha512-EAWgUTGQ/Umgga51dE3B2PUHbufuXarDfg86uVgoSgNHNNQnyFKcOrQLWVqYMghuSyHh8+2HUH0Js9cTC1WAdg==}
+    engines: {node: '>=23.5.0 || ^22.13.0 || ^20.17.0'}
+
   '@inquirer/input@2.3.0':
     resolution: {integrity: sha512-XfnpCStx2xgh1LIRqPXrTNEEByqQWoxsWYzNRSEUxJ5c6EQlhMogJ3vHKu8aXuTacebtaZzMAHwEL0kAflKOBw==}
     engines: {node: '>=18'}
@@ -1608,6 +1634,15 @@ packages:
 
   '@inquirer/password@5.2.0':
     resolution: {integrity: sha512-CvVcW09emkBESEOW+4R8CjLNkP3fB3XrjeL8CDvfpjgrJN+V9oerXmJAXXM3l+4xqYPD5Yaujzy/Ph0PLOdDuA==}
+    engines: {node: '>=23.5.0 || ^22.13.0 || ^20.17.0'}
+    peerDependencies:
+      '@types/node': '>=18'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+
+  '@inquirer/password@5.2.1':
+    resolution: {integrity: sha512-InA6nJxMCXPavPBiTKYHIsYiWz/mkIsk1rkI6pKp5w18gVawqrZOj7eSzSmPJa3j0pVxXm6RlrFP1BE9YeOixA==}
     engines: {node: '>=23.5.0 || ^22.13.0 || ^20.17.0'}
     peerDependencies:
       '@types/node': '>=18'
@@ -1674,6 +1709,15 @@ packages:
 
   '@inquirer/type@4.1.0':
     resolution: {integrity: sha512-FMiJpuHUG3Dk0ex+UIXkre7i+i4OcwHWk9YdcVtZHFwb/r2rnrU2ipTCNAB7A+QOP0ryzIcqOfy76fRyyvOEAw==}
+    engines: {node: '>=23.5.0 || ^22.13.0 || ^20.17.0'}
+    peerDependencies:
+      '@types/node': '>=18'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+
+  '@inquirer/type@4.1.1':
+    resolution: {integrity: sha512-yJoHYrMnxIsJZCY+0Vb66Dy3he3kL3e2wOBKhoSwWWAzZAY82emlxwgprCtp6yRixvNRNq9ztfRWQYPNr3Go7A==}
     engines: {node: '>=23.5.0 || ^22.13.0 || ^20.17.0'}
     peerDependencies:
       '@types/node': '>=18'
@@ -1928,6 +1972,10 @@ packages:
     resolution: {integrity: sha512-QCJIZoVJxV7jywgVAUlsQwl3dr3Sa21kfi5z9KrYolbexWJUtFSEtMoNiBWojD05mYycLnB50gp/VxlGdaOCRA==}
     engines: {node: '>=18.0.0'}
 
+  '@oclif/core@5.0.0':
+    resolution: {integrity: sha512-24ZsN528VButCtvqjBoHw7cEpqXZZILH7Zp0d8oFKrWbqU2BqYrxLd5aGU8LyqRev7CCjAHg+/m1Bewz4V7AmQ==}
+    engines: {node: '>=22.0.0'}
+
   '@oclif/plugin-command-snapshot@5.4.0':
     resolution: {integrity: sha512-ZU+PTQZZcHw96ntsUCPAYmbVft+raaYCVdHRTCDnCx0lzZCc3CST6vWqjKh0/hoKRS7D0x3c9F4M1ckbDKbMZw==}
     engines: {node: '>=18.0.0'}
@@ -1948,6 +1996,10 @@ packages:
   '@oclif/table@0.5.9':
     resolution: {integrity: sha512-/bvSRF38rrZ8O3hsChEKb98bEpmY7GAMeMU5hRkt73RCEoAo1UuRKX4IO0zlkD6UooSs30LfEMJeSU2NZOkndA==}
     engines: {node: '>=18.0.0'}
+
+  '@oclif/table@1.0.0':
+    resolution: {integrity: sha512-+Mggw/KHkdH0NxLFS4y0E5gZyy6CmDlOHh/wkwkF+RYnOEvneZ6E5BAJ+VqXXDZmRHNw6Mei7L19VHEQYgKooQ==}
+    engines: {node: '>=22.0.0'}
 
   '@octokit/auth-token@4.0.0':
     resolution: {integrity: sha512-tY/msAuJo6ARbK6SPIxZrPBms3xPbfwBrulZe0Wtr/DIY9lje2HeV1uoebShn6mx7SjCHif6EjMvoREj+gZ+SA==}
@@ -2199,16 +2251,24 @@ packages:
     resolution: {integrity: sha512-ZR973WoqCgi6cR58WhgokbHVZOaADNKHiuM1FAwS5pTLQnC91xYi04i2e/gpAX2AUf7Ya6zjbusYtZNpSyKKAQ==}
     engines: {node: '>=18.0.0'}
 
+  '@salesforce/core@9.1.9':
+    resolution: {integrity: sha512-miwUrBMzoNSquTXUsNKoAMnENj6XjSXSUJJgB2NsMf9g/jOeremiDRiSNTtTmo6E7oX3CU1wTq2lsO7r5RP09Q==}
+    engines: {node: '>=22.0.0'}
+
   '@salesforce/kit@3.2.6':
     resolution: {integrity: sha512-O8S4LWerHa9Zosqh+IoQjgLtpxMOfObRxaRnUdRV4MLtFUi+bQxQiyFvve6eEaBaMP1b1xVDQpvSvQ+PXEDGFQ==}
+
+  '@salesforce/kit@4.0.0':
+    resolution: {integrity: sha512-VwxhSH/8PQ5YmPAdhmLaJGCgR0n/pOm8T2y+/odMFthd5SA0xsO/kTdaRLFnFQAxxNj1nYtNHRb+BoMuAatzew==}
+    engines: {node: '>=22.0.0'}
 
   '@salesforce/packaging@4.27.8':
     resolution: {integrity: sha512-D6a1B4A/OGGpsNgn0IMWYXuDng3mQqXDxr6+sbnuQZWYd1Llp3mnsWffJ21qU+JcyHoshVDubvyMXKM5pQR3eQ==}
     engines: {node: '>=18.0.0'}
 
-  '@salesforce/plugin-command-reference@3.1.132':
-    resolution: {integrity: sha512-khxcwV+djsdN7pa2gRQjy3Xvn5RJ4/AqCdvsIfU70bZKo2LqjHK9O+Pkz0F7ci2ao4nyamRlyL9C6rpKPg+N+g==}
-    engines: {node: '>=18.0.0'}
+  '@salesforce/plugin-command-reference@3.1.133':
+    resolution: {integrity: sha512-OYsQNTKKD/+IAWmYcglskYWbRNtbd5B/GyhiQjEeox/XV307wXdeNwbS9sLouRZwSqszpJyN+VhsDEHGDfXyZQ==}
+    engines: {node: '>=22.0.0'}
 
   '@salesforce/schemas@1.10.3':
     resolution: {integrity: sha512-FKfvtrYTcvTXE9advzS25/DEY9yJhEyLvStm++eQFtnAaX1pe4G3oGHgiQ0q55BM5+0AlCh0+0CVtQv1t4oJRA==}
@@ -2218,6 +2278,10 @@ packages:
     resolution: {integrity: sha512-amfPBfdlgYoM9LCQewtoLWOe29kY7urLnYH1a5G7QLWN74tJeXEkvc1OyM18n+f2MHmpK0/ICAg5Wq276HwxHQ==}
     engines: {node: '>=18.0.0'}
 
+  '@salesforce/sf-plugins-core@13.0.4':
+    resolution: {integrity: sha512-AChjRg6dx2/njPjvGTa+leY4i1oBfQb6pIgLaP0EXVNKA1aByAzLZIhcnMS0Z2mr38vFzD4IySBMcYg3fupunA==}
+    engines: {node: '>=22.0.0'}
+
   '@salesforce/source-deploy-retrieve@12.37.2':
     resolution: {integrity: sha512-wgG0RccjQ8CaBEO8woSvvTyxc6V7KIw1GbZlME0bU+Ly+2G8pdPHAm43hrBTBml5MdYVh3J3yZwMyIeRaQxeBA==}
     engines: {node: '>=18.0.0'}
@@ -2225,6 +2289,10 @@ packages:
   '@salesforce/ts-types@2.0.12':
     resolution: {integrity: sha512-BIJyduJC18Kc8z+arUm5AZ9VkPRyw1KKAm+Tk+9LT99eOzhNilyfKzhZ4t+tG2lIGgnJpmytZfVDZ0e2kFul8g==}
     engines: {node: '>=18.0.0'}
+
+  '@salesforce/ts-types@3.2.0':
+    resolution: {integrity: sha512-3xdKt4nlthDC8nCHVWpVDwM5mmPlk8kDyJ1E3dWMk7FLRdQqhLgaHZgS+AMqcowWiKUC1l1d5YIhGhQM7dw3Bw==}
+    engines: {node: '>=22.0.0'}
 
   '@salesforce/types@1.8.0':
     resolution: {integrity: sha512-sliQcoI0XeR3YYUElIV3z93l7ZL9lDtnegVGbknBFbQKjN/oxH/PQSiM4imnXnModhFQSoe/V3mGXniASoLNvA==}
@@ -7860,6 +7928,8 @@ snapshots:
 
   '@inquirer/ansi@2.0.7': {}
 
+  '@inquirer/ansi@2.0.8': {}
+
   '@inquirer/checkbox@4.3.2(@types/node@26.4.0)':
     dependencies:
       '@inquirer/ansi': 1.0.2
@@ -7906,6 +7976,13 @@ snapshots:
     optionalDependencies:
       '@types/node': 26.4.1
 
+  '@inquirer/confirm@6.3.1(@types/node@26.4.1)':
+    dependencies:
+      '@inquirer/core': 12.0.2(@types/node@26.4.1)
+      '@inquirer/type': 4.1.1(@types/node@26.4.1)
+    optionalDependencies:
+      '@types/node': 26.4.1
+
   '@inquirer/core@10.3.2(@types/node@26.4.0)':
     dependencies:
       '@inquirer/ansi': 1.0.2
@@ -7937,6 +8014,18 @@ snapshots:
       '@inquirer/ansi': 2.0.7
       '@inquirer/figures': 2.0.8
       '@inquirer/type': 4.1.0(@types/node@26.4.1)
+      cli-width: 4.1.0
+      fast-wrap-ansi: 0.2.2
+      mute-stream: 3.0.0
+      signal-exit: 4.1.0
+    optionalDependencies:
+      '@types/node': 26.4.1
+
+  '@inquirer/core@12.0.2(@types/node@26.4.1)':
+    dependencies:
+      '@inquirer/ansi': 2.0.8
+      '@inquirer/figures': 2.0.9
+      '@inquirer/type': 4.1.1(@types/node@26.4.1)
       cli-width: 4.1.0
       fast-wrap-ansi: 0.2.2
       mute-stream: 3.0.0
@@ -8009,6 +8098,8 @@ snapshots:
 
   '@inquirer/figures@2.0.8': {}
 
+  '@inquirer/figures@2.0.9': {}
+
   '@inquirer/input@2.3.0':
     dependencies:
       '@inquirer/core': 9.2.1
@@ -8063,6 +8154,14 @@ snapshots:
       '@inquirer/ansi': 2.0.7
       '@inquirer/core': 12.0.1(@types/node@26.4.1)
       '@inquirer/type': 4.1.0(@types/node@26.4.1)
+    optionalDependencies:
+      '@types/node': 26.4.1
+
+  '@inquirer/password@5.2.1(@types/node@26.4.1)':
+    dependencies:
+      '@inquirer/ansi': 2.0.8
+      '@inquirer/core': 12.0.2(@types/node@26.4.1)
+      '@inquirer/type': 4.1.1(@types/node@26.4.1)
     optionalDependencies:
       '@types/node': 26.4.1
 
@@ -8175,6 +8274,10 @@ snapshots:
       '@types/node': 26.4.1
 
   '@inquirer/type@4.1.0(@types/node@26.4.1)':
+    optionalDependencies:
+      '@types/node': 26.4.1
+
+  '@inquirer/type@4.1.1(@types/node@26.4.1)':
     optionalDependencies:
       '@types/node': 26.4.1
 
@@ -8509,6 +8612,27 @@ snapshots:
       wrap-ansi: 7.0.0
       wsl-utils: 0.4.0
 
+  '@oclif/core@5.0.0':
+    dependencies:
+      ansi-escapes: 4.3.2
+      ansis: 3.17.0
+      clean-stack: 3.0.1
+      cli-spinners: 2.9.2
+      debug: 4.4.3(supports-color@8.1.1)
+      ejs: 6.0.1
+      get-package-type: 0.1.0
+      indent-string: 4.0.0
+      lilconfig: 3.1.3
+      minimatch: 10.2.6
+      semver: 7.8.5
+      string-width: 4.2.3
+      supports-color: 8.1.1
+      tinyglobby: 0.2.17
+      widest-line: 3.1.0
+      wordwrap: 1.0.0
+      wrap-ansi: 7.0.0
+      wsl-utils: 0.4.0
+
   '@oclif/plugin-command-snapshot@5.4.0':
     dependencies:
       '@oclif/core': 4.14.0
@@ -8546,6 +8670,23 @@ snapshots:
       - supports-color
 
   '@oclif/table@0.5.9':
+    dependencies:
+      '@types/react': 18.3.31
+      change-case: 5.4.4
+      cli-truncate: 4.0.0
+      ink: 5.0.1(@types/react@18.3.31)(react@18.3.1)
+      natural-orderby: 3.0.2
+      object-hash: 3.0.0
+      react: 18.3.1
+      string-width: 8.2.2
+      strip-ansi: 7.2.0
+      wrap-ansi: 9.0.2
+    transitivePeerDependencies:
+      - bufferutil
+      - react-devtools-core
+      - utf-8-validate
+
+  '@oclif/table@1.0.0':
     dependencies:
       '@types/react': 18.3.31
       change-case: 5.4.4
@@ -8790,9 +8931,35 @@ snapshots:
       ts-retry-promise: 0.8.1
       zod: 4.5.4
 
+  '@salesforce/core@9.1.9':
+    dependencies:
+      '@jsforce/jsforce-node': 3.10.24
+      '@salesforce/kit': 4.0.0
+      '@salesforce/ts-types': 3.2.0
+      ajv: 8.20.0
+      change-case: 4.1.2
+      fast-levenshtein: 3.0.0
+      faye: 1.4.1
+      form-data: 4.0.6
+      js2xmlparser: 4.0.2
+      jsonwebtoken: 9.0.3
+      jszip: 3.10.1
+      memfs: 4.38.1
+      pino: 9.14.0
+      pino-abstract-transport: 1.2.0
+      pino-pretty: 11.3.0
+      proper-lockfile: 4.1.2
+      semver: 7.8.5
+      ts-retry-promise: 0.8.1
+      zod: 4.5.4
+
   '@salesforce/kit@3.2.6':
     dependencies:
       '@salesforce/ts-types': 2.0.12
+
+  '@salesforce/kit@4.0.0':
+    dependencies:
+      '@salesforce/ts-types': 3.2.0
 
   '@salesforce/packaging@4.27.8(supports-color@8.1.1)':
     dependencies:
@@ -8813,13 +8980,13 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@salesforce/plugin-command-reference@3.1.132(@types/node@26.4.1)(supports-color@7.2.0)':
+  '@salesforce/plugin-command-reference@3.1.133(@types/node@26.4.1)(supports-color@7.2.0)':
     dependencies:
-      '@oclif/core': 4.14.0
-      '@salesforce/core': 8.32.6
-      '@salesforce/kit': 3.2.6
-      '@salesforce/sf-plugins-core': 12.2.28(@types/node@26.4.1)
-      '@salesforce/ts-types': 2.0.12
+      '@oclif/core': 5.0.0
+      '@salesforce/core': 9.1.9
+      '@salesforce/kit': 4.0.0
+      '@salesforce/sf-plugins-core': 13.0.4(@types/node@26.4.1)
+      '@salesforce/ts-types': 3.2.0
       chalk: 5.6.2
       debug: 4.4.3(supports-color@7.2.0)
       handlebars: 4.7.9
@@ -8830,13 +8997,13 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@salesforce/plugin-command-reference@3.1.132(@types/node@26.4.1)(supports-color@8.1.1)':
+  '@salesforce/plugin-command-reference@3.1.133(@types/node@26.4.1)(supports-color@8.1.1)':
     dependencies:
-      '@oclif/core': 4.14.0
-      '@salesforce/core': 8.32.6
-      '@salesforce/kit': 3.2.6
-      '@salesforce/sf-plugins-core': 12.2.28(@types/node@26.4.1)
-      '@salesforce/ts-types': 2.0.12
+      '@oclif/core': 5.0.0
+      '@salesforce/core': 9.1.9
+      '@salesforce/kit': 4.0.0
+      '@salesforce/sf-plugins-core': 13.0.4(@types/node@26.4.1)
+      '@salesforce/ts-types': 3.2.0
       chalk: 5.6.2
       debug: 4.4.3(supports-color@8.1.1)
       handlebars: 4.7.9
@@ -8867,6 +9034,24 @@ snapshots:
       - react-devtools-core
       - utf-8-validate
 
+  '@salesforce/sf-plugins-core@13.0.4(@types/node@26.4.1)':
+    dependencies:
+      '@inquirer/confirm': 6.3.1(@types/node@26.4.1)
+      '@inquirer/password': 5.2.1(@types/node@26.4.1)
+      '@oclif/core': 5.0.0
+      '@oclif/table': 1.0.0
+      '@salesforce/core': 9.1.9
+      '@salesforce/kit': 4.0.0
+      '@salesforce/ts-types': 3.2.0
+      ansis: 3.17.0
+      cli-progress: 3.12.0
+      terminal-link: 3.0.0
+    transitivePeerDependencies:
+      - '@types/node'
+      - bufferutil
+      - react-devtools-core
+      - utf-8-validate
+
   '@salesforce/source-deploy-retrieve@12.37.2(supports-color@8.1.1)':
     dependencies:
       '@salesforce/core': 8.32.6
@@ -8887,6 +9072,8 @@ snapshots:
       - supports-color
 
   '@salesforce/ts-types@2.0.12': {}
+
+  '@salesforce/ts-types@3.2.0': {}
 
   '@salesforce/types@1.8.0': {}
 
