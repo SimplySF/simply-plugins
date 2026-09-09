@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-package%403.0.5...%40simplysf%2Fsimply-package%403.1.0) (2026-09-09)
+
+### Features
+
+- **simply-cicd:** install package dependencies in-process via simply-package-core ([#28](https://github.com/SimplySF/simply-plugins/issues/28)) ([0e47e83](https://github.com/SimplySF/simply-plugins/commit/0e47e8339b7e570e0079ed78e479767feac97810)), closes [SimplySF/simply-node#190](https://github.com/SimplySF/simply-node/issues/190)
+
 ## [3.0.5](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-package%403.0.4...%40simplysf%2Fsimply-package%403.0.5) (2026-09-06)
 
 **Note:** Version bump only for package @simplysf/simply-package
