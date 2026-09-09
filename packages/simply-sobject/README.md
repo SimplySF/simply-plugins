@@ -85,7 +85,7 @@ FLAG DESCRIPTIONS
     OwnerId, are skipped.
 ```
 
-_See code: [lib/commands/simply/sobject/backup.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@1.6.12/packages/simply-sobject/lib/commands/simply/sobject/backup.js)_
+_See code: [lib/commands/simply/sobject/backup.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@1.6.14/packages/simply-sobject/lib/commands/simply/sobject/backup.js)_
 
 ## `sf simply sobject deduplicate`
 
@@ -138,7 +138,7 @@ FLAG DESCRIPTIONS
     The directory to write the generated CSV files to. Defaults to ./temp/<primaryObjectApiName>.
 ```
 
-_See code: [lib/commands/simply/sobject/deduplicate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@1.6.12/packages/simply-sobject/lib/commands/simply/sobject/deduplicate.js)_
+_See code: [lib/commands/simply/sobject/deduplicate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@1.6.14/packages/simply-sobject/lib/commands/simply/sobject/deduplicate.js)_
 
 ## `sf simply sobject history export`
 
@@ -192,7 +192,7 @@ FLAG DESCRIPTIONS
     The start of the date range to export history for, inclusive.
 ```
 
-_See code: [lib/commands/simply/sobject/history/export.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@1.6.12/packages/simply-sobject/lib/commands/simply/sobject/history/export.js)_
+_See code: [lib/commands/simply/sobject/history/export.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@1.6.14/packages/simply-sobject/lib/commands/simply/sobject/history/export.js)_
 
 ## `sf simply sobject history query`
 
@@ -248,7 +248,7 @@ FLAG DESCRIPTIONS
     The API name of the SObject to query field history for (e.g. Account or Custom_Object__c).
 ```
 
-_See code: [lib/commands/simply/sobject/history/query.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@1.6.12/packages/simply-sobject/lib/commands/simply/sobject/history/query.js)_
+_See code: [lib/commands/simply/sobject/history/query.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@1.6.14/packages/simply-sobject/lib/commands/simply/sobject/history/query.js)_
 
 ## `sf simply sobject history schema`
 
@@ -286,7 +286,7 @@ FLAG DESCRIPTIONS
     The directory to save the generated CSV and HTML report files to. Defaults to the current directory.
 ```
 
-_See code: [lib/commands/simply/sobject/history/schema.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@1.6.12/packages/simply-sobject/lib/commands/simply/sobject/history/schema.js)_
+_See code: [lib/commands/simply/sobject/history/schema.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@1.6.14/packages/simply-sobject/lib/commands/simply/sobject/history/schema.js)_
 <!-- commandsstop -->
 
 ## Configuration Files

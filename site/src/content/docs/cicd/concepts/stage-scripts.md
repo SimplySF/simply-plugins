@@ -20,10 +20,14 @@ Each is optional — a stage with no matching script for a given repo is a no-op
 
 ## Before the script runs
 
-For every deployment that has a matching script, `simply-cicd`:
+For every deployment, `simply-cicd`:
 
-1. **Installs dependencies.** If `package.json` exists at the repo root, it runs `npm install --omit=dev` (with `HUSKY_SKIP_INSTALL=1` set) so the script can rely on local `node_modules`. A missing `package.json`, or a failed install, is silently skipped either way — the script still runs.
-2. **Fixes permissions.** It best-effort `chmod`s whichever of `logs/`, `data/`, `bin/`, and `scripts/` exist in the repo (`bin/` gets `+rx`, the other three `+rw`), so a repo doesn't need to pre-set permissions in git. A failed `chmod` only logs a warning — on a Linux/macOS runner this can leave a script non-executable, so commit `bin/*.sh` with the executable bit set as a safety net rather than relying on this step alone.
+1. **Installs Salesforce CLI plugins.** Before the stage starts, and again for each cloned repo, it makes sure `@simplysf/simply` plus every plugin listed in the repo's `.sfdevrc` file's `deploymentPlugins` array is installed (`sf plugins install`), skipping any that already are. `sfdmu` and `@simplysf/simply` are pre-approved as unsigned publishers so the install never prompts. A failed plugin install fails the stage.
+
+Then, for every deployment that has a matching script:
+
+2. **Installs npm dependencies.** If `package.json` exists at the repo root, it runs `npm install --omit=dev` (with `HUSKY_SKIP_INSTALL=1` set) so the script can rely on local `node_modules`. A missing `package.json`, or a failed install, is silently skipped either way — the script still runs.
+3. **Fixes permissions.** It best-effort `chmod`s whichever of `logs/`, `data/`, `bin/`, and `scripts/` exist in the repo (`bin/` gets `+rx`, the other three `+rw`), so a repo doesn't need to pre-set permissions in git. A failed `chmod` only logs a warning — on a Linux/macOS runner this can leave a script non-executable, so commit `bin/*.sh` with the executable bit set as a safety net rather than relying on this step alone.
 
 ## Invocation
 

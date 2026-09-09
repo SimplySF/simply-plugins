@@ -82,21 +82,9 @@ Fetching object list...
 
 Searching for reverse lookups...
 
-# info.resolvingPackageNames
-
-Resolving package names...
-
-# info.retrievingRelationships
-
-Retrieving relationships...
-
 # info.discoveringObjects
 
 Discovering Salesforce object definitions...
-
-# info.parsingMetadata
-
-Parsing object and field metadata...
 
 # info.generatingOutputs
 

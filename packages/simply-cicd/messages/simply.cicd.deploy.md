@@ -2,25 +2,9 @@
 
 Salesforce org alias.
 
-# flags.auth-url.summary
-
-Salesforce authorization (SFDX auth) URL, used as an alternative to JWT authentication.
-
-# flags.client-id.summary
-
-Connected app client ID, used for JWT authentication.
-
-# flags.instance-url.summary
-
-Salesforce login/instance URL, used for JWT authentication.
-
 # flags.jwt-key-file.summary
 
 Path to the JWT private key file.
-
-# flags.username.summary
-
-Salesforce username, used for JWT authentication.
 
 # flags.debug.summary
 

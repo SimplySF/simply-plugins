@@ -51,7 +51,3 @@ You must specify either --selector or --selector-exclude.
 # errors.selectorFormatMismatch
 
 The selector "%s" must be in the format of MAJOR.MINOR.PATCH.
-
-# errors.deletionJob
-
-There was an unexpected error performing the deletion job.

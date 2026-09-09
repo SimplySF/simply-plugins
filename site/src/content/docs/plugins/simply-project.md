@@ -48,4 +48,4 @@ FLAG DESCRIPTIONS
     The path to the Salesforce project directory to scan for metadata files.
 ```
 
-_See code: [lib/commands/simply/project/update/api-version.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-project@1.2.21/packages/simply-project/lib/commands/simply/project/update/api-version.js)_
+_See code: [lib/commands/simply/project/update/api-version.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-project@1.2.23/packages/simply-project/lib/commands/simply/project/update/api-version.js)_
