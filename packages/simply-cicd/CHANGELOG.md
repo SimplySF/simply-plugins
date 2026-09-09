@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.10.1](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.10.0...%40simplysf%2Fsimply-cicd%400.10.1) (2026-09-09)
+
+### Bug Fixes
+
+- **simply-cicd:** target the scratch org explicitly in build install-dependencies ([#29](https://github.com/SimplySF/simply-plugins/issues/29)) ([3f1f5ff](https://github.com/SimplySF/simply-plugins/commit/3f1f5ff673159a9f6af48bbf2e7e3fb74e4073cc)), closes [#28](https://github.com/SimplySF/simply-plugins/issues/28)
+
 # [0.10.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.9.1...%40simplysf%2Fsimply-cicd%400.10.0) (2026-09-09)
 
 ### Features
