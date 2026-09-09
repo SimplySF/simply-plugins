@@ -66,7 +66,7 @@ FLAG DESCRIPTIONS
     The path to write the generated HTML report to.
 ```
 
-_See code: [lib/commands/simply/permissions/analyze.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@1.3.6/packages/simply-permissions/lib/commands/simply/permissions/analyze.js)_
+_See code: [lib/commands/simply/permissions/analyze.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@1.3.8/packages/simply-permissions/lib/commands/simply/permissions/analyze.js)_
 
 ## `sf simply permissions assignment delete`
 
@@ -109,7 +109,7 @@ EXAMPLES
   $ sf simply permissions assignment delete --permission-set-group-name My_Permission_Set_Group --target-org myOrg
 ```
 
-_See code: [lib/commands/simply/permissions/assignment/delete.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@1.3.6/packages/simply-permissions/lib/commands/simply/permissions/assignment/delete.js)_
+_See code: [lib/commands/simply/permissions/assignment/delete.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@1.3.8/packages/simply-permissions/lib/commands/simply/permissions/assignment/delete.js)_
 
 ## `sf simply permissions build`
 
@@ -176,7 +176,7 @@ FLAG DESCRIPTIONS
     'view-all' additionally grants view-all-records, and 'modify-all' grants full CRUD and modify-all-records access.
 ```
 
-_See code: [lib/commands/simply/permissions/build.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@1.3.6/packages/simply-permissions/lib/commands/simply/permissions/build.js)_
+_See code: [lib/commands/simply/permissions/build.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@1.3.8/packages/simply-permissions/lib/commands/simply/permissions/build.js)_
 <!-- commandsstop -->
 
 ## Configuration Files

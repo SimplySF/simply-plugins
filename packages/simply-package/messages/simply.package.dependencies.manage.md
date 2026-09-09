@@ -80,7 +80,3 @@ Which version of package '%s' should be used?
 # errors.connectionFailed
 
 Unable to establish connection to the Dev Hub org.
-
-# errors.noProjectDependencies
-
-No package dependencies with dev hub-managed packages were found in sfdx-project.json.

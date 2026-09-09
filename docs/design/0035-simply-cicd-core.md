@@ -1,6 +1,6 @@
 # 0037 — Splitting `simply-cicd-core` out of `simply-cicd`
 
-**Status:** Draft
+**Status:** Implemented (`simply-node` PR #186, published as `@simplysf/simply-cicd-core@0.2.0`; `simply-plugins` companion PR #21).
 **Package:** new `packages/simply-cicd-core` (in `simply-node`); `packages/simply-cicd` (CLI, slimmed,
 in `simply-plugins`)
 **Date:** 2026-09-03
