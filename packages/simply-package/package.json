@@ -1,7 +1,7 @@
 {
   "name": "@simplysf/simply-package",
   "description": "Utilities for working with packages",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "author": "@ClayChipps",
   "homepage": "https://github.com/SimplySF/simply-plugins",
   "bugs": "https://github.com/SimplySF/simply-plugins/issues",
