@@ -35,7 +35,12 @@ export async function installDependencies(options: InstallDependenciesOptions): 
     setDefault: true,
     debug: options.debug,
   });
-  // A default org is now set, so no alias is needed.
-  await installPackageDependenciesCommon({ wait: '240', installType: options.installType });
+  // The install runs in-process (not via a child `sf` invocation that would read the default org
+  // just written to config), so target the scratch org explicitly by its username.
+  await installPackageDependenciesCommon({
+    alias: scratchOrgInfo.authFields.username,
+    wait: '240',
+    installType: options.installType,
+  });
   logger.success('Package dependencies installed.');
 }

@@ -55,7 +55,11 @@ describe('installDependencies', () => {
       setDefault: true,
       debug: undefined,
     });
-    expect(installPackageDependenciesCommon).toHaveBeenCalledWith({ wait: '240', installType: 'Delta' });
+    expect(installPackageDependenciesCommon).toHaveBeenCalledWith({
+      alias: mockScratchOrgInfo.authFields.username,
+      wait: '240',
+      installType: 'Delta',
+    });
     expect(logger.success).toHaveBeenCalledWith('Package dependencies installed.');
   });
 });
