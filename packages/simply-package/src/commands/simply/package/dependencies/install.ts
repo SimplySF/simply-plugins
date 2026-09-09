@@ -14,57 +14,25 @@
  * limitations under the License.
  */
 
-/* eslint-disable complexity */
-/* eslint-disable no-await-in-loop */
-/* eslint-disable no-unsafe-finally */
 import fs from 'node:fs/promises';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import { requireConnection, targetOrgFlags } from '@simplysf/simply-plugin-kit';
-import { AuthInfo, Connection, Lifecycle, Messages, SfError } from '@salesforce/core';
+import { AuthInfo, Connection, Messages } from '@salesforce/core';
 import { Duration } from '@salesforce/kit';
 import {
-  PackageEvents,
-  PackageInstallCreateRequest,
-  PackageInstallOptions,
-  SubscriberPackageVersion,
-  PackagingSObjects,
-  VersionNumber,
-} from '@salesforce/packaging';
-import { Optional } from '@salesforce/ts-types';
-import { retryWithBackoff } from '@simplysf/simply-core';
-import {
-  isDependenciesPackagingDirectory,
-  isPackage2Id,
-  isSubscriberPackageVersionId,
-  reducePackageInstallRequestErrors,
-  type PackageDirDependency,
+  installPackageDependencies,
+  type InstallPackageDependenciesOptions,
+  type PackageInstallApexCompileType,
+  type PackageInstallSecurityType,
+  type PackageInstallType,
+  type PackageInstallUpgradeType,
+  type PackageToInstall,
 } from '@simplysf/simply-package-core';
-
-type PackageInstallRequest = PackagingSObjects.PackageInstallRequest;
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-package', 'simply.package.dependencies.install');
 
-/**
- * A single dependency's install outcome: the package attempted, whatever version (if any) was
- * already installed in the org for that package, and the decision made.
- */
-export type PackageToInstall = {
-  PackageName: string;
-  /** The `SubscriberPackageVersionId` already installed in the org for this package, or `''` if none was. */
-  ExistingSubscriberPackageVersionId: string;
-  /** The `SubscriberPackageVersionId` this command attempted to install. */
-  SubscriberPackageVersionId: string;
-  /** `''`, `'Skipped'`, `'Installing'`, `'Installed'`, or `'Failed'`. */
-  Status: string;
-};
-
-/** Maps the `--install-type` flag's display values to the internal values used for comparisons. */
-const installType = { All: 'all', Delta: 'delta', Upgrade: 'upgrade' };
-/** Maps the `--security-type` flag's display values to the `PackageInstallCreateRequest` API values. */
-const securityType = { AllUsers: 'full', AdminsOnly: 'none' };
-/** Maps the `--upgrade-type` flag's display values to the `PackageInstallCreateRequest` API values. */
-const upgradeType = { Delete: 'delete-only', DeprecateOnly: 'deprecate-only', Mixed: 'mixed-mode' };
+export type { PackageToInstall };
 
 /** Matches one or more comma-separated `alias:key` pairs, as accepted by `--installation-key`. */
 const installationKeyRegex = new RegExp(/^(\w+:\w+)(,\s*\w+:\w+)*/);
@@ -92,7 +60,7 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
 
   public static readonly flags = {
     ...SfCommand.baseFlags,
-    'apex-compile': Flags.custom<PackageInstallCreateRequest['ApexCompileType']>({
+    'apex-compile': Flags.custom<PackageInstallApexCompileType>({
       options: ['all', 'package'],
     })({
       summary: messages.getMessage('flags.apex-compile.summary'),
@@ -106,7 +74,7 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
       char: 'z',
       default: '',
     }),
-    'install-type': Flags.custom<'All' | 'Delta' | 'Upgrade'>({
+    'install-type': Flags.custom<PackageInstallType>({
       options: ['All', 'Delta', 'Upgrade'],
     })({
       char: 'i',
@@ -152,7 +120,7 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
       default: 2,
       min: 1,
     }),
-    'security-type': Flags.custom<'AllUsers' | 'AdminsOnly'>({
+    'security-type': Flags.custom<PackageInstallSecurityType>({
       options: ['AllUsers', 'AdminsOnly'],
     })({
       char: 's',
@@ -171,7 +139,7 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
       summary: messages.getMessage('flags.target-dev-hub.summary'),
       char: 'v',
     }),
-    'upgrade-type': Flags.custom<'DeprecateOnly' | 'Mixed' | 'Delete'>({
+    'upgrade-type': Flags.custom<PackageInstallUpgradeType>({
       options: ['DeprecateOnly', 'Mixed', 'Delete'],
     })({
       char: 't',
@@ -194,408 +162,123 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
     // Authorize to the target org
     const targetOrgConnection = requireConnection(flags);
 
-    // Validate minimum api version
-    const apiVersion = parseInt(targetOrgConnection.getApiVersion(), 10);
-    if (apiVersion < 36) {
-      throw messages.createError('error.apiVersionTooLow');
-    }
+    // The Dev Hub is only needed for dependencies given as Package/VersionNumber, so it's resolved
+    // lazily — the library invokes this only if such a dependency exists.
+    const targetDevHub = flags['target-dev-hub'];
+    const targetDevHubConnection = targetDevHub
+      ? async (): Promise<Connection> => {
+          const targetDevHubAuthInfo = await AuthInfo.create({ username: targetDevHub });
+          const connection = await Connection.create({ authInfo: targetDevHubAuthInfo });
 
-    let packagesToInstall: PackageToInstall[] = [];
-    const packageInstallRequests: PackageInstallRequest[] = [];
-    const devHubDependencies: PackageDirDependency[] = [];
+          if (!connection) {
+            throw messages.createError('error.targetDevHubConnectionFailed');
+          }
+
+          return connection;
+        }
+      : undefined;
+
+    const installationKeys = this.parseInstallationKeys(flags['installation-key']);
+    const packageRetryAttempts = this.parsePackageRetryAttempts(flags['package-retry-attempts']);
+
+    const prompts: InstallPackageDependenciesOptions['prompts'] = flags['no-prompt']
+      ? undefined
+      : {
+          confirmUpgradeTypeDelete: () => this.confirm({ message: messages.getMessage('prompt.upgradeType') }),
+          confirmEnableRss: (_packageName, externalSites) =>
+            this.confirm({ message: messages.getMessage('prompt.enableRss', [externalSites.join('\n')]) }),
+        };
+
+    const packagesToInstall = await installPackageDependencies({
+      project: this.project!,
+      targetOrgConnection,
+      targetDevHubConnection,
+      branch: flags.branch,
+      installType: flags['install-type'],
+      installationKeys,
+      apexCompile: flags['apex-compile'],
+      securityType: flags['security-type'],
+      upgradeType: flags['upgrade-type'],
+      skipHandlers: flags['skip-handlers'],
+      publishWait: flags['publish-wait'],
+      wait: flags.wait,
+      retryAttempts: flags['retry-attempts'],
+      retryBackoff: flags['retry-backoff'],
+      packageRetryAttempts,
+      progress: {
+        info: (message) => this.info(message),
+        warn: (message) => this.warn(message),
+        stepStart: (message) => this.spinner.start(message, '', { stdout: true }),
+        stepStatus: (message) => {
+          this.spinner.status = message;
+        },
+        stepStop: (message) => this.spinner.stop(message),
+      },
+      prompts,
+    });
 
     // If requested, write a JSON report of the install outcome to a file alongside the normal
-    // terminal output. Declared up front so both the "nothing to install" early return and the
-    // normal completion path can reuse it.
+    // terminal output — including when there was nothing to install.
     const outputPath = flags['output-file'];
-    const writeReport = async (): Promise<void> => {
-      if (!outputPath) {
-        return;
-      }
-
+    if (outputPath) {
       await fs.writeFile(outputPath, buildInstallReport(packagesToInstall), 'utf-8');
-
       this.info(messages.getMessage('info.reportWritten', [outputPath]));
-    };
-
-    this.spinner.start('Analyzing project to determine packages to install', '', { stdout: true });
-
-    const packageDirectories = this.project?.getPackageDirectories().filter(isDependenciesPackagingDirectory);
-
-    for (const packageDirectory of packageDirectories ?? []) {
-      for (const dependency of packageDirectory?.dependencies ?? []) {
-        if (dependency.package && dependency.versionNumber) {
-          // This must be resolved by a dev hub
-          devHubDependencies.push(dependency);
-          continue;
-        }
-
-        const subscriberPackageVersionId =
-          this.project!.getPackageIdFromAlias(dependency.package) ?? dependency.package;
-
-        if (!isSubscriberPackageVersionId(subscriberPackageVersionId)) {
-          throw messages.createError('error.invalidSubscriberPackageVersionId', [dependency.package]);
-        }
-
-        packagesToInstall.push({
-          PackageName: dependency.package,
-          ExistingSubscriberPackageVersionId: '',
-          SubscriberPackageVersionId: subscriberPackageVersionId,
-          Status: '',
-        });
-      }
     }
-
-    this.spinner.stop();
-
-    if (devHubDependencies.length > 0) {
-      this.spinner.start('Resolving package versions from dev hub', '', { stdout: true });
-
-      if (!flags['target-dev-hub']) {
-        throw messages.createError('error.targetDevHubMissing');
-      }
-
-      // Initialize the authorization for the provided dev hub
-      const targetDevHubAuthInfo = await AuthInfo.create({ username: flags['target-dev-hub'] });
-
-      // Create a connection to the dev hub
-      const targetDevHubConnection = await Connection.create({ authInfo: targetDevHubAuthInfo });
-
-      if (!targetDevHubConnection) {
-        throw messages.createError('error.targetDevHubConnectionFailed');
-      }
-
-      for (const devHubDependency of devHubDependencies) {
-        if (!devHubDependency.package || !devHubDependency.versionNumber) {
-          continue;
-        }
-
-        const package2Id = this.project!.getPackageIdFromAlias(devHubDependency.package) ?? devHubDependency.package;
-
-        if (!isPackage2Id(package2Id)) {
-          throw messages.createError('error.invalidPackage2Id', [devHubDependency.package]);
-        }
-
-        const subscriberPackageVersionId = await SubscriberPackageVersion.resolveId(targetDevHubConnection, {
-          branch: flags.branch,
-          packageId: package2Id,
-          versionNumber: devHubDependency.versionNumber,
-        });
-
-        if (!isSubscriberPackageVersionId(subscriberPackageVersionId)) {
-          throw messages.createError('error.invalidSubscriberPackageVersionId', [devHubDependency.package]);
-        }
-
-        packagesToInstall.push({
-          PackageName: devHubDependency.package,
-          ExistingSubscriberPackageVersionId: '',
-          SubscriberPackageVersionId: subscriberPackageVersionId,
-          Status: '',
-        });
-      }
-
-      this.spinner.stop();
-    }
-
-    // Filter out duplicate packages before we start the install process
-    this.spinner.start('Checking for duplicate package dependencies', '', { stdout: true });
-    packagesToInstall = packagesToInstall.filter(
-      (packageToInstall, index, self) =>
-        index === self.findIndex((t) => t.SubscriberPackageVersionId === packageToInstall?.SubscriberPackageVersionId),
-    );
-    this.spinner.stop();
-
-    if (packagesToInstall?.length === 0) {
-      this.info('No packages were found to install');
-      await writeReport();
-      return packagesToInstall;
-    }
-
-    // Process any installation keys for the packages
-    const installationKeyMap = new Map<string, string>();
-
-    if (flags['installation-key']) {
-      this.spinner.start('Processing package installation keys', '', { stdout: true });
-      for (let installationKey of flags['installation-key']) {
-        installationKey = installationKey.trim();
-
-        const isKeyValid = installationKeyRegex.test(installationKey);
-
-        if (!isKeyValid) {
-          throw messages.createError('error.installationKeyFormat');
-        }
-
-        const installationKeyPair = installationKey.split(':');
-        const subscriberPackageVersionId =
-          this.project!.getPackageIdFromAlias(installationKeyPair[0]) ?? installationKeyPair[0];
-        const packageInstallationKey = installationKeyPair[1];
-
-        if (!isSubscriberPackageVersionId(subscriberPackageVersionId)) {
-          throw messages.createError('error.invalidSubscriberPackageVersionId', [subscriberPackageVersionId]);
-        }
-
-        installationKeyMap.set(subscriberPackageVersionId, packageInstallationKey);
-      }
-      this.spinner.stop();
-    }
-
-    // Process any per-package retry overrides. A package not listed here falls back to
-    // --retry-attempts.
-    const packageRetryAttemptsMap = new Map<string, number>();
-
-    if (flags['package-retry-attempts']) {
-      this.spinner.start('Processing package retry attempts', '', { stdout: true });
-      for (let packageRetryAttempts of flags['package-retry-attempts']) {
-        packageRetryAttempts = packageRetryAttempts.trim();
-
-        const isFormatValid = packageRetryAttemptsRegex.test(packageRetryAttempts);
-
-        if (!isFormatValid) {
-          throw messages.createError('error.packageRetryAttemptsFormat');
-        }
-
-        const [aliasOrId, retryAttemptsValue] = packageRetryAttempts.split(':');
-        const subscriberPackageVersionId = this.project!.getPackageIdFromAlias(aliasOrId) ?? aliasOrId;
-
-        if (!isSubscriberPackageVersionId(subscriberPackageVersionId)) {
-          throw messages.createError('error.invalidSubscriberPackageVersionId', [subscriberPackageVersionId]);
-        }
-
-        packageRetryAttemptsMap.set(subscriberPackageVersionId, parseInt(retryAttemptsValue, 10));
-      }
-      this.spinner.stop();
-    }
-
-    // Always look up what's currently installed, so the report can show the existing package
-    // alongside the install decision regardless of --install-type.
-    this.spinner.start('Analyzing which packages are installed', '', { stdout: true });
-    const installedPackages = await SubscriberPackageVersion.installedList(targetOrgConnection);
-
-    for (const packageToInstall of packagesToInstall) {
-      const subscriberPackageVersion = new SubscriberPackageVersion({
-        aliasOrId: packageToInstall.SubscriberPackageVersionId,
-        connection: targetOrgConnection,
-        password: installationKeyMap.get(packageToInstall.SubscriberPackageVersionId) ?? '',
-      });
-
-      const subscriberPackageId = await subscriberPackageVersion.getSubscriberPackageId();
-      const installedPackage = installedPackages.find((pkg) => pkg.SubscriberPackageId === subscriberPackageId);
-
-      packageToInstall.ExistingSubscriberPackageVersionId = installedPackage?.SubscriberPackageVersionId ?? '';
-
-      // 'All' always attempts the install regardless of what (if anything) is already there.
-      if (installType[flags['install-type']] === installType.All) {
-        continue;
-      }
-
-      if (installedPackage?.SubscriberPackageVersionId === packageToInstall.SubscriberPackageVersionId) {
-        packageToInstall.Status = 'Skipped';
-
-        this.info(
-          `Package ${packageToInstall.PackageName} (${packageToInstall.SubscriberPackageVersionId}) is already installed and will be skipped`,
-        );
-
-        continue;
-      }
-
-      if (installType[flags['install-type']] === installType.Upgrade) {
-        if (!installedPackage?.SubscriberPackageVersion) {
-          // Not currently installed, so there's nothing to update - proceed with install
-          continue;
-        }
-
-        const targetVersion = await subscriberPackageVersion.getVersionNumber();
-        const installedVersion = new VersionNumber(
-          installedPackage.SubscriberPackageVersion.MajorVersion,
-          installedPackage.SubscriberPackageVersion.MinorVersion,
-          installedPackage.SubscriberPackageVersion.PatchVersion,
-          installedPackage.SubscriberPackageVersion.BuildNumber,
-        );
-
-        if (targetVersion.compareTo(installedVersion) <= 0) {
-          packageToInstall.Status = 'Skipped';
-
-          this.info(
-            `Package ${packageToInstall.PackageName} (${packageToInstall.SubscriberPackageVersionId}) is not newer than the installed version (${installedVersion.toString()}) and will be skipped`,
-          );
-        }
-      }
-    }
-
-    this.spinner.stop();
-
-    for (const packageToInstall of packagesToInstall) {
-      if (packageToInstall.Status === 'Skipped') {
-        continue;
-      }
-
-      let installationKey = '';
-      // Check if we have an installation key for this package
-      if (installationKeyMap.has(packageToInstall?.SubscriberPackageVersionId)) {
-        // If we do, set the installation key value
-        installationKey = installationKeyMap.get(packageToInstall?.SubscriberPackageVersionId) ?? '';
-      }
-
-      this.spinner.start(`Preparing package ${packageToInstall.PackageName}`, '', { stdout: true });
-
-      const subscriberPackageVersion = new SubscriberPackageVersion({
-        aliasOrId: packageToInstall?.SubscriberPackageVersionId,
-        connection: targetOrgConnection,
-        password: installationKey,
-      });
-
-      const request: PackageInstallCreateRequest = {
-        ApexCompileType: flags['apex-compile'],
-        EnableRss: true,
-        Password: installationKey,
-        SecurityType: securityType[flags['security-type']] as PackageInstallCreateRequest['SecurityType'],
-        SkipHandlers: flags['skip-handlers']?.join(','),
-        SubscriberPackageVersionKey: await subscriberPackageVersion.getId(),
-        UpgradeType: upgradeType[flags['upgrade-type']] as PackageInstallCreateRequest['UpgradeType'],
-      };
-
-      // eslint-disable-next-line @typescript-eslint/require-await
-      Lifecycle.getInstance().on(PackageEvents.install.warning, async (warningMsg: string) => {
-        this.warn(warningMsg);
-      });
-
-      this.spinner.stop();
-
-      if (flags['publish-wait']?.milliseconds > 0) {
-        let timeThen = Date.now();
-        // waiting for publish to finish
-        let remainingTime = flags['publish-wait'];
-
-        Lifecycle.getInstance().on(
-          PackageEvents.install['subscriber-status'],
-          // eslint-disable-next-line @typescript-eslint/require-await
-          async (publishStatus: PackagingSObjects.InstallValidationStatus) => {
-            const elapsedTime = Duration.milliseconds(Date.now() - timeThen);
-            timeThen = Date.now();
-            remainingTime = Duration.milliseconds(remainingTime.milliseconds - elapsedTime.milliseconds);
-            const status =
-              publishStatus === 'NO_ERRORS_DETECTED' ? 'Available for installation' : 'Unavailable for installation';
-            this.spinner.status = `${remainingTime.minutes} minutes remaining until timeout. Publish status: ${status}`;
-          },
-        );
-
-        this.spinner.start(
-          `${remainingTime.minutes} minutes remaining until timeout. Publish status: 'Querying Status'`,
-          '',
-          { stdout: true },
-        );
-
-        await subscriberPackageVersion.waitForPublish({
-          publishTimeout: flags['publish-wait'],
-          publishFrequency: Duration.seconds(10),
-          installationKey,
-        });
-
-        // need to stop the spinner to avoid weird behavior with the prompts below
-        this.spinner.stop();
-      }
-
-      // If the user has not specified --no-prompt, process prompts
-      if (!flags['no-prompt']) {
-        // If the user has specified --upgradetype Delete, then prompt for confirmation for Unlocked Packages
-        if (flags['upgrade-type'] === 'Delete' && (await subscriberPackageVersion.getPackageType()) === 'Unlocked') {
-          const promptMsg = messages.getMessage('prompt.upgradeType');
-          if (!(await this.confirm({ message: promptMsg }))) {
-            throw messages.createError('info.canceledPackageInstall');
-          }
-        }
-
-        // If the package has external sites, ask the user for permission to enable them
-        const externalSites = await subscriberPackageVersion.getExternalSites();
-        if (externalSites) {
-          const promptMsg = messages.getMessage('prompt.enableRss', [externalSites.join('\n')]);
-          request.EnableRss = await this.confirm({ message: promptMsg });
-        }
-      }
-
-      let installOptions: Optional<PackageInstallOptions>;
-      if (flags.wait) {
-        installOptions = {
-          pollingTimeout: flags.wait,
-          pollingFrequency: Duration.seconds(2),
-        };
-        let remainingTime = flags.wait;
-        let timeThen = Date.now();
-
-        // waiting for package install to finish
-        Lifecycle.getInstance().on(
-          PackageEvents.install.status,
-          // eslint-disable-next-line @typescript-eslint/require-await
-          async (piRequest: PackageInstallRequest) => {
-            const elapsedTime = Duration.milliseconds(Date.now() - timeThen);
-            timeThen = Date.now();
-            remainingTime = Duration.milliseconds(remainingTime.milliseconds - elapsedTime.milliseconds);
-            this.spinner.status = `${remainingTime.minutes} minutes remaining until timeout. Install status: ${piRequest.Status}`;
-          },
-        );
-      }
-
-      const packageRetryAttempts =
-        packageRetryAttemptsMap.get(packageToInstall.SubscriberPackageVersionId) ?? flags['retry-attempts'];
-
-      let pkgInstallRequest: Optional<PackageInstallRequest>;
-
-      await retryWithBackoff(
-        async () => {
-          try {
-            this.spinner.start(`Installing package ${packageToInstall.PackageName}`, '', { stdout: true });
-            pkgInstallRequest = await subscriberPackageVersion.install(request, installOptions);
-            this.spinner.stop();
-          } catch (error: unknown) {
-            if (error instanceof SfError && error.data) {
-              pkgInstallRequest = error.data as PackageInstallRequest;
-              this.spinner.stop(messages.getMessage('error.packageInstallPollingTimeout'));
-            } else {
-              throw error;
-            }
-          } finally {
-            if (pkgInstallRequest) {
-              if (pkgInstallRequest.Status === 'SUCCESS') {
-                packageToInstall.Status = 'Installed';
-                packageInstallRequests.push(pkgInstallRequest);
-              } else if (['IN_PROGRESS', 'UNKNOWN'].includes(pkgInstallRequest.Status)) {
-                // The install may still complete server-side, so retrying here could race or
-                // duplicate it - surface it to the caller instead.
-                packageToInstall.Status = 'Installing';
-                throw messages.createError('error.packageInstallInProgress', [
-                  this.config.bin,
-                  pkgInstallRequest.Id,
-                  targetOrgConnection.getUsername(),
-                ]);
-              } else {
-                packageToInstall.Status = 'Failed';
-                throw messages.createError('error.packageInstall', [
-                  reducePackageInstallRequestErrors(pkgInstallRequest),
-                ]);
-              }
-            }
-          }
-        },
-        {
-          retryAttempts: packageRetryAttempts,
-          backoffFactor: flags['retry-backoff'],
-          shouldRetry: () => packageToInstall.Status !== 'Installing',
-          onRetry: (_error, attempt, delay) => {
-            this.warn(
-              messages.getMessage('warning.packageInstallRetrying', [
-                packageToInstall.PackageName,
-                attempt,
-                packageRetryAttempts,
-                Math.round(delay.seconds),
-              ]),
-            );
-          },
-        },
-      );
-    }
-
-    await writeReport();
 
     return packagesToInstall;
+  }
+
+  /**
+   * @param values - The raw `--installation-key` values.
+   * @returns Installation keys keyed by package alias or id, for the library to resolve.
+   */
+  private parseInstallationKeys(values: string[] | undefined): Record<string, string> {
+    const installationKeys: Record<string, string> = {};
+
+    if (!values) {
+      return installationKeys;
+    }
+
+    this.spinner.start('Processing package installation keys', '', { stdout: true });
+    for (let installationKey of values) {
+      installationKey = installationKey.trim();
+
+      if (!installationKeyRegex.test(installationKey)) {
+        throw messages.createError('error.installationKeyFormat');
+      }
+
+      const [aliasOrId, packageInstallationKey] = installationKey.split(':');
+      installationKeys[aliasOrId] = packageInstallationKey;
+    }
+    this.spinner.stop();
+
+    return installationKeys;
+  }
+
+  /**
+   * @param values - The raw `--package-retry-attempts` values.
+   * @returns Retry-attempt overrides keyed by package alias or id, for the library to resolve.
+   */
+  private parsePackageRetryAttempts(values: string[] | undefined): Record<string, number> {
+    const packageRetryAttempts: Record<string, number> = {};
+
+    if (!values) {
+      return packageRetryAttempts;
+    }
+
+    this.spinner.start('Processing package retry attempts', '', { stdout: true });
+    for (let packageRetryAttempt of values) {
+      packageRetryAttempt = packageRetryAttempt.trim();
+
+      if (!packageRetryAttemptsRegex.test(packageRetryAttempt)) {
+        throw messages.createError('error.packageRetryAttemptsFormat');
+      }
+
+      const [aliasOrId, retryAttemptsValue] = packageRetryAttempt.split(':');
+      packageRetryAttempts[aliasOrId] = parseInt(retryAttemptsValue, 10);
+    }
+    this.spinner.stop();
+
+    return packageRetryAttempts;
   }
 }

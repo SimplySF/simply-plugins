@@ -120,35 +120,11 @@ Number of minutes to wait for installation status.
 
 - <%= config.bin %> <%= command.id %> --target-org myTargetOrg --target-dev-hub myTargetDevHub --retry-attempts 1 --package-retry-attempts "MyPackage1Alias:5"
 
-# error.apiVersionTooLow
-
-This command is supported only on API versions 36.0 and higher.
-
 # error.installationKeyFormat
 
 Installation Key should have the key:value format of SubscriberPackageVersionId:Key.
 
 You can use an alias in place of the SubscriberPackageVersionId.
-
-# error.invalidPackage2Id
-
-Unable to determine a valid Package2Id for %s.
-
-# error.invalidSubscriberPackageVersionId
-
-Unable to determine a valid SubscriberPackageVersionId for %s.
-
-# error.packageInstall
-
-Encountered errors installing the package! %s
-
-# error.packageInstallInProgress
-
-The package install is still In-Progress, so subsuequent dependencies cannot be installed yet. You can query the status using %s package install report -i %s -o %s.
-
-# error.packageInstallPollingTimeout
-
-Polling timeout exceeded
 
 # error.packageRetryAttemptsFormat
 
@@ -160,21 +136,9 @@ You can use an alias in place of the SubscriberPackageVersionId.
 
 Unable to establish connection to the org.
 
-# error.targetDevHubMissing
-
-This command requires a DevHub to be specified if providing a Package2Id and VersionNumber instead of a SubscriberPackageVersionId.
-
-# info.canceledPackageInstall
-
-We canceled this package installation per your request.
-
 # info.reportWritten
 
 Install report written to %s
-
-# warning.packageInstallRetrying
-
-Package %s failed to install (retry %s of %s); retrying in %s seconds...
 
 # prompt.enableRss
 
