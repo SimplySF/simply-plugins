@@ -15,8 +15,6 @@
  */
 
 import { promises as fs } from 'node:fs';
-import os from 'node:os';
-import path from 'node:path';
 import { execa } from 'execa';
 import { createVcsProvider, type VcsProvider, type VcsProviderKind } from '@simplysf/simply-cicd-core';
 import { runSf } from '../exec/sfCli.js';
@@ -209,10 +207,9 @@ async function installPackagedAndDetectUpgrades(
 ): Promise<UpgradedPackage[]> {
   const { alias, wait, installType } = config;
 
-  const outputFile = path.join(await fs.mkdtemp(path.join(os.tmpdir(), 'happy-soup-install-')), 'report.json');
-  await installPackageDependenciesCommon({ alias, wait, installType, outputFile });
+  const installResults = await installPackageDependenciesCommon({ alias, wait, installType });
 
-  return resolveUpgradedPackages(outputFile, { packagingDevhub: config.packagingDevhub });
+  return resolveUpgradedPackages(installResults, { packagingDevhub: config.packagingDevhub });
 }
 
 async function runHappySoupStage(

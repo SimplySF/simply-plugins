@@ -14,65 +14,87 @@
  * limitations under the License.
  */
 
-import { promises as fs } from 'node:fs';
-import { runSf, runSfJson } from './exec/sfCli.js';
+import { Org, SfProject } from '@salesforce/core';
+import { Duration } from '@salesforce/kit';
+import {
+  installPackageDependencies as installPackageDependenciesCore,
+  type InstallPackageDependenciesProgress,
+  type PackageInstallType,
+  type PackageToInstall,
+} from '@simplysf/simply-package-core';
+import { runSfJson } from './exec/sfCli.js';
 import { logger } from './logger.js';
 import type { UpgradedPackage } from './schemas/deployProgress.js';
 
-export type InstallPackageDependenciesConfig = {
-  alias?: string;
-  wait?: string;
-  noPrompt?: boolean;
-  debug?: boolean;
-  installType?: 'All' | 'Delta' | 'Upgrade';
-  /** When set, passed as `sf simply package dependencies install`'s `--output-file`. */
-  outputFile?: string;
-};
+export type { PackageToInstall };
 
-/** One entry from `sf simply package dependencies install --output-file`'s JSON report. */
-type InstallReportEntry = {
-  PackageName: string;
-  ExistingSubscriberPackageVersionId: string;
-  SubscriberPackageVersionId: string;
-  Status: string;
+export type InstallPackageDependenciesConfig = {
+  /** Alias or username of the target org. Omit to use the default target org. */
+  alias?: string;
+  /** Minutes to wait for each package install to complete. */
+  wait?: string;
+  installType?: PackageInstallType;
 };
 
 /** The fields read off `sf package version report --package <id> --json`. */
 type PackageVersionReport = { Version?: string; Description?: string; Tag?: string };
 
 /**
- * Installs Salesforce package dependencies defined in `sfdx-project.json` using the
- * `@simplysf/simply` plugin's `sf simply package dependencies install` command.
+ * Adapts the library's progress callbacks onto this package's logger. Step boundaries become info
+ * lines; in-flight status (which fires on every poll) is logged only when its text changes.
  */
-export async function installPackageDependencies(config: InstallPackageDependenciesConfig = {}): Promise<void> {
-  const { alias, wait = '120', noPrompt = true, installType = 'Upgrade', outputFile } = config;
+function loggerProgress(): InstallPackageDependenciesProgress {
+  let lastStatus: string | undefined;
 
-  logger.info('Installing packaged dependencies using the @simplysf/simply plugin...');
+  return {
+    info: (message): void => logger.info(message),
+    warn: (message): void => logger.warn(message),
+    stepStart: (message): void => {
+      lastStatus = undefined;
+      logger.info(message);
+    },
+    stepStatus: (message): void => {
+      if (message !== lastStatus) {
+        lastStatus = message;
+        logger.info(message);
+      }
+    },
+    stepStop: (message): void => {
+      if (message) {
+        logger.warn(message);
+      }
+    },
+  };
+}
+
+/**
+ * Installs the Salesforce package dependencies defined in `sfdx-project.json` into the target org,
+ * in-process via `@simplysf/simply-package-core`. The org must already be authenticated; every
+ * confirmation is auto-approved, as befits a pipeline.
+ *
+ * @returns The install outcome for every resolved dependency, including the ones skipped.
+ */
+export async function installPackageDependencies(
+  config: InstallPackageDependenciesConfig = {},
+): Promise<PackageToInstall[]> {
+  const { alias, wait = '120', installType = 'Upgrade' } = config;
+
+  logger.info('Installing packaged dependencies...');
   try {
-    const args = [
-      'simply',
-      'package',
-      'dependencies',
-      'install',
-      '--apex-compile',
-      'package',
-      '--wait',
-      wait,
-      '--install-type',
-      installType,
-    ];
-    if (alias) {
-      args.push('--target-org', alias);
-    }
-    if (noPrompt) {
-      args.push('--no-prompt');
-    }
-    if (outputFile) {
-      args.push('--output-file', outputFile);
-    }
+    const org = await Org.create({ aliasOrUsername: alias });
+    const project = await SfProject.resolve();
 
-    await runSf(args, { stdio: 'inherit' });
+    const results = await installPackageDependenciesCore({
+      project,
+      targetOrgConnection: org.getConnection(),
+      apexCompile: 'package',
+      installType,
+      wait: Duration.minutes(parseInt(wait, 10)),
+      progress: loggerProgress(),
+    });
+
     logger.success('Packaged dependencies installed successfully.');
+    return results;
   } catch (error) {
     logger.error('Failed to install packaged dependencies.');
     logger.error(String(error));
@@ -85,12 +107,9 @@ export type ResolveUpgradedPackagesConfig = {
   packagingDevhub?: string;
 };
 
-/** Reads an install report and returns the entries that upgraded an already-installed package. */
-async function readUpgradedEntries(reportFile: string): Promise<InstallReportEntry[]> {
-  const contents = await fs.readFile(reportFile, 'utf-8');
-  const entries = JSON.parse(contents) as InstallReportEntry[];
-
-  return entries.filter(
+/** @returns The install results that upgraded an already-installed package. */
+function upgradedEntries(installResults: PackageToInstall[]): PackageToInstall[] {
+  return installResults.filter(
     (entry) =>
       entry.Status === 'Installed' &&
       Boolean(entry.ExistingSubscriberPackageVersionId) &&
@@ -122,17 +141,17 @@ async function reportPackageVersion(
 }
 
 /**
- * Reads an `sf simply package dependencies install --output-file` report, and for every package it
- * upgraded, fetches the previous and target version's `sf package version report` (for the origin
- * commit SHA and pipeline URL). A package whose version report can't be resolved is skipped with a
- * warning rather than failing the whole deployment — this data only feeds a later notification.
+ * For every package an {@link installPackageDependencies} run upgraded, fetches the previous and
+ * target version's `sf package version report` (for the origin commit SHA and pipeline URL). A
+ * package whose version report can't be resolved is skipped with a warning rather than failing the
+ * whole deployment — this data only feeds a later notification.
  */
 export async function resolveUpgradedPackages(
-  reportFile: string,
+  installResults: PackageToInstall[],
   config: ResolveUpgradedPackagesConfig,
 ): Promise<UpgradedPackage[]> {
-  const upgradedEntries = await readUpgradedEntries(reportFile);
-  if (upgradedEntries.length === 0) {
+  const upgraded = upgradedEntries(installResults);
+  if (upgraded.length === 0) {
     return [];
   }
 
@@ -144,7 +163,7 @@ export async function resolveUpgradedPackages(
 
   const upgradedPackages: UpgradedPackage[] = [];
 
-  for (const entry of upgradedEntries) {
+  for (const entry of upgraded) {
     // eslint-disable-next-line no-await-in-loop -- each package's prev/target reports are fetched concurrently, but packages themselves are processed one at a time
     const [prevReport, targetReport] = await Promise.all([
       reportPackageVersion(entry.ExistingSubscriberPackageVersionId, packagingDevhub),

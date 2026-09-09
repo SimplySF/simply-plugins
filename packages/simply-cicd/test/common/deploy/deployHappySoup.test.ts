@@ -57,7 +57,7 @@ vi.mock('../../../src/common/logger.js', () => ({
 }));
 vi.mock('../../../src/common/sfPlugins.js', () => ({ installDeploymentPlugins: vi.fn().mockResolvedValue(undefined) }));
 vi.mock('../../../src/common/sfPackages.js', () => ({
-  installPackageDependencies: vi.fn().mockResolvedValue(undefined),
+  installPackageDependencies: vi.fn().mockResolvedValue([]),
   resolveUpgradedPackages: vi.fn().mockResolvedValue([]),
 }));
 vi.mock('../../../src/common/deploy/deployCommon.js', () => ({
@@ -83,15 +83,19 @@ describe('deployHappySoup', () => {
 
   describe("'install-packaged' stage", () => {
     it('installs dependencies and persists an empty upgradedPackages list when nothing upgraded', async () => {
+      const installResults = [
+        { PackageName: 'A', ExistingSubscriberPackageVersionId: '', SubscriberPackageVersionId: '04t1', Status: '' },
+      ];
+      vi.mocked(installPackageDependenciesCommon).mockResolvedValueOnce(installResults as never);
+
       await deployHappySoup({ ...baseOptions, stage: 'install-packaged', alias: 'my-org' });
 
-      expect(installPackageDependenciesCommon).toHaveBeenCalledWith(
-        expect.objectContaining({ alias: 'my-org', outputFile: expect.stringContaining('report.json') }),
-      );
-      expect(resolveUpgradedPackages).toHaveBeenCalledWith(
-        expect.stringContaining('report.json'),
-        expect.objectContaining({}),
-      );
+      expect(installPackageDependenciesCommon).toHaveBeenCalledWith({
+        alias: 'my-org',
+        wait: undefined,
+        installType: undefined,
+      });
+      expect(resolveUpgradedPackages).toHaveBeenCalledWith(installResults, { packagingDevhub: undefined });
       expect(loadProgress).toHaveBeenCalledWith('DEPLOY_PROGRESS.json');
       expect(updateProgress).toHaveBeenCalledWith('DEPLOY_PROGRESS.json', { upgradedPackages: [] });
       expect(logger.success).toHaveBeenCalledWith(
