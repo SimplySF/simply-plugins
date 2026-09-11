@@ -27,207 +27,207 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 - correct repository.url/homepage/bugs to point at simply-plugins ([#9](https://github.com/SimplySF/simply-plugins/issues/9)) ([9b64939](https://github.com/SimplySF/simply-plugins/commit/9b649390589c26e1333176ffec24b5fe9ad41dc9))
 
-## [2.4.5](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-data%402.4.4...%40simplysf%2Fsimply-data%402.4.5) (2026-09-02)
+## [2.4.5](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.4.4...%40simplysf%2Fsimply-data%402.4.5) (2026-09-02)
 
 **Note:** Version bump only for package @simplysf/simply-data
 
-## [2.4.4](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-data%402.4.3...%40simplysf%2Fsimply-data%402.4.4) (2026-09-01)
+## [2.4.4](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.4.3...%40simplysf%2Fsimply-data%402.4.4) (2026-09-01)
 
 **Note:** Version bump only for package @simplysf/simply-data
 
-## [2.4.3](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-data%402.4.2...%40simplysf%2Fsimply-data%402.4.3) (2026-08-31)
+## [2.4.3](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.4.2...%40simplysf%2Fsimply-data%402.4.3) (2026-08-31)
 
 **Note:** Version bump only for package @simplysf/simply-data
 
-## [2.4.2](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-data%402.4.1...%40simplysf%2Fsimply-data%402.4.2) (2026-08-30)
+## [2.4.2](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.4.1...%40simplysf%2Fsimply-data%402.4.2) (2026-08-30)
 
 **Note:** Version bump only for package @simplysf/simply-data
 
-## [2.4.1](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-data%402.4.0...%40simplysf%2Fsimply-data%402.4.1) (2026-08-27)
+## [2.4.1](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.4.0...%40simplysf%2Fsimply-data%402.4.1) (2026-08-27)
 
 **Note:** Version bump only for package @simplysf/simply-data
 
-# [2.4.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-data%402.3.27...%40simplysf%2Fsimply-data%402.4.0) (2026-08-24)
+# [2.4.0](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.3.27...%40simplysf%2Fsimply-data%402.4.0) (2026-08-24)
 
 ### Features
 
-- **simply-data:** add --max-api-usage budget check to file commands ([a9e6126](https://github.com/SimplySF/simply-node/commit/a9e612655c5de02d6b9ad489895629fb88864bf4))
+- **simply-data:** add --max-api-usage budget check to file commands ([a9e6126](https://github.com/SimplySF/simply-plugins-core/commit/a9e612655c5de02d6b9ad489895629fb88864bf4))
 
-## [2.3.27](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-data%402.3.26...%40simplysf%2Fsimply-data%402.3.27) (2026-08-24)
-
-### Bug Fixes
-
-- **simply-data:** send only the file name as PathOnClient ([feddec6](https://github.com/SimplySF/simply-node/commit/feddec63b4390ee03a57b93a072dd35cf9bee5c8))
-
-## [2.3.26](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-data%402.3.25...%40simplysf%2Fsimply-data%402.3.26) (2026-08-24)
+## [2.3.27](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.3.26...%40simplysf%2Fsimply-data%402.3.27) (2026-08-24)
 
 ### Bug Fixes
 
-- **simply-data:** build multipart uploads without form-data or got ([d5b2d08](https://github.com/SimplySF/simply-node/commit/d5b2d08871792bc60b8da612abb0eae5b6c8c4af))
+- **simply-data:** send only the file name as PathOnClient ([feddec6](https://github.com/SimplySF/simply-plugins-core/commit/feddec63b4390ee03a57b93a072dd35cf9bee5c8))
 
-## [2.3.25](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-data%402.3.24...%40simplysf%2Fsimply-data%402.3.25) (2026-08-21)
-
-**Note:** Version bump only for package @simplysf/simply-data
-
-## [2.3.24](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-data%402.3.23...%40simplysf%2Fsimply-data%402.3.24) (2026-08-21)
-
-**Note:** Version bump only for package @simplysf/simply-data
-
-## [2.3.23](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-data%402.3.22...%40simplysf%2Fsimply-data%402.3.23) (2026-08-20)
-
-**Note:** Version bump only for package @simplysf/simply-data
-
-## [2.3.22](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-data%402.3.21...%40simplysf%2Fsimply-data%402.3.22) (2026-08-20)
-
-**Note:** Version bump only for package @simplysf/simply-data
-
-## [2.3.21](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-data%402.3.20...%40simplysf%2Fsimply-data%402.3.21) (2026-08-18)
-
-**Note:** Version bump only for package @simplysf/simply-data
-
-## [2.3.20](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-data%402.3.19...%40simplysf%2Fsimply-data%402.3.20) (2026-08-18)
-
-**Note:** Version bump only for package @simplysf/simply-data
-
-## [2.3.19](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-data%402.3.18...%40simplysf%2Fsimply-data%402.3.19) (2026-08-18)
-
-**Note:** Version bump only for package @simplysf/simply-data
-
-## [2.3.18](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-data%402.3.17...%40simplysf%2Fsimply-data%402.3.18) (2026-08-18)
-
-**Note:** Version bump only for package @simplysf/simply-data
-
-## [2.3.17](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-data%402.3.16...%40simplysf%2Fsimply-data%402.3.17) (2026-08-17)
-
-**Note:** Version bump only for package @simplysf/simply-data
-
-## [2.3.16](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-data%402.3.15...%40simplysf%2Fsimply-data%402.3.16) (2026-08-17)
-
-**Note:** Version bump only for package @simplysf/simply-data
-
-## [2.3.15](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-data%402.3.14...%40simplysf%2Fsimply-data%402.3.15) (2026-08-17)
-
-**Note:** Version bump only for package @simplysf/simply-data
-
-## [2.3.14](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-data%402.3.13...%40simplysf%2Fsimply-data%402.3.14) (2026-08-17)
-
-**Note:** Version bump only for package @simplysf/simply-data
-
-## [2.3.13](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-data%402.3.12...%40simplysf%2Fsimply-data%402.3.13) (2026-08-17)
-
-**Note:** Version bump only for package @simplysf/simply-data
-
-## [2.3.12](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-data%402.3.11...%40simplysf%2Fsimply-data%402.3.12) (2026-08-16)
+## [2.3.26](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.3.25...%40simplysf%2Fsimply-data%402.3.26) (2026-08-24)
 
 ### Bug Fixes
 
-- documentation fixes ([7855aac](https://github.com/SimplySF/simply-node/commit/7855aac511916147d3ab542e5c4d660b2a348386))
+- **simply-data:** build multipart uploads without form-data or got ([d5b2d08](https://github.com/SimplySF/simply-plugins-core/commit/d5b2d08871792bc60b8da612abb0eae5b6c8c4af))
 
-## [2.3.11](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-data%402.3.10...%40simplysf%2Fsimply-data%402.3.11) (2026-08-16)
+## [2.3.25](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.3.24...%40simplysf%2Fsimply-data%402.3.25) (2026-08-21)
 
 **Note:** Version bump only for package @simplysf/simply-data
 
-## [2.3.10](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-data%402.3.9...%40simplysf%2Fsimply-data%402.3.10) (2026-08-16)
+## [2.3.24](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.3.23...%40simplysf%2Fsimply-data%402.3.24) (2026-08-21)
+
+**Note:** Version bump only for package @simplysf/simply-data
+
+## [2.3.23](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.3.22...%40simplysf%2Fsimply-data%402.3.23) (2026-08-20)
+
+**Note:** Version bump only for package @simplysf/simply-data
+
+## [2.3.22](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.3.21...%40simplysf%2Fsimply-data%402.3.22) (2026-08-20)
+
+**Note:** Version bump only for package @simplysf/simply-data
+
+## [2.3.21](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.3.20...%40simplysf%2Fsimply-data%402.3.21) (2026-08-18)
+
+**Note:** Version bump only for package @simplysf/simply-data
+
+## [2.3.20](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.3.19...%40simplysf%2Fsimply-data%402.3.20) (2026-08-18)
+
+**Note:** Version bump only for package @simplysf/simply-data
+
+## [2.3.19](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.3.18...%40simplysf%2Fsimply-data%402.3.19) (2026-08-18)
+
+**Note:** Version bump only for package @simplysf/simply-data
+
+## [2.3.18](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.3.17...%40simplysf%2Fsimply-data%402.3.18) (2026-08-18)
+
+**Note:** Version bump only for package @simplysf/simply-data
+
+## [2.3.17](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.3.16...%40simplysf%2Fsimply-data%402.3.17) (2026-08-17)
+
+**Note:** Version bump only for package @simplysf/simply-data
+
+## [2.3.16](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.3.15...%40simplysf%2Fsimply-data%402.3.16) (2026-08-17)
+
+**Note:** Version bump only for package @simplysf/simply-data
+
+## [2.3.15](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.3.14...%40simplysf%2Fsimply-data%402.3.15) (2026-08-17)
+
+**Note:** Version bump only for package @simplysf/simply-data
+
+## [2.3.14](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.3.13...%40simplysf%2Fsimply-data%402.3.14) (2026-08-17)
+
+**Note:** Version bump only for package @simplysf/simply-data
+
+## [2.3.13](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.3.12...%40simplysf%2Fsimply-data%402.3.13) (2026-08-17)
+
+**Note:** Version bump only for package @simplysf/simply-data
+
+## [2.3.12](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.3.11...%40simplysf%2Fsimply-data%402.3.12) (2026-08-16)
 
 ### Bug Fixes
 
-- update repository urls ([bfae56d](https://github.com/SimplySF/simply-node/commit/bfae56d1f6526c5627746b56cd69120cf75b3c1c))
+- documentation fixes ([7855aac](https://github.com/SimplySF/simply-plugins-core/commit/7855aac511916147d3ab542e5c4d660b2a348386))
 
-## [2.3.9](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-data%402.3.8...%40simplysf%2Fsimply-data%402.3.9) (2026-08-13)
-
-**Note:** Version bump only for package @simplysf/simply-data
-
-## [2.3.8](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-data%402.3.7...%40simplysf%2Fsimply-data%402.3.8) (2026-08-13)
+## [2.3.11](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.3.10...%40simplysf%2Fsimply-data%402.3.11) (2026-08-16)
 
 **Note:** Version bump only for package @simplysf/simply-data
 
-## [2.3.7](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-data%402.3.6...%40simplysf%2Fsimply-data%402.3.7) (2026-08-13)
-
-**Note:** Version bump only for package @simplysf/simply-data
-
-## [2.3.6](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-data%402.3.5...%40simplysf%2Fsimply-data%402.3.6) (2026-08-12)
-
-**Note:** Version bump only for package @simplysf/simply-data
-
-## [2.3.5](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-data%402.3.4...%40simplysf%2Fsimply-data%402.3.5) (2026-08-12)
+## [2.3.10](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.3.9...%40simplysf%2Fsimply-data%402.3.10) (2026-08-16)
 
 ### Bug Fixes
 
-- build and test issues ([efd9a23](https://github.com/SimplySF/simply/commit/efd9a23efb9d4a08cc61c9e059e60d4b0edf6f99))
-- failing build ([14d6676](https://github.com/SimplySF/simply/commit/14d66767c9aa06a82adcf69c2f0d9adad0ac0d9f))
-- lint errors ([eb155ab](https://github.com/SimplySF/simply/commit/eb155ab0fa10232ad576da531a5f6c7b40f266bc))
+- update repository urls ([bfae56d](https://github.com/SimplySF/simply-plugins-core/commit/bfae56d1f6526c5627746b56cd69120cf75b3c1c))
 
-## [2.3.4](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-data%402.3.3...%40simplysf%2Fsimply-data%402.3.4) (2026-08-12)
+## [2.3.9](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.3.8...%40simplysf%2Fsimply-data%402.3.9) (2026-08-13)
+
+**Note:** Version bump only for package @simplysf/simply-data
+
+## [2.3.8](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.3.7...%40simplysf%2Fsimply-data%402.3.8) (2026-08-13)
+
+**Note:** Version bump only for package @simplysf/simply-data
+
+## [2.3.7](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.3.6...%40simplysf%2Fsimply-data%402.3.7) (2026-08-13)
+
+**Note:** Version bump only for package @simplysf/simply-data
+
+## [2.3.6](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.3.5...%40simplysf%2Fsimply-data%402.3.6) (2026-08-12)
+
+**Note:** Version bump only for package @simplysf/simply-data
+
+## [2.3.5](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.3.4...%40simplysf%2Fsimply-data%402.3.5) (2026-08-12)
 
 ### Bug Fixes
 
-- remove test directories after test ([2666069](https://github.com/SimplySF/simply/commit/26660692c3e570e917bd5bc2b351cd62632d26b2))
+- build and test issues ([efd9a23](https://github.com/SimplySF/simply-plugins-core/commit/efd9a23efb9d4a08cc61c9e059e60d4b0edf6f99))
+- failing build ([14d6676](https://github.com/SimplySF/simply-plugins-core/commit/14d66767c9aa06a82adcf69c2f0d9adad0ac0d9f))
+- lint errors ([eb155ab](https://github.com/SimplySF/simply-plugins-core/commit/eb155ab0fa10232ad576da531a5f6c7b40f266bc))
 
-## [2.3.3](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-data%402.3.2...%40simplysf%2Fsimply-data%402.3.3) (2026-08-11)
+## [2.3.4](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.3.3...%40simplysf%2Fsimply-data%402.3.4) (2026-08-12)
+
+### Bug Fixes
+
+- remove test directories after test ([2666069](https://github.com/SimplySF/simply-plugins-core/commit/26660692c3e570e917bd5bc2b351cd62632d26b2))
+
+## [2.3.3](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.3.2...%40simplysf%2Fsimply-data%402.3.3) (2026-08-11)
 
 **Note:** Version bump only for package @simplysf/simply-data
 
-## [2.3.2](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-data%402.3.1...%40simplysf%2Fsimply-data%402.3.2) (2026-08-11)
+## [2.3.2](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.3.1...%40simplysf%2Fsimply-data%402.3.2) (2026-08-11)
 
 **Note:** Version bump only for package @simplysf/simply-data
 
-## [2.3.1](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-data%402.3.0...%40simplysf%2Fsimply-data%402.3.1) (2026-08-11)
+## [2.3.1](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.3.0...%40simplysf%2Fsimply-data%402.3.1) (2026-08-11)
 
 **Note:** Version bump only for package @simplysf/simply-data
 
-# [2.3.0](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-data%402.2.1...%40simplysf%2Fsimply-data%402.3.0) (2026-08-11)
+# [2.3.0](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.2.1...%40simplysf%2Fsimply-data%402.3.0) (2026-08-11)
 
 ### Features
 
-- add build logic for command snapshot ([2edb0d4](https://github.com/SimplySF/simply/commit/2edb0d4ae7cd5cf71f585e382c2c1edf1166013a))
+- add build logic for command snapshot ([2edb0d4](https://github.com/SimplySF/simply-plugins-core/commit/2edb0d4ae7cd5cf71f585e382c2c1edf1166013a))
 
-## [2.2.1](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-data%402.2.0...%40simplysf%2Fsimply-data%402.2.1) (2026-08-10)
-
-### Bug Fixes
-
-- revert devdependency change ([ce9e431](https://github.com/SimplySF/simply/commit/ce9e4319292f20f69efe2ddc39b8a389baccb6cc))
-
-# [2.2.0](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-data%402.1.9...%40simplysf%2Fsimply-data%402.2.0) (2026-08-09)
+## [2.2.1](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.2.0...%40simplysf%2Fsimply-data%402.2.1) (2026-08-10)
 
 ### Bug Fixes
 
-- bad link-check command ([8095693](https://github.com/SimplySF/simply/commit/80956938d83b0bdfc17dd03b46ca1d58cdcb183d))
+- revert devdependency change ([ce9e431](https://github.com/SimplySF/simply-plugins-core/commit/ce9e4319292f20f69efe2ddc39b8a389baccb6cc))
+
+# [2.2.0](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.1.9...%40simplysf%2Fsimply-data%402.2.0) (2026-08-09)
+
+### Bug Fixes
+
+- bad link-check command ([8095693](https://github.com/SimplySF/simply-plugins-core/commit/80956938d83b0bdfc17dd03b46ca1d58cdcb183d))
 
 ### Features
 
-- upgrade dependencies ([7631028](https://github.com/SimplySF/simply/commit/7631028c48904fcf914a34a34b5ac0f1e646c051))
+- upgrade dependencies ([7631028](https://github.com/SimplySF/simply-plugins-core/commit/7631028c48904fcf914a34a34b5ac0f1e646c051))
 
-## [2.1.9](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-data%402.1.8...%40simplysf%2Fsimply-data%402.1.9) (2026-08-09)
-
-**Note:** Version bump only for package @simplysf/simply-data
-
-## [2.1.8](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-data%402.1.7...%40simplysf%2Fsimply-data%402.1.8) (2026-08-09)
+## [2.1.9](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.1.8...%40simplysf%2Fsimply-data%402.1.9) (2026-08-09)
 
 **Note:** Version bump only for package @simplysf/simply-data
 
-## [2.1.7](https://github.com/SimplySF/simply/compare/@simplysf/simply-data@2.1.6...@simplysf/simply-data@2.1.7) (2026-08-09)
+## [2.1.8](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-data%402.1.7...%40simplysf%2Fsimply-data%402.1.8) (2026-08-09)
 
 **Note:** Version bump only for package @simplysf/simply-data
 
-## [2.1.6](https://github.com/SimplySF/simply/compare/@simplysf/simply-data@2.1.5...@simplysf/simply-data@2.1.6) (2026-08-09)
+## [2.1.7](https://github.com/SimplySF/simply-plugins-core/compare/@simplysf/simply-data@2.1.6...@simplysf/simply-data@2.1.7) (2026-08-09)
 
 **Note:** Version bump only for package @simplysf/simply-data
 
-## [2.1.5](https://github.com/SimplySF/simply/compare/@simplysf/simply-data@2.1.4...@simplysf/simply-data@2.1.5) (2026-08-09)
+## [2.1.6](https://github.com/SimplySF/simply-plugins-core/compare/@simplysf/simply-data@2.1.5...@simplysf/simply-data@2.1.6) (2026-08-09)
+
+**Note:** Version bump only for package @simplysf/simply-data
+
+## [2.1.5](https://github.com/SimplySF/simply-plugins-core/compare/@simplysf/simply-data@2.1.4...@simplysf/simply-data@2.1.5) (2026-08-09)
 
 ### Bug Fixes
 
-- standardize package.json ([66c10a9](https://github.com/SimplySF/simply/commit/66c10a952bde4a41c5adcc7629bfb7f227931b5a))
+- standardize package.json ([66c10a9](https://github.com/SimplySF/simply-plugins-core/commit/66c10a952bde4a41c5adcc7629bfb7f227931b5a))
 
-## [2.1.4](https://github.com/SimplySF/simply/compare/@simplysf/simply-data@2.1.3...@simplysf/simply-data@2.1.4) (2026-08-09)
-
-**Note:** Version bump only for package @simplysf/simply-data
-
-## [2.1.3](https://github.com/SimplySF/simply/compare/@simplysf/simply-data@2.1.2...@simplysf/simply-data@2.1.3) (2026-08-09)
+## [2.1.4](https://github.com/SimplySF/simply-plugins-core/compare/@simplysf/simply-data@2.1.3...@simplysf/simply-data@2.1.4) (2026-08-09)
 
 **Note:** Version bump only for package @simplysf/simply-data
 
-## [2.1.2](https://github.com/SimplySF/simply/compare/@simplysf/simply-data@2.1.1...@simplysf/simply-data@2.1.2) (2026-08-09)
+## [2.1.3](https://github.com/SimplySF/simply-plugins-core/compare/@simplysf/simply-data@2.1.2...@simplysf/simply-data@2.1.3) (2026-08-09)
+
+**Note:** Version bump only for package @simplysf/simply-data
+
+## [2.1.2](https://github.com/SimplySF/simply-plugins-core/compare/@simplysf/simply-data@2.1.1...@simplysf/simply-data@2.1.2) (2026-08-09)
 
 **Note:** Version bump only for package @simplysf/simply-data
 

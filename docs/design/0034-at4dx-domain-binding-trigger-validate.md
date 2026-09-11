@@ -7,7 +7,7 @@ merged first for the underlying `simply-aep-core` rule.
 
 ## Problem
 
-`simply-node`'s [0036](https://github.com/SimplySF/simply-node/blob/main/docs/design/0036-at4dx-domain-binding-trigger-validate.md)
+`simply-node`'s [0036](https://github.com/SimplySF/simply-plugins-core/blob/main/docs/design/0036-at4dx-domain-binding-trigger-validate.md)
 adds a `missing-domain-trigger` rule to `@simplysf/simply-aep-core`'s `validateBindings`: a `Domain`
 binding whose SObject has no Active Apex trigger calling
 `fflib_SObjectDomain.triggerHandler(<DomainClass>.class)` is a fully-wired-but-dead binding — the Domain
@@ -86,7 +86,7 @@ feature for every rule, not a bespoke flag for this one.
 3. **Tests** (`packages/simply-aep/test/commands/simply/aep/at4dx/binding/validate.test.ts`) — see
    Testing below.
 4. **Housekeeping** — bump the `@simplysf/simply-aep-core` dependency to the version that ships
-   [0036](https://github.com/SimplySF/simply-node/blob/main/docs/design/0036-at4dx-domain-binding-trigger-validate.md);
+   [0036](https://github.com/SimplySF/simply-plugins-core/blob/main/docs/design/0036-at4dx-domain-binding-trigger-validate.md);
    `pnpm run readme`; root `pnpm run build` for `command-snapshot.json`.
 
 ## Testing
@@ -102,7 +102,7 @@ feature for every rule, not a bespoke flag for this one.
 
 ## Open questions
 
-- Same open questions as [simply-node's 0036](https://github.com/SimplySF/simply-node/blob/main/docs/design/0036-at4dx-domain-binding-trigger-validate.md)
+- Same open questions as [simply-node's 0036](https://github.com/SimplySF/simply-plugins-core/blob/main/docs/design/0036-at4dx-domain-binding-trigger-validate.md)
   apply here unchanged (non-literal `triggerHandler` conventions, blank `To__c`, Inactive-only severity,
   Tooling query cost at scale) — this doc doesn't repeat them, since none are specific to the command
   layer.

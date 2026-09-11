@@ -27,40 +27,40 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 - correct repository.url/homepage/bugs to point at simply-plugins ([#9](https://github.com/SimplySF/simply-plugins/issues/9)) ([9b64939](https://github.com/SimplySF/simply-plugins/commit/9b649390589c26e1333176ffec24b5fe9ad41dc9))
 
-## [0.4.4](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-flow%400.4.3...%40simplysf%2Fsimply-flow%400.4.4) (2026-09-02)
+## [0.4.4](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-flow%400.4.3...%40simplysf%2Fsimply-flow%400.4.4) (2026-09-02)
 
 **Note:** Version bump only for package @simplysf/simply-flow
 
-## [0.4.3](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-flow%400.4.2...%40simplysf%2Fsimply-flow%400.4.3) (2026-09-01)
+## [0.4.3](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-flow%400.4.2...%40simplysf%2Fsimply-flow%400.4.3) (2026-09-01)
 
 **Note:** Version bump only for package @simplysf/simply-flow
 
-## [0.4.2](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-flow%400.4.1...%40simplysf%2Fsimply-flow%400.4.2) (2026-08-31)
+## [0.4.2](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-flow%400.4.1...%40simplysf%2Fsimply-flow%400.4.2) (2026-08-31)
 
 **Note:** Version bump only for package @simplysf/simply-flow
 
-## [0.4.1](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-flow%400.4.0...%40simplysf%2Fsimply-flow%400.4.1) (2026-08-30)
+## [0.4.1](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-flow%400.4.0...%40simplysf%2Fsimply-flow%400.4.1) (2026-08-30)
 
 **Note:** Version bump only for package @simplysf/simply-flow
 
-# [0.4.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-flow%400.3.0...%40simplysf%2Fsimply-flow%400.4.0) (2026-08-28)
+# [0.4.0](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-flow%400.3.0...%40simplysf%2Fsimply-flow%400.4.0) (2026-08-28)
 
 ### Features
 
-- **simply-flow:** allow pruning by explicit flow name ([54ab2bd](https://github.com/SimplySF/simply-node/commit/54ab2bd1a201f4e04522fe6e0d9a5174e894cd20))
+- **simply-flow:** allow pruning by explicit flow name ([54ab2bd](https://github.com/SimplySF/simply-plugins-core/commit/54ab2bd1a201f4e04522fe6e0d9a5174e894cd20))
 
-# [0.3.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-flow%400.2.0...%40simplysf%2Fsimply-flow%400.3.0) (2026-08-28)
+# [0.3.0](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-flow%400.2.0...%40simplysf%2Fsimply-flow%400.3.0) (2026-08-28)
 
 ### Features
 
-- **simply-flow:** rename flow delete's --file flag to --manifest ([b967311](https://github.com/SimplySF/simply-node/commit/b9673110a504c95d822b65503aab1b0cbecfa180))
+- **simply-flow:** rename flow delete's --file flag to --manifest ([b967311](https://github.com/SimplySF/simply-plugins-core/commit/b9673110a504c95d822b65503aab1b0cbecfa180))
 
 # 0.2.0 (2026-08-27)
 
 ### Bug Fixes
 
-- **simply-flow:** remove unused @salesforce/kit dependency ([a81c14d](https://github.com/SimplySF/simply-node/commit/a81c14dc9accdbf0e3e37e2392786de2e3b51510))
+- **simply-flow:** remove unused @salesforce/kit dependency ([a81c14d](https://github.com/SimplySF/simply-plugins-core/commit/a81c14dc9accdbf0e3e37e2392786de2e3b51510))
 
 ### Features
 
-- **simply-flow:** add flow delete and version prune commands ([997ed35](https://github.com/SimplySF/simply-node/commit/997ed3503a37251e74e68ae63c25108c22cd0887))
+- **simply-flow:** add flow delete and version prune commands ([997ed35](https://github.com/SimplySF/simply-plugins-core/commit/997ed3503a37251e74e68ae63c25108c22cd0887))
