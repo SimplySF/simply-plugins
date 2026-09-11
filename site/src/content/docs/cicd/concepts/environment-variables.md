@@ -90,6 +90,18 @@ The scratch-org lifecycle (`build create-scratch`/`delete-scratch`/`cleanup-scra
 
 `--jwt-key-file` is only accepted by `install-dependencies`/`push-scratch`/`test-scratch`/`delete-scratch` — the commands that re-authenticate the scratch org's own identity after creation — and even there it's only required when the Dev Hub that owns the scratch org was itself JWT-authenticated. A Dev Hub authenticated via web login or an SFDX auth URL leaves the scratch org with its own refresh token instead, which `simply-cicd` uses directly with no key file needed. `create-scratch` and `cleanup-scratch-orgs` never take `--jwt-key-file` at all — they only touch the Dev Hub itself, which is already authenticated by the pipeline, and `sf org create scratch` reads the Dev Hub's key file path off that existing session internally. `--dev-hub` (`create-scratch`/`cleanup-scratch-orgs`/`delete-scratch`, one already-authenticated Dev Hub alias per repeated flag on the first two) accepts multiple values and is not backed by an environment variable — see the note on multi-value flags above.
 
+### npm publishing (see [UTAM page objects](/cicd/guides/utam-page-objects/))
+
+| Flag                 | Environment variable           |
+| -------------------- | ------------------------------ |
+| `--npm-package-name` | `SIMPLY_CICD_NPM_PACKAGE_NAME` |
+| `--npm-registry`     | `SIMPLY_CICD_NPM_REGISTRY`     |
+| `--npm-token`        | `SIMPLY_CICD_NPM_TOKEN`        |
+| `--npm-access`       | `SIMPLY_CICD_NPM_ACCESS`       |
+| `--utam-version`     | `SIMPLY_CICD_UTAM_VERSION`     |
+
+Used by `build publish-utam-page-objects`. `--npm-dist-tag`, `--dry-run`, `--out`, and `--env-file` are per-invocation and deliberately have no variable. `--npm-package-name` can also be set in `sfdx-project.json` as `plugins.simply.utam.packageName` — see [sfdx-project.json fields](/cicd/concepts/sfdx-project-fields/) — which is usually the better home for it, since it's a property of the project rather than of the pipeline.
+
 ### Notifications (see [Teams notifications](/cicd/guides/teams-notifications/))
 
 | Flag                             | Environment variable          |

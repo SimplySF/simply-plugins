@@ -1,8 +1,11 @@
 # 0037 — `simply cicd build publish-utam-page-objects`
 
-**Status:** Draft
+**Status:** Implemented
 **Package:** `packages/simply-cicd`
 **Date:** 2026-09-11
+
+> **Corrections from the implementation.** The behavior below shipped as designed except where this
+> note says otherwise; see "What the implementation changed" at the end.
 
 ## Problem
 
@@ -159,7 +162,8 @@ Consequences worth stating:
 
 ### Generated package
 
-Staged in `os.tmpdir()/simply-cicd-utam-<pipeline id or pid>/`, never inside the repo:
+Staged in a `fs.mkdtemp` directory under `os.tmpdir()` prefixed `simply-cicd-utam-`, never inside the
+repo:
 
 ```
 package.json            generated, below
@@ -394,17 +398,23 @@ Unit (vitest, `execa` and `logger` mocked as in `lwcJest.test.ts`):
 - `getSkipReason('publish-utam-page-objects')` gated on `PACKAGE_CHANGED`.
 - Command test: flags map onto the options object; `--json` result shape.
 
-Integration (opt-in, needs network — `SIMPLY_CICD_UTAM_INTEGRATION=1`): run the real compiler on
-the fixture tree from the spike with `--dry-run`, unpack the tarball, and assert the four files per
-page object, the `@version` JSDoc, the alias-rewritten import, and that importing
-`pageObjects/hello.js` fails only on the missing `@utam/core` peer and nothing else. No NUT against
-a registry.
+**Not built: the opt-in integration test.** The plan was an `SIMPLY_CICD_UTAM_INTEGRATION=1`-gated
+test running the real compiler on the spike's fixture tree. Dropped on implementation for a reason
+that only became clear once there was somewhere to put it: `simply-cicd` has no NUT suite and the
+repo has no env-gated test anywhere, so this would have been a new testing category whose tests
+never run — not in CI, and not on a developer machine that doesn't know to set the variable. A guard
+that never fires is worse than none, because it reads like coverage.
+
+What it was meant to protect is the generated compiler config's shape against a future `utam` major.
+The unit suite pins the config this command produces; nothing pins that the compiler still accepts
+it. If that becomes a real risk, the honest form is a scheduled CI job that compiles a fixture
+against the current `^3` — not a test that is skipped by default.
 
 ## Open questions
 
 - **Registry conventions beyond GitLab.** GitHub Packages requires the scope to equal the repo
-  owner; npmjs.com needs `--npm-access public` for scoped packages. The flags cover both, but the
-  guide will document GitLab's project-level endpoint as the worked example. Whether to add a
+  owner; npmjs.com needs `--npm-access public` for scoped packages. The flags cover both, and the
+  guide documents GitLab's project-level endpoint as the worked example. Whether to add a
   `--vcs-provider`-aware default for `--npm-registry` is deferred until someone runs this on GitHub.
 - **Ship `source/**/*.utam.json`?** Proposed yes, matching `salesforce-pageobjects`, so a consumer
   can read what a page object exposes without the `.d.ts`. Cheap to drop if it's noise.
@@ -415,3 +425,54 @@ a registry.
 - **Compiler major bumps.** `--utam-version` defaults to `^3`. When UTAM 4 ships, the peer range
   follows automatically but the default should be reviewed against `salesforce-pageobjects`'
   compatibility note, since consumers must run one `@utam/core` major across everything they load.
+
+## What the implementation changed
+
+Everything above describes what shipped, with these amendments folded in. Recorded rather than
+silently rewritten, because each one was a decision the design got slightly wrong.
+
+**The orchestration is three functions, not one.** `publishUtamPageObjects` delegates to
+`resolveTarget` (the lookups behind guards 3–4, plus the version derivation), `buildStagedPackage`
+(install, config, compile, stage sources, manifest), and `publishStaged`. Written as one function it
+scored 29 on the repo's `complexity` lint rule, which caps at 20 — a fair signal, since the guards,
+the lookups, and the publish were interleaved rather than sequenced.
+
+**The staging directory is `fs.mkdtemp`.** The design named it after the pipeline ID or the pid, but
+there is no `--ci-pipeline-id` flag on this command, so honouring that would have meant reading a CI
+variable no other part of the command reads. `mkdtemp` gets the uniqueness the naming was for,
+without the undeclared input. `--debug` leaves it in place for inspection; otherwise it's removed in
+a `finally`.
+
+**The `.npmrc` carries auth and nothing else.** Writing `registry=` into it would also redirect the
+command's own `npm install utam@…` through, say, a project-scoped GitLab registry that has no
+business serving the compiler. Every command that must target the publish registry passes
+`--registry` explicitly instead.
+
+**The dotenv keys are written whenever the version is installable, not only on a fresh publish.**
+That means the `alreadyPublished` path writes them too — the package _is_ there at that version, and
+a downstream job installing it should succeed on a retried pipeline. `--dry-run` writes nothing:
+nothing was published, so advertising a version would hand the next job an install that fails.
+
+**A malformed `04t` is fatal only when it was passed explicitly.** `--subscriber-package-version-id`
+that isn't a `04t` throws; the same garbage discovered in the environment or the dotenv file warns
+and the search moves on. Asking for something specific and misspelling it is a different mistake
+from finding a stale value lying around.
+
+**`sanitizePrereleaseId` guards leading zeros.** Semver forbids an all-numeric prerelease identifier
+with a leading zero, so a branch literally named `007` would have produced a version every registry
+rejects. It becomes `v007`.
+
+**The compiler is invoked through `process.execPath`, not `npx`.** The bin entry is read out of the
+installed `utam`'s own `package.json` — which the command reads anyway, for the `@utam/core` peer
+range — and run with the current Node. `npx` would have been free to reach the network for a package
+already sitting in the staging directory.
+
+**Helpers beyond the plan's list.** `utamPageObjects.ts` also exports `determineTagSuffix`,
+`toVersionTag`, `toUtamCoreRange`, `buildProvenanceLine`, `readEnvFileValue`, and `buildNpmrc` —
+each extracted because it was worth pinning with a test of its own rather than only through the
+orchestrator.
+
+**The pipeline guide's missing `dotenv` artifact was real.** `create-package-version`'s example job
+had no `artifacts.reports.dotenv`, while `start-deployment` below it read
+`$SUBSCRIBER_PACKAGE_VERSION_ID`. The guide is corrected, and it is what carries the `04t` into this
+command's job too.

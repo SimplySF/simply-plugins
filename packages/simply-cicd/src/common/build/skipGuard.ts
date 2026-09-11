@@ -22,6 +22,7 @@ const PACKAGE_CHANGED_GATED_JOBS = new Set([
   'test-scratch',
   'delete-scratch',
   'create-package-version',
+  'publish-utam-page-objects',
 ]);
 
 /**

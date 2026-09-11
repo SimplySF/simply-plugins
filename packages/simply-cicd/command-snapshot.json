@@ -148,6 +148,32 @@
   },
   {
     "alias": [],
+    "command": "simply:cicd:build:publish-utam-page-objects",
+    "flagAliases": [],
+    "flagChars": [],
+    "flags": [
+      "ci-commit-ref-name",
+      "debug",
+      "disabled",
+      "dry-run",
+      "env-file",
+      "flags-dir",
+      "json",
+      "npm-access",
+      "npm-dist-tag",
+      "npm-package-name",
+      "npm-registry",
+      "npm-token",
+      "out",
+      "package-release-branch-prefix",
+      "packaging-devhub",
+      "subscriber-package-version-id",
+      "utam-version"
+    ],
+    "plugin": "@simplysf/simply-cicd"
+  },
+  {
+    "alias": [],
     "command": "simply:cicd:build:push-scratch",
     "flagAliases": [],
     "flagChars": [],
