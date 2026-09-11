@@ -24,7 +24,13 @@ import { logger } from '../logger.js';
 
 type PackageVersionCreateReport = { Status: string; Error?: string; SubscriberPackageVersionId?: string };
 
-function refIncludesPrefix(ciCommitRefName: string, packageReleaseBranchPrefix?: string): boolean {
+/**
+ * Whether this build's ref is a release-branch build.
+ *
+ * Exported for `publishUtamPageObjects`, which derives its npm version from the same
+ * release-vs-feature-branch decision this module makes for the git tag.
+ */
+export function refIncludesPrefix(ciCommitRefName: string, packageReleaseBranchPrefix?: string): boolean {
   return packageReleaseBranchPrefix !== undefined && ciCommitRefName.includes(packageReleaseBranchPrefix);
 }
 
@@ -42,7 +48,14 @@ function determineBranchArgs(
   return [];
 }
 
-function determineVersionTag(
+/**
+ * The annotated git tag this build's package version is recorded under: `v<version>`, suffixed with
+ * the package's `branch` attribute or the CI ref unless this is a release-branch build.
+ *
+ * Exported because `publishUtamPageObjects` derives its npm version from the same suffix, so that
+ * the published page-object version reads like the tag rather than being a second, parallel rule.
+ */
+export function determineVersionTag(
   version: string,
   branchAttribute: string | undefined,
   ciCommitRefName: string,
