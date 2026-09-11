@@ -32,6 +32,10 @@ refactors that keep the public surface identical (though a short doc is welcome 
 
 ## Index
 
+> **Sibling repo rename (2026-09-11):** the libraries repo these docs call `simply-node` is now
+> `simply-plugins-core`. Links were repointed; the prose deliberately keeps the old name, because
+> that is what the repo was called when each doc was written.
+
 | #                                                                    | Title                                                                                 | Status                |
 | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | --------------------- |
 | [0001](0001-package-version-get.md)                                  | `simply package version get`                                                          | Implemented           |

@@ -15,7 +15,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-- **simply-cicd:** install package dependencies in-process via simply-package-core ([#28](https://github.com/SimplySF/simply-plugins/issues/28)) ([0e47e83](https://github.com/SimplySF/simply-plugins/commit/0e47e8339b7e570e0079ed78e479767feac97810)), closes [SimplySF/simply-node#190](https://github.com/SimplySF/simply-node/issues/190)
+- **simply-cicd:** install package dependencies in-process via simply-package-core ([#28](https://github.com/SimplySF/simply-plugins/issues/28)) ([0e47e83](https://github.com/SimplySF/simply-plugins/commit/0e47e8339b7e570e0079ed78e479767feac97810)), closes [SimplySF/simply-plugins-core#190](https://github.com/SimplySF/simply-plugins-core/issues/190)
 
 ## [3.0.5](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-package%403.0.4...%40simplysf%2Fsimply-package%403.0.5) (2026-09-06)
 
@@ -37,238 +37,238 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 - correct repository.url/homepage/bugs to point at simply-plugins ([#9](https://github.com/SimplySF/simply-plugins/issues/9)) ([9b64939](https://github.com/SimplySF/simply-plugins/commit/9b649390589c26e1333176ffec24b5fe9ad41dc9))
 
-## [3.0.1](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-package%403.0.0...%40simplysf%2Fsimply-package%403.0.1) (2026-09-02)
+## [3.0.1](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%403.0.0...%40simplysf%2Fsimply-package%403.0.1) (2026-09-02)
 
 **Note:** Version bump only for package @simplysf/simply-package
 
-# [3.0.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-package%402.10.7...%40simplysf%2Fsimply-package%403.0.0) (2026-09-01)
+# [3.0.0](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.10.7...%40simplysf%2Fsimply-package%403.0.0) (2026-09-01)
 
-- feat(simply-package)!: rename version cleanup matcher flags to selector, allow multiple values ([fec1365](https://github.com/SimplySF/simply-node/commit/fec13658424b89cf6c0bdc7b7bfa8a27159d68b4))
+- feat(simply-package)!: rename version cleanup matcher flags to selector, allow multiple values ([fec1365](https://github.com/SimplySF/simply-plugins-core/commit/fec13658424b89cf6c0bdc7b7bfa8a27159d68b4))
 
 ### BREAKING CHANGES
 
 - `simply package version cleanup` no longer accepts
   `--matcher`/`--exclude-matcher`; use `--selector`/`--selector-exclude`.
 
-## [2.10.7](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-package%402.10.6...%40simplysf%2Fsimply-package%402.10.7) (2026-09-01)
+## [2.10.7](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.10.6...%40simplysf%2Fsimply-package%402.10.7) (2026-09-01)
 
 **Note:** Version bump only for package @simplysf/simply-package
 
-## [2.10.6](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-package%402.10.5...%40simplysf%2Fsimply-package%402.10.6) (2026-08-31)
+## [2.10.6](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.10.5...%40simplysf%2Fsimply-package%402.10.6) (2026-08-31)
 
 **Note:** Version bump only for package @simplysf/simply-package
 
-## [2.10.5](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-package%402.10.4...%40simplysf%2Fsimply-package%402.10.5) (2026-08-30)
+## [2.10.5](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.10.4...%40simplysf%2Fsimply-package%402.10.5) (2026-08-30)
 
 **Note:** Version bump only for package @simplysf/simply-package
 
-## [2.10.4](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-package%402.10.3...%40simplysf%2Fsimply-package%402.10.4) (2026-08-28)
+## [2.10.4](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.10.3...%40simplysf%2Fsimply-package%402.10.4) (2026-08-28)
 
 ### Bug Fixes
 
-- **simply-package:** sort package aliases in dependencies manage ([b704293](https://github.com/SimplySF/simply-node/commit/b704293af62dedad46d39e8338ab98944e7135ec))
+- **simply-package:** sort package aliases in dependencies manage ([b704293](https://github.com/SimplySF/simply-plugins-core/commit/b704293af62dedad46d39e8338ab98944e7135ec))
 
-## [2.10.3](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-package%402.10.2...%40simplysf%2Fsimply-package%402.10.3) (2026-08-28)
+## [2.10.3](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.10.2...%40simplysf%2Fsimply-package%402.10.3) (2026-08-28)
 
 ### Bug Fixes
 
-- **simply-package:** match package directory paths across OS separators in dependencies manage ([4b7236e](https://github.com/SimplySF/simply-node/commit/4b7236ea20718c8f9d4fbaecfd35dcb655f1b988))
+- **simply-package:** match package directory paths across OS separators in dependencies manage ([4b7236e](https://github.com/SimplySF/simply-plugins-core/commit/4b7236ea20718c8f9d4fbaecfd35dcb655f1b988))
 
-## [2.10.2](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-package%402.10.1...%40simplysf%2Fsimply-package%402.10.2) (2026-08-27)
-
-**Note:** Version bump only for package @simplysf/simply-package
-
-## [2.10.1](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-package%402.10.0...%40simplysf%2Fsimply-package%402.10.1) (2026-08-24)
+## [2.10.2](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.10.1...%40simplysf%2Fsimply-package%402.10.2) (2026-08-27)
 
 **Note:** Version bump only for package @simplysf/simply-package
 
-# [2.10.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-package%402.9.0...%40simplysf%2Fsimply-package%402.10.0) (2026-08-22)
+## [2.10.1](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.10.0...%40simplysf%2Fsimply-package%402.10.1) (2026-08-24)
+
+**Note:** Version bump only for package @simplysf/simply-package
+
+# [2.10.0](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.9.0...%40simplysf%2Fsimply-package%402.10.0) (2026-08-22)
 
 ### Features
 
-- **simply-package:** add simply package version get ([1cc5629](https://github.com/SimplySF/simply-node/commit/1cc562954b7bb9b753c9847e46834b0d5027ae78))
+- **simply-package:** add simply package version get ([1cc5629](https://github.com/SimplySF/simply-plugins-core/commit/1cc562954b7bb9b753c9847e46834b0d5027ae78))
 
-# [2.9.0](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-package%402.8.14...%40simplysf%2Fsimply-package%402.9.0) (2026-08-21)
-
-### Features
-
-- **simply-package:** add retry support to package dependencies install ([cef03f5](https://github.com/SimplySF/simply-node/commit/cef03f59caf26a89e0c2262bf1d5084f643a0cab))
-
-## [2.8.14](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-package%402.8.13...%40simplysf%2Fsimply-package%402.8.14) (2026-08-21)
-
-**Note:** Version bump only for package @simplysf/simply-package
-
-## [2.8.13](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-package%402.8.12...%40simplysf%2Fsimply-package%402.8.13) (2026-08-20)
-
-**Note:** Version bump only for package @simplysf/simply-package
-
-## [2.8.12](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-package%402.8.11...%40simplysf%2Fsimply-package%402.8.12) (2026-08-20)
-
-**Note:** Version bump only for package @simplysf/simply-package
-
-## [2.8.11](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-package%402.8.10...%40simplysf%2Fsimply-package%402.8.11) (2026-08-18)
-
-**Note:** Version bump only for package @simplysf/simply-package
-
-## [2.8.10](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-package%402.8.9...%40simplysf%2Fsimply-package%402.8.10) (2026-08-18)
-
-**Note:** Version bump only for package @simplysf/simply-package
-
-## [2.8.9](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-package%402.8.8...%40simplysf%2Fsimply-package%402.8.9) (2026-08-18)
-
-**Note:** Version bump only for package @simplysf/simply-package
-
-## [2.8.8](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-package%402.8.7...%40simplysf%2Fsimply-package%402.8.8) (2026-08-18)
-
-**Note:** Version bump only for package @simplysf/simply-package
-
-## [2.8.7](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-package%402.8.6...%40simplysf%2Fsimply-package%402.8.7) (2026-08-17)
-
-**Note:** Version bump only for package @simplysf/simply-package
-
-## [2.8.6](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-package%402.8.5...%40simplysf%2Fsimply-package%402.8.6) (2026-08-17)
-
-**Note:** Version bump only for package @simplysf/simply-package
-
-## [2.8.5](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-package%402.8.4...%40simplysf%2Fsimply-package%402.8.5) (2026-08-17)
-
-**Note:** Version bump only for package @simplysf/simply-package
-
-## [2.8.4](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-package%402.8.3...%40simplysf%2Fsimply-package%402.8.4) (2026-08-16)
-
-### Bug Fixes
-
-- documentation fixes ([7855aac](https://github.com/SimplySF/simply-node/commit/7855aac511916147d3ab542e5c4d660b2a348386))
-
-## [2.8.3](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-package%402.8.2...%40simplysf%2Fsimply-package%402.8.3) (2026-08-16)
-
-**Note:** Version bump only for package @simplysf/simply-package
-
-## [2.8.2](https://github.com/SimplySF/simply-node/compare/%40simplysf%2Fsimply-package%402.8.1...%40simplysf%2Fsimply-package%402.8.2) (2026-08-16)
-
-### Bug Fixes
-
-- update repository urls ([bfae56d](https://github.com/SimplySF/simply-node/commit/bfae56d1f6526c5627746b56cd69120cf75b3c1c))
-
-## [2.8.1](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-package%402.8.0...%40simplysf%2Fsimply-package%402.8.1) (2026-08-14)
-
-**Note:** Version bump only for package @simplysf/simply-package
-
-# [2.8.0](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-package%402.7.0...%40simplysf%2Fsimply-package%402.8.0) (2026-08-14)
+# [2.9.0](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.8.14...%40simplysf%2Fsimply-package%402.9.0) (2026-08-21)
 
 ### Features
 
-- support install report file ([9efe964](https://github.com/SimplySF/simply/commit/9efe964d129ebc2edd9a0640fed912e7cbbd5439))
+- **simply-package:** add retry support to package dependencies install ([cef03f5](https://github.com/SimplySF/simply-plugins-core/commit/cef03f59caf26a89e0c2262bf1d5084f643a0cab))
 
-# [2.7.0](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-package%402.6.4...%40simplysf%2Fsimply-package%402.7.0) (2026-08-13)
-
-### Features
-
-- add ability to specify exclusion matcher for cleanup ([e5c84a4](https://github.com/SimplySF/simply/commit/e5c84a490fee622da027f20fd2e6b12735bc28a6))
-
-## [2.6.4](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-package%402.6.3...%40simplysf%2Fsimply-package%402.6.4) (2026-08-13)
+## [2.8.14](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.8.13...%40simplysf%2Fsimply-package%402.8.14) (2026-08-21)
 
 **Note:** Version bump only for package @simplysf/simply-package
 
-## [2.6.3](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-package%402.6.2...%40simplysf%2Fsimply-package%402.6.3) (2026-08-13)
+## [2.8.13](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.8.12...%40simplysf%2Fsimply-package%402.8.13) (2026-08-20)
 
 **Note:** Version bump only for package @simplysf/simply-package
 
-## [2.6.2](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-package%402.6.1...%40simplysf%2Fsimply-package%402.6.2) (2026-08-13)
+## [2.8.12](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.8.11...%40simplysf%2Fsimply-package%402.8.12) (2026-08-20)
 
 **Note:** Version bump only for package @simplysf/simply-package
 
-## [2.6.1](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-package%402.6.0...%40simplysf%2Fsimply-package%402.6.1) (2026-08-13)
+## [2.8.11](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.8.10...%40simplysf%2Fsimply-package%402.8.11) (2026-08-18)
 
 **Note:** Version bump only for package @simplysf/simply-package
 
-# [2.6.0](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-package%402.5.6...%40simplysf%2Fsimply-package%402.6.0) (2026-08-13)
-
-### Features
-
-- add update mode for dependency install ([ad804de](https://github.com/SimplySF/simply/commit/ad804dea22fdb5eee6b3cecbb9a349f72c4065fc))
-
-## [2.5.6](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-package%402.5.5...%40simplysf%2Fsimply-package%402.5.6) (2026-08-12)
+## [2.8.10](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.8.9...%40simplysf%2Fsimply-package%402.8.10) (2026-08-18)
 
 **Note:** Version bump only for package @simplysf/simply-package
 
-## [2.5.5](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-package%402.5.4...%40simplysf%2Fsimply-package%402.5.5) (2026-08-12)
+## [2.8.9](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.8.8...%40simplysf%2Fsimply-package%402.8.9) (2026-08-18)
+
+**Note:** Version bump only for package @simplysf/simply-package
+
+## [2.8.8](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.8.7...%40simplysf%2Fsimply-package%402.8.8) (2026-08-18)
+
+**Note:** Version bump only for package @simplysf/simply-package
+
+## [2.8.7](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.8.6...%40simplysf%2Fsimply-package%402.8.7) (2026-08-17)
+
+**Note:** Version bump only for package @simplysf/simply-package
+
+## [2.8.6](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.8.5...%40simplysf%2Fsimply-package%402.8.6) (2026-08-17)
+
+**Note:** Version bump only for package @simplysf/simply-package
+
+## [2.8.5](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.8.4...%40simplysf%2Fsimply-package%402.8.5) (2026-08-17)
+
+**Note:** Version bump only for package @simplysf/simply-package
+
+## [2.8.4](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.8.3...%40simplysf%2Fsimply-package%402.8.4) (2026-08-16)
 
 ### Bug Fixes
 
-- build and test issues ([efd9a23](https://github.com/SimplySF/simply/commit/efd9a23efb9d4a08cc61c9e059e60d4b0edf6f99))
-- failing build ([14d6676](https://github.com/SimplySF/simply/commit/14d66767c9aa06a82adcf69c2f0d9adad0ac0d9f))
-- lint errors ([eb155ab](https://github.com/SimplySF/simply/commit/eb155ab0fa10232ad576da531a5f6c7b40f266bc))
+- documentation fixes ([7855aac](https://github.com/SimplySF/simply-plugins-core/commit/7855aac511916147d3ab542e5c4d660b2a348386))
 
-## [2.5.4](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-package%402.5.3...%40simplysf%2Fsimply-package%402.5.4) (2026-08-12)
+## [2.8.3](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.8.2...%40simplysf%2Fsimply-package%402.8.3) (2026-08-16)
 
 **Note:** Version bump only for package @simplysf/simply-package
 
-## [2.5.3](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-package%402.5.2...%40simplysf%2Fsimply-package%402.5.3) (2026-08-11)
+## [2.8.2](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.8.1...%40simplysf%2Fsimply-package%402.8.2) (2026-08-16)
+
+### Bug Fixes
+
+- update repository urls ([bfae56d](https://github.com/SimplySF/simply-plugins-core/commit/bfae56d1f6526c5627746b56cd69120cf75b3c1c))
+
+## [2.8.1](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.8.0...%40simplysf%2Fsimply-package%402.8.1) (2026-08-14)
 
 **Note:** Version bump only for package @simplysf/simply-package
 
-## [2.5.2](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-package%402.5.1...%40simplysf%2Fsimply-package%402.5.2) (2026-08-11)
-
-**Note:** Version bump only for package @simplysf/simply-package
-
-## [2.5.1](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-package%402.5.0...%40simplysf%2Fsimply-package%402.5.1) (2026-08-11)
-
-**Note:** Version bump only for package @simplysf/simply-package
-
-# [2.5.0](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-package%402.4.1...%40simplysf%2Fsimply-package%402.5.0) (2026-08-11)
+# [2.8.0](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.7.0...%40simplysf%2Fsimply-package%402.8.0) (2026-08-14)
 
 ### Features
 
-- add build logic for command snapshot ([2edb0d4](https://github.com/SimplySF/simply/commit/2edb0d4ae7cd5cf71f585e382c2c1edf1166013a))
+- support install report file ([9efe964](https://github.com/SimplySF/simply-plugins-core/commit/9efe964d129ebc2edd9a0640fed912e7cbbd5439))
 
-## [2.4.1](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-package%402.4.0...%40simplysf%2Fsimply-package%402.4.1) (2026-08-10)
-
-### Bug Fixes
-
-- revert devdependency change ([ce9e431](https://github.com/SimplySF/simply/commit/ce9e4319292f20f69efe2ddc39b8a389baccb6cc))
-
-# [2.4.0](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-package%402.3.8...%40simplysf%2Fsimply-package%402.4.0) (2026-08-09)
-
-### Bug Fixes
-
-- bad link-check command ([8095693](https://github.com/SimplySF/simply/commit/80956938d83b0bdfc17dd03b46ca1d58cdcb183d))
+# [2.7.0](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.6.4...%40simplysf%2Fsimply-package%402.7.0) (2026-08-13)
 
 ### Features
 
-- upgrade dependencies ([7631028](https://github.com/SimplySF/simply/commit/7631028c48904fcf914a34a34b5ac0f1e646c051))
+- add ability to specify exclusion matcher for cleanup ([e5c84a4](https://github.com/SimplySF/simply-plugins-core/commit/e5c84a490fee622da027f20fd2e6b12735bc28a6))
 
-## [2.3.8](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-package%402.3.7...%40simplysf%2Fsimply-package%402.3.8) (2026-08-09)
-
-**Note:** Version bump only for package @simplysf/simply-package
-
-## [2.3.7](https://github.com/SimplySF/simply/compare/%40simplysf%2Fsimply-package%402.3.6...%40simplysf%2Fsimply-package%402.3.7) (2026-08-09)
+## [2.6.4](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.6.3...%40simplysf%2Fsimply-package%402.6.4) (2026-08-13)
 
 **Note:** Version bump only for package @simplysf/simply-package
 
-## [2.3.6](https://github.com/SimplySF/simply/compare/@simplysf/simply-package@2.3.5...@simplysf/simply-package@2.3.6) (2026-08-09)
+## [2.6.3](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.6.2...%40simplysf%2Fsimply-package%402.6.3) (2026-08-13)
 
 **Note:** Version bump only for package @simplysf/simply-package
 
-## [2.3.5](https://github.com/SimplySF/simply/compare/@simplysf/simply-package@2.3.4...@simplysf/simply-package@2.3.5) (2026-08-09)
+## [2.6.2](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.6.1...%40simplysf%2Fsimply-package%402.6.2) (2026-08-13)
 
 **Note:** Version bump only for package @simplysf/simply-package
 
-## [2.3.4](https://github.com/SimplySF/simply/compare/@simplysf/simply-package@2.3.3...@simplysf/simply-package@2.3.4) (2026-08-09)
+## [2.6.1](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.6.0...%40simplysf%2Fsimply-package%402.6.1) (2026-08-13)
+
+**Note:** Version bump only for package @simplysf/simply-package
+
+# [2.6.0](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.5.6...%40simplysf%2Fsimply-package%402.6.0) (2026-08-13)
+
+### Features
+
+- add update mode for dependency install ([ad804de](https://github.com/SimplySF/simply-plugins-core/commit/ad804dea22fdb5eee6b3cecbb9a349f72c4065fc))
+
+## [2.5.6](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.5.5...%40simplysf%2Fsimply-package%402.5.6) (2026-08-12)
+
+**Note:** Version bump only for package @simplysf/simply-package
+
+## [2.5.5](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.5.4...%40simplysf%2Fsimply-package%402.5.5) (2026-08-12)
 
 ### Bug Fixes
 
-- standardize package.json ([66c10a9](https://github.com/SimplySF/simply/commit/66c10a952bde4a41c5adcc7629bfb7f227931b5a))
+- build and test issues ([efd9a23](https://github.com/SimplySF/simply-plugins-core/commit/efd9a23efb9d4a08cc61c9e059e60d4b0edf6f99))
+- failing build ([14d6676](https://github.com/SimplySF/simply-plugins-core/commit/14d66767c9aa06a82adcf69c2f0d9adad0ac0d9f))
+- lint errors ([eb155ab](https://github.com/SimplySF/simply-plugins-core/commit/eb155ab0fa10232ad576da531a5f6c7b40f266bc))
 
-## [2.3.3](https://github.com/SimplySF/simply/compare/@simplysf/simply-package@2.3.2...@simplysf/simply-package@2.3.3) (2026-08-09)
-
-**Note:** Version bump only for package @simplysf/simply-package
-
-## [2.3.2](https://github.com/SimplySF/simply/compare/@simplysf/simply-package@2.3.1...@simplysf/simply-package@2.3.2) (2026-08-09)
+## [2.5.4](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.5.3...%40simplysf%2Fsimply-package%402.5.4) (2026-08-12)
 
 **Note:** Version bump only for package @simplysf/simply-package
 
-## [2.3.1](https://github.com/SimplySF/simply/compare/@simplysf/simply-package@2.3.0...@simplysf/simply-package@2.3.1) (2026-08-09)
+## [2.5.3](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.5.2...%40simplysf%2Fsimply-package%402.5.3) (2026-08-11)
+
+**Note:** Version bump only for package @simplysf/simply-package
+
+## [2.5.2](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.5.1...%40simplysf%2Fsimply-package%402.5.2) (2026-08-11)
+
+**Note:** Version bump only for package @simplysf/simply-package
+
+## [2.5.1](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.5.0...%40simplysf%2Fsimply-package%402.5.1) (2026-08-11)
+
+**Note:** Version bump only for package @simplysf/simply-package
+
+# [2.5.0](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.4.1...%40simplysf%2Fsimply-package%402.5.0) (2026-08-11)
+
+### Features
+
+- add build logic for command snapshot ([2edb0d4](https://github.com/SimplySF/simply-plugins-core/commit/2edb0d4ae7cd5cf71f585e382c2c1edf1166013a))
+
+## [2.4.1](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.4.0...%40simplysf%2Fsimply-package%402.4.1) (2026-08-10)
+
+### Bug Fixes
+
+- revert devdependency change ([ce9e431](https://github.com/SimplySF/simply-plugins-core/commit/ce9e4319292f20f69efe2ddc39b8a389baccb6cc))
+
+# [2.4.0](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.3.8...%40simplysf%2Fsimply-package%402.4.0) (2026-08-09)
+
+### Bug Fixes
+
+- bad link-check command ([8095693](https://github.com/SimplySF/simply-plugins-core/commit/80956938d83b0bdfc17dd03b46ca1d58cdcb183d))
+
+### Features
+
+- upgrade dependencies ([7631028](https://github.com/SimplySF/simply-plugins-core/commit/7631028c48904fcf914a34a34b5ac0f1e646c051))
+
+## [2.3.8](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.3.7...%40simplysf%2Fsimply-package%402.3.8) (2026-08-09)
+
+**Note:** Version bump only for package @simplysf/simply-package
+
+## [2.3.7](https://github.com/SimplySF/simply-plugins-core/compare/%40simplysf%2Fsimply-package%402.3.6...%40simplysf%2Fsimply-package%402.3.7) (2026-08-09)
+
+**Note:** Version bump only for package @simplysf/simply-package
+
+## [2.3.6](https://github.com/SimplySF/simply-plugins-core/compare/@simplysf/simply-package@2.3.5...@simplysf/simply-package@2.3.6) (2026-08-09)
+
+**Note:** Version bump only for package @simplysf/simply-package
+
+## [2.3.5](https://github.com/SimplySF/simply-plugins-core/compare/@simplysf/simply-package@2.3.4...@simplysf/simply-package@2.3.5) (2026-08-09)
+
+**Note:** Version bump only for package @simplysf/simply-package
+
+## [2.3.4](https://github.com/SimplySF/simply-plugins-core/compare/@simplysf/simply-package@2.3.3...@simplysf/simply-package@2.3.4) (2026-08-09)
+
+### Bug Fixes
+
+- standardize package.json ([66c10a9](https://github.com/SimplySF/simply-plugins-core/commit/66c10a952bde4a41c5adcc7629bfb7f227931b5a))
+
+## [2.3.3](https://github.com/SimplySF/simply-plugins-core/compare/@simplysf/simply-package@2.3.2...@simplysf/simply-package@2.3.3) (2026-08-09)
+
+**Note:** Version bump only for package @simplysf/simply-package
+
+## [2.3.2](https://github.com/SimplySF/simply-plugins-core/compare/@simplysf/simply-package@2.3.1...@simplysf/simply-package@2.3.2) (2026-08-09)
+
+**Note:** Version bump only for package @simplysf/simply-package
+
+## [2.3.1](https://github.com/SimplySF/simply-plugins-core/compare/@simplysf/simply-package@2.3.0...@simplysf/simply-package@2.3.1) (2026-08-09)
 
 **Note:** Version bump only for package @simplysf/simply-package
 

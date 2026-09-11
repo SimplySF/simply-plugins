@@ -6,7 +6,7 @@ Simply is a collection of [Salesforce CLI](https://developer.salesforce.com/tool
 
 📖 **[Documentation site](https://simplysf.github.io/simply-plugins/)** — guides and command reference for every plugin, with [`simply-cicd`](https://simplysf.github.io/simply-plugins/cicd/) covered in the most depth.
 
-This repo holds the oclif CLI plugins themselves. The underlying, framework-independent libraries they're built on (querying/bulk-export/CSV utilities, AT4DX scan logic, Apex execute/log logic, document rendering, HTML report scaffolding) live in the sibling [`simply-node`](https://github.com/SimplySF/simply-node) repo and are consumed here as ordinary npm dependencies.
+This repo holds the oclif CLI plugins themselves. The underlying, framework-independent libraries they're built on (querying/bulk-export/CSV utilities, AT4DX scan logic, Apex execute/log logic, document rendering, HTML report scaffolding) live in the sibling [`simply-plugins-core`](https://github.com/SimplySF/simply-plugins-core) repo and are consumed here as ordinary npm dependencies.
 
 ## Packages
 
@@ -30,8 +30,8 @@ This repository is a monorepo. Thirteen packages are published independently to 
 
 Internal library — consumed by the plugins above, not a Salesforce CLI plugin itself:
 
-| Package                                                     | Description                        |
-| ----------------------------------------------------------- | ----------------------------------- |
+| Package                                                     | Description                          |
+| ----------------------------------------------------------- | ------------------------------------ |
 | [`@simplysf/simply-plugin-kit`](packages/simply-plugin-kit) | Shared oclif command building blocks |
 
 See each package's README for its full command reference.
