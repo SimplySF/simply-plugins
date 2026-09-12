@@ -65,7 +65,7 @@
     "@salesforce/core": "^8.30.0",
     "@salesforce/kit": "^3.2.6",
     "@salesforce/sf-plugins-core": "^12.2.16",
-    "@simplysf/simply-community-core": "^0.1.0",
+    "@simplysf/simply-community-core": "^0.2.2",
     "@simplysf/simply-core": "^1.5.1",
     "@simplysf/simply-plugin-kit": "workspace:^1.0.9"
   },
