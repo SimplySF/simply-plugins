@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.11.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.10.4...%40simplysf%2Fsimply-cicd%400.11.0) (2026-09-15)
+
+### Features
+
+- **cicd:** add build publish-utam-page-objects ([#34](https://github.com/SimplySF/simply-plugins/issues/34)) ([dd46d64](https://github.com/SimplySF/simply-plugins/commit/dd46d64af37e8c94ed9698e32aef380c5bce812f))
+
 ## [0.10.4](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.10.3...%40simplysf%2Fsimply-cicd%400.10.4) (2026-09-11)
 
 **Note:** Version bump only for package @simplysf/simply-cicd
