@@ -30,6 +30,7 @@ This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/sim
 - [`sf simply cicd build generate-flow-diff`](#sf-simply-cicd-build-generate-flow-diff)
 - [`sf simply cicd build install-dependencies`](#sf-simply-cicd-build-install-dependencies)
 - [`sf simply cicd build lwc-jest`](#sf-simply-cicd-build-lwc-jest)
+- [`sf simply cicd build publish-utam-page-objects`](#sf-simply-cicd-build-publish-utam-page-objects)
 - [`sf simply cicd build push-scratch`](#sf-simply-cicd-build-push-scratch)
 - [`sf simply cicd build test-scratch`](#sf-simply-cicd-build-test-scratch)
 - [`sf simply cicd deploy happy-soup deploy-unpackaged`](#sf-simply-cicd-deploy-happy-soup-deploy-unpackaged)
@@ -82,7 +83,7 @@ EXAMPLES
   $ sf simply cicd build cleanup-scratch-orgs --dev-hub my-devhub
 ```
 
-_See code: [lib/commands/simply/cicd/build/cleanup-scratch-orgs.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/build/cleanup-scratch-orgs.js)_
+_See code: [lib/commands/simply/cicd/build/cleanup-scratch-orgs.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/build/cleanup-scratch-orgs.js)_
 
 ## `sf simply cicd build create-fallback-tag`
 
@@ -133,7 +134,7 @@ EXAMPLES
   $ sf simply cicd build create-fallback-tag --ci-commit-ref-name main --ci-project-path group/project --project-access-token glpat-... --ci-pipeline-id 123
 ```
 
-_See code: [lib/commands/simply/cicd/build/create-fallback-tag.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/build/create-fallback-tag.js)_
+_See code: [lib/commands/simply/cicd/build/create-fallback-tag.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/build/create-fallback-tag.js)_
 
 ## `sf simply cicd build create-package-version`
 
@@ -199,7 +200,7 @@ EXAMPLES
   $ sf simply cicd build create-package-version --ci-commit-ref-name main --ci-commit-sha a1b2c3d --ci-pipeline-id 123 --ci-pipeline-url https://gitlab.example.com/pipelines/123 --ci-project-path group/project --project-access-token glpat-... --packaging-devhub my-packaging-devhub
 ```
 
-_See code: [lib/commands/simply/cicd/build/create-package-version.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/build/create-package-version.js)_
+_See code: [lib/commands/simply/cicd/build/create-package-version.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/build/create-package-version.js)_
 
 ## `sf simply cicd build create-scratch`
 
@@ -240,7 +241,7 @@ EXAMPLES
   $ sf simply cicd build create-scratch --dev-hub my-devhub
 ```
 
-_See code: [lib/commands/simply/cicd/build/create-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/build/create-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/create-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/build/create-scratch.js)_
 
 ## `sf simply cicd build delete-scratch`
 
@@ -279,7 +280,7 @@ EXAMPLES
   $ sf simply cicd build delete-scratch --dev-hub my-devhub
 ```
 
-_See code: [lib/commands/simply/cicd/build/delete-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/build/delete-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/delete-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/build/delete-scratch.js)_
 
 ## `sf simply cicd build determine-package-changes`
 
@@ -311,7 +312,7 @@ EXAMPLES
   $ sf simply cicd build determine-package-changes --out changes.env
 ```
 
-_See code: [lib/commands/simply/cicd/build/determine-package-changes.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/build/determine-package-changes.js)_
+_See code: [lib/commands/simply/cicd/build/determine-package-changes.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/build/determine-package-changes.js)_
 
 ## `sf simply cicd build generate-flexipage-diff`
 
@@ -369,7 +370,7 @@ EXAMPLES
   $ sf simply cicd build generate-flexipage-diff --vcs-provider github --ci-repository my-org/my-repo --ci-pull-request-number 45 --ci-run-id 987 --from abc123 --to def456 --project-access-token ghp-...
 ```
 
-_See code: [lib/commands/simply/cicd/build/generate-flexipage-diff.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flexipage-diff.js)_
+_See code: [lib/commands/simply/cicd/build/generate-flexipage-diff.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flexipage-diff.js)_
 
 ## `sf simply cicd build generate-flow-diff`
 
@@ -427,7 +428,7 @@ EXAMPLES
   $ sf simply cicd build generate-flow-diff --vcs-provider github --ci-repository my-org/my-repo --ci-pull-request-number 45 --ci-run-id 987 --from abc123 --to def456 --project-access-token ghp-...
 ```
 
-_See code: [lib/commands/simply/cicd/build/generate-flow-diff.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flow-diff.js)_
+_See code: [lib/commands/simply/cicd/build/generate-flow-diff.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flow-diff.js)_
 
 ## `sf simply cicd build install-dependencies`
 
@@ -464,7 +465,7 @@ EXAMPLES
   $ sf simply cicd build install-dependencies --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/install-dependencies.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/build/install-dependencies.js)_
+_See code: [lib/commands/simply/cicd/build/install-dependencies.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/build/install-dependencies.js)_
 
 ## `sf simply cicd build lwc-jest`
 
@@ -492,7 +493,110 @@ EXAMPLES
   $ sf simply cicd build lwc-jest
 ```
 
-_See code: [lib/commands/simply/cicd/build/lwc-jest.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/build/lwc-jest.js)_
+_See code: [lib/commands/simply/cicd/build/lwc-jest.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/build/lwc-jest.js)_
+
+## `sf simply cicd build publish-utam-page-objects`
+
+Compile the project's UTAM page objects for a package version and publish them to an npm registry.
+
+```
+USAGE
+  $ sf simply cicd build publish-utam-page-objects --packaging-devhub <value> [--json] [--flags-dir <value>] [--debug] [--disabled]
+    [--subscriber-package-version-id <value>] [--npm-package-name <value>] [--npm-registry <value>] [--npm-token
+    <value>] [--npm-access public|restricted] [--npm-dist-tag <value>] [--ci-commit-ref-name <value>]
+    [--package-release-branch-prefix <value>] [--utam-version <value>] [--dry-run] [--out <value>] [--env-file <value>]
+
+FLAGS
+  --ci-commit-ref-name=<value>             [env: SIMPLY_CICD_CI_COMMIT_REF_NAME] Git branch or ref name being built.
+                                           With --package-release-branch-prefix, reproduces the suffix
+                                           `create-package-version` put on the git tag, so the npm version mirrors it.
+  --debug                                  [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
+  --disabled                               [env: SIMPLY_CICD_DISABLED] Skip this job entirely, logging a warning instead
+                                           of running it.
+  --dry-run                                Compile and pack the package without publishing it, copying the tarball into
+                                           the project directory.
+  --env-file=<value>                       [default: subscriberPackageVersionId.env] Dotenv file to read
+                                           SUBSCRIBER_PACKAGE_VERSION_ID from when it isn't passed as a flag or set in
+                                           the environment.
+  --npm-access=<option>                    [env: SIMPLY_CICD_NPM_ACCESS] Passed through to npm publish --access. Needed
+                                           on npmjs.com to publish a scoped package publicly.
+                                           <options: public|restricted>
+  --npm-dist-tag=<value>                   Dist-tag to publish under, overriding the one derived from the git tag's
+                                           suffix.
+  --npm-package-name=<value>               [env: SIMPLY_CICD_NPM_PACKAGE_NAME] npm package name to publish the page
+                                           objects under. Required unless `plugins.simply.utam.packageName` is set in
+                                           sfdx-project.json; the flag wins when both are present.
+  --npm-registry=<value>                   [env: SIMPLY_CICD_NPM_REGISTRY] Registry to publish to. Defaults to whatever
+                                           npm itself is configured to use.
+  --npm-token=<value>                      [env: SIMPLY_CICD_NPM_TOKEN] Auth token for the registry. Written to an
+                                           .npmrc inside the staging directory only — the repo's own .npmrc is never
+                                           touched.
+  --out=<value>                            [default: subscriberPackageVersionId.env] Dotenv file to append the published
+                                           package name and version to.
+  --package-release-branch-prefix=<value>  Prefix identifying release branches. Determines whether the npm version and
+                                           dist-tag carry a branch suffix.
+  --packaging-devhub=<value>               (required) [env: SIMPLY_CICD_PACKAGING_DEVHUB] Alias of the Dev Hub that owns
+                                           the package version. Must already be authenticated.
+  --subscriber-package-version-id=<value>  Subscriber package version ID (04t) to publish page objects for. Falls back
+                                           to SUBSCRIBER_PACKAGE_VERSION_ID in the environment, then to the same key in
+                                           --env-file.
+  --utam-version=<value>                   [default: ^3, env: SIMPLY_CICD_UTAM_VERSION] npm version spec of the UTAM
+                                           compiler to install and compile with.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Compile the project's UTAM page objects for a package version and publish them to an npm registry.
+
+  Gives every Salesforce Unlocked Package version a matching npm package of compiled UTAM page objects, so a UI-test
+  suite can install exactly the page objects that describe the package version it is testing against.
+
+  Runs after `build create-package-version`, whose `04t` it takes as input — from `--subscriber-package-version-id`,
+  from `SUBSCRIBER_PACKAGE_VERSION_ID` in the environment (how a separate job receives that command's dotenv report), or
+  from the dotenv file itself (how a later step in the same job sees it). It compiles every `**/__utam__/**/*.utam.json`
+  under the default package directory with the UTAM compiler, in a staging directory outside the repo, and publishes the
+  result.
+
+  The npm version is derived from the Salesforce version number the same way `sfdx-project.json` writes a dependency
+  pin: `1.2.3.4` becomes `1.2.3-4`, with the git tag's suffix carried as a second prerelease identifier and as the
+  dist-tag, so `1.2.3.4` built from a `beta` package branch is `1.2.3-4.beta` at `beta`, and a release build is
+  `1.2.3-4` at `latest`.
+
+  The compiler is installed at run time rather than shipped with this plugin, so nothing is downloaded unless the
+  command actually runs.
+
+  Skips (without failing) when `PACKAGE_CHANGED=FALSE` is set in the environment (see `build
+  determine-package-changes`), when `--disabled` is passed, when no package version ID can be found, when the project
+  authors no page objects, or when this exact version is already on the registry — which is what makes retrying a job
+  that died after publishing succeed rather than fail on a version conflict. Any other failure fails the job: a missing
+  page-object package would silently break every UI test pinned to that version.
+
+  On success, appends `UTAM_PAGE_OBJECTS_PACKAGE` and `UTAM_PAGE_OBJECTS_VERSION` to `--out`, so a downstream job can
+  install the package without knowing the mapping rule.
+
+  Configure the package name, the compiler's type aliases, extra peer dependencies, and a project-owned compiler config
+  under `plugins.simply.utam` in `sfdx-project.json`.
+
+EXAMPLES
+  Publish page objects for the version this pipeline just created, reading its ID from the dotenv file:
+
+    $ sf simply cicd build publish-utam-page-objects --packaging-devhub my-packaging-devhub
+
+  Publish to a GitLab project registry on a release-branch build:
+
+    $ sf simply cicd build publish-utam-page-objects --packaging-devhub my-packaging-devhub --ci-commit-ref-name ^
+      release/1.2 --package-release-branch-prefix release/ --npm-registry ^
+      https://gitlab.example.com/api/v4/projects/42/packages/npm/ --npm-token $CI_JOB_TOKEN
+
+  Compile and pack without publishing, to inspect what would be produced:
+
+    $ sf simply cicd build publish-utam-page-objects --packaging-devhub my-packaging-devhub ^
+      --subscriber-package-version-id 04tXXXXXXXXXXXXXXX --dry-run
+```
+
+_See code: [lib/commands/simply/cicd/build/publish-utam-page-objects.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/build/publish-utam-page-objects.js)_
 
 ## `sf simply cicd build push-scratch`
 
@@ -533,7 +637,7 @@ EXAMPLES
   $ sf simply cicd build push-scratch --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/push-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/build/push-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/push-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/build/push-scratch.js)_
 
 ## `sf simply cicd build test-scratch`
 
@@ -569,7 +673,7 @@ EXAMPLES
   $ sf simply cicd build test-scratch --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/test-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/build/test-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/test-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/build/test-scratch.js)_
 
 ## `sf simply cicd deploy happy-soup deploy-unpackaged`
 
@@ -620,7 +724,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup deploy-unpackaged --ci-job-token $CI_JOB_TOKEN --alias my-org --source-branch-name release/uat
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/deploy-unpackaged.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/deploy-unpackaged.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/deploy-unpackaged.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/deploy-unpackaged.js)_
 
 ## `sf simply cicd deploy happy-soup deployment-close-out`
 
@@ -674,7 +778,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup deployment-close-out --ci-commit-ref-name main --ci-pipeline-id 123 --ci-project-path group/project --project-access-token $PROJECT_ACCESS_TOKEN --deploy-release-date 2026-01-15
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/deployment-close-out.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/deployment-close-out.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/deployment-close-out.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/deployment-close-out.js)_
 
 ## `sf simply cicd deploy happy-soup install-packaged`
 
@@ -720,7 +824,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup install-packaged --alias my-org
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/install-packaged.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/install-packaged.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/install-packaged.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/install-packaged.js)_
 
 ## `sf simply cicd deploy happy-soup post-deploy`
 
@@ -771,7 +875,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup post-deploy --ci-job-token $CI_JOB_TOKEN --alias my-org --source-branch-name release/uat
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/post-deploy.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/post-deploy.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/post-deploy.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/post-deploy.js)_
 
 ## `sf simply cicd deploy happy-soup post-destructive`
 
@@ -822,7 +926,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup post-destructive --ci-job-token $CI_JOB_TOKEN --alias my-org --source-branch-name release/uat
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/post-destructive.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/post-destructive.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/post-destructive.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/post-destructive.js)_
 
 ## `sf simply cicd deploy happy-soup pre-destructive`
 
@@ -873,7 +977,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup pre-destructive --ci-job-token $CI_JOB_TOKEN --alias my-org --source-branch-name release/uat
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/pre-destructive.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/pre-destructive.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/pre-destructive.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/pre-destructive.js)_
 
 ## `sf simply cicd deploy happy-soup tag-deployment`
 
@@ -925,7 +1029,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup tag-deployment --alias my-org --ci-pipeline-id 123 --ci-pipeline-url https://gitlab.example.com/group/project/-/pipelines/123 --ci-project-path group/project --ci-merge-request-iid 45 --ci-merge-request-project-url https://gitlab.example.com/group/project --project-access-token $PROJECT_ACCESS_TOKEN
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/tag-deployment.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/tag-deployment.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/tag-deployment.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/tag-deployment.js)_
 
 ## `sf simply cicd deploy happy-soup validate`
 
@@ -963,7 +1067,7 @@ EXAMPLES
   $ sf simply cicd deploy happy-soup validate --deploy-config-file deployment-configs/uat.json --deploy-rules-file config/deploy-rules.json
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/happy-soup/validate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/validate.js)_
+_See code: [lib/commands/simply/cicd/deploy/happy-soup/validate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/validate.js)_
 
 ## `sf simply cicd deploy project deploy-unpackaged`
 
@@ -1011,7 +1115,7 @@ EXAMPLES
   $ sf simply cicd deploy project deploy-unpackaged --ci-job-token $CI_JOB_TOKEN --alias my-org
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/project/deploy-unpackaged.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/deploy-unpackaged.js)_
+_See code: [lib/commands/simply/cicd/deploy/project/deploy-unpackaged.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/deploy-unpackaged.js)_
 
 ## `sf simply cicd deploy project install-packaged`
 
@@ -1059,7 +1163,7 @@ EXAMPLES
   $ sf simply cicd deploy project install-packaged --ci-job-token $CI_JOB_TOKEN --alias my-org
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/project/install-packaged.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/install-packaged.js)_
+_See code: [lib/commands/simply/cicd/deploy/project/install-packaged.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/install-packaged.js)_
 
 ## `sf simply cicd deploy project post-deploy`
 
@@ -1107,7 +1211,7 @@ EXAMPLES
   $ sf simply cicd deploy project post-deploy --ci-job-token $CI_JOB_TOKEN --alias my-org
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/project/post-deploy.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/post-deploy.js)_
+_See code: [lib/commands/simply/cicd/deploy/project/post-deploy.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/post-deploy.js)_
 
 ## `sf simply cicd deploy project post-destructive`
 
@@ -1155,7 +1259,7 @@ EXAMPLES
   $ sf simply cicd deploy project post-destructive --ci-job-token $CI_JOB_TOKEN --alias my-org
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/project/post-destructive.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/post-destructive.js)_
+_See code: [lib/commands/simply/cicd/deploy/project/post-destructive.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/post-destructive.js)_
 
 ## `sf simply cicd deploy project pre-destructive`
 
@@ -1203,7 +1307,7 @@ EXAMPLES
   $ sf simply cicd deploy project pre-destructive --ci-job-token $CI_JOB_TOKEN --alias my-org
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/project/pre-destructive.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/pre-destructive.js)_
+_See code: [lib/commands/simply/cicd/deploy/project/pre-destructive.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/pre-destructive.js)_
 
 ## `sf simply cicd deploy project run-apex-tests`
 
@@ -1250,7 +1354,7 @@ EXAMPLES
   $ sf simply cicd deploy project run-apex-tests --ci-job-token $CI_JOB_TOKEN --alias my-org
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/project/run-apex-tests.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/run-apex-tests.js)_
+_See code: [lib/commands/simply/cicd/deploy/project/run-apex-tests.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/run-apex-tests.js)_
 
 ## `sf simply cicd deploy project validate`
 
@@ -1285,7 +1389,7 @@ EXAMPLES
   $ sf simply cicd deploy project validate --deploy-config-file config/deploy.json --deploy-rules-file config/deploy-rules.json
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/project/validate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/validate.js)_
+_See code: [lib/commands/simply/cicd/deploy/project/validate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/validate.js)_
 
 ## `sf simply cicd deploy validate`
 
@@ -1319,7 +1423,7 @@ EXAMPLES
   $ sf simply cicd deploy validate --deploy-config-file config/deploy.json --deploy-rules-file config/deploy-rules.json
 ```
 
-_See code: [lib/commands/simply/cicd/deploy/validate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/deploy/validate.js)_
+_See code: [lib/commands/simply/cicd/deploy/validate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/deploy/validate.js)_
 
 ## `sf simply cicd notify happy-soup`
 
@@ -1392,7 +1496,7 @@ EXAMPLES
   $ sf simply cicd notify happy-soup --after-script --is-final-job --notify-on-completion --ci-job-status success --teams-webhook-url https://outlook.office.com/webhook/... --enabled
 ```
 
-_See code: [lib/commands/simply/cicd/notify/happy-soup.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/notify/happy-soup.js)_
+_See code: [lib/commands/simply/cicd/notify/happy-soup.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/notify/happy-soup.js)_
 
 ## `sf simply cicd notify project`
 
@@ -1466,7 +1570,7 @@ EXAMPLES
   $ sf simply cicd notify project --after-script --ci-job-stage post-destructive --ci-job-status success --teams-webhook-url https://outlook.office.com/webhook/... --enabled
 ```
 
-_See code: [lib/commands/simply/cicd/notify/project.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/notify/project.js)_
+_See code: [lib/commands/simply/cicd/notify/project.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/notify/project.js)_
 
 ## `sf simply cicd notify teams`
 
@@ -1498,7 +1602,7 @@ EXAMPLES
   $ sf simply cicd notify teams --payload '{"text":"Deployment complete"}' --webhook-url https://outlook.office.com/webhook/... --enabled
 ```
 
-_See code: [lib/commands/simply/cicd/notify/teams.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/notify/teams.js)_
+_See code: [lib/commands/simply/cicd/notify/teams.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/notify/teams.js)_
 
 ## `sf simply cicd sfdx-dependabot`
 
@@ -1574,7 +1678,7 @@ FLAG DESCRIPTIONS
     Defaults to the selected provider's public instance if not provided.
 ```
 
-_See code: [lib/commands/simply/cicd/sfdx-dependabot.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.1/packages/simply-cicd/lib/commands/simply/cicd/sfdx-dependabot.js)_
+_See code: [lib/commands/simply/cicd/sfdx-dependabot.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.10.4/packages/simply-cicd/lib/commands/simply/cicd/sfdx-dependabot.js)_
 <!-- commandsstop -->
 
 ## License

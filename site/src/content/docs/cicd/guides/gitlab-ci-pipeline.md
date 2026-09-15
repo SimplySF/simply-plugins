@@ -96,6 +96,27 @@ create-package-version:
     - sf simply cicd build create-fallback-tag
       --ci-commit-ref-name $CI_COMMIT_REF_NAME --ci-pipeline-id $CI_PIPELINE_ID
       --ci-project-path $CI_PROJECT_PATH --project-access-token $PROJECT_ACCESS_TOKEN
+  artifacts:
+    reports:
+      dotenv: subscriberPackageVersionId.env
+
+publish-utam-page-objects:
+  stage: package
+  needs: [create-package-version]
+  rules:
+    - if: '$PACKAGE_CHANGED == "TRUE"'
+  before_script:
+    - sf org login jwt --alias packaging-devhub --username $PACKAGING_DEVHUB_USERNAME
+      --jwt-key-file $PACKAGING_DEVHUB_JWT_KEY_FILE --client-id $PACKAGING_DEVHUB_CLIENT_ID
+      --instance-url $PACKAGING_DEVHUB_INSTANCE_URL
+  script:
+    - sf simply cicd build publish-utam-page-objects
+      --packaging-devhub packaging-devhub
+      --ci-commit-ref-name $CI_COMMIT_REF_NAME
+      --package-release-branch-prefix release/
+  variables:
+    SIMPLY_CICD_NPM_REGISTRY: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/
+    SIMPLY_CICD_NPM_TOKEN: ${CI_JOB_TOKEN}
 
 start-deployment:
   stage: deploy
@@ -108,7 +129,9 @@ start-deployment:
     SUBSCRIBER_PACKAGE_VERSION_ID: $SUBSCRIBER_PACKAGE_VERSION_ID
 ```
 
-`create-package-version` skips itself (without failing) on non-release branches and on merge-request pipelines; `create-fallback-tag` is a no-op unless a build actually needed a fallback (see [`build create-fallback-tag`](/cicd/reference/build/) — it does nothing when a real package version was just created). `start-deployment` re-triggers this same repo's pipeline as a **child pipeline**, forwarding the `04t...` ID that either command produced — that's the entire build → deploy handoff; nothing is copied by hand.
+`create-package-version` skips itself (without failing) on non-release branches and on merge-request pipelines; `create-fallback-tag` is a no-op unless a build actually needed a fallback (see [`build create-fallback-tag`](/cicd/reference/build/) — it does nothing when a real package version was just created). Whichever of the two produced an ID writes it to `subscriberPackageVersionId.env`, and the `dotenv` report on that job is what turns it into `$SUBSCRIBER_PACKAGE_VERSION_ID` for every job downstream. `start-deployment` re-triggers this same repo's pipeline as a **child pipeline**, forwarding that ID — that's the entire build → deploy handoff; nothing is copied by hand.
+
+`publish-utam-page-objects` is optional and only does anything for a project that authors [UTAM](https://utam.dev) page objects: it compiles them from the same source that produced the package version and publishes them to npm under a version derived from the Salesforce version number, so a UI-test suite can pin the page objects matching the package version it's testing. It reads the `04t` off the same `dotenv` report. See [Publishing UTAM page objects](/cicd/guides/utam-page-objects/); drop the job entirely if the project doesn't use UTAM.
 
 ### Deploy stage
 

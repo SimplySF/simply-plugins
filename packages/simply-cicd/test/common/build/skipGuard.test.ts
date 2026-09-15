@@ -38,6 +38,7 @@ describe('getSkipReason', () => {
     'test-scratch',
     'delete-scratch',
     'create-package-version',
+    'publish-utam-page-objects',
   ])('should skip %s if PACKAGE_CHANGED is FALSE', (job) => {
     process.env.PACKAGE_CHANGED = 'FALSE';
     expect(getSkipReason(job)).toBeDefined();
