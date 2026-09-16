@@ -49,10 +49,10 @@ importers:
         version: 3.1.1(eslint@10.9.1(jiti@2.6.1)(supports-color@7.2.0))
       eslint-plugin-import-x:
         specifier: ^4.17.1
-        version: 4.17.1(@typescript-eslint/utils@8.69.0(eslint@10.9.1(jiti@2.6.1)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@5.9.3))(eslint@10.9.1(jiti@2.6.1)(supports-color@7.2.0))(supports-color@7.2.0)
+        version: 4.17.1(@typescript-eslint/utils@8.70.0(eslint@10.9.1(jiti@2.6.1)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@5.9.3))(eslint@10.9.1(jiti@2.6.1)(supports-color@7.2.0))(supports-color@7.2.0)
       eslint-plugin-jsdoc:
-        specifier: ^64.3.4
-        version: 64.3.4(eslint@10.9.1(jiti@2.6.1)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@5.9.3)
+        specifier: ^64.3.10
+        version: 64.3.10(eslint@10.9.1(jiti@2.6.1)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@5.9.3)
       eslint-plugin-sf-plugin:
         specifier: ^3.0.0
         version: 3.0.0(eslint@10.9.1(jiti@2.6.1)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@5.9.3)
@@ -171,7 +171,7 @@ importers:
         version: 5.4.0
       '@salesforce/plugin-command-reference':
         specifier: ^3.1.133
-        version: 3.1.133(@types/node@26.4.1)(supports-color@8.1.1)
+        version: 3.1.133(@types/node@26.5.1)(supports-color@8.1.1)
       '@salesforce/source-deploy-retrieve':
         specifier: ^12.37.2
         version: 12.37.2(supports-color@8.1.1)
@@ -180,7 +180,7 @@ importers:
         version: 4.1.11(vitest@4.1.11)
       vitest:
         specifier: ^4.1.10
-        version: 4.1.11(@types/node@26.4.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))
+        version: 4.1.11(@types/node@26.4.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))
 
   packages/simply-apex:
     dependencies:
@@ -195,7 +195,7 @@ importers:
         version: 3.2.6
       '@salesforce/sf-plugins-core':
         specifier: ^12.2.16
-        version: 12.2.28(@types/node@26.4.1)
+        version: 12.2.28(@types/node@26.5.1)
       '@simplysf/simply-apex-core':
         specifier: ^0.3.2
         version: 0.3.2(supports-color@8.1.1)
@@ -214,13 +214,13 @@ importers:
         version: 8.4.39
       '@salesforce/plugin-command-reference':
         specifier: ^3.1.133
-        version: 3.1.133(@types/node@26.4.1)(supports-color@8.1.1)
+        version: 3.1.133(@types/node@26.5.1)(supports-color@8.1.1)
       '@vitest/coverage-v8':
         specifier: ^4.1.10
         version: 4.1.11(vitest@4.1.11)
       vitest:
         specifier: ^4.1.10
-        version: 4.1.11(@types/node@26.4.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))
+        version: 4.1.11(@types/node@26.4.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))
 
   packages/simply-cicd:
     dependencies:
@@ -235,7 +235,7 @@ importers:
         version: 3.2.6
       '@salesforce/sf-plugins-core':
         specifier: ^12.2.16
-        version: 12.2.28(@types/node@26.4.1)
+        version: 12.2.28(@types/node@26.5.1)
       '@salesforce/ts-types':
         specifier: ^2.0.12
         version: 2.0.12
@@ -269,13 +269,13 @@ importers:
         version: 5.4.0
       '@salesforce/plugin-command-reference':
         specifier: ^3.1.133
-        version: 3.1.133(@types/node@26.4.1)(supports-color@8.1.1)
+        version: 3.1.133(@types/node@26.5.1)(supports-color@8.1.1)
       '@vitest/coverage-v8':
         specifier: ^4.1.10
         version: 4.1.11(vitest@4.1.11)
       vitest:
         specifier: ^4.1.10
-        version: 4.1.11(@types/node@26.4.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))
+        version: 4.1.11(@types/node@26.4.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))
 
   packages/simply-community:
     dependencies:
@@ -290,7 +290,7 @@ importers:
         version: 3.2.6
       '@salesforce/sf-plugins-core':
         specifier: ^12.2.16
-        version: 12.2.28(@types/node@26.4.1)
+        version: 12.2.28(@types/node@26.5.1)
       '@simplysf/simply-community-core':
         specifier: ^0.1.0
         version: 0.1.0(supports-color@8.1.1)
@@ -306,7 +306,7 @@ importers:
         version: 5.4.0
       '@salesforce/plugin-command-reference':
         specifier: ^3.1.133
-        version: 3.1.133(@types/node@26.4.1)(supports-color@8.1.1)
+        version: 3.1.133(@types/node@26.5.1)(supports-color@8.1.1)
       '@salesforce/source-deploy-retrieve':
         specifier: ^12.37.2
         version: 12.37.2(supports-color@8.1.1)
@@ -315,7 +315,7 @@ importers:
         version: 4.1.11(vitest@4.1.11)
       vitest:
         specifier: ^4.1.10
-        version: 4.1.11(@types/node@26.4.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))
+        version: 4.1.11(@types/node@26.4.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))
 
   packages/simply-data:
     dependencies:
@@ -330,7 +330,7 @@ importers:
         version: 3.2.6
       '@salesforce/sf-plugins-core':
         specifier: ^12.2.16
-        version: 12.2.28(@types/node@26.4.1)
+        version: 12.2.28(@types/node@26.5.1)
       '@simplysf/simply-core':
         specifier: ^1.5.1
         version: 1.5.1
@@ -352,13 +352,13 @@ importers:
         version: 5.4.0
       '@salesforce/plugin-command-reference':
         specifier: ^3.1.133
-        version: 3.1.133(@types/node@26.4.1)(supports-color@8.1.1)
+        version: 3.1.133(@types/node@26.5.1)(supports-color@8.1.1)
       '@vitest/coverage-v8':
         specifier: ^4.1.10
         version: 4.1.11(vitest@4.1.11)
       vitest:
         specifier: ^4.1.10
-        version: 4.1.11(@types/node@26.4.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))
+        version: 4.1.11(@types/node@26.4.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))
 
   packages/simply-document:
     dependencies:
@@ -370,7 +370,7 @@ importers:
         version: 8.32.6
       '@salesforce/sf-plugins-core':
         specifier: ^12.2.16
-        version: 12.2.28(@types/node@26.4.1)
+        version: 12.2.28(@types/node@26.5.1)
       '@salesforce/source-deploy-retrieve':
         specifier: ^12.37.2
         version: 12.37.2(supports-color@8.1.1)
@@ -386,13 +386,13 @@ importers:
         version: 5.4.0
       '@salesforce/plugin-command-reference':
         specifier: ^3.1.133
-        version: 3.1.133(@types/node@26.4.1)(supports-color@8.1.1)
+        version: 3.1.133(@types/node@26.5.1)(supports-color@8.1.1)
       '@vitest/coverage-v8':
         specifier: ^4.1.10
         version: 4.1.11(vitest@4.1.11)
       vitest:
         specifier: ^4.1.10
-        version: 4.1.11(@types/node@26.4.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))
+        version: 4.1.11(@types/node@26.4.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))
 
   packages/simply-flow:
     dependencies:
@@ -404,7 +404,7 @@ importers:
         version: 8.32.6
       '@salesforce/sf-plugins-core':
         specifier: ^12.2.16
-        version: 12.2.28(@types/node@26.4.1)
+        version: 12.2.28(@types/node@26.5.1)
       '@simplysf/simply-core':
         specifier: ^1.5.1
         version: 1.5.1
@@ -420,13 +420,13 @@ importers:
         version: 5.4.0
       '@salesforce/plugin-command-reference':
         specifier: ^3.1.133
-        version: 3.1.133(@types/node@26.4.1)(supports-color@8.1.1)
+        version: 3.1.133(@types/node@26.5.1)(supports-color@8.1.1)
       '@vitest/coverage-v8':
         specifier: ^4.1.10
         version: 4.1.11(vitest@4.1.11)
       vitest:
         specifier: ^4.1.10
-        version: 4.1.11(@types/node@26.4.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))
+        version: 4.1.11(@types/node@26.4.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))
 
   packages/simply-package:
     dependencies:
@@ -447,7 +447,7 @@ importers:
         version: 4.27.8(supports-color@8.1.1)
       '@salesforce/sf-plugins-core':
         specifier: ^12.2.16
-        version: 12.2.28(@types/node@26.4.1)
+        version: 12.2.28(@types/node@26.5.1)
       '@simplysf/simply-core':
         specifier: ^1.5.1
         version: 1.5.1
@@ -463,13 +463,13 @@ importers:
         version: 5.4.0
       '@salesforce/plugin-command-reference':
         specifier: ^3.1.133
-        version: 3.1.133(@types/node@26.4.1)(supports-color@8.1.1)
+        version: 3.1.133(@types/node@26.5.1)(supports-color@8.1.1)
       '@vitest/coverage-v8':
         specifier: ^4.1.10
         version: 4.1.11(vitest@4.1.11)
       vitest:
         specifier: ^4.1.10
-        version: 4.1.11(@types/node@26.4.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))
+        version: 4.1.11(@types/node@26.4.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))
 
   packages/simply-permissions:
     dependencies:
@@ -484,7 +484,7 @@ importers:
         version: 3.2.6
       '@salesforce/sf-plugins-core':
         specifier: ^12.2.16
-        version: 12.2.28(@types/node@26.4.1)
+        version: 12.2.28(@types/node@26.5.1)
       '@salesforce/source-deploy-retrieve':
         specifier: ^12.37.2
         version: 12.37.2(supports-color@8.1.1)
@@ -506,13 +506,13 @@ importers:
         version: 5.4.0
       '@salesforce/plugin-command-reference':
         specifier: ^3.1.133
-        version: 3.1.133(@types/node@26.4.1)(supports-color@8.1.1)
+        version: 3.1.133(@types/node@26.5.1)(supports-color@8.1.1)
       '@vitest/coverage-v8':
         specifier: ^4.1.10
         version: 4.1.11(vitest@4.1.11)
       vitest:
         specifier: ^4.1.10
-        version: 4.1.11(@types/node@26.4.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))
+        version: 4.1.11(@types/node@26.4.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))
 
   packages/simply-plugin-kit:
     dependencies:
@@ -524,14 +524,14 @@ importers:
         version: 8.32.6
       '@salesforce/sf-plugins-core':
         specifier: ^12.2.16
-        version: 12.2.28(@types/node@26.4.1)
+        version: 12.2.28(@types/node@26.5.1)
     devDependencies:
       '@vitest/coverage-v8':
         specifier: ^4.1.10
         version: 4.1.11(vitest@4.1.11)
       vitest:
         specifier: ^4.1.10
-        version: 4.1.11(@types/node@26.4.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))
+        version: 4.1.11(@types/node@26.4.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))
 
   packages/simply-project:
     dependencies:
@@ -546,7 +546,7 @@ importers:
         version: 3.2.6
       '@salesforce/sf-plugins-core':
         specifier: ^12.2.16
-        version: 12.2.28(@types/node@26.4.1)
+        version: 12.2.28(@types/node@26.5.1)
       glob:
         specifier: ^13.0.6
         version: 13.0.6
@@ -556,13 +556,13 @@ importers:
         version: 5.4.0
       '@salesforce/plugin-command-reference':
         specifier: ^3.1.133
-        version: 3.1.133(@types/node@26.4.1)(supports-color@8.1.1)
+        version: 3.1.133(@types/node@26.5.1)(supports-color@8.1.1)
       '@vitest/coverage-v8':
         specifier: ^4.1.10
         version: 4.1.11(vitest@4.1.11)
       vitest:
         specifier: ^4.1.10
-        version: 4.1.11(@types/node@26.4.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))
+        version: 4.1.11(@types/node@26.4.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))
 
   packages/simply-schema:
     dependencies:
@@ -574,7 +574,7 @@ importers:
         version: 8.32.6
       '@salesforce/sf-plugins-core':
         specifier: ^12.2.16
-        version: 12.2.28(@types/node@26.4.1)
+        version: 12.2.28(@types/node@26.5.1)
       '@salesforce/source-deploy-retrieve':
         specifier: ^12.37.2
         version: 12.37.2(supports-color@8.1.1)
@@ -602,13 +602,13 @@ importers:
         version: 5.4.0
       '@salesforce/plugin-command-reference':
         specifier: ^3.1.133
-        version: 3.1.133(@types/node@26.4.1)(supports-color@8.1.1)
+        version: 3.1.133(@types/node@26.5.1)(supports-color@8.1.1)
       '@vitest/coverage-v8':
         specifier: ^4.1.10
         version: 4.1.11(vitest@4.1.11)
       vitest:
         specifier: ^4.1.10
-        version: 4.1.11(@types/node@26.4.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))
+        version: 4.1.11(@types/node@26.4.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))
 
   packages/simply-sobject:
     dependencies:
@@ -623,7 +623,7 @@ importers:
         version: 3.2.6
       '@salesforce/sf-plugins-core':
         specifier: ^12.2.16
-        version: 12.2.28(@types/node@26.4.1)
+        version: 12.2.28(@types/node@26.5.1)
       '@simplysf/simply-core':
         specifier: ^1.5.1
         version: 1.5.1
@@ -642,13 +642,13 @@ importers:
         version: 5.4.0
       '@salesforce/plugin-command-reference':
         specifier: ^3.1.133
-        version: 3.1.133(@types/node@26.4.1)(supports-color@8.1.1)
+        version: 3.1.133(@types/node@26.5.1)(supports-color@8.1.1)
       '@vitest/coverage-v8':
         specifier: ^4.1.10
         version: 4.1.11(vitest@4.1.11)
       vitest:
         specifier: ^4.1.10
-        version: 4.1.11(@types/node@26.4.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))
+        version: 4.1.11(@types/node@26.4.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))
 
   site:
     dependencies:
@@ -1073,8 +1073,8 @@ packages:
   '@emnapi/wasi-threads@1.2.2':
     resolution: {integrity: sha512-c95qOXkHdydNKhscBTebqEC1CVAZpyqOfVfBzQ1qgzyl3gfeldUjIggDbIZgDKsHLgnsM+igH7TJ/eAasaVuMA==}
 
-  '@es-joy/jsdoccomment@0.95.1':
-    resolution: {integrity: sha512-LO/RI08Fo9bhXwB7Od9G+1j3eSNq63+ZS5CQO8YLXHbDg6kx6S/DhTeY0+Fc9uZrjK1zZSyTx8Sg5gv5DIoCnA==}
+  '@es-joy/jsdoccomment@0.97.0':
+    resolution: {integrity: sha512-EP8uoFfh6+GsdGCduYtmWAW0h7AO+Ayik9Vh5YbA2r/3N6lmJKkCNZX+q3QBXC1K6ixjQ/9igF2b7WVvLm063g==}
     engines: {node: ^22.22.2 || >=24.15.0}
 
   '@es-joy/resolve.exports@1.2.0':
@@ -2618,6 +2618,9 @@ packages:
   '@types/node@26.4.1':
     resolution: {integrity: sha512-k97ENvZWtvA6yqz5/FS6a7duDgOPEeOQOc2iKS/nY6mX6qJUKtLnWzQS+Xj6tXweyj6ZcTAK2Qecetnvi9nCLA==}
 
+  '@types/node@26.5.1':
+    resolution: {integrity: sha512-CzNm2FezW4VR/LjG6yUdiEgLE/rAQ9Slj5gCu/C2VrdcW7I0ahNZ8DRbHT7zOZ6r3ONgd/bsQIeSaoDGrd1C6g==}
+
   '@types/prop-types@15.7.15':
     resolution: {integrity: sha512-F6bEyamV9jKGAFBEmlQnesRPGOQqS2+Uwi0Em15xenOxHaf2hv6L8YCVn3rPdPJOiJfPiCnLIRyvwVaqMY3MIw==}
 
@@ -2669,12 +2672,28 @@ packages:
     peerDependencies:
       typescript: '>=4.8.4 <6.1.0'
 
+  '@typescript-eslint/project-service@8.70.0':
+    resolution: {integrity: sha512-hFHbTNqhU9G+2eKFXCBVb1tjFT/LceiJ4+HfLO4pTpDI0KHi6iajpcFFkaSQ9gXmCh7n82A0PthaayEdN6mspQ==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    peerDependencies:
+      typescript: '>=4.8.4 <6.1.0'
+
   '@typescript-eslint/scope-manager@8.69.0':
     resolution: {integrity: sha512-ewfspqWvSxKSOaplqAUNbaSFO0eB6w1EtQ+esfYFRm3614Ty4uNtExkcbgd6nWsXphbqKyf9ZYdbZdv2xEoWEQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
+  '@typescript-eslint/scope-manager@8.70.0':
+    resolution: {integrity: sha512-8nP3Kwh5hlgZ4FicGvmznAmJe8UL4sdU8tLukrPaMuQmDuk4Y8xYfzu/aYZW4xT2JCgc7H/TpDI5cGlxcWJSqQ==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
   '@typescript-eslint/tsconfig-utils@8.69.0':
     resolution: {integrity: sha512-xNqK7YTDZsLniQMV/4rpFR8Z5JlqeRvVjuG1YgF/mdPVH84HSD19L8CczMA0qg2RfwEV231GHH3VnToJDo4MfQ==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    peerDependencies:
+      typescript: '>=4.8.4 <6.1.0'
+
+  '@typescript-eslint/tsconfig-utils@8.70.0':
+    resolution: {integrity: sha512-adnkeeNq9Sq1sUf4+FRVc0KdgYghzsgFpZSQVZVvY0LCuUuN0FnQgyGzCJeC4fW1cdXseBAjU2EOqUIjbNcZUw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       typescript: '>=4.8.4 <6.1.0'
@@ -2690,8 +2709,18 @@ packages:
     resolution: {integrity: sha512-K3VrubUPhlo9VDBS6QdI8YB5j7ClpqLRdefcz6PFrhnwicehBweqQ9Evhl4l+FYz0HdDmMqIiSX0aldGRYtDCA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
+  '@typescript-eslint/types@8.70.0':
+    resolution: {integrity: sha512-asTOIYhDg4zdzOScCyaytrsV3cR6B4ecPQlXw/dJIm7J/MZTtCtfVII9JD8Geh4jTCrK/Xe6cg5UevoleMcoJQ==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
   '@typescript-eslint/typescript-estree@8.69.0':
     resolution: {integrity: sha512-AdFkgqck3Vudb/kWnxlyafU/4aBhHrbQ9locP2N4psXTy5mOBg0SHJumnLvx7r6g1gV4DKvUFwV2nJZBoqOD8w==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    peerDependencies:
+      typescript: '>=4.8.4 <6.1.0'
+
+  '@typescript-eslint/typescript-estree@8.70.0':
+    resolution: {integrity: sha512-d9NmHMPEKQ7QCLLm1jI3zmoQBwT5KwFYjXBJ9ymZfKCUU+5rmTRykKAFvH5Qn/ZCds3CEAFS9OC9M/jkl0X2bA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       typescript: '>=4.8.4 <6.1.0'
@@ -2703,8 +2732,19 @@ packages:
       eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
       typescript: '>=4.8.4 <6.1.0'
 
+  '@typescript-eslint/utils@8.70.0':
+    resolution: {integrity: sha512-oZmtKJz/4fufZ2p3+Cn3ijEojcdfR+1zYDH2xKYrEly0dR/Q/1xUPRCOlKGxod78nWlU2UnDe09GZ3TaknBFGA==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    peerDependencies:
+      eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
+      typescript: '>=4.8.4 <6.1.0'
+
   '@typescript-eslint/visitor-keys@8.69.0':
     resolution: {integrity: sha512-+rmdgPA+EXkNgKYvHvFfhrs35utXbwaC5PGpDquSXcoXQDKUA5UjV0LmTucG/4JXkM31BTu4TilHtrN8IVBe8w==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@typescript-eslint/visitor-keys@8.70.0':
+    resolution: {integrity: sha512-BoC8PiO4Hkdo0TVJh9Ntxr5MxPDI7/oFsrygN5ADelFSeXG/qgNuucIGA+L5Z6JpPTE/uRfcTWtscjbUaufepQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@ungap/structured-clone@1.4.0':
@@ -3899,8 +3939,8 @@ packages:
       eslint-import-resolver-node:
         optional: true
 
-  eslint-plugin-jsdoc@64.3.4:
-    resolution: {integrity: sha512-aZZp44/yc6UTuH6U+cp1IVTTImfP2gd4JTuc+zMoB76ZI746avwbAqbdTejlKDFIYl6gBBhx3FG+jTRPZjnSXw==}
+  eslint-plugin-jsdoc@64.3.10:
+    resolution: {integrity: sha512-oevWxylnQJm/f4S5WfvqG/pdmX9Ndsjpfm51QpTFfG8MF92999sp4hm4/GxyboaAQRFngLRDL4iKHZz5hPs4Xw==}
     engines: {node: ^22.22.2 || >=24.15.0}
     peerDependencies:
       eslint: ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0
@@ -4835,8 +4875,8 @@ packages:
   js2xmlparser@4.0.2:
     resolution: {integrity: sha512-6n4D8gLlLf1n5mNLQPRfViYzu9RATblzPEtm1SthMX1Pjao0r9YI9nw7ZIfRxQMERS87mcswrg+r/OYrPRX6jA==}
 
-  jsdoc-type-pratt-parser@9.1.2:
-    resolution: {integrity: sha512-9EXymowgk1mb9RY1VxuwKc+AhaxfBk2CV0dWxgGM+l5RURTtiUoAx7MlKwcsiVcEXK5HEPa7FeH/tsRpqjEPRg==}
+  jsdoc-type-pratt-parser@9.2.1:
+    resolution: {integrity: sha512-V4Ww4EHnTcTLSOMoB0FsF72JhQvcAsriCm/LWnxJeGWoxIjEL2l9na11abQok5SYShq8m0Gl02el/xAbTCulvQ==}
     engines: {node: ^22.22.2 || >=24.15.0}
 
   jsesc@3.1.0:
@@ -6836,6 +6876,9 @@ packages:
   undici-types@8.3.0:
     resolution: {integrity: sha512-j375ScV60dom+YkPFIfTLcOiPxkN/buHz5GobjLhixFuANaNs3C9l4GmrWqejgXWJ7BbJcFYpTEUkS1Ge8bpZQ==}
 
+  undici-types@8.9.0:
+    resolution: {integrity: sha512-KTDyRTYX8sWmKXAikPHHSyc63CRPETMctyjKFupcC6OBLXT3xsN0e9aF7m+mIXutFWpUXuedtowG7iLOzp0kQg==}
+
   undici@6.28.0:
     resolution: {integrity: sha512-LIY910g9TI13YS95lrMFrs8Rm/u/irgHeTWoKCoteeJ04CUJ92eEfj0rVn+7VKMPBpUPiUoBKfhNyLI23EE/KA==}
     engines: {node: '>=18.17'}
@@ -7903,13 +7946,13 @@ snapshots:
       tslib: 2.8.1
     optional: true
 
-  '@es-joy/jsdoccomment@0.95.1':
+  '@es-joy/jsdoccomment@0.97.0':
     dependencies:
       '@types/estree': 1.0.9
-      '@typescript-eslint/types': 8.69.0
+      '@typescript-eslint/types': 8.70.0
       comment-parser: 1.4.8
       esquery: 1.7.0
-      jsdoc-type-pratt-parser: 9.1.2
+      jsdoc-type-pratt-parser: 9.2.1
 
   '@es-joy/resolve.exports@1.2.0': {}
 
@@ -8264,12 +8307,26 @@ snapshots:
     optionalDependencies:
       '@types/node': 26.4.1
 
+  '@inquirer/confirm@6.3.0(@types/node@26.5.1)':
+    dependencies:
+      '@inquirer/core': 12.0.1(@types/node@26.5.1)
+      '@inquirer/type': 4.1.0(@types/node@26.5.1)
+    optionalDependencies:
+      '@types/node': 26.5.1
+
   '@inquirer/confirm@6.3.1(@types/node@26.4.1)':
     dependencies:
       '@inquirer/core': 12.0.2(@types/node@26.4.1)
       '@inquirer/type': 4.1.1(@types/node@26.4.1)
     optionalDependencies:
       '@types/node': 26.4.1
+
+  '@inquirer/confirm@6.3.1(@types/node@26.5.1)':
+    dependencies:
+      '@inquirer/core': 12.0.2(@types/node@26.5.1)
+      '@inquirer/type': 4.1.1(@types/node@26.5.1)
+    optionalDependencies:
+      '@types/node': 26.5.1
 
   '@inquirer/core@10.3.2(@types/node@26.4.0)':
     dependencies:
@@ -8309,6 +8366,18 @@ snapshots:
     optionalDependencies:
       '@types/node': 26.4.1
 
+  '@inquirer/core@12.0.1(@types/node@26.5.1)':
+    dependencies:
+      '@inquirer/ansi': 2.0.7
+      '@inquirer/figures': 2.0.8
+      '@inquirer/type': 4.1.0(@types/node@26.5.1)
+      cli-width: 4.1.0
+      fast-wrap-ansi: 0.2.2
+      mute-stream: 3.0.0
+      signal-exit: 4.1.0
+    optionalDependencies:
+      '@types/node': 26.5.1
+
   '@inquirer/core@12.0.2(@types/node@26.4.1)':
     dependencies:
       '@inquirer/ansi': 2.0.8
@@ -8320,6 +8389,18 @@ snapshots:
       signal-exit: 4.1.0
     optionalDependencies:
       '@types/node': 26.4.1
+
+  '@inquirer/core@12.0.2(@types/node@26.5.1)':
+    dependencies:
+      '@inquirer/ansi': 2.0.8
+      '@inquirer/figures': 2.0.9
+      '@inquirer/type': 4.1.1(@types/node@26.5.1)
+      cli-width: 4.1.0
+      fast-wrap-ansi: 0.2.2
+      mute-stream: 3.0.0
+      signal-exit: 4.1.0
+    optionalDependencies:
+      '@types/node': 26.5.1
 
   '@inquirer/core@9.2.1':
     dependencies:
@@ -8445,6 +8526,14 @@ snapshots:
     optionalDependencies:
       '@types/node': 26.4.1
 
+  '@inquirer/password@5.2.0(@types/node@26.5.1)':
+    dependencies:
+      '@inquirer/ansi': 2.0.7
+      '@inquirer/core': 12.0.1(@types/node@26.5.1)
+      '@inquirer/type': 4.1.0(@types/node@26.5.1)
+    optionalDependencies:
+      '@types/node': 26.5.1
+
   '@inquirer/password@5.2.1(@types/node@26.4.1)':
     dependencies:
       '@inquirer/ansi': 2.0.8
@@ -8452,6 +8541,14 @@ snapshots:
       '@inquirer/type': 4.1.1(@types/node@26.4.1)
     optionalDependencies:
       '@types/node': 26.4.1
+
+  '@inquirer/password@5.2.1(@types/node@26.5.1)':
+    dependencies:
+      '@inquirer/ansi': 2.0.8
+      '@inquirer/core': 12.0.2(@types/node@26.5.1)
+      '@inquirer/type': 4.1.1(@types/node@26.5.1)
+    optionalDependencies:
+      '@types/node': 26.5.1
 
   '@inquirer/prompts@7.10.1(@types/node@26.4.0)':
     dependencies:
@@ -8565,9 +8662,17 @@ snapshots:
     optionalDependencies:
       '@types/node': 26.4.1
 
+  '@inquirer/type@4.1.0(@types/node@26.5.1)':
+    optionalDependencies:
+      '@types/node': 26.5.1
+
   '@inquirer/type@4.1.1(@types/node@26.4.1)':
     optionalDependencies:
       '@types/node': 26.4.1
+
+  '@inquirer/type@4.1.1(@types/node@26.5.1)':
+    optionalDependencies:
+      '@types/node': 26.5.1
 
   '@isaacs/cliui@9.0.0': {}
 
@@ -9315,12 +9420,12 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@salesforce/plugin-command-reference@3.1.133(@types/node@26.4.1)(supports-color@8.1.1)':
+  '@salesforce/plugin-command-reference@3.1.133(@types/node@26.5.1)(supports-color@8.1.1)':
     dependencies:
       '@oclif/core': 5.0.0
       '@salesforce/core': 9.1.9
       '@salesforce/kit': 4.0.0
-      '@salesforce/sf-plugins-core': 13.0.4(@types/node@26.4.1)
+      '@salesforce/sf-plugins-core': 13.0.4(@types/node@26.5.1)
       '@salesforce/ts-types': 3.2.0
       chalk: 5.6.2
       debug: 4.4.3(supports-color@8.1.1)
@@ -9352,10 +9457,46 @@ snapshots:
       - react-devtools-core
       - utf-8-validate
 
+  '@salesforce/sf-plugins-core@12.2.28(@types/node@26.5.1)':
+    dependencies:
+      '@inquirer/confirm': 6.3.0(@types/node@26.5.1)
+      '@inquirer/password': 5.2.0(@types/node@26.5.1)
+      '@oclif/core': 4.14.0
+      '@oclif/table': 0.5.9
+      '@salesforce/core': 8.32.6
+      '@salesforce/kit': 3.2.6
+      '@salesforce/ts-types': 2.0.12
+      ansis: 3.17.0
+      cli-progress: 3.12.0
+      terminal-link: 3.0.0
+    transitivePeerDependencies:
+      - '@types/node'
+      - bufferutil
+      - react-devtools-core
+      - utf-8-validate
+
   '@salesforce/sf-plugins-core@13.0.4(@types/node@26.4.1)':
     dependencies:
       '@inquirer/confirm': 6.3.1(@types/node@26.4.1)
       '@inquirer/password': 5.2.1(@types/node@26.4.1)
+      '@oclif/core': 5.0.0
+      '@oclif/table': 1.0.0
+      '@salesforce/core': 9.1.9
+      '@salesforce/kit': 4.0.0
+      '@salesforce/ts-types': 3.2.0
+      ansis: 3.17.0
+      cli-progress: 3.12.0
+      terminal-link: 3.0.0
+    transitivePeerDependencies:
+      - '@types/node'
+      - bufferutil
+      - react-devtools-core
+      - utf-8-validate
+
+  '@salesforce/sf-plugins-core@13.0.4(@types/node@26.5.1)':
+    dependencies:
+      '@inquirer/confirm': 6.3.1(@types/node@26.5.1)
+      '@inquirer/password': 5.2.1(@types/node@26.5.1)
       '@oclif/core': 5.0.0
       '@oclif/table': 1.0.0
       '@salesforce/core': 9.1.9
@@ -9761,6 +9902,10 @@ snapshots:
     dependencies:
       undici-types: 8.3.0
 
+  '@types/node@26.5.1':
+    dependencies:
+      undici-types: 8.9.0
+
   '@types/prop-types@15.7.15': {}
 
   '@types/react@18.3.31':
@@ -9830,12 +9975,30 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@typescript-eslint/project-service@8.70.0(supports-color@7.2.0)(typescript@5.9.3)':
+    dependencies:
+      '@typescript-eslint/tsconfig-utils': 8.70.0(typescript@5.9.3)
+      '@typescript-eslint/types': 8.70.0
+      debug: 4.4.3(supports-color@7.2.0)
+      typescript: 5.9.3
+    transitivePeerDependencies:
+      - supports-color
+
   '@typescript-eslint/scope-manager@8.69.0':
     dependencies:
       '@typescript-eslint/types': 8.69.0
       '@typescript-eslint/visitor-keys': 8.69.0
 
+  '@typescript-eslint/scope-manager@8.70.0':
+    dependencies:
+      '@typescript-eslint/types': 8.70.0
+      '@typescript-eslint/visitor-keys': 8.70.0
+
   '@typescript-eslint/tsconfig-utils@8.69.0(typescript@5.9.3)':
+    dependencies:
+      typescript: 5.9.3
+
+  '@typescript-eslint/tsconfig-utils@8.70.0(typescript@5.9.3)':
     dependencies:
       typescript: 5.9.3
 
@@ -9853,12 +10016,29 @@ snapshots:
 
   '@typescript-eslint/types@8.69.0': {}
 
+  '@typescript-eslint/types@8.70.0': {}
+
   '@typescript-eslint/typescript-estree@8.69.0(supports-color@7.2.0)(typescript@5.9.3)':
     dependencies:
       '@typescript-eslint/project-service': 8.69.0(supports-color@7.2.0)(typescript@5.9.3)
       '@typescript-eslint/tsconfig-utils': 8.69.0(typescript@5.9.3)
       '@typescript-eslint/types': 8.69.0
       '@typescript-eslint/visitor-keys': 8.69.0
+      debug: 4.4.3(supports-color@7.2.0)
+      minimatch: 10.2.6
+      semver: 7.8.5
+      tinyglobby: 0.2.17
+      ts-api-utils: 2.5.0(typescript@5.9.3)
+      typescript: 5.9.3
+    transitivePeerDependencies:
+      - supports-color
+
+  '@typescript-eslint/typescript-estree@8.70.0(supports-color@7.2.0)(typescript@5.9.3)':
+    dependencies:
+      '@typescript-eslint/project-service': 8.70.0(supports-color@7.2.0)(typescript@5.9.3)
+      '@typescript-eslint/tsconfig-utils': 8.70.0(typescript@5.9.3)
+      '@typescript-eslint/types': 8.70.0
+      '@typescript-eslint/visitor-keys': 8.70.0
       debug: 4.4.3(supports-color@7.2.0)
       minimatch: 10.2.6
       semver: 7.8.5
@@ -9879,9 +10059,25 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@typescript-eslint/utils@8.70.0(eslint@10.9.1(jiti@2.6.1)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@5.9.3)':
+    dependencies:
+      '@eslint-community/eslint-utils': 4.10.1(eslint@10.9.1(jiti@2.6.1)(supports-color@7.2.0))
+      '@typescript-eslint/scope-manager': 8.70.0
+      '@typescript-eslint/types': 8.70.0
+      '@typescript-eslint/typescript-estree': 8.70.0(supports-color@7.2.0)(typescript@5.9.3)
+      eslint: 10.9.1(jiti@2.6.1)(supports-color@7.2.0)
+      typescript: 5.9.3
+    transitivePeerDependencies:
+      - supports-color
+
   '@typescript-eslint/visitor-keys@8.69.0':
     dependencies:
       '@typescript-eslint/types': 8.69.0
+      eslint-visitor-keys: 5.0.1
+
+  '@typescript-eslint/visitor-keys@8.70.0':
+    dependencies:
+      '@typescript-eslint/types': 8.70.0
       eslint-visitor-keys: 5.0.1
 
   '@ungap/structured-clone@1.4.0': {}
@@ -9968,7 +10164,7 @@ snapshots:
       obug: 2.1.4
       std-env: 4.2.0
       tinyrainbow: 3.1.1
-      vitest: 4.1.11(@types/node@26.4.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))
+      vitest: 4.1.11(@types/node@26.4.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))
 
   '@vitest/expect@4.1.11':
     dependencies:
@@ -9979,13 +10175,13 @@ snapshots:
       chai: 6.2.2
       tinyrainbow: 3.1.1
 
-  '@vitest/mocker@4.1.11(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))':
+  '@vitest/mocker@4.1.11(vite@8.2.2(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))':
     dependencies:
       '@vitest/spy': 4.1.11
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
-      vite: 8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1)
+      vite: 8.2.2(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1)
 
   '@vitest/pretty-format@4.1.11':
     dependencies:
@@ -11078,7 +11274,7 @@ snapshots:
     dependencies:
       eslint: 10.9.1(jiti@2.6.1)(supports-color@7.2.0)
 
-  eslint-plugin-import-x@4.17.1(@typescript-eslint/utils@8.69.0(eslint@10.9.1(jiti@2.6.1)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@5.9.3))(eslint@10.9.1(jiti@2.6.1)(supports-color@7.2.0))(supports-color@7.2.0):
+  eslint-plugin-import-x@4.17.1(@typescript-eslint/utils@8.70.0(eslint@10.9.1(jiti@2.6.1)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@5.9.3))(eslint@10.9.1(jiti@2.6.1)(supports-color@7.2.0))(supports-color@7.2.0):
     dependencies:
       '@typescript-eslint/types': 8.69.0
       comment-parser: 1.4.8
@@ -11091,15 +11287,15 @@ snapshots:
       stable-hash-x: 0.2.0
       unrs-resolver: 1.12.2
     optionalDependencies:
-      '@typescript-eslint/utils': 8.69.0(eslint@10.9.1(jiti@2.6.1)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@5.9.3)
+      '@typescript-eslint/utils': 8.70.0(eslint@10.9.1(jiti@2.6.1)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@5.9.3)
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-jsdoc@64.3.4(eslint@10.9.1(jiti@2.6.1)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@5.9.3):
+  eslint-plugin-jsdoc@64.3.10(eslint@10.9.1(jiti@2.6.1)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@5.9.3):
     dependencies:
-      '@es-joy/jsdoccomment': 0.95.1
+      '@es-joy/jsdoccomment': 0.97.0
       '@es-joy/resolve.exports': 1.2.0
-      '@typescript-eslint/utils': 8.69.0(eslint@10.9.1(jiti@2.6.1)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@5.9.3)
+      '@typescript-eslint/utils': 8.70.0(eslint@10.9.1(jiti@2.6.1)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@5.9.3)
       are-docs-informative: 0.1.1
       comment-parser: 1.4.8
       debug: 4.4.3(supports-color@7.2.0)
@@ -12284,9 +12480,10 @@ snapshots:
     dependencies:
       xmlcreate: 2.0.4
 
-  jsdoc-type-pratt-parser@9.1.2:
+  jsdoc-type-pratt-parser@9.2.1:
     dependencies:
       '@types/estree': 1.0.9
+      '@types/node': 26.5.1
 
   jsesc@3.1.0: {}
 
@@ -14912,6 +15109,8 @@ snapshots:
 
   undici-types@8.3.0: {}
 
+  undici-types@8.9.0: {}
+
   undici@6.28.0: {}
 
   undici@8.10.1: {}
@@ -15101,7 +15300,7 @@ snapshots:
       jiti: 2.6.1
       yaml: 2.9.0
 
-  vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1):
+  vite@8.2.2(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1):
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.7
@@ -15109,7 +15308,7 @@ snapshots:
       rolldown: 1.2.6
       tinyglobby: 0.2.17
     optionalDependencies:
-      '@types/node': 26.4.1
+      '@types/node': 26.5.1
       esbuild: 0.28.2
       fsevents: 2.3.3
       jiti: 2.6.1
@@ -15119,10 +15318,10 @@ snapshots:
     optionalDependencies:
       vite: 8.2.2(@types/node@26.4.0)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.0)
 
-  vitest@4.1.11(@types/node@26.4.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1)):
+  vitest@4.1.11(@types/node@26.4.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1)):
     dependencies:
       '@vitest/expect': 4.1.11
-      '@vitest/mocker': 4.1.11(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))
+      '@vitest/mocker': 4.1.11(vite@8.2.2(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1))
       '@vitest/pretty-format': 4.1.11
       '@vitest/runner': 4.1.11
       '@vitest/snapshot': 4.1.11
@@ -15139,7 +15338,7 @@ snapshots:
       tinyexec: 1.3.0
       tinyglobby: 0.2.17
       tinyrainbow: 3.1.1
-      vite: 8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1)
+      vite: 8.2.2(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.6.1)(yaml@2.9.1)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 26.4.0
