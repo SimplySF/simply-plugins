@@ -582,8 +582,8 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
       '@simplysf/simply-schema-core':
-        specifier: ^0.1.0
-        version: 0.1.0
+        specifier: ^0.2.3
+        version: 0.2.3
       csv-parse:
         specifier: ^7.0.2
         version: 7.0.2
@@ -2433,8 +2433,12 @@ packages:
     resolution: {integrity: sha512-V2eeeouCe2SzVe+1ZIrWILn7NALo1oeCo1tSEnHdVQZ203NOPDswxbDRDiEU84DPKuF1zs2G5MTAUk8Ijxg64A==}
     engines: {node: '>=22.0.0'}
 
-  '@simplysf/simply-schema-core@0.1.0':
-    resolution: {integrity: sha512-KgiKO5a1WF5R2gyiMYU/Ot72J7Bi5+/VX680Fq1kKojRst6ALvytl6dZPjOefOzqVhK/ModO4YG+LOntlEl5Gg==}
+  '@simplysf/simply-report@1.0.6':
+    resolution: {integrity: sha512-afB44rGXvVQYj85CTB12VhJvd9nV8OGh4sfwWBYMVmmix/M5snU7eACTjrX0Z7counz2tvZiX6hFTyxlYXsvWA==}
+    engines: {node: '>=22.0.0'}
+
+  '@simplysf/simply-schema-core@0.2.3':
+    resolution: {integrity: sha512-fdAYmdzibgwHhWR1ZdK7++yXToPSv2BjkUNsUZ1khCc2DwiqqIaooJNpwm3x8awYH0oY5h1/neoWLrKx3D5kow==}
     engines: {node: '>=22.0.0'}
 
   '@simplysf/simply-sobject-core@0.2.2':
@@ -9706,9 +9710,13 @@ snapshots:
     dependencies:
       handlebars: 4.7.9
 
-  '@simplysf/simply-schema-core@0.1.0':
+  '@simplysf/simply-report@1.0.6':
     dependencies:
-      '@simplysf/simply-report': 1.0.4
+      handlebars: 4.7.9
+
+  '@simplysf/simply-schema-core@0.2.3':
+    dependencies:
+      '@simplysf/simply-report': 1.0.6
       exceljs: 4.4.0
 
   '@simplysf/simply-sobject-core@0.2.2':
