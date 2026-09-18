@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.9](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-document%400.4.8...%40simplysf%2Fsimply-document%400.4.9) (2026-09-18)
+
+### Bug Fixes
+
+- **deps:** bump @simplysf/simply-document-core from 0.2.0 to 0.2.4 ([#38](https://github.com/SimplySF/simply-plugins/issues/38)) ([2c98d9d](https://github.com/SimplySF/simply-plugins/commit/2c98d9dd14ee983a8fce24790bd16d5e59a7f249))
+
 ## [0.4.8](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-document%400.4.7...%40simplysf%2Fsimply-document%400.4.8) (2026-09-11)
 
 **Note:** Version bump only for package @simplysf/simply-document
