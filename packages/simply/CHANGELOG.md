@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.5.21](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply%406.5.20...%40simplysf%2Fsimply%406.5.21) (2026-09-22)
+
+**Note:** Version bump only for package @simplysf/simply
+
 ## [6.5.20](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply%406.5.19...%40simplysf%2Fsimply%406.5.20) (2026-09-22)
 
 **Note:** Version bump only for package @simplysf/simply
