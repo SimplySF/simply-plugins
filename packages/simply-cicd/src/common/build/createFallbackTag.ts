@@ -53,6 +53,22 @@ async function resolveLastTag(explicitLastTag: string | undefined): Promise<stri
   }
 }
 
+/**
+ * Version tags already pointing at HEAD. `create-package-version` tags the commit it just built, and
+ * the documented pipeline runs `create-fallback-tag` right after it in the same job, so a non-empty
+ * result means this commit already has a real package version and needs no fallback. It also keeps a
+ * retried job from stacking a second fallback tag on a commit that already got one.
+ */
+async function findVersionTagsAtHead(): Promise<string[]> {
+  const tagMatchPattern = await resolveTagMatchPattern();
+  try {
+    const { stdout } = await execa('git', ['tag', '--points-at', 'HEAD', '--list', tagMatchPattern]);
+    return stdout.split(/\r?\n/).filter(Boolean);
+  } catch {
+    return [];
+  }
+}
+
 function extractPackageId(tagAnnotation: string): string {
   const parts = tagAnnotation.trim().split(/\s+/);
   return parts.find((part) => isSubscriberPackageVersionId(part) && (part.length === 15 || part.length === 18)) ?? '';
@@ -82,12 +98,18 @@ export type CreateFallbackTagResult = { created: boolean; tag?: string; packageI
 /**
  * Creates and pushes a fallback git tag that increments the suffix of the last release tag and
  * annotates it with the previous package version's `04t` ID, for builds that didn't produce a new
- * package version. Soft no-ops (does not throw) when no last tag, or no valid package ID within
- * it, can be found — a build with nothing to fall back to just has nothing to do here.
+ * package version. Soft no-ops (does not throw) when HEAD already carries a version tag, or when no
+ * last tag, or no valid package ID within it, can be found — a build with nothing to fall back to just has nothing to do here.
  */
 export async function createFallbackTag(options: CreateFallbackTagOptions): Promise<CreateFallbackTagResult> {
   logger.info('Starting fallback tagging process...');
   const outFile = options.out ?? 'subscriberPackageVersionId.env';
+
+  const tagsAtHead = await findVersionTagsAtHead();
+  if (tagsAtHead.length > 0) {
+    logger.info(`HEAD is already tagged (${tagsAtHead.join(', ')}). No fallback tag needed.`);
+    return { created: false };
+  }
 
   const lastTag = await resolveLastTag(options.lastTag);
   if (!lastTag) {
