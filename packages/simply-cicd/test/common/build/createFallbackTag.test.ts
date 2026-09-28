@@ -139,6 +139,27 @@ describe('createFallbackTag', () => {
     expect(result.tag).toBe('v6.50.0.4-1');
   });
 
+  it('should soft no-op when create-package-version already tagged HEAD earlier in the same job', async () => {
+    vi.mocked(execa).mockImplementation((async (cmd: string, args: readonly string[] = []) => {
+      if (cmd === 'git' && args[0] === 'tag' && args[1] === '--points-at') {
+        expect(args).toEqual(['tag', '--points-at', 'HEAD', '--list', 'v*']);
+        return { stdout: 'v1.2.0.3\n' };
+      }
+      // Without the guard, describe would find the fresh tag and create v1.2.0.3-1 on top of it.
+      if (cmd === 'git' && args[0] === 'describe') return { stdout: 'v1.2.0.3\n' };
+      if (cmd === 'git' && args[0] === 'tag' && args[1] === '-l') return { stdout: 'v1.2.0.3   04t123456789012\n' };
+      return { stdout: '' };
+    }) as never);
+
+    const result = await createFallbackTag(baseOptions);
+
+    expect(result).toEqual({ created: false });
+    expect(logger.info).toHaveBeenCalledWith('HEAD is already tagged (v1.2.0.3). No fallback tag needed.');
+    expect(addGitRemote).not.toHaveBeenCalled();
+    expect(execa).not.toHaveBeenCalledWith('git', expect.arrayContaining(['-a']));
+    expect(fsPromises.writeFile).not.toHaveBeenCalled();
+  });
+
   it('should warn and soft no-op when no valid package ID is found in the annotated tag', async () => {
     vi.mocked(execa).mockImplementation((async (cmd: string, args: readonly string[] = []) => {
       if (cmd === 'git' && args[0] === 'describe') return { stdout: 'v1.1.0\n' };
