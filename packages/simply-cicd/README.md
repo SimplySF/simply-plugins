@@ -127,6 +127,10 @@ DESCRIPTION
   when no last tag, or no valid package ID within it, can be found — a build with nothing to fall back to just has
   nothing to do here.
 
+  Also soft no-ops when HEAD already carries a tag matching the version prefix, e.g. because `build
+  create-package-version` just created and tagged a real package version earlier in the same job. This also keeps a
+  retried job from adding a second fallback tag to the same commit.
+
   Skipped automatically when `PACKAGE_CHANGED=TRUE` is set in the environment (see `build determine-package-changes`) —
   a real package version will be created instead.
 
