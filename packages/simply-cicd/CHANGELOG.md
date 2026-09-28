@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.11.4](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.11.3...%40simplysf%2Fsimply-cicd%400.11.4) (2026-09-28)
+
+### Bug Fixes
+
+- **simply-cicd:** reuse an existing GITREMOTE alias instead of failing ([#50](https://github.com/SimplySF/simply-plugins/issues/50)) ([2958f11](https://github.com/SimplySF/simply-plugins/commit/2958f11a4c5043f6ca0c8820e1a8691936959774))
+
 ## [0.11.3](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.11.2...%40simplysf%2Fsimply-cicd%400.11.3) (2026-09-28)
 
 ### Bug Fixes
