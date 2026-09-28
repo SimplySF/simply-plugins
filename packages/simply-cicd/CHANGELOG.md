@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.11.5](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.11.4...%40simplysf%2Fsimply-cicd%400.11.5) (2026-09-28)
+
+### Bug Fixes
+
+- **simply-cicd:** skip the fallback tag when HEAD already has a version tag ([#51](https://github.com/SimplySF/simply-plugins/issues/51)) ([d69f342](https://github.com/SimplySF/simply-plugins/commit/d69f342178d126394d2738f501eb35c9b2f52f5f))
+
 ## [0.11.4](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.11.3...%40simplysf%2Fsimply-cicd%400.11.4) (2026-09-28)
 
 ### Bug Fixes
