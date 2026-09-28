@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.31](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-schema%400.3.30...%40simplysf%2Fsimply-schema%400.3.31) (2026-09-28)
+
+### Bug Fixes
+
+- **deps:** bump @simplysf/simply-core from 1.5.1 to 1.6.7 ([#46](https://github.com/SimplySF/simply-plugins/issues/46)) ([5e241cc](https://github.com/SimplySF/simply-plugins/commit/5e241cc94a003f0f8aee87b4c0d0a6e0be42fb32))
+
 ## [0.3.30](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-schema%400.3.29...%40simplysf%2Fsimply-schema%400.3.30) (2026-09-18)
 
 ### Bug Fixes
