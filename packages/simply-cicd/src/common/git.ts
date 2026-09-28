@@ -85,7 +85,13 @@ export async function cloneRepo(deployment: Deployment, options: CloneRepoOption
   }
 }
 
-/** Adds a temporary authenticated git remote for CI push/tag operations. Returns the remote's alias. */
+/**
+ * Adds a temporary authenticated git remote for CI push/tag operations. Returns the remote's alias.
+ *
+ * The alias is keyed on the pipeline ID, so a retried job, or a later job in the same pipeline that
+ * lands on a runner reusing the working copy (`GIT_STRATEGY: fetch`), finds it already present. In
+ * that case the existing remote's URL is overwritten instead, which also refreshes the token.
+ */
 export async function addGitRemote(
   ciPipelineId: string,
   accessToken: string,
@@ -97,6 +103,8 @@ export async function addGitRemote(
   }
   const remoteAlias = `GITREMOTE${ciPipelineId}`;
   const remoteUrl = vcsProvider.buildAuthenticatedRemoteUrl(accessToken, ciProjectPath);
-  await execa('git', ['remote', 'add', remoteAlias, remoteUrl]);
+  const { stdout: existingRemotes } = await execa('git', ['remote']);
+  const remoteExists = existingRemotes.split(/\r?\n/).includes(remoteAlias);
+  await execa('git', ['remote', remoteExists ? 'set-url' : 'add', remoteAlias, remoteUrl]);
   return remoteAlias;
 }
