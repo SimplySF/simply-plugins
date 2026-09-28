@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.13](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-permissions%401.3.12...%40simplysf%2Fsimply-permissions%401.3.13) (2026-09-28)
+
+### Bug Fixes
+
+- **deps:** bump zod from 4.5.4 to 4.6.5 ([#48](https://github.com/SimplySF/simply-plugins/issues/48)) ([c2ada4d](https://github.com/SimplySF/simply-plugins/commit/c2ada4d68edbd77214485eef2accd88a15a50ed3))
+
 ## [1.3.12](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-permissions%401.3.11...%40simplysf%2Fsimply-permissions%401.3.12) (2026-09-28)
 
 ### Bug Fixes

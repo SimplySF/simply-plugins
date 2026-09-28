@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.11.3](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.11.2...%40simplysf%2Fsimply-cicd%400.11.3) (2026-09-28)
+
+### Bug Fixes
+
+- **deps:** bump zod from 4.5.4 to 4.6.5 ([#48](https://github.com/SimplySF/simply-plugins/issues/48)) ([c2ada4d](https://github.com/SimplySF/simply-plugins/commit/c2ada4d68edbd77214485eef2accd88a15a50ed3))
+
 ## [0.11.2](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.11.1...%40simplysf%2Fsimply-cicd%400.11.2) (2026-09-28)
 
 ### Bug Fixes
