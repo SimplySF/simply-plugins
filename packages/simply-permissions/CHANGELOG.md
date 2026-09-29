@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-permissions%401.3.14...%40simplysf%2Fsimply-permissions%401.4.0) (2026-09-29)
+
+### Features
+
+- **simply-permissions:** build every permission set in a file with build --file ([#53](https://github.com/SimplySF/simply-plugins/issues/53)) ([3699185](https://github.com/SimplySF/simply-plugins/commit/3699185dd3b60bb10d5d0322c82271d7af3b774a)), closes [SimplySF/simply-plugins-core#219](https://github.com/SimplySF/simply-plugins-core/issues/219) [post-#52](https://github.com/post-/issues/52)
+
 ## [1.3.14](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-permissions%401.3.13...%40simplysf%2Fsimply-permissions%401.3.14) (2026-09-29)
 
 ### Bug Fixes

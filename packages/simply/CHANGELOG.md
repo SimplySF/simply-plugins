@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.6.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply%406.5.24...%40simplysf%2Fsimply%406.6.0) (2026-09-29)
+
+### Features
+
+- **simply-permissions:** build every permission set in a file with build --file ([#53](https://github.com/SimplySF/simply-plugins/issues/53)) ([3699185](https://github.com/SimplySF/simply-plugins/commit/3699185dd3b60bb10d5d0322c82271d7af3b774a)), closes [SimplySF/simply-plugins-core#219](https://github.com/SimplySF/simply-plugins-core/issues/219) [post-#52](https://github.com/post-/issues/52)
+
 ## [6.5.24](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply%406.5.23...%40simplysf%2Fsimply%406.5.24) (2026-09-29)
 
 **Note:** Version bump only for package @simplysf/simply
