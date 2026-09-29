@@ -169,8 +169,8 @@ export default class PermissionsBuild extends SfCommand<PermissionsBuildResult> 
             if (!fieldPermissions.has(component.fullName)) {
               fieldPermissions.set(component.fullName, new Map());
             }
-            fieldPermissions.get(component.fullName)?.set(child.fullName, {
-              field: `${component.fullName}.${child.fullName}`,
+            fieldPermissions.get(component.fullName)?.set(child.name, {
+              field: `${component.fullName}.${child.name}`,
               readable: true,
               editable: false,
             });
@@ -178,8 +178,8 @@ export default class PermissionsBuild extends SfCommand<PermissionsBuildResult> 
             if (!recordTypeVisibilities.has(component.fullName)) {
               recordTypeVisibilities.set(component.fullName, new Map());
             }
-            recordTypeVisibilities.get(component.fullName)?.set(child.fullName, {
-              recordType: `${component.fullName}.${child.fullName}`,
+            recordTypeVisibilities.get(component.fullName)?.set(child.name, {
+              recordType: `${component.fullName}.${child.name}`,
               visible: true,
             });
           }
