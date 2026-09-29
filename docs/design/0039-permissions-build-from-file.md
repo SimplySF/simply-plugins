@@ -1,6 +1,6 @@
 # 0039 — `simply permissions build --file`
 
-**Status:** Draft
+**Status:** Implemented (PR #53; fix #52; core SimplySF/simply-plugins-core#219, `simply-permissions-core@0.3.0`)
 **Package:** `packages/simply-permissions` (CLI); `packages/simply-permissions-core` (library, in
 `simply-plugins-core`, where this doc is duplicated as its 0041)
 **Date:** 2026-09-29
