@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.14](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-permissions%401.3.13...%40simplysf%2Fsimply-permissions%401.3.14) (2026-09-29)
+
+### Bug Fixes
+
+- **simply-permissions:** stop double-prefixing field and record type names in build ([#52](https://github.com/SimplySF/simply-plugins/issues/52)) ([c403a5a](https://github.com/SimplySF/simply-plugins/commit/c403a5a7700eabc7f0af82afedd99b63c7678afc))
+
 ## [1.3.13](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-permissions%401.3.12...%40simplysf%2Fsimply-permissions%401.3.13) (2026-09-28)
 
 ### Bug Fixes
