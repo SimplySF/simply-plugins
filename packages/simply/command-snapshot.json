@@ -520,11 +520,12 @@
     "alias": [],
     "command": "simply:permissions:build",
     "flagAliases": [],
-    "flagChars": ["c", "d", "n"],
+    "flagChars": ["c", "d", "f", "n"],
     "flags": [
       "config",
       "description",
       "directory",
+      "file",
       "flags-dir",
       "include-record-types",
       "json",
