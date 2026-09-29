@@ -42,7 +42,7 @@ While verifying the extraction, `build` on `main` was found to emit
 for every field and record type under a `CustomObject` folder: SDR's child `fullName` already
 includes the parent, and the code prefixed it again. Those names don't deploy, and a `--config`
 override for `Widget__c.Color__c` was added as a second entry instead of merging. That fix ships as
-its own PR (`fix/permissions-build-child-names`) ahead of this work; the core extraction carries the
+its own PR (#52) ahead of this work; the core extraction carries the
 fixed logic.
 
 ## Behavior
@@ -169,9 +169,9 @@ produce more of the same error.
 
 ## Implementation plan
 
-1. **Fix PR** (`simply-plugins`, `fix/permissions-build-child-names`): child `name` instead of
+1. **Fix PR** (`simply-plugins` #52): child `name` instead of
    `fullName` in `build.ts`, with a fixture-project regression test. Lands first.
-2. **Core PR** (`simply-plugins-core`, `feat/permission-set-build-service`):
+2. **Core PR** (SimplySF/simply-plugins-core#219, published as `simply-permissions-core@0.3.0`):
    `src/permissionSetBuild.ts`, `src/schemas/permissionSetBuildConfig.ts` (moved from the plugin),
    `src/schemas/permissionSetsFile.ts`, barrel exports, `test/index.test.ts` key list, unit tests
    with a fixture project, README API table, site guide, this doc as 0041. Publish.

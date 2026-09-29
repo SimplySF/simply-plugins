@@ -491,8 +491,8 @@ importers:
         specifier: ^1.6.7
         version: 1.6.7
       '@simplysf/simply-permissions-core':
-        specifier: ^0.2.2
-        version: 0.2.2
+        specifier: ^0.3.0
+        version: 0.3.0(supports-color@8.1.1)
       '@simplysf/simply-plugin-kit':
         specifier: workspace:^1.0.9
         version: link:../simply-plugin-kit
@@ -2817,6 +2817,11 @@ packages:
       { integrity: sha512-mUOZ0KI7kwYjNeK4cjoYaoAqjwndIJPDlvAWORuVhGi8BoHZoaJM6skCtjnrIBC55W54PPtRIfO3E06a4+6y7w== }
     engines: { node: '>=22.0.0' }
 
+  '@simplysf/simply-core@1.6.10':
+    resolution:
+      { integrity: sha512-V3AmXI4HbE5R8b9O0uEs1c3K4HCxG+J0+P1z3kiXxtiGv/IcaUa9U0ttfkjcbTRLf5azSRLVoLlrizkeLvKT3w== }
+    engines: { node: '>=22.0.0' }
+
   '@simplysf/simply-core@1.6.7':
     resolution:
       { integrity: sha512-h5DMrVoHYhvHlZCy5whXAQ4f+QD9hfuAx/TvQ41LqPt3iX2Tk+sEWEvBTfkbuwcFDikj9lJqppcInUIQHNXyGg== }
@@ -2837,9 +2842,9 @@ packages:
       { integrity: sha512-8wJPRVCpHoEh/0TUay0/ez5vAYMRJb5TY7Flmcpz8C3c/0L5lMtJsrLz/vZTloSb+sl/VXeo52NOdLQrHrB9ww== }
     engines: { node: '>=22.0.0' }
 
-  '@simplysf/simply-permissions-core@0.2.2':
+  '@simplysf/simply-permissions-core@0.3.0':
     resolution:
-      { integrity: sha512-NeaoVettLDF1HyzpcEobH14hKC9A2F8eOG/fiOSeGqTNPbK1rRwpDnYDm0pQxmR7X5poYFhiKsNekH6Ue4hnCQ== }
+      { integrity: sha512-vLKZ+uE/vI+pD0r3Ezv3HS4jXdrw/JEf5VSP4x1EIjiHxp6JSFilnjVr3WhwPMXsB5k4IEhYDmoXCtTnxRYDPw== }
     engines: { node: '>=22.0.0' }
 
   '@simplysf/simply-report@1.0.4':
@@ -10433,11 +10438,11 @@ snapshots:
       '@sindresorhus/is': 4.6.0
       base64url: 3.0.1
       csv-parse: 5.6.0
-      csv-stringify: 6.8.3
+      csv-stringify: 6.9.0
       faye: 1.4.1
       form-data: 4.0.6
       multistream: 3.1.0
-      undici: 8.10.2
+      undici: 8.11.2
       xml2js: 0.6.2
 
   '@jsforce/jsforce-node@3.10.26':
@@ -11408,6 +11413,16 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@simplysf/simply-core@1.6.10':
+    dependencies:
+      '@jsforce/jsforce-node': 3.10.26
+      '@salesforce/core': 8.32.6
+      '@salesforce/kit': 3.2.6
+      csv-parse: 7.0.3
+      csv-stringify: 6.9.0
+      fast-xml-parser: 5.11.1
+      undici: 8.11.2
+
   '@simplysf/simply-core@1.6.7':
     dependencies:
       '@jsforce/jsforce-node': 3.10.26
@@ -11437,10 +11452,15 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@simplysf/simply-permissions-core@0.2.2':
+  '@simplysf/simply-permissions-core@0.3.0(supports-color@8.1.1)':
     dependencies:
-      '@simplysf/simply-report': 1.0.4
+      '@salesforce/source-deploy-retrieve': 12.37.2(supports-color@8.1.1)
+      '@simplysf/simply-core': 1.6.10
+      '@simplysf/simply-report': 1.0.6
       xmlbuilder2: 4.0.3
+      zod: 4.6.5
+    transitivePeerDependencies:
+      - supports-color
 
   '@simplysf/simply-report@1.0.4':
     dependencies:
