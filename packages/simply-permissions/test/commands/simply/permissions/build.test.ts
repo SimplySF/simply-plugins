@@ -20,6 +20,7 @@ import path from 'node:path';
 import { SfError } from '@salesforce/core';
 import { describe, expect, it } from 'vitest';
 import PermissionsBuild from '../../../../src/commands/simply/permissions/build.js';
+import { writeFixtureProject } from '../../../helpers/fixtureProject.js';
 
 describe('simply permissions build', () => {
   it('should error without required flags', async () => {
@@ -58,6 +59,47 @@ describe('simply permissions build', () => {
 
       const xml = fs.readFileSync(result.path, 'utf-8');
       expect(xml).to.include('<label>Test_Permission_Set</label>');
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true });
+      fs.rmSync(output, { recursive: true, force: true });
+    }
+  });
+
+  it('should name fields and record types under an object folder Object.Child, not Object.Object.Child', async () => {
+    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-permissions-build-'));
+    const output = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-permissions-build-out-'));
+    const config = path.join(output, 'config.json');
+    writeFixtureProject(directory);
+    fs.writeFileSync(config, JSON.stringify({ fields: { 'Widget__c.Color__c': { readable: false } } }));
+
+    try {
+      const result = await PermissionsBuild.run([
+        '--type',
+        'modify-all',
+        '--name',
+        'Test_Permission_Set',
+        '--directory',
+        directory,
+        '--output',
+        output,
+        '--include-record-types',
+        '--config',
+        config,
+      ]);
+
+      const xml = fs.readFileSync(result.path, 'utf-8');
+      expect(xml).not.to.include('Widget__c.Widget__c');
+      expect(xml).to.include('<recordType>Widget__c.Standard</recordType>');
+      // The override merges into the scanned field instead of being added alongside it.
+      expect(xml.match(/<field>Widget__c\.Color__c<\/field>/g)).to.have.length(1);
+      expect(xml).to.match(
+        /<editable>true<\/editable>\s*<field>Widget__c\.Color__c<\/field>\s*<readable>false<\/readable>/,
+      );
+      // Required and master-detail fields never get field permissions; standalone fields keep their parent.
+      expect(xml).not.to.include('Widget__c.Serial__c');
+      expect(xml).not.to.include('Widget__c.Account__c');
+      expect(xml).to.include('<field>Account.Rating__c</field>');
+      expect(result.fieldPermissionCount).to.equal(2);
     } finally {
       fs.rmSync(directory, { recursive: true, force: true });
       fs.rmSync(output, { recursive: true, force: true });
