@@ -89,6 +89,21 @@ function resolveMinimumCoverage(codeCoverageMinimum: string | undefined, sfdxPro
   return minCoverage;
 }
 
+/**
+ * Logs the package Id (`0Ho…`) recorded under `packageAliases` for the project's top-level `name`,
+ * warning rather than failing when either is missing — the Id is informational only.
+ */
+function logPackageId(sfdxProjectJson: SfdxProject): void {
+  // `name` isn't a declared SfdxProject property, so it arrives as `unknown` via the index signature.
+  const projectName = typeof sfdxProjectJson.name === 'string' ? sfdxProjectJson.name : undefined;
+  const packageId = projectName ? sfdxProjectJson.packageAliases?.[projectName] : undefined;
+  if (packageId) {
+    logger.info(`Package Id: ${packageId}`);
+  } else {
+    logger.warn(`No package Id found in packageAliases for project name "${projectName ?? ''}" in sfdx-project.json`);
+  }
+}
+
 async function pollPackageVersionCreation(createRequestId: string, packagingDevhub: string): Promise<string> {
   for (;;) {
     // eslint-disable-next-line no-await-in-loop -- each poll must wait for the previous one's result before deciding to continue
@@ -174,6 +189,8 @@ export async function createPackageVersion(options: CreatePackageVersionOptions)
       '`package` and `definitionFile` must be specified in the default package directory in sfdx-project.json',
     );
   }
+
+  logPackageId(sfdxProjectJson);
 
   const branchArgs = determineBranchArgs(branchAttribute, options.ciCommitRefName, options.packageReleaseBranchPrefix);
   const { stdout: createStdout } = await runSf([
