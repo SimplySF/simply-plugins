@@ -150,6 +150,50 @@ describe('createPackageVersion', () => {
     expect(logger.success).toHaveBeenCalledWith('Successfully created and pushed git tag: v1.0.0.1');
   });
 
+  it("should log the package Id aliased under the project's name", async () => {
+    mockHappyPath();
+    vi.mocked(readSfdxProject).mockResolvedValue({
+      ...sfdxProjectJson,
+      name: 'MyPackage',
+      packageAliases: { MyPackage: '0Ho000000000001', 'MyPackage@1.0.0-1': '04t000000000000' },
+    });
+
+    await createPackageVersion(baseOptions);
+
+    expect(logger.info).toHaveBeenCalledWith('Package Id: 0Ho000000000001');
+    expect(logger.warn).not.toHaveBeenCalled();
+  });
+
+  it("should warn but still create the package version when no alias matches the project's name", async () => {
+    mockHappyPath();
+    vi.mocked(readSfdxProject).mockResolvedValue({
+      ...sfdxProjectJson,
+      name: 'MyProject',
+      packageAliases: { MyPackage: '0Ho000000000001' },
+    });
+
+    await createPackageVersion(baseOptions);
+
+    expect(logger.warn).toHaveBeenCalledWith(
+      'No package Id found in packageAliases for project name "MyProject" in sfdx-project.json',
+    );
+    expect(logger.success).toHaveBeenCalledWith('Successfully created and pushed git tag: v1.0.0.1');
+  });
+
+  it('should warn when sfdx-project.json has no name', async () => {
+    mockHappyPath();
+    vi.mocked(readSfdxProject).mockResolvedValue({
+      ...sfdxProjectJson,
+      packageAliases: { MyPackage: '0Ho000000000001' },
+    });
+
+    await createPackageVersion(baseOptions);
+
+    expect(logger.warn).toHaveBeenCalledWith(
+      'No package Id found in packageAliases for project name "" in sfdx-project.json',
+    );
+  });
+
   it('should suffix the version tag with the branch attribute for branched packages', async () => {
     vi.mocked(readSfdxProject).mockResolvedValue({
       packageDirectories: [
