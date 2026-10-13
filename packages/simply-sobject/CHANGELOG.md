@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.20](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-sobject%401.6.19...%40simplysf%2Fsimply-sobject%401.6.20) (2026-10-13)
+
+**Note:** Version bump only for package @simplysf/simply-sobject
+
 ## [1.6.19](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-sobject%401.6.18...%40simplysf%2Fsimply-sobject%401.6.19) (2026-09-28)
 
 ### Bug Fixes
