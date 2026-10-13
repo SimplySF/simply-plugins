@@ -75,6 +75,36 @@ describe('simply document generate', () => {
     }
   });
 
+  it('should include a FlexiPage in the generated document and component count', async () => {
+    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-document-generate-'));
+    const outputFile = path.join(directory, 'document.html');
+
+    try {
+      const flexipagesDir = path.join(directory, 'force-app', 'main', 'default', 'flexipages');
+      fs.mkdirSync(flexipagesDir, { recursive: true });
+      fs.writeFileSync(
+        path.join(flexipagesDir, 'Foo.flexipage-meta.xml'),
+        [
+          '<?xml version="1.0" encoding="UTF-8"?>',
+          '<FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">',
+          '    <masterLabel>Foo Lightning App Page</masterLabel>',
+          '    <type>AppPage</type>',
+          '</FlexiPage>',
+        ].join('\n'),
+      );
+
+      const result = await DocumentGenerate.run(['--directory', directory, '--output-file', outputFile]);
+
+      const html = fs.readFileSync(outputFile, 'utf-8');
+      expect(html).to.include('<h2>Lightning App Pages</h2>');
+      expect(html).to.include('Foo Lightning App Page');
+      expect(html).to.include('Foo');
+      expect(result.componentCount).to.equal(1);
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true });
+    }
+  });
+
   it('should accept an explicit --output-format html', async () => {
     const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-document-generate-'));
     const outputFile = path.join(os.tmpdir(), `simply-document-generate-${Date.now()}.html`);
