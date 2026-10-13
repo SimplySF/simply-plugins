@@ -18,17 +18,7 @@ import { promises as fs } from 'node:fs';
 import { execa } from 'execa';
 import { getDefaultPackageDirectory, readSfdxProject } from '@simplysf/simply-core';
 import { logger } from '../logger.js';
-
-/** Narrows a full `versionNumber` (e.g. `6.40.0.NEXT`) down to a `major.minor.patch*` git tag match pattern. */
-export function buildTagMatchPattern(versionNumber?: string): string {
-  if (versionNumber) {
-    const parts = versionNumber.split('.');
-    if (parts.length >= 3) {
-      return `v${parts[0]}.${parts[1]}.${parts[2]}*`;
-    }
-  }
-  return 'v*';
-}
+import { VersionTagFormat } from './versionTagFormat.js';
 
 async function resolveLastTag(tagMatchPattern: string): Promise<string> {
   try {
@@ -72,7 +62,8 @@ async function detectPackageChanges(): Promise<PackageChangeDetection> {
   logger.info('Fetching remote tags...');
   await execa('git', ['fetch', '--tags']);
 
-  const lastTag = await resolveLastTag(buildTagMatchPattern(defaultDir.versionNumber));
+  const tagMatchPattern = VersionTagFormat.fromProject(projectJson).matchPattern(defaultDir.versionNumber);
+  const lastTag = await resolveLastTag(tagMatchPattern);
   if (!lastTag) {
     return { packageChanged: true, lastTag: '' };
   }

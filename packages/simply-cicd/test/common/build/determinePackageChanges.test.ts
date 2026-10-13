@@ -126,7 +126,7 @@ describe('determinePackageChanges', () => {
     vi.mocked(execa).mockImplementation((async (cmd: string, args: readonly string[] = []) => {
       if (cmd === 'git' && args[0] === 'fetch') return { stdout: '' };
       if (cmd === 'git' && args[0] === 'describe') {
-        expect(args).toContain('v6.40.0*');
+        expect(args).toContain('v6.40.0.*');
         return { stdout: 'v6.40.0.12\n' };
       }
       if (cmd === 'git' && args[0] === 'diff') return { stdout: '' };
@@ -148,5 +148,27 @@ describe('determinePackageChanges', () => {
     await determinePackageChanges({});
 
     expect(fsPromises.writeFile).toHaveBeenCalledWith('changes.env', expect.any(String), 'utf-8');
+  });
+
+  it("should search for the last tag in the project's version tag format", async () => {
+    vi.mocked(readSfdxProject).mockResolvedValue({
+      packageDirectories: [{ path: 'force-app', default: true, versionNumber: '6.40.0.NEXT' }],
+      plugins: { simply: { versionTagFormat: 'release/{MAJOR}.{MINOR}.{PATCH}+{BUILD}' } },
+    });
+    vi.mocked(execa).mockImplementation((async (cmd: string, args: readonly string[] = []) => {
+      if (cmd === 'git' && args[0] === 'describe') {
+        expect(args).toContain('release/6.40.0+*');
+        return { stdout: 'release/6.40.0+12\n' };
+      }
+      return { stdout: '' };
+    }) as never);
+
+    await determinePackageChanges({ out: 'changes.env' });
+
+    expect(fsPromises.writeFile).toHaveBeenCalledWith(
+      'changes.env',
+      'PACKAGE_CHANGED=FALSE\nLAST_TAG=release/6.40.0+12\n',
+      'utf-8',
+    );
   });
 });

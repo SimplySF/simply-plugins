@@ -317,4 +317,40 @@ describe('createPackageVersion', () => {
       '`package` and `definitionFile` must be specified in the default package directory in sfdx-project.json',
     );
   });
+
+  it("should tag in the project's version tag format when one is declared", async () => {
+    mockHappyPath({ version: '1.2.3.4' });
+    vi.mocked(readSfdxProject).mockResolvedValue({
+      ...sfdxProjectJson,
+      plugins: { simply: { versionTagFormat: '{MAJOR}.{MINOR}.{PATCH}+{BUILD}' } },
+    });
+
+    await createPackageVersion(baseOptions);
+
+    expect(execa).toHaveBeenCalledWith('git', ['tag', '-a', '1.2.3+4', '-m', '04t000000000001']);
+    expect(execa).toHaveBeenCalledWith('git', ['push', 'origin-alias', '1.2.3+4']);
+  });
+
+  it("should append a non-release build's ref after the formatted version", async () => {
+    mockHappyPath({ version: '1.2.3.4' });
+    vi.mocked(readSfdxProject).mockResolvedValue({
+      ...sfdxProjectJson,
+      plugins: { simply: { versionTagFormat: 'v{MAJOR}.{MINOR}.{PATCH}-{BUILD}' } },
+    });
+
+    await createPackageVersion({ ...baseOptions, ciCommitRefName: 'feature/x', alwaysCreatePackage: true });
+
+    expect(execa).toHaveBeenCalledWith('git', ['tag', '-a', 'v1.2.3-4-feature/x', '-m', '04t000000000001']);
+  });
+
+  it('should reject an invalid version tag format before creating a package version', async () => {
+    mockHappyPath();
+    vi.mocked(readSfdxProject).mockResolvedValue({
+      ...sfdxProjectJson,
+      plugins: { simply: { versionTagFormat: '{MAJOR}.{MINOR}.{PATCH}' } },
+    });
+
+    await expect(createPackageVersion(baseOptions)).rejects.toThrow('{BUILD} must appear exactly once, found 0');
+    expect(execa).not.toHaveBeenCalledWith('sf', expect.arrayContaining(['create']));
+  });
 });

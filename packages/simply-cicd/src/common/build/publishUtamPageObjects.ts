@@ -22,13 +22,14 @@ import { getDefaultPackageDirectory, readSfdxProject } from '@simplysf/simply-co
 import { runSfJson } from '../exec/sfCli.js';
 import { appendToEnvFile } from '../env.js';
 import { logger } from '../logger.js';
+import { determineTagSuffix } from './createPackageVersion.js';
 import { getSkipReason } from './skipGuard.js';
+import { VersionTagFormat } from './versionTagFormat.js';
 import {
   buildCompilerConfig,
   buildNpmrc,
   buildPackageManifest,
   buildProvenanceLine,
-  determineTagSuffix,
   findPageObjectSources,
   readUtamPluginConfig,
   resolveSubscriberPackageVersionId,
@@ -220,6 +221,7 @@ async function resolveTarget(options: PublishUtamPageObjectsOptions): Promise<Pu
   }
   logger.info(`Found ${sources.length} UTAM page object(s) under ${defaultPackageDir.path}.`);
 
+  const versionTagFormat = VersionTagFormat.fromProject(sfdxProjectJson);
   const utamPluginConfig = readUtamPluginConfig(sfdxProjectJson);
   const npmPackageName = options.npmPackageName ?? utamPluginConfig.packageName;
   if (!npmPackageName) {
@@ -245,7 +247,6 @@ async function resolveTarget(options: PublishUtamPageObjectsOptions): Promise<Pu
   }
 
   const tagSuffix = determineTagSuffix(
-    report.Version,
     defaultPackageDir.branch,
     options.ciCommitRefName,
     options.packageReleaseBranchPrefix,
@@ -261,7 +262,7 @@ async function resolveTarget(options: PublishUtamPageObjectsOptions): Promise<Pu
     salesforceVersion: report.Version,
     version: toNpmVersion(report.Version, tagSuffix),
     distTag: options.npmDistTag ?? toDistTag(tagSuffix),
-    versionTag: toVersionTag(report.Version, tagSuffix),
+    versionTag: toVersionTag(report.Version, tagSuffix, versionTagFormat),
     commitSha: report.Tag,
     pipelineUrl: report.Description,
   };

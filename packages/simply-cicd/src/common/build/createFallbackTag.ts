@@ -16,20 +16,38 @@
 
 import { promises as fs } from 'node:fs';
 import { execa } from 'execa';
-import { getDefaultPackageDirectory, isSubscriberPackageVersionId, readSfdxProject } from '@simplysf/simply-core';
+import {
+  getDefaultPackageDirectory,
+  isSubscriberPackageVersionId,
+  readSfdxProject,
+  type SfdxProject,
+} from '@simplysf/simply-core';
 import { createVcsProvider, type VcsProviderKind } from '@simplysf/simply-cicd-core';
 import { addGitRemote } from '../git.js';
 import { logger } from '../logger.js';
-import { buildTagMatchPattern } from './determinePackageChanges.js';
+import { DEFAULT_VERSION_TAG_FORMAT, VersionTagFormat } from './versionTagFormat.js';
 
-async function resolveTagMatchPattern(): Promise<string> {
+type TagContext = { versionTagFormat: VersionTagFormat; tagMatchPattern: string };
+
+/**
+ * The project's version tag format and the glob for its current `major.minor.patch`. An unreadable
+ * `sfdx-project.json` falls back to the default format; an invalid declared format still throws.
+ */
+async function resolveTagContext(): Promise<TagContext> {
+  let project: SfdxProject | undefined;
   try {
-    const defaultDir = getDefaultPackageDirectory(await readSfdxProject());
-    return buildTagMatchPattern(defaultDir?.versionNumber);
+    project = await readSfdxProject();
   } catch {
-    logger.info('Could not read version prefix from sfdx-project.json. Defaulting to match pattern v*');
-    return 'v*';
+    const versionTagFormat = VersionTagFormat.parse(DEFAULT_VERSION_TAG_FORMAT);
+    const tagMatchPattern = versionTagFormat.matchPattern();
+    logger.info(`Could not read version prefix from sfdx-project.json. Defaulting to match pattern ${tagMatchPattern}`);
+    return { versionTagFormat, tagMatchPattern };
   }
+  const versionTagFormat = VersionTagFormat.fromProject(project);
+  return {
+    versionTagFormat,
+    tagMatchPattern: versionTagFormat.matchPattern(getDefaultPackageDirectory(project)?.versionNumber),
+  };
 }
 
 /**
@@ -39,12 +57,11 @@ async function resolveTagMatchPattern(): Promise<string> {
  * fix from the original, where an unguarded `git describe` call meant "no tags yet" crashed the
  * whole job instead of soft-exiting the way "no valid package ID in the tag" already did.
  */
-async function resolveLastTag(explicitLastTag: string | undefined): Promise<string> {
+async function resolveLastTag(explicitLastTag: string | undefined, tagMatchPattern: string): Promise<string> {
   if (explicitLastTag) {
     return explicitLastTag;
   }
 
-  const tagMatchPattern = await resolveTagMatchPattern();
   try {
     const { stdout } = await execa('git', ['describe', '--tags', '--abbrev=0', '--match', tagMatchPattern]);
     return stdout.trim();
@@ -59,8 +76,7 @@ async function resolveLastTag(explicitLastTag: string | undefined): Promise<stri
  * result means this commit already has a real package version and needs no fallback. It also keeps a
  * retried job from stacking a second fallback tag on a commit that already got one.
  */
-async function findVersionTagsAtHead(): Promise<string[]> {
-  const tagMatchPattern = await resolveTagMatchPattern();
+async function findVersionTagsAtHead(tagMatchPattern: string): Promise<string[]> {
   try {
     const { stdout } = await execa('git', ['tag', '--points-at', 'HEAD', '--list', tagMatchPattern]);
     return stdout.split(/\r?\n/).filter(Boolean);
@@ -74,7 +90,24 @@ function extractPackageId(tagAnnotation: string): string {
   return parts.find((part) => isSubscriberPackageVersionId(part) && (part.length === 15 || part.length === 18)) ?? '';
 }
 
-function computeNextTag(lastTag: string): string {
+/**
+ * The last tag with its trailing `-<n>` fallback counter incremented, or `-1` appended. For a tag in
+ * the project's format, only a counter **after** the rendered version counts, so the build number of
+ * a format like `v{MAJOR}.{MINOR}.{PATCH}-{BUILD}` is never mistaken for one: `v1.2.3-4` becomes
+ * `v1.2.3-4-1`, not `v1.2.3-5`. Tags that don't match the format (older three-part tags, an explicit
+ * `--last-tag`) keep the original rule.
+ */
+function computeNextTag(lastTag: string, versionTagFormat: VersionTagFormat): string {
+  const parsed = versionTagFormat.parseTag(lastTag);
+  if (parsed) {
+    const counter = /^(?:(?<base>.*)-)?(?<n>\d+)$/.exec(parsed.rest)?.groups;
+    if (!counter) {
+      return `${lastTag}-1`;
+    }
+    const base = counter.base ? `${parsed.versionTag}-${counter.base}` : parsed.versionTag;
+    return `${base}-${parseInt(counter.n, 10) + 1}`;
+  }
+
   const match = /^(?<baseVersion>v.*)-(?<suffix>\d+)$/.exec(lastTag);
   const baseVersion = match?.groups?.baseVersion ?? lastTag;
   const currentN = match?.groups?.suffix ? parseInt(match.groups.suffix, 10) : 0;
@@ -105,13 +138,14 @@ export async function createFallbackTag(options: CreateFallbackTagOptions): Prom
   logger.info('Starting fallback tagging process...');
   const outFile = options.out ?? 'subscriberPackageVersionId.env';
 
-  const tagsAtHead = await findVersionTagsAtHead();
+  const { versionTagFormat, tagMatchPattern } = await resolveTagContext();
+  const tagsAtHead = await findVersionTagsAtHead(tagMatchPattern);
   if (tagsAtHead.length > 0) {
     logger.info(`HEAD is already tagged (${tagsAtHead.join(', ')}). No fallback tag needed.`);
     return { created: false };
   }
 
-  const lastTag = await resolveLastTag(options.lastTag);
+  const lastTag = await resolveLastTag(options.lastTag, tagMatchPattern);
   if (!lastTag) {
     logger.warn('No previous tag found to increment.');
     return { created: false };
@@ -125,7 +159,7 @@ export async function createFallbackTag(options: CreateFallbackTagOptions): Prom
   }
 
   logger.info(`Found last tag: ${lastTag} with package ID: ${packageId}`);
-  const nextTag = computeNextTag(lastTag);
+  const nextTag = computeNextTag(lastTag, versionTagFormat);
   logger.info(`Next fallback tag determined: ${nextTag}`);
 
   const vcsProvider = createVcsProvider(options.vcsProvider, {

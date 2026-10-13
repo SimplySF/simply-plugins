@@ -6,6 +6,8 @@ Create a new package version, verify minimum code coverage, and create/push a ve
 
 Skips entirely (without error) when the pipeline was triggered by a merge request, or when this isn't a release-branch build and `--always-create-package` wasn't passed. Otherwise, creates a new version of the default package directory's package, polls until creation finishes, verifies the resulting version's Apex code coverage meets `--code-coverage-minimum` (or the project's own `plugins.simply.coverageRequirement.minimumCoverageRequired`, if declared in `sfdx-project.json`), and creates/pushes a git tag annotated with the new package version's `04t` ID.
 
+The tag is `v<major>.<minor>.<patch>.<build>` by default. A project can choose its own shape with a `plugins.simply.versionTagFormat` template in `sfdx-project.json` — e.g. `{MAJOR}.{MINOR}.{PATCH}+{BUILD}` tags `1.2.3.4` as `1.2.3+4`. Each of `{MAJOR}`, `{MINOR}`, `{PATCH}`, and `{BUILD}` must appear exactly once, and the format is validated before any package version is created. Unless this is a release-branch build, the package directory's `branch` attribute or the CI ref is appended as `-<suffix>` after the formatted version.
+
 Skipped automatically when `PACKAGE_CHANGED=FALSE` is set in the environment (see `build determine-package-changes`).
 
 # flags.ci-commit-sha.summary

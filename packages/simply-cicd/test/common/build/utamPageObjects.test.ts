@@ -23,7 +23,6 @@ import {
   buildNpmrc,
   buildPackageManifest,
   buildProvenanceLine,
-  determineTagSuffix,
   findPageObjectSources,
   readEnvFileValue,
   readUtamPluginConfig,
@@ -34,6 +33,8 @@ import {
   toUtamCoreRange,
   toVersionTag,
 } from '../../../src/common/build/utamPageObjects.js';
+import { determineTagSuffix } from '../../../src/common/build/createPackageVersion.js';
+import { VersionTagFormat } from '../../../src/common/build/versionTagFormat.js';
 
 vi.mock('../../../src/common/logger.js', () => ({
   logger: {
@@ -71,19 +72,19 @@ describe('sanitizePrereleaseId', () => {
 
 describe('determineTagSuffix', () => {
   it('should have no suffix on a release-branch build', () => {
-    expect(determineTagSuffix('1.2.3.4', undefined, 'release/1.2', 'release/')).toBeUndefined();
+    expect(determineTagSuffix(undefined, 'release/1.2', 'release/')).toBeUndefined();
   });
 
   it("should use the package directory's branch attribute when it has one", () => {
-    expect(determineTagSuffix('1.2.3.4', 'beta', 'release/1.2', 'release/')).toBe('beta');
+    expect(determineTagSuffix('beta', 'release/1.2', 'release/')).toBe('beta');
   });
 
   it('should use the CI ref on a non-release build', () => {
-    expect(determineTagSuffix('1.2.3.4', undefined, 'feature/x', 'release/')).toBe('feature/x');
+    expect(determineTagSuffix(undefined, 'feature/x', 'release/')).toBe('feature/x');
   });
 
   it('should treat a build with neither a branch attribute nor a ref as a release build', () => {
-    expect(determineTagSuffix('1.2.3.4', undefined, undefined, undefined)).toBeUndefined();
+    expect(determineTagSuffix(undefined, undefined, undefined)).toBeUndefined();
   });
 });
 
@@ -96,6 +97,13 @@ describe('toNpmVersion / toDistTag / toVersionTag', () => {
     expect(toNpmVersion('1.2.3.4', suffix)).toBe(version);
     expect(toDistTag(suffix)).toBe(distTag);
     expect(toVersionTag('1.2.3.4', suffix)).toBe(versionTag);
+  });
+
+  it("should record the version tag in the project's format, leaving the npm version alone", () => {
+    const format = VersionTagFormat.parse('{MAJOR}.{MINOR}.{PATCH}+{BUILD}');
+
+    expect(toVersionTag('1.2.3.4', 'beta', format)).toBe('1.2.3+4-beta');
+    expect(toNpmVersion('1.2.3.4', 'beta')).toBe('1.2.3-4.beta');
   });
 
   it('should keep the build number a bare numeric identifier, so 10 orders above 9', () => {

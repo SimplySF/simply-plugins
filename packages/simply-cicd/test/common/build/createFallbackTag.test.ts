@@ -126,7 +126,7 @@ describe('createFallbackTag', () => {
     });
     vi.mocked(execa).mockImplementation((async (cmd: string, args: readonly string[] = []) => {
       if (cmd === 'git' && args[0] === 'describe') {
-        expect(args).toContain('v6.50.0*');
+        expect(args).toContain('v6.50.0.*');
         return { stdout: 'v6.50.0.4\n' };
       }
       if (cmd === 'git' && args[0] === 'tag' && args[1] === '-l') return { stdout: 'v6.50.0.4   04t123456789012\n' };
@@ -193,5 +193,55 @@ describe('createFallbackTag', () => {
     const result = await createFallbackTag({ ...baseOptions, lastTag: 'v2.0.0' });
 
     expect(result.tag).toBe('v2.0.0-1');
+  });
+
+  describe('with a configured version tag format', () => {
+    function mockFormat(versionTagFormat: string, versionNumber = '1.2.3.NEXT'): void {
+      vi.mocked(readSfdxProject).mockResolvedValue({
+        packageDirectories: [{ path: 'force-app', default: true, versionNumber }],
+        plugins: { simply: { versionTagFormat } },
+      });
+    }
+
+    function mockLastTag(lastTag: string): void {
+      vi.mocked(execa).mockImplementation((async (cmd: string, args: readonly string[] = []) => {
+        if (cmd === 'git' && args[0] === 'describe') return { stdout: `${lastTag}\n` };
+        if (cmd === 'git' && args[0] === 'tag' && args[1] === '-l') return { stdout: `${lastTag}   04t123456789012\n` };
+        return { stdout: '' };
+      }) as never);
+    }
+
+    it.each([
+      ['v{MAJOR}.{MINOR}.{PATCH}-{BUILD}', 'v1.2.3-4', 'v1.2.3-4-1'],
+      ['v{MAJOR}.{MINOR}.{PATCH}-{BUILD}', 'v1.2.3-4-1', 'v1.2.3-4-2'],
+      ['v{MAJOR}.{MINOR}.{PATCH}-{BUILD}', 'v1.2.3-4-beta', 'v1.2.3-4-beta-1'],
+      ['v{MAJOR}.{MINOR}.{PATCH}-{BUILD}', 'v1.2.3-4-beta-2', 'v1.2.3-4-beta-3'],
+      ['{MAJOR}.{MINOR}.{PATCH}+{BUILD}', '1.2.3+4', '1.2.3+4-1'],
+      ['{MAJOR}.{MINOR}.{PATCH}+{BUILD}', '1.2.3+4-7', '1.2.3+4-8'],
+    ])('should only count a counter after the rendered version (%s: %s -> %s)', async (format, lastTag, nextTag) => {
+      mockFormat(format);
+      mockLastTag(lastTag);
+
+      const result = await createFallbackTag(baseOptions);
+
+      expect(result.tag).toBe(nextTag);
+    });
+
+    it("should search for tags in the project's format", async () => {
+      mockFormat('{MAJOR}.{MINOR}.{PATCH}+{BUILD}');
+      mockLastTag('1.2.3+4');
+
+      await createFallbackTag(baseOptions);
+
+      expect(execa).toHaveBeenCalledWith('git', ['tag', '--points-at', 'HEAD', '--list', '1.2.3+*']);
+      expect(execa).toHaveBeenCalledWith('git', ['describe', '--tags', '--abbrev=0', '--match', '1.2.3+*']);
+    });
+
+    it('should throw rather than fall back when the declared format is invalid', async () => {
+      mockFormat('v{MAJOR}.{MINOR}.{PATCH}.{BUILDD}');
+
+      await expect(createFallbackTag(baseOptions)).rejects.toThrow('unknown placeholder "{BUILDD}"');
+      expect(execa).not.toHaveBeenCalled();
+    });
   });
 });

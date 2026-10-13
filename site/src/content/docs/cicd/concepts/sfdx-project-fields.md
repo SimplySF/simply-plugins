@@ -30,6 +30,7 @@ Beyond the dependencies every `install-packaged`/`install-dependencies` command 
       "coverageRequirement": {
         "minimumCoverageRequired": "80"
       },
+      "versionTagFormat": "{MAJOR}.{MINOR}.{PATCH}+{BUILD}",
       "utam": {
         "packageName": "@acme/my-package-pageobjects",
         "alias": { "salesforce-pageobjects/*": "salesforce-pageobjects/*" },
@@ -45,6 +46,7 @@ Beyond the dependencies every `install-packaged`/`install-dependencies` command 
 - **`packageMetadataAccess.permissionSets`** / **`packageMetadataAccess.permissionSetLicenses`** — assigned to the scratch org's default user right after creation, by `build create-scratch`. Both are optional and independent — set either, both, or neither.
 - **`seedMetadata.path`** — an extra source directory `build push-scratch` deploys alongside the default package directory. Only pushed when the stage is also given `--scratch-org-source-dir`; the field by itself doesn't trigger anything (see [Scratch org build lifecycle](/cicd/guides/scratch-org-lifecycle/)).
 - **`plugins.simply.coverageRequirement.minimumCoverageRequired`** — overrides `create-package-version`'s `--code-coverage-minimum` default of `75`. A string, not a number, matching the rest of `sfdx-project.json`'s convention for numeric-looking values nested under `plugins`.
+- **`plugins.simply.versionTagFormat`** — the shape of the git tag [`build create-package-version`](/cicd/reference/build/) records each package version under, as a template with `{MAJOR}`, `{MINOR}`, `{PATCH}`, and `{BUILD}` placeholders. Defaults to `v{MAJOR}.{MINOR}.{PATCH}.{BUILD}` (`v1.2.3.4`); `{MAJOR}.{MINOR}.{PATCH}+{BUILD}` gives a semver tag with the build as build metadata (`1.2.3+4`). Each placeholder must appear exactly once, adjacent placeholders need a non-digit between them, and the result must be a legal git tag name. A non-release build's branch or ref is still appended as `-<suffix>`. `determine-package-changes`, `create-fallback-tag`, `publish-utam-page-objects`, and dependency clones all read tags in this same format, which is why it lives here rather than in a flag. Changing it on an existing project means the first build afterwards finds no previous tag in the new format, and does a full package build.
 - **`plugins.simply.utam`** — configuration for [`build publish-utam-page-objects`](/cicd/guides/utam-page-objects/), which compiles the project's UTAM page objects for each package version and publishes them to npm. All four keys are optional, but `packageName` has to be set here or passed as `--npm-package-name`:
   - **`packageName`** — the npm package to publish under. `--npm-package-name` wins when both are given.
   - **`alias`** — UTAM compiler type aliases, passed straight through to the generated compiler config. Rewrites the import specifier a `"type"` reference compiles to.
