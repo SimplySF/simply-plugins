@@ -21,6 +21,7 @@ import { createVcsProvider, type VcsProviderKind } from '@simplysf/simply-cicd-c
 import { runSf } from '../exec/sfCli.js';
 import { addGitRemote } from '../git.js';
 import { logger } from '../logger.js';
+import { VersionTagFormat } from './versionTagFormat.js';
 
 type PackageVersionCreateReport = { Status: string; Error?: string; SubscriberPackageVersionId?: string };
 
@@ -49,26 +50,26 @@ function determineBranchArgs(
 }
 
 /**
- * The annotated git tag this build's package version is recorded under: `v<version>`, suffixed with
- * the package's `branch` attribute or the CI ref unless this is a release-branch build.
+ * The suffix appended to this build's version tag: the package's `branch` attribute, else the CI ref
+ * unless this is a release-branch build, which gets none. A build with neither a `branch` attribute
+ * nor a ref is treated like a release build, the only reading that doesn't produce a tag ending in
+ * `-undefined`.
  *
  * Exported because `publishUtamPageObjects` derives its npm version from the same suffix, so that
  * the published page-object version reads like the tag rather than being a second, parallel rule.
  */
-export function determineVersionTag(
-  version: string,
+export function determineTagSuffix(
   branchAttribute: string | undefined,
-  ciCommitRefName: string,
+  ciCommitRefName: string | undefined,
   packageReleaseBranchPrefix?: string,
-): string {
-  const versionTag = `v${version}`;
+): string | undefined {
   if (branchAttribute) {
-    return `${versionTag}-${branchAttribute}`;
+    return branchAttribute;
   }
-  if (refIncludesPrefix(ciCommitRefName, packageReleaseBranchPrefix)) {
-    return versionTag;
+  if (!ciCommitRefName || refIncludesPrefix(ciCommitRefName, packageReleaseBranchPrefix)) {
+    return undefined;
   }
-  return `${versionTag}-${ciCommitRefName}`;
+  return ciCommitRefName;
 }
 
 function resolveMinimumCoverage(codeCoverageMinimum: string | undefined, sfdxProjectJson: SfdxProject): number {
@@ -190,6 +191,10 @@ export async function createPackageVersion(options: CreatePackageVersionOptions)
     );
   }
 
+  // Validated before `sf package version create`, so a bad format can't cost a package version
+  // whose tag then can't be written.
+  const versionTagFormat = VersionTagFormat.fromProject(sfdxProjectJson);
+
   logPackageId(sfdxProjectJson);
 
   const branchArgs = determineBranchArgs(branchAttribute, options.ciCommitRefName, options.packageReleaseBranchPrefix);
@@ -242,11 +247,9 @@ export async function createPackageVersion(options: CreatePackageVersionOptions)
     throw new Error(`Code coverage of ${codeCoverage}% is less than the required minimum of ${minCoverage}%.`);
   }
 
-  const versionTag = determineVersionTag(
+  const versionTag = versionTagFormat.render(
     versionReport.Version,
-    branchAttribute,
-    options.ciCommitRefName,
-    options.packageReleaseBranchPrefix,
+    determineTagSuffix(branchAttribute, options.ciCommitRefName, options.packageReleaseBranchPrefix),
   );
   await execa('git', ['tag', '-a', versionTag, '-m', subscriberPackageVersionId]);
   await execa('git', ['push', remoteAlias, versionTag]);

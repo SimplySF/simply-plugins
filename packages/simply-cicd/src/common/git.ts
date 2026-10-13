@@ -20,6 +20,7 @@ import { execa } from 'execa';
 import { getDefaultPackageDirectory, readSfdxProject } from '@simplysf/simply-core';
 import type { VcsProvider } from '@simplysf/simply-cicd-core';
 import { logger } from './logger.js';
+import { VersionTagFormat, VersionTagFormatError } from './build/versionTagFormat.js';
 
 export type Deployment = {
   name: string;
@@ -33,6 +34,20 @@ export type CloneRepoOptions = {
 };
 
 /**
+ * The git tag a dependency pinned at `versionPart` was recorded under. `1.2.3-4` and `1.2.3.4` are
+ * rendered through the project's version tag format, on the assumption that dependencies share the
+ * project's tag convention (a deployment's explicit `ref` covers one that doesn't). Anything else,
+ * e.g. `1.2.3-LATEST`, keeps the original `v<pin>` reading.
+ */
+export function toDependencyRef(versionPart: string, versionTagFormat: VersionTagFormat): string {
+  const match = /^(?<version>\d+\.\d+\.\d+)[-.](?<build>\d+)$/.exec(versionPart);
+  if (match?.groups) {
+    return versionTagFormat.render(`${match.groups.version}.${match.groups.build}`);
+  }
+  return `v${versionPart}`;
+}
+
+/**
  * Clones a repository based on deployment metadata and options. If a specific branch or tag
  * (ref) is not specified, it attempts to deduce the ref from package dependencies in
  * `sfdx-project.json` in the current working directory.
@@ -43,21 +58,23 @@ export async function cloneRepo(deployment: Deployment, options: CloneRepoOption
 
   if (!ref) {
     try {
-      const defaultPackageDir = getDefaultPackageDirectory(await readSfdxProject());
+      const project = await readSfdxProject();
+      const defaultPackageDir = getDefaultPackageDirectory(project);
       if (defaultPackageDir?.dependencies) {
         const dependency = defaultPackageDir.dependencies.find((dep) => dep.package?.startsWith(`${name}@`));
         if (dependency?.package) {
           const versionPart = dependency.package.split('@')[1];
           if (versionPart) {
-            const transformedVersion = versionPart.replace(
-              /^(?<version>\d+\.\d+\.\d+)-(?<build>\d+)$/,
-              '$<version>.$<build>',
-            );
-            ref = `v${transformedVersion}`;
+            ref = toDependencyRef(versionPart, VersionTagFormat.fromProject(project));
           }
         }
       }
     } catch (e) {
+      // A misconfigured format is the project's error to fix, not a reason to quietly clone the
+      // dependency's default branch instead.
+      if (e instanceof VersionTagFormatError) {
+        throw e;
+      }
       const err = e as NodeJS.ErrnoException;
       if (err.code !== 'ENOENT') {
         logger.warn(`Could not deduce ref from sfdx-project.json for ${name}: ${err.message}`);

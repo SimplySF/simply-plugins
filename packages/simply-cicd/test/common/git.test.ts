@@ -17,7 +17,8 @@
 import { execa } from 'execa';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { VcsProvider } from '@simplysf/simply-cicd-core';
-import { addGitRemote } from '../../src/common/git.js';
+import { addGitRemote, toDependencyRef } from '../../src/common/git.js';
+import { VersionTagFormat } from '../../src/common/build/versionTagFormat.js';
 
 vi.mock('execa');
 
@@ -66,5 +67,23 @@ describe('addGitRemote', () => {
   it('throws when no access token is provided', async () => {
     await expect(addGitRemote('999', '', 'group/project', vcsProvider)).rejects.toThrow('accessToken is required');
     expect(execa).not.toHaveBeenCalled();
+  });
+});
+
+describe('toDependencyRef', () => {
+  const defaultFormat = VersionTagFormat.parse('v{MAJOR}.{MINOR}.{PATCH}.{BUILD}');
+  const semverFormat = VersionTagFormat.parse('{MAJOR}.{MINOR}.{PATCH}+{BUILD}');
+
+  it.each([
+    ['1.2.3-4', defaultFormat, 'v1.2.3.4'],
+    ['1.2.3.4', defaultFormat, 'v1.2.3.4'],
+    ['1.2.3-4', semverFormat, '1.2.3+4'],
+    ['1.2.3.4', semverFormat, '1.2.3+4'],
+  ])('should render a %s pin through the format', (pin, format, ref) => {
+    expect(toDependencyRef(pin, format)).toBe(ref);
+  });
+
+  it('should keep the v<pin> reading for a pin that is not a full version', () => {
+    expect(toDependencyRef('1.2.3-LATEST', semverFormat)).toBe('v1.2.3-LATEST');
   });
 });

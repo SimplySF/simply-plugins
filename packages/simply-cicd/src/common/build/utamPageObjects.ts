@@ -18,7 +18,7 @@ import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { getPluginConfig, isSubscriberPackageVersionId, type SfdxProject } from '@simplysf/simply-core';
 import { logger } from '../logger.js';
-import { determineVersionTag } from './createPackageVersion.js';
+import { DEFAULT_VERSION_TAG_FORMAT, VersionTagFormat } from './versionTagFormat.js';
 
 /** The dotenv key `create-package-version` and `create-fallback-tag` both write their `04t` under. */
 export const SUBSCRIBER_PACKAGE_VERSION_ID_KEY = 'SUBSCRIBER_PACKAGE_VERSION_ID';
@@ -64,40 +64,13 @@ export function sanitizePrereleaseId(raw: string): string {
   return /^0\d+$/.test(cleaned) ? `v${cleaned}` : cleaned;
 }
 
-/**
- * The suffix `create-package-version` would append to this build's git tag, or `undefined` for a
- * release-branch build that gets a bare `v<version>`.
- *
- * Derived by asking {@link determineVersionTag} for the tag and taking what it added, rather than
- * re-deciding: the whole point of the mapping is that the npm version reads like the git tag, and
- * two copies of the rule would eventually disagree.
- */
-export function determineTagSuffix(
-  salesforceVersion: string,
-  branchAttribute: string | undefined,
-  ciCommitRefName: string | undefined,
-  packageReleaseBranchPrefix: string | undefined,
-): string | undefined {
-  // Nothing to derive a suffix from. A build that passes neither is treated like a release build,
-  // which is the only reading that produces a usable version rather than `v1.2.3.4-undefined`.
-  if (!branchAttribute && !ciCommitRefName) {
-    return undefined;
-  }
-
-  const versionTag = determineVersionTag(
-    salesforceVersion,
-    branchAttribute,
-    ciCommitRefName ?? '',
-    packageReleaseBranchPrefix,
-  );
-  const suffix = versionTag.slice(`v${salesforceVersion}`.length + 1);
-
-  return suffix.length > 0 ? suffix : undefined;
-}
-
 /** @returns The git tag `create-package-version` recorded this package version under. */
-export function toVersionTag(salesforceVersion: string, tagSuffix?: string): string {
-  return tagSuffix ? `v${salesforceVersion}-${tagSuffix}` : `v${salesforceVersion}`;
+export function toVersionTag(
+  salesforceVersion: string,
+  tagSuffix?: string,
+  versionTagFormat: VersionTagFormat = VersionTagFormat.parse(DEFAULT_VERSION_TAG_FORMAT),
+): string {
+  return versionTagFormat.render(salesforceVersion, tagSuffix);
 }
 
 /**
