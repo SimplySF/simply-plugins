@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.12.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.11.5...%40simplysf%2Fsimply-cicd%400.12.0) (2026-10-13)
+
+### Features
+
+- **simply-cicd:** log the package Id during package version creation ([#59](https://github.com/SimplySF/simply-plugins/issues/59)) ([a82cb87](https://github.com/SimplySF/simply-plugins/commit/a82cb87ebd98261ae3ba17885e7e8419d011d561))
+
 ## [0.11.5](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.11.4...%40simplysf%2Fsimply-cicd%400.11.5) (2026-09-28)
 
 ### Bug Fixes

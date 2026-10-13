@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.10](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-document%400.4.9...%40simplysf%2Fsimply-document%400.4.10) (2026-10-13)
+
+### Bug Fixes
+
+- **simply-document:** match the FlexiPage metadata type name in generate ([#60](https://github.com/SimplySF/simply-plugins/issues/60)) ([ee676cd](https://github.com/SimplySF/simply-plugins/commit/ee676cdf40e627e23e86bb6f63f0ef677f811fc0))
+
 ## [0.4.9](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-document%400.4.8...%40simplysf%2Fsimply-document%400.4.9) (2026-09-18)
 
 ### Bug Fixes
