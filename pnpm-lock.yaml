@@ -335,8 +335,8 @@ importers:
         specifier: ^1.6.7
         version: 1.6.7
       '@simplysf/simply-data-core':
-        specifier: ^0.1.0
-        version: 0.1.0
+        specifier: ^0.3.10
+        version: 0.3.10
       '@simplysf/simply-plugin-kit':
         specifier: workspace:^1.0.9
         version: link:../simply-plugin-kit
@@ -2467,8 +2467,8 @@ packages:
     resolution: {integrity: sha512-h5DMrVoHYhvHlZCy5whXAQ4f+QD9hfuAx/TvQ41LqPt3iX2Tk+sEWEvBTfkbuwcFDikj9lJqppcInUIQHNXyGg==}
     engines: {node: '>=22.0.0'}
 
-  '@simplysf/simply-data-core@0.1.0':
-    resolution: {integrity: sha512-e1xok3zlBIMGWX+wJUhNiF9b/Aifhw2zsVHU2vpyJFPMz8X7wShcGK8tCCKrxWMwVV08COajcyPSubRxB10Kuw==}
+  '@simplysf/simply-data-core@0.3.10':
+    resolution: {integrity: sha512-ecC/MRhr5vl4N5mS/XyRCCHno6+TCFycCA2dOnEfIbyu5lpf12Hl47f/1b/yZjm2D/1D5Me5i4qZXK56eUKmmA==}
     engines: {node: '>=22.0.0'}
 
   '@simplysf/simply-document-core@0.2.4':
@@ -9875,7 +9875,7 @@ snapshots:
 
   '@simplysf/simply-core@1.6.10':
     dependencies:
-      '@jsforce/jsforce-node': 3.10.26
+      '@jsforce/jsforce-node': 3.10.27
       '@salesforce/core': 8.32.6
       '@salesforce/kit': 3.2.6
       csv-parse: 7.0.3
@@ -9893,10 +9893,11 @@ snapshots:
       fast-xml-parser: 5.11.1
       undici: 8.11.2
 
-  '@simplysf/simply-data-core@0.1.0':
+  '@simplysf/simply-data-core@0.3.10':
     dependencies:
       '@salesforce/core': 8.32.6
-      csv-parse: 7.0.2
+      '@simplysf/simply-core': 1.6.10
+      csv-parse: 7.0.3
 
   '@simplysf/simply-document-core@0.2.4':
     dependencies:
