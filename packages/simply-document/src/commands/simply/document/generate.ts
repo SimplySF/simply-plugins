@@ -373,7 +373,7 @@ export default class DocumentGenerate extends SfCommand<DocumentGenerateResult> 
         const objectFromMap = objectMap.get(component.parent?.name ?? '') ?? {};
         objectFromMap.fieldSets = fieldSets;
         objectMap.set(component.parent?.name ?? '', objectFromMap);
-      } else if (component.type.name === 'Flexipage') {
+      } else if (component.type.name === 'FlexiPage') {
         flexipages.push(await getMetadataFromComponent(component, 'FlexiPage'));
       } else if (component.type.name === 'Flow') {
         flows.push(await getMetadataFromComponent(component, 'Flow'));
