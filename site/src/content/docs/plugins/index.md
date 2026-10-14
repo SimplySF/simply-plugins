@@ -1,6 +1,6 @@
 ---
 title: Plugins
-description: The Simply CLI plugins for Apex, communities, data, documentation, Flows, package management, permissions, project metadata, schema, and SObjects.
+description: The Simply CLI plugins for Apex, communities, data, documentation, Flows, package management, permissions, project metadata, schema, settings, and SObjects.
 ---
 
 `@simplysf/simply` is a monorepo of independently-installable Salesforce CLI plugins that handle the day-to-day work of building and maintaining a Salesforce org: working with Apex, publishing communities, moving data and files, generating documentation, cleaning up Flows, managing package dependencies, building permission sets, updating project metadata, visualizing schema, and backing up or deduplicating SObject data.

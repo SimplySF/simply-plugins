@@ -1,8 +1,7 @@
 # 0041 — `simply settings address state create`/`activate`
 
-**Status:** Planned. Implemented and unit-tested, but not yet exercised against a live org (see
-Testing). Core shipped as `@simplysf/simply-settings-core@0.2.0`
-(SimplySF/simply-plugins-core#227).
+**Status:** Implemented (PR #66; core SimplySF/simply-plugins-core#227, shipped as
+`@simplysf/simply-settings-core@0.2.0`). Not yet exercised against a live org; see Testing.
 **Package:** new `packages/simply-settings` (CLI, in `simply-plugins`); new
 `packages/simply-settings-core` (library, in `simply-plugins-core`, where this doc is duplicated as
 its 0042)

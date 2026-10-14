@@ -2495,7 +2495,7 @@ EXAMPLES
     $ sf simply settings address state activate --target-org my-org --file states.json --dry-run
 ```
 
-_See code: [@simplysf/simply-settings](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-settings@0.1.0/packages/simply-settings/lib/commands/simply/settings/address/state/activate.js)_
+_See code: [@simplysf/simply-settings](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-settings@0.2.0/packages/simply-settings/lib/commands/simply/settings/address/state/activate.js)_
 
 ## `sf simply settings address state create`
 
@@ -2557,7 +2557,7 @@ EXAMPLES
     $ sf simply settings address state create --target-org my-org --file states.json --dry-run
 ```
 
-_See code: [@simplysf/simply-settings](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-settings@0.1.0/packages/simply-settings/lib/commands/simply/settings/address/state/create.js)_
+_See code: [@simplysf/simply-settings](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-settings@0.2.0/packages/simply-settings/lib/commands/simply/settings/address/state/create.js)_
 
 ## `sf simply sobject backup`
 
