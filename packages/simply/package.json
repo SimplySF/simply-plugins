@@ -101,6 +101,8 @@
     "format": "wireit",
     "lint": "wireit",
     "oclif-artifacts": "oclif manifest",
+    "postpack": "node -e \"require('node:fs').rmSync('oclif.manifest.json', { force: true })\"",
+    "prepack": "oclif manifest .",
     "prepare": "pnpm run compile && pnpm run lint",
     "promote": "oclif promote",
     "readme": "oclif readme --no-aliases"

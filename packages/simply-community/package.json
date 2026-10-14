@@ -85,6 +85,8 @@
     "fix-license": "eslint src test --fix --rule \"header/header: [2]\"",
     "format": "wireit",
     "lint": "wireit",
+    "postpack": "node -e \"require('node:fs').rmSync('oclif.manifest.json', { force: true })\"",
+    "prepack": "oclif manifest .",
     "readme": "oclif readme --no-aliases",
     "test": "wireit",
     "test:coverage": "vitest run --coverage --project simply-community",
