@@ -80,6 +80,7 @@ refactors that keep the public surface identical (though a short doc is welcome 
 | [0041](0041-settings-address-states.md)                              | `simply settings address state create`/`activate`                                     | Planned               |
 | [0042](0042-cicd-version-tag-format-env.md)                          | `SIMPLY_CICD_VERSION_TAG_FORMAT` override for the version tag format                  | Implemented           |
 | [0043](0043-cicd-upgrade-type.md)                                    | `--upgrade-type` for `simply cicd` package installs                                   | Implemented           |
+| [0044](0044-settings-address-states-iso-codes.md)                    | `--iso-codes`: fetch state definitions from Debian `iso-codes` at run time            | Draft                 |
 
 ## Template
 
