@@ -574,6 +574,22 @@
   },
   {
     "alias": [],
+    "command": "simply:settings:address:state:activate",
+    "flagAliases": [],
+    "flagChars": ["c", "f", "o", "w"],
+    "flags": ["api-version", "country", "dry-run", "file", "flags-dir", "json", "target-org", "wait"],
+    "plugin": "@simplysf/simply-settings"
+  },
+  {
+    "alias": [],
+    "command": "simply:settings:address:state:create",
+    "flagAliases": [],
+    "flagChars": ["c", "f", "o", "w"],
+    "flags": ["api-version", "concurrency", "country", "dry-run", "file", "flags-dir", "json", "target-org", "wait"],
+    "plugin": "@simplysf/simply-settings"
+  },
+  {
+    "alias": [],
     "command": "simply:sobject:backup",
     "flagAliases": [],
     "flagChars": ["d", "f", "o", "s"],

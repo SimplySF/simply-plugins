@@ -26,6 +26,7 @@ sf plugins install @simplysf/simply-package
 sf plugins install @simplysf/simply-permissions
 sf plugins install @simplysf/simply-project
 sf plugins install @simplysf/simply-schema
+sf plugins install @simplysf/simply-settings
 sf plugins install @simplysf/simply-sobject
 ```
 
@@ -43,6 +44,7 @@ sf plugins install @simplysf/simply-sobject
 | [`simply-permissions`](/plugins/simply-permissions/) | Analyzing and building permission sets                                    |
 | [`simply-project`](/plugins/simply-project/)         | Working with Salesforce project metadata                                  |
 | [`simply-schema`](/plugins/simply-schema/)           | Generating and visualizing Salesforce schema                              |
+| [`simply-settings`](/plugins/simply-settings/)       | Creating and activating states in State and Country/Territory picklists   |
 | [`simply-sobject`](/plugins/simply-sobject/)         | Backing up, deduplicating, and tracking SObject data                      |
 
 Looking for every command in one place? See the [full command reference](/plugins/simply/) for the orchestrator plugin.

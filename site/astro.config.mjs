@@ -44,6 +44,7 @@ export default defineConfig({
             { label: 'Permissions', slug: 'plugins/simply-permissions' },
             { label: 'Project', slug: 'plugins/simply-project' },
             { label: 'Schema', slug: 'plugins/simply-schema' },
+            { label: 'Settings', slug: 'plugins/simply-settings' },
             { label: 'SObject', slug: 'plugins/simply-sobject' },
             { label: 'All Commands (simply)', slug: 'plugins/simply' },
           ],
