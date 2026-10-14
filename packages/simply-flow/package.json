@@ -83,7 +83,8 @@
     "test:coverage": "vitest run --coverage --project simply-flow",
     "test:nuts": "vitest run --config ../../vitest.nuts.config.ts --project simply-flow",
     "test:only": "wireit",
-    "test:watch": "vitest watch --project simply-flow"
+    "test:watch": "vitest watch --project simply-flow",
+    "version": "pnpm run readme"
   },
   "wireit": {
     "build": {

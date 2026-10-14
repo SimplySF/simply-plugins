@@ -86,7 +86,8 @@
     "test:coverage": "vitest run --coverage --project simply-permissions",
     "test:nuts": "vitest run --config ../../vitest.nuts.config.ts --project simply-permissions",
     "test:only": "wireit",
-    "test:watch": "vitest watch --project simply-permissions"
+    "test:watch": "vitest watch --project simply-permissions",
+    "version": "pnpm run readme"
   },
   "wireit": {
     "build": {

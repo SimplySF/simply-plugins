@@ -87,7 +87,8 @@
     "test:coverage": "vitest run --coverage --project simply-schema",
     "test:nuts": "vitest run --config ../../vitest.nuts.config.ts --project simply-schema",
     "test:only": "wireit",
-    "test:watch": "vitest watch --project simply-schema"
+    "test:watch": "vitest watch --project simply-schema",
+    "version": "pnpm run readme"
   },
   "wireit": {
     "build": {

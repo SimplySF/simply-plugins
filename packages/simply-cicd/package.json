@@ -90,7 +90,8 @@
     "test:coverage": "vitest run --coverage --project simply-cicd",
     "test:nuts": "vitest run --config ../../vitest.nuts.config.ts --project simply-cicd",
     "test:only": "wireit",
-    "test:watch": "vitest watch --project simply-cicd"
+    "test:watch": "vitest watch --project simply-cicd",
+    "version": "pnpm run readme"
   },
   "wireit": {
     "build": {

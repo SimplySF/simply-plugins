@@ -83,7 +83,8 @@
     "test:coverage": "vitest run --coverage --project simply-document",
     "test:nuts": "vitest run --config ../../vitest.nuts.config.ts --project simply-document",
     "test:only": "wireit",
-    "test:watch": "vitest watch --project simply-document"
+    "test:watch": "vitest watch --project simply-document",
+    "version": "pnpm run readme"
   },
   "wireit": {
     "build": {
