@@ -1,6 +1,9 @@
 # 0044 — `--iso-codes <source>`: fetch state definitions from an ISO 3166-2 source at run time
 
-**Status:** Draft
+**Status:** Implemented (PR #69; core SimplySF/simply-plugins-core#229, shipped as
+`@simplysf/simply-settings-core@0.3.0`). The core release's first publish failed at provenance signing
+(`TLOG_CREATE_ENTRY_ERROR`, 409 from the Sigstore transparency log) and went out on a manual
+`release` workflow dispatch. The live check under Testing hasn't been run yet.
 **Package:** `packages/simply-settings` (CLI, in `simply-plugins`); `packages/simply-settings-core`
 (library, in `simply-plugins-core`, where this doc is duplicated)
 **Date:** 2026-10-14
@@ -82,9 +85,17 @@ type IsoCodesSubdivision = { code: string; name: string; parent?: string };
 type IsoCodesSource = {
   id: IsoCodesSourceId;
   label: string; // "Debian iso-codes", for messages and attribution
-  resolveVersion(options: FetchOptions): Promise<string>; // the default when none is given
-  fetchSubdivisions(version: string, options: FetchOptions): Promise<IsoCodesSubdivision[]>;
+  homepage: string;
+  resolveLatestVersion(options: IsoCodesFetchOptions): Promise<string>; // the default when none is given
+  fetchSubdivisions(
+    version: string,
+    options: IsoCodesFetchOptions,
+  ): Promise<{ url: string; subdivisions: IsoCodesSubdivision[] }>;
 };
+
+// requestTimeoutMs (default 30 s), retryAttempts (2), initialRetryDelay (2 s), and an undici
+// dispatcher (default: a per-call EnvHttpProxyAgent, closed afterwards).
+type IsoCodesFetchOptions = { requestTimeoutMs?; retryAttempts?; initialRetryDelay?; dispatcher? };
 ```
 
 An adapter only knows how to find a version and download that source's data into
@@ -94,7 +105,7 @@ has no hierarchy simply never sets `parent`, and `--all-levels` is then a no-op 
 
 ### Resolution (all sources)
 
-1. **Version.** Use `--iso-codes-version` as given, or else the adapter's `resolveVersion`.
+1. **Version.** Use `--iso-codes-version` as given, or else the adapter's `resolveLatestVersion`.
 2. **Fetch.** Call the adapter's `fetchSubdivisions`. All adapters use `undici` (already a core
    dependency) through `EnvHttpProxyAgent`, so `HTTPS_PROXY`/`NO_PROXY` work the way they do for
    the rest of `sf`. Requests have a 30-second timeout, and transport failures (timeouts, resets,
@@ -217,13 +228,15 @@ useful for curation, but it's a separate feature (see Open questions).
 
 1. **`simply-plugins-core` (`simply-settings-core`)**: add `src/address/isoCodes/`:
    - `types.ts`, with `IsoCodesSourceId`, `IsoCodesSubdivision`, `IsoCodesSource`, and
-     `FetchOptions` (`{ dispatcher?, timeoutMs? }`).
+     `IsoCodesFetchOptions`.
+   - `http.ts`, a shared `getJson` (timeout, `retryWithBackoff` on transport failures, 404 returned
+     as `undefined` for the adapter to interpret, and everything else as `IsoCodesDownloadError`).
    - `debian.ts`, the `debian` adapter (tag lookup, raw URL, and its shape check).
    - `index.ts`, with `ISO_CODES_SOURCES` (the registry, `{ debian }`), the
      `ISO_CODES_SOURCE_IDS` used for the CLI flag's `options`, the pure
      `subdivisionsToStateDefinitions(subdivisions, { allLevels })`, and
-     `fetchIsoCodesStateDefinitions({ source, version?, allLevels?, dispatcher? })`, which returns
-     `{ source, version, definitions }`.
+     `fetchIsoCodesStateDefinitions({ source, version?, allLevels?, ...IsoCodesFetchOptions })`,
+     which returns `{ source, label, version, url, allLevels, definitions }`.
 
    Export these from the barrel, add them to `test/index.test.ts` and the README `## API` table,
    copy this doc into that repo, and release a minor version.

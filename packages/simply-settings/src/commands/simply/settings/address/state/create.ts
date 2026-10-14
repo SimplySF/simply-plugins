@@ -28,7 +28,11 @@ import {
   type StateCreationOutcome,
   type StateCreationStatus,
 } from '@simplysf/simply-settings-core';
-import { loadStateDefinitions } from '../../../../../common/loadStateDefinitions.js';
+import {
+  loadStateDefinitions,
+  stateSourceFlags,
+  type StateDefinitionsSource,
+} from '../../../../../common/loadStateDefinitions.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-settings', 'simply.settings.address.state.create');
@@ -39,6 +43,8 @@ const PROBLEM_STATUSES = new Set<StateCreationStatus>(['rejected', 'failed']);
 export type StateCreateResult = {
   summary: Record<StateCreationStatus, number>;
   states: StateCreationOutcome[];
+  /** Present when the states came from `--iso-codes`. */
+  source?: StateDefinitionsSource;
 };
 
 export default class StateCreate extends SfCommand<StateCreateResult> {
@@ -49,7 +55,7 @@ export default class StateCreate extends SfCommand<StateCreateResult> {
   public static readonly flags = {
     ...SfCommand.baseFlags,
     ...targetOrgFlags,
-    file: Flags.file({ char: 'f', summary: messages.getMessage('flags.file.summary'), required: true, exists: true }),
+    ...stateSourceFlags,
     country: Flags.string({ char: 'c', summary: messages.getMessage('flags.country.summary'), multiple: true }),
     concurrency: Flags.integer({
       summary: messages.getMessage('flags.concurrency.summary'),
@@ -69,7 +75,8 @@ export default class StateCreate extends SfCommand<StateCreateResult> {
 
   public async run(): Promise<StateCreateResult> {
     const { flags } = await this.parse(StateCreate);
-    const definitions = await loadStateDefinitions(flags.file, flags.country);
+    const { definitions, source, sourceSummary } = await loadStateDefinitions(flags, this.spinner);
+    if (sourceSummary) this.log(sourceSummary);
     const connection = requireConnection(flags);
 
     this.spinner.start(messages.getMessage('info.retrieving'));
@@ -132,6 +139,6 @@ export default class StateCreate extends SfCommand<StateCreateResult> {
       this.log(messages.getMessage('info.activateHint', [`${this.config.bin} simply settings address state activate`]));
     }
 
-    return { summary, states };
+    return { summary, states, ...(source ? { source } : {}) };
   }
 }

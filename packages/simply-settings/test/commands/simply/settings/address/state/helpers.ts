@@ -19,6 +19,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import type { TestContext } from '@salesforce/core/testSetup';
 import { ComponentSet, ComponentStatus } from '@salesforce/source-deploy-retrieve';
+import { ISO_CODES_SOURCES, type IsoCodesSubdivision } from '@simplysf/simply-settings-core';
 import sinon from 'sinon';
 
 /** An org with US (California active, Guam inactive and hidden) and no other country. */
@@ -97,4 +98,27 @@ export async function stubRetrieve($$: TestContext, xml = ADDRESS_SETTINGS_XML):
       getFileResponses: () => [{ fullName: 'Address', type: 'Settings', filePath, state: ComponentStatus.Created }],
     }),
   } as never);
+}
+
+/**
+ * Stubs the `debian` ISO 3166-2 source, so no test touches salsa.debian.org.
+ *
+ * @param $$ - The test context whose sandbox owns the stubs.
+ * @param subdivisions - What the source "downloads".
+ * @param latest - The version it reports as its latest release.
+ * @returns The stubs, to check which version was fetched.
+ */
+export function stubIsoCodes(
+  $$: TestContext,
+  subdivisions: IsoCodesSubdivision[],
+  latest = 'v4.20.1',
+): { resolveLatestVersion: sinon.SinonStub; fetchSubdivisions: sinon.SinonStub } {
+  const source = ISO_CODES_SOURCES.debian;
+  return {
+    resolveLatestVersion: $$.SANDBOX.stub(source, 'resolveLatestVersion').resolves(latest),
+    fetchSubdivisions: $$.SANDBOX.stub(source, 'fetchSubdivisions').callsFake(async (version: string) => ({
+      url: `https://salsa.debian.org/iso-codes-team/iso-codes/-/raw/${version}/data/iso_3166-2.json`,
+      subdivisions,
+    })),
+  };
 }
