@@ -67,6 +67,7 @@ const allPackages = [
   'packages/simply-report',
   'packages/simply-project',
   'packages/simply-schema',
+  'packages/simply-settings',
   'packages/simply-sobject',
 ];
 

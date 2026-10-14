@@ -139,6 +139,7 @@ const OTHER_PLUGIN_DIRS = [
   'simply-permissions',
   'simply-project',
   'simply-schema',
+  'simply-settings',
   'simply-sobject',
 ];
 

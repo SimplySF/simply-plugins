@@ -30,6 +30,7 @@ sf plugins install @simplysf/simply-package
 sf plugins install @simplysf/simply-permissions
 sf plugins install @simplysf/simply-project
 sf plugins install @simplysf/simply-schema
+sf plugins install @simplysf/simply-settings
 sf plugins install @simplysf/simply-sobject
 ```
 
