@@ -1,6 +1,6 @@
 # 0042 — `SIMPLY_CICD_VERSION_TAG_FORMAT` override for the version tag format
 
-**Status:** Implemented (PR pending)
+**Status:** Implemented ([#63](https://github.com/SimplySF/simply-plugins/pull/63))
 **Package:** `packages/simply-cicd`
 **Date:** 2026-10-14
 
