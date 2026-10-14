@@ -8,11 +8,7 @@ Retrieves the org's AddressSettings, sets `<active>` and `<visible>` to true on 
 
 Only the listed states are changed. Other states, including standard ones an admin deliberately hid, and every country, are left as they are. A listed state that isn't in the org is reported and skipped; create it first.
 
-States are listed in the same JSON file format as `create`: ISO 3166-2 codes mapped to state names, e.g. `{ "US-CA": "California" }`.
-
-# flags.file.summary
-
-JSON file mapping ISO 3166-2 codes to state names, e.g. {"US-CA": "California"}.
+States come from the same places as for `create`: a `--file` mapping ISO 3166-2 codes to state names, e.g. `{ "US-CA": "California" }`, or `--iso-codes debian` to download them from Debian's iso-codes project. Use the same flags as the `create` run, including `--iso-codes-version`, so the same states are activated.
 
 # flags.country.summary
 
@@ -63,3 +59,7 @@ The AddressSettings deploy %s failed: %s
 - See which states would be activated without deploying:
 
   <%= config.bin %> <%= command.id %> --target-org my-org --file states.json --dry-run
+
+- Activate the French states created from Debian's iso-codes, using the same pinned release:
+
+  <%= config.bin %> <%= command.id %> --target-org my-org --iso-codes debian --iso-codes-version v4.20.1 --country FR

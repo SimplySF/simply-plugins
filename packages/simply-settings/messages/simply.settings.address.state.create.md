@@ -8,17 +8,13 @@ Salesforce offers no API for creating states (only for editing existing ones), s
 
 It reads the org's AddressSettings first. A state whose ISO code already exists under its country is reported as `exists`, and a state whose country isn't in the org is reported as `country-missing`; neither causes any Setup traffic. Everything else is submitted, several states at a time.
 
-States are listed in a JSON file that maps ISO 3166-2 codes to state names, e.g. `{ "US-CA": "California", "AD-02": "Canillo" }`. Each state's integration value is set to its name.
+The states come from one of two places. Use `--file` for a JSON file that maps ISO 3166-2 codes to state names, e.g. `{ "US-CA": "California", "AD-02": "Canillo" }`. Or use `--iso-codes debian` to download them from Debian's iso-codes project (https://salsa.debian.org/iso-codes-team/iso-codes) each time the command runs, so the list never goes out of date. Pin `--iso-codes-version` so `create` and `activate` use the same data. Only top-level subdivisions are used unless you pass `--all-levels`. Each state's integration value is set to its name.
 
 New states are created inactive and hidden. Run `simply settings address state activate` with the same flags afterwards to activate them.
 
 The org's auth must be able to open Setup pages (the `web` or `full` OAuth scope, as granted by `sf org login web`).
 
 Exits with code 1 when any state is `rejected` or `failed`; the JSON result still lists every state.
-
-# flags.file.summary
-
-JSON file mapping ISO 3166-2 codes to state names, e.g. {"US-CA": "California"}.
 
 # flags.country.summary
 
@@ -81,3 +77,11 @@ New states are inactive and hidden. Run "%s" to activate them.
 - See what would be created without changing anything:
 
   <%= config.bin %> <%= command.id %> --target-org my-org --file states.json --dry-run
+
+- Create France's and Germany's states from Debian's iso-codes, pinned to a release:
+
+  <%= config.bin %> <%= command.id %> --target-org my-org --iso-codes debian --iso-codes-version v4.20.1 --country FR --country DE
+
+- See which of France's states, including departments, the org is missing according to the latest iso-codes release:
+
+  <%= config.bin %> <%= command.id %> --target-org my-org --iso-codes debian --all-levels --country FR --dry-run

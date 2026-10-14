@@ -16,11 +16,12 @@
 
 import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
 import { ComponentSet } from '@salesforce/source-deploy-retrieve';
-import { SetupSession } from '@simplysf/simply-settings-core';
+import { SfError } from '@salesforce/core';
+import { ISO_CODES_SOURCES, SetupSession } from '@simplysf/simply-settings-core';
 import sinon from 'sinon';
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import StateCreate from '../../../../../../src/commands/simply/settings/address/state/create.js';
-import { NEW_STATE_FORM_HTML, REJECTED_HTML, stubRetrieve, SUCCESS_HTML, tempFile } from './helpers.js';
+import { NEW_STATE_FORM_HTML, REJECTED_HTML, stubIsoCodes, stubRetrieve, SUCCESS_HTML, tempFile } from './helpers.js';
 
 describe('simply settings address state create', () => {
   const $$ = new TestContext({ sinon });
@@ -145,5 +146,120 @@ describe('simply settings address state create', () => {
       StateCreate.run(['--target-org', testOrg.username, '--file', file, '--country', 'MX']),
     ).rejects.toThrow('No state definitions for "MX".');
     expect(retrieve.called).toBe(false);
+  });
+
+  // 0044's flag contract: exactly one input source, and the --iso-codes modifiers only with it.
+  it.each([
+    ['neither --file nor --iso-codes', () => []],
+    ['both --file and --iso-codes', () => ['--file', file, '--iso-codes', 'debian']],
+    ['--all-levels without --iso-codes', () => ['--file', file, '--all-levels']],
+    ['--iso-codes-version without --iso-codes', () => ['--file', file, '--iso-codes-version', 'v4.20.1']],
+  ])('rejects %s at flag parsing, before touching the org', async (_label, sourceArgs) => {
+    const retrieve = $$.SANDBOX.stub(ComponentSet.prototype, 'retrieve');
+
+    await expect(StateCreate.run(['--target-org', testOrg.username, ...sourceArgs()])).rejects.toThrow(/--iso-codes/);
+    expect(retrieve.called).toBe(false);
+  });
+
+  it('rejects an unknown --iso-codes source', async () => {
+    await expect(StateCreate.run(['--target-org', testOrg.username, '--iso-codes', 'wikidata'])).rejects.toThrow(
+      /Expected --iso-codes=wikidata to be one of: debian/,
+    );
+  });
+
+  it('reports no source for --file', async () => {
+    await stubRetrieve($$);
+    stubSession();
+
+    const result = await StateCreate.run(['--target-org', testOrg.username, '--file', file, '--dry-run']);
+
+    expect(result).not.toHaveProperty('source');
+  });
+
+  describe('--iso-codes', () => {
+    const SUBDIVISIONS = [
+      { code: 'US-CA', name: 'California' },
+      { code: 'US-ZZ', name: 'Zed' },
+      { code: 'US-ZZ1', name: 'Nested', parent: 'US-ZZ' },
+      { code: 'FR-ARA', name: 'Auvergne-Rhône-Alpes' },
+    ];
+
+    it('downloads the latest release, keeps the top level, and reports the source', async () => {
+      await stubRetrieve($$);
+      const { posted } = stubSession();
+      const { fetchSubdivisions } = stubIsoCodes($$, SUBDIVISIONS);
+
+      const result = await StateCreate.run([
+        '--target-org',
+        testOrg.username,
+        '--iso-codes',
+        'debian',
+        '--country',
+        'US',
+      ]);
+
+      expect(fetchSubdivisions.firstCall.args[0]).toBe('v4.20.1');
+      expect(posted).toStrictEqual(['ZZ']);
+      expect(result.states.map((state) => [state.code, state.status])).toStrictEqual([
+        ['CA', 'exists'],
+        ['ZZ', 'created'],
+      ]);
+      expect(result.source).toStrictEqual({
+        kind: 'iso-codes',
+        provider: 'debian',
+        version: 'v4.20.1',
+        allLevels: false,
+      });
+    });
+
+    it('uses a pinned version without resolving the latest, and --all-levels keeps nested subdivisions', async () => {
+      await stubRetrieve($$);
+      stubSession();
+      const { resolveLatestVersion, fetchSubdivisions } = stubIsoCodes($$, SUBDIVISIONS);
+
+      const result = await StateCreate.run([
+        '--target-org',
+        testOrg.username,
+        '--iso-codes',
+        'debian',
+        '--iso-codes-version',
+        'main',
+        '--all-levels',
+        '--country',
+        'US',
+        '--dry-run',
+      ]);
+
+      expect(resolveLatestVersion.called).toBe(false);
+      expect(fetchSubdivisions.firstCall.args[0]).toBe('main');
+      expect(result.states.map((state) => state.code)).toStrictEqual(['CA', 'ZZ', 'ZZ1']);
+      expect(result.source).toMatchObject({ version: 'main', allLevels: true });
+    });
+
+    it('fails before touching the org when the download fails', async () => {
+      const retrieve = $$.SANDBOX.stub(ComponentSet.prototype, 'retrieve');
+      $$.SANDBOX.stub(ISO_CODES_SOURCES.debian, 'resolveLatestVersion').rejects(
+        new SfError("Couldn't download ISO 3166-2 data from Debian iso-codes", 'IsoCodesDownloadError'),
+      );
+
+      await expect(StateCreate.run(['--target-org', testOrg.username, '--iso-codes', 'debian'])).rejects.toThrow(
+        "Couldn't download ISO 3166-2 data from Debian iso-codes",
+      );
+      expect(retrieve.called).toBe(false);
+    });
+
+    it.each([
+      ['both --file and --iso-codes', ['--file', 'states.json', '--iso-codes', 'debian']],
+      ['neither --file nor --iso-codes', []],
+      ['an unsupported source', ['--iso-codes', 'cldr']],
+      ['--iso-codes-version without --iso-codes', ['--file', 'states.json', '--iso-codes-version', 'v4.20.1']],
+      ['--all-levels without --iso-codes', ['--file', 'states.json', '--all-levels']],
+    ])('rejects %s at flag parsing', async (_name, args) => {
+      const fetchSubdivisions = $$.SANDBOX.stub(ISO_CODES_SOURCES.debian, 'fetchSubdivisions');
+      const withRealFile = args.map((arg) => (arg === 'states.json' ? file : arg));
+
+      await expect(StateCreate.run(['--target-org', testOrg.username, ...withRealFile])).rejects.toThrow();
+      expect(fetchSubdivisions.called).toBe(false);
+    });
   });
 });

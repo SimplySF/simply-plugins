@@ -20,7 +20,7 @@ import { ComponentSet, ComponentStatus } from '@salesforce/source-deploy-retriev
 import sinon from 'sinon';
 import { afterEach, beforeAll, describe, expect, it } from 'vitest';
 import StateActivate from '../../../../../../src/commands/simply/settings/address/state/activate.js';
-import { stubRetrieve, tempFile } from './helpers.js';
+import { stubIsoCodes, stubRetrieve, tempFile } from './helpers.js';
 
 describe('simply settings address state activate', () => {
   const $$ = new TestContext({ sinon });
@@ -93,5 +93,36 @@ describe('simply settings address state activate', () => {
     await expect(StateActivate.run(['--target-org', testOrg.username, '--file', file])).rejects.toThrow(
       'The AddressSettings deploy 0Af000000000001 failed: bad label',
     );
+  });
+
+  it('activates states from --iso-codes and reports the source', async () => {
+    await stubRetrieve($$);
+    stubDeploy();
+    const { fetchSubdivisions } = stubIsoCodes($$, [
+      { code: 'US-GU', name: 'Guam' },
+      { code: 'US-CA', name: 'California' },
+      { code: 'FR-ARA', name: 'Auvergne-Rhône-Alpes' },
+    ]);
+
+    const result = await StateActivate.run([
+      '--target-org',
+      testOrg.username,
+      '--iso-codes',
+      'debian',
+      '--iso-codes-version',
+      'v4.20.1',
+      '--country',
+      'US',
+      '--dry-run',
+    ]);
+
+    expect(fetchSubdivisions.firstCall.args[0]).toBe('v4.20.1');
+    expect(result.activated.map((state) => state.code)).toStrictEqual(['GU']);
+    expect(result.source).toStrictEqual({
+      kind: 'iso-codes',
+      provider: 'debian',
+      version: 'v4.20.1',
+      allLevels: false,
+    });
   });
 });

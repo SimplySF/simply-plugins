@@ -4,7 +4,19 @@
     "command": "simply:settings:address:state:activate",
     "flagAliases": [],
     "flagChars": ["c", "f", "o", "w"],
-    "flags": ["api-version", "country", "dry-run", "file", "flags-dir", "json", "target-org", "wait"],
+    "flags": [
+      "all-levels",
+      "api-version",
+      "country",
+      "dry-run",
+      "file",
+      "flags-dir",
+      "iso-codes",
+      "iso-codes-version",
+      "json",
+      "target-org",
+      "wait"
+    ],
     "plugin": "@simplysf/simply-settings"
   },
   {
@@ -12,7 +24,20 @@
     "command": "simply:settings:address:state:create",
     "flagAliases": [],
     "flagChars": ["c", "f", "o", "w"],
-    "flags": ["api-version", "concurrency", "country", "dry-run", "file", "flags-dir", "json", "target-org", "wait"],
+    "flags": [
+      "all-levels",
+      "api-version",
+      "concurrency",
+      "country",
+      "dry-run",
+      "file",
+      "flags-dir",
+      "iso-codes",
+      "iso-codes-version",
+      "json",
+      "target-org",
+      "wait"
+    ],
     "plugin": "@simplysf/simply-settings"
   }
 ]

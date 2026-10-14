@@ -18,7 +18,11 @@ import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { requireConnection, targetOrgFlags } from '@simplysf/simply-plugin-kit';
 import { activateStates, formatStateKey, type StateDefinition } from '@simplysf/simply-settings-core';
-import { loadStateDefinitions } from '../../../../../common/loadStateDefinitions.js';
+import {
+  loadStateDefinitions,
+  stateSourceFlags,
+  type StateDefinitionsSource,
+} from '../../../../../common/loadStateDefinitions.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-settings', 'simply.settings.address.state.activate');
@@ -32,6 +36,8 @@ export type StateActivateResult = {
   notInOrg: StateDefinition[];
   /** Present when a deploy ran — not for a dry run, or when nothing needed activating. */
   deployId?: string;
+  /** Present when the states came from `--iso-codes`. */
+  source?: StateDefinitionsSource;
 };
 
 export default class StateActivate extends SfCommand<StateActivateResult> {
@@ -42,7 +48,7 @@ export default class StateActivate extends SfCommand<StateActivateResult> {
   public static readonly flags = {
     ...SfCommand.baseFlags,
     ...targetOrgFlags,
-    file: Flags.file({ char: 'f', summary: messages.getMessage('flags.file.summary'), required: true, exists: true }),
+    ...stateSourceFlags,
     country: Flags.string({ char: 'c', summary: messages.getMessage('flags.country.summary'), multiple: true }),
     wait: Flags.duration({
       char: 'w',
@@ -56,7 +62,8 @@ export default class StateActivate extends SfCommand<StateActivateResult> {
 
   public async run(): Promise<StateActivateResult> {
     const { flags } = await this.parse(StateActivate);
-    const states = await loadStateDefinitions(flags.file, flags.country);
+    const { definitions: states, source, sourceSummary } = await loadStateDefinitions(flags, this.spinner);
+    if (sourceSummary) this.log(sourceSummary);
     const connection = requireConnection(flags);
 
     this.spinner.start(messages.getMessage('info.activating'));
@@ -104,6 +111,7 @@ export default class StateActivate extends SfCommand<StateActivateResult> {
       alreadyActive: result.alreadyActive,
       notInOrg: result.notInOrg,
       deployId: result.deploy?.id,
+      ...(source ? { source } : {}),
     };
   }
 }
