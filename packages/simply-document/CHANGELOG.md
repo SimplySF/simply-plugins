@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.13](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-document%400.4.12...%40simplysf%2Fsimply-document%400.4.13) (2026-10-14)
+
+**Note:** Version bump only for package @simplysf/simply-document
+
 ## [0.4.12](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-document%400.4.11...%40simplysf%2Fsimply-document%400.4.12) (2026-10-14)
 
 ### Bug Fixes

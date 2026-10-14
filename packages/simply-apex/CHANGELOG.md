@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.14](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-apex%401.8.13...%40simplysf%2Fsimply-apex%401.8.14) (2026-10-14)
+
+**Note:** Version bump only for package @simplysf/simply-apex
+
 ## [1.8.13](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-apex%401.8.12...%40simplysf%2Fsimply-apex%401.8.13) (2026-10-14)
 
 ### Bug Fixes

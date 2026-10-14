@@ -77,7 +77,7 @@ EXAMPLES
     $ sf simply settings address state activate --target-org my-org --file states.json --dry-run
 ```
 
-_See code: [lib/commands/simply/settings/address/state/activate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-settings@0.2.0/packages/simply-settings/lib/commands/simply/settings/address/state/activate.js)_
+_See code: [lib/commands/simply/settings/address/state/activate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-settings@0.2.1/packages/simply-settings/lib/commands/simply/settings/address/state/activate.js)_
 
 ## `sf simply settings address state create`
 
@@ -131,7 +131,7 @@ EXAMPLES
 
   Create only the United States and Canada entries, two at a time:
 
-    $ sf simply settings address state create --target-org my-org --file states.json --country US --country CA ^
+    $ sf simply settings address state create --target-org my-org --file states.json --country US --country CA \
       --concurrency 2
 
   See what would be created without changing anything:
@@ -139,5 +139,5 @@ EXAMPLES
     $ sf simply settings address state create --target-org my-org --file states.json --dry-run
 ```
 
-_See code: [lib/commands/simply/settings/address/state/create.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-settings@0.2.0/packages/simply-settings/lib/commands/simply/settings/address/state/create.js)_
+_See code: [lib/commands/simply/settings/address/state/create.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-settings@0.2.1/packages/simply-settings/lib/commands/simply/settings/address/state/create.js)_
 <!-- commandsstop -->

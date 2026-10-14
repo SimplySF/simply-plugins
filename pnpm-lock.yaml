@@ -104,40 +104,40 @@ importers:
         specifier: ^4.11.2
         version: 4.14.0
       '@simplysf/simply-aep':
-        specifier: workspace:^0.15.8
+        specifier: workspace:^0.15.9
         version: link:../simply-aep
       '@simplysf/simply-apex':
-        specifier: workspace:^1.8.13
+        specifier: workspace:^1.8.14
         version: link:../simply-apex
       '@simplysf/simply-community':
-        specifier: workspace:^0.6.17
+        specifier: workspace:^0.6.18
         version: link:../simply-community
       '@simplysf/simply-data':
         specifier: workspace:^2.4.15
         version: link:../simply-data
       '@simplysf/simply-document':
-        specifier: workspace:^0.4.12
+        specifier: workspace:^0.4.13
         version: link:../simply-document
       '@simplysf/simply-flow':
-        specifier: workspace:^0.4.13
+        specifier: workspace:^0.4.14
         version: link:../simply-flow
       '@simplysf/simply-package':
-        specifier: workspace:^3.1.6
+        specifier: workspace:^3.1.7
         version: link:../simply-package
       '@simplysf/simply-permissions':
-        specifier: workspace:^1.4.2
+        specifier: workspace:^1.4.3
         version: link:../simply-permissions
       '@simplysf/simply-project':
-        specifier: workspace:^1.2.28
+        specifier: workspace:^1.2.29
         version: link:../simply-project
       '@simplysf/simply-schema':
-        specifier: workspace:^0.3.33
+        specifier: workspace:^0.3.34
         version: link:../simply-schema
       '@simplysf/simply-settings':
-        specifier: workspace:^0.2.0
+        specifier: workspace:^0.2.1
         version: link:../simply-settings
       '@simplysf/simply-sobject':
-        specifier: workspace:^1.6.22
+        specifier: workspace:^1.6.23
         version: link:../simply-sobject
       debug:
         specifier: ^4.4.3
