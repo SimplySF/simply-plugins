@@ -33,11 +33,29 @@ describe('build install-dependencies', () => {
     process.env.PACKAGE_CHANGED = originalPackageChanged;
   });
 
-  it('defaults --install-type to Upgrade and delegates to installDependencies', async () => {
+  it('defaults --install-type to Upgrade and --upgrade-type to Mixed, and delegates to installDependencies', async () => {
     const result = await BuildInstallDependencies.run(['--jwt-key-file', 'key.file']);
 
     expect(result.skipped).toBe(false);
-    expect(installDependencies).toHaveBeenCalledWith({ jwtKeyFile: 'key.file', debug: false, installType: 'Upgrade' });
+    expect(installDependencies).toHaveBeenCalledWith({
+      jwtKeyFile: 'key.file',
+      debug: false,
+      installType: 'Upgrade',
+      upgradeType: 'Mixed',
+    });
+  });
+
+  it('accepts an explicit --upgrade-type', async () => {
+    await BuildInstallDependencies.run(['--jwt-key-file', 'key.file', '--upgrade-type', 'DeprecateOnly']);
+
+    expect(installDependencies).toHaveBeenCalledWith(expect.objectContaining({ upgradeType: 'DeprecateOnly' }));
+  });
+
+  it('rejects an unknown --upgrade-type', async () => {
+    await expect(
+      BuildInstallDependencies.run(['--jwt-key-file', 'key.file', '--upgrade-type', 'Purge']),
+    ).rejects.toThrow(/Expected --upgrade-type=Purge to be one of: DeprecateOnly, Mixed, Delete/);
+    expect(installDependencies).not.toHaveBeenCalled();
   });
 
   it('accepts an explicit --install-type', async () => {

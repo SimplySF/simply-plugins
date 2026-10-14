@@ -28,7 +28,13 @@ import {
   type RunApexTestsConfig,
 } from './deployCommon.js';
 
-async function installPackageById(packageId: string, alias: string | undefined): Promise<void> {
+type UpgradeType = 'DeprecateOnly' | 'Mixed' | 'Delete';
+
+async function installPackageById(
+  packageId: string,
+  alias: string | undefined,
+  upgradeType: UpgradeType,
+): Promise<void> {
   await execa(
     'sf',
     [
@@ -42,6 +48,8 @@ async function installPackageById(packageId: string, alias: string | undefined):
       alias ?? '',
       '--wait',
       '120',
+      '--upgrade-type',
+      upgradeType,
       '--no-prompt',
     ],
     { stdio: 'inherit' },
@@ -51,13 +59,14 @@ async function installPackageById(packageId: string, alias: string | undefined):
 async function installProjectPackageFromSubscriberId(
   subscriberPackageVersionId: string,
   alias: string | undefined,
+  upgradeType: UpgradeType,
 ): Promise<void> {
   logger.info(`Installing package version from --subscriber-package-version-id: ${subscriberPackageVersionId}`);
-  await installPackageById(subscriberPackageVersionId, alias);
+  await installPackageById(subscriberPackageVersionId, alias, upgradeType);
   logger.success(`Successfully installed package ${subscriberPackageVersionId}.`);
 }
 
-async function installProjectPackageFromGitTag(alias: string | undefined): Promise<void> {
+async function installProjectPackageFromGitTag(alias: string | undefined, upgradeType: UpgradeType): Promise<void> {
   logger.info('Checking for package version in git tag...');
   try {
     const { stdout: currentTagRaw } = await execa('git', ['tag', '--points-at', 'HEAD']);
@@ -84,7 +93,7 @@ async function installProjectPackageFromGitTag(alias: string | undefined): Promi
     }
 
     logger.info(`Found package ID ${packageId} in tag. Installing...`);
-    await installPackageById(packageId, alias);
+    await installPackageById(packageId, alias, upgradeType);
     logger.success(`Successfully installed package ${packageId} from git tag.`);
   } catch (error) {
     logger.warn(
@@ -96,6 +105,7 @@ async function installProjectPackageFromGitTag(alias: string | undefined): Promi
 export type InstallProjectPackageConfig = OrgAuthConfig & {
   subscriberPackageVersionId?: string;
   debug?: boolean;
+  upgradeType?: UpgradeType;
 };
 
 /**
@@ -103,13 +113,13 @@ export type InstallProjectPackageConfig = OrgAuthConfig & {
  * if given, else looks for a `04t...` package ID annotated on the git tag pointing at HEAD.
  */
 async function installProjectPackage(config: InstallProjectPackageConfig): Promise<void> {
-  const { alias, subscriberPackageVersionId } = config;
+  const { alias, subscriberPackageVersionId, upgradeType = 'Mixed' } = config;
   logger.info('Installing main package...');
 
   if (subscriberPackageVersionId && isSubscriberPackageVersionId(subscriberPackageVersionId)) {
-    await installProjectPackageFromSubscriberId(subscriberPackageVersionId, alias);
+    await installProjectPackageFromSubscriberId(subscriberPackageVersionId, alias, upgradeType);
   } else {
-    await installProjectPackageFromGitTag(alias);
+    await installProjectPackageFromGitTag(alias, upgradeType);
   }
 }
 

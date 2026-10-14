@@ -31,8 +31,21 @@ describe('deploy happy-soup install-packaged', () => {
     await DeployHappySoupInstallPackaged.run(['--alias', 'my-org']);
 
     expect(deployHappySoup).toHaveBeenCalledWith(
-      expect.objectContaining({ stage: 'install-packaged', alias: 'my-org', installType: 'Upgrade' }),
+      expect.objectContaining({
+        stage: 'install-packaged',
+        alias: 'my-org',
+        installType: 'Upgrade',
+        upgradeType: 'Mixed',
+      }),
     );
+  });
+
+  it('accepts an explicit --upgrade-type', async () => {
+    vi.mocked(deployHappySoup).mockResolvedValue(undefined);
+
+    await DeployHappySoupInstallPackaged.run(['--alias', 'my-org', '--upgrade-type', 'Delete']);
+
+    expect(deployHappySoup).toHaveBeenCalledWith(expect.objectContaining({ upgradeType: 'Delete' }));
   });
 
   it('accepts an explicit --install-type', async () => {

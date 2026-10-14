@@ -135,7 +135,7 @@
     "command": "simply:cicd:build:install-dependencies",
     "flagAliases": [],
     "flagChars": [],
-    "flags": ["debug", "disabled", "flags-dir", "install-type", "json", "jwt-key-file"],
+    "flags": ["debug", "disabled", "flags-dir", "install-type", "json", "jwt-key-file", "upgrade-type"],
     "plugin": "@simplysf/simply-cicd"
   },
   {
@@ -249,6 +249,7 @@
       "install-type",
       "json",
       "packaging-devhub",
+      "upgrade-type",
       "vcs-host",
       "vcs-provider"
     ],
@@ -403,6 +404,7 @@
       "install-type",
       "json",
       "subscriber-package-version-id",
+      "upgrade-type",
       "vcs-host",
       "vcs-provider"
     ],

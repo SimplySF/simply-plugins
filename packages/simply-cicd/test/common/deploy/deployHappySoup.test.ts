@@ -82,6 +82,14 @@ describe('deployHappySoup', () => {
   });
 
   describe("'install-packaged' stage", () => {
+    it('passes --upgrade-type through to the dependency install', async () => {
+      vi.mocked(installPackageDependenciesCommon).mockResolvedValueOnce([] as never);
+
+      await deployHappySoup({ ...baseOptions, stage: 'install-packaged', alias: 'my-org', upgradeType: 'Delete' });
+
+      expect(installPackageDependenciesCommon).toHaveBeenCalledWith(expect.objectContaining({ upgradeType: 'Delete' }));
+    });
+
     it('installs dependencies and persists an empty upgradedPackages list when nothing upgraded', async () => {
       const installResults = [
         { PackageName: 'A', ExistingSubscriberPackageVersionId: '', SubscriberPackageVersionId: '04t1', Status: '' },

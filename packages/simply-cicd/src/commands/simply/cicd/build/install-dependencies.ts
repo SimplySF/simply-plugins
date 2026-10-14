@@ -41,6 +41,13 @@ export default class BuildInstallDependencies extends SfCommand<BuildInstallDepe
       summary: messages.getMessage('flags.install-type.summary'),
       default: 'Upgrade',
     }),
+    'upgrade-type': Flags.custom<'DeprecateOnly' | 'Mixed' | 'Delete'>({
+      options: ['DeprecateOnly', 'Mixed', 'Delete'],
+    })({
+      summary: messages.getMessage('flags.upgrade-type.summary'),
+      description: messages.getMessage('flags.upgrade-type.description'),
+      default: 'Mixed',
+    }),
   };
 
   public async run(): Promise<BuildInstallDependenciesResult> {
@@ -61,6 +68,7 @@ export default class BuildInstallDependencies extends SfCommand<BuildInstallDepe
       jwtKeyFile: flags['jwt-key-file'],
       debug: flags.debug,
       installType: flags['install-type'],
+      upgradeType: flags['upgrade-type'],
     });
 
     return { skipped: false };

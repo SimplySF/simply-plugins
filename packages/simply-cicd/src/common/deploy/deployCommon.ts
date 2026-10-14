@@ -249,12 +249,13 @@ export async function executeStageScript(
 export type InstallPackageDependenciesConfig = OrgAuthConfig & {
   wait?: string;
   installType?: 'All' | 'Delta' | 'Upgrade';
+  upgradeType?: 'DeprecateOnly' | 'Mixed' | 'Delete';
 };
 
 /** Installs the target org's packaged dependencies. The org must already be authenticated. */
 export async function installPackageDependencies(config: InstallPackageDependenciesConfig): Promise<void> {
-  const { alias, wait = '120', installType = 'Upgrade' } = config;
-  await installPackageDependenciesCommon({ alias, wait, installType });
+  const { alias, wait = '120', installType = 'Upgrade', upgradeType } = config;
+  await installPackageDependenciesCommon({ alias, wait, installType, upgradeType });
 }
 
 /** Logs a per-job duration summary for the given stage, from the recorded progress file durations. */

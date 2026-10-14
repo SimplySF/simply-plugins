@@ -15,7 +15,10 @@
  */
 
 import { logger } from '../logger.js';
-import { installPackageDependencies as installPackageDependenciesCommon } from '../sfPackages.js';
+import {
+  installPackageDependencies as installPackageDependenciesCommon,
+  type PackageInstallUpgradeType,
+} from '../sfPackages.js';
 import { ensureScratchOrgSession } from './scratchOrgAuth.js';
 import { readScratchOrgInfo } from './scratchOrgInfo.js';
 
@@ -24,6 +27,7 @@ export type InstallDependenciesOptions = {
   jwtKeyFile?: string;
   debug?: boolean;
   installType?: 'All' | 'Delta' | 'Upgrade';
+  upgradeType?: PackageInstallUpgradeType;
 };
 
 /** Authenticates to the scratch org (recorded in `SCRATCH_ORG_INFO.json`) and installs its packaged dependencies. */
@@ -41,6 +45,7 @@ export async function installDependencies(options: InstallDependenciesOptions): 
     alias: scratchOrgInfo.authFields.username,
     wait: '240',
     installType: options.installType,
+    upgradeType: options.upgradeType,
   });
   logger.success('Package dependencies installed.');
 }
