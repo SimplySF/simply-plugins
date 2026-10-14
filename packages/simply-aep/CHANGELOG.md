@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.8](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-aep%400.15.7...%40simplysf%2Fsimply-aep%400.15.8) (2026-10-14)
+
+### Bug Fixes
+
+- ship oclif.manifest.json with every plugin ([#65](https://github.com/SimplySF/simply-plugins/issues/65)) ([fb62440](https://github.com/SimplySF/simply-plugins/commit/fb6244073d6b55f43b83c6ecaa219aae29a4ec8e))
+
 ## [0.15.7](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-aep%400.15.6...%40simplysf%2Fsimply-aep%400.15.7) (2026-10-13)
 
 **Note:** Version bump only for package @simplysf/simply-aep

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.15](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-data%402.4.14...%40simplysf%2Fsimply-data%402.4.15) (2026-10-14)
+
+### Bug Fixes
+
+- ship oclif.manifest.json with every plugin ([#65](https://github.com/SimplySF/simply-plugins/issues/65)) ([fb62440](https://github.com/SimplySF/simply-plugins/commit/fb6244073d6b55f43b83c6ecaa219aae29a4ec8e))
+
 ## [2.4.14](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-data%402.4.13...%40simplysf%2Fsimply-data%402.4.14) (2026-10-13)
 
 ### Bug Fixes
