@@ -134,7 +134,7 @@ importers:
         specifier: workspace:^0.3.32
         version: link:../simply-schema
       '@simplysf/simply-settings':
-        specifier: workspace:^0.1.0
+        specifier: workspace:^0.2.0
         version: link:../simply-settings
       '@simplysf/simply-sobject':
         specifier: workspace:^1.6.21
