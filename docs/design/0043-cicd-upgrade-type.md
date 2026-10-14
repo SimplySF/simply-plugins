@@ -1,6 +1,6 @@
 # 0043 — `--upgrade-type` for `simply cicd` package installs
 
-**Status:** Implemented (PR pending)
+**Status:** Implemented ([#64](https://github.com/SimplySF/simply-plugins/pull/64))
 **Package:** `packages/simply-cicd`
 **Date:** 2026-10-14
 
