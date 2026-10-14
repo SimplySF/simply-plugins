@@ -25,20 +25,21 @@ import {
 import { createVcsProvider, type VcsProviderKind } from '@simplysf/simply-cicd-core';
 import { addGitRemote } from '../git.js';
 import { logger } from '../logger.js';
-import { DEFAULT_VERSION_TAG_FORMAT, VersionTagFormat } from './versionTagFormat.js';
+import { VersionTagFormat } from './versionTagFormat.js';
 
 type TagContext = { versionTagFormat: VersionTagFormat; tagMatchPattern: string };
 
 /**
  * The project's version tag format and the glob for its current `major.minor.patch`. An unreadable
- * `sfdx-project.json` falls back to the default format; an invalid declared format still throws.
+ * `sfdx-project.json` falls back to `SIMPLY_CICD_VERSION_TAG_FORMAT` or the default format; an
+ * invalid format still throws.
  */
 async function resolveTagContext(): Promise<TagContext> {
   let project: SfdxProject | undefined;
   try {
     project = await readSfdxProject();
   } catch {
-    const versionTagFormat = VersionTagFormat.parse(DEFAULT_VERSION_TAG_FORMAT);
+    const versionTagFormat = VersionTagFormat.fromProject(undefined);
     const tagMatchPattern = versionTagFormat.matchPattern();
     logger.info(`Could not read version prefix from sfdx-project.json. Defaulting to match pattern ${tagMatchPattern}`);
     return { versionTagFormat, tagMatchPattern };

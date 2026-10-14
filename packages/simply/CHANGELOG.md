@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.7.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply%406.6.4...%40simplysf%2Fsimply%406.7.0) (2026-10-14)
+
+### Features
+
+- **simply-cicd:** env var override for the version tag format ([#63](https://github.com/SimplySF/simply-plugins/issues/63)) ([f789aef](https://github.com/SimplySF/simply-plugins/commit/f789aef889d3c21c759ce9c514d1bb2379f4ff6f))
+
 ## [6.6.4](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply%406.6.3...%40simplysf%2Fsimply%406.6.4) (2026-10-13)
 
 **Note:** Version bump only for package @simplysf/simply

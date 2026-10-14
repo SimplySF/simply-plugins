@@ -73,10 +73,10 @@ DESCRIPTION
   Resolves the last tag to increment (either `--last-tag`, or the closest reachable tag matching the project's version
   prefix), extracts its annotated `04t` package version ID, and creates/pushes a new tag with an incremented numeric
   suffix (e.g. `v1.2.3.4` -> `v1.2.3.4-1` -> `v1.2.3.4-2`) annotated with that same package ID. Tags are matched and
-  parsed in the project's `plugins.simply.versionTagFormat`, so only a counter after the formatted version is
-  incremented — with `v{MAJOR}.{MINOR}.{PATCH}-{BUILD}`, `v1.2.3-4` becomes `v1.2.3-4-1`, never `v1.2.3-5`. Soft no-ops
-  (does not error) when no last tag, or no valid package ID within it, can be found — a build with nothing to fall back
-  to just has nothing to do here.
+  parsed in `SIMPLY_CICD_VERSION_TAG_FORMAT` or the project's `plugins.simply.versionTagFormat`, so only a counter after
+  the formatted version is incremented — with `v{MAJOR}.{MINOR}.{PATCH}-{BUILD}`, `v1.2.3-4` becomes `v1.2.3-4-1`, never
+  `v1.2.3-5`. Soft no-ops (does not error) when no last tag, or no valid package ID within it, can be found — a build
+  with nothing to fall back to just has nothing to do here.
 
   Also soft no-ops when HEAD already carries a tag matching the version prefix, e.g. because `build
   create-package-version` just created and tagged a real package version earlier in the same job. This also keeps a
@@ -150,10 +150,11 @@ DESCRIPTION
   declared in `sfdx-project.json`), and creates/pushes a git tag annotated with the new package version's `04t` ID.
 
   The tag is `v<major>.<minor>.<patch>.<build>` by default. A project can choose its own shape with a
-  `plugins.simply.versionTagFormat` template in `sfdx-project.json` — e.g. `{MAJOR}.{MINOR}.{PATCH}+{BUILD}` tags
-  `1.2.3.4` as `1.2.3+4`. Each of `{MAJOR}`, `{MINOR}`, `{PATCH}`, and `{BUILD}` must appear exactly once, and the
-  format is validated before any package version is created. Unless this is a release-branch build, the package
-  directory's `branch` attribute or the CI ref is appended as `-<suffix>` after the formatted version.
+  `plugins.simply.versionTagFormat` template in `sfdx-project.json`, or the `SIMPLY_CICD_VERSION_TAG_FORMAT` environment
+  variable (which overrides it) — e.g. `{MAJOR}.{MINOR}.{PATCH}+{BUILD}` tags `1.2.3.4` as `1.2.3+4`. Each of `{MAJOR}`,
+  `{MINOR}`, `{PATCH}`, and `{BUILD}` must appear exactly once, and the format is validated before any package version
+  is created. Unless this is a release-branch build, the package directory's `branch` attribute or the CI ref is
+  appended as `-<suffix>` after the formatted version.
 
   Skipped automatically when `PACKAGE_CHANGED=FALSE` is set in the environment (see `build determine-package-changes`).
 
@@ -264,11 +265,11 @@ DESCRIPTION
   Determine if any package-relevant files have changed since the last release tag.
 
   Reads the default package directory from `sfdx-project.json`, finds the closest reachable git tag for its
-  `major.minor.patch` (in the project's `plugins.simply.versionTagFormat`, `v<major>.<minor>.<patch>.*` by default), and
-  diffs that tag against `HEAD` for the package directory and `sfdx-project.json` itself. Writes
-  `PACKAGE_CHANGED=TRUE|FALSE` and `LAST_TAG=<tag>` to the output file. Any failure during detection (missing/invalid
-  sfdx-project.json, git errors) defaults to `PACKAGE_CHANGED=TRUE`, so a build never silently skips work it should have
-  done.
+  `major.minor.patch` (in `SIMPLY_CICD_VERSION_TAG_FORMAT` or the project's `plugins.simply.versionTagFormat`,
+  `v<major>.<minor>.<patch>.*` by default), and diffs that tag against `HEAD` for the package directory and
+  `sfdx-project.json` itself. Writes `PACKAGE_CHANGED=TRUE|FALSE` and `LAST_TAG=<tag>` to the output file. Any failure
+  during detection (missing/invalid sfdx-project.json, git errors) defaults to `PACKAGE_CHANGED=TRUE`, so a build never
+  silently skips work it should have done.
 
 EXAMPLES
   $ sf simply cicd build determine-package-changes --out changes.env

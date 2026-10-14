@@ -188,9 +188,8 @@ create` is called.
 
 ## Open questions
 
-- **Per-pipeline override.** Should `SIMPLY_CICD_VERSION_TAG_FORMAT` (env, read by all four
-  commands) override the project setting? Deferred until someone needs a format that differs
-  between pipelines of the same repository.
+- **Per-pipeline override.** Resolved by [0042](0042-cicd-version-tag-format-env.md):
+  `SIMPLY_CICD_VERSION_TAG_FORMAT` overrides the project setting in every command that reads it.
 - **Migrating an existing repository.** Switching formats means the first build after the switch
   finds no tag in the new format and does a full package build (and `create-fallback-tag` has
   nothing to fall back to until then). That's a one-time cost and seems acceptable; re-tagging
