@@ -102,6 +102,14 @@ The scratch-org lifecycle (`build create-scratch`/`delete-scratch`/`cleanup-scra
 
 Used by `build publish-utam-page-objects`. `--npm-dist-tag`, `--dry-run`, `--out`, and `--env-file` are per-invocation and deliberately have no variable. `--npm-package-name` can also be set in `sfdx-project.json` as `plugins.simply.utam.packageName` — see [sfdx-project.json fields](/cicd/concepts/sfdx-project-fields/) — which is usually the better home for it, since it's a property of the project rather than of the pipeline.
 
+### Version tag format
+
+| Setting                                                                                                 | Environment variable             |
+| ------------------------------------------------------------------------------------------------------- | -------------------------------- |
+| `plugins.simply.versionTagFormat` (see [sfdx-project.json fields](/cicd/concepts/sfdx-project-fields/)) | `SIMPLY_CICD_VERSION_TAG_FORMAT` |
+
+The one variable here with no flag behind it. It overrides the `sfdx-project.json` setting (which in turn overrides the `v{MAJOR}.{MINOR}.{PATCH}.{BUILD}` default) in every command that writes or reads a package version's tag — `create-package-version`, `determine-package-changes`, `create-fallback-tag`, `publish-utam-page-objects`, and dependency clones in the deploy commands. Because those commands have to agree on the format, set it once at the pipeline or project level, never per job. An empty value counts as unset; an invalid one fails the command with an error naming `SIMPLY_CICD_VERSION_TAG_FORMAT`.
+
 ### Notifications (see [Teams notifications](/cicd/guides/teams-notifications/))
 
 | Flag                             | Environment variable          |

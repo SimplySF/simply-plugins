@@ -4,7 +4,7 @@ Determine if any package-relevant files have changed since the last release tag.
 
 # description
 
-Reads the default package directory from `sfdx-project.json`, finds the closest reachable git tag for its `major.minor.patch` (in the project's `plugins.simply.versionTagFormat`, `v<major>.<minor>.<patch>.*` by default), and diffs that tag against `HEAD` for the package directory and `sfdx-project.json` itself. Writes `PACKAGE_CHANGED=TRUE|FALSE` and `LAST_TAG=<tag>` to the output file. Any failure during detection (missing/invalid sfdx-project.json, git errors) defaults to `PACKAGE_CHANGED=TRUE`, so a build never silently skips work it should have done.
+Reads the default package directory from `sfdx-project.json`, finds the closest reachable git tag for its `major.minor.patch` (in `SIMPLY_CICD_VERSION_TAG_FORMAT` or the project's `plugins.simply.versionTagFormat`, `v<major>.<minor>.<patch>.*` by default), and diffs that tag against `HEAD` for the package directory and `sfdx-project.json` itself. Writes `PACKAGE_CHANGED=TRUE|FALSE` and `LAST_TAG=<tag>` to the output file. Any failure during detection (missing/invalid sfdx-project.json, git errors) defaults to `PACKAGE_CHANGED=TRUE`, so a build never silently skips work it should have done.
 
 # flags.out.summary
 

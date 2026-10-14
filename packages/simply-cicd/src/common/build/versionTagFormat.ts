@@ -22,6 +22,9 @@ export const DEFAULT_VERSION_TAG_FORMAT = 'v{MAJOR}.{MINOR}.{PATCH}.{BUILD}';
 /** Where in `sfdx-project.json` a project declares its own format. */
 export const VERSION_TAG_FORMAT_CONFIG_PATH = 'plugins.simply.versionTagFormat';
 
+/** Overrides the project's format, in every command that reads it, when set to a non-empty value. */
+export const VERSION_TAG_FORMAT_ENV_VAR = 'SIMPLY_CICD_VERSION_TAG_FORMAT';
+
 const PLACEHOLDERS = ['MAJOR', 'MINOR', 'PATCH', 'BUILD'] as const;
 type Placeholder = (typeof PLACEHOLDERS)[number];
 
@@ -35,8 +38,8 @@ type Segment = { kind: 'literal'; text: string } | { kind: 'placeholder'; name: 
 
 /** Thrown for a format that can't be used, so callers that otherwise swallow errors can let it through. */
 export class VersionTagFormatError extends Error {
-  public constructor(format: string, problem: string) {
-    super(`Invalid version tag format "${format}" (${VERSION_TAG_FORMAT_CONFIG_PATH}): ${problem}`);
+  public constructor(format: string, problem: string, source = VERSION_TAG_FORMAT_CONFIG_PATH) {
+    super(`Invalid version tag format "${format}" (${source}): ${problem}`);
     this.name = 'VersionTagFormatError';
   }
 }
@@ -69,7 +72,7 @@ function findRefNameProblem(tag: string): string | undefined {
   return undefined;
 }
 
-function tokenize(format: string): Segment[] {
+function tokenize(format: string, source?: string): Segment[] {
   const segments: Segment[] = [];
   const placeholderPattern = /\{(?<name>[^{}]*)\}/g;
   let lastIndex = 0;
@@ -79,6 +82,7 @@ function tokenize(format: string): Segment[] {
       throw new VersionTagFormatError(
         format,
         `unknown placeholder "{${name}}"; use {MAJOR}, {MINOR}, {PATCH}, and {BUILD}`,
+        source,
       );
     }
     if (match.index > lastIndex) {
@@ -93,20 +97,24 @@ function tokenize(format: string): Segment[] {
   return segments;
 }
 
-function validate(format: string, segments: Segment[]): void {
+function validate(format: string, segments: Segment[], source?: string): void {
   if (segments.some((segment) => segment.kind === 'literal' && /[{}]/.test(segment.text))) {
-    throw new VersionTagFormatError(format, 'contains an unmatched "{" or "}"');
+    throw new VersionTagFormatError(format, 'contains an unmatched "{" or "}"', source);
   }
   for (const name of PLACEHOLDERS) {
     const count = segments.filter((segment) => segment.kind === 'placeholder' && segment.name === name).length;
     if (count !== 1) {
-      throw new VersionTagFormatError(format, `{${name}} must appear exactly once, found ${count}`);
+      throw new VersionTagFormatError(format, `{${name}} must appear exactly once, found ${count}`, source);
     }
   }
   segments.forEach((segment, index) => {
     const next = segments[index + 1];
     if (segment.kind === 'placeholder' && next?.kind === 'placeholder') {
-      throw new VersionTagFormatError(format, `{${segment.name}}{${next.name}} must be separated by a non-digit`);
+      throw new VersionTagFormatError(
+        format,
+        `{${segment.name}}{${next.name}} must be separated by a non-digit`,
+        source,
+      );
     }
     const following = segments[index + 2];
     if (
@@ -118,13 +126,14 @@ function validate(format: string, segments: Segment[]): void {
       throw new VersionTagFormatError(
         format,
         `{${segment.name}} and {${following.name}} must be separated by a non-digit`,
+        source,
       );
     }
   });
 
   const problem = findRefNameProblem(renderSegments(segments, { major: '1', minor: '2', patch: '3', build: '4' }));
   if (problem) {
-    throw new VersionTagFormatError(format, `the tags it produces aren't valid git tag names: ${problem}`);
+    throw new VersionTagFormatError(format, `the tags it produces aren't valid git tag names: ${problem}`, source);
   }
 }
 
@@ -148,9 +157,12 @@ export class VersionTagFormat {
   private readonly segments: Segment[];
   private readonly tagPattern: RegExp;
 
-  private constructor(public readonly format: string) {
-    this.segments = tokenize(format);
-    validate(format, this.segments);
+  private constructor(
+    public readonly format: string,
+    source?: string,
+  ) {
+    this.segments = tokenize(format, source);
+    validate(format, this.segments, source);
     const versionPattern = this.segments
       .map((segment) =>
         segment.kind === 'literal' ? escapeRegExp(segment.text) : `(?<${segment.name.toLowerCase()}>\\d+)`,
@@ -165,11 +177,16 @@ export class VersionTagFormat {
   }
 
   /**
-   * The format declared under `plugins.simply.versionTagFormat`, or the default when there is none.
+   * The format in `SIMPLY_CICD_VERSION_TAG_FORMAT` when it's set, otherwise the one declared under
+   * `plugins.simply.versionTagFormat`, otherwise the default.
    *
-   * @throws {VersionTagFormatError} If the declared format is invalid.
+   * @throws {VersionTagFormatError} If the chosen format is invalid.
    */
   public static fromProject(project: SfdxProject | undefined): VersionTagFormat {
+    const override = process.env[VERSION_TAG_FORMAT_ENV_VAR];
+    if (override) {
+      return new VersionTagFormat(override, VERSION_TAG_FORMAT_ENV_VAR);
+    }
     const declared = project ? getPluginConfig<unknown>(project, VERSION_TAG_FORMAT_CONFIG_PATH) : undefined;
     if (declared === undefined || declared === null || declared === '') {
       return new VersionTagFormat(DEFAULT_VERSION_TAG_FORMAT);
