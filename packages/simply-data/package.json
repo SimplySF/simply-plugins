@@ -1,7 +1,7 @@
 {
   "name": "@simplysf/simply-data",
   "description": "Utilities for working with data",
-  "version": "2.4.14",
+  "version": "2.4.15",
   "author": "@ClayChipps",
   "homepage": "https://github.com/SimplySF/simply-plugins",
   "bugs": "https://github.com/SimplySF/simply-plugins/issues",
@@ -86,6 +86,8 @@
     "fix-license": "eslint src test --fix --rule \"header/header: [2]\"",
     "format": "wireit",
     "lint": "wireit",
+    "postpack": "node -e \"require('node:fs').rmSync('oclif.manifest.json', { force: true })\"",
+    "prepack": "oclif manifest .",
     "test": "wireit",
     "test:coverage": "vitest run --coverage --project simply-data",
     "test:nuts": "vitest run --config ../../vitest.nuts.config.ts --project simply-data",

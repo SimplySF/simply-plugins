@@ -1,7 +1,7 @@
 {
   "name": "@simplysf/simply-aep",
   "description": "Commands for Apex Enterprise Patterns tooling (fflib, force-di, AT4DX)",
-  "version": "0.15.7",
+  "version": "0.15.8",
   "author": "@ClayChipps",
   "homepage": "https://github.com/SimplySF/simply-plugins",
   "bugs": "https://github.com/SimplySF/simply-plugins/issues",
@@ -79,6 +79,8 @@
     "fix-license": "eslint src test --fix --rule \"header/header: [2]\"",
     "format": "wireit",
     "lint": "wireit",
+    "postpack": "node -e \"require('node:fs').rmSync('oclif.manifest.json', { force: true })\"",
+    "prepack": "oclif manifest .",
     "readme": "oclif readme --no-aliases",
     "test": "wireit",
     "test:coverage": "vitest run --coverage --project simply-aep",
