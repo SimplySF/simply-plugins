@@ -2562,7 +2562,7 @@ EXAMPLES
 
   Activate the French states created from Debian's iso-codes, using the same pinned release:
 
-    $ sf simply settings address state activate --target-org my-org --iso-codes debian --iso-codes-version v4.20.1 ^
+    $ sf simply settings address state activate --target-org my-org --iso-codes debian --iso-codes-version v4.20.1 \
       --country FR
 
 FLAG DESCRIPTIONS
@@ -2573,7 +2573,7 @@ FLAG DESCRIPTIONS
     the HTTPS_PROXY and NO_PROXY environment variables.
 ```
 
-_See code: [@simplysf/simply-settings](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-settings@0.2.1/packages/simply-settings/lib/commands/simply/settings/address/state/activate.js)_
+_See code: [@simplysf/simply-settings](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-settings@0.3.0/packages/simply-settings/lib/commands/simply/settings/address/state/activate.js)_
 
 ## `sf simply settings address state create`
 
@@ -2638,7 +2638,7 @@ EXAMPLES
 
   Create only the United States and Canada entries, two at a time:
 
-    $ sf simply settings address state create --target-org my-org --file states.json --country US --country CA ^
+    $ sf simply settings address state create --target-org my-org --file states.json --country US --country CA \
       --concurrency 2
 
   See what would be created without changing anything:
@@ -2647,12 +2647,12 @@ EXAMPLES
 
   Create France's and Germany's states from Debian's iso-codes, pinned to a release:
 
-    $ sf simply settings address state create --target-org my-org --iso-codes debian --iso-codes-version v4.20.1 ^
+    $ sf simply settings address state create --target-org my-org --iso-codes debian --iso-codes-version v4.20.1 \
       --country FR --country DE
 
   See which of France's states, including departments, the org is missing according to the latest iso-codes release:
 
-    $ sf simply settings address state create --target-org my-org --iso-codes debian --all-levels --country FR ^
+    $ sf simply settings address state create --target-org my-org --iso-codes debian --all-levels --country FR \
       --dry-run
 
 FLAG DESCRIPTIONS
@@ -2663,7 +2663,7 @@ FLAG DESCRIPTIONS
     the HTTPS_PROXY and NO_PROXY environment variables.
 ```
 
-_See code: [@simplysf/simply-settings](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-settings@0.2.1/packages/simply-settings/lib/commands/simply/settings/address/state/create.js)_
+_See code: [@simplysf/simply-settings](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-settings@0.3.0/packages/simply-settings/lib/commands/simply/settings/address/state/create.js)_
 
 ## `sf simply sobject backup`
 
