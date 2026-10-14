@@ -77,6 +77,7 @@ refactors that keep the public surface identical (though a short doc is welcome 
 | [0037](0037-utam-page-objects-publish.md)                            | `simply cicd build publish-utam-page-objects`                                         | Draft                 |
 | [0039](0039-permissions-build-from-file.md)                          | `simply permissions build --file`                                                     | Implemented           |
 | [0040](0040-cicd-version-tag-format.md)                              | Configurable version tag format for `simply cicd build`                               | Implemented           |
+| [0041](0041-settings-address-states.md)                              | `simply settings address state create`/`activate`                                     | Draft                 |
 
 ## Template
 
