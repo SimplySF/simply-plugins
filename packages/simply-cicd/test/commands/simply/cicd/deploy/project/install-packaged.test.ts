@@ -48,8 +48,17 @@ describe('deploy project install-packaged', () => {
         alias: 'my-org',
         subscriberPackageVersionId: '04tXXX',
         installType: 'Upgrade',
+        upgradeType: 'Mixed',
       }),
     );
+  });
+
+  it('accepts an explicit --upgrade-type', async () => {
+    vi.mocked(deployProject).mockResolvedValue(undefined);
+
+    await DeployProjectInstallPackaged.run(['--ci-job-token', 'tok', '--alias', 'my-org', '--upgrade-type', 'Delete']);
+
+    expect(deployProject).toHaveBeenCalledWith(expect.objectContaining({ upgradeType: 'Delete' }));
   });
 
   it('accepts an explicit --install-type', async () => {

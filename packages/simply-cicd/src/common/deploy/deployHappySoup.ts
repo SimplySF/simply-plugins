@@ -183,6 +183,7 @@ export type DeployHappySoupOptions = OrgAuthConfig & {
   vcsHost?: string;
   vcsProvider: VcsProviderKind;
   installType?: 'All' | 'Delta' | 'Upgrade';
+  upgradeType?: 'DeprecateOnly' | 'Mixed' | 'Delete';
   wait?: string;
   packagingDevhub?: string;
   projectAccessToken?: string;
@@ -205,9 +206,9 @@ export type DeployHappySoupOptions = OrgAuthConfig & {
 async function installPackagedAndDetectUpgrades(
   config: Omit<DeployHappySoupOptions, 'stage'>,
 ): Promise<UpgradedPackage[]> {
-  const { alias, wait, installType } = config;
+  const { alias, wait, installType, upgradeType } = config;
 
-  const installResults = await installPackageDependenciesCommon({ alias, wait, installType });
+  const installResults = await installPackageDependenciesCommon({ alias, wait, installType, upgradeType });
 
   return resolveUpgradedPackages(installResults, { packagingDevhub: config.packagingDevhub });
 }

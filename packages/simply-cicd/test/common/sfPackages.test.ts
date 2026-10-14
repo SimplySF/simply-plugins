@@ -76,7 +76,12 @@ describe('installPackageDependencies', () => {
     ];
     installPackageDependenciesCoreMock.mockResolvedValueOnce(results);
 
-    const returned = await installPackageDependencies({ alias: 'my-org', wait: '240', installType: 'Delta' });
+    const returned = await installPackageDependencies({
+      alias: 'my-org',
+      wait: '240',
+      installType: 'Delta',
+      upgradeType: 'DeprecateOnly',
+    });
 
     expect(orgCreateMock).toHaveBeenCalledWith({ aliasOrUsername: 'my-org' });
     expect(installPackageDependenciesCoreMock).toHaveBeenCalledTimes(1);
@@ -86,6 +91,7 @@ describe('installPackageDependencies', () => {
       targetOrgConnection: connection,
       apexCompile: 'package',
       installType: 'Delta',
+      upgradeType: 'DeprecateOnly',
     });
     expect(options.wait?.minutes).toBe(240);
     expect(options.prompts).toBeUndefined();
@@ -93,12 +99,13 @@ describe('installPackageDependencies', () => {
     expect(logger.success).toHaveBeenCalledWith('Packaged dependencies installed successfully.');
   });
 
-  it('falls back to the default target org, a 120 minute wait, and an Upgrade install', async () => {
+  it('falls back to the default target org, a 120 minute wait, and a Mixed Upgrade install', async () => {
     await installPackageDependencies();
 
     expect(orgCreateMock).toHaveBeenCalledWith({ aliasOrUsername: undefined });
     const options = coreCallOptions();
     expect(options.installType).toBe('Upgrade');
+    expect(options.upgradeType).toBe('Mixed');
     expect(options.wait?.minutes).toBe(Duration.minutes(120).minutes);
   });
 

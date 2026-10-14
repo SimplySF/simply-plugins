@@ -20,13 +20,14 @@ import {
   installPackageDependencies as installPackageDependenciesCore,
   type InstallPackageDependenciesProgress,
   type PackageInstallType,
+  type PackageInstallUpgradeType,
   type PackageToInstall,
 } from '@simplysf/simply-package-core';
 import { runSfJson } from './exec/sfCli.js';
 import { logger } from './logger.js';
 import type { UpgradedPackage } from './schemas/deployProgress.js';
 
-export type { PackageToInstall };
+export type { PackageInstallUpgradeType, PackageToInstall };
 
 export type InstallPackageDependenciesConfig = {
   /** Alias or username of the target org. Omit to use the default target org. */
@@ -34,6 +35,8 @@ export type InstallPackageDependenciesConfig = {
   /** Minutes to wait for each package install to complete. */
   wait?: string;
   installType?: PackageInstallType;
+  /** What happens to components an unlocked package upgrade removes. */
+  upgradeType?: PackageInstallUpgradeType;
 };
 
 /** The fields read off `sf package version report --package <id> --json`. */
@@ -77,7 +80,7 @@ function loggerProgress(): InstallPackageDependenciesProgress {
 export async function installPackageDependencies(
   config: InstallPackageDependenciesConfig = {},
 ): Promise<PackageToInstall[]> {
-  const { alias, wait = '120', installType = 'Upgrade' } = config;
+  const { alias, wait = '120', installType = 'Upgrade', upgradeType = 'Mixed' } = config;
 
   logger.info('Installing packaged dependencies...');
   try {
@@ -89,6 +92,7 @@ export async function installPackageDependencies(
       targetOrgConnection: org.getConnection(),
       apexCompile: 'package',
       installType,
+      upgradeType,
       wait: Duration.minutes(parseInt(wait, 10)),
       progress: loggerProgress(),
     });
