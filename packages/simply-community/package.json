@@ -92,7 +92,8 @@
     "test:coverage": "vitest run --coverage --project simply-community",
     "test:nuts": "vitest run --config ../../vitest.nuts.config.ts --project simply-community",
     "test:only": "wireit",
-    "test:watch": "vitest watch --project simply-community"
+    "test:watch": "vitest watch --project simply-community",
+    "version": "pnpm run readme"
   },
   "wireit": {
     "build": {

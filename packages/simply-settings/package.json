@@ -94,7 +94,8 @@
     "test:coverage": "vitest run --coverage --project simply-settings",
     "test:nuts": "vitest run --config ../../vitest.nuts.config.ts --project simply-settings",
     "test:only": "wireit",
-    "test:watch": "vitest watch --project simply-settings"
+    "test:watch": "vitest watch --project simply-settings",
+    "version": "pnpm run readme"
   },
   "wireit": {
     "build": {

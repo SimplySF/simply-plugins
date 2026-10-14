@@ -17,7 +17,7 @@ export default defineConfig({
     starlight({
       title: 'Simply',
       description:
-        'Salesforce CLI plugins by SimplySF for Apex, communities, data, documentation, Flows, packages, permissions, projects, schema, and SObjects — plus simply-cicd for CI/CD pipelines.',
+        'Salesforce CLI plugins by SimplySF for Apex, communities, data, documentation, Flows, packages, permissions, projects, schema, settings, and SObjects — plus simply-cicd for CI/CD pipelines.',
       logo: {
         light: './src/assets/logo-icon.png',
         dark: './src/assets/logo-icon-dark.png',

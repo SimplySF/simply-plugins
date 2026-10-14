@@ -107,7 +107,8 @@
     "prepack": "oclif manifest .",
     "prepare": "pnpm run compile && pnpm run lint",
     "promote": "oclif promote",
-    "readme": "oclif readme --no-aliases"
+    "readme": "oclif readme --no-aliases",
+    "version": "pnpm run readme"
   },
   "wireit": {
     "build": {
