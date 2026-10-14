@@ -16,7 +16,7 @@
 
 import { promises as fsPromises } from 'node:fs';
 import { execa } from 'execa';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { readSfdxProject } from '@simplysf/simply-core';
 import { addGitRemote } from '../../../src/common/git.js';
 import { logger } from '../../../src/common/logger.js';
@@ -242,6 +242,39 @@ describe('createFallbackTag', () => {
 
       await expect(createFallbackTag(baseOptions)).rejects.toThrow('unknown placeholder "{BUILDD}"');
       expect(execa).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('with SIMPLY_CICD_VERSION_TAG_FORMAT set', () => {
+    beforeEach(() => {
+      vi.stubEnv('SIMPLY_CICD_VERSION_TAG_FORMAT', '{MAJOR}.{MINOR}.{PATCH}+{BUILD}');
+      vi.mocked(execa).mockImplementation((async (cmd: string, args: readonly string[] = []) => {
+        if (cmd === 'git' && args[0] === 'describe') return { stdout: '1.2.3+4\n' };
+        if (cmd === 'git' && args[0] === 'tag' && args[1] === '-l') return { stdout: '1.2.3+4   04t123456789012\n' };
+        return { stdout: '' };
+      }) as never);
+    });
+
+    afterEach(() => {
+      vi.unstubAllEnvs();
+    });
+
+    it("should override the project's format", async () => {
+      vi.mocked(readSfdxProject).mockResolvedValue({
+        packageDirectories: [{ path: 'force-app', default: true, versionNumber: '1.2.3.NEXT' }],
+        plugins: { simply: { versionTagFormat: 'v{MAJOR}.{MINOR}.{PATCH}-{BUILD}' } },
+      });
+
+      const result = await createFallbackTag(baseOptions);
+
+      expect(execa).toHaveBeenCalledWith('git', ['describe', '--tags', '--abbrev=0', '--match', '1.2.3+*']);
+      expect(result.tag).toBe('1.2.3+4-1');
+    });
+
+    it('should still apply when sfdx-project.json is unreadable', async () => {
+      await createFallbackTag(baseOptions);
+
+      expect(execa).toHaveBeenCalledWith('git', ['describe', '--tags', '--abbrev=0', '--match', '*']);
     });
   });
 });

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   DEFAULT_VERSION_TAG_FORMAT,
   VersionTagFormat,
@@ -72,6 +72,38 @@ describe('VersionTagFormat.fromProject', () => {
     expect(() =>
       VersionTagFormat.fromProject({ packageDirectories: [], plugins: { simply: { versionTagFormat: 42 } } }),
     ).toThrow('must be a string');
+  });
+
+  describe('with SIMPLY_CICD_VERSION_TAG_FORMAT', () => {
+    const project = {
+      packageDirectories: [],
+      plugins: { simply: { versionTagFormat: 'v{MAJOR}.{MINOR}.{PATCH}-{BUILD}' } },
+    };
+
+    afterEach(() => {
+      vi.unstubAllEnvs();
+    });
+
+    it('should override the project setting and the default', () => {
+      vi.stubEnv('SIMPLY_CICD_VERSION_TAG_FORMAT', '{MAJOR}.{MINOR}.{PATCH}+{BUILD}');
+
+      expect(VersionTagFormat.fromProject(project).format).toBe('{MAJOR}.{MINOR}.{PATCH}+{BUILD}');
+      expect(VersionTagFormat.fromProject(undefined).format).toBe('{MAJOR}.{MINOR}.{PATCH}+{BUILD}');
+    });
+
+    it('should be ignored when empty', () => {
+      vi.stubEnv('SIMPLY_CICD_VERSION_TAG_FORMAT', '');
+
+      expect(VersionTagFormat.fromProject(project).format).toBe('v{MAJOR}.{MINOR}.{PATCH}-{BUILD}');
+    });
+
+    it('should name the variable, not the project setting, when its format is invalid', () => {
+      vi.stubEnv('SIMPLY_CICD_VERSION_TAG_FORMAT', '{MAJOR}.{MINOR}.{PATCH}');
+
+      expect(() => VersionTagFormat.fromProject(project)).toThrow(
+        'Invalid version tag format "{MAJOR}.{MINOR}.{PATCH}" (SIMPLY_CICD_VERSION_TAG_FORMAT): {BUILD} must appear exactly once',
+      );
+    });
   });
 });
 
