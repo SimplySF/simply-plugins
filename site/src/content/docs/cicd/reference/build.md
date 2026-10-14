@@ -400,7 +400,7 @@ Install packaged dependencies into the scratch org created by `build create-scra
 ```
 USAGE
   $ sf simply cicd build install-dependencies [--json] [--flags-dir <value>] [--jwt-key-file <value>] [--debug] [--disabled] [--install-type
-    All|Delta|Upgrade]
+    All|Delta|Upgrade] [--upgrade-type DeprecateOnly|Mixed|Delete]
 
 FLAGS
   --debug                  [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
@@ -411,6 +411,9 @@ FLAGS
                            scratch org (or its Dev Hub) when it was JWT-authenticated. Not needed when the Dev Hub was
                            authenticated via web login or an SFDX auth URL — the scratch org's own refresh token is used
                            instead.
+  --upgrade-type=<option>  [default: Mixed] Upgrade type for the dependency installs; available only for unlocked
+                           packages.
+                           <options: DeprecateOnly|Mixed|Delete>
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -426,6 +429,17 @@ DESCRIPTION
 
 EXAMPLES
   $ sf simply cicd build install-dependencies --jwt-key-file ./server.key
+
+FLAG DESCRIPTIONS
+  --upgrade-type=DeprecateOnly|Mixed|Delete
+
+    Upgrade type for the dependency installs; available only for unlocked packages.
+
+    For package upgrades, specifies whether to mark all removed components as deprecated (DeprecateOnly), to delete
+    removed components that can be safely deleted and deprecate the others (Mixed), or to delete all removed components,
+    except for custom objects and custom fields, that don't have dependencies (Delete). The default is Mixed.
+    DeprecateOnly and Delete only apply to unlocked package upgrades. Delete is not confirmed first: like every other
+    prompt in a pipeline, it is auto-approved.
 ```
 
 _See code: [lib/commands/simply/cicd/build/install-dependencies.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.13.0/packages/simply-cicd/lib/commands/simply/cicd/build/install-dependencies.js)_

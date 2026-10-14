@@ -96,6 +96,30 @@ describe('deployProject', () => {
   });
 
   describe('installProjectPackage logic within install-packaged', () => {
+    it('should install the project package with a Mixed upgrade type by default', async () => {
+      await deployProject({ ...baseOptions, stage: 'install-packaged', subscriberPackageVersionId: '04t123abc' });
+
+      expect(execa).toHaveBeenCalledWith('sf', expect.arrayContaining(['--upgrade-type', 'Mixed']), expect.any(Object));
+    });
+
+    it('should pass --upgrade-type to both the dependency and the project package installs', async () => {
+      await deployProject({
+        ...baseOptions,
+        stage: 'install-packaged',
+        subscriberPackageVersionId: '04t123abc',
+        upgradeType: 'DeprecateOnly',
+      });
+
+      expect(installPackageDependencies).toHaveBeenCalledWith(
+        expect.objectContaining({ upgradeType: 'DeprecateOnly' }),
+      );
+      expect(execa).toHaveBeenCalledWith(
+        'sf',
+        expect.arrayContaining(['--upgrade-type', 'DeprecateOnly']),
+        expect.any(Object),
+      );
+    });
+
     it('should install from subscriberPackageVersionId if valid', async () => {
       await deployProject({ ...baseOptions, stage: 'install-packaged', subscriberPackageVersionId: '04t123abc' });
 

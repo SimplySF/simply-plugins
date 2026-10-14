@@ -451,7 +451,7 @@ Install packaged dependencies into the scratch org created by `build create-scra
 ```
 USAGE
   $ sf simply cicd build install-dependencies [--json] [--flags-dir <value>] [--jwt-key-file <value>] [--debug] [--disabled] [--install-type
-    All|Delta|Upgrade]
+    All|Delta|Upgrade] [--upgrade-type DeprecateOnly|Mixed|Delete]
 
 FLAGS
   --debug                  [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
@@ -462,6 +462,9 @@ FLAGS
                            scratch org (or its Dev Hub) when it was JWT-authenticated. Not needed when the Dev Hub was
                            authenticated via web login or an SFDX auth URL — the scratch org's own refresh token is used
                            instead.
+  --upgrade-type=<option>  [default: Mixed] Upgrade type for the dependency installs; available only for unlocked
+                           packages.
+                           <options: DeprecateOnly|Mixed|Delete>
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -477,6 +480,17 @@ DESCRIPTION
 
 EXAMPLES
   $ sf simply cicd build install-dependencies --jwt-key-file ./server.key
+
+FLAG DESCRIPTIONS
+  --upgrade-type=DeprecateOnly|Mixed|Delete
+
+    Upgrade type for the dependency installs; available only for unlocked packages.
+
+    For package upgrades, specifies whether to mark all removed components as deprecated (DeprecateOnly), to delete
+    removed components that can be safely deleted and deprecate the others (Mixed), or to delete all removed components,
+    except for custom objects and custom fields, that don't have dependencies (Delete). The default is Mixed.
+    DeprecateOnly and Delete only apply to unlocked package upgrades. Delete is not confirmed first: like every other
+    prompt in a pipeline, it is auto-approved.
 ```
 
 _See code: [lib/commands/simply/cicd/build/install-dependencies.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.13.0/packages/simply-cicd/lib/commands/simply/cicd/build/install-dependencies.js)_
@@ -802,7 +816,7 @@ Install packaged dependencies into the target org for a happy-soup deployment.
 USAGE
   $ sf simply cicd deploy happy-soup install-packaged --alias <value> [--json] [--flags-dir <value>] [--vcs-host <value>] [--vcs-provider
     github|gitlab] [--debug] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--install-type
-    All|Delta|Upgrade] [--packaging-devhub <value>]
+    All|Delta|Upgrade] [--upgrade-type DeprecateOnly|Mixed|Delete] [--packaging-devhub <value>]
 
 FLAGS
   --alias=<value>                 (required) [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
@@ -817,6 +831,9 @@ FLAGS
                                   version information for upgraded packages. Must already be authenticated. Omitted
                                   entirely (with a warning) when not provided, skipping origin lookup for upgraded
                                   packages.
+  --upgrade-type=<option>         [default: Mixed] Upgrade type for the dependency installs; available only for unlocked
+                                  packages.
+                                  <options: DeprecateOnly|Mixed|Delete>
   --vcs-host=<value>              [env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to (e.g. gitlab.com).
   --vcs-provider=<option>         [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting platform
                                   to talk to.
@@ -836,6 +853,17 @@ DESCRIPTION
 
 EXAMPLES
   $ sf simply cicd deploy happy-soup install-packaged --alias my-org
+
+FLAG DESCRIPTIONS
+  --upgrade-type=DeprecateOnly|Mixed|Delete
+
+    Upgrade type for the dependency installs; available only for unlocked packages.
+
+    For package upgrades, specifies whether to mark all removed components as deprecated (DeprecateOnly), to delete
+    removed components that can be safely deleted and deprecate the others (Mixed), or to delete all removed components,
+    except for custom objects and custom fields, that don't have dependencies (Delete). The default is Mixed.
+    DeprecateOnly and Delete only apply to unlocked package upgrades. Delete is not confirmed first: like every other
+    prompt in a pipeline, it is auto-approved.
 ```
 
 _See code: [lib/commands/simply/cicd/deploy/happy-soup/install-packaged.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.13.0/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/install-packaged.js)_
@@ -1140,6 +1168,7 @@ USAGE
   $ sf simply cicd deploy project install-packaged --ci-job-token <value> --alias <value> [--json] [--flags-dir <value>] [--vcs-host <value>]
     [--vcs-provider github|gitlab] [--debug] [--deploy-config-file <value>] [--deploy-progress-file <value>]
     [--deploy-rules-file <value>] [--subscriber-package-version-id <value>] [--install-type All|Delta|Upgrade]
+    [--upgrade-type DeprecateOnly|Mixed|Delete]
 
 FLAGS
   --alias=<value>                          (required) [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
@@ -1156,6 +1185,9 @@ FLAGS
                                            <options: All|Delta|Upgrade>
   --subscriber-package-version-id=<value>  The subscriber package version ID (04t...) to install. If not provided, the
                                            ID is looked up from the git tag annotation at HEAD.
+  --upgrade-type=<option>                  [default: Mixed] Upgrade type for the dependency installs and the project's
+                                           own package install; available only for unlocked packages.
+                                           <options: DeprecateOnly|Mixed|Delete>
   --vcs-host=<value>                       [env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to (e.g.
                                            gitlab.com).
   --vcs-provider=<option>                  [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting
@@ -1175,6 +1207,18 @@ DESCRIPTION
 
 EXAMPLES
   $ sf simply cicd deploy project install-packaged --ci-job-token $CI_JOB_TOKEN --alias my-org
+
+FLAG DESCRIPTIONS
+  --upgrade-type=DeprecateOnly|Mixed|Delete
+
+    Upgrade type for the dependency installs and the project's own package install; available only for unlocked
+    packages.
+
+    For package upgrades, specifies whether to mark all removed components as deprecated (DeprecateOnly), to delete
+    removed components that can be safely deleted and deprecate the others (Mixed), or to delete all removed components,
+    except for custom objects and custom fields, that don't have dependencies (Delete). The default is Mixed.
+    DeprecateOnly and Delete only apply to unlocked package upgrades. Delete is not confirmed first: like every other
+    prompt in a pipeline, it is auto-approved.
 ```
 
 _See code: [lib/commands/simply/cicd/deploy/project/install-packaged.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.13.0/packages/simply-cicd/lib/commands/simply/cicd/deploy/project/install-packaged.js)_

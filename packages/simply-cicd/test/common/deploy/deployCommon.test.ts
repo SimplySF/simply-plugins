@@ -179,6 +179,12 @@ describe('deployCommon', () => {
         installType: 'Upgrade',
       });
     });
+
+    it('should pass the upgrade type through', async () => {
+      await installPackageDependencies({ alias: 'my-org', upgradeType: 'Delete' });
+
+      expect(installPackageDependenciesCommon).toHaveBeenCalledWith(expect.objectContaining({ upgradeType: 'Delete' }));
+    });
   });
 
   describe('runApexTests', () => {

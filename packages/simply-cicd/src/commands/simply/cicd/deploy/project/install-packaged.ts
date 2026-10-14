@@ -55,6 +55,13 @@ export default class DeployProjectInstallPackaged extends SfCommand<void> {
       summary: messages.getMessage('flags.install-type.summary'),
       default: 'Upgrade',
     }),
+    'upgrade-type': Flags.custom<'DeprecateOnly' | 'Mixed' | 'Delete'>({
+      options: ['DeprecateOnly', 'Mixed', 'Delete'],
+    })({
+      summary: messages.getMessage('flags.upgrade-type.summary'),
+      description: messages.getMessage('flags.upgrade-type.description'),
+      default: 'Mixed',
+    }),
   };
 
   public async run(): Promise<void> {
@@ -70,6 +77,7 @@ export default class DeployProjectInstallPackaged extends SfCommand<void> {
       deployRulesFile: flags['deploy-rules-file'],
       subscriberPackageVersionId: flags['subscriber-package-version-id'],
       installType: flags['install-type'],
+      upgradeType: flags['upgrade-type'],
       vcsHost: flags['vcs-host'],
       vcsProvider: flags['vcs-provider'],
     });

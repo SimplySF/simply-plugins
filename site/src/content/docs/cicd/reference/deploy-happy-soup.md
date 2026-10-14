@@ -116,7 +116,7 @@ Install packaged dependencies into the target org for a happy-soup deployment.
 USAGE
   $ sf simply cicd deploy happy-soup install-packaged --alias <value> [--json] [--flags-dir <value>] [--vcs-host <value>] [--vcs-provider
     github|gitlab] [--debug] [--deploy-progress-file <value>] [--deploy-rules-file <value>] [--install-type
-    All|Delta|Upgrade] [--packaging-devhub <value>]
+    All|Delta|Upgrade] [--upgrade-type DeprecateOnly|Mixed|Delete] [--packaging-devhub <value>]
 
 FLAGS
   --alias=<value>                 (required) [env: SIMPLY_CICD_ALIAS] Salesforce org alias.
@@ -131,6 +131,9 @@ FLAGS
                                   version information for upgraded packages. Must already be authenticated. Omitted
                                   entirely (with a warning) when not provided, skipping origin lookup for upgraded
                                   packages.
+  --upgrade-type=<option>         [default: Mixed] Upgrade type for the dependency installs; available only for unlocked
+                                  packages.
+                                  <options: DeprecateOnly|Mixed|Delete>
   --vcs-host=<value>              [env: SIMPLY_CICD_VCS_HOST] The source-control host to talk to (e.g. gitlab.com).
   --vcs-provider=<option>         [default: gitlab, env: SIMPLY_CICD_VCS_PROVIDER] The source-control-hosting platform
                                   to talk to.
@@ -150,6 +153,17 @@ DESCRIPTION
 
 EXAMPLES
   $ sf simply cicd deploy happy-soup install-packaged --alias my-org
+
+FLAG DESCRIPTIONS
+  --upgrade-type=DeprecateOnly|Mixed|Delete
+
+    Upgrade type for the dependency installs; available only for unlocked packages.
+
+    For package upgrades, specifies whether to mark all removed components as deprecated (DeprecateOnly), to delete
+    removed components that can be safely deleted and deprecate the others (Mixed), or to delete all removed components,
+    except for custom objects and custom fields, that don't have dependencies (Delete). The default is Mixed.
+    DeprecateOnly and Delete only apply to unlocked package upgrades. Delete is not confirmed first: like every other
+    prompt in a pipeline, it is auto-approved.
 ```
 
 _See code: [lib/commands/simply/cicd/deploy/happy-soup/install-packaged.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.13.0/packages/simply-cicd/lib/commands/simply/cicd/deploy/happy-soup/install-packaged.js)_

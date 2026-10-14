@@ -48,7 +48,7 @@ describe('installDependencies', () => {
   });
 
   it('should authenticate to the scratch org and install its packaged dependencies', async () => {
-    await installDependencies({ jwtKeyFile: 'key.file', installType: 'Delta' });
+    await installDependencies({ jwtKeyFile: 'key.file', installType: 'Delta', upgradeType: 'Delete' });
 
     expect(ensureScratchOrgSession).toHaveBeenCalledWith(mockScratchOrgInfo.authFields, {
       jwtKeyFile: 'key.file',
@@ -59,6 +59,7 @@ describe('installDependencies', () => {
       alias: mockScratchOrgInfo.authFields.username,
       wait: '240',
       installType: 'Delta',
+      upgradeType: 'Delete',
     });
     expect(logger.success).toHaveBeenCalledWith('Package dependencies installed.');
   });
