@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.16.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.15.2...%40simplysf%2Fsimply-cicd%400.16.0) (2026-10-15)
+
+### Features
+
+- **simply-cicd:** add notify build for build-job Teams notifications ([#74](https://github.com/SimplySF/simply-plugins/issues/74)) ([34ba066](https://github.com/SimplySF/simply-plugins/commit/34ba06698038beb73b85c89ce3cf4eac47b8fcef))
+
 ## [0.15.2](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.15.1...%40simplysf%2Fsimply-cicd%400.15.2) (2026-10-14)
 
 **Note:** Version bump only for package @simplysf/simply-cicd

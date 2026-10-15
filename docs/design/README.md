@@ -83,6 +83,7 @@ refactors that keep the public surface identical (though a short doc is welcome 
 | [0043](0043-cicd-upgrade-type.md)                                    | `--upgrade-type` for `simply cicd` package installs                                   | Implemented           |
 | [0044](0044-settings-address-states-iso-codes.md)                    | `--iso-codes <source>`: fetch state definitions at run time (Debian first)            | Implemented           |
 | [0045](0045-migrate-apx-into-simply-aep.md)                          | Migrating `apx` code generation into `simply aep`                                     | In progress           |
+| [0046](0046-cicd-notify-build.md)                                    | `simply cicd notify build`                                                            | Implemented           |
 
 ## Template
 

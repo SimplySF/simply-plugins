@@ -16,6 +16,27 @@
 
 /** Teams notification card templates, keyed the same as the original `.hbs` file names. */
 export const NOTIFY_TEMPLATES = {
+  'build-failure-notification': `<table>
+  <tr><th colspan="3" style="color: white; background-color: darkred;">{{projectTitle}}: Failed Build</th></tr>
+  <tr><th colspan="3" style="color: white; background-color: grey;">Job: {{jobName}} (Stage:
+      {{stage}})</th></tr>
+  <tr><td>Branch</td><td colspan="2">Pipeline</td></tr>
+  <tr><td>{{refName}}</td><td colspan="2"><a
+        href="{{pipelineUrl}}"
+      >{{pipelineId}}</a></td></tr>
+</table>
+`,
+  'build-package-version-notification': `<table>
+  <tr><th colspan="3" style="color: white; background-color: darkgreen;">{{projectTitle}}: Package Version
+      Created</th></tr>
+  <tr><td>Version</td><td>Branch</td><td>Pipeline</td></tr>
+  <tr><td>{{packageVersion}}<br />{{subscriberPackageVersionId}}</td><td>{{refName}}</td><td><a
+        href="{{pipelineUrl}}"
+      >{{pipelineId}}</a></td></tr>
+  <tr><td colspan="3">Stories since {{packageVersionPrevious}}</td></tr>
+  <tr><td colspan="3">{{{storiesLinked}}}</td></tr>
+</table>
+`,
   'happy-soup-failure-notification': `<table>
   <tr><th colspan="3" style="color: white; background-color: darkred;">Failed Stage:
       {{stage}}</th></tr>

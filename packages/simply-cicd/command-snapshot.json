@@ -520,6 +520,31 @@
   },
   {
     "alias": [],
+    "command": "simply:cicd:notify:build",
+    "flagAliases": [],
+    "flagChars": [],
+    "flags": [
+      "alm-base-url",
+      "alm-project-key",
+      "alm-provider",
+      "ci-commit-ref-name",
+      "ci-job-name",
+      "ci-job-stage",
+      "ci-job-status",
+      "ci-pipeline-id",
+      "ci-pipeline-url",
+      "ci-project-title",
+      "debug",
+      "enabled",
+      "flags-dir",
+      "json",
+      "subscriber-package-version-id",
+      "teams-webhook-url"
+    ],
+    "plugin": "@simplysf/simply-cicd"
+  },
+  {
+    "alias": [],
     "command": "simply:cicd:notify:happy-soup",
     "flagAliases": [],
     "flagChars": [],
