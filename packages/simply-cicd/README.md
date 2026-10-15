@@ -49,6 +49,7 @@ This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/sim
 - [`sf simply cicd deploy project run-apex-tests`](#sf-simply-cicd-deploy-project-run-apex-tests)
 - [`sf simply cicd deploy project validate`](#sf-simply-cicd-deploy-project-validate)
 - [`sf simply cicd deploy validate`](#sf-simply-cicd-deploy-validate)
+- [`sf simply cicd notify build`](#sf-simply-cicd-notify-build)
 - [`sf simply cicd notify happy-soup`](#sf-simply-cicd-notify-happy-soup)
 - [`sf simply cicd notify project`](#sf-simply-cicd-notify-project)
 - [`sf simply cicd notify teams`](#sf-simply-cicd-notify-teams)
@@ -1483,6 +1484,82 @@ EXAMPLES
 
 _See code: [lib/commands/simply/cicd/deploy/validate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.15.2/packages/simply-cicd/lib/commands/simply/cicd/deploy/validate.js)_
 
+## `sf simply cicd notify build`
+
+Send a build job's failure, or the package version it created, to Microsoft Teams, with issue-tracker integration.
+
+```
+USAGE
+  $ sf simply cicd notify build [--json] [--flags-dir <value>] [--ci-commit-ref-name <value>] [--ci-job-name <value>]
+    [--ci-job-stage <value>] [--ci-job-status <value>] [--ci-pipeline-id <value>] [--ci-pipeline-url <value>]
+    [--ci-project-title <value>] [--subscriber-package-version-id <value>] [--enabled] [--alm-base-url <value>]
+    [--alm-project-key <value>] [--alm-provider gitlab-issues|jira] [--teams-webhook-url <value>...] [--debug]
+
+FLAGS
+  --alm-base-url=<value>                   [env: SIMPLY_CICD_ALM_BASE_URL] Base URL that an issue reference is appended
+                                           to, e.g. https://jira.example.com/browse for Jira or
+                                           https://gitlab.com/group/project/-/issues for GitLab Issues. References are
+                                           shown without links if not provided.
+  --alm-project-key=<value>                [env: SIMPLY_CICD_ALM_PROJECT_KEY] Fallback project key(s) used to search
+                                           commit messages for issue references, if none are configured in
+                                           .sfdevrc.json. Only used by prefix-keyed trackers such as Jira.
+  --alm-provider=<option>                  [default: jira, env: SIMPLY_CICD_ALM_PROVIDER] The issue tracker whose
+                                           reference format to look for in commit messages.
+                                           <options: gitlab-issues|jira>
+  --ci-commit-ref-name=<value>             [env: SIMPLY_CICD_CI_COMMIT_REF_NAME] The git branch or tag ref for this
+                                           pipeline run.
+  --ci-job-name=<value>                    [env: SIMPLY_CICD_CI_JOB_NAME] The name of the current CI job.
+  --ci-job-stage=<value>                   [env: SIMPLY_CICD_CI_JOB_STAGE] The stage of the current CI job.
+  --ci-job-status=<value>                  [env: SIMPLY_CICD_CI_JOB_STATUS] The status of the current CI job (e.g.
+                                           success, failed, canceled).
+  --ci-pipeline-id=<value>                 [env: SIMPLY_CICD_CI_PIPELINE_ID] The ID of the current CI pipeline.
+  --ci-pipeline-url=<value>                [env: SIMPLY_CICD_CI_PIPELINE_URL] The URL of the current CI pipeline.
+  --ci-project-title=<value>               [env: SIMPLY_CICD_CI_PROJECT_TITLE] The project title shown in the
+                                           notification card's heading.
+  --debug                                  [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
+  --enabled                                [env: SIMPLY_CICD_ENABLED] Whether the notification is actually sent.
+                                           Defaults to false so pipelines can gate this behind their own condition.
+  --subscriber-package-version-id=<value>  [env: SIMPLY_CICD_SUBSCRIBER_PACKAGE_VERSION_ID] The subscriber package
+                                           version ID (04t...) created by this job. Defaults to the one in
+                                           subscriberPackageVersionId.env, written by build create-package-version.
+  --teams-webhook-url=<value>...           One or more Teams webhook URLs to send the notification to.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Send a build job's failure, or the package version it created, to Microsoft Teams, with issue-tracker integration.
+
+  Run in every build job's `after_script`. Which card it posts depends on `--ci-job-status`:
+
+  - `failed`: a failure card with the job, stage, branch, and pipeline, whichever build job failed.
+  - `success`: a package version card, but only when the job created a package version. The card shows the new version
+  tag, its `04t` ID, and the issue references in the commits since the previous version tag. Every other successful job
+  sends nothing.
+  - Anything else (e.g. `canceled`): nothing.
+
+  The `04t` ID comes from `--subscriber-package-version-id`, or else from the `subscriberPackageVersionId.env` file that
+  `build create-package-version` writes to the working directory. The new version's tag is the tag at `HEAD` annotated
+  with that ID. The previous version's tag is the nearest earlier tag in the project's version tag format
+  (`plugins.simply.versionTagFormat` or `SIMPLY_CICD_VERSION_TAG_FORMAT`). The command fetches tags, and the full
+  history when the clone is shallow. If a tag or the history can't be found, the card shows `N/A` instead of failing the
+  job.
+
+EXAMPLES
+  Post a card from a build job's after_script; it only sends one when the job failed or created a package version:
+
+    $ sf simply cicd notify build --ci-job-name push-scratch --ci-job-status "$CI_JOB_STATUS" --teams-webhook-url \
+      https://outlook.office.com/webhook/... --enabled
+
+  Announce a package version with linked Jira stories:
+
+    $ sf simply cicd notify build --ci-job-status success --alm-base-url https://jira.example.com/browse \
+      --teams-webhook-url https://outlook.office.com/webhook/... --enabled
+```
+
+_See code: [lib/commands/simply/cicd/notify/build.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.15.2/packages/simply-cicd/lib/commands/simply/cicd/notify/build.js)_
+
 ## `sf simply cicd notify happy-soup`
 
 Send a happy-soup deployment stage notification to Microsoft Teams, with ALM story integration for upgraded packages.
@@ -1654,7 +1731,7 @@ DESCRIPTION
   Send a serialized JSON payload to a Microsoft Teams webhook.
 
   Posts a payload as-is to one or more Microsoft Teams incoming webhook URLs. Use this for custom notifications that
-  don't fit the built-in `notify project` or `notify happy-soup` card templates.
+  don't fit the built-in `notify project`, `notify happy-soup`, or `notify build` card templates.
 
 EXAMPLES
   $ sf simply cicd notify teams --payload '{"text":"Deployment complete"}' --webhook-url https://outlook.office.com/webhook/... --enabled
