@@ -110,7 +110,7 @@ importers:
         specifier: workspace:^1.8.14
         version: link:../simply-apex
       '@simplysf/simply-community':
-        specifier: workspace:^0.6.18
+        specifier: workspace:^0.6.19
         version: link:../simply-community
       '@simplysf/simply-data':
         specifier: workspace:^2.4.15

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.19](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-community%400.6.18...%40simplysf%2Fsimply-community%400.6.19) (2026-10-15)
+
+### Bug Fixes
+
+- **simply-community:** fix the community publish hang ([#72](https://github.com/SimplySF/simply-plugins/issues/72)) ([4543f12](https://github.com/SimplySF/simply-plugins/commit/4543f12e18791c770aa04dda04b85ed25f48a81b)), closes [simply-plugins-core#231](https://github.com/simply-plugins-core/issues/231)
+
 ## [0.6.18](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-community%400.6.17...%40simplysf%2Fsimply-community%400.6.18) (2026-10-14)
 
 **Note:** Version bump only for package @simplysf/simply-community
