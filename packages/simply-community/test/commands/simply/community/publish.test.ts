@@ -27,7 +27,8 @@ const publishResponse = {
   name: 'My Community',
   url: 'https://example.my.site.com',
 };
-const finished = (overrides: { Status: string; Error: string | null }): Record<string, unknown> => ({
+type BackgroundOperation = { Id: string; FinishedAt: string; Status: string; Error: string | null };
+const finished = (overrides: { Status: string; Error: string | null }): BackgroundOperation => ({
   Id: '08p000000000001',
   FinishedAt: '2026-08-19T00:00:00.000+0000',
   ...overrides,
@@ -35,9 +36,9 @@ const finished = (overrides: { Status: string; Error: string | null }): Record<s
 
 type FakeOrg = {
   /** Handles the publish POST. Defaults to returning `publishResponse`. */
-  publish?: () => Promise<unknown>;
+  publish?: () => Promise<typeof publishResponse>;
   /** Returns the BackgroundOperation record for each status query. Defaults to a completed job. */
-  status?: () => Promise<Record<string, unknown>>;
+  status?: () => Promise<BackgroundOperation>;
 };
 
 describe('simply community publish', () => {
@@ -49,8 +50,8 @@ describe('simply community publish', () => {
    * the BackgroundOperation status query all go through it.
    */
   const fakeOrg = ({
-    publish = async (): Promise<unknown> => publishResponse,
-    status = async (): Promise<Record<string, unknown>> => finished({ Status: 'Completed', Error: null }),
+    publish = async (): Promise<typeof publishResponse> => publishResponse,
+    status = async (): Promise<BackgroundOperation> => finished({ Status: 'Completed', Error: null }),
   }: FakeOrg = {}): void => {
     $$.fakeConnectionRequest = async (request) => {
       const { method, url } = request as { method: string; url: string };
