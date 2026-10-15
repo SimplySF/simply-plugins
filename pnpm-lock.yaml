@@ -167,6 +167,9 @@ importers:
       '@simplysf/simply-core':
         specifier: ^1.6.7
         version: 1.6.7
+      '@simplysf/simply-plugin-kit':
+        specifier: workspace:^1.0.9
+        version: link:../simply-plugin-kit
     devDependencies:
       '@oclif/plugin-command-snapshot':
         specifier: ^5.4.0

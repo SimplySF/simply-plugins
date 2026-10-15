@@ -1,6 +1,6 @@
 # 0045 — Migrating `apx` code generation into `simply aep`
 
-**Status:** Draft
+**Status:** In progress — phase 1 in `simply-plugins-core` ([its 0045](https://github.com/SimplySF/simply-plugins-core/blob/main/docs/design/0045-aep-core-generation-engine.md)) and phase 2 here are implemented; phases 3–5 are not started
 **Package:** `packages/simply-aep` (CLI); `simply-plugins-core/packages/simply-aep-core` (library);
 `simply-vscode` (editor); retirement work in `Syntax-Syllogism/apx`, `apx-core`, and
 `apx-vscode-extension`
@@ -99,7 +99,8 @@ already supports as the `error` overwrite policy:
 
 - Default: if any planned path exists, fail before writing anything and list the paths.
 - `--overwrite`: replace existing files (the old `apx` behavior).
-- `--dry-run` still lists `wouldCreate` and never writes.
+- `--dry-run` still lists `wouldCreate` and never writes. It also prints each planned path as `NEW` or
+  `OVERWRITE`, and warns when a real run would refuse because files exist.
 
 ### Validation
 
@@ -118,11 +119,24 @@ not here (the scoping rule from [0011](0011-domain-process-binding-issue-scoping
 error-severity issues fail the run unless `--force` is passed. Warnings are printed and returned.
 fflib runs, `service` without bindings, and `selector-method` write no CMDT and skip this step.
 
+As built, the scan-merge-diff lives in `simply-aep-core` as `planValidation` (its 0045), so the editor
+gets the same answer. Three details the implementation settled:
+
+- `--dry-run` runs validation too, and reports the issues without failing; it warns that a real run
+  would refuse.
+- `missing-domain-trigger` isn't checked: it needs a trigger scan, and `generate domain` writes the
+  trigger itself.
+- The generated records choose `BindingSObject__c` or `…Alternate__c` by EntityDefinition
+  eligibility, not `apx`'s custom-vs-standard rule. `apx`'s rule produced records these validators
+  flag — a `User` binding in the primary field is an error — so keeping it would have made the
+  generators fail their own validation.
+
 ### JSON result
 
 `{ baseDir, created, skipped, wouldCreate?, manualSteps?, issues }`. Two changes from `apx`:
 `manualSteps` appears whenever it's produced (the aggregate no longer omits it for compatibility), and
-`issues` carries the validation results above.
+`issues` carries the validation results above, each tagged
+`record: 'binding' | 'domain-process-binding' | 'field-set-inclusion'`.
 
 ## Alternatives considered
 
@@ -189,6 +203,11 @@ In `packages/simply-aep`:
 1. Add `src/common/generate/`: the flags → options adapter (the `apx` `toOptions` logic, minus the
    flavor booleans), connection selection (`connectionFor`), and the dry-run/overwrite/render path
    (`runGeneration`). Shared flags that aren't AEP-specific go to `simply-plugin-kit/flags`.
+   _As built:_ the describe-backed generators reuse the kit's `targetOrgFlags` and
+   `requireConnection` (with `-a` kept on `--api-version`). The other new flags (`--output-dir`,
+   `--overwrite`, `--force`, `--flavor`) only make sense for generators, so they stay in
+   `src/common/generate/flags.ts`. The commands extend `SfCommand` directly and pass themselves to
+   `runGeneration` for output.
 2. Add `generate`, `generate selector`, `generate domain`, `generate service`, and
    `generate unit-of-work`, with `messages/simply.aep.generate*.md` ported from `apx` and the
    validation and `--overwrite` behavior above.
@@ -255,6 +274,8 @@ Start this after phase 3 has been released for at least one minor cycle.
 1. **`--output-dir` default.** Keeping `generated-files` preserves `apx` behavior and the golden paths.
    Defaulting to the default package directory would make validation see the new records "in place".
    The draft recommends keeping `generated-files` and revisiting after phase 3. Maintainers decide.
+   _Decided for phases 1–2: `generated-files`._ Validation scans `--output-dir` alongside the package
+   directories, so records generated there are still checked against everything in place.
 2. **Whether the opinionated layout (`main/classes/selectors`, `main/schema/custommetadata/...`) should
    become configurable** (`AepLayout` already supports it) through `sfdx-project.json` plugin config.
    Deferred: not needed for parity.
