@@ -4,7 +4,7 @@ Send a serialized JSON payload to a Microsoft Teams webhook.
 
 # description
 
-Posts a payload as-is to one or more Microsoft Teams incoming webhook URLs. Use this for custom notifications that don't fit the built-in `notify project` or `notify happy-soup` card templates.
+Posts a payload as-is to one or more Microsoft Teams incoming webhook URLs. Use this for custom notifications that don't fit the built-in `notify project`, `notify happy-soup`, or `notify build` card templates.
 
 # flags.payload.summary
 
