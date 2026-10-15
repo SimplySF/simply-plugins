@@ -84,6 +84,10 @@ Domain "%s" is not registered in the target org. Proceeding because --ignore-mis
 
 Site "%s"'s domain is already bound to a different site (id: %s). This is legal — e.g. intentionally repointing a domain — but verify it's expected.
 
+# warning.pollFailed
+
+Could not check the publish status (will keep checking for up to 15 minutes): %s
+
 # warning.siteRetrieved
 
 Site file for "%s" not found locally; retrieved from org %s to %s.
