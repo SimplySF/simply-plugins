@@ -1,6 +1,6 @@
 # 0046 — `simply cicd notify build`
 
-**Status:** Draft
+**Status:** Implemented ([#74](https://github.com/SimplySF/simply-plugins/pull/74))
 **Package:** `packages/simply-cicd`
 **Date:** 2026-10-15
 
