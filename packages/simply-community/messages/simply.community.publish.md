@@ -38,6 +38,10 @@ Community "%s" published successfully.
 
 Failed to publish community "%s": %s
 
+# warning.pollFailed
+
+Could not check the publish status (will keep checking until --wait runs out): %s
+
 # examples
 
 - <%= config.bin %> <%= command.id %> --target-org my-org --name "My Community"

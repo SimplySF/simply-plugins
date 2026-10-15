@@ -17,14 +17,10 @@
 import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { requireConnection, targetOrgFlags } from '@simplysf/simply-plugin-kit';
-import { escapeSoqlLiteral } from '@simplysf/simply-core';
-import { publishCommunity } from '@simplysf/simply-community-core';
+import { publishCommunity, queryNetworkByName } from '@simplysf/simply-community-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-community', 'simply.community.publish');
-
-/** The fields this needs from the `Network` record identified by `--name`. */
-type NetworkRecord = { Id: string; Name: string };
 
 export type CommunityPublishResult = {
   success: boolean;
@@ -66,9 +62,7 @@ export default class CommunityPublish extends SfCommand<CommunityPublishResult> 
     const connection = requireConnection(flags);
 
     try {
-      const network = await connection.singleRecordQuery<NetworkRecord>(
-        `SELECT Id, Name FROM Network WHERE Name = '${escapeSoqlLiteral(flags.name)}'`,
-      );
+      const network = await queryNetworkByName(connection, flags.name);
 
       this.spinner.start(messages.getMessage('info.publishing', [network.Name]));
       const publishResponse = await publishCommunity({
@@ -77,6 +71,7 @@ export default class CommunityPublish extends SfCommand<CommunityPublishResult> 
         wait: Number(flags.wait),
         retryAttempts: flags['retry-attempts'],
         retryBackoff: flags['retry-backoff'],
+        onPollError: (error) => this.warn(messages.getMessage('warning.pollFailed', [(error as Error).message])),
       });
       this.spinner.stop();
 
