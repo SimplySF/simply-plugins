@@ -19,7 +19,6 @@ import path from 'node:path';
 import { Duration } from '@salesforce/kit';
 import { Messages, SfError, type Connection } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
-import { escapeSoqlLiteral } from '@simplysf/simply-core';
 import { requireConnection } from '@simplysf/simply-plugin-kit';
 import {
   patchCustomSiteXml,
@@ -33,13 +32,11 @@ import {
   type DomainCheckResult,
   deployChangedFiles,
   publishCommunity,
+  queryNetworkByName,
 } from '@simplysf/simply-community-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-community', 'simply.community.url.set');
-
-/** The fields this needs from the `Network` record matching a network file's basename. */
-type NetworkRecord = { Id: string; Name: string };
 
 export type CommunityUrlSetResult = {
   site: string;
@@ -356,10 +353,7 @@ export default class CommunityUrlSet extends SfCommand<CommunityUrlSetResult> {
       return;
     }
 
-    const networkName = path.basename(networkFile, '.network-meta.xml');
-    const network = await connection.singleRecordQuery<NetworkRecord>(
-      `SELECT Id, Name FROM Network WHERE Name = '${escapeSoqlLiteral(networkName)}'`,
-    );
+    const network = await queryNetworkByName(connection, path.basename(networkFile, '.network-meta.xml'));
 
     const otherSiteIds = check.boundToSiteIds.filter((id) => id !== network.Id);
     if (otherSiteIds.length > 0) {
@@ -371,14 +365,16 @@ export default class CommunityUrlSet extends SfCommand<CommunityUrlSetResult> {
     connection: Connection,
     networkFile: string,
   ): Promise<CommunityUrlSetResult['publish']> {
-    const networkName = path.basename(networkFile, '.network-meta.xml');
-    const network = await connection.singleRecordQuery<NetworkRecord>(
-      `SELECT Id, Name FROM Network WHERE Name = '${escapeSoqlLiteral(networkName)}'`,
-    );
+    const network = await queryNetworkByName(connection, path.basename(networkFile, '.network-meta.xml'));
 
     this.spinner.start(messages.getMessage('info.publishing', [network.Name]));
     try {
-      const publishResponse = await publishCommunity({ connection, networkId: network.Id, wait: 15 });
+      const publishResponse = await publishCommunity({
+        connection,
+        networkId: network.Id,
+        wait: 15,
+        onPollError: (error) => this.warn(messages.getMessage('warning.pollFailed', [(error as Error).message])),
+      });
       this.spinner.stop();
       return { networkName: network.Name, jobId: publishResponse.jobId, url: publishResponse.url };
     } catch (err) {
