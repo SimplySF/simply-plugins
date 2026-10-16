@@ -1,0 +1,512 @@
+[
+  {
+    "name": "simply_aep_binding_list",
+    "toolset": "aep",
+    "tier": "read",
+    "annotations": { "title": "List AT4DX Application Factory bindings", "readOnlyHint": true },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "target_org": {
+          "description": "Alias or username of an org the user has authorized with `sf org login`. Read-only tools fall back to the project's default target-org when it's omitted; tools that change an org require it.",
+          "type": "string",
+          "minLength": 1
+        },
+        "api_version": {
+          "description": "API version to use, for example \"62.0\". Defaults to the org's own.",
+          "type": "string",
+          "pattern": "^\\d+\\.0$"
+        },
+        "source_dir": {
+          "description": "Local source directories to read instead of an org, relative to the project root or absolute (for example [\"force-app\"]).",
+          "minItems": 1,
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "type": {
+          "description": "Only these binding types. Defaults to all four.",
+          "minItems": 1,
+          "type": "array",
+          "items": { "type": "string", "enum": ["service", "selector", "domain", "unit-of-work"] }
+        },
+        "effective_only": {
+          "default": false,
+          "description": "Only the record that wins for each key.",
+          "type": "boolean"
+        },
+        "limit": {
+          "default": 200,
+          "description": "Maximum number of items to return. Defaults to 200; check \"truncated\" in the result.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        }
+      },
+      "$schema": "http://json-schema.org/draft-07/schema#"
+    }
+  },
+  {
+    "name": "simply_aep_binding_validate",
+    "toolset": "aep",
+    "tier": "read",
+    "annotations": { "title": "Validate AT4DX Application Factory bindings", "readOnlyHint": true },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "target_org": {
+          "description": "Alias or username of an org the user has authorized with `sf org login`. Read-only tools fall back to the project's default target-org when it's omitted; tools that change an org require it.",
+          "type": "string",
+          "minLength": 1
+        },
+        "api_version": {
+          "description": "API version to use, for example \"62.0\". Defaults to the org's own.",
+          "type": "string",
+          "pattern": "^\\d+\\.0$"
+        },
+        "source_dir": {
+          "description": "Local source directories to read instead of an org, relative to the project root or absolute (for example [\"force-app\"]).",
+          "minItems": 1,
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "type": {
+          "description": "Only these binding types. Defaults to all four.",
+          "minItems": 1,
+          "type": "array",
+          "items": { "type": "string", "enum": ["service", "selector", "domain", "unit-of-work"] }
+        },
+        "limit": {
+          "default": 200,
+          "description": "Maximum number of items to return. Defaults to 200; check \"truncated\" in the result.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        }
+      },
+      "$schema": "http://json-schema.org/draft-07/schema#"
+    }
+  },
+  {
+    "name": "simply_aep_domain_process_binding_list",
+    "toolset": "aep",
+    "tier": "read",
+    "annotations": { "title": "List AT4DX Trigger Action Framework bindings", "readOnlyHint": true },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "target_org": {
+          "description": "Alias or username of an org the user has authorized with `sf org login`. Read-only tools fall back to the project's default target-org when it's omitted; tools that change an org require it.",
+          "type": "string",
+          "minLength": 1
+        },
+        "api_version": {
+          "description": "API version to use, for example \"62.0\". Defaults to the org's own.",
+          "type": "string",
+          "pattern": "^\\d+\\.0$"
+        },
+        "source_dir": {
+          "description": "Local source directories to read instead of an org, relative to the project root or absolute (for example [\"force-app\"]).",
+          "minItems": 1,
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "sobject": {
+          "description": "Only bindings for these SObject API names, for example [\"Account\"].",
+          "minItems": 1,
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "active_only": { "default": false, "description": "Only active bindings.", "type": "boolean" },
+        "limit": {
+          "default": 200,
+          "description": "Maximum number of items to return. Defaults to 200; check \"truncated\" in the result.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        }
+      },
+      "$schema": "http://json-schema.org/draft-07/schema#"
+    }
+  },
+  {
+    "name": "simply_aep_domain_process_binding_validate",
+    "toolset": "aep",
+    "tier": "read",
+    "annotations": { "title": "Validate AT4DX Trigger Action Framework bindings", "readOnlyHint": true },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "target_org": {
+          "description": "Alias or username of an org the user has authorized with `sf org login`. Read-only tools fall back to the project's default target-org when it's omitted; tools that change an org require it.",
+          "type": "string",
+          "minLength": 1
+        },
+        "api_version": {
+          "description": "API version to use, for example \"62.0\". Defaults to the org's own.",
+          "type": "string",
+          "pattern": "^\\d+\\.0$"
+        },
+        "source_dir": {
+          "description": "Local source directories to read instead of an org, relative to the project root or absolute (for example [\"force-app\"]).",
+          "minItems": 1,
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "sobject": {
+          "description": "Only bindings for these SObject API names, for example [\"Account\"].",
+          "minItems": 1,
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "limit": {
+          "default": 200,
+          "description": "Maximum number of items to return. Defaults to 200; check \"truncated\" in the result.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        }
+      },
+      "$schema": "http://json-schema.org/draft-07/schema#"
+    }
+  },
+  {
+    "name": "simply_aep_field_set_inclusion_list",
+    "toolset": "aep",
+    "tier": "read",
+    "annotations": { "title": "List AT4DX selector field set inclusions", "readOnlyHint": true },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "target_org": {
+          "description": "Alias or username of an org the user has authorized with `sf org login`. Read-only tools fall back to the project's default target-org when it's omitted; tools that change an org require it.",
+          "type": "string",
+          "minLength": 1
+        },
+        "api_version": {
+          "description": "API version to use, for example \"62.0\". Defaults to the org's own.",
+          "type": "string",
+          "pattern": "^\\d+\\.0$"
+        },
+        "source_dir": {
+          "description": "Local source directories to read instead of an org, relative to the project root or absolute (for example [\"force-app\"]).",
+          "minItems": 1,
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "limit": {
+          "default": 200,
+          "description": "Maximum number of items to return. Defaults to 200; check \"truncated\" in the result.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        }
+      },
+      "$schema": "http://json-schema.org/draft-07/schema#"
+    }
+  },
+  {
+    "name": "simply_aep_field_set_inclusion_validate",
+    "toolset": "aep",
+    "tier": "read",
+    "annotations": { "title": "Validate AT4DX selector field set inclusions", "readOnlyHint": true },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "target_org": {
+          "description": "Alias or username of an org the user has authorized with `sf org login`. Read-only tools fall back to the project's default target-org when it's omitted; tools that change an org require it.",
+          "type": "string",
+          "minLength": 1
+        },
+        "api_version": {
+          "description": "API version to use, for example \"62.0\". Defaults to the org's own.",
+          "type": "string",
+          "pattern": "^\\d+\\.0$"
+        },
+        "source_dir": {
+          "description": "Local source directories to read instead of an org, relative to the project root or absolute (for example [\"force-app\"]).",
+          "minItems": 1,
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "limit": {
+          "default": 200,
+          "description": "Maximum number of items to return. Defaults to 200; check \"truncated\" in the result.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        }
+      },
+      "$schema": "http://json-schema.org/draft-07/schema#"
+    }
+  },
+  {
+    "name": "simply_aep_platform_event_subscription_list",
+    "toolset": "aep",
+    "tier": "read",
+    "annotations": { "title": "List AT4DX platform event subscriptions", "readOnlyHint": true },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "target_org": {
+          "description": "Alias or username of an org the user has authorized with `sf org login`. Read-only tools fall back to the project's default target-org when it's omitted; tools that change an org require it.",
+          "type": "string",
+          "minLength": 1
+        },
+        "api_version": {
+          "description": "API version to use, for example \"62.0\". Defaults to the org's own.",
+          "type": "string",
+          "pattern": "^\\d+\\.0$"
+        },
+        "source_dir": {
+          "description": "Local source directories to read instead of an org, relative to the project root or absolute (for example [\"force-app\"]).",
+          "minItems": 1,
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "limit": {
+          "default": 200,
+          "description": "Maximum number of items to return. Defaults to 200; check \"truncated\" in the result.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        }
+      },
+      "$schema": "http://json-schema.org/draft-07/schema#"
+    }
+  },
+  {
+    "name": "simply_aep_platform_event_subscription_validate",
+    "toolset": "aep",
+    "tier": "read",
+    "annotations": { "title": "Validate AT4DX platform event subscriptions", "readOnlyHint": true },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "target_org": {
+          "description": "Alias or username of an org the user has authorized with `sf org login`. Read-only tools fall back to the project's default target-org when it's omitted; tools that change an org require it.",
+          "type": "string",
+          "minLength": 1
+        },
+        "api_version": {
+          "description": "API version to use, for example \"62.0\". Defaults to the org's own.",
+          "type": "string",
+          "pattern": "^\\d+\\.0$"
+        },
+        "source_dir": {
+          "description": "Local source directories to read instead of an org, relative to the project root or absolute (for example [\"force-app\"]).",
+          "minItems": 1,
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "limit": {
+          "default": 200,
+          "description": "Maximum number of items to return. Defaults to 200; check \"truncated\" in the result.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        }
+      },
+      "$schema": "http://json-schema.org/draft-07/schema#"
+    }
+  },
+  {
+    "name": "simply_apex_execute",
+    "toolset": "apex",
+    "tier": "write",
+    "annotations": { "title": "Execute anonymous Apex", "readOnlyHint": false, "destructiveHint": false },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "target_org": {
+          "description": "Alias or username of an org the user has authorized with `sf org login`. Read-only tools fall back to the project's default target-org when it's omitted; tools that change an org require it.",
+          "type": "string",
+          "minLength": 1
+        },
+        "api_version": {
+          "description": "API version to use, for example \"62.0\". Defaults to the org's own.",
+          "type": "string",
+          "pattern": "^\\d+\\.0$"
+        },
+        "file": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Path to the .apex file to run, relative to the project root or absolute."
+        }
+      },
+      "required": ["file"],
+      "$schema": "http://json-schema.org/draft-07/schema#"
+    }
+  },
+  {
+    "name": "simply_apex_logs_purge",
+    "toolset": "apex",
+    "tier": "destructive",
+    "annotations": { "title": "Delete Apex debug logs", "readOnlyHint": false, "destructiveHint": true },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "target_org": {
+          "description": "Alias or username of an org the user has authorized with `sf org login`. Read-only tools fall back to the project's default target-org when it's omitted; tools that change an org require it.",
+          "type": "string",
+          "minLength": 1
+        },
+        "api_version": {
+          "description": "API version to use, for example \"62.0\". Defaults to the org's own.",
+          "type": "string",
+          "pattern": "^\\d+\\.0$"
+        },
+        "where": {
+          "description": "SOQL condition on ApexLog, without the WHERE keyword. Omit it to delete every log.",
+          "type": "string",
+          "minLength": 1
+        },
+        "use_bulk_api": {
+          "default": false,
+          "description": "Query and delete through Bulk API jobs. Use for many thousands of logs.",
+          "type": "boolean"
+        },
+        "wait": {
+          "default": 30,
+          "description": "Minutes to wait for the Bulk API jobs. Only used with use_bulk_api.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "limit": {
+          "default": 200,
+          "description": "Maximum number of items to return. Defaults to 200; check \"truncated\" in the result.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        }
+      },
+      "$schema": "http://json-schema.org/draft-07/schema#"
+    }
+  },
+  {
+    "name": "simply_apex_test_suite_generate",
+    "toolset": "apex",
+    "tier": "read",
+    "annotations": { "title": "Generate an Apex test suite file", "readOnlyHint": true },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "source_dir": {
+          "minItems": 1,
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Source directories to scan for @IsTest classes, relative to the project root or absolute."
+        },
+        "name": {
+          "type": "string",
+          "pattern": "^[A-Za-z]\\w*$",
+          "description": "The test suite name; the file is written as <name>.testSuite-meta.xml."
+        },
+        "output_dir": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Directory to write the file into, relative to the project root or absolute."
+        }
+      },
+      "required": ["source_dir", "name", "output_dir"],
+      "$schema": "http://json-schema.org/draft-07/schema#"
+    }
+  },
+  {
+    "name": "simply_apex_trace_setup",
+    "toolset": "apex",
+    "tier": "write",
+    "annotations": { "title": "Set up an Apex debug log trace flag", "readOnlyHint": false, "destructiveHint": false },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "target_org": {
+          "description": "Alias or username of an org the user has authorized with `sf org login`. Read-only tools fall back to the project's default target-org when it's omitted; tools that change an org require it.",
+          "type": "string",
+          "minLength": 1
+        },
+        "api_version": {
+          "description": "API version to use, for example \"62.0\". Defaults to the org's own.",
+          "type": "string",
+          "pattern": "^\\d+\\.0$"
+        },
+        "on_behalf_of": {
+          "description": "The user to trace, as a \"Field:Value\" pair such as \"Username:jane@example.com\". Defaults to the org user.",
+          "type": "string"
+        },
+        "log_level": {
+          "description": "Developer name of an existing debug level. Defaults to ReplayDebuggerLevels (created if missing).",
+          "type": "string"
+        },
+        "start_date": {
+          "description": "When tracing starts, as an ISO 8601 date-time. Defaults to now.",
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$"
+        },
+        "end_date": {
+          "description": "When tracing ends, as an ISO 8601 date-time. Defaults to 24 hours after start_date.",
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$"
+        }
+      },
+      "$schema": "http://json-schema.org/draft-07/schema#"
+    }
+  },
+  {
+    "name": "simply_apex_trace_silence",
+    "toolset": "apex",
+    "tier": "write",
+    "annotations": { "title": "Silence Apex classes in debug logs", "readOnlyHint": false, "destructiveHint": false },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "target_org": {
+          "description": "Alias or username of an org the user has authorized with `sf org login`. Read-only tools fall back to the project's default target-org when it's omitted; tools that change an org require it.",
+          "type": "string",
+          "minLength": 1
+        },
+        "api_version": {
+          "description": "API version to use, for example \"62.0\". Defaults to the org's own.",
+          "type": "string",
+          "pattern": "^\\d+\\.0$"
+        },
+        "classes": {
+          "description": "Apex class names to silence.",
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "classes_file": {
+          "description": "Path to a JSON file listing class names to silence, relative to the project root or absolute.",
+          "type": "string"
+        },
+        "fflib": { "default": false, "description": "Also silence the fflib framework classes.", "type": "boolean" },
+        "at4dx": { "default": false, "description": "Also silence the AT4DX framework classes.", "type": "boolean" },
+        "force_di": {
+          "default": false,
+          "description": "Also silence the force-di framework classes.",
+          "type": "boolean"
+        }
+      },
+      "$schema": "http://json-schema.org/draft-07/schema#"
+    }
+  },
+  {
+    "name": "simply_package_version_get",
+    "toolset": "package",
+    "tier": "read",
+    "annotations": { "title": "Get a package version from sfdx-project.json", "readOnlyHint": true },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "package": { "type": "string", "minLength": 1, "description": "The package name or alias to look up." },
+        "directory": {
+          "description": "Only search this package directory, by its path in sfdx-project.json (for example \"force-app\").",
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": ["package"],
+      "$schema": "http://json-schema.org/draft-07/schema#"
+    }
+  }
+]

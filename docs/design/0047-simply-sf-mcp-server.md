@@ -1,6 +1,8 @@
 # 0047 — `simply-sf-mcp`: an MCP server over the `-core` libraries
 
-**Status:** Draft
+**Status:** In progress. The server and the `apex`, `aep` and `package` toolsets are implemented.
+The `sobject`, `permissions`, `schema` and `data` toolsets wait on moving their logic into core (see
+[Implementation notes](#implementation-notes)).
 **Package:** `packages/simply-sf-mcp` (new)
 **Date:** 2026-10-15
 
@@ -20,10 +22,11 @@ shelling out to `sf`. In practice that is slow and wasteful:
 - **Results are shaped for a terminal.** `--json` helps, but spinners, warnings and multi-kilobyte
   envelopes still end up in the agent's context.
 
-The work these commands do already lives in the `-core` libraries in `simply-plugins-core`. Each
-command is a thin wrapper: it parses flags, calls `requireConnection`, and calls one core function.
+The work these commands do mostly lives in the `-core` libraries in `simply-plugins-core`. Most
+commands are a thin wrapper: they parse flags, call `requireConnection`, and call one core function.
 For example, `simply apex execute` calls `executeApex(connection, file)`. The slow and awkward part
-is how the work is reached, not the work itself.
+is how the work is reached, not the work itself. (Implementing this found five commands that aren't
+thin wrappers yet; see [Implementation notes](#implementation-notes).)
 
 ## Decision
 
@@ -94,34 +97,39 @@ Tool names follow `simply_<topic>_<action>`, using snake_case so they work with 
 Arguments use the same names as the oclif flags, converted to snake_case (`source_dir`,
 `effective_only`).
 
-| Toolset       | Tool                                                        | Core function source      | Tier        | Org? |
-| ------------- | ----------------------------------------------------------- | ------------------------- | ----------- | ---- |
-| `apex`        | `simply_apex_execute`                                       | `simply-apex-core`        | write       | yes  |
-| `apex`        | `simply_apex_trace_setup`                                   | `simply-apex-core`        | write       | yes  |
-| `apex`        | `simply_apex_trace_silence`                                 | `simply-apex-core`        | write       | yes  |
-| `apex`        | `simply_apex_logs_purge`                                    | `simply-apex-core`        | destructive | yes  |
-| `apex`        | `simply_apex_test_suite_generate`                           | `simply-apex-core`        | read        | no   |
-| `aep`         | `simply_aep_binding_list` / `_validate`                     | `simply-aep-core`         | read        | yes  |
-| `aep`         | `simply_aep_domain_process_binding_list` / `_validate`      | `simply-aep-core`         | read        | yes  |
-| `aep`         | `simply_aep_field_set_inclusion_list` / `_validate`         | `simply-aep-core`         | read        | yes  |
-| `aep`         | `simply_aep_platform_event_subscription_list` / `_validate` | `simply-aep-core`         | read        | yes  |
-| `sobject`     | `simply_sobject_history_query`                              | `simply-sobject-core`     | read        | yes  |
-| `permissions` | `simply_permissions_analyze`                                | `simply-permissions-core` | read        | yes  |
-| `package`     | `simply_package_version_get`                                | `simply-package-core`     | read        | yes  |
-| `schema`      | `simply_schema_visualize`                                   | `simply-schema-core`      | read        | yes  |
-| `data`        | `simply_data_files_download`                                | `simply-data-core`        | read        | yes  |
-| `data`        | `simply_data_files_upload`                                  | `simply-data-core`        | write       | yes  |
+| Toolset       | Tool                                                        | Core function source      | Tier        | Org? | Status                |
+| ------------- | ----------------------------------------------------------- | ------------------------- | ----------- | ---- | --------------------- |
+| `apex`        | `simply_apex_execute`                                       | `simply-apex-core`        | write       | yes  | Implemented           |
+| `apex`        | `simply_apex_trace_setup`                                   | `simply-apex-core`        | write       | yes  | Implemented           |
+| `apex`        | `simply_apex_trace_silence`                                 | `simply-apex-core`        | write       | yes  | Implemented           |
+| `apex`        | `simply_apex_logs_purge`                                    | `simply-apex-core`        | destructive | yes  | Implemented           |
+| `apex`        | `simply_apex_test_suite_generate`                           | `simply-apex-core`        | read        | no   | Implemented           |
+| `aep`         | `simply_aep_binding_list` / `_validate`                     | `simply-aep-core`         | read        | yes¹ | Implemented           |
+| `aep`         | `simply_aep_domain_process_binding_list` / `_validate`      | `simply-aep-core`         | read        | yes¹ | Implemented           |
+| `aep`         | `simply_aep_field_set_inclusion_list` / `_validate`         | `simply-aep-core`         | read        | yes¹ | Implemented           |
+| `aep`         | `simply_aep_platform_event_subscription_list` / `_validate` | `simply-aep-core`         | read        | yes¹ | Implemented           |
+| `package`     | `simply_package_version_get`                                | `simply-package-core`     | read        | no²  | Implemented           |
+| `sobject`     | `simply_sobject_history_query`                              | `simply-sobject-core`     | read        | yes  | Waits on core (below) |
+| `permissions` | `simply_permissions_analyze`                                | `simply-permissions-core` | read        | yes  | Waits on core (below) |
+| `schema`      | `simply_schema_visualize`                                   | `simply-schema-core`      | read        | yes  | Waits on core (below) |
+| `data`        | `simply_data_files_download`                                | `simply-data-core`        | read        | yes  | Waits on core (below) |
+| `data`        | `simply_data_files_upload`                                  | `simply-data-core`        | write       | yes  | Waits on core (below) |
 
-With the defaults (`--allow read`, all toolsets) that is 14 tools. These are left out of the first
-release on purpose:
+¹ Or local source: like the CLI commands, these read `source_dir` instead of an org when it's given.
+
+² The draft said yes. `simply package version get` only reads `sfdx-project.json`; it never touches
+an org or Dev Hub.
+
+With the defaults (`--allow read`, all toolsets) the implemented set is 10 tools. Once the four
+waiting toolsets land it becomes 14. These are left out of the first release on purpose:
 
 - **`simply cicd *`.** These are pipeline stages driven by CI variables, not things an agent runs
   interactively. Much of their logic still lives in the plugin, not in `simply-cicd-core`.
-- **`simply flow delete` / `flow version prune`.** There is no `simply-flow-core` yet. These wait on
-  the extraction proposed in simply-plugins-core's
-  [0046](https://github.com/SimplySF/simply-plugins-core/blob/main/docs/design/0046-simply-flow-core.md)
-  ([SimplySF/simply-plugins-core#235](https://github.com/SimplySF/simply-plugins-core/pull/235)).
-  Once it ships, they become `simply_flow_delete` (`destructive`) and `simply_flow_version_prune`
+- **`simply flow delete` / `flow version prune`.** When this doc was drafted there was no
+  `simply-flow-core`. It has since shipped (simply-plugins-core's
+  [0046](https://github.com/SimplySF/simply-plugins-core/blob/main/docs/design/0046-simply-flow-core.md),
+  `@simplysf/simply-flow-core@0.1.0`, and [0048](0048-simply-flow-core.md) here), so these are
+  unblocked. They become `simply_flow_delete` (`destructive`) and `simply_flow_version_prune`
   (`destructive`, with a `dry_run` argument), each a follow-up PR.
 - **AT4DX `create`/`update`, `permissions build`, `schema generate`.** These write local source from
   structured input. Agents can already edit those files directly. Add them if usage shows a need.
@@ -143,6 +151,10 @@ Every tool that touches an org takes an optional `target_org` (alias or username
 Requiring an explicit org for any tool that changes an org means a changed default `target-org`
 can't silently send a write to the wrong org.
 
+The AEP tools also take `source_dir`. The CLI makes the caller pass exactly one of `--target-org` and
+`--source-dir`. Here `source_dir` reads local source, `target_org` reads that org, and neither falls
+back to the default org like any other `read` tool. Passing both is an error.
+
 Auth comes from the same `~/.sfdx` / `~/.sf` state the CLI uses. The server never logs in. A user
 who hasn't authorized an org runs `sf org login web` as usual.
 
@@ -156,23 +168,37 @@ is found without restarting the server.
 
 Each tool returns:
 
-- `structuredContent`: the core function's result object, validated against an `outputSchema`
-  derived from the same zod schema;
+- `structuredContent`: the core function's result object, validated against the tool's
+  `outputSchema`. The core result types are TypeScript types, not zod schemas, so each tool declares
+  its `outputSchema` in zod. Row and issue shapes use `z.looseObject` with only their stable fields
+  typed, so a field added in core doesn't break validation.
 - one `text` block with a short summary of a few lines for clients that ignore structured content,
-  for example `3 binding issues in 41 bindings (2 error, 1 warning)`.
+  for example `3 issue(s) in 41 binding(s) (2 error, 1 warning) (local).`
 
 **Large results.** List tools take `limit` (default 200) and return `{ items, total, truncated }`.
-Tools that produce files (reports, CSV exports, downloads) return the absolute paths written and a
-row or file count, never the file contents.
+The validate tools return their issues the same way, plus `recordCount`, `errorCount` and
+`warningCount`. `simply_apex_logs_purge` lists only the failed deletions as `items`.
+`simply_apex_execute` returns at most the last 100,000 characters of the debug log, with
+`logsTruncated`; the end of the log is where execution finished or failed. Tools that produce files
+(reports, CSV exports, downloads) return the absolute paths written and a row or file count, never
+the file contents.
 
 **Errors.** Core errors map to `isError: true` results whose text is the same message the CLI would
-show, taken from the plugin's `messages/*.md` wording, plus the error `code` in
-`structuredContent`. Argument validation errors come from zod and name the argument. Unexpected
-exceptions are reported the same way and never crash the server.
+show, taken from the plugin's `messages/*.md` wording. Where that wording names a flag (`--end-date`),
+it names the argument (`end_date`) instead. The error `code` goes in the result's
+`_meta["simplysf/errorCode"]`, not in `structuredContent` as drafted: the SDK's client validates
+`structuredContent` against the tool's `outputSchema` even on an error result, so an error shape there
+would be rejected. Argument validation errors come from zod and name the argument. Unexpected
+exceptions are reported the same way (code `unexpected-error`, stack on stderr) and never crash the
+server. When `simply_apex_execute` fails at run time, the error text ends with the last 20,000
+characters of the debug log, because the `System.debug` lines before an exception are usually what
+the agent needs.
 
-**Progress.** Long-running core calls (`logs_purge`, `files_download`, `history_query`) send MCP
-progress notifications when the client provides a progress token, if the core function exposes a
-progress callback (confirm per function; add one in core where it's missing).
+**Progress.** Long-running core calls send MCP progress notifications when the client provides a
+progress token. Among the implemented tools, only `simply_apex_logs_purge` has a core progress
+callback (`deleteApexLogsViaCollections`'s `onChunkComplete`), and it reports progress on the REST
+path. The Bulk API path is one job with no intermediate progress. `files_download` and
+`history_query` get progress when their toolsets land.
 
 ### Tool descriptions
 
@@ -239,6 +265,52 @@ outputSchema, summarize, run }`, applies the annotations from the tier table, an
 Any core function that needs a progress callback, or doesn't yet export the result type a tool
 needs, gets that change in `simply-plugins-core` first, in its own PR and with its own version bump.
 
+## Implementation notes
+
+What implementing the first part taught us:
+
+- **Five commands aren't thin wrappers yet.** The Problem section's premise holds for `apex`, `aep`
+  and `package`, but not for these. Each keeps its orchestration in the plugin, and core has only a
+  piece of it:
+
+  | Command                 | Logic in the plugin                                                                  | What core has today                   |
+  | ----------------------- | ------------------------------------------------------------------------------------ | ------------------------------------- |
+  | `sobject history query` | ~200 lines: filter-file parsing, SOQL assembly, client-side filtering, CSV writing   | the filter schema and WHERE builder   |
+  | `permissions analyze`   | ~290 lines: every query, package attribution, grouping                               | `buildPermissionsReportHtml` only     |
+  | `schema visualize`      | ~740 lines: object and relationship discovery from source or org, CSV/HTML/MD output | `buildSchemaReportHtml` only          |
+  | `data files download`   | ~160 lines: query, `p-queue` concurrency, API-budget check, CSV of results           | the single-file download/upload calls |
+  | `data files upload`     | ~140 lines: CSV parsing, concurrency, API-budget check                               | the single-file download/upload calls |
+
+  This doc's own rule applies: the logic moves into the `-core` package first, in its own
+  simply-plugins-core PR with its own version bump, and the CLI command then becomes a thin wrapper.
+  Only after that does the tool land here. Copying the logic into the server instead would leave two
+  copies to keep in step, which is the problem splitting out the core packages was meant to solve.
+  The `sobject`, `permissions`, `schema` and `data` toolsets are therefore not registered yet, and
+  `--toolsets` rejects their names.
+
+- **Plan steps that weren't needed.** `pnpm-workspace.yaml`, the root `vitest.config.ts` and
+  `lerna.json` all glob `packages/*`, so the package needed no registration there. It did need adding
+  to `eslint.config.mjs` (`allPackages` and `libraryPackages`), with a package-scoped
+  `camelcase: { properties: 'never' }` override for the snake_case argument names. The site page is a
+  top-level `mcp-server` page with its own sidebar entry; the site has no guides section outside
+  `simply-cicd`.
+- **Shape of the code.** `registerToolsets` became `selectTools(options)` (the filter) and
+  `registerTool(server, tool, ...)` (the wrapper). The connection cache is a `ConnectionCache` class
+  over an `OrgBackend` interface: `StateAggregator`, `Org` and `ConfigAggregator` in production, and
+  an in-memory fake in tests. Both `ConfigAggregator` (for the default org) and `SfProject` (for
+  `sfdx-project.json`) cache per path, so the server clears them before each read. A
+  `sf config set target-org` or an edit to the project file made during a session is then seen
+  without a restart.
+- **The `INVALID_SESSION_ID` retry reruns the whole tool call**, not just the failing request,
+  because the core functions take a `Connection` and make several calls. Every implemented `write`
+  and `destructive` tool is safe to rerun: trace setup and silence find-or-update, and a log purge
+  re-queries before deleting.
+- **`simply_package_version_get` keeps the CLI's `directory` argument**, which means a package
+  directory, while the server's `--directory` option means the project root. The tool description
+  spells this out.
+- **`simply_apex_execute` takes a `file`, as the CLI does.** The agent writes the script to a file
+  first. An inline `code` argument would save that step; it's a candidate follow-up.
+
 ## Testing
 
 Unit tests (`vitest`), using the SDK's in-memory transport with a real `Client` against the real
@@ -259,10 +331,16 @@ server and the core functions mocked:
 - **stdout hygiene.** Run the built `bin/run.js`, call one tool, and assert that every stdout line is
   valid JSON-RPC.
 
+All of the above is implemented in `test/*.test.ts` (82 tests). `test/registration.test.ts` also
+compares the listed tools with the committed `test/tool-snapshot.json`, so a stale snapshot fails
+locally and not only in CI.
+
 NUTs (`vitest.nuts.config.ts`, scratch org): spawn the built server over stdio and call
-`simply_apex_execute`, `simply_aep_binding_list` and `simply_package_version_get` against the scratch
-org. Two consecutive calls show the second one skipping startup and auth: assert on wall time
-relative to the first call, loosely, to avoid flakiness.
+`simply_apex_execute` and `simply_aep_binding_list` against the scratch org. Two consecutive calls
+show the second one skipping startup and auth: assert on wall time relative to the first call,
+loosely, to avoid flakiness. (`simply_package_version_get` needs no org, and the stdout-hygiene unit
+test already runs it through the built server.) **Not written yet**: they need a scratch org, and
+they come with the next toolset.
 
 ## Open questions
 

@@ -17,7 +17,7 @@ Thanks for your interest in contributing to Simply! This document covers the rep
 
 ## Repository Structure
 
-This repository is a Lerna monorepo containing fourteen Salesforce CLI plugins, plus one internal library. Every package has its own `CONTRIBUTING.md` covering what's specific to it — read this file first, then that one.
+This repository is a Lerna monorepo containing fourteen Salesforce CLI plugins, an MCP server, plus one internal library. Every package has its own `CONTRIBUTING.md` covering what's specific to it — read this file first, then that one.
 
 | Package                                                       | Description                                                        | Bundled into `simply`?    |
 | ------------------------------------------------------------- | ------------------------------------------------------------------ | ------------------------- |
@@ -35,6 +35,7 @@ This repository is a Lerna monorepo containing fourteen Salesforce CLI plugins, 
 | [`@simplysf/simply-schema`](packages/simply-schema)           | Schema visualization commands                                      | ✅                        |
 | [`@simplysf/simply-settings`](packages/simply-settings)       | Settings metadata commands (State and Country/Territory picklists) | ✅                        |
 | [`@simplysf/simply-sobject`](packages/simply-sobject)         | SObject commands                                                   | ✅                        |
+| [`@simplysf/simply-sf-mcp`](packages/simply-sf-mcp)           | MCP server over the `-core` libraries — not a CLI plugin           | —                         |
 | [`@simplysf/simply-plugin-kit`](packages/simply-plugin-kit)   | Shared oclif command building blocks — not a CLI plugin            | —                         |
 
 The "bundled" column matters when you change a flag: see [Pull Requests](#pull-requests) below.
