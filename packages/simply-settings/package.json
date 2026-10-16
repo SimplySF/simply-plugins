@@ -1,7 +1,7 @@
 {
   "name": "@simplysf/simply-settings",
   "description": "Salesforce Settings metadata utilities, starting with State and Country/Territory picklists (AddressSettings)",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "author": "@ClayChipps",
   "homepage": "https://github.com/SimplySF/simply-plugins",
   "bugs": "https://github.com/SimplySF/simply-plugins/issues",

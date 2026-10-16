@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.1](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-settings%400.3.0...%40simplysf%2Fsimply-settings%400.3.1) (2026-10-16)
+
+### Bug Fixes
+
+- **simply-settings:** pick up simply-settings-core 0.3.1 so state create reaches the Setup form ([#76](https://github.com/SimplySF/simply-plugins/issues/76)) ([7ec0b6f](https://github.com/SimplySF/simply-plugins/commit/7ec0b6f2609c5fe9b17def7daaaafcf0a9fc2f44)), closes [SimplySF/simply-plugins-core#234](https://github.com/SimplySF/simply-plugins-core/issues/234)
+
 # [0.3.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-settings%400.2.1...%40simplysf%2Fsimply-settings%400.3.0) (2026-10-14)
 
 ### Features
