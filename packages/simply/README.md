@@ -2150,7 +2150,7 @@ EXAMPLES
   $ sf simply flow delete --manifest destructive/pre/destructiveChanges.xml --target-org myOrg --json
 ```
 
-_See code: [@simplysf/simply-flow](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-flow@0.4.14/packages/simply-flow/lib/commands/simply/flow/delete.js)_
+_See code: [@simplysf/simply-flow](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-flow@0.4.15/packages/simply-flow/lib/commands/simply/flow/delete.js)_
 
 ## `sf simply flow version prune`
 
@@ -2192,7 +2192,7 @@ EXAMPLES
   $ sf simply flow version prune --target-org myOrg --flow-name My_Flow --flow-name Another_Flow
 ```
 
-_See code: [@simplysf/simply-flow](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-flow@0.4.14/packages/simply-flow/lib/commands/simply/flow/version/prune.js)_
+_See code: [@simplysf/simply-flow](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-flow@0.4.15/packages/simply-flow/lib/commands/simply/flow/version/prune.js)_
 
 ## `sf simply package dependencies install`
 
