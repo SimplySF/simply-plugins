@@ -43,6 +43,7 @@
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^4.1.10",
+    "prettier": "^3.9.6",
     "vitest": "^4.1.10"
   },
   "publishConfig": {
@@ -89,7 +90,8 @@
       "files": [
         "lib/**/*.js",
         "messages/**",
-        "scripts/tool-snapshot.mjs"
+        "scripts/tool-snapshot.mjs",
+        "../../.prettierrc.mjs"
       ],
       "output": [
         "test/tool-snapshot.json"

@@ -19,8 +19,10 @@
 // `git diff --exit-code` catches an uncommitted change, as command-snapshot.json does for the plugins.
 
 import fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
+import * as prettier from 'prettier';
 import { ALL_TOOLS, createServer, TOOLSETS } from '../lib/index.js';
 
 const server = createServer({ directory: process.cwd(), toolsets: [...TOOLSETS], allow: 'destructive' });
@@ -42,4 +44,8 @@ const snapshot = tools
   }))
   .sort((a, b) => a.name.localeCompare(b.name));
 
-fs.writeFileSync(new URL('../test/tool-snapshot.json', import.meta.url), `${JSON.stringify(snapshot, null, 2)}\n`);
+// Written already formatted by the repo's Prettier config, so the pre-commit hook leaves it alone and
+// the file CI regenerates is byte-for-byte the one committed.
+const target = fileURLToPath(new URL('../test/tool-snapshot.json', import.meta.url));
+const options = await prettier.resolveConfig(target);
+fs.writeFileSync(target, await prettier.format(JSON.stringify(snapshot), { ...options, filepath: target }));
