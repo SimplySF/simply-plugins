@@ -10,7 +10,7 @@ This repo holds the oclif CLI plugins themselves. The underlying, framework-inde
 
 ## Packages
 
-This repository is a monorepo. Fourteen packages are published independently to npm as CLI plugins, plus one shared internal library used by them:
+This repository is a monorepo. Fourteen packages are published independently to npm as CLI plugins, plus an MCP server and one shared internal library used by them:
 
 | Package                                                       | Description                                                                                |
 | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
@@ -28,6 +28,12 @@ This repository is a monorepo. Fourteen packages are published independently to 
 | [`@simplysf/simply-schema`](packages/simply-schema)           | Commands for visualizing Salesforce schema ✅                                              |
 | [`@simplysf/simply-settings`](packages/simply-settings)       | Commands for working with Settings metadata, like State and Country/Territory picklists ✅ |
 | [`@simplysf/simply-sobject`](packages/simply-sobject)         | Commands for working with SObjects ✅                                                      |
+
+MCP server for coding agents. It isn't a Salesforce CLI plugin; see its README for setup:
+
+| Package                                             | Description                                                                     |
+| --------------------------------------------------- | ------------------------------------------------------------------------------- |
+| [`@simplysf/simply-sf-mcp`](packages/simply-sf-mcp) | MCP server exposing Apex, AT4DX and package tools to Claude Code, Codex, Cursor |
 
 Internal library — consumed by the plugins above, not a Salesforce CLI plugin itself:
 

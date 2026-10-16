@@ -68,6 +68,7 @@ const allPackages = [
   'packages/simply-project',
   'packages/simply-schema',
   'packages/simply-settings',
+  'packages/simply-sf-mcp',
   'packages/simply-sobject',
 ];
 
@@ -79,6 +80,8 @@ const libraryPackages = [
   'packages/simply-aep-core',
   'packages/simply-document-core',
   'packages/simply-apex-core',
+  // Not a library, but no oclif commands either: an MCP server over the same -core packages.
+  'packages/simply-sf-mcp',
 ];
 
 // sf-plugin's recommended rules only ever applied to the oclif command packages, not the libraries or simply.
@@ -281,6 +284,12 @@ export default [
         { allowNullish: false, allowBoolean: true, allowNumber: true },
       ],
     },
+  },
+  {
+    // MCP tool arguments are snake_case (`target_org`, `source_dir`) so every MCP client accepts them;
+    // see docs/design/0047-simply-sf-mcp-server.md. Identifiers stay camelCase.
+    files: toSrcFiles(['packages/simply-sf-mcp']),
+    rules: { camelcase: ['error', { properties: 'never' }] },
   },
   // eslint-plugin-sf-plugin ships native flat configs (an array of config objects) rather than an
   // eslintrc-style shareable config, so it's applied directly instead of through the `scoped` /

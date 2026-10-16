@@ -59,8 +59,8 @@ jobs:
 
       - run: pnpm run build
 
-      - name: Verify command snapshots are committed
-        run: git diff --exit-code -- "**/command-snapshot.json"
+      - name: Verify command and tool snapshots are committed
+        run: git diff --exit-code -- "**/command-snapshot.json" "**/tool-snapshot.json"
 
       - name: pnpm test
         run: pnpm test

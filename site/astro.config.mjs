@@ -50,6 +50,7 @@ export default defineConfig({
             { label: 'All Commands (simply)', slug: 'plugins/simply' },
           ],
         },
+        { label: 'MCP Server', slug: 'mcp-server' },
         {
           label: 'simply-cicd',
           collapsed: true,
