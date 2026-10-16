@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.16.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-aep%400.15.9...%40simplysf%2Fsimply-aep%400.16.0) (2026-10-16)
+
+### Features
+
+- **simply-aep:** add generate, generate selector/domain/service/unit-of-work ([#73](https://github.com/SimplySF/simply-plugins/issues/73)) ([5e35d8c](https://github.com/SimplySF/simply-plugins/commit/5e35d8ce7512da62e5681388dbff39dc1d995937))
+
 ## [0.15.9](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-aep%400.15.8...%40simplysf%2Fsimply-aep%400.15.9) (2026-10-14)
 
 **Note:** Version bump only for package @simplysf/simply-aep

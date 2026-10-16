@@ -14,30 +14,24 @@
  * limitations under the License.
  */
 
-import path from 'node:path';
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
-import { chunkedInQuery } from '@simplysf/simply-core';
+import {
+  findFlowNamesInSource,
+  pruneObsoleteFlowVersions,
+  type FlowVersionPruneResult,
+} from '@simplysf/simply-flow-core';
 import { requireConnection, targetOrgFlags } from '@simplysf/simply-plugin-kit';
-import { glob } from 'glob';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-flow', 'simply.flow.version.prune');
 
-/** How many `Definition.DeveloperName` values to put in each Tooling API `IN (...)` clause. */
-const QUERY_CHUNK_SIZE = 200;
-
-type ObsoleteFlowVersionRecord = { Id: string; Definition: { DeveloperName: string } };
-
-export type FlowVersionPruneCandidate = { id: string; developerName: string };
-export type FlowVersionPruneFailure = { developerName: string; message: string };
-
-export type FlowVersionPruneResult = {
-  dryRun: boolean;
-  candidates: FlowVersionPruneCandidate[];
-  deleted: string[];
-  failures: FlowVersionPruneFailure[];
-};
+// Re-exported so the `--json` result types stay importable from this command, as before 0046.
+export type {
+  FlowVersionPruneCandidate,
+  FlowVersionPruneFailure,
+  FlowVersionPruneResult,
+} from '@simplysf/simply-flow-core';
 
 const CANDIDATE_TABLE_COLUMNS = [
   { key: 'developerName' as const, name: 'FLOW' },
@@ -48,11 +42,6 @@ const FAILURE_TABLE_COLUMNS = [
   { key: 'developerName' as const, name: 'FLOW' },
   { key: 'message' as const, name: 'MESSAGE' },
 ];
-
-/** @returns The Flow DeveloperName encoded in a `<DeveloperName>.flow-meta.xml` file's basename. */
-function developerNameFromFlowFile(flowFile: string): string {
-  return path.parse(flowFile).name.replace('.flow-meta', '');
-}
 
 /**
  * Deletes obsolete Flow versions (`Status = 'Obsolete'`) for the Flows found under `--source-dir`,
@@ -94,11 +83,7 @@ export default class FlowVersionPrune extends SfCommand<FlowVersionPruneResult> 
     let flowNames: string[];
     if (hasSourceDir) {
       this.spinner.start(messages.getMessage('info.scanningLocalSource'));
-      const sourceDirs = flags['source-dir'] as string[];
-      const flowFiles = (
-        await Promise.all(sourceDirs.map((sourceDir) => glob(`${sourceDir.replaceAll('\\', '/')}/**/*.flow-meta.xml`)))
-      ).flat();
-      flowNames = [...new Set(flowFiles.map(developerNameFromFlowFile))];
+      flowNames = await findFlowNamesInSource(flags['source-dir'] as string[]);
       this.spinner.stop();
     } else {
       flowNames = flags['flow-name'] as string[];
@@ -106,50 +91,22 @@ export default class FlowVersionPrune extends SfCommand<FlowVersionPruneResult> 
 
     const connection = requireConnection(flags);
 
-    this.spinner.start(messages.getMessage('info.queryingObsoleteVersions'));
-    const obsoleteRecords = await chunkedInQuery<ObsoleteFlowVersionRecord>(
-      connection,
-      flowNames,
-      (inClause) =>
-        `SELECT Id, Definition.DeveloperName FROM Flow WHERE Status = 'Obsolete' AND Definition.DeveloperName IN (${inClause})`,
-      { chunkSize: QUERY_CHUNK_SIZE, tooling: true },
-    );
+    const { dryRun, candidates, deleted, failures } = await pruneObsoleteFlowVersions(connection, flowNames, {
+      dryRun: flags['dry-run'],
+      onStage: (stage) => {
+        this.spinner.stop();
+        this.spinner.start(messages.getMessage(stage === 'query' ? 'info.queryingObsoleteVersions' : 'info.deleting'));
+      },
+    });
     this.spinner.stop();
 
-    const candidates: FlowVersionPruneCandidate[] = obsoleteRecords.map((record) => ({
-      id: record.Id,
-      developerName: record.Definition.DeveloperName,
-    }));
-
-    if (flags['dry-run']) {
+    if (dryRun) {
       if (candidates.length > 0) {
         this.table({ data: candidates, columns: CANDIDATE_TABLE_COLUMNS });
       }
       this.info(messages.getMessage('info.dryRunSummary', [candidates.length]));
-      return { dryRun: true, candidates, deleted: [], failures: [] };
+      return { dryRun, candidates, deleted, failures };
     }
-
-    const failures: FlowVersionPruneFailure[] = [];
-    const deleted: string[] = [];
-
-    this.spinner.start(messages.getMessage('info.deleting'));
-    for (const candidate of candidates) {
-      try {
-        // eslint-disable-next-line no-await-in-loop -- deleting one Flow version per iteration; the Tooling API has no bulk destroy for this object
-        const result = await connection.tooling.sobject('Flow').destroy(candidate.id);
-        if (result.success) {
-          deleted.push(candidate.developerName);
-        } else {
-          failures.push({
-            developerName: candidate.developerName,
-            message: result.errors.map((e) => e.message).join(', '),
-          });
-        }
-      } catch (error) {
-        failures.push({ developerName: candidate.developerName, message: (error as Error).message });
-      }
-    }
-    this.spinner.stop();
 
     if (failures.length > 0) {
       this.table({ data: failures, columns: FAILURE_TABLE_COLUMNS });

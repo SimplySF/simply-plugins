@@ -82,9 +82,10 @@ refactors that keep the public surface identical (though a short doc is welcome 
 | [0042](0042-cicd-version-tag-format-env.md)                          | `SIMPLY_CICD_VERSION_TAG_FORMAT` override for the version tag format                  | Implemented           |
 | [0043](0043-cicd-upgrade-type.md)                                    | `--upgrade-type` for `simply cicd` package installs                                   | Implemented           |
 | [0044](0044-settings-address-states-iso-codes.md)                    | `--iso-codes <source>`: fetch state definitions at run time (Debian first)            | Implemented           |
-| [0045](0045-migrate-apx-into-simply-aep.md)                          | Migrating `apx` code generation into `simply aep`                                     | Draft                 |
+| [0045](0045-migrate-apx-into-simply-aep.md)                          | Migrating `apx` code generation into `simply aep`                                     | In progress           |
 | [0046](0046-cicd-notify-build.md)                                    | `simply cicd notify build`                                                            | Implemented           |
 | [0047](0047-simply-sf-mcp-server.md)                                 | `simply-sf-mcp`: an MCP server over the `-core` libraries                             | Draft                 |
+| [0048](0048-simply-flow-core.md)                                     | Splitting `simply-flow-core` out of `simply-flow`                                     | Implemented           |
 
 ## Template
 

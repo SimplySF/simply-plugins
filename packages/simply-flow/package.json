@@ -1,7 +1,7 @@
 {
   "name": "@simplysf/simply-flow",
   "description": "Utilities for working with Flows",
-  "version": "0.4.14",
+  "version": "0.4.15",
   "author": "@ClayChipps",
   "homepage": "https://github.com/SimplySF/simply-plugins",
   "bugs": "https://github.com/SimplySF/simply-plugins/issues",
@@ -60,8 +60,8 @@
     "@salesforce/core": "^8.30.0",
     "@salesforce/sf-plugins-core": "^12.2.16",
     "@simplysf/simply-core": "^1.6.7",
-    "@simplysf/simply-plugin-kit": "workspace:^1.0.9",
-    "glob": "^13.0.6"
+    "@simplysf/simply-flow-core": "^0.1.0",
+    "@simplysf/simply-plugin-kit": "workspace:^1.0.9"
   },
   "devDependencies": {
     "@oclif/plugin-command-snapshot": "^5.4.0",

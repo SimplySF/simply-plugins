@@ -39,6 +39,11 @@ This package is part of the [`@simplysf/simply`](https://github.com/SimplySF/sim
 - [`sf simply aep at4dx platform-event-subscription simulate`](#sf-simply-aep-at4dx-platform-event-subscription-simulate)
 - [`sf simply aep at4dx platform-event-subscription update`](#sf-simply-aep-at4dx-platform-event-subscription-update)
 - [`sf simply aep at4dx platform-event-subscription validate`](#sf-simply-aep-at4dx-platform-event-subscription-validate)
+- [`sf simply aep generate`](#sf-simply-aep-generate)
+- [`sf simply aep generate domain`](#sf-simply-aep-generate-domain)
+- [`sf simply aep generate selector`](#sf-simply-aep-generate-selector)
+- [`sf simply aep generate service`](#sf-simply-aep-generate-service)
+- [`sf simply aep generate unit-of-work`](#sf-simply-aep-generate-unit-of-work)
 
 ## `sf simply aep at4dx binding create`
 
@@ -117,7 +122,7 @@ EXAMPLES
   $ sf simply aep at4dx binding create --source-dir sfdx-source/core --type unit-of-work --developer-name Account_UOW --sobject Account --sequence 10
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/binding/create.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/create.js)_
+_See code: [lib/commands/simply/aep/at4dx/binding/create.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/create.js)_
 
 ## `sf simply aep at4dx binding list`
 
@@ -173,7 +178,7 @@ FLAG DESCRIPTIONS
     Comma-separated list of binding types to include. If not specified, all four are included.
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/binding/list.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/list.js)_
+_See code: [lib/commands/simply/aep/at4dx/binding/list.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/list.js)_
 
 ## `sf simply aep at4dx binding update`
 
@@ -246,7 +251,7 @@ EXAMPLES
   $ sf simply aep at4dx binding update --target-org myOrg --type unit-of-work --developer-name Account_UOW --sequence 20
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/binding/update.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/update.js)_
+_See code: [lib/commands/simply/aep/at4dx/binding/update.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/update.js)_
 
 ## `sf simply aep at4dx binding validate`
 
@@ -304,7 +309,7 @@ FLAG DESCRIPTIONS
     Comma-separated list of binding types to include. If not specified, all four are included.
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/binding/validate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/validate.js)_
+_See code: [lib/commands/simply/aep/at4dx/binding/validate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/validate.js)_
 
 ## `sf simply aep at4dx domain-process-binding create`
 
@@ -385,7 +390,7 @@ EXAMPLES
   $ sf simply aep at4dx domain-process-binding create --source-dir sfdx-source/core --developer-name ServiceResource_Before_Update_Sync --sobject ServiceResource --sobject-alternate --process-context TriggerExecution --trigger-operation Before_Update --type Action --class-to-inject ServiceResourceSyncAction --order 10
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/domain-process-binding/create.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/create.js)_
+_See code: [lib/commands/simply/aep/at4dx/domain-process-binding/create.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/create.js)_
 
 ## `sf simply aep at4dx domain-process-binding list`
 
@@ -431,7 +436,7 @@ EXAMPLES
   $ sf simply aep at4dx domain-process-binding list --target-org myOrg --active-only --json
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/domain-process-binding/list.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/list.js)_
+_See code: [lib/commands/simply/aep/at4dx/domain-process-binding/list.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/list.js)_
 
 ## `sf simply aep at4dx domain-process-binding update`
 
@@ -510,7 +515,7 @@ EXAMPLES
   $ sf simply aep at4dx domain-process-binding update --target-org myOrg --developer-name Account_Before_Insert_Assign_Owner --class-to-inject AccountAssignOwnerActionV2
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/domain-process-binding/update.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/update.js)_
+_See code: [lib/commands/simply/aep/at4dx/domain-process-binding/update.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/update.js)_
 
 ## `sf simply aep at4dx domain-process-binding validate`
 
@@ -563,7 +568,7 @@ EXAMPLES
   $ sf simply aep at4dx domain-process-binding validate --target-org myOrg --json
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/domain-process-binding/validate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/validate.js)_
+_See code: [lib/commands/simply/aep/at4dx/domain-process-binding/validate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/validate.js)_
 
 ## `sf simply aep at4dx field-set-inclusion create`
 
@@ -621,7 +626,7 @@ EXAMPLES
   $ sf simply aep at4dx field-set-inclusion create --target-org myOrg --developer-name ServiceResource_Skills --sobject ServiceResource --sobject-alternate --fieldset-name SkillFields
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/field-set-inclusion/create.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/create.js)_
+_See code: [lib/commands/simply/aep/at4dx/field-set-inclusion/create.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/create.js)_
 
 ## `sf simply aep at4dx field-set-inclusion list`
 
@@ -659,7 +664,7 @@ EXAMPLES
   $ sf simply aep at4dx field-set-inclusion list --target-org myOrg --json
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/field-set-inclusion/list.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/list.js)_
+_See code: [lib/commands/simply/aep/at4dx/field-set-inclusion/list.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/list.js)_
 
 ## `sf simply aep at4dx field-set-inclusion update`
 
@@ -716,7 +721,7 @@ EXAMPLES
   $ sf simply aep at4dx field-set-inclusion update --target-org myOrg --developer-name Account_Contact_Fields --fieldset-name ContactRelatedFieldsV2
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/field-set-inclusion/update.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/update.js)_
+_See code: [lib/commands/simply/aep/at4dx/field-set-inclusion/update.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/update.js)_
 
 ## `sf simply aep at4dx field-set-inclusion validate`
 
@@ -760,7 +765,7 @@ EXAMPLES
   $ sf simply aep at4dx field-set-inclusion validate --target-org myOrg --json
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/field-set-inclusion/validate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/validate.js)_
+_See code: [lib/commands/simply/aep/at4dx/field-set-inclusion/validate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/validate.js)_
 
 ## `sf simply aep at4dx platform-event-subscription create`
 
@@ -856,7 +861,7 @@ EXAMPLES
   $ sf simply aep at4dx platform-event-subscription create --target-org myOrg --developer-name Account_Change_Subscriber --event-bus Account_Change__e --consumer AccountChangeConsumer --matcher-rule MatchEventBusAndCategoryAndEventName --event-category Finance --event-name AccountUpdated
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/platform-event-subscription/create.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/create.js)_
+_See code: [lib/commands/simply/aep/at4dx/platform-event-subscription/create.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/create.js)_
 
 ## `sf simply aep at4dx platform-event-subscription list`
 
@@ -894,7 +899,7 @@ EXAMPLES
   $ sf simply aep at4dx platform-event-subscription list --target-org myOrg --json
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/platform-event-subscription/list.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/list.js)_
+_See code: [lib/commands/simply/aep/at4dx/platform-event-subscription/list.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/list.js)_
 
 ## `sf simply aep at4dx platform-event-subscription simulate`
 
@@ -950,7 +955,7 @@ EXAMPLES
   $ sf simply aep at4dx platform-event-subscription simulate --target-org myOrg --event-bus Account_Change__e --json
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/platform-event-subscription/simulate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/simulate.js)_
+_See code: [lib/commands/simply/aep/at4dx/platform-event-subscription/simulate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/simulate.js)_
 
 ## `sf simply aep at4dx platform-event-subscription update`
 
@@ -1019,7 +1024,7 @@ EXAMPLES
   $ sf simply aep at4dx platform-event-subscription update --target-org myOrg --developer-name Account_Change_Subscriber --consumer AccountChangeConsumerV2
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/platform-event-subscription/update.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/update.js)_
+_See code: [lib/commands/simply/aep/at4dx/platform-event-subscription/update.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/update.js)_
 
 ## `sf simply aep at4dx platform-event-subscription validate`
 
@@ -1068,5 +1073,341 @@ EXAMPLES
   $ sf simply aep at4dx platform-event-subscription validate --target-org myOrg --json
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/platform-event-subscription/validate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/validate.js)_
+_See code: [lib/commands/simply/aep/at4dx/platform-event-subscription/validate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/validate.js)_
+
+## `sf simply aep generate`
+
+Generate selector, domain, and unit-of-work layers for an SObject in one run.
+
+```
+USAGE
+  $ sf simply aep generate -o <value> -s <value> -f at4dx|fflib [--json] [--flags-dir <value>] [-a <value>] [--prefix
+    <value>] [--selector] [--domain] [--unit-of-work] [--sequence <value>] [-d <value>] [--dry-run] [--overwrite]
+    [--force]
+
+FLAGS
+  -a, --api-version=<value>  Override the api version used for api requests made by this command
+  -d, --output-dir=<value>   [default: generated-files] Directory to write into, relative to the project root unless
+                             absolute.
+  -f, --flavor=<option>      (required) Framework to generate for: at4dx or fflib.
+                             <options: at4dx|fflib>
+  -o, --target-org=<value>   (required) Username or alias of the target org. Not required if the `target-org`
+                             configuration variable is already set.
+  -s, --sobject=<value>      (required) API name of the SObject to generate for. The generators describe it in
+                             --target-org.
+      --domain               Generate the domain layer and its trigger.
+      --dry-run              Show the files that would be written, and any validation issues, without writing anything.
+      --force                Write even if validation finds an error-severity issue the generated binding records would
+                             introduce. The issues are still printed and returned.
+      --overwrite            Replace files that already exist at a planned path. Without it, the command refuses before
+                             writing anything.
+      --prefix=<value>       Class-name prefix, upper-cased and joined with an underscore (--prefix acme gives
+                             ACME_Accounts).
+      --selector             Generate the selector layer.
+      --sequence=<value>     BindingSequence__c for the unit-of-work binding (at4dx only): where the SObject falls in
+                             the commit order, lower first.
+      --unit-of-work         Generate the unit-of-work binding (at4dx) or print the Application entry to add (fflib).
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Generate selector, domain, and unit-of-work layers for an SObject in one run.
+
+  Describes --sobject in --target-org once and scaffolds every layer you select (at least one of --selector, --domain,
+  or --unit-of-work) into --output-dir, sharing --flavor and --prefix. With --flavor at4dx each layer also gets its
+  Application Factory binding record.
+
+  Before writing, the binding records are checked against the project's package directories and --output-dir with the
+  rules `simply aep at4dx binding validate` uses. An error-severity issue they would introduce — a second Domain binding
+  for the same SObject, say — stops the run unless you pass --force; problems that were already there don't. Existing
+  files stop it too unless you pass --overwrite. Nothing is written in either case.
+
+  With --flavor fflib, --unit-of-work writes no file: fflib has no unit-of-work binding, so the command prints the
+  Application factory entry to add by hand, and returns it as manualSteps.
+
+EXAMPLES
+  Generate all three AT4DX layers for Account:
+
+    $ sf simply aep generate --target-org myOrg --sobject Account --flavor at4dx --selector --domain --unit-of-work
+
+  Preview an fflib selector and domain with a class prefix, writing nothing:
+
+    $ sf simply aep generate --target-org myOrg --sobject Property__c --flavor fflib --prefix acme --selector \
+      --domain --dry-run
+
+FLAG DESCRIPTIONS
+  -d, --output-dir=<value>  Directory to write into, relative to the project root unless absolute.
+
+    Files go under main/classes, main/schema, and test/classes inside it. Defaults to generated-files, as apx's
+    --output-path did, so generated paths don't move.
+
+  -f, --flavor=at4dx|fflib  Framework to generate for: at4dx or fflib.
+
+    Sets the templates for every file: the interface and implementation shape, base classes, and whether Application
+    Factory binding records are written. fflib writes none; at4dx writes one per layer.
+```
+
+_See code: [lib/commands/simply/aep/generate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/generate.js)_
+
+## `sf simply aep generate domain`
+
+Generate a domain class, its interface, test, and trigger, and its AT4DX binding for an SObject.
+
+```
+USAGE
+  $ sf simply aep generate domain -o <value> -s <value> -f at4dx|fflib [--json] [--flags-dir <value>] [-a <value>] [--prefix
+    <value>] [-d <value>] [--dry-run] [--overwrite] [--force]
+
+FLAGS
+  -a, --api-version=<value>  Override the api version used for api requests made by this command
+  -d, --output-dir=<value>   [default: generated-files] Directory to write into, relative to the project root unless
+                             absolute.
+  -f, --flavor=<option>      (required) Framework to generate for: at4dx or fflib.
+                             <options: at4dx|fflib>
+  -o, --target-org=<value>   (required) Username or alias of the target org. Not required if the `target-org`
+                             configuration variable is already set.
+  -s, --sobject=<value>      (required) API name of the SObject to generate for. The generators describe it in
+                             --target-org.
+      --dry-run              Show the files that would be written, and any validation issues, without writing anything.
+      --force                Write even if validation finds an error-severity issue the generated binding records would
+                             introduce. The issues are still printed and returned.
+      --overwrite            Replace files that already exist at a planned path. Without it, the command refuses before
+                             writing anything.
+      --prefix=<value>       Class-name prefix, upper-cased and joined with an underscore (--prefix acme gives
+                             ACME_Accounts).
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Generate a domain class, its interface, test, and trigger, and its AT4DX binding for an SObject.
+
+  Describes --sobject in --target-org and scaffolds the domain into --output-dir: the implementation, its interface, a
+  unit test, the trigger that hands every event to fflib_SObjectDomain.triggerHandler, and their -meta.xml files. With
+  --flavor at4dx it also writes the ApplicationFactory_DomainBinding record.
+
+  An SObject can have only one Domain binding, so generating one where the project already has one fails validation;
+  pass --force to write it anyway. See `simply aep generate --help` for the full --force and --overwrite rules.
+
+EXAMPLES
+  Generate an AT4DX domain for Account:
+
+    $ sf simply aep generate domain --target-org myOrg --sobject Account --flavor at4dx
+
+  Preview the files without writing them:
+
+    $ sf simply aep generate domain --target-org myOrg --sobject Account --flavor at4dx --dry-run
+
+FLAG DESCRIPTIONS
+  -d, --output-dir=<value>  Directory to write into, relative to the project root unless absolute.
+
+    Files go under main/classes, main/schema, and test/classes inside it. Defaults to generated-files, as apx's
+    --output-path did, so generated paths don't move.
+
+  -f, --flavor=at4dx|fflib  Framework to generate for: at4dx or fflib.
+
+    Sets the templates for every file: the interface and implementation shape, base classes, and whether Application
+    Factory binding records are written. fflib writes none; at4dx writes one per layer.
+```
+
+_See code: [lib/commands/simply/aep/generate/domain.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/generate/domain.js)_
+
+## `sf simply aep generate selector`
+
+Generate a selector class, its interface and test, and its AT4DX binding for an SObject.
+
+```
+USAGE
+  $ sf simply aep generate selector -o <value> -s <value> -f at4dx|fflib [--json] [--flags-dir <value>] [-a <value>] [--prefix
+    <value>] [-d <value>] [--dry-run] [--overwrite] [--force]
+
+FLAGS
+  -a, --api-version=<value>  Override the api version used for api requests made by this command
+  -d, --output-dir=<value>   [default: generated-files] Directory to write into, relative to the project root unless
+                             absolute.
+  -f, --flavor=<option>      (required) Framework to generate for: at4dx or fflib.
+                             <options: at4dx|fflib>
+  -o, --target-org=<value>   (required) Username or alias of the target org. Not required if the `target-org`
+                             configuration variable is already set.
+  -s, --sobject=<value>      (required) API name of the SObject to generate for. The generators describe it in
+                             --target-org.
+      --dry-run              Show the files that would be written, and any validation issues, without writing anything.
+      --force                Write even if validation finds an error-severity issue the generated binding records would
+                             introduce. The issues are still printed and returned.
+      --overwrite            Replace files that already exist at a planned path. Without it, the command refuses before
+                             writing anything.
+      --prefix=<value>       Class-name prefix, upper-cased and joined with an underscore (--prefix acme gives
+                             ACME_Accounts).
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Generate a selector class, its interface and test, and its AT4DX binding for an SObject.
+
+  Describes --sobject in --target-org and scaffolds the selector into --output-dir: the implementation (selecting every
+  filterable, non-textarea field), its interface, a unit test, and their -meta.xml files. With --flavor at4dx it also
+  writes the ApplicationFactory_SelectorBinding record, using BindingSObject__c when EntityDefinition can reference the
+  object and BindingSObjectAlternate__c when it can't.
+
+  The binding is checked against the project's package directories and --output-dir before anything is written; see
+  `simply aep generate --help` for the --force and --overwrite rules.
+
+EXAMPLES
+  Generate an AT4DX selector for Account:
+
+    $ sf simply aep generate selector --target-org myOrg --sobject Account --flavor at4dx
+
+  Generate an fflib selector with a class prefix:
+
+    $ sf simply aep generate selector --target-org myOrg --sobject Property__c --flavor fflib --prefix acme
+
+FLAG DESCRIPTIONS
+  -d, --output-dir=<value>  Directory to write into, relative to the project root unless absolute.
+
+    Files go under main/classes, main/schema, and test/classes inside it. Defaults to generated-files, as apx's
+    --output-path did, so generated paths don't move.
+
+  -f, --flavor=at4dx|fflib  Framework to generate for: at4dx or fflib.
+
+    Sets the templates for every file: the interface and implementation shape, base classes, and whether Application
+    Factory binding records are written. fflib writes none; at4dx writes one per layer.
+```
+
+_See code: [lib/commands/simply/aep/generate/selector.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/generate/selector.js)_
+
+## `sf simply aep generate service`
+
+Generate a service facade, interface, implementation, exception, and test, and its AT4DX binding.
+
+```
+USAGE
+  $ sf simply aep generate service --service-basename <value> -f at4dx|fflib [--json] [--flags-dir <value>] [-o <value>] [-a
+    <value>] [--prefix <value>] [-d <value>] [--dry-run] [--overwrite] [--force]
+
+FLAGS
+  -a, --api-version=<value>       Override the api version used for api requests made by this command
+  -d, --output-dir=<value>        [default: generated-files] Directory to write into, relative to the project root
+                                  unless absolute.
+  -f, --flavor=<option>           (required) Framework to generate for: at4dx or fflib.
+                                  <options: at4dx|fflib>
+  -o, --target-org=<value>        Org whose API version the generated metadata declares, when --api-version isn't given.
+                                  Nothing is read from it.
+      --dry-run                   Show the files that would be written, and any validation issues, without writing
+                                  anything.
+      --force                     Write even if validation finds an error-severity issue the generated binding records
+                                  would introduce. The issues are still printed and returned.
+      --overwrite                 Replace files that already exist at a planned path. Without it, the command refuses
+                                  before writing anything.
+      --prefix=<value>            Class-name prefix, upper-cased and joined with an underscore (--prefix acme gives
+                                  ACME_Accounts).
+      --service-basename=<value>  (required) Base name for the generated classes, used as given (not pluralized).
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Generate a service facade, interface, implementation, exception, and test, and its AT4DX binding.
+
+  Scaffolds a service named from --service-basename into --output-dir — `--service-basename Billing` gives
+  BillingService, IBillingService, BillingServiceImpl, BillingServiceException, and BillingServiceTest — with their
+  -meta.xml files. With --flavor at4dx it also writes the ApplicationFactory_ServiceBinding record mapping the interface
+  to the implementation.
+
+  A service isn't tied to an SObject, so nothing is described and no org is needed. The generated -meta.xml files
+  declare --api-version, else the version of --target-org if one is given, else 60.0.
+
+EXAMPLES
+  Generate an AT4DX service without an org:
+
+    $ sf simply aep generate service --service-basename LimitMonitors --flavor at4dx --api-version 62.0
+
+  Generate an fflib service at a connected org's API version:
+
+    $ sf simply aep generate service --target-org myOrg --service-basename Billing --flavor fflib
+
+FLAG DESCRIPTIONS
+  -d, --output-dir=<value>  Directory to write into, relative to the project root unless absolute.
+
+    Files go under main/classes, main/schema, and test/classes inside it. Defaults to generated-files, as apx's
+    --output-path did, so generated paths don't move.
+
+  -f, --flavor=at4dx|fflib  Framework to generate for: at4dx or fflib.
+
+    Sets the templates for every file: the interface and implementation shape, base classes, and whether Application
+    Factory binding records are written. fflib writes none; at4dx writes one per layer.
+```
+
+_See code: [lib/commands/simply/aep/generate/service.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/generate/service.js)_
+
+## `sf simply aep generate unit-of-work`
+
+Generate an AT4DX unit-of-work binding for an SObject, or print the fflib Application entry to add.
+
+```
+USAGE
+  $ sf simply aep generate unit-of-work -o <value> -s <value> -f at4dx|fflib [--json] [--flags-dir <value>] [-a <value>] [--prefix
+    <value>] [--sequence <value>] [-d <value>] [--dry-run] [--overwrite] [--force]
+
+FLAGS
+  -a, --api-version=<value>  Override the api version used for api requests made by this command
+  -d, --output-dir=<value>   [default: generated-files] Directory to write into, relative to the project root unless
+                             absolute.
+  -f, --flavor=<option>      (required) Framework to generate for: at4dx or fflib.
+                             <options: at4dx|fflib>
+  -o, --target-org=<value>   (required) Username or alias of the target org. Not required if the `target-org`
+                             configuration variable is already set.
+  -s, --sobject=<value>      (required) API name of the SObject to generate for. The generators describe it in
+                             --target-org.
+      --dry-run              Show the files that would be written, and any validation issues, without writing anything.
+      --force                Write even if validation finds an error-severity issue the generated binding records would
+                             introduce. The issues are still printed and returned.
+      --overwrite            Replace files that already exist at a planned path. Without it, the command refuses before
+                             writing anything.
+      --prefix=<value>       Class-name prefix, upper-cased and joined with an underscore (--prefix acme gives
+                             ACME_Accounts).
+      --sequence=<value>     BindingSequence__c: where the SObject falls in the commit order, lower first. Defaults to
+                             1000.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Generate an AT4DX unit-of-work binding for an SObject, or print the fflib Application entry to add.
+
+  With --flavor at4dx, writes the ApplicationFactory_UnitOfWorkBinding record registering --sobject with the Unit of
+  Work at --sequence. With --flavor fflib nothing is written, since fflib has no unit-of-work binding: the command
+  prints the Application.UnitOfWorkFactory entry to add by hand, and returns it as manualSteps.
+
+  Two unit-of-work bindings can't share a sequence or an SObject, so a run that would introduce either fails validation
+  unless you pass --force.
+
+EXAMPLES
+  Register Account with the AT4DX Unit of Work:
+
+    $ sf simply aep generate unit-of-work --target-org myOrg --sobject Account --flavor at4dx --sequence 1000
+
+  Print the fflib Application entry for Account:
+
+    $ sf simply aep generate unit-of-work --target-org myOrg --sobject Account --flavor fflib
+
+FLAG DESCRIPTIONS
+  -d, --output-dir=<value>  Directory to write into, relative to the project root unless absolute.
+
+    Files go under main/classes, main/schema, and test/classes inside it. Defaults to generated-files, as apx's
+    --output-path did, so generated paths don't move.
+
+  -f, --flavor=at4dx|fflib  Framework to generate for: at4dx or fflib.
+
+    Sets the templates for every file: the interface and implementation shape, base classes, and whether Application
+    Factory binding records are written. fflib writes none; at4dx writes one per layer.
+```
+
+_See code: [lib/commands/simply/aep/generate/unit-of-work.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/generate/unit-of-work.js)_
 <!-- commandsstop -->

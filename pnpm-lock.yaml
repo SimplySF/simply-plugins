@@ -104,7 +104,7 @@ importers:
         specifier: ^4.11.2
         version: 4.14.0
       '@simplysf/simply-aep':
-        specifier: workspace:^0.15.9
+        specifier: workspace:^0.16.0
         version: link:../simply-aep
       '@simplysf/simply-apex':
         specifier: workspace:^1.8.14
@@ -119,7 +119,7 @@ importers:
         specifier: workspace:^0.4.13
         version: link:../simply-document
       '@simplysf/simply-flow':
-        specifier: workspace:^0.4.14
+        specifier: workspace:^0.4.15
         version: link:../simply-flow
       '@simplysf/simply-package':
         specifier: workspace:^3.1.7
@@ -134,7 +134,7 @@ importers:
         specifier: workspace:^0.3.34
         version: link:../simply-schema
       '@simplysf/simply-settings':
-        specifier: workspace:^0.3.0
+        specifier: workspace:^0.3.1
         version: link:../simply-settings
       '@simplysf/simply-sobject':
         specifier: workspace:^1.6.23
@@ -162,11 +162,14 @@ importers:
         specifier: ^12.2.16
         version: 12.2.28(@types/node@26.6.5)
       '@simplysf/simply-aep-core':
-        specifier: ^0.14.3
-        version: 0.14.3(supports-color@8.1.1)
+        specifier: ^0.15.1
+        version: 0.15.1(supports-color@8.1.1)
       '@simplysf/simply-core':
         specifier: ^1.6.7
         version: 1.6.7
+      '@simplysf/simply-plugin-kit':
+        specifier: workspace:^1.0.9
+        version: link:../simply-plugin-kit
     devDependencies:
       '@oclif/plugin-command-snapshot':
         specifier: ^5.4.0
@@ -410,12 +413,12 @@ importers:
       '@simplysf/simply-core':
         specifier: ^1.6.7
         version: 1.6.7
+      '@simplysf/simply-flow-core':
+        specifier: ^0.1.0
+        version: 0.1.0
       '@simplysf/simply-plugin-kit':
         specifier: workspace:^1.0.9
         version: link:../simply-plugin-kit
-      glob:
-        specifier: ^13.0.6
-        version: 13.0.6
     devDependencies:
       '@oclif/plugin-command-snapshot':
         specifier: ^5.4.0
@@ -630,8 +633,8 @@ importers:
         specifier: workspace:^1.0.9
         version: link:../simply-plugin-kit
       '@simplysf/simply-settings-core':
-        specifier: ^0.3.0
-        version: 0.3.0(supports-color@8.1.1)
+        specifier: ^0.3.1
+        version: 0.3.1(supports-color@8.1.1)
     devDependencies:
       '@oclif/plugin-command-snapshot':
         specifier: ^5.4.0
@@ -2842,9 +2845,9 @@ packages:
       { integrity: sha512-fCTuZK4QBa+39Oz9l4OGfJfz+GpwCp3AqO7Zch3to99xHPgstVsRFpeQ8LNd2o1Gv8raL2mCFwiaHh7bFSp5DQ== }
     engines: { node: '>=22' }
 
-  '@simplysf/simply-aep-core@0.14.3':
+  '@simplysf/simply-aep-core@0.15.1':
     resolution:
-      { integrity: sha512-VCx12l3NnzB2UafmiMPo7eSZHK8uXcbiyx1yxyWWfGJutJ1/7l2mgt2GMxLkVfwH+byodLzxSzf/ABVAVjCdPw== }
+      { integrity: sha512-h9l8c8IiUjBVIrCUyzqmx8M8HfqR+gzxqksm959nix/YTG81yJXJb5bArCmGO6JnTh2Nw5kgFRGGqlRXQvzBww== }
     engines: { node: '>=22.0.0' }
 
   '@simplysf/simply-apex-core@0.3.11':
@@ -2887,6 +2890,11 @@ packages:
       { integrity: sha512-LuwMHa2IoHCFjvLJC3v6BH0x8AzhM7EAinKOF9W9m+kdBmvRkiuR86ucAoVWqiJZ2RSAvOcT41QPk48ag6IyVQ== }
     engines: { node: '>=22.0.0' }
 
+  '@simplysf/simply-flow-core@0.1.0':
+    resolution:
+      { integrity: sha512-4bSNqaqpMs9pmU1thbpQ0nhvslXGDzkbFpDo0A/2wFxxPcY6ZNhihBI4IBIU+ua0Sy1XOakhv/V3Wx92m9deQw== }
+    engines: { node: '>=22.0.0' }
+
   '@simplysf/simply-package-core@0.3.0':
     resolution:
       { integrity: sha512-8wJPRVCpHoEh/0TUay0/ez5vAYMRJb5TY7Flmcpz8C3c/0L5lMtJsrLz/vZTloSb+sl/VXeo52NOdLQrHrB9ww== }
@@ -2907,9 +2915,9 @@ packages:
       { integrity: sha512-fdAYmdzibgwHhWR1ZdK7++yXToPSv2BjkUNsUZ1khCc2DwiqqIaooJNpwm3x8awYH0oY5h1/neoWLrKx3D5kow== }
     engines: { node: '>=22.0.0' }
 
-  '@simplysf/simply-settings-core@0.3.0':
+  '@simplysf/simply-settings-core@0.3.1':
     resolution:
-      { integrity: sha512-Lp77WZYfh5Hz9tIeni9FhlkLgBsQqLN0zJ9Sqo2e/WMNzpuYiS8v8Ljo/+v6YwG+YzaYitmkXLZK88Z637xCnQ== }
+      { integrity: sha512-+c2eKjlr6ci6hidZmUCHqMIMkriXjhgkL9s71PRczONwOMCmnOmepkApsK9jeKZuTcfINudnmxLEyYbafr/qEA== }
     engines: { node: '>=22.0.0' }
 
   '@simplysf/simply-sobject-core@0.2.5':
@@ -4986,6 +4994,11 @@ packages:
     resolution:
       { integrity: sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g== }
     engines: { node: '>=0.10.0' }
+
+  eta@4.6.0:
+    resolution:
+      { integrity: sha512-lW6is4T1NFOYnmqGZIfvixqj7A7sSvScF+DN8EK6K58xI5MZ5UvYe0GjopxOXQtZvUn4eDdVuZ8XSoYWTMEKwA== }
+    engines: { node: '>=20' }
 
   event-target-shim@5.0.1:
     resolution:
@@ -11447,11 +11460,14 @@ snapshots:
 
   '@simple-libs/stream-utils@2.0.0': {}
 
-  '@simplysf/simply-aep-core@0.14.3(supports-color@8.1.1)':
+  '@simplysf/simply-aep-core@0.15.1(supports-color@8.1.1)':
     dependencies:
       '@salesforce/core': 8.32.6
       '@salesforce/kit': 3.2.6
       '@salesforce/source-deploy-retrieve': 12.37.2(supports-color@8.1.1)
+      eta: 4.6.0
+      pluralize: 8.0.0
+      zod: 4.6.5
     transitivePeerDependencies:
       - supports-color
 
@@ -11518,6 +11534,12 @@ snapshots:
     dependencies:
       handlebars: 4.7.9
 
+  '@simplysf/simply-flow-core@0.1.0':
+    dependencies:
+      '@salesforce/core': 8.32.6
+      '@simplysf/simply-core': 1.6.11
+      glob: 13.0.6
+
   '@simplysf/simply-package-core@0.3.0(supports-color@8.1.1)':
     dependencies:
       '@salesforce/core': 8.32.6
@@ -11547,7 +11569,7 @@ snapshots:
       '@simplysf/simply-report': 1.0.6
       exceljs: 4.4.0
 
-  '@simplysf/simply-settings-core@0.3.0(supports-color@8.1.1)':
+  '@simplysf/simply-settings-core@0.3.1(supports-color@8.1.1)':
     dependencies:
       '@salesforce/core': 8.32.6
       '@salesforce/kit': 3.2.6
@@ -13377,6 +13399,8 @@ snapshots:
       '@types/estree': 1.0.9
 
   esutils@2.0.3: {}
+
+  eta@4.6.0: {}
 
   event-target-shim@5.0.1: {}
 

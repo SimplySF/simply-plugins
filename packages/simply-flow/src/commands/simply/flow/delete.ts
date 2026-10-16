@@ -17,29 +17,15 @@
 import fs from 'node:fs/promises';
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
-import { chunkedInQuery, readPackageManifestMembers } from '@simplysf/simply-core';
+import { readPackageManifestMembers } from '@simplysf/simply-core';
+import { deleteFlows, type FlowDeleteResult } from '@simplysf/simply-flow-core';
 import { requireConnection, targetOrgFlags } from '@simplysf/simply-plugin-kit';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-flow', 'simply.flow.delete');
 
-/** How many `Definition.DeveloperName` values to put in each Tooling API `IN (...)` clause. */
-const QUERY_CHUNK_SIZE = 200;
-
-type FlowDefinitionRecord = { Definition: { Id: string; DeveloperName: string } };
-type FlowVersionRecord = { Id: string; Definition: { DeveloperName: string } };
-
-export type FlowDeleteFailure = {
-  developerName: string;
-  stage: 'deactivate' | 'delete';
-  message: string;
-};
-
-export type FlowDeleteResult = {
-  deactivated: string[];
-  deleted: string[];
-  failures: FlowDeleteFailure[];
-};
+// Re-exported so the `--json` result types stay importable from this command, as before 0046.
+export type { FlowDeleteFailure, FlowDeleteResult } from '@simplysf/simply-flow-core';
 
 const FAILURE_TABLE_COLUMNS = [
   { key: 'developerName' as const, name: 'FLOW' },
@@ -86,68 +72,12 @@ export default class FlowDelete extends SfCommand<FlowDeleteResult> {
     }
 
     const connection = requireConnection(flags);
-    const failures: FlowDeleteFailure[] = [];
-
-    this.spinner.start(messages.getMessage('info.deactivating'));
-    const definitionRecords = await chunkedInQuery<FlowDefinitionRecord>(
-      connection,
-      flowNames,
-      (inClause) =>
-        `SELECT Definition.Id, Definition.DeveloperName FROM Flow WHERE Definition.DeveloperName IN (${inClause})`,
-      { chunkSize: QUERY_CHUNK_SIZE, tooling: true },
-    );
-
-    const distinctDefinitions = new Map<string, string>();
-    for (const record of definitionRecords) {
-      distinctDefinitions.set(record.Definition.Id, record.Definition.DeveloperName);
-    }
-
-    const deactivated: string[] = [];
-    for (const [definitionId, developerName] of distinctDefinitions) {
-      try {
-        // eslint-disable-next-line no-await-in-loop -- deactivating one FlowDefinition per iteration; failures must attribute to the right flow
-        const result = await connection.tooling.sobject('FlowDefinition').update({
-          Id: definitionId,
-          Metadata: { activeVersionNumber: 0 },
-        });
-        if (result.success) {
-          deactivated.push(developerName);
-        } else {
-          failures.push({
-            developerName,
-            stage: 'deactivate',
-            message: result.errors.map((e) => e.message).join(', '),
-          });
-        }
-      } catch (error) {
-        failures.push({ developerName, stage: 'deactivate', message: (error as Error).message });
-      }
-    }
-    this.spinner.stop();
-
-    this.spinner.start(messages.getMessage('info.deleting'));
-    const versionRecords = await chunkedInQuery<FlowVersionRecord>(
-      connection,
-      flowNames,
-      (inClause) => `SELECT Id, Definition.DeveloperName FROM Flow WHERE Definition.DeveloperName IN (${inClause})`,
-      { chunkSize: QUERY_CHUNK_SIZE, tooling: true },
-    );
-
-    const deleted: string[] = [];
-    for (const version of versionRecords) {
-      const developerName = version.Definition.DeveloperName;
-      try {
-        // eslint-disable-next-line no-await-in-loop -- deleting one Flow version per iteration; the Tooling API has no bulk destroy for this object
-        const result = await connection.tooling.sobject('Flow').destroy(version.Id);
-        if (result.success) {
-          deleted.push(developerName);
-        } else {
-          failures.push({ developerName, stage: 'delete', message: result.errors.map((e) => e.message).join(', ') });
-        }
-      } catch (error) {
-        failures.push({ developerName, stage: 'delete', message: (error as Error).message });
-      }
-    }
+    const { deactivated, deleted, failures } = await deleteFlows(connection, flowNames, {
+      onStage: (stage) => {
+        this.spinner.stop();
+        this.spinner.start(messages.getMessage(stage === 'deactivate' ? 'info.deactivating' : 'info.deleting'));
+      },
+    });
     this.spinner.stop();
 
     if (failures.length > 0) {
