@@ -17,7 +17,7 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { type Connection, Org, SfError } from '@salesforce/core';
+import { type Connection, Org, SfError, SfProject } from '@salesforce/core';
 import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
 import { buildBindingXml, FFLIB_UNIT_OF_WORK_SNIPPET } from '@simplysf/simply-aep-core';
 import sinon from 'sinon';
@@ -43,6 +43,7 @@ describe('simply aep generate', () => {
   const testOrg = new MockTestOrgData();
   let outputDir: string;
   let describeSObject: sinon.SinonStub;
+  let resolveProject: sinon.SinonStub;
 
   beforeAll(async () => {
     await $$.stubAuths(testOrg);
@@ -50,6 +51,10 @@ describe('simply aep generate', () => {
 
   beforeEach(() => {
     outputDir = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-aep-generate-'));
+    // Run as if outside a DX project, so validation scans --output-dir alone.
+    resolveProject = $$.SANDBOX.stub(SfProject, 'resolve').rejects(
+      new SfError('not a project', 'InvalidProjectWorkspaceError'),
+    );
     describeSObject = $$.SANDBOX.stub().callsFake(async (name: string) => {
       if (name === 'Account') return ACCOUNT_DESCRIBE;
       throw Object.assign(new Error(`sObject type '${name}' is not supported.`), { errorCode: 'NOT_FOUND' });
@@ -137,7 +142,37 @@ describe('simply aep generate', () => {
         '--dry-run',
       ]);
       expect(result.wouldCreate).to.have.length(7);
+      expect(result.wouldOverwrite).to.deep.equal([]);
       expect(result.created).to.deep.equal([]);
+      expect(fs.readdirSync(outputDir)).to.deep.equal([]);
+    });
+
+    it('separates existing files into wouldOverwrite on --dry-run', async () => {
+      await AepGenerateSelector.run([...orgArgs(), '--sobject', 'Account', '--flavor', 'fflib']);
+      const selectorPath = path.join(outputDir, 'main/classes/selectors/AccountsSelector.cls');
+      fs.rmSync(selectorPath);
+
+      const result = await AepGenerateSelector.run([
+        ...orgArgs(),
+        '--sobject',
+        'Account',
+        '--flavor',
+        'fflib',
+        '--dry-run',
+      ]);
+      expect(result.wouldCreate).to.deep.equal([selectorPath]);
+      expect(result.wouldOverwrite).to.have.length(5);
+      expect(result.wouldOverwrite).not.to.include(selectorPath);
+    });
+
+    it('fails on a project error other than "not in a project" instead of scanning less', async () => {
+      resolveProject.rejects(new SfError('Unexpected token', 'JsonParseError'));
+      try {
+        await AepGenerateSelector.run([...orgArgs(), '--sobject', 'Account', '--flavor', 'at4dx']);
+        expect.fail('should have thrown');
+      } catch (err) {
+        expect((err as SfError).name).to.equal('JsonParseError');
+      }
       expect(fs.readdirSync(outputDir)).to.deep.equal([]);
     });
   });
@@ -175,6 +210,31 @@ describe('simply aep generate', () => {
         expect((err as SfError).message).to.include('would introduce the error-severity issues above');
       }
       expect(fs.existsSync(path.join(outputDir, 'main'))).to.equal(false);
+    });
+
+    it("validates against the project's package directories as well as --output-dir", async () => {
+      const packageDir = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-aep-package-'));
+      try {
+        fs.writeFileSync(
+          path.join(packageDir, 'ApplicationFactory_DomainBinding.Old.md-meta.xml'),
+          buildBindingXml(
+            { bindingType: 'Domain', key: 'Account', keyField: 'primary', to: 'OldAccounts' },
+            { label: 'Old' },
+          ),
+        );
+        resolveProject.resolves({ getPackageDirectories: () => [{ fullPath: packageDir }] });
+        const result = await AepGenerateDomain.run([
+          ...orgArgs(),
+          '--sobject',
+          'Account',
+          '--flavor',
+          'at4dx',
+          '--dry-run',
+        ]);
+        expect(result.issues.map((issue) => issue.rule)).to.include('duplicate-domain-sobject');
+      } finally {
+        fs.rmSync(packageDir, { recursive: true, force: true });
+      }
     });
 
     it('writes it anyway with --force, returning the issues', async () => {
@@ -235,6 +295,7 @@ describe('simply aep generate', () => {
         await AepGenerateUnitOfWork.run([...orgArgs(), '--sobject', 'Account', '--flavor', 'at4dx', '--sequence', 'x']);
         expect.fail('should have thrown');
       } catch (err) {
+        expect((err as SfError).message).to.include('--sequence: ');
         expect((err as SfError).message).to.include('must be a number');
       }
     });
@@ -255,6 +316,25 @@ describe('simply aep generate', () => {
       expect(result.created).to.have.length(11);
       expect(read('main/classes/services/BillingService.cls-meta.xml')).to.include('<apiVersion>61.0</apiVersion>');
       expect(describeSObject.called).to.equal(false);
+    });
+
+    it('names the flag behind an invalid option', async () => {
+      try {
+        await AepGenerateService.run([
+          '--output-dir',
+          outputDir,
+          '--service-basename',
+          'bad name!',
+          '--flavor',
+          'at4dx',
+          '--api-version',
+          '61.0',
+        ]);
+        expect.fail('should have thrown');
+      } catch (err) {
+        expect((err as SfError).message).to.equal('--service-basename: Service basename must be a valid identifier.');
+      }
+      expect(fs.readdirSync(outputDir)).to.deep.equal([]);
     });
   });
 

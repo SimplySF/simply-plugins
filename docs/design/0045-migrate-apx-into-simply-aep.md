@@ -99,14 +99,18 @@ already supports as the `error` overwrite policy:
 
 - Default: if any planned path exists, fail before writing anything and list the paths.
 - `--overwrite`: replace existing files (the old `apx` behavior).
-- `--dry-run` still lists `wouldCreate` and never writes. It also prints each planned path as `NEW` or
-  `OVERWRITE`, and warns when a real run would refuse because files exist.
+- `--dry-run` never writes. It prints each planned path as `NEW`, or as `EXISTS (will fail)` or
+  `OVERWRITE` depending on `--overwrite`, and warns when a real run would refuse because files exist.
+  Under `--json`, `wouldCreate` lists only the new paths and `wouldOverwrite` the existing ones, so a
+  consumer can tell them apart. `apx` put every planned path in `wouldCreate`.
 
 ### Validation
 
 When a run plans a Custom Metadata record, the generator scans local bindings in the project's
-package directories plus `--output-dir`. It adds the planned records, then runs the matching
-validator:
+package directories plus `--output-dir`. Outside a DX project (`InvalidProjectWorkspaceError`) it scans
+`--output-dir` alone, so generators work in a scratch folder. Any other project error, such as a
+malformed `sfdx-project.json`, fails the run instead of quietly narrowing the scan. It adds the
+planned records, then runs the matching validator:
 
 | Generated record                                | Validator                       |
 | ----------------------------------------------- | ------------------------------- |
@@ -133,10 +137,20 @@ gets the same answer. Three details the implementation settled:
 
 ### JSON result
 
-`{ baseDir, created, skipped, wouldCreate?, manualSteps?, issues }`. Two changes from `apx`:
-`manualSteps` appears whenever it's produced (the aggregate no longer omits it for compatibility), and
+`{ baseDir, created, skipped, wouldCreate?, wouldOverwrite?, manualSteps?, issues }`. Three changes
+from `apx`: `wouldCreate` holds only paths that don't exist yet, and `wouldOverwrite` the ones that do;
+`manualSteps` appears whenever it's produced (the aggregate no longer omits it for compatibility); and
 `issues` carries the validation results above, each tagged
 `record: 'binding' | 'domain-process-binding' | 'field-set-inclusion'`.
+
+### Invalid options
+
+The command parses its options with the use case's own schema before planning, and prefixes each
+issue with the flag it came from (`--service-basename: Service basename must be a valid identifier.`).
+This replaces matching core's `ZodError` by name, since this plugin doesn't depend on zod; that match
+would fail on a wrapped error or a second copy of zod. An option in the schema with no flag behind it
+fails with `UnmappedOption` instead of being passed as `undefined`, which covers running against a
+newer core than `parity.test.ts` checked.
 
 ## Alternatives considered
 
@@ -233,7 +247,9 @@ At the end of phase 3, `simply aep` has functional parity with `apx`'s generator
    descriptors' zod UI hints (`text`, `file`, `enumValue`, `boolean`). These are the same hints the
    Apx VS Code extension already renders from, so the CLI and the editor ask the same questions. Port
    `apx/src/aep/prompting.ts` and `commandSupport.ts` behind it. This is a new shared kit module, so
-   it needs its own design doc per the README trigger list.
+   it needs its own design doc per the README trigger list. Phase 2 passes no `AepUseCaseContext` to
+   `plan`/`apply`. This step should pass one, so Ctrl-C reaches the engine's cancellation checks
+   (`signal`) and the prompts can show progress (`onProgress`).
 2. **VS Code.** Port the Apx extension's descriptor-driven registry, input system, and runner into a new
    `simply-vscode/extensions/simply-aep` extension that imports `simply-aep-core` in process, and add
    it to `simply-extension-pack`. A follow-up can add "Generate action/criteria here" entry points to

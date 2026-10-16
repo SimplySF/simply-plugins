@@ -28,7 +28,7 @@ import AepGenerateDomain from '../../../../../src/commands/simply/aep/generate/d
 import AepGenerateSelector from '../../../../../src/commands/simply/aep/generate/selector.js';
 import AepGenerateService from '../../../../../src/commands/simply/aep/generate/service.js';
 import AepGenerateUnitOfWork from '../../../../../src/commands/simply/aep/generate/unit-of-work.js';
-import { CLI_ONLY_FLAGS, FLAG_BY_OPTION } from '../../../../../src/common/generate/runGeneration.js';
+import { CLI_ONLY_FLAGS, FLAG_BY_OPTION, toOptions } from '../../../../../src/common/generate/runGeneration.js';
 
 /**
  * Ported from apx's `parity.test.ts`: every option a generator's schema takes has a flag, and every
@@ -62,4 +62,13 @@ describe('generate flag parity', () => {
       expect(useCase.descriptor.cliId).to.equal(`simply:aep:${name.replaceAll(' ', ':')}`);
     });
   }
+
+  it('toOptions fails on an option no flag sets, instead of passing undefined', () => {
+    const newer = {
+      descriptor: { id: 'generate-future', optionsSchema: { shape: { sobject: {}, futureOption: {} } } },
+    } as unknown as GenerationUseCase;
+    expect(() => toOptions(newer, { sobject: 'Account' })).to.throw(
+      'generate-future takes option futureOption, which no flag sets.',
+    );
+  });
 });
