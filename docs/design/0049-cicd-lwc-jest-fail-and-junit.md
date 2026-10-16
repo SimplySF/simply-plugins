@@ -1,6 +1,6 @@
 # 0049 — `build lwc-jest`: opt-in pipeline failure and JUnit results
 
-**Status:** Draft
+**Status:** Implemented ([#78](https://github.com/SimplySF/simply-plugins/pull/78))
 **Package:** `packages/simply-cicd`
 **Date:** 2026-10-16
 
