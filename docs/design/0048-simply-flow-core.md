@@ -1,6 +1,6 @@
 # 0048 — Splitting `simply-flow-core` out of `simply-flow`
 
-**Status:** Implemented (`simply-plugins-core` PR #236, published as `@simplysf/simply-flow-core@0.1.0`; `simply-plugins` companion PR follows). Numbered 0046 in `simply-plugins-core`.
+**Status:** Implemented (`simply-plugins-core` PR #236, published as `@simplysf/simply-flow-core@0.1.0`; `simply-plugins` companion PR #77). Numbered 0046 in `simply-plugins-core`.
 **Package:** new `packages/simply-flow-core` (in `simply-plugins-core`); `packages/simply-flow` (CLI,
 slimmed, in `simply-plugins`)
 **Date:** 2026-10-16
