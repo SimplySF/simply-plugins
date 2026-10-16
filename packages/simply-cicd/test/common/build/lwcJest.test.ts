@@ -43,17 +43,22 @@ describe('runLwcJest', () => {
 
     expect(result).toEqual({ skipped: false, success: true });
     expect(logger.info).toHaveBeenCalledWith('Running LWC Jest tests...');
-    expect(execa).toHaveBeenCalledWith('npm', ['install', '@salesforce/sfdx-lwc-jest', '@sa11y/jest'], {
+    expect(execa).toHaveBeenCalledWith('npm', ['install', '@salesforce/sfdx-lwc-jest', '@sa11y/jest', 'jest-junit'], {
       stdio: 'pipe',
     });
-    expect(execa).toHaveBeenCalledWith('npx', ['sfdx-lwc-jest', '--coverage', '--', '--passWithNoTests'], {
-      stdio: 'inherit',
-    });
+    expect(execa).toHaveBeenCalledWith(
+      'npx',
+      ['sfdx-lwc-jest', '--coverage', '--', '--passWithNoTests', '--reporters=default', '--reporters=jest-junit'],
+      {
+        stdio: 'inherit',
+        env: { JEST_JUNIT_OUTPUT_DIR: './test-results/lwc', JEST_JUNIT_OUTPUT_NAME: 'test-result.xml' },
+      },
+    );
     expect(logger.success).toHaveBeenCalledWith('LWC Jest tests completed.');
   });
 
-  it('should skip lwc-jest if disabled', async () => {
-    const result = await runLwcJest({ disabled: true });
+  it('should skip lwc-jest if disabled, even with failOnTestFailure', async () => {
+    const result = await runLwcJest({ disabled: true, failOnTestFailure: true });
 
     expect(result).toEqual({ skipped: true, success: false });
     expect(logger.warn).toHaveBeenCalledWith('lwc-jest is disabled. Skipping.');
@@ -67,5 +72,19 @@ describe('runLwcJest', () => {
 
     expect(result).toEqual({ skipped: false, success: false });
     expect(logger.error).toHaveBeenCalledWith('LWC Jest tests failed.');
+  });
+
+  it('should throw when the tests fail and failOnTestFailure is set', async () => {
+    vi.mocked(execa).mockRejectedValue(new Error('jest failed'));
+
+    await expect(runLwcJest({ failOnTestFailure: true })).rejects.toThrow('LWC Jest tests failed.');
+    expect(logger.error).not.toHaveBeenCalled();
+  });
+
+  it('should throw when the install fails and failOnTestFailure is set', async () => {
+    vi.mocked(execa).mockRejectedValueOnce(new Error('npm install failed'));
+
+    await expect(runLwcJest({ failOnTestFailure: true })).rejects.toThrow('LWC Jest tests failed.');
+    expect(execa).toHaveBeenCalledTimes(1);
   });
 });

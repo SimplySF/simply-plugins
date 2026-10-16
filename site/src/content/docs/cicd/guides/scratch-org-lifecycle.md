@@ -16,7 +16,7 @@ The `build` topic's scratch-org commands form a linear lifecycle, each reading s
 2. **`build install-dependencies`** — installs the packaged dependencies declared in `sfdx-project.json` into the scratch org.
 3. **`build push-scratch`** — pushes source. Automatically strips metadata types the scratch org push doesn't support (Einstein Conversation Agent files), and can additionally push a `seedMetadata.path` directory via `--scratch-org-source-dir`.
 4. **`build test-scratch`** — runs Apex tests (`RunLocalTests`) against the scratch org. Use `--disable-apex-tests` to skip just the test run without skipping the rest of the job.
-5. **`build lwc-jest`** — independent of the scratch org (installs `@salesforce/sfdx-lwc-jest` + `@sa11y/jest` and runs Jest with coverage) — run it in parallel with the scratch-org steps rather than in sequence, since it doesn't touch `SCRATCH_ORG_INFO.json` at all.
+5. **`build lwc-jest`** — independent of the scratch org (installs `@salesforce/sfdx-lwc-jest` + `@sa11y/jest` + `jest-junit` and runs Jest with coverage) — run it in parallel with the scratch-org steps rather than in sequence, since it doesn't touch `SCRATCH_ORG_INFO.json` at all. It writes a JUnit report to `./test-results/lwc/test-result.xml`, alongside `test-scratch`'s `./test-results/apex`. Failing tests are logged without failing the job unless you pass `--lwc-jest-fail-on-test-failure` (or set `SIMPLY_CICD_LWC_JEST_FAIL_ON_TEST_FAILURE=true`).
 6. **`build delete-scratch`** — reads `SCRATCH_ORG_INFO.json` to find which Dev Hub owns the org, confirms `--dev-hub` matches it, and deletes it. Deletion failures are logged, not thrown, so a stuck org doesn't fail an otherwise-green pipeline — put this in a job that always runs (GitLab's `when: always`) so orgs get cleaned up even after an earlier stage fails.
 
 ```yaml
@@ -40,6 +40,16 @@ push-and-test:
     - sf simply cicd build test-scratch --jwt-key-file $DEVHUB_JWT_KEY_FILE
   artifacts:
     paths: [SCRATCH_ORG_INFO.json]
+
+lwc-jest:
+  stage: scratch-org
+  script:
+    - sf simply cicd build lwc-jest --lwc-jest-fail-on-test-failure
+  artifacts:
+    when: always
+    paths: [test-results/lwc/]
+    reports:
+      junit: test-results/lwc/test-result.xml
 
 cleanup-scratch:
   stage: scratch-org

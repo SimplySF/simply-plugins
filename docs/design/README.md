@@ -85,6 +85,7 @@ refactors that keep the public surface identical (though a short doc is welcome 
 | [0045](0045-migrate-apx-into-simply-aep.md)                          | Migrating `apx` code generation into `simply aep`                                     | In progress           |
 | [0046](0046-cicd-notify-build.md)                                    | `simply cicd notify build`                                                            | Implemented           |
 | [0048](0048-simply-flow-core.md)                                     | Splitting `simply-flow-core` out of `simply-flow`                                     | Implemented           |
+| [0049](0049-cicd-lwc-jest-fail-and-junit.md)                         | `build lwc-jest`: opt-in pipeline failure and JUnit results                           | Draft                 |
 
 ## Template
 

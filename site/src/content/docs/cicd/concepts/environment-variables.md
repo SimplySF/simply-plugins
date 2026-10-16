@@ -102,6 +102,14 @@ The scratch-org lifecycle (`build create-scratch`/`delete-scratch`/`cleanup-scra
 
 Used by `build publish-utam-page-objects`. `--npm-dist-tag`, `--dry-run`, `--out`, and `--env-file` are per-invocation and deliberately have no variable. `--npm-package-name` can also be set in `sfdx-project.json` as `plugins.simply.utam.packageName` — see [sfdx-project.json fields](/cicd/concepts/sfdx-project-fields/) — which is usually the better home for it, since it's a property of the project rather than of the pipeline.
 
+### LWC Jest
+
+| Flag                              | Environment variable                        |
+| --------------------------------- | ------------------------------------------- |
+| `--lwc-jest-fail-on-test-failure` | `SIMPLY_CICD_LWC_JEST_FAIL_ON_TEST_FAILURE` |
+
+Used by `build lwc-jest`. Off by default, so a failing LWC test is logged without failing the pipeline; set it to `true` to make test failures fail the job. The JUnit report at `./test-results/lwc/test-result.xml` is written either way.
+
 ### Version tag format
 
 | Setting                                                                                                 | Environment variable             |
