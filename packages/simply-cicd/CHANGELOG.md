@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.17.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.16.0...%40simplysf%2Fsimply-cicd%400.17.0) (2026-10-16)
+
+### Features
+
+- **simply-cicd:** add opt-in failure and JUnit results to build lwc-jest ([#78](https://github.com/SimplySF/simply-plugins/issues/78)) ([1c2ae30](https://github.com/SimplySF/simply-plugins/commit/1c2ae3004abca11a0d307ded7587af226a4ff1dc))
+
 # [0.16.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.15.2...%40simplysf%2Fsimply-cicd%400.16.0) (2026-10-15)
 
 ### Features
