@@ -413,12 +413,12 @@ importers:
       '@simplysf/simply-core':
         specifier: ^1.6.7
         version: 1.6.7
+      '@simplysf/simply-flow-core':
+        specifier: ^0.1.0
+        version: 0.1.0
       '@simplysf/simply-plugin-kit':
         specifier: workspace:^1.0.9
         version: link:../simply-plugin-kit
-      glob:
-        specifier: ^13.0.6
-        version: 13.0.6
     devDependencies:
       '@oclif/plugin-command-snapshot':
         specifier: ^5.4.0
@@ -2888,6 +2888,11 @@ packages:
   '@simplysf/simply-document-core@0.2.4':
     resolution:
       { integrity: sha512-LuwMHa2IoHCFjvLJC3v6BH0x8AzhM7EAinKOF9W9m+kdBmvRkiuR86ucAoVWqiJZ2RSAvOcT41QPk48ag6IyVQ== }
+    engines: { node: '>=22.0.0' }
+
+  '@simplysf/simply-flow-core@0.1.0':
+    resolution:
+      { integrity: sha512-4bSNqaqpMs9pmU1thbpQ0nhvslXGDzkbFpDo0A/2wFxxPcY6ZNhihBI4IBIU+ua0Sy1XOakhv/V3Wx92m9deQw== }
     engines: { node: '>=22.0.0' }
 
   '@simplysf/simply-package-core@0.3.0':
@@ -11528,6 +11533,12 @@ snapshots:
   '@simplysf/simply-document-core@0.2.4':
     dependencies:
       handlebars: 4.7.9
+
+  '@simplysf/simply-flow-core@0.1.0':
+    dependencies:
+      '@salesforce/core': 8.32.6
+      '@simplysf/simply-core': 1.6.11
+      glob: 13.0.6
 
   '@simplysf/simply-package-core@0.3.0(supports-color@8.1.1)':
     dependencies:
