@@ -143,7 +143,7 @@
     "command": "simply:cicd:build:lwc-jest",
     "flagAliases": [],
     "flagChars": [],
-    "flags": ["debug", "disabled", "flags-dir", "json"],
+    "flags": ["debug", "disabled", "flags-dir", "json", "lwc-jest-fail-on-test-failure"],
     "plugin": "@simplysf/simply-cicd"
   },
   {

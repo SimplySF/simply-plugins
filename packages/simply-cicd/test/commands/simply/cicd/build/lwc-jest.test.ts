@@ -30,7 +30,7 @@ describe('build lwc-jest', () => {
     const result = await BuildLwcJest.run([]);
 
     expect(result).toEqual({ skipped: false, success: true });
-    expect(runLwcJest).toHaveBeenCalledWith({ disabled: false });
+    expect(runLwcJest).toHaveBeenCalledWith({ disabled: false, failOnTestFailure: false });
   });
 
   it('should skip lwc-jest if disabled', async () => {
@@ -39,6 +39,51 @@ describe('build lwc-jest', () => {
     const result = await BuildLwcJest.run(['--disabled']);
 
     expect(result).toEqual({ skipped: true, success: false });
-    expect(runLwcJest).toHaveBeenCalledWith({ disabled: true });
+    expect(runLwcJest).toHaveBeenCalledWith({ disabled: true, failOnTestFailure: false });
+  });
+
+  it('passes --lwc-jest-fail-on-test-failure through', async () => {
+    await BuildLwcJest.run(['--lwc-jest-fail-on-test-failure']);
+
+    expect(runLwcJest).toHaveBeenCalledWith({ disabled: false, failOnTestFailure: true });
+  });
+
+  it('reads --lwc-jest-fail-on-test-failure from SIMPLY_CICD_LWC_JEST_FAIL_ON_TEST_FAILURE', async () => {
+    vi.stubEnv('SIMPLY_CICD_LWC_JEST_FAIL_ON_TEST_FAILURE', 'true');
+    try {
+      await BuildLwcJest.run([]);
+    } finally {
+      vi.unstubAllEnvs();
+    }
+
+    expect(runLwcJest).toHaveBeenCalledWith({ disabled: false, failOnTestFailure: true });
+  });
+
+  it('defaults --lwc-jest-fail-on-test-failure to false when SIMPLY_CICD_LWC_JEST_FAIL_ON_TEST_FAILURE is unset', async () => {
+    vi.stubEnv('SIMPLY_CICD_LWC_JEST_FAIL_ON_TEST_FAILURE', undefined);
+    try {
+      await BuildLwcJest.run([]);
+    } finally {
+      vi.unstubAllEnvs();
+    }
+
+    expect(runLwcJest).toHaveBeenCalledWith({ disabled: false, failOnTestFailure: false });
+  });
+
+  it('treats SIMPLY_CICD_LWC_JEST_FAIL_ON_TEST_FAILURE=false as false', async () => {
+    vi.stubEnv('SIMPLY_CICD_LWC_JEST_FAIL_ON_TEST_FAILURE', 'false');
+    try {
+      await BuildLwcJest.run([]);
+    } finally {
+      vi.unstubAllEnvs();
+    }
+
+    expect(runLwcJest).toHaveBeenCalledWith({ disabled: false, failOnTestFailure: false });
+  });
+
+  it('fails the command when runLwcJest throws', async () => {
+    vi.mocked(runLwcJest).mockRejectedValue(new Error('LWC Jest tests failed.'));
+
+    await expect(BuildLwcJest.run(['--lwc-jest-fail-on-test-failure'])).rejects.toThrow('LWC Jest tests failed.');
   });
 });
