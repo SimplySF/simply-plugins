@@ -633,8 +633,8 @@ importers:
         specifier: workspace:^1.0.9
         version: link:../simply-plugin-kit
       '@simplysf/simply-settings-core':
-        specifier: ^0.3.1
-        version: 0.3.1(supports-color@8.1.1)
+        specifier: ^0.3.2
+        version: 0.3.2(supports-color@8.1.1)
     devDependencies:
       '@oclif/plugin-command-snapshot':
         specifier: ^5.4.0
@@ -2967,9 +2967,9 @@ packages:
       { integrity: sha512-fdAYmdzibgwHhWR1ZdK7++yXToPSv2BjkUNsUZ1khCc2DwiqqIaooJNpwm3x8awYH0oY5h1/neoWLrKx3D5kow== }
     engines: { node: '>=22.0.0' }
 
-  '@simplysf/simply-settings-core@0.3.1':
+  '@simplysf/simply-settings-core@0.3.2':
     resolution:
-      { integrity: sha512-+c2eKjlr6ci6hidZmUCHqMIMkriXjhgkL9s71PRczONwOMCmnOmepkApsK9jeKZuTcfINudnmxLEyYbafr/qEA== }
+      { integrity: sha512-IrMzelwI1geQWz8BCZrKek03Z/P5zt1TYFNSbSjIJua4XhGJ8yw7iinqM7wd0Fp9C6lviboD8k0pyAQqufrg3Q== }
     engines: { node: '>=22.0.0' }
 
   '@simplysf/simply-sobject-core@0.2.5':
@@ -11909,7 +11909,7 @@ snapshots:
       '@simplysf/simply-report': 1.0.6
       exceljs: 4.4.0
 
-  '@simplysf/simply-settings-core@0.3.1(supports-color@8.1.1)':
+  '@simplysf/simply-settings-core@0.3.2(supports-color@8.1.1)':
     dependencies:
       '@salesforce/core': 8.32.6
       '@salesforce/kit': 3.2.6
