@@ -1,7 +1,7 @@
-# 0047 — `simply-mcp`: an MCP server over the `-core` libraries
+# 0047 — `simply-sf-mcp`: an MCP server over the `-core` libraries
 
 **Status:** Draft
-**Package:** `packages/simply-mcp` (new)
+**Package:** `packages/simply-sf-mcp` (new)
 **Date:** 2026-10-15
 
 ## Problem
@@ -27,7 +27,7 @@ is how the work is reached, not the work itself.
 
 ## Decision
 
-Add **`@simplysf/simply-mcp`**, a new package in this repo. It is a
+Add **`@simplysf/simply-sf-mcp`**, a new package in this repo. It is a
 [Model Context Protocol](https://modelcontextprotocol.io) server that exposes selected `simply`
 operations as MCP tools. It calls the same `-core` functions the oclif plugins call. It is a
 long-running stdio process, so it pays startup once per agent session and caches org connections
@@ -38,19 +38,19 @@ It is a second front end next to the oclif plugins, not a replacement for them:
 ```
             simply-plugins-core (libraries)
              ▲                          ▲
-  oclif plugins (sf simply …)     simply-mcp (MCP tools)
+  oclif plugins (sf simply …)     simply-sf-mcp (MCP tools)
 ```
 
 It complements Salesforce's official DX MCP server, `@salesforce/mcp`, and does not compete with
 it. That server already covers generic org work: deploy, retrieve, SOQL and running tests.
-`simply-mcp` exposes only what is specific to `simply`.
+`simply-sf-mcp` exposes only what is specific to `simply`.
 
 ## Behavior
 
 ### Running it
 
 ```
-npx -y @simplysf/simply-mcp [--directory <project>] [--toolsets <a,b,…>] [--allow <tier>]
+npx -y @simplysf/simply-sf-mcp [--directory <project>] [--toolsets <a,b,…>] [--allow <tier>]
 ```
 
 Example registration in Claude Code's `.mcp.json`:
@@ -58,7 +58,7 @@ Example registration in Claude Code's `.mcp.json`:
 ```json
 {
   "mcpServers": {
-    "simply": { "command": "npx", "args": ["-y", "@simplysf/simply-mcp", "--toolsets", "apex,aep"] }
+    "simply": { "command": "npx", "args": ["-y", "@simplysf/simply-sf-mcp", "--toolsets", "apex,aep"] }
   }
 }
 ```
@@ -117,8 +117,12 @@ release on purpose:
 
 - **`simply cicd *`.** These are pipeline stages driven by CI variables, not things an agent runs
   interactively. Much of their logic still lives in the plugin, not in `simply-cicd-core`.
-- **`simply flow delete` / `flow version prune`.** There is no `simply-flow-core`. These need a core
-  extraction first (see Open questions).
+- **`simply flow delete` / `flow version prune`.** There is no `simply-flow-core` yet. These wait on
+  the extraction proposed in simply-plugins-core's
+  [0046](https://github.com/SimplySF/simply-plugins-core/blob/main/docs/design/0046-simply-flow-core.md)
+  ([SimplySF/simply-plugins-core#235](https://github.com/SimplySF/simply-plugins-core/pull/235)).
+  Once it ships, they become `simply_flow_delete` (`destructive`) and `simply_flow_version_prune`
+  (`destructive`, with a `dry_run` argument), each a follow-up PR.
 - **AT4DX `create`/`update`, `permissions build`, `schema generate`.** These write local source from
   structured input. Agents can already edit those files directly. Add them if usage shows a need.
 - **`simply sobject deduplicate`, `permissions assignment delete`, `package version cleanup`,
@@ -172,7 +176,7 @@ progress callback (confirm per function; add one in core where it's missing).
 
 ### Tool descriptions
 
-Descriptions live in `packages/simply-mcp/messages/*.md`, one file per toolset, and are written for
+Descriptions live in `packages/simply-sf-mcp/messages/*.md`, one file per toolset, and are written for
 an agent, not copied from the CLI help. They say **when** to use the tool and what it returns, list
 the related tools ("run `simply_aep_binding_list` first to see …"), and point generic work (deploy,
 SOQL, tests) at `@salesforce/mcp`. The CLI help is written for people reading `--help`. A shared
@@ -207,8 +211,8 @@ source would serve neither audience well.
 
 ## Implementation plan
 
-1. **Scaffold `packages/simply-mcp`.** Copy the shape of `simply-plugin-kit`'s `package.json`
-   (`type: module`, wireit scripts, `files: ["/lib", "/messages"]`), adding `bin: { "simply-mcp":
+1. **Scaffold `packages/simply-sf-mcp`.** Copy the shape of `simply-plugin-kit`'s `package.json`
+   (`type: module`, wireit scripts, `files: ["/lib", "/messages"]`), adding `bin: { "simply-sf-mcp":
 "./bin/run.js" }`. Dependencies: `@modelcontextprotocol/sdk` (^1.32), `@salesforce/core`, `zod`,
    and the `-core` packages from the tools table. Add it to `pnpm-workspace.yaml`, the vitest
    projects and the lerna config. Do **not** add it to the `@simplysf/simply` orchestrator's
@@ -223,7 +227,7 @@ outputSchema, summarize, run }`, applies the annotations from the tier table, an
    error mapping and result shaping (`structuredContent` + summary text, `limit`/`truncated`).
 5. **`src/tools/<toolset>.ts`**: one file per toolset (`apex`, `aep`, `sobject`, `permissions`,
    `package`, `schema`, `data`), each exporting its `defineTool` calls.
-6. **`messages/simply.mcp.<toolset>.md`**: the agent-facing descriptions.
+6. **`messages/simply.sf-mcp.<toolset>.md`**: the agent-facing descriptions.
 7. **`test/tool-snapshot.json`**: the registered tool names, tiers and input schemas, checked in.
    The build regenerates it and CI's `git diff --exit-code` catches drift, as `command-snapshot.json`
    does for the plugins.
@@ -265,9 +269,6 @@ relative to the first call, loosely, to avoid flakiness.
 - **Default `--allow` tier.** This doc proposes `read`. Defaulting to `write` would make
   `apex_execute`, the most useful single tool, available without configuration, at the cost of
   letting agents run DML in any org they name. Owner: maintainers.
-- **`simply-flow-core`.** Exposing `flow delete`/`version prune` needs that logic extracted into
-  `simply-plugins-core` first (the 0027 pattern). Decide whether that extraction is follow-up work
-  for this effort or waits for demand.
 - **Tool descriptions vs. CLI help.** This doc keeps them separate (see Tool descriptions). If they
   drift in substance (behavior, not wording), consider a lint that checks every tool's description
   mentions each of its arguments.
