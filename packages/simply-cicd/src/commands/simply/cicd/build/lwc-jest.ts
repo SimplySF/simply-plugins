@@ -15,14 +15,14 @@
  */
 
 import { Messages } from '@salesforce/core';
-import { SfCommand } from '@salesforce/sf-plugins-core';
+import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { runLwcJest, type RunLwcJestResult } from '../../../../common/build/lwcJest.js';
 import { debugFlag, disabledFlag } from '../../../../common/build/flags.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-cicd', 'simply.cicd.build.lwc-jest');
 
-/** Installs the LWC Jest test libraries and runs the project's LWC Jest tests with coverage. */
+/** Installs the LWC Jest test libraries and runs the project's LWC Jest tests with coverage and a JUnit report. */
 export default class BuildLwcJest extends SfCommand<RunLwcJestResult> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
@@ -32,11 +32,16 @@ export default class BuildLwcJest extends SfCommand<RunLwcJestResult> {
     ...SfCommand.baseFlags,
     ...debugFlag,
     ...disabledFlag,
+    'lwc-jest-fail-on-test-failure': Flags.boolean({
+      summary: messages.getMessage('flags.lwc-jest-fail-on-test-failure.summary'),
+      default: false,
+      env: 'SIMPLY_CICD_LWC_JEST_FAIL_ON_TEST_FAILURE',
+    }),
   };
 
   public async run(): Promise<RunLwcJestResult> {
     const { flags } = await this.parse(BuildLwcJest);
 
-    return runLwcJest({ disabled: flags.disabled });
+    return runLwcJest({ disabled: flags.disabled, failOnTestFailure: flags['lwc-jest-fail-on-test-failure'] });
   }
 }

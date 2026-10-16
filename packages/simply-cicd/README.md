@@ -503,10 +503,15 @@ Install the LWC Jest test libraries and run the project's LWC Jest tests with co
 ```
 USAGE
   $ sf simply cicd build lwc-jest [--json] [--flags-dir <value>] [--debug] [--disabled]
+  [--lwc-jest-fail-on-test-failure]
 
 FLAGS
-  --debug     [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
-  --disabled  [env: SIMPLY_CICD_DISABLED] Skip this job entirely, logging a warning instead of running it.
+  --debug                          [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
+  --disabled                       [env: SIMPLY_CICD_DISABLED] Skip this job entirely, logging a warning instead of
+                                   running it.
+  --lwc-jest-fail-on-test-failure  [env: SIMPLY_CICD_LWC_JEST_FAIL_ON_TEST_FAILURE] Exit non-zero when the LWC Jest
+                                   tests (or their install) fail, failing the pipeline. By default failures are only
+                                   logged.
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -515,11 +520,18 @@ GLOBAL FLAGS
 DESCRIPTION
   Install the LWC Jest test libraries and run the project's LWC Jest tests with coverage.
 
-  Installs `@salesforce/sfdx-lwc-jest` and `@sa11y/jest`, then runs `sfdx-lwc-jest --coverage -- --passWithNoTests`.
-  Failures are logged, not thrown.
+  Installs `@salesforce/sfdx-lwc-jest`, `@sa11y/jest`, and `jest-junit`, then runs `sfdx-lwc-jest --coverage --
+  --passWithNoTests` with the `jest-junit` reporter added to any reporters the project's own Jest config sets, writing a
+  JUnit report to `./test-results/lwc/test-result.xml` for the pipeline to upload as an artifact. By default failures
+  are logged, not thrown, so they don't fail the pipeline; pass `--lwc-jest-fail-on-test-failure` to make them exit
+  non-zero.
 
 EXAMPLES
   $ sf simply cicd build lwc-jest
+
+  Fail the pipeline when a test fails:
+
+    $ sf simply cicd build lwc-jest --lwc-jest-fail-on-test-failure
 ```
 
 _See code: [lib/commands/simply/cicd/build/lwc-jest.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.16.0/packages/simply-cicd/lib/commands/simply/cicd/build/lwc-jest.js)_
