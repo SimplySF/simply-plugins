@@ -36,7 +36,7 @@
     "@modelcontextprotocol/sdk": "^1.32.1",
     "@salesforce/core": "^8.30.0",
     "@simplysf/simply-aep-core": "^0.15.1",
-    "@simplysf/simply-apex-core": "^0.3.11",
+    "@simplysf/simply-apex-core": "^0.3.16",
     "@simplysf/simply-core": "^1.6.7",
     "@simplysf/simply-package-core": "^0.3.0",
     "zod": "^4.6.5"
