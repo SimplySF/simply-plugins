@@ -62,5 +62,10 @@ jobs:
       - name: Verify command and tool snapshots are committed
         run: git diff --exit-code -- "**/command-snapshot.json" "**/tool-snapshot.json"
 
+      # Left uncapped, lerna runs a package per core and wireit runs each package's tsc, eslint,
+      # vitest and ts-node tasks side by side, which starves the small Windows runner badly enough
+      # that tests taking ~100ms locally hit the 30s vitest timeout.
       - name: pnpm test
-        run: pnpm test
+        run: pnpm exec lerna run test --concurrency 2
+        env:
+          WIREIT_PARALLEL: 2
