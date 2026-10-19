@@ -95,12 +95,20 @@ describe('simply data files upload', () => {
       Title: 'coolFile',
     });
 
-    await DataFilesUpload.run([
+    const result = await DataFilesUpload.run([
       '--file-path',
       './test/reference-project/test-files/simply.data.files.upload.csv',
       '--target-org',
       testOrg.username,
     ]);
+
+    // A non-empty result is what makes `--json` print an envelope at all.
+    expect(result).to.deep.equal({
+      successCount: 2,
+      errorCount: 1,
+      successFile: 'upload/success.csv',
+      errorFile: 'upload/error.csv',
+    });
 
     const errorResults = parse<ContentVersionToUpload>(fs.readFileSync('upload/error.csv'), {
       bom: true,

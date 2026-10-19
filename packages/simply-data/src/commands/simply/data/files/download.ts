@@ -31,6 +31,17 @@ import { apiBudgetFlags, assertApiBudget } from '../../../../common/apiBudgetFla
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-data', 'simply.data.files.download');
 
+const SUCCESS_FILE = 'download/success.csv';
+const ERROR_FILE = 'download/error.csv';
+
+/** How many downloads succeeded and failed, and the CSVs each set was written to. */
+export type DataFilesDownloadResult = {
+  successCount: number;
+  errorCount: number;
+  successFile: string;
+  errorFile: string;
+};
+
 /**
  * Downloads files specified by a where clause for a `ContentVersion` query from a Salesforce
  * org. By default, the plugin uses the REST API for the download to allow for the streaming of
@@ -39,7 +50,7 @@ const messages = Messages.loadMessages('@simplysf/simply-data', 'simply.data.fil
  * Successes and failures are written to `download/success.csv` and `download/error.csv`
  * respectively as downloads complete, rather than accumulated in memory.
  */
-export default class DataFilesDownload extends SfCommand<void> {
+export default class DataFilesDownload extends SfCommand<DataFilesDownloadResult> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
@@ -60,7 +71,8 @@ export default class DataFilesDownload extends SfCommand<void> {
     }),
   };
 
-  public async run(): Promise<void> {
+  /** @returns The success and error counts and the CSVs they were written to. */
+  public async run(): Promise<DataFilesDownloadResult> {
     const { flags } = await this.parse(DataFilesDownload);
 
     // Authorize to the target org
@@ -94,7 +106,7 @@ export default class DataFilesDownload extends SfCommand<void> {
       fs.mkdirSync('download');
     }
 
-    const successWriter = createCsvFileWriter('download/success.csv', [
+    const successWriter = createCsvFileWriter(SUCCESS_FILE, [
       'Id',
       'ContentDocumentId',
       'ContentSize',
@@ -108,7 +120,7 @@ export default class DataFilesDownload extends SfCommand<void> {
       'FilePath',
     ]);
 
-    const errorWriter = createCsvFileWriter('download/error.csv', [
+    const errorWriter = createCsvFileWriter(ERROR_FILE, [
       'Id',
       'ContentDocumentId',
       'ContentSize',
@@ -127,6 +139,8 @@ export default class DataFilesDownload extends SfCommand<void> {
     const downloadQueue = new PQueue({ concurrency: flags['max-parallel-jobs'] });
 
     let count = 0;
+    let successCount = 0;
+    let errorCount = 0;
     downloadQueue.on('add', () => {
       this.spinner.status = `Completed: ${count}. Size: ${downloadQueue.size}  Pending: ${downloadQueue.pending}\n`;
     });
@@ -145,9 +159,11 @@ export default class DataFilesDownload extends SfCommand<void> {
             'download',
           );
           await successWriter.write(contentVersionDownload);
+          successCount++;
         } catch (error) {
           contentVersionDownload.Error = String(error);
           await errorWriter.write(contentVersionDownload);
+          errorCount++;
         }
       });
     }
@@ -156,5 +172,7 @@ export default class DataFilesDownload extends SfCommand<void> {
     await Promise.all([successWriter.end(), errorWriter.end()]);
 
     this.spinner.stop();
+
+    return { successCount, errorCount, successFile: SUCCESS_FILE, errorFile: ERROR_FILE };
   }
 }
