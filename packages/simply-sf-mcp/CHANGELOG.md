@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.1](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-sf-mcp%400.1.0...%40simplysf%2Fsimply-sf-mcp%400.1.1) (2026-10-19)
+
+### Bug Fixes
+
+- **deps:** bump @simplysf/simply-apex-core from 0.3.11 to 0.3.16 ([#88](https://github.com/SimplySF/simply-plugins/issues/88)) ([048e658](https://github.com/SimplySF/simply-plugins/commit/048e6581583fedcf3e74230674f23a59fdae7179))
+
 # 0.1.0 (2026-10-16)
 
 ### Features
