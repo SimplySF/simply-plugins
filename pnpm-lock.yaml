@@ -107,7 +107,7 @@ importers:
         specifier: workspace:^0.16.0
         version: link:../simply-aep
       '@simplysf/simply-apex':
-        specifier: workspace:^1.8.14
+        specifier: workspace:^1.8.15
         version: link:../simply-apex
       '@simplysf/simply-community':
         specifier: workspace:^0.6.19
@@ -202,8 +202,8 @@ importers:
         specifier: ^12.2.16
         version: 12.2.28(@types/node@26.6.5)
       '@simplysf/simply-apex-core':
-        specifier: ^0.3.11
-        version: 0.3.11(supports-color@8.1.1)
+        specifier: ^0.3.16
+        version: 0.3.16(supports-color@8.1.1)
       '@simplysf/simply-core':
         specifier: ^1.6.7
         version: 1.6.7
@@ -664,8 +664,8 @@ importers:
         specifier: ^0.15.1
         version: 0.15.1(supports-color@8.1.1)
       '@simplysf/simply-apex-core':
-        specifier: ^0.3.11
-        version: 0.3.11(supports-color@8.1.1)
+        specifier: ^0.3.16
+        version: 0.3.16(supports-color@8.1.1)
       '@simplysf/simply-core':
         specifier: ^1.6.7
         version: 1.6.11
@@ -2902,9 +2902,9 @@ packages:
       { integrity: sha512-h9l8c8IiUjBVIrCUyzqmx8M8HfqR+gzxqksm959nix/YTG81yJXJb5bArCmGO6JnTh2Nw5kgFRGGqlRXQvzBww== }
     engines: { node: '>=22.0.0' }
 
-  '@simplysf/simply-apex-core@0.3.11':
+  '@simplysf/simply-apex-core@0.3.16':
     resolution:
-      { integrity: sha512-Ti/OsVAeM/jN7V99g75fxsdic0BJAKSj7HM4KUH9hg5hsoAUQwYhFBa9RWSJuCE5DBSFHl1SxQv5OojkzjCy1w== }
+      { integrity: sha512-JQuEREPr08uvS4/0OBQwkek39VB0ogzWgJ2jsF27RshtxIl+MaTZmPu8pqX1D2aKch/upj+EISflVQglQl286Q== }
     engines: { node: '>=22.0.0' }
 
   '@simplysf/simply-cicd-core@0.2.2':
@@ -9782,7 +9782,7 @@ snapshots:
   '@astrojs/sitemap@3.7.4':
     dependencies:
       sitemap: 9.0.1
-      zod: 4.6.5
+      zod: 4.6.7
 
   '@astrojs/starlight@0.42.0(@astrojs/markdown-remark@7.3.1(supports-color@8.1.1))(astro@7.3.5(@astrojs/markdown-remark@7.3.1(supports-color@8.1.1))(@types/node@26.6.5)(jiti@2.6.1)(yaml@2.9.1))(supports-color@8.1.1)(typescript@5.9.3)':
     dependencies:
@@ -11588,7 +11588,7 @@ snapshots:
       proper-lockfile: 4.1.2
       semver: 7.8.5
       ts-retry-promise: 0.8.1
-      zod: 4.6.5
+      zod: 4.6.7
 
   '@salesforce/kit@3.2.6':
     dependencies:
@@ -11816,13 +11816,13 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@simplysf/simply-apex-core@0.3.11(supports-color@8.1.1)':
+  '@simplysf/simply-apex-core@0.3.16(supports-color@8.1.1)':
     dependencies:
       '@salesforce/apex-node': 8.4.39
       '@salesforce/core': 8.32.6
       '@salesforce/source-deploy-retrieve': 12.37.2(supports-color@8.1.1)
-      '@simplysf/simply-core': 1.6.7
-      zod: 4.6.5
+      '@simplysf/simply-core': 1.6.11
+      zod: 4.6.7
     transitivePeerDependencies:
       - supports-color
 
