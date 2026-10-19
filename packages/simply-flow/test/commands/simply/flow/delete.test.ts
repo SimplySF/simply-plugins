@@ -143,4 +143,54 @@ describe('simply flow delete', () => {
     ]);
     expect(process.exitCode).to.equal(1);
   });
+
+  it('reports a --flow-name that matches no Flow in the org as a failure and exits 1', async () => {
+    $$.SANDBOX.stub(Connection.prototype, 'autoFetchQuery').callsFake(async (soql: string) => {
+      if (soql.startsWith('SELECT Definition.Id')) {
+        return {
+          records: [{ Definition: { Id: '300000000000001AAA', DeveloperName: 'Real_Flow' } }],
+          done: true,
+          totalSize: 1,
+        } as never;
+      }
+      if (soql.startsWith('SELECT Id, Definition.DeveloperName')) {
+        return {
+          records: [{ Id: '301000000000001AAA', Definition: { DeveloperName: 'Real_Flow' } }],
+          done: true,
+          totalSize: 1,
+        } as never;
+      }
+      throw new Error(`Unexpected query: ${soql}`);
+    });
+
+    (Connection.prototype.request as unknown as SinonStub).callsFake(
+      async (request: { method: string; url: string }) => {
+        const { method, url } = request;
+
+        if (method === 'PATCH' && url.endsWith('/tooling/sobjects/FlowDefinition/300000000000001AAA')) {
+          return { id: '300000000000001AAA', success: true, errors: [] };
+        }
+        if (method === 'DELETE' && url.endsWith('/tooling/sobjects/Flow/301000000000001AAA')) {
+          return { id: '301000000000001AAA', success: true, errors: [] };
+        }
+
+        throw new Error(`Unexpected request: ${method} ${url}`);
+      },
+    );
+
+    const result = await FlowDelete.run([
+      '--flow-name',
+      'Real_Flow',
+      '--flow-name',
+      'Does_Not_Exist',
+      '--target-org',
+      testOrg.username,
+    ]);
+
+    expect(result.deactivated).to.deep.equal(['Real_Flow']);
+    expect(result.deleted).to.deep.equal(['Real_Flow']);
+    expect(result.failures).to.have.length(1);
+    expect(result.failures[0]).to.include({ developerName: 'Does_Not_Exist', stage: 'deactivate' });
+    expect(process.exitCode).to.equal(1);
+  });
 });
