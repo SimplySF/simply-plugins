@@ -71,6 +71,9 @@ describe('simply sobject history export', () => {
     } catch (err) {
       const error = err as SfError;
       expect(error.message).to.include('start-date');
+      // Thrown from run(), not a flag parser, so `sf` doesn't remap it to exit 2 (#83).
+      expect(error.message).to.not.include('Parsing --');
+      expect(error.exitCode).to.equal(1);
     }
   });
 

@@ -95,25 +95,11 @@ export default class SObjectHistoryExport extends SfCommand<SObjectHistoryExport
       summary: messages.getMessage('flags.start-date.summary'),
       description: messages.getMessage('flags.start-date.description'),
       required: true,
-      // eslint-disable-next-line @typescript-eslint/require-await
-      parse: async (input: string): Promise<string> => {
-        if (!DATE_PATTERN.test(input)) {
-          throw messages.createError('error.invalidDate', ['start-date', input]);
-        }
-        return input;
-      },
     }),
     'end-date': Flags.string({
       summary: messages.getMessage('flags.end-date.summary'),
       description: messages.getMessage('flags.end-date.description'),
       required: true,
-      // eslint-disable-next-line @typescript-eslint/require-await
-      parse: async (input: string): Promise<string> => {
-        if (!DATE_PATTERN.test(input)) {
-          throw messages.createError('error.invalidDate', ['end-date', input]);
-        }
-        return input;
-      },
     }),
     'output-dir': Flags.directory({
       summary: messages.getMessage('flags.output-dir.summary'),
@@ -125,6 +111,14 @@ export default class SObjectHistoryExport extends SfCommand<SObjectHistoryExport
   /** @returns The output CSV path and the number of history records written. */
   public async run(): Promise<SObjectHistoryExportResult> {
     const { flags } = await this.parse(SObjectHistoryExport);
+
+    // Validated here rather than in a flag `parse`: `sf` maps any error thrown from a flag parser
+    // to exit code 2, while the plugins' other invalid-value errors exit 1.
+    for (const flag of ['start-date', 'end-date'] as const) {
+      if (!DATE_PATTERN.test(flags[flag])) {
+        throw messages.createError('error.invalidDate', [flag, flags[flag]]);
+      }
+    }
 
     const targetOrgConnection = requireConnection(flags);
 

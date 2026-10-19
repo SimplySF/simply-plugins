@@ -95,7 +95,20 @@ describe('simply data files download', () => {
       totalSize: 3,
     });
 
-    await DataFilesDownload.run(['--where-content-version', 'IsLatest=true', '--target-org', testOrg.username]);
+    const result = await DataFilesDownload.run([
+      '--where-content-version',
+      'IsLatest=true',
+      '--target-org',
+      testOrg.username,
+    ]);
+
+    // A non-empty result is what makes `--json` print an envelope at all.
+    expect(result).to.deep.equal({
+      successCount: 1,
+      errorCount: 1,
+      successFile: 'download/success.csv',
+      errorFile: 'download/error.csv',
+    });
 
     const errorResults = parse<ContentVersionDownload>(fs.readFileSync('download/error.csv'), {
       bom: true,

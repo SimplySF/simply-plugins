@@ -32,6 +32,17 @@ import { apiBudgetFlags, assertApiBudget } from '../../../../common/apiBudgetFla
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-data', 'simply.data.files.upload');
 
+const SUCCESS_FILE = 'upload/success.csv';
+const ERROR_FILE = 'upload/error.csv';
+
+/** How many uploads succeeded and failed, and the CSVs each set was written to. */
+export type DataFilesUploadResult = {
+  successCount: number;
+  errorCount: number;
+  successFile: string;
+  errorFile: string;
+};
+
 /**
  * Uploads files specified by a CSV (columns: `PathOnClient`, `Title`,
  * `FirstPublishLocationId`) to a Salesforce org. By default, the plugin uses the REST API for
@@ -41,7 +52,7 @@ const messages = Messages.loadMessages('@simplysf/simply-data', 'simply.data.fil
  * Successes and failures are written to `upload/success.csv` and `upload/error.csv`
  * respectively as uploads complete, rather than accumulated in memory.
  */
-export default class DataFilesUpload extends SfCommand<void> {
+export default class DataFilesUpload extends SfCommand<DataFilesUploadResult> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
@@ -62,7 +73,8 @@ export default class DataFilesUpload extends SfCommand<void> {
     }),
   };
 
-  public async run(): Promise<void> {
+  /** @returns The success and error counts and the CSVs they were written to. */
+  public async run(): Promise<DataFilesUploadResult> {
     const { flags } = await this.parse(DataFilesUpload);
 
     // Authorize to the target org
@@ -83,19 +95,14 @@ export default class DataFilesUpload extends SfCommand<void> {
       fs.mkdirSync('upload');
     }
 
-    const successWriter = createCsvFileWriter('upload/success.csv', [
+    const successWriter = createCsvFileWriter(SUCCESS_FILE, [
       'PathOnClient',
       'Title',
       'FirstPublishLocationId',
       'ContentDocumentId',
     ]);
 
-    const errorWriter = createCsvFileWriter('upload/error.csv', [
-      'PathOnClient',
-      'Title',
-      'FirstPublishLocationId',
-      'Error',
-    ]);
+    const errorWriter = createCsvFileWriter(ERROR_FILE, ['PathOnClient', 'Title', 'FirstPublishLocationId', 'Error']);
 
     this.spinner.stop();
 
@@ -106,6 +113,8 @@ export default class DataFilesUpload extends SfCommand<void> {
     this.spinner.start('Uploading files', 'Initializing', { stdout: true });
 
     let count = 0;
+    let successCount = 0;
+    let errorCount = 0;
     fileQueue.on('add', () => {
       this.spinner.status = `Completed: ${count}. Size: ${fileQueue.size}  Pending: ${fileQueue.pending}`;
     });
@@ -127,9 +136,11 @@ export default class DataFilesUpload extends SfCommand<void> {
           );
           contentVersionToUpload.ContentDocumentId = contentVersion.ContentDocumentId;
           await successWriter.write(contentVersionToUpload);
+          successCount++;
         } catch (error) {
           contentVersionToUpload.Error = String(error);
           await errorWriter.write(contentVersionToUpload);
+          errorCount++;
         }
       });
     }
@@ -138,5 +149,7 @@ export default class DataFilesUpload extends SfCommand<void> {
     await Promise.all([successWriter.end(), errorWriter.end()]);
 
     this.spinner.stop();
+
+    return { successCount, errorCount, successFile: SUCCESS_FILE, errorFile: ERROR_FILE };
   }
 }

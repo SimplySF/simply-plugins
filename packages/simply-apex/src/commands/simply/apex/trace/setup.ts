@@ -64,18 +64,7 @@ export default class ApexTraceSetup extends SfCommand<ApexTraceSetupResult> {
   public static readonly flags = {
     ...SfCommand.baseFlags,
     ...targetOrgFlags,
-    'on-behalf-of': Flags.custom<OnBehalfOf>({
-      // eslint-disable-next-line @typescript-eslint/require-await
-      parse: async (input) => {
-        const onBehalfOf = parseOnBehalfOf(input);
-
-        if (!onBehalfOf) {
-          throw messages.createError('error.invalidOnBehalfOf', [input]);
-        }
-
-        return onBehalfOf;
-      },
-    })({
+    'on-behalf-of': Flags.string({
       summary: messages.getMessage('flags.on-behalf-of.summary'),
       description: messages.getMessage('flags.on-behalf-of.description'),
     }),
@@ -86,24 +75,10 @@ export default class ApexTraceSetup extends SfCommand<ApexTraceSetupResult> {
     'start-date': Flags.string({
       summary: messages.getMessage('flags.start-date.summary'),
       description: messages.getMessage('flags.start-date.description'),
-      // eslint-disable-next-line @typescript-eslint/require-await
-      parse: async (input: string): Promise<string> => {
-        if (!DATE_TIME_PATTERN.test(input)) {
-          throw messages.createError('error.invalidDateTime', ['start-date', input]);
-        }
-        return input;
-      },
     }),
     'end-date': Flags.string({
       summary: messages.getMessage('flags.end-date.summary'),
       description: messages.getMessage('flags.end-date.description'),
-      // eslint-disable-next-line @typescript-eslint/require-await
-      parse: async (input: string): Promise<string> => {
-        if (!DATE_TIME_PATTERN.test(input)) {
-          throw messages.createError('error.invalidDateTime', ['end-date', input]);
-        }
-        return input;
-      },
     }),
   };
 
@@ -114,6 +89,22 @@ export default class ApexTraceSetup extends SfCommand<ApexTraceSetupResult> {
   public async run(): Promise<ApexTraceSetupResult> {
     const { flags } = await this.parse(ApexTraceSetup);
 
+    // Validated here rather than in flag `parse` functions: `sf` maps any error thrown from a flag
+    // parser to exit code 2, while the plugins' other invalid-value errors exit 1.
+    let onBehalfOf: OnBehalfOf | undefined;
+    if (flags['on-behalf-of'] !== undefined) {
+      onBehalfOf = parseOnBehalfOf(flags['on-behalf-of']);
+      if (!onBehalfOf) {
+        throw messages.createError('error.invalidOnBehalfOf', [flags['on-behalf-of']]);
+      }
+    }
+    for (const flag of ['start-date', 'end-date'] as const) {
+      const value = flags[flag];
+      if (value !== undefined && !DATE_TIME_PATTERN.test(value)) {
+        throw messages.createError('error.invalidDateTime', [flag, value]);
+      }
+    }
+
     const targetOrgConnection = requireConnection(flags);
 
     let result: ApexTraceSetupResult;
@@ -121,7 +112,7 @@ export default class ApexTraceSetup extends SfCommand<ApexTraceSetupResult> {
       result = await setupApexTrace(
         targetOrgConnection,
         {
-          onBehalfOf: flags['on-behalf-of'],
+          onBehalfOf,
           logLevel: flags['log-level'],
           startDate: flags['start-date'],
           endDate: flags['end-date'],
