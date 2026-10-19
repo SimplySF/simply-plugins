@@ -341,8 +341,8 @@ importers:
         specifier: ^1.6.7
         version: 1.6.7
       '@simplysf/simply-data-core':
-        specifier: ^0.3.10
-        version: 0.3.10
+        specifier: ^0.3.11
+        version: 0.3.11
       '@simplysf/simply-plugin-kit':
         specifier: workspace:^1.0.9
         version: link:../simply-plugin-kit
@@ -2552,10 +2552,6 @@ packages:
     resolution: {integrity: sha512-Vc1t5vkMB3VMsxdT9lfcPxBp0tb7mInEsAallWp7HeyrMqviQcGk1uClNmsTFLEtGbS0Afxdb274uxv3AFWfMg==}
     engines: {node: '>=22.0.0'}
 
-  '@simplysf/simply-core@1.6.10':
-    resolution: {integrity: sha512-V3AmXI4HbE5R8b9O0uEs1c3K4HCxG+J0+P1z3kiXxtiGv/IcaUa9U0ttfkjcbTRLf5azSRLVoLlrizkeLvKT3w==}
-    engines: {node: '>=22.0.0'}
-
   '@simplysf/simply-core@1.6.11':
     resolution: {integrity: sha512-I8pamdy+tIw5Ejeqc3+c3aLyMEiYT8O+rLhy2FbuwrmsbOaetPGxTNsDZdngVrBUp7tU6IZ5Gxg/2HY4xRjZOA==}
     engines: {node: '>=22.0.0'}
@@ -2564,8 +2560,8 @@ packages:
     resolution: {integrity: sha512-h5DMrVoHYhvHlZCy5whXAQ4f+QD9hfuAx/TvQ41LqPt3iX2Tk+sEWEvBTfkbuwcFDikj9lJqppcInUIQHNXyGg==}
     engines: {node: '>=22.0.0'}
 
-  '@simplysf/simply-data-core@0.3.10':
-    resolution: {integrity: sha512-ecC/MRhr5vl4N5mS/XyRCCHno6+TCFycCA2dOnEfIbyu5lpf12Hl47f/1b/yZjm2D/1D5Me5i4qZXK56eUKmmA==}
+  '@simplysf/simply-data-core@0.3.11':
+    resolution: {integrity: sha512-FQzlNmvsW718Yl7aNWq3eQ4D7TEwodPH9FKy4+ZZFXt/eUUiMzQSlRlOoFQvvFyIUtUjfDDUGzE4ee2d5Kr99A==}
     engines: {node: '>=22.0.0'}
 
   '@simplysf/simply-document-core@0.2.4':
@@ -10124,16 +10120,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@simplysf/simply-core@1.6.10':
-    dependencies:
-      '@jsforce/jsforce-node': 3.10.27
-      '@salesforce/core': 8.32.6
-      '@salesforce/kit': 3.2.6
-      csv-parse: 7.0.3
-      csv-stringify: 6.9.0
-      fast-xml-parser: 5.11.1
-      undici: 8.11.2
-
   '@simplysf/simply-core@1.6.11':
     dependencies:
       '@jsforce/jsforce-node': 3.10.27
@@ -10154,10 +10140,10 @@ snapshots:
       fast-xml-parser: 5.11.1
       undici: 8.11.2
 
-  '@simplysf/simply-data-core@0.3.10':
+  '@simplysf/simply-data-core@0.3.11':
     dependencies:
       '@salesforce/core': 8.32.6
-      '@simplysf/simply-core': 1.6.10
+      '@simplysf/simply-core': 1.6.11
       csv-parse: 7.0.3
 
   '@simplysf/simply-document-core@0.2.4':
