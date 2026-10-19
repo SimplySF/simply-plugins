@@ -1,7 +1,7 @@
 {
   "name": "@simplysf/simply",
   "description": "Salesforce CLI Plugins created by @SimplySF",
-  "version": "6.10.6",
+  "version": "6.10.7",
   "author": "@ClayChipps",
   "homepage": "https://github.com/SimplySF/simply-plugins",
   "bugs": "https://github.com/SimplySF/simply-plugins/issues",
@@ -77,17 +77,17 @@
   "dependencies": {
     "@oclif/core": "^4.11.2",
     "@simplysf/simply-aep": "workspace:^0.16.0",
-    "@simplysf/simply-apex": "workspace:^1.8.15",
+    "@simplysf/simply-apex": "workspace:^1.8.16",
     "@simplysf/simply-community": "workspace:^0.6.19",
-    "@simplysf/simply-data": "workspace:^2.4.16",
+    "@simplysf/simply-data": "workspace:^2.4.17",
     "@simplysf/simply-document": "workspace:^0.4.13",
-    "@simplysf/simply-flow": "workspace:^0.4.15",
+    "@simplysf/simply-flow": "workspace:^0.4.16",
     "@simplysf/simply-package": "workspace:^3.1.7",
     "@simplysf/simply-permissions": "workspace:^1.4.4",
     "@simplysf/simply-project": "workspace:^1.2.29",
     "@simplysf/simply-schema": "workspace:^0.3.34",
     "@simplysf/simply-settings": "workspace:^0.3.2",
-    "@simplysf/simply-sobject": "workspace:^1.6.23",
+    "@simplysf/simply-sobject": "workspace:^1.6.24",
     "debug": "^4.4.3"
   },
   "devDependencies": {

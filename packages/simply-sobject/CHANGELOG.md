@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.24](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-sobject%401.6.23...%40simplysf%2Fsimply-sobject%401.6.24) (2026-10-19)
+
+### Bug Fixes
+
+- --json output for data files upload/download, exit 1 on invalid date flags ([#89](https://github.com/SimplySF/simply-plugins/issues/89)) ([6409753](https://github.com/SimplySF/simply-plugins/commit/6409753b7ba33c848962261a59bd3ad80d6d7d7d)), closes [#83](https://github.com/SimplySF/simply-plugins/issues/83) [#82](https://github.com/SimplySF/simply-plugins/issues/82)
+
 ## [1.6.23](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-sobject%401.6.22...%40simplysf%2Fsimply-sobject%401.6.23) (2026-10-14)
 
 **Note:** Version bump only for package @simplysf/simply-sobject

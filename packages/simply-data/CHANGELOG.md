@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.17](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-data%402.4.16...%40simplysf%2Fsimply-data%402.4.17) (2026-10-19)
+
+### Bug Fixes
+
+- --json output for data files upload/download, exit 1 on invalid date flags ([#89](https://github.com/SimplySF/simply-plugins/issues/89)) ([6409753](https://github.com/SimplySF/simply-plugins/commit/6409753b7ba33c848962261a59bd3ad80d6d7d7d)), closes [#83](https://github.com/SimplySF/simply-plugins/issues/83) [#82](https://github.com/SimplySF/simply-plugins/issues/82)
+
 ## [2.4.16](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-data%402.4.15...%40simplysf%2Fsimply-data%402.4.16) (2026-10-19)
 
 ### Bug Fixes

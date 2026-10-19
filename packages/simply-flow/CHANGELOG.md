@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.16](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-flow%400.4.15...%40simplysf%2Fsimply-flow%400.4.16) (2026-10-19)
+
+### Bug Fixes
+
+- **simply-flow:** report --flow-name values that match no Flow ([#90](https://github.com/SimplySF/simply-plugins/issues/90)) ([2d3468c](https://github.com/SimplySF/simply-plugins/commit/2d3468cb26d1424d88fcb1bf13967d287b905908)), closes [#81](https://github.com/SimplySF/simply-plugins/issues/81)
+
 ## [0.4.15](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-flow%400.4.14...%40simplysf%2Fsimply-flow%400.4.15) (2026-10-16)
 
 **Note:** Version bump only for package @simplysf/simply-flow

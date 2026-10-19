@@ -1473,7 +1473,7 @@ FLAG DESCRIPTIONS
     The path to the local .apex file containing the anonymous Apex code to execute.
 ```
 
-_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-apex@1.8.15/packages/simply-apex/lib/commands/simply/apex/execute.js)_
+_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-apex@1.8.16/packages/simply-apex/lib/commands/simply/apex/execute.js)_
 
 ## `sf simply apex logs purge`
 
@@ -1529,7 +1529,7 @@ FLAG DESCRIPTIONS
     elapses, then throws.
 ```
 
-_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-apex@1.8.15/packages/simply-apex/lib/commands/simply/apex/logs/purge.js)_
+_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-apex@1.8.16/packages/simply-apex/lib/commands/simply/apex/logs/purge.js)_
 
 ## `sf simply apex test-suite generate`
 
@@ -1577,7 +1577,7 @@ FLAG DESCRIPTIONS
     pass that directory explicitly, e.g. force-app/main/default/testSuites.
 ```
 
-_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-apex@1.8.15/packages/simply-apex/lib/commands/simply/apex/test-suite/generate.js)_
+_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-apex@1.8.16/packages/simply-apex/lib/commands/simply/apex/test-suite/generate.js)_
 
 ## `sf simply apex trace setup`
 
@@ -1637,7 +1637,7 @@ FLAG DESCRIPTIONS
     Defaults to the current date/time.
 ```
 
-_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-apex@1.8.15/packages/simply-apex/lib/commands/simply/apex/trace/setup.js)_
+_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-apex@1.8.16/packages/simply-apex/lib/commands/simply/apex/trace/setup.js)_
 
 ## `sf simply apex trace silence`
 
@@ -1701,7 +1701,7 @@ FLAG DESCRIPTIONS
     Adds di_Binding, di_Module, di_PlatformCache, and di_Injector to the classes to silence.
 ```
 
-_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-apex@1.8.15/packages/simply-apex/lib/commands/simply/apex/trace/silence.js)_
+_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-apex@1.8.16/packages/simply-apex/lib/commands/simply/apex/trace/silence.js)_
 
 ## `sf simply community publish`
 
@@ -1880,7 +1880,7 @@ FLAG DESCRIPTIONS
     Setup and Configuration" permission — the command warns and proceeds rather than failing.
 ```
 
-_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@2.4.16/packages/simply-data/lib/commands/simply/data/file/upload.js)_
+_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@2.4.17/packages/simply-data/lib/commands/simply/data/file/upload.js)_
 
 ## `sf simply data files download`
 
@@ -1942,7 +1942,7 @@ FLAG DESCRIPTIONS
     Provide a WHERE clause to allow the plugin to specify which ContentVersion records should be downloaded.
 ```
 
-_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@2.4.16/packages/simply-data/lib/commands/simply/data/files/download.js)_
+_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@2.4.17/packages/simply-data/lib/commands/simply/data/files/download.js)_
 
 ## `sf simply data files upload`
 
@@ -2008,7 +2008,7 @@ FLAG DESCRIPTIONS
     quasi concurrent uploads. Please note that setting this value too high can cause performance issues.
 ```
 
-_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@2.4.16/packages/simply-data/lib/commands/simply/data/files/upload.js)_
+_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@2.4.17/packages/simply-data/lib/commands/simply/data/files/upload.js)_
 
 ## `sf simply document diff`
 
@@ -2150,7 +2150,7 @@ EXAMPLES
   $ sf simply flow delete --manifest destructive/pre/destructiveChanges.xml --target-org myOrg --json
 ```
 
-_See code: [@simplysf/simply-flow](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-flow@0.4.15/packages/simply-flow/lib/commands/simply/flow/delete.js)_
+_See code: [@simplysf/simply-flow](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-flow@0.4.16/packages/simply-flow/lib/commands/simply/flow/delete.js)_
 
 ## `sf simply flow version prune`
 
@@ -2192,7 +2192,7 @@ EXAMPLES
   $ sf simply flow version prune --target-org myOrg --flow-name My_Flow --flow-name Another_Flow
 ```
 
-_See code: [@simplysf/simply-flow](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-flow@0.4.15/packages/simply-flow/lib/commands/simply/flow/version/prune.js)_
+_See code: [@simplysf/simply-flow](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-flow@0.4.16/packages/simply-flow/lib/commands/simply/flow/version/prune.js)_
 
 ## `sf simply package dependencies install`
 
@@ -3065,7 +3065,7 @@ FLAG DESCRIPTIONS
     OwnerId, are skipped.
 ```
 
-_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@1.6.23/packages/simply-sobject/lib/commands/simply/sobject/backup.js)_
+_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@1.6.24/packages/simply-sobject/lib/commands/simply/sobject/backup.js)_
 
 ## `sf simply sobject deduplicate`
 
@@ -3118,7 +3118,7 @@ FLAG DESCRIPTIONS
     The directory to write the generated CSV files to. Defaults to ./temp/<primaryObjectApiName>.
 ```
 
-_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@1.6.23/packages/simply-sobject/lib/commands/simply/sobject/deduplicate.js)_
+_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@1.6.24/packages/simply-sobject/lib/commands/simply/sobject/deduplicate.js)_
 
 ## `sf simply sobject history export`
 
@@ -3172,7 +3172,7 @@ FLAG DESCRIPTIONS
     The start of the date range to export history for, inclusive.
 ```
 
-_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@1.6.23/packages/simply-sobject/lib/commands/simply/sobject/history/export.js)_
+_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@1.6.24/packages/simply-sobject/lib/commands/simply/sobject/history/export.js)_
 
 ## `sf simply sobject history query`
 
@@ -3228,7 +3228,7 @@ FLAG DESCRIPTIONS
     The API name of the SObject to query field history for (e.g. Account or Custom_Object__c).
 ```
 
-_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@1.6.23/packages/simply-sobject/lib/commands/simply/sobject/history/query.js)_
+_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@1.6.24/packages/simply-sobject/lib/commands/simply/sobject/history/query.js)_
 
 ## `sf simply sobject history schema`
 
@@ -3266,7 +3266,7 @@ FLAG DESCRIPTIONS
     The directory to save the generated CSV and HTML report files to. Defaults to the current directory.
 ```
 
-_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@1.6.23/packages/simply-sobject/lib/commands/simply/sobject/history/schema.js)_
+_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@1.6.24/packages/simply-sobject/lib/commands/simply/sobject/history/schema.js)_
 <!-- commandsstop -->
 
 ## License
