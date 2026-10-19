@@ -108,6 +108,9 @@ describe('simply apex trace setup', () => {
     } catch (err) {
       const error = err as SfError;
       expect(error.message).to.include('start-date');
+      // Thrown from run(), not a flag parser, so `sf` doesn't remap it to exit 2.
+      expect(error.message).to.not.include('Parsing --');
+      expect(error.exitCode).to.equal(1);
     }
   });
 
@@ -168,6 +171,8 @@ describe('simply apex trace setup', () => {
     } catch (err) {
       const error = err as SfError;
       expect(error.message).to.include('Invalid --on-behalf-of value');
+      expect(error.message).to.not.include('Parsing --');
+      expect(error.exitCode).to.equal(1);
     }
   });
 
