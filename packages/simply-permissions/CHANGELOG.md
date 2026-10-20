@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-permissions%401.4.4...%40simplysf%2Fsimply-permissions%401.5.0) (2026-10-20)
+
+### Features
+
+- **simply-permissions:** add --check to build for permission set drift detection ([#92](https://github.com/SimplySF/simply-plugins/issues/92)) ([f53c97c](https://github.com/SimplySF/simply-plugins/commit/f53c97cf3c7a08fa85260684414bd8fa1371f5ff))
+
 ## [1.4.4](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-permissions%401.4.3...%40simplysf%2Fsimply-permissions%401.4.4) (2026-10-19)
 
 ### Bug Fixes
