@@ -88,7 +88,7 @@ EXAMPLES
   $ sf simply aep at4dx binding create --source-dir sfdx-source/core --type unit-of-work --developer-name Account_UOW --sobject Account --sequence 10
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/binding/create.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/create.js)_
+_See code: [lib/commands/simply/aep/at4dx/binding/create.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/create.js)_
 
 ## `sf simply aep at4dx binding list`
 
@@ -144,7 +144,7 @@ FLAG DESCRIPTIONS
     Comma-separated list of binding types to include. If not specified, all four are included.
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/binding/list.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/list.js)_
+_See code: [lib/commands/simply/aep/at4dx/binding/list.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/list.js)_
 
 ## `sf simply aep at4dx binding update`
 
@@ -217,7 +217,7 @@ EXAMPLES
   $ sf simply aep at4dx binding update --target-org myOrg --type unit-of-work --developer-name Account_UOW --sequence 20
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/binding/update.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/update.js)_
+_See code: [lib/commands/simply/aep/at4dx/binding/update.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/update.js)_
 
 ## `sf simply aep at4dx binding validate`
 
@@ -275,7 +275,7 @@ FLAG DESCRIPTIONS
     Comma-separated list of binding types to include. If not specified, all four are included.
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/binding/validate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/validate.js)_
+_See code: [lib/commands/simply/aep/at4dx/binding/validate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/validate.js)_
 
 ## `sf simply aep at4dx domain-process-binding create`
 
@@ -356,7 +356,7 @@ EXAMPLES
   $ sf simply aep at4dx domain-process-binding create --source-dir sfdx-source/core --developer-name ServiceResource_Before_Update_Sync --sobject ServiceResource --sobject-alternate --process-context TriggerExecution --trigger-operation Before_Update --type Action --class-to-inject ServiceResourceSyncAction --order 10
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/domain-process-binding/create.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/create.js)_
+_See code: [lib/commands/simply/aep/at4dx/domain-process-binding/create.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/create.js)_
 
 ## `sf simply aep at4dx domain-process-binding list`
 
@@ -402,7 +402,7 @@ EXAMPLES
   $ sf simply aep at4dx domain-process-binding list --target-org myOrg --active-only --json
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/domain-process-binding/list.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/list.js)_
+_See code: [lib/commands/simply/aep/at4dx/domain-process-binding/list.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/list.js)_
 
 ## `sf simply aep at4dx domain-process-binding update`
 
@@ -481,7 +481,7 @@ EXAMPLES
   $ sf simply aep at4dx domain-process-binding update --target-org myOrg --developer-name Account_Before_Insert_Assign_Owner --class-to-inject AccountAssignOwnerActionV2
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/domain-process-binding/update.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/update.js)_
+_See code: [lib/commands/simply/aep/at4dx/domain-process-binding/update.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/update.js)_
 
 ## `sf simply aep at4dx domain-process-binding validate`
 
@@ -534,7 +534,7 @@ EXAMPLES
   $ sf simply aep at4dx domain-process-binding validate --target-org myOrg --json
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/domain-process-binding/validate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/validate.js)_
+_See code: [lib/commands/simply/aep/at4dx/domain-process-binding/validate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/validate.js)_
 
 ## `sf simply aep at4dx field-set-inclusion create`
 
@@ -592,7 +592,7 @@ EXAMPLES
   $ sf simply aep at4dx field-set-inclusion create --target-org myOrg --developer-name ServiceResource_Skills --sobject ServiceResource --sobject-alternate --fieldset-name SkillFields
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/field-set-inclusion/create.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/create.js)_
+_See code: [lib/commands/simply/aep/at4dx/field-set-inclusion/create.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/create.js)_
 
 ## `sf simply aep at4dx field-set-inclusion list`
 
@@ -630,7 +630,7 @@ EXAMPLES
   $ sf simply aep at4dx field-set-inclusion list --target-org myOrg --json
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/field-set-inclusion/list.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/list.js)_
+_See code: [lib/commands/simply/aep/at4dx/field-set-inclusion/list.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/list.js)_
 
 ## `sf simply aep at4dx field-set-inclusion update`
 
@@ -687,7 +687,7 @@ EXAMPLES
   $ sf simply aep at4dx field-set-inclusion update --target-org myOrg --developer-name Account_Contact_Fields --fieldset-name ContactRelatedFieldsV2
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/field-set-inclusion/update.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/update.js)_
+_See code: [lib/commands/simply/aep/at4dx/field-set-inclusion/update.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/update.js)_
 
 ## `sf simply aep at4dx field-set-inclusion validate`
 
@@ -731,7 +731,7 @@ EXAMPLES
   $ sf simply aep at4dx field-set-inclusion validate --target-org myOrg --json
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/field-set-inclusion/validate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/validate.js)_
+_See code: [lib/commands/simply/aep/at4dx/field-set-inclusion/validate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/validate.js)_
 
 ## `sf simply aep at4dx platform-event-subscription create`
 
@@ -827,7 +827,7 @@ EXAMPLES
   $ sf simply aep at4dx platform-event-subscription create --target-org myOrg --developer-name Account_Change_Subscriber --event-bus Account_Change__e --consumer AccountChangeConsumer --matcher-rule MatchEventBusAndCategoryAndEventName --event-category Finance --event-name AccountUpdated
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/platform-event-subscription/create.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/create.js)_
+_See code: [lib/commands/simply/aep/at4dx/platform-event-subscription/create.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/create.js)_
 
 ## `sf simply aep at4dx platform-event-subscription list`
 
@@ -865,7 +865,7 @@ EXAMPLES
   $ sf simply aep at4dx platform-event-subscription list --target-org myOrg --json
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/platform-event-subscription/list.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/list.js)_
+_See code: [lib/commands/simply/aep/at4dx/platform-event-subscription/list.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/list.js)_
 
 ## `sf simply aep at4dx platform-event-subscription simulate`
 
@@ -921,7 +921,7 @@ EXAMPLES
   $ sf simply aep at4dx platform-event-subscription simulate --target-org myOrg --event-bus Account_Change__e --json
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/platform-event-subscription/simulate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/simulate.js)_
+_See code: [lib/commands/simply/aep/at4dx/platform-event-subscription/simulate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/simulate.js)_
 
 ## `sf simply aep at4dx platform-event-subscription update`
 
@@ -990,7 +990,7 @@ EXAMPLES
   $ sf simply aep at4dx platform-event-subscription update --target-org myOrg --developer-name Account_Change_Subscriber --consumer AccountChangeConsumerV2
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/platform-event-subscription/update.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/update.js)_
+_See code: [lib/commands/simply/aep/at4dx/platform-event-subscription/update.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/update.js)_
 
 ## `sf simply aep at4dx platform-event-subscription validate`
 
@@ -1039,7 +1039,7 @@ EXAMPLES
   $ sf simply aep at4dx platform-event-subscription validate --target-org myOrg --json
 ```
 
-_See code: [lib/commands/simply/aep/at4dx/platform-event-subscription/validate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/validate.js)_
+_See code: [lib/commands/simply/aep/at4dx/platform-event-subscription/validate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/validate.js)_
 
 ## `sf simply aep generate`
 
@@ -1115,7 +1115,7 @@ FLAG DESCRIPTIONS
     Factory binding records are written. fflib writes none; at4dx writes one per layer.
 ```
 
-_See code: [lib/commands/simply/aep/generate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/generate.js)_
+_See code: [lib/commands/simply/aep/generate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/generate.js)_
 
 ## `sf simply aep generate domain`
 
@@ -1179,7 +1179,7 @@ FLAG DESCRIPTIONS
     Factory binding records are written. fflib writes none; at4dx writes one per layer.
 ```
 
-_See code: [lib/commands/simply/aep/generate/domain.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/generate/domain.js)_
+_See code: [lib/commands/simply/aep/generate/domain.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/generate/domain.js)_
 
 ## `sf simply aep generate selector`
 
@@ -1244,7 +1244,7 @@ FLAG DESCRIPTIONS
     Factory binding records are written. fflib writes none; at4dx writes one per layer.
 ```
 
-_See code: [lib/commands/simply/aep/generate/selector.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/generate/selector.js)_
+_See code: [lib/commands/simply/aep/generate/selector.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/generate/selector.js)_
 
 ## `sf simply aep generate service`
 
@@ -1309,7 +1309,7 @@ FLAG DESCRIPTIONS
     Factory binding records are written. fflib writes none; at4dx writes one per layer.
 ```
 
-_See code: [lib/commands/simply/aep/generate/service.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/generate/service.js)_
+_See code: [lib/commands/simply/aep/generate/service.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/generate/service.js)_
 
 ## `sf simply aep generate unit-of-work`
 
@@ -1375,4 +1375,4 @@ FLAG DESCRIPTIONS
     Factory binding records are written. fflib writes none; at4dx writes one per layer.
 ```
 
-_See code: [lib/commands/simply/aep/generate/unit-of-work.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.15.9/packages/simply-aep/lib/commands/simply/aep/generate/unit-of-work.js)_
+_See code: [lib/commands/simply/aep/generate/unit-of-work.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.16.0/packages/simply-aep/lib/commands/simply/aep/generate/unit-of-work.js)_

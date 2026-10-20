@@ -30,6 +30,8 @@ To regenerate every permission set in a project with one command, declare them a
       ]
     }
 
+To check in CI that the committed permission sets still match their source metadata, add --check. It builds each permission set as usual but writes nothing: it compares each one with the file already at its output path and reports it as "up-to-date", "drifted", or "missing". If any permission set has drifted or is missing, the command exits with code 1. Formatting differences, such as indentation, line endings, or comments, don't count as drift, so files reformatted by Prettier still pass. Any other difference does, including hand edits and reordered entries.
+
 # flags.file.summary
 
 Path to a permission sets file declaring every permission set to generate
@@ -94,6 +96,14 @@ Label for the permission set
 
 Description for the permission set
 
+# flags.check.summary
+
+Check that the generated permission sets are up to date, without writing them
+
+# flags.check.description
+
+Instead of writing each permission set, compare what would be generated with the file already at its output path. Exits with code 1 if any permission set has drifted or is missing. Works with --file and with the single-permission-set flags.
+
 # examples
 
 - <%= config.bin %> <%= command.id %> --type read-only --name My_Read_Only_Access --directory force-app --output force-app/main/default/permissionsets
@@ -103,6 +113,10 @@ Description for the permission set
 - Regenerate every permission set declared in a permission sets file:
 
   <%= config.bin %> <%= command.id %> --file config/permission-sets.json
+
+- In CI, fail if any permission set declared in a permission sets file needs to be regenerated:
+
+  <%= config.bin %> <%= command.id %> --file config/permission-sets.json --check
 
 # error.missingRequiredFlags
 
@@ -139,3 +153,15 @@ Permission set successfully generated at %s
 # info.filesGenerated
 
 Successfully generated %s permission set(s).
+
+# info.checkingPermissionSet
+
+Checking permission set %s...
+
+# info.upToDate
+
+All %s permission set(s) are up to date.
+
+# warning.drifted
+
+%s of %s permission set(s) have drifted from their source metadata or are missing. Run this command without --check to regenerate them.

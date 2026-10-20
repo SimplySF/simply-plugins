@@ -17,11 +17,13 @@
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import {
+  checkPermissionSets,
   generatePermissionSets,
   loadPermissionSetBuildConfig,
   loadPermissionSetsFile,
   PermissionSetBuildError,
   PermissionSetBuildResult,
+  PermissionSetCheckStatus,
   PermissionSetSpec,
   PermissionSetType,
 } from '@simplysf/simply-permissions-core';
@@ -29,10 +31,15 @@ import {
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-permissions', 'simply.permissions.build');
 
-/** Where a single generated permission set was written, and how many permissions it grants. */
-export type PermissionsBuildResult = Omit<PermissionSetBuildResult, 'name'>;
+/** One permission set's output path and permission counts; with `--check`, also whether the file there matches. */
+type PermissionsBuildEntry = PermissionSetBuildResult & { status?: PermissionSetCheckStatus };
+/**
+ * Where a single generated permission set was written (or, with `--check`, would be), and how many
+ * permissions it grants. With `--check`, `status` says whether the file there matches.
+ */
+export type PermissionsBuildResult = Omit<PermissionsBuildEntry, 'name'>;
 /** With `--file`: one entry per permission set declared in the file, in file order. */
-export type PermissionsBuildFileResult = PermissionSetBuildResult[];
+export type PermissionsBuildFileResult = PermissionsBuildEntry[];
 
 /** The flags that describe a single permission set, and so can't be combined with `--file`. */
 const SINGLE_PERMISSION_SET_FLAGS = [
@@ -44,6 +51,13 @@ const SINGLE_PERMISSION_SET_FLAGS = [
   'include-record-types',
   'label',
   'description',
+];
+
+const TABLE_COLUMNS: Array<{ key: keyof PermissionSetBuildResult; name: string }> = [
+  { key: 'name', name: 'NAME' },
+  { key: 'path', name: 'PATH' },
+  { key: 'objectPermissionCount', name: 'OBJECT PERMISSIONS' },
+  { key: 'fieldPermissionCount', name: 'FIELD PERMISSIONS' },
 ];
 
 /** Maps `PermissionSetBuildError`'s structural codes to this command's own `Messages` catalog. */
@@ -69,6 +83,9 @@ function toCliError(error: PermissionSetBuildError): Error {
  *
  * With `--file`, generates every permission set declared in a JSON permission sets file instead,
  * validating the whole file before writing anything.
+ *
+ * With `--check`, writes nothing: compares each permission set it would generate with the file
+ * already at its output path, and sets `process.exitCode = 1` if any has drifted or is missing.
  */
 export default class PermissionsBuild extends SfCommand<PermissionsBuildResult | PermissionsBuildFileResult> {
   public static readonly summary = messages.getMessage('summary');
@@ -122,82 +139,111 @@ export default class PermissionsBuild extends SfCommand<PermissionsBuildResult |
     description: Flags.string({
       summary: messages.getMessage('flags.description.summary'),
     }),
+    check: Flags.boolean({
+      summary: messages.getMessage('flags.check.summary'),
+      description: messages.getMessage('flags.check.description'),
+      default: false,
+    }),
   };
 
-  /** @returns The output file path and object/field permission counts — or, with `--file`, one such entry (plus its name) per permission set. */
+  /**
+   * @returns The output file path and object/field permission counts — or, with `--file`, one such entry (plus its name) per permission set.
+   * With `--check`, each also has a `status`, and `process.exitCode` is set to 1 when any isn't `up-to-date`.
+   */
   public async run(): Promise<PermissionsBuildResult | PermissionsBuildFileResult> {
     const { flags } = await this.parse(PermissionsBuild);
 
     try {
-      if (flags.file) {
-        return await this.buildFromFile(flags.file);
+      const { file } = flags;
+      const specs = file ? await this.readConfig(() => loadPermissionSetsFile(file)) : await this.singleSpec(flags);
+      const results = flags.check ? await this.check(specs) : await this.generate(specs, Boolean(file));
+      if (file) {
+        return results;
       }
-
-      const { type, name, directory, output } = flags;
-      if (!type || !name || !directory || !output) {
-        const missing = Object.entries({ type, name, directory, output })
-          .filter(([, value]) => !value)
-          .map(([flag]) => `--${flag}`);
-        throw messages.createError('error.missingRequiredFlags', [missing.join(', ')]);
-      }
-
-      let config;
-      if (flags.config) {
-        this.spinner.start(messages.getMessage('info.readingConfig'));
-        config = await loadPermissionSetBuildConfig(flags.config);
-        this.spinner.stop();
-      }
-
-      const [built] = await generatePermissionSets(
-        [
-          {
-            type,
-            name,
-            label: flags.label,
-            description: flags.description,
-            includeRecordTypes: flags['include-record-types'],
-            config,
-            directory,
-            output,
-          },
-        ],
-        () => this.spinner.start(messages.getMessage('info.buildingPermissionSet', [name])),
-      );
-      this.spinner.stop();
-
-      this.info(messages.getMessage('info.fileGenerated', [built.path]));
-      return {
-        path: built.path,
-        objectPermissionCount: built.objectPermissionCount,
-        fieldPermissionCount: built.fieldPermissionCount,
-      };
+      // Single-set mode has never included `name` in its result.
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { name, ...result } = results[0];
+      return result;
     } catch (error) {
       throw error instanceof PermissionSetBuildError ? toCliError(error) : error;
     }
   }
 
-  private async buildFromFile(file: string): Promise<PermissionsBuildFileResult> {
-    this.spinner.start(messages.getMessage('info.readingConfig'));
-    const specs: PermissionSetSpec[] = await loadPermissionSetsFile(file);
+  /** Resolves the single-permission-set flags into a spec, reporting every missing required flag at once. */
+  private async singleSpec(flags: {
+    type?: PermissionSetType;
+    name?: string;
+    directory?: string;
+    output?: string;
+    config?: string;
+    label?: string;
+    description?: string;
+    'include-record-types': boolean;
+  }): Promise<PermissionSetSpec[]> {
+    const { type, name, directory, output, config } = flags;
+    if (!type || !name || !directory || !output) {
+      const missing = Object.entries({ type, name, directory, output })
+        .filter(([, value]) => !value)
+        .map(([flag]) => `--${flag}`);
+      throw messages.createError('error.missingRequiredFlags', [missing.join(', ')]);
+    }
+
+    return [
+      {
+        type,
+        name,
+        label: flags.label,
+        description: flags.description,
+        includeRecordTypes: flags['include-record-types'],
+        config: config ? await this.readConfig(() => loadPermissionSetBuildConfig(config)) : undefined,
+        directory,
+        output,
+      },
+    ];
+  }
+
+  private async generate(specs: PermissionSetSpec[], fromFile: boolean): Promise<PermissionSetBuildResult[]> {
+    const results = await generatePermissionSets(specs, (name) =>
+      this.startSpinner('info.buildingPermissionSet', name),
+    );
     this.spinner.stop();
 
-    const results = await generatePermissionSets(specs, (name) => {
-      this.spinner.stop();
-      this.spinner.start(messages.getMessage('info.buildingPermissionSet', [name]));
-    });
-    this.spinner.stop();
-
-    this.table({
-      data: results,
-      columns: [
-        { key: 'name', name: 'NAME' },
-        { key: 'path', name: 'PATH' },
-        { key: 'objectPermissionCount', name: 'OBJECT PERMISSIONS' },
-        { key: 'fieldPermissionCount', name: 'FIELD PERMISSIONS' },
-      ],
-    });
-    this.info(messages.getMessage('info.filesGenerated', [results.length]));
+    if (fromFile) {
+      this.table({ data: results, columns: TABLE_COLUMNS });
+      this.info(messages.getMessage('info.filesGenerated', [results.length]));
+    } else {
+      this.info(messages.getMessage('info.fileGenerated', [results[0].path]));
+    }
 
     return results;
+  }
+
+  private async check(specs: PermissionSetSpec[]): Promise<PermissionsBuildEntry[]> {
+    const results = await checkPermissionSets(specs, (name) => this.startSpinner('info.checkingPermissionSet', name));
+    this.spinner.stop();
+
+    this.table({ data: results, columns: [...TABLE_COLUMNS, { key: 'status', name: 'STATUS' }] });
+
+    const stale = results.filter((result) => result.status !== 'up-to-date').length;
+    if (stale > 0) {
+      this.warn(messages.getMessage('warning.drifted', [stale, results.length]));
+      process.exitCode = 1;
+    } else {
+      this.info(messages.getMessage('info.upToDate', [results.length]));
+    }
+
+    return results;
+  }
+
+  private async readConfig<T>(load: () => Promise<T>): Promise<T> {
+    this.spinner.start(messages.getMessage('info.readingConfig'));
+    const loaded = await load();
+    this.spinner.stop();
+    return loaded;
+  }
+
+  private startSpinner(key: string, name: string): void {
+    this.spinner.stop();
+    this.spinner.start(messages.getMessage(key, [name]));
   }
 }
