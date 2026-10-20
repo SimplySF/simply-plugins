@@ -1,6 +1,6 @@
 # 0050 — `simply permissions build --check`
 
-**Status:** In progress (core implemented; plugin PR pending its publish)
+**Status:** Implemented (PR #92; core SimplySF/simply-plugins-core#239, `simply-permissions-core@0.4.0`)
 **Package:** `packages/simply-permissions` (CLI); `packages/simply-permissions-core` (library, in
 `simply-plugins-core`, where this doc is duplicated as its 0047)
 **Date:** 2026-10-20
