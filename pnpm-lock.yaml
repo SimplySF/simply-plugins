@@ -253,6 +253,9 @@ importers:
       '@simplysf/simply-package-core':
         specifier: ^0.3.0
         version: 0.3.0(supports-color@8.1.1)
+      '@simplysf/simply-permissions-core':
+        specifier: ^0.4.0
+        version: 0.4.0(supports-color@8.1.1)
       chalk:
         specifier: ^5.6.2
         version: 5.6.2
@@ -2950,6 +2953,11 @@ packages:
   '@simplysf/simply-permissions-core@0.3.2':
     resolution:
       { integrity: sha512-v2r4PIPpPelV+nFBB4Vf7dssTjcSB836e09IYFD4CfbGn9+Q2MjEHsHQGGnnC5jyES7snyxw23LXUGb0nHRe0w== }
+    engines: { node: '>=22.0.0' }
+
+  '@simplysf/simply-permissions-core@0.4.0':
+    resolution:
+      { integrity: sha512-G4s66tGFRXSb4HdVLLm//gS2qqHrNdqzKXUwFQ/IHXIKlcgZ5edOSw75oS1SsmGM5Xx9nRkFNVOeYns/2pEf9Q== }
     engines: { node: '>=22.0.0' }
 
   '@simplysf/simply-report@1.0.6':
@@ -11895,6 +11903,17 @@ snapshots:
       '@salesforce/source-deploy-retrieve': 12.37.2(supports-color@8.1.1)
       '@simplysf/simply-core': 1.6.11
       '@simplysf/simply-report': 1.0.7
+      xmlbuilder2: 4.0.3
+      zod: 4.6.7
+    transitivePeerDependencies:
+      - supports-color
+
+  '@simplysf/simply-permissions-core@0.4.0(supports-color@8.1.1)':
+    dependencies:
+      '@salesforce/source-deploy-retrieve': 12.37.2(supports-color@8.1.1)
+      '@simplysf/simply-core': 1.6.11
+      '@simplysf/simply-report': 1.0.7
+      fast-xml-parser: 5.11.1
       xmlbuilder2: 4.0.3
       zod: 4.6.7
     transitivePeerDependencies:

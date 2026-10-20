@@ -1,6 +1,14 @@
 [
   {
     "alias": [],
+    "command": "simply:cicd:build:check-permission-sets",
+    "flagAliases": [],
+    "flagChars": [],
+    "flags": ["debug", "disabled", "flags-dir", "json"],
+    "plugin": "@simplysf/simply-cicd"
+  },
+  {
+    "alias": [],
     "command": "simply:cicd:build:cleanup-scratch-orgs",
     "flagAliases": [],
     "flagChars": [],
