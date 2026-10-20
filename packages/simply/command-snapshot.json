@@ -627,6 +627,7 @@
     "flagAliases": [],
     "flagChars": ["c", "d", "f", "n"],
     "flags": [
+      "check",
       "config",
       "description",
       "directory",

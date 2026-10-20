@@ -87,6 +87,7 @@ refactors that keep the public surface identical (though a short doc is welcome 
 | [0047](0047-simply-sf-mcp-server.md)                                 | `simply-sf-mcp`: an MCP server over the `-core` libraries                             | In progress           |
 | [0048](0048-simply-flow-core.md)                                     | Splitting `simply-flow-core` out of `simply-flow`                                     | Implemented           |
 | [0049](0049-cicd-lwc-jest-fail-and-junit.md)                         | `build lwc-jest`: opt-in pipeline failure and JUnit results                           | Implemented           |
+| [0050](0050-permissions-build-check.md)                              | `simply permissions build --check`                                                    | In progress           |
 
 ## Template
 
