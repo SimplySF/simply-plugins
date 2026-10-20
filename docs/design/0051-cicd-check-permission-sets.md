@@ -1,6 +1,6 @@
 # 0051 — `simply cicd build check-permission-sets`
 
-**Status:** In progress
+**Status:** Implemented (PR #93)
 **Package:** `packages/simply-cicd`
 **Date:** 2026-10-20
 
