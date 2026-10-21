@@ -2546,7 +2546,7 @@ FLAG DESCRIPTIONS
     The path to write the generated HTML report to.
 ```
 
-_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@1.6.0/packages/simply-permissions/lib/commands/simply/permissions/analyze.js)_
+_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@1.6.1/packages/simply-permissions/lib/commands/simply/permissions/analyze.js)_
 
 ## `sf simply permissions assignment delete`
 
@@ -2589,7 +2589,7 @@ EXAMPLES
   $ sf simply permissions assignment delete --permission-set-group-name My_Permission_Set_Group --target-org myOrg
 ```
 
-_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@1.6.0/packages/simply-permissions/lib/commands/simply/permissions/assignment/delete.js)_
+_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@1.6.1/packages/simply-permissions/lib/commands/simply/permissions/assignment/delete.js)_
 
 ## `sf simply permissions build`
 
@@ -2721,7 +2721,7 @@ FLAG DESCRIPTIONS
     Required unless --file is used.
 ```
 
-_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@1.6.0/packages/simply-permissions/lib/commands/simply/permissions/build.js)_
+_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@1.6.1/packages/simply-permissions/lib/commands/simply/permissions/build.js)_
 
 ## `sf simply project update api-version`
 
