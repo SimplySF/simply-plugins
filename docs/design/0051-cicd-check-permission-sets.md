@@ -1,6 +1,6 @@
 # 0051 — `simply cicd build check-permission-sets`
 
-**Status:** In progress (PR #93, which also carries the `--file` warning)
+**Status:** Implemented (PR #93, which also carries the `--file` warning; released in `simply-cicd@0.18.0` and `simply-permissions@1.6.0`)
 **Package:** `packages/simply-cicd`; `packages/simply-permissions` (the `--file` naming warning)
 **Date:** 2026-10-20 (revised 2026-10-21: discovery by the `.psbuild.json` suffix, not by content)
 
