@@ -8,6 +8,8 @@ Scans a Salesforce project directory for custom objects, fields, tabs, and (opti
 
 To regenerate every permission set in a project with one command, declare them all in a JSON file and pass it with --file instead of the other flags. Each entry in the file's "permissionSets" array takes the same settings as one run of this command; a top-level "defaults" object supplies the "directory", "output", and "includeRecordTypes" values shared by every entry, and any entry can override them. An entry's "config" is either a path to a --config file or the same overrides inline. Relative paths are resolved against the current directory, as they are for flags. The whole file, including referenced override files and source directories, is validated before anything is written, and each source directory is scanned only once. Name the file with the .psbuild.json suffix (for example config/app.psbuild.json): that's how `sf simply cicd build check-permission-sets` finds permission sets files, and this command warns about a file without it.
 
+Run the command with neither --file nor any of the flags that describe a single permission set to build every permission sets file under the current directory: every file whose name ends in .psbuild.json, skipping node_modules, .git, .sf, and .sfdx. Every file is validated before anything is written, and the results table shows which file declared each permission set. If no permission sets files are found, the command prints a warning and exits successfully.
+
     {
       "defaults": {
         "directory": "force-app",
@@ -38,7 +40,7 @@ Path to a permission sets file declaring every permission set to generate
 
 # flags.file.description
 
-The path to a JSON file with a "permissionSets" array, each entry describing one permission set to generate ("name", "type", and optionally "label", "description", "directory", "output", "includeRecordTypes", "config"), and an optional "defaults" object. Name it with the .psbuild.json suffix; any other name works but prints a warning. Can't be combined with the flags that describe a single permission set.
+The path to a JSON file with a "permissionSets" array, each entry describing one permission set to generate ("name", "type", and optionally "label", "description", "directory", "output", "includeRecordTypes", "config"), and an optional "defaults" object. Name it with the .psbuild.json suffix; any other name works but prints a warning. Can't be combined with the flags that describe a single permission set. If you omit --file and those flags, every .psbuild.json file under the current directory is built.
 
 # flags.type.summary
 
@@ -46,7 +48,7 @@ Baseline permission type
 
 # flags.type.description
 
-The baseline permission level to generate: 'read-only' grants read access to all discovered objects and fields, 'view-all' additionally grants view-all-records, and 'modify-all' grants full CRUD and modify-all-records access. Required unless --file is used.
+The baseline permission level to generate: 'read-only' grants read access to all discovered objects and fields, 'view-all' additionally grants view-all-records, and 'modify-all' grants full CRUD and modify-all-records access. Required to build a single permission set.
 
 # flags.name.summary
 
@@ -54,7 +56,7 @@ API name for the permission set
 
 # flags.name.description
 
-The API name for the generated permission set; also used to derive the output filename. Required unless --file is used.
+The API name for the generated permission set; also used to derive the output filename. Required to build a single permission set.
 
 # flags.directory.summary
 
@@ -62,7 +64,7 @@ Path to the Salesforce project directory
 
 # flags.directory.description
 
-The path to the Salesforce source directory to scan for custom objects, fields, tabs, and record types. Required unless --file is used.
+The path to the Salesforce source directory to scan for custom objects, fields, tabs, and record types. Required to build a single permission set.
 
 # flags.config.summary
 
@@ -78,7 +80,7 @@ Output directory
 
 # flags.output.description
 
-The directory to write the generated permission set XML file to. Required unless --file is used.
+The directory to write the generated permission set XML file to. Required to build a single permission set.
 
 # flags.include-record-types.summary
 
@@ -102,7 +104,7 @@ Check that the generated permission sets are up to date, without writing them
 
 # flags.check.description
 
-Instead of writing each permission set, compare what would be generated with the file already at its output path. Exits with code 1 if any permission set has drifted or is missing. Works with --file and with the single-permission-set flags.
+Instead of writing each permission set, compare what would be generated with the file already at its output path. Exits with code 1 if any permission set has drifted or is missing. Works with --file, with the single-permission-set flags, and with neither, which checks every .psbuild.json file under the current directory.
 
 # examples
 
@@ -118,9 +120,21 @@ Instead of writing each permission set, compare what would be generated with the
 
   <%= config.bin %> <%= command.id %> --file config/app.psbuild.json --check
 
+- Regenerate every permission set declared in any .psbuild.json file under the current directory:
+
+  <%= config.bin %> <%= command.id %>
+
+- Check every permission set declared in any .psbuild.json file under the current directory, without writing anything:
+
+  <%= config.bin %> <%= command.id %> --check
+
 # error.missingRequiredFlags
 
-Missing required flag(s): %s. Provide them, or use --file to build every permission set declared in a permission sets file.
+Missing required flag(s): %s. Provide them, use --file to build every permission set declared in a permission sets file, or omit all of the single permission set flags to build every .psbuild.json file under the current directory.
+
+# error.invalidPermissionSetsFile
+
+Permission sets file %s: %s
 
 # error.invalidConfig
 
@@ -154,6 +168,10 @@ Permission set successfully generated at %s
 
 Successfully generated %s permission set(s).
 
+# info.filesFound
+
+Found %s permission sets file(s).
+
 # info.checkingPermissionSet
 
 Checking permission set %s...
@@ -165,6 +183,10 @@ All %s permission set(s) are up to date.
 # warning.drifted
 
 %s of %s permission set(s) have drifted from their source metadata or are missing. Run this command without --check to regenerate them.
+
+# warning.noFilesFound
+
+No permission sets files (files ending in .psbuild.json) found under the current directory. Nothing to build.
 
 # warning.unsuffixedFile
 

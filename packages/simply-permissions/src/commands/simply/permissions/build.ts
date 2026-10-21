@@ -18,6 +18,7 @@ import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import {
   checkPermissionSets,
+  findPermissionSetsFiles,
   generatePermissionSets,
   loadPermissionSetBuildConfig,
   loadPermissionSetsFile,
@@ -41,6 +42,11 @@ type PermissionsBuildEntry = PermissionSetBuildResult & { status?: PermissionSet
 export type PermissionsBuildResult = Omit<PermissionsBuildEntry, 'name'>;
 /** With `--file`: one entry per permission set declared in the file, in file order. */
 export type PermissionsBuildFileResult = PermissionsBuildEntry[];
+/**
+ * With neither `--file` nor the single-permission-set flags: one entry per permission set in every
+ * discovered permission sets file, each with the `file` that declared it, in file then declaration order.
+ */
+export type PermissionsBuildDiscoverResult = Array<{ file: string } & PermissionsBuildEntry>;
 
 /** `file` renamed to carry {@link PERMISSION_SETS_FILE_SUFFIX}: `.psbuild` before a `.json` extension, or the whole suffix appended. */
 export function suffixedName(file: string): string {
@@ -49,7 +55,10 @@ export function suffixedName(file: string): string {
     : `${file}${PERMISSION_SETS_FILE_SUFFIX}`;
 }
 
-/** The flags that describe a single permission set, and so can't be combined with `--file`. */
+/**
+ * The flags that describe a single permission set, and so can't be combined with `--file`. When
+ * neither `--file` nor any of these is given, every discovered permission sets file is built.
+ */
 const SINGLE_PERMISSION_SET_FLAGS = [
   'type',
   'name',
@@ -61,7 +70,7 @@ const SINGLE_PERMISSION_SET_FLAGS = [
   'description',
 ];
 
-const TABLE_COLUMNS: Array<{ key: keyof PermissionSetBuildResult; name: string }> = [
+const TABLE_COLUMNS: Array<{ key: keyof PermissionsBuildDiscoverResult[number]; name: string }> = [
   { key: 'name', name: 'NAME' },
   { key: 'path', name: 'PATH' },
   { key: 'objectPermissionCount', name: 'OBJECT PERMISSIONS' },
@@ -82,6 +91,18 @@ function toCliError(error: PermissionSetBuildError): Error {
   }
 }
 
+/** Loads a discovered permission sets file, naming the file in any validation error. */
+async function loadDiscoveredFile(file: string): Promise<PermissionSetSpec[]> {
+  try {
+    return await loadPermissionSetsFile(file);
+  } catch (error) {
+    if (error instanceof PermissionSetBuildError) {
+      throw messages.createError('error.invalidPermissionSetsFile', [file, toCliError(error).message]);
+    }
+    throw error;
+  }
+}
+
 /**
  * Scans a Salesforce project directory for custom objects, fields, tabs, and (optionally)
  * record types, then generates a permission set XML file with a baseline of permissions
@@ -90,12 +111,16 @@ function toCliError(error: PermissionSetBuildError): Error {
  * requires activation.
  *
  * With `--file`, generates every permission set declared in a JSON permission sets file instead,
- * validating the whole file before writing anything.
+ * validating the whole file before writing anything. With neither `--file` nor the single-permission-set
+ * flags, does the same for every permission sets file under the current directory, validating all of
+ * them before writing anything.
  *
  * With `--check`, writes nothing: compares each permission set it would generate with the file
  * already at its output path, and sets `process.exitCode = 1` if any has drifted or is missing.
  */
-export default class PermissionsBuild extends SfCommand<PermissionsBuildResult | PermissionsBuildFileResult> {
+export default class PermissionsBuild extends SfCommand<
+  PermissionsBuildResult | PermissionsBuildFileResult | PermissionsBuildDiscoverResult
+> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
@@ -155,14 +180,18 @@ export default class PermissionsBuild extends SfCommand<PermissionsBuildResult |
   };
 
   /**
-   * @returns The output file path and object/field permission counts — or, with `--file`, one such entry (plus its name) per permission set.
+   * @returns The output file path and object/field permission counts — or, with `--file`, one such entry (plus its name) per permission set,
+   * and with no file or single-permission-set flags, one per permission set in every discovered file (plus its name and file).
    * With `--check`, each also has a `status`, and `process.exitCode` is set to 1 when any isn't `up-to-date`.
    */
-  public async run(): Promise<PermissionsBuildResult | PermissionsBuildFileResult> {
+  public async run(): Promise<PermissionsBuildResult | PermissionsBuildFileResult | PermissionsBuildDiscoverResult> {
     const { flags } = await this.parse(PermissionsBuild);
 
     try {
       const { file } = flags;
+      if (!file && !SINGLE_PERMISSION_SET_FLAGS.some((flag) => flags[flag as keyof typeof flags])) {
+        return await this.buildDiscovered(flags.check);
+      }
       if (file && !file.endsWith(PERMISSION_SETS_FILE_SUFFIX)) {
         this.warn(messages.getMessage('warning.unsuffixedFile', [file, suffixedName(file)]));
       }
@@ -213,14 +242,47 @@ export default class PermissionsBuild extends SfCommand<PermissionsBuildResult |
     ];
   }
 
-  private async generate(specs: PermissionSetSpec[], fromFile: boolean): Promise<PermissionSetBuildResult[]> {
+  /**
+   * Builds (or, with `check`, checks) every permission set in every permission sets file under the
+   * current directory. Every file is loaded and validated before anything is written. No files is a
+   * warning, not an error, so the command is safe to run in any repo.
+   */
+  private async buildDiscovered(check: boolean): Promise<PermissionsBuildDiscoverResult> {
+    const files = await findPermissionSetsFiles();
+    if (files.length === 0) {
+      this.warn(messages.getMessage('warning.noFilesFound'));
+      return [];
+    }
+    this.info(messages.getMessage('info.filesFound', [files.length]));
+
+    const specs: PermissionSetSpec[] = [];
+    const sources: string[] = [];
+    await this.readConfig(async () => {
+      for (const file of files) {
+        // eslint-disable-next-line no-await-in-loop -- files are loaded in order so the first invalid one is the one reported
+        const loaded = await loadDiscoveredFile(file);
+        specs.push(...loaded);
+        sources.push(...loaded.map(() => file));
+      }
+    });
+
+    const results = check ? await this.check(specs, sources) : await this.generate(specs, true, sources);
+    return results.map((result, i) => ({ file: sources[i], ...result }));
+  }
+
+  /** @param sources - With discovery, the permission sets file each spec came from, shown as a FILE column. */
+  private async generate(
+    specs: PermissionSetSpec[],
+    asTable: boolean,
+    sources?: string[],
+  ): Promise<PermissionSetBuildResult[]> {
     const results = await generatePermissionSets(specs, (name) =>
       this.startSpinner('info.buildingPermissionSet', name),
     );
     this.spinner.stop();
 
-    if (fromFile) {
-      this.table({ data: results, columns: TABLE_COLUMNS });
+    if (asTable) {
+      this.printTable(results, sources);
       this.info(messages.getMessage('info.filesGenerated', [results.length]));
     } else {
       this.info(messages.getMessage('info.fileGenerated', [results[0].path]));
@@ -229,11 +291,11 @@ export default class PermissionsBuild extends SfCommand<PermissionsBuildResult |
     return results;
   }
 
-  private async check(specs: PermissionSetSpec[]): Promise<PermissionsBuildEntry[]> {
+  private async check(specs: PermissionSetSpec[], sources?: string[]): Promise<PermissionsBuildEntry[]> {
     const results = await checkPermissionSets(specs, (name) => this.startSpinner('info.checkingPermissionSet', name));
     this.spinner.stop();
 
-    this.table({ data: results, columns: [...TABLE_COLUMNS, { key: 'status', name: 'STATUS' }] });
+    this.printTable(results, sources, [{ key: 'status', name: 'STATUS' }]);
 
     const stale = results.filter((result) => result.status !== 'up-to-date').length;
     if (stale > 0) {
@@ -244,6 +306,19 @@ export default class PermissionsBuild extends SfCommand<PermissionsBuildResult |
     }
 
     return results;
+  }
+
+  /** Prints one row per result, with a leading FILE column when `sources` gives each result's permission sets file. */
+  private printTable(
+    results: PermissionsBuildEntry[],
+    sources?: string[],
+    extraColumns: typeof TABLE_COLUMNS = [],
+  ): void {
+    const fileColumn: typeof TABLE_COLUMNS = sources ? [{ key: 'file', name: 'FILE' }] : [];
+    this.table({
+      data: results.map((result, i) => ({ file: sources?.[i], ...result })),
+      columns: [...fileColumn, ...TABLE_COLUMNS, ...extraColumns],
+    });
   }
 
   private async readConfig<T>(load: () => Promise<T>): Promise<T> {

@@ -17,10 +17,9 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { execa } from 'execa';
 import { generatePermissionSets, loadPermissionSetsFile } from '@simplysf/simply-permissions-core';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { findPermissionSetsFiles, runCheckPermissionSets } from '../../../src/common/build/checkPermissionSets.js';
+import { runCheckPermissionSets } from '../../../src/common/build/checkPermissionSets.js';
 import { logger } from '../../../src/common/logger.js';
 
 vi.mock('../../../src/common/logger.js', () => ({
@@ -91,49 +90,6 @@ describe('checkPermissionSets', () => {
   afterEach(() => {
     process.chdir(originalCwd);
     fs.rmSync(root, { recursive: true, force: true });
-  });
-
-  describe('findPermissionSetsFiles', () => {
-    it('finds .psbuild.json files at any depth, sorted, with / separators, and ignores every other file', async () => {
-      writePermissionSetsFile('config/app.psbuild.json', ['A']);
-      writePermissionSetsFile('apps/sales/sales.psbuild.json', ['B']);
-      writePermissionSetsFile('root.psbuild.json', ['C']);
-      // Correctly shaped, but without the suffix: not a permission sets file.
-      writePermissionSetsFile('config/permission-sets.json', ['D']);
-      write('config/admin-overrides.json', JSON.stringify({ userPermissions: { ViewSetup: true } }));
-      write('config/notes.psbuild.json.bak', '{}');
-
-      expect(await findPermissionSetsFiles()).toStrictEqual([
-        'apps/sales/sales.psbuild.json',
-        'config/app.psbuild.json',
-        'root.psbuild.json',
-      ]);
-    });
-
-    it('does not descend into node_modules, .git, .sf, or .sfdx', async () => {
-      writePermissionSetsFile('app.psbuild.json', ['A']);
-      for (const dir of ['node_modules/pkg', '.git', '.sf/orgs', '.sfdx']) {
-        writePermissionSetsFile(`${dir}/x.psbuild.json`, ['B']);
-      }
-      writePermissionSetsFile('.config/team.psbuild.json', ['C']);
-
-      expect(await findPermissionSetsFiles()).toStrictEqual(['.config/team.psbuild.json', 'app.psbuild.json']);
-    });
-
-    it('finds files regardless of git: tracked, untracked, and gitignored alike', async () => {
-      await execa('git', ['init', '-q']);
-      writePermissionSetsFile('tracked.psbuild.json', ['A']);
-      await execa('git', ['add', 'tracked.psbuild.json']);
-      writePermissionSetsFile('untracked.psbuild.json', ['B']);
-      writePermissionSetsFile('ignored/x.psbuild.json', ['C']);
-      write('.gitignore', 'ignored/\n');
-
-      expect(await findPermissionSetsFiles()).toStrictEqual([
-        'ignored/x.psbuild.json',
-        'tracked.psbuild.json',
-        'untracked.psbuild.json',
-      ]);
-    });
   });
 
   describe('runCheckPermissionSets', () => {
