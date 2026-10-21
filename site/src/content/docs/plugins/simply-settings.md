@@ -81,7 +81,7 @@ FLAG DESCRIPTIONS
     the HTTPS_PROXY and NO_PROXY environment variables.
 ```
 
-_See code: [lib/commands/simply/settings/address/state/activate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-settings@0.3.0/packages/simply-settings/lib/commands/simply/settings/address/state/activate.js)_
+_See code: [lib/commands/simply/settings/address/state/activate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-settings@0.3.2/packages/simply-settings/lib/commands/simply/settings/address/state/activate.js)_
 
 ## `sf simply settings address state create`
 
@@ -171,4 +171,4 @@ FLAG DESCRIPTIONS
     the HTTPS_PROXY and NO_PROXY environment variables.
 ```
 
-_See code: [lib/commands/simply/settings/address/state/create.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-settings@0.3.0/packages/simply-settings/lib/commands/simply/settings/address/state/create.js)_
+_See code: [lib/commands/simply/settings/address/state/create.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-settings@0.3.2/packages/simply-settings/lib/commands/simply/settings/address/state/create.js)_

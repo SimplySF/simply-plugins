@@ -2546,7 +2546,7 @@ FLAG DESCRIPTIONS
     The path to write the generated HTML report to.
 ```
 
-_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@1.4.4/packages/simply-permissions/lib/commands/simply/permissions/analyze.js)_
+_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@1.5.0/packages/simply-permissions/lib/commands/simply/permissions/analyze.js)_
 
 ## `sf simply permissions assignment delete`
 
@@ -2589,7 +2589,7 @@ EXAMPLES
   $ sf simply permissions assignment delete --permission-set-group-name My_Permission_Set_Group --target-org myOrg
 ```
 
-_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@1.4.4/packages/simply-permissions/lib/commands/simply/permissions/assignment/delete.js)_
+_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@1.5.0/packages/simply-permissions/lib/commands/simply/permissions/assignment/delete.js)_
 
 ## `sf simply permissions build`
 
@@ -2599,12 +2599,14 @@ Generate permission sets from Salesforce source metadata.
 USAGE
   $ sf simply permissions build [--json] [--flags-dir <value>] [-f <value> | --type read-only|view-all|modify-all | -n <value>
     | -d <value> | --output <value> | -c <value> | --include-record-types | --label <value> | --description <value>]
+    [--check]
 
 FLAGS
   -c, --config=<value>        Path to a permission set configuration file
   -d, --directory=<value>     Path to the Salesforce project directory
   -f, --file=<value>          Path to a permission sets file declaring every permission set to generate
   -n, --name=<value>          API name for the permission set
+      --check                 Check that the generated permission sets are up to date, without writing them
       --description=<value>   Description for the permission set
       --include-record-types  Include record type visibilities
       --label=<value>         Label for the permission set
@@ -2654,6 +2656,12 @@ DESCRIPTION
   ]
   }
 
+  To check in CI that the committed permission sets still match their source metadata, add --check. It builds each
+  permission set as usual but writes nothing: it compares each one with the file already at its output path and reports
+  it as "up-to-date", "drifted", or "missing". If any permission set has drifted or is missing, the command exits with
+  code 1. Formatting differences, such as indentation, line endings, or comments, don't count as drift, so files
+  reformatted by Prettier still pass. Any other difference does, including hand edits and reordered entries.
+
 EXAMPLES
   $ sf simply permissions build --type read-only --name My_Read_Only_Access --directory force-app --output force-app/main/default/permissionsets
 
@@ -2662,6 +2670,10 @@ EXAMPLES
   Regenerate every permission set declared in a permission sets file:
 
     $ sf simply permissions build --file config/permission-sets.json
+
+  In CI, fail if any permission set declared in a permission sets file needs to be regenerated:
+
+    $ sf simply permissions build --file config/permission-sets.json --check
 
 FLAG DESCRIPTIONS
   -c, --config=<value>  Path to a permission set configuration file
@@ -2685,6 +2697,12 @@ FLAG DESCRIPTIONS
     The API name for the generated permission set; also used to derive the output filename. Required unless --file is
     used.
 
+  --check  Check that the generated permission sets are up to date, without writing them
+
+    Instead of writing each permission set, compare what would be generated with the file already at its output path.
+    Exits with code 1 if any permission set has drifted or is missing. Works with --file and with the
+    single-permission-set flags.
+
   --include-record-types  Include record type visibilities
 
     Automatically include record type visibilities discovered from the source metadata, marked as visible by default.
@@ -2700,7 +2718,7 @@ FLAG DESCRIPTIONS
     Required unless --file is used.
 ```
 
-_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@1.4.4/packages/simply-permissions/lib/commands/simply/permissions/build.js)_
+_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@1.5.0/packages/simply-permissions/lib/commands/simply/permissions/build.js)_
 
 ## `sf simply project update api-version`
 

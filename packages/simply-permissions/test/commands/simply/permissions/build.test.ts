@@ -19,7 +19,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { SfError } from '@salesforce/core';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, type MockInstance, vi } from 'vitest';
 import PermissionsBuild, {
   PermissionsBuildFileResult,
   PermissionsBuildResult,
@@ -241,6 +241,114 @@ describe('simply permissions build', () => {
       );
       expect(error.message).to.include(`The configuration file ${file} is invalid`);
       expect(error.message).to.include("'directory' must be set on the permission set or in 'defaults'");
+    });
+  });
+
+  describe('--check', () => {
+    let root: string;
+    let source: string;
+    let output: string;
+    let file: string;
+    let warn: MockInstance;
+
+    beforeEach(async () => {
+      root = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-permissions-build-check-'));
+      source = path.join(root, 'force-app');
+      output = path.join(root, 'permissionsets');
+      writeFixtureProject(source);
+      file = path.join(root, 'permission-sets.json');
+      fs.writeFileSync(
+        file,
+        JSON.stringify({
+          defaults: { directory: source, output },
+          permissionSets: [
+            { name: 'App_Read_Only', type: 'read-only' },
+            { name: 'App_Admin', type: 'modify-all' },
+            { name: 'App_Support', type: 'view-all' },
+          ],
+        }),
+      );
+      await PermissionsBuild.run(['--file', file]);
+      // SfCommand's error handling sets process.exitCode when an earlier test's command throws.
+      process.exitCode = undefined;
+      warn = vi.spyOn(PermissionsBuild.prototype, 'warn');
+    });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
+      process.exitCode = undefined;
+      fs.rmSync(root, { recursive: true, force: true });
+    });
+
+    const xmlPath = (name: string): string => path.join(output, `${name}.permissionset-meta.xml`);
+
+    it('should report every permission set as up to date right after generating them', async () => {
+      const result = (await PermissionsBuild.run(['--file', file, '--check'])) as PermissionsBuildFileResult;
+
+      expect(result.map((r) => r.status)).to.deep.equal(['up-to-date', 'up-to-date', 'up-to-date']);
+      expect(process.exitCode).to.be.undefined;
+      expect(warn).not.toHaveBeenCalled();
+    });
+
+    it('should report drifted and missing permission sets, write nothing, and set exit code 1', async () => {
+      const admin = fs.readFileSync(xmlPath('App_Admin'), 'utf-8');
+      const drifted = admin.replace('<allowDelete>true</allowDelete>', '<allowDelete>false</allowDelete>');
+      fs.writeFileSync(xmlPath('App_Admin'), drifted);
+      fs.rmSync(xmlPath('App_Support'));
+
+      const result = (await PermissionsBuild.run(['--file', file, '--check'])) as PermissionsBuildFileResult;
+
+      expect(result.map(({ name, status }) => ({ name, status }))).to.deep.equal([
+        { name: 'App_Read_Only', status: 'up-to-date' },
+        { name: 'App_Admin', status: 'drifted' },
+        { name: 'App_Support', status: 'missing' },
+      ]);
+      expect(result[1]).to.include({ path: xmlPath('App_Admin'), objectPermissionCount: 1, fieldPermissionCount: 2 });
+      expect(process.exitCode).to.equal(1);
+      expect(warn).toHaveBeenCalledWith(expect.stringContaining('2 of 3 permission set(s) have drifted'));
+      expect(fs.readFileSync(xmlPath('App_Admin'), 'utf-8')).to.equal(drifted);
+      expect(fs.existsSync(xmlPath('App_Support'))).to.be.false;
+    });
+
+    it('should treat a reformatted file as up to date', async () => {
+      fs.writeFileSync(
+        xmlPath('App_Admin'),
+        fs.readFileSync(xmlPath('App_Admin'), 'utf-8').replaceAll('    ', '\t').replaceAll('\n', '\r\n'),
+      );
+
+      const result = (await PermissionsBuild.run(['--file', file, '--check'])) as PermissionsBuildFileResult;
+
+      expect(result[1].status).to.equal('up-to-date');
+      expect(process.exitCode).to.be.undefined;
+    });
+
+    it('should check a single permission set described by flags', async () => {
+      const flags = (name: string): string[] => [
+        ...['--type', 'read-only', '--name', name],
+        ...['--directory', source, '--output', output, '--check'],
+      ];
+
+      const upToDate = (await PermissionsBuild.run(flags('App_Read_Only'))) as PermissionsBuildResult;
+      expect(upToDate).to.deep.equal({
+        path: xmlPath('App_Read_Only'),
+        objectPermissionCount: 1,
+        fieldPermissionCount: 1,
+        status: 'up-to-date',
+      });
+      expect(process.exitCode).to.be.undefined;
+
+      const missing = (await PermissionsBuild.run(flags('Not_Generated'))) as PermissionsBuildResult;
+      expect(missing.status).to.equal('missing');
+      expect(process.exitCode).to.equal(1);
+      expect(fs.existsSync(xmlPath('Not_Generated'))).to.be.false;
+    });
+
+    it('should still throw input errors rather than reporting drift', async () => {
+      const error = await PermissionsBuild.run(['--type', 'read-only', '--name', 'PS', '--check']).then(
+        () => expect.fail('should have thrown Error'),
+        (err: SfError) => err,
+      );
+      expect(error.message).to.include('Missing required flag(s): --directory, --output');
     });
   });
 });
