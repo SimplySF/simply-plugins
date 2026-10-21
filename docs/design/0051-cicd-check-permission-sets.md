@@ -179,8 +179,8 @@ silently disable the check, and it would turn green.
 2. `src/common/build/checkPermissionSets.ts`: `findPermissionSetsFiles()`, the suffix walk, and
    `runCheckPermissionSets(options)`, which loads, checks, logs, and throws on drift.
    `PermissionSetBuildError` is mapped to the same message text `simply permissions build` uses.
-   The suffix is a constant here and in `simply-permissions`, since each plugin needs it and the
-   string will never change. See open question 3.
+   The suffix was first a constant here and in `simply-permissions`; both now import it from core.
+   See open question 3.
 3. `src/commands/simply/cicd/build/check-permission-sets.ts`: a thin command using `debugFlag` and
    `disabledFlag`.
 4. `messages/simply.cicd.build.check-permission-sets.md`.
@@ -225,7 +225,7 @@ silently disable the check, and it would turn green.
 2. **Per-file overrides of the working directory.** Paths currently resolve against the repo root,
    as they do for the CLI. If monorepos keep a permission sets file per sub-project with paths
    relative to that sub-project, this would need a flag. Not added until such a repo exists.
-3. **Where the suffix constant lives.** `simply-permissions-core` owns the file format, so it's the
-   natural home for an exported `PERMISSION_SETS_FILE_SUFFIX`. That would need another core release
-   before either PR could use it, so each plugin defines the string itself for now. Move it to core
-   the next time core is released for another reason.
+3. **Where the suffix constant lives.** _Resolved._ `simply-permissions-core` owns the file format,
+   so it's the natural home for the constant. Both plugins defined the string themselves at first,
+   to avoid waiting on a core release. It's now exported from core as `PERMISSION_SETS_FILE_SUFFIX`
+   (`0.5.0`, SimplySF/simply-plugins-core#241), and both plugins import it.

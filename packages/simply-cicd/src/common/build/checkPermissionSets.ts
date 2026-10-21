@@ -18,13 +18,11 @@ import { promises as fs } from 'node:fs';
 import {
   checkPermissionSets,
   loadPermissionSetsFile,
+  PERMISSION_SETS_FILE_SUFFIX,
   PermissionSetBuildError,
   type PermissionSetCheckResult,
 } from '@simplysf/simply-permissions-core';
 import { logger } from '../logger.js';
-
-/** The suffix that marks a permission sets file (the `simply permissions build --file` format). Also defined in `simply-permissions`. */
-export const PERMISSION_SETS_FILE_SUFFIX = '.psbuild.json';
 
 /** Directories never searched: dependencies, VCS data, and Salesforce CLI state. */
 const SKIPPED_DIRECTORIES = new Set(['node_modules', '.git', '.sf', '.sfdx']);
