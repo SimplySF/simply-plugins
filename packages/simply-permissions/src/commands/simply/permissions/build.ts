@@ -21,6 +21,7 @@ import {
   generatePermissionSets,
   loadPermissionSetBuildConfig,
   loadPermissionSetsFile,
+  PERMISSION_SETS_FILE_SUFFIX,
   PermissionSetBuildError,
   PermissionSetBuildResult,
   PermissionSetCheckStatus,
@@ -40,12 +41,6 @@ type PermissionsBuildEntry = PermissionSetBuildResult & { status?: PermissionSet
 export type PermissionsBuildResult = Omit<PermissionsBuildEntry, 'name'>;
 /** With `--file`: one entry per permission set declared in the file, in file order. */
 export type PermissionsBuildFileResult = PermissionsBuildEntry[];
-
-/**
- * The suffix that marks a permission sets file, which is how `sf simply cicd build check-permission-sets`
- * finds them. Also defined in `simply-cicd`.
- */
-const PERMISSION_SETS_FILE_SUFFIX = '.psbuild.json';
 
 /** `file` renamed to carry {@link PERMISSION_SETS_FILE_SUFFIX}: `.psbuild` before a `.json` extension, or the whole suffix appended. */
 export function suffixedName(file: string): string {
