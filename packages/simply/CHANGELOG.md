@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.13.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply%406.12.1...%40simplysf%2Fsimply%406.13.0) (2026-10-21)
+
+### Features
+
+- **simply-permissions:** build every .psbuild.json file when run without flags ([#96](https://github.com/SimplySF/simply-plugins/issues/96)) ([e902188](https://github.com/SimplySF/simply-plugins/commit/e902188a42503f8627e38051400227889910d24d))
+
 ## [6.12.1](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply%406.12.0...%40simplysf%2Fsimply%406.12.1) (2026-10-21)
 
 **Note:** Version bump only for package @simplysf/simply
