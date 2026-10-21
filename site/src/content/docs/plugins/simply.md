@@ -2483,7 +2483,7 @@ FLAG DESCRIPTIONS
     The path to write the generated HTML report to.
 ```
 
-_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@1.4.4/packages/simply-permissions/lib/commands/simply/permissions/analyze.js)_
+_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@1.5.0/packages/simply-permissions/lib/commands/simply/permissions/analyze.js)_
 
 ## `sf simply permissions assignment delete`
 
@@ -2526,7 +2526,7 @@ EXAMPLES
   $ sf simply permissions assignment delete --permission-set-group-name My_Permission_Set_Group --target-org myOrg
 ```
 
-_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@1.4.4/packages/simply-permissions/lib/commands/simply/permissions/assignment/delete.js)_
+_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@1.5.0/packages/simply-permissions/lib/commands/simply/permissions/assignment/delete.js)_
 
 ## `sf simply permissions build`
 
@@ -2569,7 +2569,9 @@ DESCRIPTION
   shared by every entry, and any entry can override them. An entry's "config" is either a path to a --config file or the
   same overrides inline. Relative paths are resolved against the current directory, as they are for flags. The whole
   file, including referenced override files and source directories, is validated before anything is written, and each
-  source directory is scanned only once.
+  source directory is scanned only once. Name the file with the .psbuild.json suffix (for example
+  config/app.psbuild.json): that's how `sf simply cicd build check-permission-sets` finds permission sets files, and
+  this command warns about a file without it.
 
   {
   "defaults": {
@@ -2606,11 +2608,11 @@ EXAMPLES
 
   Regenerate every permission set declared in a permission sets file:
 
-    $ sf simply permissions build --file config/permission-sets.json
+    $ sf simply permissions build --file config/app.psbuild.json
 
   In CI, fail if any permission set declared in a permission sets file needs to be regenerated:
 
-    $ sf simply permissions build --file config/permission-sets.json --check
+    $ sf simply permissions build --file config/app.psbuild.json --check
 
 FLAG DESCRIPTIONS
   -c, --config=<value>  Path to a permission set configuration file
@@ -2627,7 +2629,8 @@ FLAG DESCRIPTIONS
 
     The path to a JSON file with a "permissionSets" array, each entry describing one permission set to generate ("name",
     "type", and optionally "label", "description", "directory", "output", "includeRecordTypes", "config"), and an
-    optional "defaults" object. Can't be combined with the flags that describe a single permission set.
+    optional "defaults" object. Name it with the .psbuild.json suffix; any other name works but prints a warning. Can't
+    be combined with the flags that describe a single permission set.
 
   -n, --name=<value>  API name for the permission set
 
@@ -2655,7 +2658,7 @@ FLAG DESCRIPTIONS
     Required unless --file is used.
 ```
 
-_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@1.4.4/packages/simply-permissions/lib/commands/simply/permissions/build.js)_
+_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@1.5.0/packages/simply-permissions/lib/commands/simply/permissions/build.js)_
 
 ## `sf simply project update api-version`
 

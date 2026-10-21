@@ -6,7 +6,7 @@ Generate permission sets from Salesforce source metadata.
 
 Scans a Salesforce project directory for custom objects, fields, tabs, and (optionally) record types, then generates a permission set XML file with a baseline of permissions determined by --type. An optional JSON --config file can override individual object, field, tab, record type, and user permission settings, as well as whether the permission set requires activation.
 
-To regenerate every permission set in a project with one command, declare them all in a JSON file and pass it with --file instead of the other flags. Each entry in the file's "permissionSets" array takes the same settings as one run of this command; a top-level "defaults" object supplies the "directory", "output", and "includeRecordTypes" values shared by every entry, and any entry can override them. An entry's "config" is either a path to a --config file or the same overrides inline. Relative paths are resolved against the current directory, as they are for flags. The whole file, including referenced override files and source directories, is validated before anything is written, and each source directory is scanned only once.
+To regenerate every permission set in a project with one command, declare them all in a JSON file and pass it with --file instead of the other flags. Each entry in the file's "permissionSets" array takes the same settings as one run of this command; a top-level "defaults" object supplies the "directory", "output", and "includeRecordTypes" values shared by every entry, and any entry can override them. An entry's "config" is either a path to a --config file or the same overrides inline. Relative paths are resolved against the current directory, as they are for flags. The whole file, including referenced override files and source directories, is validated before anything is written, and each source directory is scanned only once. Name the file with the .psbuild.json suffix (for example config/app.psbuild.json): that's how `sf simply cicd build check-permission-sets` finds permission sets files, and this command warns about a file without it.
 
     {
       "defaults": {
@@ -38,7 +38,7 @@ Path to a permission sets file declaring every permission set to generate
 
 # flags.file.description
 
-The path to a JSON file with a "permissionSets" array, each entry describing one permission set to generate ("name", "type", and optionally "label", "description", "directory", "output", "includeRecordTypes", "config"), and an optional "defaults" object. Can't be combined with the flags that describe a single permission set.
+The path to a JSON file with a "permissionSets" array, each entry describing one permission set to generate ("name", "type", and optionally "label", "description", "directory", "output", "includeRecordTypes", "config"), and an optional "defaults" object. Name it with the .psbuild.json suffix; any other name works but prints a warning. Can't be combined with the flags that describe a single permission set.
 
 # flags.type.summary
 
@@ -112,11 +112,11 @@ Instead of writing each permission set, compare what would be generated with the
 
 - Regenerate every permission set declared in a permission sets file:
 
-  <%= config.bin %> <%= command.id %> --file config/permission-sets.json
+  <%= config.bin %> <%= command.id %> --file config/app.psbuild.json
 
 - In CI, fail if any permission set declared in a permission sets file needs to be regenerated:
 
-  <%= config.bin %> <%= command.id %> --file config/permission-sets.json --check
+  <%= config.bin %> <%= command.id %> --file config/app.psbuild.json --check
 
 # error.missingRequiredFlags
 
@@ -165,3 +165,7 @@ All %s permission set(s) are up to date.
 # warning.drifted
 
 %s of %s permission set(s) have drifted from their source metadata or are missing. Run this command without --check to regenerate them.
+
+# warning.unsuffixedFile
+
+%s doesn't end in .psbuild.json, so `sf simply cicd build check-permission-sets` won't find it. Rename it to %s.
