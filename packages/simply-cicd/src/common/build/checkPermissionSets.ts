@@ -15,17 +15,19 @@
  */
 
 import {
+  assertUniquePermissionSetNames,
   checkPermissionSets,
-  findPermissionSetsFiles,
-  loadPermissionSetsFile,
+  findPermissionSetBuildFiles,
+  loadPermissionSetBuildFile,
   PermissionSetBuildError,
   type PermissionSetCheckResult,
+  type PermissionSetSpec,
 } from '@simplysf/simply-permissions-core';
 import { logger } from '../logger.js';
 
 export type RunCheckPermissionSetsOptions = { disabled?: boolean };
-export type PermissionSetsFileCheck = { file: string; permissionSets: PermissionSetCheckResult[] };
-export type RunCheckPermissionSetsResult = { skipped: boolean; files: PermissionSetsFileCheck[] };
+export type PermissionSetBuildFileCheck = { file: string; permissionSet: PermissionSetCheckResult };
+export type RunCheckPermissionSetsResult = { skipped: boolean; files: PermissionSetBuildFileCheck[] };
 
 /** The same text `simply permissions build` reports for each `PermissionSetBuildError` code. */
 function describeBuildError(error: PermissionSetBuildError): string {
@@ -38,29 +40,53 @@ function describeBuildError(error: PermissionSetBuildError): string {
       return `The configuration file ${error.args[0]} does not exist.`;
     case 'directory-not-found':
       return `The source directory ${error.args[0]} for permission set ${error.args[1]} does not exist.`;
+    case 'legacy-format':
+      return `${error.args[0]} uses the old format, a "permissionSets" list, which is no longer supported. Split it into one .psbuild.json file per permission set, with each permission set's settings at the top level.`;
+    case 'duplicate-name':
+      return `Permission set ${error.args[0]} is defined by both ${error.args[1]} and ${error.args[2]}. Each permission set must be defined by exactly one .psbuild.json file.`;
   }
 }
 
-async function checkFile(file: string): Promise<PermissionSetsFileCheck> {
+/** Logs `message` and throws it, keeping the build error as the cause. */
+function fail(message: string, cause: PermissionSetBuildError): never {
+  logger.error(message);
+  throw new Error(message, { cause });
+}
+
+/** Loads every file in order, naming the file in any validation error, then checks names are unique across files. */
+async function loadFiles(files: string[]): Promise<Array<{ file: string; spec: PermissionSetSpec }>> {
+  const entries: Array<{ file: string; spec: PermissionSetSpec }> = [];
+  for (const file of files) {
+    logger.info(`Loading permission set build file ${file}...`);
+    try {
+      // eslint-disable-next-line no-await-in-loop -- files are loaded in order so the first invalid one is the one reported
+      entries.push({ file, spec: await loadPermissionSetBuildFile(file) });
+    } catch (error) {
+      if (error instanceof PermissionSetBuildError) {
+        fail(`Permission set build file ${file}: ${describeBuildError(error)}`, error);
+      }
+      throw error;
+    }
+  }
   try {
-    return { file, permissionSets: await checkPermissionSets(await loadPermissionSetsFile(file)) };
+    assertUniquePermissionSetNames(entries);
   } catch (error) {
     if (error instanceof PermissionSetBuildError) {
-      const message = `Permission sets file ${file}: ${describeBuildError(error)}`;
-      logger.error(message);
-      throw new Error(message, { cause: error });
+      fail(describeBuildError(error), error);
     }
     throw error;
   }
+  return entries;
 }
 
 /**
- * Finds every permission sets file in the repo and checks each permission set it declares against
- * the generated file on disk, writing nothing. A repo with no permission sets files is a skip. Every
- * file is checked before failing, so one run reports every stale permission set; an invalid file
- * fails at once.
+ * Finds every permission set build file in the repo and checks the permission set each defines
+ * against the generated file on disk, writing nothing. A repo with no permission set build files is
+ * a skip. Every file is loaded and validated, and names are checked for duplicates across files,
+ * before anything is checked; then every permission set is checked before failing, so one run
+ * reports every stale permission set.
  *
- * @throws When any permission set has drifted or is missing, or a permission sets file is invalid.
+ * @throws When any permission set has drifted or is missing, or a permission set build file is invalid.
  */
 export async function runCheckPermissionSets(
   options: RunCheckPermissionSetsOptions,
@@ -70,40 +96,28 @@ export async function runCheckPermissionSets(
     return { skipped: true, files: [] };
   }
 
-  const files = await findPermissionSetsFiles();
+  const files = await findPermissionSetBuildFiles();
   if (files.length === 0) {
-    logger.warn('No permission sets files found. Skipping.');
+    logger.warn('No permission set build files found. Skipping.');
     return { skipped: true, files: [] };
   }
 
-  const checks: PermissionSetsFileCheck[] = [];
-  let total = 0;
-  let stale = 0;
-  for (const file of files) {
-    logger.info(`Checking permission sets file ${file}...`);
-    // eslint-disable-next-line no-await-in-loop -- files are checked in order so the log reads top to bottom
-    const check = await checkFile(file);
-    checks.push(check);
+  const entries = await loadFiles(files);
+  const results = await checkPermissionSets(entries.map(({ spec }) => spec));
+  const checks = entries.map(({ file }, i) => ({ file, permissionSet: results[i] }));
 
-    const staleSets = check.permissionSets.filter((permissionSet) => permissionSet.status !== 'up-to-date');
-    total += check.permissionSets.length;
-    stale += staleSets.length;
-    if (staleSets.length === 0) {
-      logger.success(`${check.permissionSets.length} permission set(s) up to date.`);
-      continue;
-    }
-    for (const permissionSet of staleSets) {
-      logger.error(`${permissionSet.name} ${permissionSet.status} ${permissionSet.path}`);
-    }
-    logger.log(`Regenerate with: sf simply permissions build --file ${file}`);
+  const stale = checks.filter(({ permissionSet }) => permissionSet.status !== 'up-to-date');
+  for (const { file, permissionSet } of stale) {
+    logger.error(`${permissionSet.name} ${permissionSet.status} ${permissionSet.path} (${file})`);
   }
 
-  if (stale > 0) {
-    const message = `${stale} of ${total} permission set(s) have drifted from their source metadata or are missing.`;
+  if (stale.length > 0) {
+    logger.log('Regenerate with: sf simply permissions build');
+    const message = `${stale.length} of ${checks.length} permission set(s) have drifted from their source metadata or are missing.`;
     logger.error(message);
     throw new Error(message);
   }
 
-  logger.success(`All ${total} permission set(s) in ${files.length} permission sets file(s) are up to date.`);
+  logger.success(`All ${checks.length} permission set(s) are up to date.`);
   return { skipped: false, files: checks };
 }

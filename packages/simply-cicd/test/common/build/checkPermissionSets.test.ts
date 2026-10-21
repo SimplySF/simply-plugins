@@ -17,7 +17,7 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { generatePermissionSets, loadPermissionSetsFile } from '@simplysf/simply-permissions-core';
+import { generatePermissionSets, loadPermissionSetBuildFile } from '@simplysf/simply-permissions-core';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { runCheckPermissionSets } from '../../../src/common/build/checkPermissionSets.js';
 import { logger } from '../../../src/common/logger.js';
@@ -58,19 +58,14 @@ function writeField(name: string): void {
   );
 }
 
-function writePermissionSetsFile(file: string, names: string[]): void {
-  write(
-    file,
-    JSON.stringify({
-      defaults: { directory: 'force-app', output: OUTPUT },
-      permissionSets: names.map((name) => ({ name, type: 'modify-all' })),
-    }),
-  );
+/** Writes a permission set build file for a `modify-all` permission set named `name`. */
+function writeBuildFile(file: string, name: string, settings: Record<string, unknown> = {}): void {
+  write(file, JSON.stringify({ name, type: 'modify-all', directory: 'force-app', output: OUTPUT, ...settings }));
 }
 
-/** Generates every permission set `file` declares, as `simply permissions build --file` would. */
+/** Generates the permission set `file` defines, as `simply permissions build` would. */
 async function generate(file: string): Promise<void> {
-  await generatePermissionSets(await loadPermissionSetsFile(file));
+  await generatePermissionSets([await loadPermissionSetBuildFile(file)]);
 }
 
 const xmlPath = (name: string): string => path.join(OUTPUT, `${name}.permissionset-meta.xml`);
@@ -94,42 +89,47 @@ describe('checkPermissionSets', () => {
 
   describe('runCheckPermissionSets', () => {
     it('skips when disabled', async () => {
-      writePermissionSetsFile('app.psbuild.json', ['A']);
+      writeBuildFile('app.psbuild.json', 'A');
 
       expect(await runCheckPermissionSets({ disabled: true })).toStrictEqual({ skipped: true, files: [] });
       expect(logger.warn).toHaveBeenCalledWith('check-permission-sets is disabled. Skipping.');
     });
 
-    it('skips when the repo has no permission sets files', async () => {
+    it('skips when the repo has no permission set build files', async () => {
       expect(await runCheckPermissionSets({})).toStrictEqual({ skipped: true, files: [] });
-      expect(logger.warn).toHaveBeenCalledWith('No permission sets files found. Skipping.');
+      expect(logger.warn).toHaveBeenCalledWith('No permission set build files found. Skipping.');
     });
 
     it('succeeds when every permission set is up to date, resolving paths against the current directory', async () => {
-      writePermissionSetsFile('config/app.psbuild.json', ['App_Admin', 'App_Support']);
-      await generate('config/app.psbuild.json');
+      writeBuildFile('config/app-admin.psbuild.json', 'App_Admin');
+      writeBuildFile('config/app-support.psbuild.json', 'App_Support');
+      await generate('config/app-admin.psbuild.json');
+      await generate('config/app-support.psbuild.json');
 
       const result = await runCheckPermissionSets({});
 
       expect(result.skipped).toBe(false);
-      expect(result.files).toHaveLength(1);
-      expect(result.files[0].file).toBe('config/app.psbuild.json');
       expect(
-        result.files[0].permissionSets.map(({ name, path: p, status }) => ({ name, path: p, status })),
+        result.files.map(({ file, permissionSet: { name, path: p, status } }) => ({ file, name, path: p, status })),
       ).toStrictEqual([
-        { name: 'App_Admin', path: xmlPath('App_Admin'), status: 'up-to-date' },
-        { name: 'App_Support', path: xmlPath('App_Support'), status: 'up-to-date' },
+        { file: 'config/app-admin.psbuild.json', name: 'App_Admin', path: xmlPath('App_Admin'), status: 'up-to-date' },
+        {
+          file: 'config/app-support.psbuild.json',
+          name: 'App_Support',
+          path: xmlPath('App_Support'),
+          status: 'up-to-date',
+        },
       ]);
-      expect(logger.success).toHaveBeenLastCalledWith(
-        'All 2 permission set(s) in 1 permission sets file(s) are up to date.',
-      );
+      expect(logger.success).toHaveBeenLastCalledWith('All 2 permission set(s) are up to date.');
     });
 
-    it('checks every file before failing, naming each stale permission set and the command that fixes its file', async () => {
-      writePermissionSetsFile('a/app.psbuild.json', ['A_Admin', 'A_Missing']);
-      writePermissionSetsFile('b/app.psbuild.json', ['B_Admin']);
-      await generate('a/app.psbuild.json');
-      await generate('b/app.psbuild.json');
+    it('checks every file before failing, naming each stale permission set, its file, and the command that fixes them', async () => {
+      writeBuildFile('a/admin.psbuild.json', 'A_Admin');
+      writeBuildFile('a/missing.psbuild.json', 'A_Missing');
+      writeBuildFile('b/admin.psbuild.json', 'B_Admin');
+      await generate('a/admin.psbuild.json');
+      await generate('a/missing.psbuild.json');
+      await generate('b/admin.psbuild.json');
       fs.rmSync(xmlPath('A_Missing'));
       writeField('Size__c');
       const before = fs.readFileSync(xmlPath('B_Admin'), 'utf8');
@@ -138,36 +138,49 @@ describe('checkPermissionSets', () => {
         '3 of 3 permission set(s) have drifted from their source metadata or are missing.',
       );
 
-      expect(logger.error).toHaveBeenCalledWith(`A_Admin drifted ${xmlPath('A_Admin')}`);
-      expect(logger.error).toHaveBeenCalledWith(`A_Missing missing ${xmlPath('A_Missing')}`);
-      expect(logger.error).toHaveBeenCalledWith(`B_Admin drifted ${xmlPath('B_Admin')}`);
-      expect(logger.log).toHaveBeenCalledWith('Regenerate with: sf simply permissions build --file a/app.psbuild.json');
-      expect(logger.log).toHaveBeenCalledWith('Regenerate with: sf simply permissions build --file b/app.psbuild.json');
+      expect(logger.error).toHaveBeenCalledWith(`A_Admin drifted ${xmlPath('A_Admin')} (a/admin.psbuild.json)`);
+      expect(logger.error).toHaveBeenCalledWith(`A_Missing missing ${xmlPath('A_Missing')} (a/missing.psbuild.json)`);
+      expect(logger.error).toHaveBeenCalledWith(`B_Admin drifted ${xmlPath('B_Admin')} (b/admin.psbuild.json)`);
+      expect(logger.log).toHaveBeenCalledWith('Regenerate with: sf simply permissions build');
       // Nothing written: the missing file stays missing and the drifted one keeps its old content.
       expect(fs.existsSync(xmlPath('A_Missing'))).toBe(false);
       expect(fs.readFileSync(xmlPath('B_Admin'), 'utf8')).toBe(before);
     });
 
-    it('fails at once on an invalid permission sets file, naming it, without checking later files', async () => {
-      write('a/app.psbuild.json', JSON.stringify({ permissionSets: [{ name: 'A', type: 'read-only' }] }));
-      writePermissionSetsFile('b/app.psbuild.json', ['B']);
+    it('fails on an invalid file, naming it, before checking any permission set', async () => {
+      writeBuildFile('a/app.psbuild.json', 'A', { output: undefined });
+      writeBuildFile('b/app.psbuild.json', 'B');
 
       await expect(runCheckPermissionSets({})).rejects.toThrow(
-        /^Permission sets file a\/app.psbuild.json: The configuration file a\/app.psbuild.json is invalid: /,
+        /^Permission set build file a\/app\.psbuild\.json: The configuration file a\/app\.psbuild\.json is invalid: /,
       );
 
-      expect(logger.info).toHaveBeenCalledWith('Checking permission sets file a/app.psbuild.json...');
-      expect(logger.info).not.toHaveBeenCalledWith('Checking permission sets file b/app.psbuild.json...');
+      expect(logger.info).toHaveBeenCalledWith('Loading permission set build file a/app.psbuild.json...');
+      expect(logger.info).not.toHaveBeenCalledWith('Loading permission set build file b/app.psbuild.json...');
     });
 
-    it('names the permission sets file when a source directory is missing', async () => {
-      write(
-        'app.psbuild.json',
-        JSON.stringify({ permissionSets: [{ name: 'A', type: 'read-only', directory: 'nope', output: OUTPUT }] }),
-      );
+    it('names the file when a source directory is missing', async () => {
+      writeBuildFile('app.psbuild.json', 'A', { directory: 'nope' });
 
       await expect(runCheckPermissionSets({})).rejects.toThrow(
-        'Permission sets file app.psbuild.json: The source directory nope for permission set A does not exist.',
+        'Permission set build file app.psbuild.json: The source directory nope for permission set A does not exist.',
+      );
+    });
+
+    it('rejects a file in the old permissionSets list format with migration instructions', async () => {
+      write('app.psbuild.json', JSON.stringify({ permissionSets: [{ name: 'A', type: 'read-only' }] }));
+
+      await expect(runCheckPermissionSets({})).rejects.toThrow(
+        'Permission set build file app.psbuild.json: app.psbuild.json uses the old format, a "permissionSets" list, which is no longer supported.',
+      );
+    });
+
+    it('fails when two files define the same permission set, before checking anything', async () => {
+      writeBuildFile('a/app.psbuild.json', 'A');
+      writeBuildFile('b/app.psbuild.json', 'A');
+
+      await expect(runCheckPermissionSets({})).rejects.toThrow(
+        'Permission set A is defined by both a/app.psbuild.json and b/app.psbuild.json. Each permission set must be defined by exactly one .psbuild.json file.',
       );
     });
   });

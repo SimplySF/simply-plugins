@@ -17,12 +17,12 @@
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import {
+  assertUniquePermissionSetNames,
   checkPermissionSets,
-  findPermissionSetsFiles,
+  findPermissionSetBuildFiles,
   generatePermissionSets,
   loadPermissionSetBuildConfig,
-  loadPermissionSetsFile,
-  PERMISSION_SETS_FILE_SUFFIX,
+  loadPermissionSetBuildFile,
   PermissionSetBuildError,
   PermissionSetBuildResult,
   PermissionSetCheckStatus,
@@ -40,25 +40,13 @@ type PermissionsBuildEntry = PermissionSetBuildResult & { status?: PermissionSet
  * permissions it grants. With `--check`, `status` says whether the file there matches.
  */
 export type PermissionsBuildResult = Omit<PermissionsBuildEntry, 'name'>;
-/** With `--file`: one entry per permission set declared in the file, in file order. */
-export type PermissionsBuildFileResult = PermissionsBuildEntry[];
 /**
- * With neither `--file` nor the single-permission-set flags: one entry per permission set in every
- * discovered permission sets file, each with the `file` that declared it, in file then declaration order.
+ * With none of the single-permission-set flags: one entry per discovered permission set build file,
+ * each with the `file` that defined it, in file order.
  */
 export type PermissionsBuildDiscoverResult = Array<{ file: string } & PermissionsBuildEntry>;
 
-/** `file` renamed to carry {@link PERMISSION_SETS_FILE_SUFFIX}: `.psbuild` before a `.json` extension, or the whole suffix appended. */
-export function suffixedName(file: string): string {
-  return file.endsWith('.json')
-    ? `${file.slice(0, -'.json'.length)}${PERMISSION_SETS_FILE_SUFFIX}`
-    : `${file}${PERMISSION_SETS_FILE_SUFFIX}`;
-}
-
-/**
- * The flags that describe a single permission set, and so can't be combined with `--file`. When
- * neither `--file` nor any of these is given, every discovered permission sets file is built.
- */
+/** The flags that describe a single permission set. When none is given, every discovered permission set build file is built. */
 const SINGLE_PERMISSION_SET_FLAGS = [
   'type',
   'name',
@@ -88,16 +76,20 @@ function toCliError(error: PermissionSetBuildError): Error {
       return messages.createError('error.configNotFound', error.args);
     case 'directory-not-found':
       return messages.createError('error.directoryNotFound', error.args);
+    case 'legacy-format':
+      return messages.createError('error.legacyFormat', error.args);
+    case 'duplicate-name':
+      return messages.createError('error.duplicateName', error.args);
   }
 }
 
-/** Loads a discovered permission sets file, naming the file in any validation error. */
-async function loadDiscoveredFile(file: string): Promise<PermissionSetSpec[]> {
+/** Loads a discovered permission set build file, naming the file in any validation error. */
+async function loadDiscoveredFile(file: string): Promise<PermissionSetSpec> {
   try {
-    return await loadPermissionSetsFile(file);
+    return await loadPermissionSetBuildFile(file);
   } catch (error) {
     if (error instanceof PermissionSetBuildError) {
-      throw messages.createError('error.invalidPermissionSetsFile', [file, toCliError(error).message]);
+      throw messages.createError('error.invalidBuildFile', [file, toCliError(error).message]);
     }
     throw error;
   }
@@ -110,30 +102,20 @@ async function loadDiscoveredFile(file: string): Promise<PermissionSetSpec[]> {
  * field, tab, record type, and user permission settings, as well as whether the permission set
  * requires activation.
  *
- * With `--file`, generates every permission set declared in a JSON permission sets file instead,
- * validating the whole file before writing anything. With neither `--file` nor the single-permission-set
- * flags, does the same for every permission sets file under the current directory, validating all of
- * them before writing anything.
+ * With none of the single-permission-set flags, does the same for every permission set build file
+ * under the current directory, each of which defines one permission set, validating all of them
+ * before writing anything.
  *
  * With `--check`, writes nothing: compares each permission set it would generate with the file
  * already at its output path, and sets `process.exitCode = 1` if any has drifted or is missing.
  */
-export default class PermissionsBuild extends SfCommand<
-  PermissionsBuildResult | PermissionsBuildFileResult | PermissionsBuildDiscoverResult
-> {
+export default class PermissionsBuild extends SfCommand<PermissionsBuildResult | PermissionsBuildDiscoverResult> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
 
   public static readonly flags = {
     ...SfCommand.baseFlags,
-    file: Flags.file({
-      summary: messages.getMessage('flags.file.summary'),
-      description: messages.getMessage('flags.file.description'),
-      char: 'f',
-      exists: true,
-      exclusive: SINGLE_PERMISSION_SET_FLAGS,
-    }),
     type: Flags.custom<PermissionSetType>({
       options: ['read-only', 'view-all', 'modify-all'],
     })({
@@ -180,26 +162,19 @@ export default class PermissionsBuild extends SfCommand<
   };
 
   /**
-   * @returns The output file path and object/field permission counts — or, with `--file`, one such entry (plus its name) per permission set,
-   * and with no file or single-permission-set flags, one per permission set in every discovered file (plus its name and file).
+   * @returns The output file path and object/field permission counts — or, with no single-permission-set flags,
+   * one such entry (plus its name and file) per discovered permission set build file.
    * With `--check`, each also has a `status`, and `process.exitCode` is set to 1 when any isn't `up-to-date`.
    */
-  public async run(): Promise<PermissionsBuildResult | PermissionsBuildFileResult | PermissionsBuildDiscoverResult> {
+  public async run(): Promise<PermissionsBuildResult | PermissionsBuildDiscoverResult> {
     const { flags } = await this.parse(PermissionsBuild);
 
     try {
-      const { file } = flags;
-      if (!file && !SINGLE_PERMISSION_SET_FLAGS.some((flag) => flags[flag as keyof typeof flags])) {
+      if (!SINGLE_PERMISSION_SET_FLAGS.some((flag) => flags[flag as keyof typeof flags])) {
         return await this.buildDiscovered(flags.check);
       }
-      if (file && !file.endsWith(PERMISSION_SETS_FILE_SUFFIX)) {
-        this.warn(messages.getMessage('warning.unsuffixedFile', [file, suffixedName(file)]));
-      }
-      const specs = file ? await this.readConfig(() => loadPermissionSetsFile(file)) : await this.singleSpec(flags);
-      const results = flags.check ? await this.check(specs) : await this.generate(specs, Boolean(file));
-      if (file) {
-        return results;
-      }
+      const specs = await this.singleSpec(flags);
+      const results = flags.check ? await this.check(specs) : await this.generate(specs, false);
       // Single-set mode has never included `name` in its result.
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { name, ...result } = results[0];
@@ -243,34 +218,35 @@ export default class PermissionsBuild extends SfCommand<
   }
 
   /**
-   * Builds (or, with `check`, checks) every permission set in every permission sets file under the
-   * current directory. Every file is loaded and validated before anything is written. No files is a
-   * warning, not an error, so the command is safe to run in any repo.
+   * Builds (or, with `check`, checks) the permission set defined by every permission set build file
+   * under the current directory. Every file is loaded and validated, and names are checked for
+   * duplicates across files, before anything is written. No files is a warning, not an error, so the
+   * command is safe to run in any repo.
    */
   private async buildDiscovered(check: boolean): Promise<PermissionsBuildDiscoverResult> {
-    const files = await findPermissionSetsFiles();
+    const files = await findPermissionSetBuildFiles();
     if (files.length === 0) {
       this.warn(messages.getMessage('warning.noFilesFound'));
       return [];
     }
     this.info(messages.getMessage('info.filesFound', [files.length]));
 
-    const specs: PermissionSetSpec[] = [];
-    const sources: string[] = [];
+    const entries: Array<{ file: string; spec: PermissionSetSpec }> = [];
     await this.readConfig(async () => {
       for (const file of files) {
         // eslint-disable-next-line no-await-in-loop -- files are loaded in order so the first invalid one is the one reported
-        const loaded = await loadDiscoveredFile(file);
-        specs.push(...loaded);
-        sources.push(...loaded.map(() => file));
+        entries.push({ file, spec: await loadDiscoveredFile(file) });
       }
     });
+    assertUniquePermissionSetNames(entries);
 
+    const specs = entries.map(({ spec }) => spec);
+    const sources = entries.map(({ file }) => file);
     const results = check ? await this.check(specs, sources) : await this.generate(specs, true, sources);
     return results.map((result, i) => ({ file: sources[i], ...result }));
   }
 
-  /** @param sources - With discovery, the permission sets file each spec came from, shown as a FILE column. */
+  /** @param sources - With discovery, the permission set build file each spec came from, shown as a FILE column. */
   private async generate(
     specs: PermissionSetSpec[],
     asTable: boolean,
@@ -308,7 +284,7 @@ export default class PermissionsBuild extends SfCommand<
     return results;
   }
 
-  /** Prints one row per result, with a leading FILE column when `sources` gives each result's permission sets file. */
+  /** Prints one row per result, with a leading FILE column when `sources` gives each result's permission set build file. */
   private printTable(
     results: PermissionsBuildEntry[],
     sources?: string[],
