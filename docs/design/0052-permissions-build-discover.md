@@ -1,6 +1,6 @@
 # 0052 — `simply permissions build` with no flags builds every `.psbuild.json` file
 
-**Status:** In progress (core released in `simply-permissions-core@0.6.0`, SimplySF/simply-plugins-core#242)
+**Status:** Implemented (PR #96; core SimplySF/simply-plugins-core#242, `simply-permissions-core@0.6.0`)
 **Package:** `packages/simply-permissions` (CLI); `packages/simply-cicd` (switches to the shared
 search); `packages/simply-permissions-core` (library, in `simply-plugins-core`, where this doc is
 duplicated as its 0048)
