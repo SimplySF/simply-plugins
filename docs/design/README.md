@@ -88,7 +88,7 @@ refactors that keep the public surface identical (though a short doc is welcome 
 | [0048](0048-simply-flow-core.md)                                     | Splitting `simply-flow-core` out of `simply-flow`                                     | Implemented           |
 | [0049](0049-cicd-lwc-jest-fail-and-junit.md)                         | `build lwc-jest`: opt-in pipeline failure and JUnit results                           | Implemented           |
 | [0050](0050-permissions-build-check.md)                              | `simply permissions build --check`                                                    | Implemented           |
-| [0051](0051-cicd-check-permission-sets.md)                           | `simply cicd build check-permission-sets`                                             | In progress           |
+| [0051](0051-cicd-check-permission-sets.md)                           | `simply cicd build check-permission-sets`                                             | Implemented           |
 
 ## Template
 
