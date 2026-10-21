@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.20.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.19.0...%40simplysf%2Fsimply-cicd%400.20.0) (2026-10-21)
+
+- feat(simply-permissions)!: one permission set per .psbuild.json file; remove --file (#98) ([e628a56](https://github.com/SimplySF/simply-plugins/commit/e628a56c25c7c9729dec0996204fd8cc8c892b65)), closes [#98](https://github.com/SimplySF/simply-plugins/issues/98)
+
+### BREAKING CHANGES
+
+- `sf simply permissions build --file` is removed, and
+  .psbuild.json files in the old `{ defaults, permissionSets: [...] }` format
+  are rejected: split each into one file per permission set. The --json result
+  of `sf simply cicd build check-permission-sets` changes from
+  `files: [{ file, permissionSets }]` to `files: [{ file, permissionSet }]`.
+
 # [0.19.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.18.1...%40simplysf%2Fsimply-cicd%400.19.0) (2026-10-21)
 
 ### Features
