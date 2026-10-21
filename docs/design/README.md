@@ -90,7 +90,7 @@ refactors that keep the public surface identical (though a short doc is welcome 
 | [0050](0050-permissions-build-check.md)                              | `simply permissions build --check`                                                    | Implemented           |
 | [0051](0051-cicd-check-permission-sets.md)                           | `simply cicd build check-permission-sets`                                             | Implemented           |
 | [0052](0052-permissions-build-discover.md)                           | `simply permissions build` with no flags builds every `.psbuild.json` file            | Implemented           |
-| [0053](0053-psbuild-single-permission-set.md)                        | One permission set per `.psbuild.json` file; `--file` removed                         | Draft                 |
+| [0053](0053-psbuild-single-permission-set.md)                        | One permission set per `.psbuild.json` file; `--file` removed                         | Implemented           |
 
 ## Template
 
