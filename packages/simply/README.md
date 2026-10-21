@@ -2636,6 +2636,12 @@ DESCRIPTION
   config/app.psbuild.json): that's how `sf simply cicd build check-permission-sets` finds permission sets files, and
   this command warns about a file without it.
 
+  Run the command with neither --file nor any of the flags that describe a single permission set to build every
+  permission sets file under the current directory: every file whose name ends in .psbuild.json, skipping node_modules,
+  .git, .sf, and .sfdx. Every file is validated before anything is written, and the results table shows which file
+  declared each permission set. If no permission sets files are found, the command prints a warning and exits
+  successfully.
+
   {
   "defaults": {
   "directory": "force-app",
@@ -2677,6 +2683,14 @@ EXAMPLES
 
     $ sf simply permissions build --file config/app.psbuild.json --check
 
+  Regenerate every permission set declared in any .psbuild.json file under the current directory:
+
+    $ sf simply permissions build
+
+  Check every permission set declared in any .psbuild.json file under the current directory, without writing anything:
+
+    $ sf simply permissions build --check
+
 FLAG DESCRIPTIONS
   -c, --config=<value>  Path to a permission set configuration file
 
@@ -2685,26 +2699,27 @@ FLAG DESCRIPTIONS
 
   -d, --directory=<value>  Path to the Salesforce project directory
 
-    The path to the Salesforce source directory to scan for custom objects, fields, tabs, and record types. Required
-    unless --file is used.
+    The path to the Salesforce source directory to scan for custom objects, fields, tabs, and record types. Required to
+    build a single permission set.
 
   -f, --file=<value>  Path to a permission sets file declaring every permission set to generate
 
     The path to a JSON file with a "permissionSets" array, each entry describing one permission set to generate ("name",
     "type", and optionally "label", "description", "directory", "output", "includeRecordTypes", "config"), and an
     optional "defaults" object. Name it with the .psbuild.json suffix; any other name works but prints a warning. Can't
-    be combined with the flags that describe a single permission set.
+    be combined with the flags that describe a single permission set. If you omit --file and those flags, every
+    .psbuild.json file under the current directory is built.
 
   -n, --name=<value>  API name for the permission set
 
-    The API name for the generated permission set; also used to derive the output filename. Required unless --file is
-    used.
+    The API name for the generated permission set; also used to derive the output filename. Required to build a single
+    permission set.
 
   --check  Check that the generated permission sets are up to date, without writing them
 
     Instead of writing each permission set, compare what would be generated with the file already at its output path.
-    Exits with code 1 if any permission set has drifted or is missing. Works with --file and with the
-    single-permission-set flags.
+    Exits with code 1 if any permission set has drifted or is missing. Works with --file, with the single-permission-set
+    flags, and with neither, which checks every .psbuild.json file under the current directory.
 
   --include-record-types  Include record type visibilities
 
@@ -2712,13 +2727,13 @@ FLAG DESCRIPTIONS
 
   --output=<value>  Output directory
 
-    The directory to write the generated permission set XML file to. Required unless --file is used.
+    The directory to write the generated permission set XML file to. Required to build a single permission set.
 
   --type=read-only|view-all|modify-all  Baseline permission type
 
     The baseline permission level to generate: 'read-only' grants read access to all discovered objects and fields,
     'view-all' additionally grants view-all-records, and 'modify-all' grants full CRUD and modify-all-records access.
-    Required unless --file is used.
+    Required to build a single permission set.
 ```
 
 _See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@1.6.1/packages/simply-permissions/lib/commands/simply/permissions/build.js)_

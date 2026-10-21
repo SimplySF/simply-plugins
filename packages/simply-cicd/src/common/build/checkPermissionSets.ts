@@ -14,52 +14,18 @@
  * limitations under the License.
  */
 
-import { promises as fs } from 'node:fs';
 import {
   checkPermissionSets,
+  findPermissionSetsFiles,
   loadPermissionSetsFile,
-  PERMISSION_SETS_FILE_SUFFIX,
   PermissionSetBuildError,
   type PermissionSetCheckResult,
 } from '@simplysf/simply-permissions-core';
 import { logger } from '../logger.js';
 
-/** Directories never searched: dependencies, VCS data, and Salesforce CLI state. */
-const SKIPPED_DIRECTORIES = new Set(['node_modules', '.git', '.sf', '.sfdx']);
-
 export type RunCheckPermissionSetsOptions = { disabled?: boolean };
 export type PermissionSetsFileCheck = { file: string; permissionSets: PermissionSetCheckResult[] };
 export type RunCheckPermissionSetsResult = { skipped: boolean; files: PermissionSetsFileCheck[] };
-
-/**
- * Every permission sets file under the current directory: each file whose name ends in
- * {@link PERMISSION_SETS_FILE_SUFFIX}, found by walking the tree. Skipped directories are pruned
- * rather than filtered afterwards, so `node_modules` is never read, and symbolic links aren't followed.
- * Doesn't consult git: tracked, untracked, and ignored files are all found.
- *
- * @returns Paths relative to the current directory with `/` separators, sorted.
- */
-export async function findPermissionSetsFiles(): Promise<string[]> {
-  const matches: string[] = [];
-
-  const walk = async (dir: string): Promise<void> => {
-    const entries = await fs.readdir(dir, { withFileTypes: true });
-    for (const entry of entries) {
-      const relativePath = dir === '.' ? entry.name : `${dir}/${entry.name}`;
-      if (entry.isDirectory()) {
-        if (!SKIPPED_DIRECTORIES.has(entry.name)) {
-          // eslint-disable-next-line no-await-in-loop -- depth-first keeps the open directory handles to one
-          await walk(relativePath);
-        }
-      } else if (entry.isFile() && entry.name.endsWith(PERMISSION_SETS_FILE_SUFFIX)) {
-        matches.push(relativePath);
-      }
-    }
-  };
-
-  await walk('.');
-  return matches.sort();
-}
 
 /** The same text `simply permissions build` reports for each `PermissionSetBuildError` code. */
 function describeBuildError(error: PermissionSetBuildError): string {
