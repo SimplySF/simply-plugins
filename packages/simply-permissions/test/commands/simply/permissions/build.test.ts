@@ -22,40 +22,37 @@ import { SfError } from '@salesforce/core';
 import { afterEach, beforeEach, describe, expect, it, type MockInstance, vi } from 'vitest';
 import PermissionsBuild, {
   PermissionsBuildDiscoverResult,
-  PermissionsBuildFileResult,
   PermissionsBuildResult,
-  suffixedName,
 } from '../../../../src/commands/simply/permissions/build.js';
 import { writeFixtureProject } from '../../../helpers/fixtureProject.js';
 
+/** Writes a permission set build file for `name`, scanning `force-app` into `permissionsets` unless `settings` says otherwise. */
+const writeBuildFile = (file: string, name: string, type: string, settings: Record<string, unknown> = {}): void => {
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, JSON.stringify({ name, type, directory: 'force-app', output: 'permissionsets', ...settings }));
+};
+
 describe('simply permissions build', () => {
-  describe('with neither --file nor single-permission-set flags', () => {
+  describe('with no single-permission-set flags', () => {
     let originalCwd: string;
     let root: string;
     let warn: MockInstance;
 
-    const writePermissionSetsFile = (file: string, value: unknown): void => {
-      fs.mkdirSync(path.dirname(file), { recursive: true });
-      fs.writeFileSync(file, JSON.stringify(value));
-    };
     const xmlPath = (name: string): string => `permissionsets/${name}.permissionset-meta.xml`;
+    const runExpectingError = (args: string[]): Promise<SfError> =>
+      PermissionsBuild.run(args).then(
+        () => expect.fail('should have thrown Error'),
+        (err: SfError) => err,
+      );
 
     beforeEach(() => {
       originalCwd = process.cwd();
       root = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-permissions-build-discover-'));
       process.chdir(root);
       writeFixtureProject('force-app');
-      writePermissionSetsFile('config/b.psbuild.json', {
-        defaults: { directory: 'force-app', output: 'permissionsets' },
-        permissionSets: [
-          { name: 'B_Admin', type: 'modify-all' },
-          { name: 'B_Read_Only', type: 'read-only' },
-        ],
-      });
-      writePermissionSetsFile('apps/a.psbuild.json', {
-        defaults: { directory: 'force-app', output: 'permissionsets' },
-        permissionSets: [{ name: 'A_Support', type: 'view-all' }],
-      });
+      writeBuildFile('config/b-admin.psbuild.json', 'B_Admin', 'modify-all');
+      writeBuildFile('config/b-read-only.psbuild.json', 'B_Read_Only', 'read-only');
+      writeBuildFile('apps/a.psbuild.json', 'A_Support', 'view-all');
       warn = vi.spyOn(PermissionsBuild.prototype, 'warn');
     });
 
@@ -66,13 +63,13 @@ describe('simply permissions build', () => {
       fs.rmSync(root, { recursive: true, force: true });
     });
 
-    it('should build every permission set in every .psbuild.json file, naming the file of each', async () => {
+    it('should build the permission set defined by every .psbuild.json file, naming the file of each', async () => {
       const result = (await PermissionsBuild.run([])) as PermissionsBuildDiscoverResult;
 
       expect(result.map(({ file, name }) => ({ file, name }))).to.deep.equal([
         { file: 'apps/a.psbuild.json', name: 'A_Support' },
-        { file: 'config/b.psbuild.json', name: 'B_Admin' },
-        { file: 'config/b.psbuild.json', name: 'B_Read_Only' },
+        { file: 'config/b-admin.psbuild.json', name: 'B_Admin' },
+        { file: 'config/b-read-only.psbuild.json', name: 'B_Read_Only' },
       ]);
       expect(fs.readdirSync('permissionsets').sort()).to.deep.equal([
         'A_Support.permissionset-meta.xml',
@@ -90,21 +87,87 @@ describe('simply permissions build', () => {
 
       expect(result).to.deep.equal([]);
       expect(process.exitCode).to.be.undefined;
-      expect(warn).toHaveBeenCalledWith(expect.stringContaining('No permission sets files'));
+      expect(warn).toHaveBeenCalledWith(expect.stringContaining('No permission set build files'));
       expect(fs.existsSync('permissionsets')).to.be.false;
     });
 
-    it('should write nothing from any file when one file is invalid, naming it', async () => {
-      writePermissionSetsFile('config/b.psbuild.json', { permissionSets: [{ name: 'B', type: 'read-only' }] });
+    it('should apply every setting a file gives, with inline and file-referenced overrides', async () => {
+      fs.writeFileSync('admin-overrides.json', JSON.stringify({ userPermissions: { ViewSetup: true } }));
+      writeBuildFile('config/b-admin.psbuild.json', 'B_Admin', 'modify-all', {
+        label: 'B Admin',
+        includeRecordTypes: true,
+        config: 'admin-overrides.json',
+      });
+      writeBuildFile('apps/a.psbuild.json', 'A_Support', 'view-all', {
+        config: { tabs: { Widget__c: { visible: false } } },
+      });
 
-      const error = await PermissionsBuild.run([]).then(
-        () => expect.fail('should have thrown Error'),
-        (err: SfError) => err,
-      );
+      await PermissionsBuild.run([]);
+
+      const admin = fs.readFileSync(xmlPath('B_Admin'), 'utf-8');
+      expect(admin).to.include('<label>B Admin</label>');
+      expect(admin).to.include('<recordType>Widget__c.Standard</recordType>');
+      expect(admin).to.include('<name>ViewSetup</name>');
+
+      const support = fs.readFileSync(xmlPath('A_Support'), 'utf-8');
+      expect(support).to.include('<viewAllRecords>true</viewAllRecords>');
+      expect(support).to.match(/<tab>Widget__c<\/tab>\s*<visibility>Hidden<\/visibility>/);
+    });
+
+    it('should write nothing from any file when one file is invalid, naming it', async () => {
+      writeBuildFile('config/b-read-only.psbuild.json', 'B_Read_Only', 'read-only', { output: undefined });
+
+      const error = await runExpectingError([]);
 
       expect(error.message).to.match(
-        /^Permission sets file config\/b\.psbuild\.json: The configuration file config\/b\.psbuild\.json is invalid/,
+        /^Permission set build file config\/b-read-only\.psbuild\.json: The configuration file config\/b-read-only\.psbuild\.json is invalid/,
       );
+      expect(fs.existsSync('permissionsets')).to.be.false;
+    });
+
+    it('should write nothing when a source directory is missing, naming the file', async () => {
+      writeBuildFile('config/b-admin.psbuild.json', 'B_Admin', 'modify-all', { directory: 'missing' });
+
+      const error = await runExpectingError([]);
+
+      expect(error.message).to.equal(
+        'Permission set build file config/b-admin.psbuild.json: The source directory missing for permission set B_Admin does not exist.',
+      );
+      expect(fs.existsSync('permissionsets')).to.be.false;
+    });
+
+    it('should reject a file in the old permissionSets list format with migration instructions', async () => {
+      fs.writeFileSync(
+        'config/b-admin.psbuild.json',
+        JSON.stringify({
+          defaults: { directory: 'force-app', output: 'permissionsets' },
+          permissionSets: [{ name: 'B_Admin', type: 'modify-all' }],
+        }),
+      );
+
+      const error = await runExpectingError([]);
+
+      expect(error.message).to.equal(
+        'Permission set build file config/b-admin.psbuild.json: config/b-admin.psbuild.json uses the old format, a "permissionSets" list, which is no longer supported. Split it into one .psbuild.json file per permission set, with each permission set\'s settings at the top level.',
+      );
+      expect(fs.existsSync('permissionsets')).to.be.false;
+    });
+
+    it('should write nothing when two files define the same permission set, naming both', async () => {
+      writeBuildFile('config/b-read-only.psbuild.json', 'B_Admin', 'read-only');
+
+      const error = await runExpectingError([]);
+
+      expect(error.message).to.equal(
+        'Permission set B_Admin is defined by both config/b-admin.psbuild.json and config/b-read-only.psbuild.json. Each permission set must be defined by exactly one .psbuild.json file.',
+      );
+      expect(fs.existsSync('permissionsets')).to.be.false;
+    });
+
+    it('should no longer accept --file', async () => {
+      const error = await runExpectingError(['--file', 'config/b-admin.psbuild.json']);
+
+      expect(error.message).to.include('--file');
       expect(fs.existsSync('permissionsets')).to.be.false;
     });
 
@@ -116,8 +179,8 @@ describe('simply permissions build', () => {
 
       expect(result.map(({ file, name, status }) => ({ file, name, status }))).to.deep.equal([
         { file: 'apps/a.psbuild.json', name: 'A_Support', status: 'up-to-date' },
-        { file: 'config/b.psbuild.json', name: 'B_Admin', status: 'up-to-date' },
-        { file: 'config/b.psbuild.json', name: 'B_Read_Only', status: 'missing' },
+        { file: 'config/b-admin.psbuild.json', name: 'B_Admin', status: 'up-to-date' },
+        { file: 'config/b-read-only.psbuild.json', name: 'B_Read_Only', status: 'missing' },
       ]);
       expect(process.exitCode).to.equal(1);
       expect(fs.existsSync(xmlPath('B_Read_Only'))).to.be.false;
@@ -238,176 +301,22 @@ describe('simply permissions build', () => {
     }
   });
 
-  describe('--file', () => {
-    let root: string;
-    let source: string;
-    let output: string;
-
-    const writeFile = (value: unknown): string => {
-      const file = path.join(root, 'app.psbuild.json');
-      fs.writeFileSync(file, JSON.stringify(value));
-      return file;
-    };
-
-    beforeEach(() => {
-      root = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-permissions-build-file-'));
-      source = path.join(root, 'force-app');
-      output = path.join(root, 'permissionsets');
-      writeFixtureProject(source);
-    });
-
-    afterEach(() => {
-      fs.rmSync(root, { recursive: true, force: true });
-    });
-
-    it('should generate every permission set declared in the file', async () => {
-      const overrides = path.join(root, 'admin-overrides.json');
-      fs.writeFileSync(overrides, JSON.stringify({ userPermissions: { ViewSetup: true } }));
-      const file = writeFile({
-        defaults: { directory: source, output },
-        permissionSets: [
-          { name: 'App_Read_Only', type: 'read-only' },
-          { name: 'App_Admin', type: 'modify-all', label: 'App Admin', includeRecordTypes: true, config: overrides },
-          { name: 'App_Support', type: 'view-all', config: { tabs: { Widget__c: { visible: false } } } },
-        ],
-      });
-
-      const result = (await PermissionsBuild.run(['--file', file])) as PermissionsBuildFileResult;
-
-      expect(result.map((r) => r.name)).to.deep.equal(['App_Read_Only', 'App_Admin', 'App_Support']);
-      expect(fs.readdirSync(output).sort()).to.deep.equal([
-        'App_Admin.permissionset-meta.xml',
-        'App_Read_Only.permissionset-meta.xml',
-        'App_Support.permissionset-meta.xml',
-      ]);
-
-      const admin = fs.readFileSync(path.join(output, 'App_Admin.permissionset-meta.xml'), 'utf-8');
-      expect(admin).to.include('<label>App Admin</label>');
-      expect(admin).to.include('<recordType>Widget__c.Standard</recordType>');
-      expect(admin).to.include('<name>ViewSetup</name>');
-
-      const support = fs.readFileSync(path.join(output, 'App_Support.permissionset-meta.xml'), 'utf-8');
-      expect(support).to.include('<viewAllRecords>true</viewAllRecords>');
-      expect(support).to.match(/<tab>Widget__c<\/tab>\s*<visibility>Hidden<\/visibility>/);
-    });
-
-    it('should reject --file combined with single-permission-set flags', async () => {
-      const file = writeFile({
-        defaults: { directory: source, output },
-        permissionSets: [{ name: 'A', type: 'read-only' }],
-      });
-
-      const error = await PermissionsBuild.run(['--file', file, '--type', 'read-only']).then(
-        () => expect.fail('should have thrown Error'),
-        (err: SfError) => err,
-      );
-      expect(error.message).to.include('--type');
-      expect(error.message).to.include('--file');
-      expect(fs.existsSync(output)).to.be.false;
-    });
-
-    it('should write nothing when any entry is invalid', async () => {
-      const file = writeFile({
-        defaults: { output },
-        permissionSets: [
-          { name: 'Good', type: 'read-only', directory: source },
-          { name: 'Bad', type: 'read-only', directory: path.join(root, 'missing') },
-        ],
-      });
-
-      const error = await PermissionsBuild.run(['--file', file]).then(
-        () => expect.fail('should have thrown Error'),
-        (err: SfError) => err,
-      );
-      expect(error.message).to.include(
-        `The source directory ${path.join(root, 'missing')} for permission set Bad does not exist.`,
-      );
-      expect(fs.existsSync(output)).to.be.false;
-    });
-
-    it('should report schema violations with the file path', async () => {
-      const file = writeFile({ permissionSets: [{ name: 'A', type: 'read-only' }] });
-
-      const error = await PermissionsBuild.run(['--file', file]).then(
-        () => expect.fail('should have thrown Error'),
-        (err: SfError) => err,
-      );
-      expect(error.message).to.include(`The configuration file ${file} is invalid`);
-      expect(error.message).to.include("'directory' must be set on the permission set or in 'defaults'");
-    });
-
-    it('should warn, and still build, when the file lacks the .psbuild.json suffix', async () => {
-      const warn = vi.spyOn(PermissionsBuild.prototype, 'warn');
-      const file = path.join(root, 'permission-sets.json');
-      fs.writeFileSync(
-        file,
-        JSON.stringify({ defaults: { directory: source, output }, permissionSets: [{ name: 'A', type: 'read-only' }] }),
-      );
-
-      try {
-        const result = (await PermissionsBuild.run(['--file', file])) as PermissionsBuildFileResult;
-
-        expect(result.map((r) => r.name)).to.deep.equal(['A']);
-        expect(warn).toHaveBeenCalledWith(
-          `${file} doesn't end in .psbuild.json, so \`sf simply cicd build check-permission-sets\` won't find it. Rename it to ${path.join(root, 'permission-sets.psbuild.json')}.`,
-        );
-      } finally {
-        warn.mockRestore();
-      }
-    });
-
-    it('should not warn about a file with the .psbuild.json suffix', async () => {
-      const warn = vi.spyOn(PermissionsBuild.prototype, 'warn');
-      const file = writeFile({
-        defaults: { directory: source, output },
-        permissionSets: [{ name: 'A', type: 'read-only' }],
-      });
-
-      try {
-        await PermissionsBuild.run(['--file', file]);
-
-        expect(warn).not.toHaveBeenCalled();
-      } finally {
-        warn.mockRestore();
-      }
-    });
-  });
-
-  describe('suffixedName', () => {
-    it.each([
-      ['config/permission-sets.json', 'config/permission-sets.psbuild.json'],
-      ['perms', 'perms.psbuild.json'],
-      ['perms.yaml', 'perms.yaml.psbuild.json'],
-    ])('renames %s to %s', (file, expected) => {
-      expect(suffixedName(file)).to.equal(expected);
-    });
-  });
-
   describe('--check', () => {
+    const source = 'force-app';
+    const output = 'permissionsets';
+    let originalCwd: string;
     let root: string;
-    let source: string;
-    let output: string;
-    let file: string;
     let warn: MockInstance;
 
     beforeEach(async () => {
+      originalCwd = process.cwd();
       root = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-permissions-build-check-'));
-      source = path.join(root, 'force-app');
-      output = path.join(root, 'permissionsets');
+      process.chdir(root);
       writeFixtureProject(source);
-      file = path.join(root, 'app.psbuild.json');
-      fs.writeFileSync(
-        file,
-        JSON.stringify({
-          defaults: { directory: source, output },
-          permissionSets: [
-            { name: 'App_Read_Only', type: 'read-only' },
-            { name: 'App_Admin', type: 'modify-all' },
-            { name: 'App_Support', type: 'view-all' },
-          ],
-        }),
-      );
-      await PermissionsBuild.run(['--file', file]);
+      writeBuildFile('App_Admin.psbuild.json', 'App_Admin', 'modify-all');
+      writeBuildFile('App_Read_Only.psbuild.json', 'App_Read_Only', 'read-only');
+      writeBuildFile('App_Support.psbuild.json', 'App_Support', 'view-all');
+      await PermissionsBuild.run([]);
       // SfCommand's error handling sets process.exitCode when an earlier test's command throws.
       process.exitCode = undefined;
       warn = vi.spyOn(PermissionsBuild.prototype, 'warn');
@@ -416,13 +325,14 @@ describe('simply permissions build', () => {
     afterEach(() => {
       vi.restoreAllMocks();
       process.exitCode = undefined;
+      process.chdir(originalCwd);
       fs.rmSync(root, { recursive: true, force: true });
     });
 
     const xmlPath = (name: string): string => path.join(output, `${name}.permissionset-meta.xml`);
 
     it('should report every permission set as up to date right after generating them', async () => {
-      const result = (await PermissionsBuild.run(['--file', file, '--check'])) as PermissionsBuildFileResult;
+      const result = (await PermissionsBuild.run(['--check'])) as PermissionsBuildDiscoverResult;
 
       expect(result.map((r) => r.status)).to.deep.equal(['up-to-date', 'up-to-date', 'up-to-date']);
       expect(process.exitCode).to.be.undefined;
@@ -435,14 +345,14 @@ describe('simply permissions build', () => {
       fs.writeFileSync(xmlPath('App_Admin'), drifted);
       fs.rmSync(xmlPath('App_Support'));
 
-      const result = (await PermissionsBuild.run(['--file', file, '--check'])) as PermissionsBuildFileResult;
+      const result = (await PermissionsBuild.run(['--check'])) as PermissionsBuildDiscoverResult;
 
       expect(result.map(({ name, status }) => ({ name, status }))).to.deep.equal([
-        { name: 'App_Read_Only', status: 'up-to-date' },
         { name: 'App_Admin', status: 'drifted' },
+        { name: 'App_Read_Only', status: 'up-to-date' },
         { name: 'App_Support', status: 'missing' },
       ]);
-      expect(result[1]).to.include({ path: xmlPath('App_Admin'), objectPermissionCount: 1, fieldPermissionCount: 2 });
+      expect(result[0]).to.include({ path: xmlPath('App_Admin'), objectPermissionCount: 1, fieldPermissionCount: 2 });
       expect(process.exitCode).to.equal(1);
       expect(warn).toHaveBeenCalledWith(expect.stringContaining('2 of 3 permission set(s) have drifted'));
       expect(fs.readFileSync(xmlPath('App_Admin'), 'utf-8')).to.equal(drifted);
@@ -455,9 +365,9 @@ describe('simply permissions build', () => {
         fs.readFileSync(xmlPath('App_Admin'), 'utf-8').replaceAll('    ', '\t').replaceAll('\n', '\r\n'),
       );
 
-      const result = (await PermissionsBuild.run(['--file', file, '--check'])) as PermissionsBuildFileResult;
+      const result = (await PermissionsBuild.run(['--check'])) as PermissionsBuildDiscoverResult;
 
-      expect(result[1].status).to.equal('up-to-date');
+      expect(result[0].status).to.equal('up-to-date');
       expect(process.exitCode).to.be.undefined;
     });
 

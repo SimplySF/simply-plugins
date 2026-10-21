@@ -117,14 +117,13 @@ Generate permission sets from Salesforce source metadata.
 
 ```
 USAGE
-  $ sf simply permissions build [--json] [--flags-dir <value>] [-f <value> | --type read-only|view-all|modify-all | -n <value>
-    | -d <value> | --output <value> | -c <value> | --include-record-types | --label <value> | --description <value>]
+  $ sf simply permissions build [--json] [--flags-dir <value>] [--type read-only|view-all|modify-all] [-n <value>] [-d
+    <value>] [-c <value>] [--output <value>] [--include-record-types] [--label <value>] [--description <value>]
     [--check]
 
 FLAGS
   -c, --config=<value>        Path to a permission set configuration file
   -d, --directory=<value>     Path to the Salesforce project directory
-  -f, --file=<value>          Path to a permission sets file declaring every permission set to generate
   -n, --name=<value>          API name for the permission set
       --check                 Check that the generated permission sets are up to date, without writing them
       --description=<value>   Description for the permission set
@@ -146,43 +145,28 @@ DESCRIPTION
   override individual object, field, tab, record type, and user permission settings, as well as whether the permission
   set requires activation.
 
-  To regenerate every permission set in a project with one command, declare them all in a JSON file and pass it with
-  --file instead of the other flags. Each entry in the file's "permissionSets" array takes the same settings as one run
-  of this command; a top-level "defaults" object supplies the "directory", "output", and "includeRecordTypes" values
-  shared by every entry, and any entry can override them. An entry's "config" is either a path to a --config file or the
-  same overrides inline. Relative paths are resolved against the current directory, as they are for flags. The whole
-  file, including referenced override files and source directories, is validated before anything is written, and each
-  source directory is scanned only once. Name the file with the .psbuild.json suffix (for example
-  config/app.psbuild.json): that's how `sf simply cicd build check-permission-sets` finds permission sets files, and
-  this command warns about a file without it.
+  To regenerate every permission set in a project with one command, define each one in its own permission set build
+  file: a JSON file whose name ends in .psbuild.json (for example config/app-admin.psbuild.json), with the same settings
+  as one run of this command. "name", "type", "directory", and "output" are required; "label", "description",
+  "includeRecordTypes", and "config" are optional. "config" is either a path to a --config file or the same overrides
+  inline. Relative paths are resolved against the current directory, as they are for flags.
 
-  Run the command with neither --file nor any of the flags that describe a single permission set to build every
-  permission sets file under the current directory: every file whose name ends in .psbuild.json, skipping node_modules,
-  .git, .sf, and .sfdx. Every file is validated before anything is written, and the results table shows which file
-  declared each permission set. If no permission sets files are found, the command prints a warning and exits
-  successfully.
-
-  {
-  "defaults": {
-  "directory": "force-app",
-  "output": "force-app/main/default/permissionsets"
-  },
-  "permissionSets": [
-  { "name": "App_Read_Only", "type": "read-only" },
   {
   "name": "App_Admin",
   "type": "modify-all",
   "label": "App Admin",
+  "directory": "force-app",
+  "output": "force-app/main/default/permissionsets",
   "includeRecordTypes": true,
   "config": "config/app-admin-overrides.json"
-  },
-  {
-  "name": "App_Support",
-  "type": "view-all",
-  "config": { "userPermissions": { "ViewSetup": true } }
   }
-  ]
-  }
+
+  Then run the command with none of the flags that describe a single permission set. It builds the permission set
+  defined by every .psbuild.json file under the current directory, skipping node_modules, .git, .sf, and .sfdx. Every
+  file, including referenced override files and source directories, is validated before anything is written, no two
+  files can define the same permission set name, and each source directory is scanned only once. The results table shows
+  which file defined each permission set. If no .psbuild.json files are found, the command prints a warning and exits
+  successfully. `sf simply cicd build check-permission-sets` finds the same files.
 
   To check in CI that the committed permission sets still match their source metadata, add --check. It builds each
   permission set as usual but writes nothing: it compares each one with the file already at its output path and reports
@@ -195,19 +179,11 @@ EXAMPLES
 
   $ sf simply permissions build --type modify-all --name My_Admin_Access --directory force-app --config config/permission-overrides.json --output force-app/main/default/permissionsets --include-record-types
 
-  Regenerate every permission set declared in a permission sets file:
-
-    $ sf simply permissions build --file config/app.psbuild.json
-
-  In CI, fail if any permission set declared in a permission sets file needs to be regenerated:
-
-    $ sf simply permissions build --file config/app.psbuild.json --check
-
-  Regenerate every permission set declared in any .psbuild.json file under the current directory:
+  Regenerate the permission set defined by every .psbuild.json file under the current directory:
 
     $ sf simply permissions build
 
-  Check every permission set declared in any .psbuild.json file under the current directory, without writing anything:
+  In CI, fail if any permission set defined by a .psbuild.json file needs to be regenerated, without writing anything:
 
     $ sf simply permissions build --check
 
@@ -222,14 +198,6 @@ FLAG DESCRIPTIONS
     The path to the Salesforce source directory to scan for custom objects, fields, tabs, and record types. Required to
     build a single permission set.
 
-  -f, --file=<value>  Path to a permission sets file declaring every permission set to generate
-
-    The path to a JSON file with a "permissionSets" array, each entry describing one permission set to generate ("name",
-    "type", and optionally "label", "description", "directory", "output", "includeRecordTypes", "config"), and an
-    optional "defaults" object. Name it with the .psbuild.json suffix; any other name works but prints a warning. Can't
-    be combined with the flags that describe a single permission set. If you omit --file and those flags, every
-    .psbuild.json file under the current directory is built.
-
   -n, --name=<value>  API name for the permission set
 
     The API name for the generated permission set; also used to derive the output filename. Required to build a single
@@ -238,8 +206,8 @@ FLAG DESCRIPTIONS
   --check  Check that the generated permission sets are up to date, without writing them
 
     Instead of writing each permission set, compare what would be generated with the file already at its output path.
-    Exits with code 1 if any permission set has drifted or is missing. Works with --file, with the single-permission-set
-    flags, and with neither, which checks every .psbuild.json file under the current directory.
+    Exits with code 1 if any permission set has drifted or is missing. Works with the single-permission-set flags, and
+    without them, which checks the permission set defined by every .psbuild.json file under the current directory.
 
   --include-record-types  Include record type visibilities
 
