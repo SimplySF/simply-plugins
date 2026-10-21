@@ -23,6 +23,7 @@ import { afterEach, beforeEach, describe, expect, it, type MockInstance, vi } fr
 import PermissionsBuild, {
   PermissionsBuildFileResult,
   PermissionsBuildResult,
+  suffixedName,
 } from '../../../../src/commands/simply/permissions/build.js';
 import { writeFixtureProject } from '../../../helpers/fixtureProject.js';
 
@@ -151,7 +152,7 @@ describe('simply permissions build', () => {
     let output: string;
 
     const writeFile = (value: unknown): string => {
-      const file = path.join(root, 'permission-sets.json');
+      const file = path.join(root, 'app.psbuild.json');
       fs.writeFileSync(file, JSON.stringify(value));
       return file;
     };
@@ -242,6 +243,52 @@ describe('simply permissions build', () => {
       expect(error.message).to.include(`The configuration file ${file} is invalid`);
       expect(error.message).to.include("'directory' must be set on the permission set or in 'defaults'");
     });
+
+    it('should warn, and still build, when the file lacks the .psbuild.json suffix', async () => {
+      const warn = vi.spyOn(PermissionsBuild.prototype, 'warn');
+      const file = path.join(root, 'permission-sets.json');
+      fs.writeFileSync(
+        file,
+        JSON.stringify({ defaults: { directory: source, output }, permissionSets: [{ name: 'A', type: 'read-only' }] }),
+      );
+
+      try {
+        const result = (await PermissionsBuild.run(['--file', file])) as PermissionsBuildFileResult;
+
+        expect(result.map((r) => r.name)).to.deep.equal(['A']);
+        expect(warn).toHaveBeenCalledWith(
+          `${file} doesn't end in .psbuild.json, so \`sf simply cicd build check-permission-sets\` won't find it. Rename it to ${path.join(root, 'permission-sets.psbuild.json')}.`,
+        );
+      } finally {
+        warn.mockRestore();
+      }
+    });
+
+    it('should not warn about a file with the .psbuild.json suffix', async () => {
+      const warn = vi.spyOn(PermissionsBuild.prototype, 'warn');
+      const file = writeFile({
+        defaults: { directory: source, output },
+        permissionSets: [{ name: 'A', type: 'read-only' }],
+      });
+
+      try {
+        await PermissionsBuild.run(['--file', file]);
+
+        expect(warn).not.toHaveBeenCalled();
+      } finally {
+        warn.mockRestore();
+      }
+    });
+  });
+
+  describe('suffixedName', () => {
+    it.each([
+      ['config/permission-sets.json', 'config/permission-sets.psbuild.json'],
+      ['perms', 'perms.psbuild.json'],
+      ['perms.yaml', 'perms.yaml.psbuild.json'],
+    ])('renames %s to %s', (file, expected) => {
+      expect(suffixedName(file)).to.equal(expected);
+    });
   });
 
   describe('--check', () => {
@@ -256,7 +303,7 @@ describe('simply permissions build', () => {
       source = path.join(root, 'force-app');
       output = path.join(root, 'permissionsets');
       writeFixtureProject(source);
-      file = path.join(root, 'permission-sets.json');
+      file = path.join(root, 'app.psbuild.json');
       fs.writeFileSync(
         file,
         JSON.stringify({

@@ -41,6 +41,19 @@ export type PermissionsBuildResult = Omit<PermissionsBuildEntry, 'name'>;
 /** With `--file`: one entry per permission set declared in the file, in file order. */
 export type PermissionsBuildFileResult = PermissionsBuildEntry[];
 
+/**
+ * The suffix that marks a permission sets file, which is how `sf simply cicd build check-permission-sets`
+ * finds them. Also defined in `simply-cicd`.
+ */
+const PERMISSION_SETS_FILE_SUFFIX = '.psbuild.json';
+
+/** `file` renamed to carry {@link PERMISSION_SETS_FILE_SUFFIX}: `.psbuild` before a `.json` extension, or the whole suffix appended. */
+export function suffixedName(file: string): string {
+  return file.endsWith('.json')
+    ? `${file.slice(0, -'.json'.length)}${PERMISSION_SETS_FILE_SUFFIX}`
+    : `${file}${PERMISSION_SETS_FILE_SUFFIX}`;
+}
+
 /** The flags that describe a single permission set, and so can't be combined with `--file`. */
 const SINGLE_PERMISSION_SET_FLAGS = [
   'type',
@@ -155,6 +168,9 @@ export default class PermissionsBuild extends SfCommand<PermissionsBuildResult |
 
     try {
       const { file } = flags;
+      if (file && !file.endsWith(PERMISSION_SETS_FILE_SUFFIX)) {
+        this.warn(messages.getMessage('warning.unsuffixedFile', [file, suffixedName(file)]));
+      }
       const specs = file ? await this.readConfig(() => loadPermissionSetsFile(file)) : await this.singleSpec(flags);
       const results = flags.check ? await this.check(specs) : await this.generate(specs, Boolean(file));
       if (file) {

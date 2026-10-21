@@ -34,7 +34,7 @@ directly should get drift checking from the same library without shelling out.
 ## Behavior
 
 ```
-sf simply permissions build --file config/permission-sets.json --check
+sf simply permissions build --file config/app.psbuild.json --check
 sf simply permissions build --type read-only --name App_Read_Only --directory force-app \
   --output force-app/main/default/permissionsets --check
 ```

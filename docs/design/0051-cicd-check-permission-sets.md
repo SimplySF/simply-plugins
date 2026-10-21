@@ -1,6 +1,6 @@
 # 0051 — `simply cicd build check-permission-sets`
 
-**Status:** In progress (PR #93; the `--file` warning in #92)
+**Status:** In progress (PR #93, which also carries the `--file` warning)
 **Package:** `packages/simply-cicd`; `packages/simply-permissions` (the `--file` naming warning)
 **Date:** 2026-10-20 (revised 2026-10-21: discovery by the `.psbuild.json` suffix, not by content)
 
@@ -87,8 +87,7 @@ check-permission-sets` won't find it. Rename it to config/permission-sets.psbuil
 
 The suggested name inserts `.psbuild` before the `.json` extension, or appends `.psbuild.json` if
 there's no `.json` extension. The warning is printed with and without `--check`. Every example in
-the `build` messages, the docs site, and this doc's predecessors that are still being edited (0050)
-uses the suffix.
+the `build` messages, the docs site, and 0050 now uses the suffix.
 
 ### Outcomes
 
@@ -191,7 +190,7 @@ silently disable the check, and it would turn green.
    numbered list is the scratch org's lifecycle, and this job never touches one.
 7. `pnpm run build` (snapshot), `pnpm run readme` in `simply-cicd` and `packages/simply`,
    `pnpm --filter site run sync`, and this doc's index row.
-8. In #92 (`simply-permissions`): the `--file` naming warning, `.psbuild.json` in every example in
+8. `simply-permissions`, also in #93 because #92 merged before this revision: the `--file` naming warning, `.psbuild.json` in every example in
    `messages/simply.permissions.build.md`, a test for the warning, and the regenerated READMEs.
 
 ## Testing

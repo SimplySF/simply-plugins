@@ -39,7 +39,7 @@ EXAMPLES
   $ sf simply cicd build check-permission-sets
 ```
 
-_See code: [lib/commands/simply/cicd/build/check-permission-sets.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.16.0/packages/simply-cicd/lib/commands/simply/cicd/build/check-permission-sets.js)_
+_See code: [lib/commands/simply/cicd/build/check-permission-sets.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.17.0/packages/simply-cicd/lib/commands/simply/cicd/build/check-permission-sets.js)_
 
 ## `sf simply cicd build cleanup-scratch-orgs`
 
