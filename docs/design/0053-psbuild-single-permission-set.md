@@ -1,6 +1,6 @@
 # 0053 — One permission set per `.psbuild.json` file; `--file` removed
 
-**Status:** Draft
+**Status:** Implemented (PR #98; core SimplySF/simply-plugins-core#244, `simply-permissions-core@0.7.0`)
 **Package:** `packages/simply-permissions` (CLI); `packages/simply-cicd` (`check-permission-sets`);
 `packages/simply-permissions-core` (library, in `simply-plugins-core`, where this doc is duplicated
 as its 0049)
