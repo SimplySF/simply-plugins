@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.12.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply%406.11.0...%40simplysf%2Fsimply%406.12.0) (2026-10-21)
+
+### Features
+
+- **simply-cicd:** add build check-permission-sets, with .psbuild.json permission sets files ([#93](https://github.com/SimplySF/simply-plugins/issues/93)) ([f1959b0](https://github.com/SimplySF/simply-plugins/commit/f1959b0d881cfd6fd45f892fc1d90ee5c04b75d7))
+
 # [6.11.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply%406.10.7...%40simplysf%2Fsimply%406.11.0) (2026-10-20)
 
 ### Features
