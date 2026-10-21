@@ -1,8 +1,8 @@
 # 0051 — `simply cicd build check-permission-sets`
 
-**Status:** Implemented (PR #93)
-**Package:** `packages/simply-cicd`
-**Date:** 2026-10-20
+**Status:** In progress (PR #93; the `--file` warning in #92)
+**Package:** `packages/simply-cicd`; `packages/simply-permissions` (the `--file` naming warning)
+**Date:** 2026-10-20 (revised 2026-10-21: discovery by the `.psbuild.json` suffix, not by content)
 
 ## Problem
 
@@ -22,6 +22,12 @@ Add `sf simply cicd build check-permission-sets`. It finds every permission sets
 (the JSON format `simply permissions build --file` reads), checks every permission set each one
 declares, and fails the job if any has drifted or is missing. A repo with no permission sets files
 is a skip, not a failure, so the job is safe to put in a shared template.
+
+Permission sets files get a standard suffix, **`.psbuild.json`** (for example
+`config/app.psbuild.json`). The job finds them by that suffix alone, by walking the directory tree,
+so `find . -name '*.psbuild.json'` lists exactly what the job will check. `simply permissions build
+--file` keeps accepting any filename but warns when the suffix is missing, because the CI job won't
+find that file.
 
 The logic lives in `src/common/build/checkPermissionSets.ts`, beside the other build jobs
 (`lwcJest.ts`, `utamPageObjects.ts`). It calls `@simplysf/simply-permissions-core`'s
@@ -51,21 +57,38 @@ for `simply permissions build --file`.
 
 ### Discovery
 
-1. List candidate files with `git ls-files --cached --others --exclude-standard -- '*.json'`. That
-   means tracked files plus untracked files that aren't ignored, so `.gitignore` is respected and
-   `node_modules/`, `.sf/`, and build output are never scanned.
-2. Parse each candidate. A file is a **permission sets file** when it parses as JSON and its top
-   level is an object with a `permissionSets` array. Anything else is skipped silently, including
-   JSON that doesn't parse (such as `tsconfig.json` with comments) and `--config` overrides files.
-3. Sort the matches by path.
+1. Walk the directory tree from the current directory. A file is a **permission sets file** when its
+   name ends in `.psbuild.json`. Nothing else is read.
+2. Don't descend into `node_modules`, `.git`, `.sf`, or `.sfdx`. Pruning them during the walk matters,
+   because `node_modules` alone can hold hundreds of thousands of files. Symbolic links aren't
+   followed.
+3. Sort the matches by path, written relative to the current directory with `/` separators, so the
+   log and the fix command read the same on every OS.
+4. Validate and load each match with `loadPermissionSetsFile`. A `.psbuild.json` file that fails
+   validation is a **job failure**, not a skip. The suffix says it's meant to be one, and skipping it
+   would let a typo stop the check from running.
 
-Detection is by shape rather than by filename because 0039 never fixed a filename. The examples use
-`config/permission-sets.json`, but nothing requires it. A top-level `permissionSets` array is
-specific enough that a false positive is unlikely, and step 4 reports one loudly if it happens.
+The walk doesn't consult git, so it finds files whether or not they're tracked, ignored, or staged.
+In CI, where the checkout is the committed tree, that's every permission sets file in the commit.
 
-4. Validate and load each match with `loadPermissionSetsFile`. A file that looks like a permission
-   sets file but fails validation is a **job failure**, not a skip. It's clearly meant to be one, and
-   skipping it would let a typo stop the check from running.
+### The `.psbuild.json` suffix
+
+The name reads as "permission set build" config, and is short enough to grep for. It describes the
+permission sets file only. `--config` overrides files don't get a suffix. They're never discovered
+directly, because each is checked through whichever permission sets file references it.
+
+`simply permissions build --file <path>` warns, without failing, when `<path>` doesn't end in
+`.psbuild.json`:
+
+```
+Warning: config/permission-sets.json doesn't end in .psbuild.json, so `sf simply cicd build
+check-permission-sets` won't find it. Rename it to config/permission-sets.psbuild.json.
+```
+
+The suggested name inserts `.psbuild` before the `.json` extension, or appends `.psbuild.json` if
+there's no `.json` extension. The warning is printed with and without `--check`. Every example in
+the `build` messages, the docs site, and this doc's predecessors that are still being edited (0050)
+uses the suffix.
 
 ### Outcomes
 
@@ -83,7 +106,7 @@ across the repo. For each file with stale sets, it logs the command that fixes t
 ```
 ✖ App_Admin drifted   force-app/main/default/permissionsets/App_Admin.permissionset-meta.xml
 ✖ App_Support missing force-app/main/default/permissionsets/App_Support.permissionset-meta.xml
-  Regenerate with: sf simply permissions build --file config/permission-sets.json
+  Regenerate with: sf simply permissions build --file config/app.psbuild.json
 Error: 2 of 5 permission set(s) have drifted from their source metadata or are missing.
 ```
 
@@ -120,18 +143,29 @@ output and exit code exactly. But it makes `simply-cicd` depend on another plugi
 the pipeline image, and on parsing its `--json` output. Calling the library gives the same check
 with typed results.
 
-**Find files by a filename convention** (such as `**/permission-sets.json` or
-`*.permission-sets.json`). This is simpler and cheaper, but it would retroactively require a name
-the `--file` format never required, so existing repos would be silently skipped until renamed.
+**Find files by their content** (any JSON file whose top level has a `permissionSets` array, listed
+with `git ls-files`). This is what the first version of this doc chose, because the `--file` format
+never fixed a filename. It was replaced before release: which files would be checked wasn't visible
+from their names, so a team couldn't grep for them, and the job read and parsed every JSON file in
+the repo. The cost of the suffix, renaming files that already exist, is small this early: `--file`
+has only been released for a few weeks, and `build --file` now warns about any file that would be
+missed.
+
+**Keep `git ls-files`, matching by suffix.** This respects `.gitignore` exactly, but it needs a git
+checkout, and the result depends on the index rather than on what's on disk. A walk with a short
+skip list gives the same answer in CI and is predictable everywhere else. A `.psbuild.json` file in
+a gitignored directory is rare enough not to need special handling.
+
+**Other suffixes** (`.permission-sets.json`, `.permsets.json`). These were considered and rejected
+in favor of `.psbuild.json`, which names what the file is for: it's the build input, not the
+permission sets themselves.
+
+**Require the suffix in `build --file`.** This is consistent with the CI job, but it would break
+existing setups on upgrade. A warning gets the same result over time without breaking anything.
 
 **Configure the file list in `sfdx-project.json`** (the way other `simply-cicd` settings live there).
 This is explicit, but it's per-repo configuration, which is what this job exists to avoid. It also
 drifts out of date the same way a hand-written job does.
-
-**Walk the directory tree instead of `git ls-files`.** This works outside a git checkout, but it
-needs a hand-maintained skip list (`node_modules`, `.sf`, `.sfdx`, coverage, build output) and would
-scan ignored files `.gitignore` already describes. Every CI job runs in a checkout, and other build
-jobs already need git.
 
 **Fail when no permission sets files are found.** This is stricter, but it breaks the shared-template
 use case that motivates the job. `findPageObjectSources` sets the precedent: a project that hasn't
@@ -143,10 +177,11 @@ silently disable the check, and it would turn green.
 ## Implementation plan
 
 1. `package.json`: add `@simplysf/simply-permissions-core: ^0.4.0`.
-2. `src/common/build/checkPermissionSets.ts`: `findPermissionSetsFiles(projectDir)`, using
-   `git ls-files` and the shape test, and `runCheckPermissionSets(options)`, which loads, checks,
-   logs, and throws on drift. `PermissionSetBuildError` is mapped to the same message text
-   `simply permissions build` uses.
+2. `src/common/build/checkPermissionSets.ts`: `findPermissionSetsFiles()`, the suffix walk, and
+   `runCheckPermissionSets(options)`, which loads, checks, logs, and throws on drift.
+   `PermissionSetBuildError` is mapped to the same message text `simply permissions build` uses.
+   The suffix is a constant here and in `simply-permissions`, since each plugin needs it and the
+   string will never change. See open question 3.
 3. `src/commands/simply/cicd/build/check-permission-sets.ts`: a thin command using `debugFlag` and
    `disabledFlag`.
 4. `messages/simply.cicd.build.check-permission-sets.md`.
@@ -156,15 +191,20 @@ silently disable the check, and it would turn green.
    numbered list is the scratch org's lifecycle, and this job never touches one.
 7. `pnpm run build` (snapshot), `pnpm run readme` in `simply-cicd` and `packages/simply`,
    `pnpm --filter site run sync`, and this doc's index row.
+8. In #92 (`simply-permissions`): the `--file` naming warning, `.psbuild.json` in every example in
+   `messages/simply.permissions.build.md`, a test for the warning, and the regenerated READMEs.
 
 ## Testing
 
-**Unit** (`checkPermissionSets.test.ts`, with a temporary git repo and the fixture project):
+**Unit** (`checkPermissionSets.test.ts`, with a temporary directory and the fixture project):
 
 - **Discovery:**
-  - finds permission sets files at any depth, sorted
-  - skips JSON without a top-level `permissionSets` array, unparseable JSON, and `--config` overrides files
-  - skips gitignored files and includes untracked, non-ignored ones
+  - finds `.psbuild.json` files at any depth, sorted, with `/` separators
+  - ignores every other file, including a correctly shaped permission sets file without the suffix
+  - doesn't descend into `node_modules`, `.git`, `.sf`, or `.sfdx`
+  - works outside a git repo
+- **`build --file` warning** (in `simply-permissions`): warned for an unsuffixed file with the
+  suggested name, not warned for a suffixed one
 - **Outcomes:**
   - no files → skipped, exit 0
   - all up to date → success
@@ -186,3 +226,7 @@ silently disable the check, and it would turn green.
 2. **Per-file overrides of the working directory.** Paths currently resolve against the repo root,
    as they do for the CLI. If monorepos keep a permission sets file per sub-project with paths
    relative to that sub-project, this would need a flag. Not added until such a repo exists.
+3. **Where the suffix constant lives.** `simply-permissions-core` owns the file format, so it's the
+   natural home for an exported `PERMISSION_SETS_FILE_SUFFIX`. That would need another core release
+   before either PR could use it, so each plugin defines the string itself for now. Move it to core
+   the next time core is released for another reason.

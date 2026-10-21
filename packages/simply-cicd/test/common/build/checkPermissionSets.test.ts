@@ -85,7 +85,6 @@ describe('checkPermissionSets', () => {
     originalCwd = process.cwd();
     root = fs.mkdtempSync(path.join(os.tmpdir(), 'check-permission-sets-'));
     process.chdir(root);
-    await execa('git', ['init', '-q']);
     writeSource();
   });
 
@@ -95,41 +94,51 @@ describe('checkPermissionSets', () => {
   });
 
   describe('findPermissionSetsFiles', () => {
-    it('finds permission sets files at any depth by shape, sorted, and skips every other JSON file', async () => {
-      writePermissionSetsFile('config/permission-sets.json', ['A']);
-      writePermissionSetsFile('apps/sales/perms.json', ['B']);
+    it('finds .psbuild.json files at any depth, sorted, with / separators, and ignores every other file', async () => {
+      writePermissionSetsFile('config/app.psbuild.json', ['A']);
+      writePermissionSetsFile('apps/sales/sales.psbuild.json', ['B']);
+      writePermissionSetsFile('root.psbuild.json', ['C']);
+      // Correctly shaped, but without the suffix: not a permission sets file.
+      writePermissionSetsFile('config/permission-sets.json', ['D']);
       write('config/admin-overrides.json', JSON.stringify({ userPermissions: { ViewSetup: true } }));
-      write('package.json', JSON.stringify({ name: 'x' }));
-      write('tsconfig.json', '{ // a comment\n "compilerOptions": {} }');
-      write('not-an-array.json', JSON.stringify({ permissionSets: 'A' }));
-      write('top-level-array.json', JSON.stringify([{ permissionSets: [] }]));
+      write('config/notes.psbuild.json.bak', '{}');
 
-      expect(await findPermissionSetsFiles()).toStrictEqual(['apps/sales/perms.json', 'config/permission-sets.json']);
+      expect(await findPermissionSetsFiles()).toStrictEqual([
+        'apps/sales/sales.psbuild.json',
+        'config/app.psbuild.json',
+        'root.psbuild.json',
+      ]);
     });
 
-    it('includes tracked and untracked files but skips gitignored ones', async () => {
-      writePermissionSetsFile('tracked.json', ['A']);
-      await execa('git', ['add', 'tracked.json']);
-      writePermissionSetsFile('untracked.json', ['B']);
-      writePermissionSetsFile('node_modules/pkg/perms.json', ['C']);
-      writePermissionSetsFile('ignored/perms.json', ['D']);
-      write('.gitignore', 'node_modules/\nignored/\n');
+    it('does not descend into node_modules, .git, .sf, or .sfdx', async () => {
+      writePermissionSetsFile('app.psbuild.json', ['A']);
+      for (const dir of ['node_modules/pkg', '.git', '.sf/orgs', '.sfdx']) {
+        writePermissionSetsFile(`${dir}/x.psbuild.json`, ['B']);
+      }
+      writePermissionSetsFile('.config/team.psbuild.json', ['C']);
 
-      expect(await findPermissionSetsFiles()).toStrictEqual(['tracked.json', 'untracked.json']);
+      expect(await findPermissionSetsFiles()).toStrictEqual(['.config/team.psbuild.json', 'app.psbuild.json']);
     });
 
-    it('skips a tracked file that has been deleted from the working tree', async () => {
-      writePermissionSetsFile('perms.json', ['A']);
-      await execa('git', ['add', 'perms.json']);
-      fs.rmSync('perms.json');
+    it('finds files regardless of git: tracked, untracked, and gitignored alike', async () => {
+      await execa('git', ['init', '-q']);
+      writePermissionSetsFile('tracked.psbuild.json', ['A']);
+      await execa('git', ['add', 'tracked.psbuild.json']);
+      writePermissionSetsFile('untracked.psbuild.json', ['B']);
+      writePermissionSetsFile('ignored/x.psbuild.json', ['C']);
+      write('.gitignore', 'ignored/\n');
 
-      expect(await findPermissionSetsFiles()).toStrictEqual([]);
+      expect(await findPermissionSetsFiles()).toStrictEqual([
+        'ignored/x.psbuild.json',
+        'tracked.psbuild.json',
+        'untracked.psbuild.json',
+      ]);
     });
   });
 
   describe('runCheckPermissionSets', () => {
     it('skips when disabled', async () => {
-      writePermissionSetsFile('perms.json', ['A']);
+      writePermissionSetsFile('app.psbuild.json', ['A']);
 
       expect(await runCheckPermissionSets({ disabled: true })).toStrictEqual({ skipped: true, files: [] });
       expect(logger.warn).toHaveBeenCalledWith('check-permission-sets is disabled. Skipping.');
@@ -141,14 +150,14 @@ describe('checkPermissionSets', () => {
     });
 
     it('succeeds when every permission set is up to date, resolving paths against the current directory', async () => {
-      writePermissionSetsFile('config/permission-sets.json', ['App_Admin', 'App_Support']);
-      await generate('config/permission-sets.json');
+      writePermissionSetsFile('config/app.psbuild.json', ['App_Admin', 'App_Support']);
+      await generate('config/app.psbuild.json');
 
       const result = await runCheckPermissionSets({});
 
       expect(result.skipped).toBe(false);
       expect(result.files).toHaveLength(1);
-      expect(result.files[0].file).toBe('config/permission-sets.json');
+      expect(result.files[0].file).toBe('config/app.psbuild.json');
       expect(
         result.files[0].permissionSets.map(({ name, path: p, status }) => ({ name, path: p, status })),
       ).toStrictEqual([
@@ -161,10 +170,10 @@ describe('checkPermissionSets', () => {
     });
 
     it('checks every file before failing, naming each stale permission set and the command that fixes its file', async () => {
-      writePermissionSetsFile('a/perms.json', ['A_Admin', 'A_Missing']);
-      writePermissionSetsFile('b/perms.json', ['B_Admin']);
-      await generate('a/perms.json');
-      await generate('b/perms.json');
+      writePermissionSetsFile('a/app.psbuild.json', ['A_Admin', 'A_Missing']);
+      writePermissionSetsFile('b/app.psbuild.json', ['B_Admin']);
+      await generate('a/app.psbuild.json');
+      await generate('b/app.psbuild.json');
       fs.rmSync(xmlPath('A_Missing'));
       writeField('Size__c');
       const before = fs.readFileSync(xmlPath('B_Admin'), 'utf8');
@@ -176,33 +185,33 @@ describe('checkPermissionSets', () => {
       expect(logger.error).toHaveBeenCalledWith(`A_Admin drifted ${xmlPath('A_Admin')}`);
       expect(logger.error).toHaveBeenCalledWith(`A_Missing missing ${xmlPath('A_Missing')}`);
       expect(logger.error).toHaveBeenCalledWith(`B_Admin drifted ${xmlPath('B_Admin')}`);
-      expect(logger.log).toHaveBeenCalledWith('Regenerate with: sf simply permissions build --file a/perms.json');
-      expect(logger.log).toHaveBeenCalledWith('Regenerate with: sf simply permissions build --file b/perms.json');
+      expect(logger.log).toHaveBeenCalledWith('Regenerate with: sf simply permissions build --file a/app.psbuild.json');
+      expect(logger.log).toHaveBeenCalledWith('Regenerate with: sf simply permissions build --file b/app.psbuild.json');
       // Nothing written: the missing file stays missing and the drifted one keeps its old content.
       expect(fs.existsSync(xmlPath('A_Missing'))).toBe(false);
       expect(fs.readFileSync(xmlPath('B_Admin'), 'utf8')).toBe(before);
     });
 
     it('fails at once on an invalid permission sets file, naming it, without checking later files', async () => {
-      write('a/perms.json', JSON.stringify({ permissionSets: [{ name: 'A', type: 'read-only' }] }));
-      writePermissionSetsFile('b/perms.json', ['B']);
+      write('a/app.psbuild.json', JSON.stringify({ permissionSets: [{ name: 'A', type: 'read-only' }] }));
+      writePermissionSetsFile('b/app.psbuild.json', ['B']);
 
       await expect(runCheckPermissionSets({})).rejects.toThrow(
-        /^Permission sets file a\/perms\.json: The configuration file a\/perms\.json is invalid: /,
+        /^Permission sets file a\/app.psbuild.json: The configuration file a\/app.psbuild.json is invalid: /,
       );
 
-      expect(logger.info).toHaveBeenCalledWith('Checking permission sets file a/perms.json...');
-      expect(logger.info).not.toHaveBeenCalledWith('Checking permission sets file b/perms.json...');
+      expect(logger.info).toHaveBeenCalledWith('Checking permission sets file a/app.psbuild.json...');
+      expect(logger.info).not.toHaveBeenCalledWith('Checking permission sets file b/app.psbuild.json...');
     });
 
     it('names the permission sets file when a source directory is missing', async () => {
       write(
-        'perms.json',
+        'app.psbuild.json',
         JSON.stringify({ permissionSets: [{ name: 'A', type: 'read-only', directory: 'nope', output: OUTPUT }] }),
       );
 
       await expect(runCheckPermissionSets({})).rejects.toThrow(
-        'Permission sets file perms.json: The source directory nope for permission set A does not exist.',
+        'Permission sets file app.psbuild.json: The source directory nope for permission set A does not exist.',
       );
     });
   });

@@ -15,7 +15,6 @@
  */
 
 import { promises as fs } from 'node:fs';
-import { execa } from 'execa';
 import {
   checkPermissionSets,
   loadPermissionSetsFile,
@@ -24,64 +23,44 @@ import {
 } from '@simplysf/simply-permissions-core';
 import { logger } from '../logger.js';
 
+/** The suffix that marks a permission sets file (the `simply permissions build --file` format). Also defined in `simply-permissions`. */
+export const PERMISSION_SETS_FILE_SUFFIX = '.psbuild.json';
+
+/** Directories never searched: dependencies, VCS data, and Salesforce CLI state. */
+const SKIPPED_DIRECTORIES = new Set(['node_modules', '.git', '.sf', '.sfdx']);
+
 export type RunCheckPermissionSetsOptions = { disabled?: boolean };
 export type PermissionSetsFileCheck = { file: string; permissionSets: PermissionSetCheckResult[] };
 export type RunCheckPermissionSetsResult = { skipped: boolean; files: PermissionSetsFileCheck[] };
 
-/** Whether `content` has the shape of a permission sets file: a JSON object with a top-level `permissionSets` array. */
-function isPermissionSetsFile(content: string): boolean {
-  let parsed: unknown;
-  try {
-    parsed = JSON.parse(content);
-  } catch {
-    // Not JSON (or JSON with comments, like tsconfig.json): not ours.
-    return false;
-  }
-  return (
-    typeof parsed === 'object' &&
-    parsed !== null &&
-    Array.isArray((parsed as { permissionSets?: unknown }).permissionSets)
-  );
-}
-
 /**
- * Every permission sets file (the `simply permissions build --file` format) in the git working tree
- * under the current directory: tracked files plus untracked ones that aren't ignored, so
- * `.gitignore` decides what's in the repo and `node_modules` is never scanned. Matched by shape
- * rather than name, since the format never fixed a filename.
+ * Every permission sets file under the current directory: each file whose name ends in
+ * {@link PERMISSION_SETS_FILE_SUFFIX}, found by walking the tree. Skipped directories are pruned
+ * rather than filtered afterwards, so `node_modules` is never read, and symbolic links aren't followed.
+ * Doesn't consult git: tracked, untracked, and ignored files are all found.
  *
- * @returns Paths relative to the current directory, as git prints them, sorted.
+ * @returns Paths relative to the current directory with `/` separators, sorted.
  */
 export async function findPermissionSetsFiles(): Promise<string[]> {
-  const { stdout } = await execa('git', [
-    'ls-files',
-    '-z',
-    '--cached',
-    '--others',
-    '--exclude-standard',
-    '--',
-    '*.json',
-  ]);
-  // `--cached --others` lists a tracked file that's also modified once; a file deleted from the working tree is still listed.
-  const candidates = [...new Set(stdout.split('\0').filter(Boolean))].sort();
-
   const matches: string[] = [];
-  for (const candidate of candidates) {
-    let content: string;
-    try {
-      // eslint-disable-next-line no-await-in-loop -- sequential keeps memory flat on large repos
-      content = await fs.readFile(candidate, 'utf8');
-    } catch (error) {
-      if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
-        continue;
+
+  const walk = async (dir: string): Promise<void> => {
+    const entries = await fs.readdir(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      const relativePath = dir === '.' ? entry.name : `${dir}/${entry.name}`;
+      if (entry.isDirectory()) {
+        if (!SKIPPED_DIRECTORIES.has(entry.name)) {
+          // eslint-disable-next-line no-await-in-loop -- depth-first keeps the open directory handles to one
+          await walk(relativePath);
+        }
+      } else if (entry.isFile() && entry.name.endsWith(PERMISSION_SETS_FILE_SUFFIX)) {
+        matches.push(relativePath);
       }
-      throw error;
     }
-    if (isPermissionSetsFile(content)) {
-      matches.push(candidate);
-    }
-  }
-  return matches;
+  };
+
+  await walk('.');
+  return matches.sort();
 }
 
 /** The same text `simply permissions build` reports for each `PermissionSetBuildError` code. */
