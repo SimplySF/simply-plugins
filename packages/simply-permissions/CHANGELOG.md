@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-permissions%402.0.0...%40simplysf%2Fsimply-permissions%403.0.0) (2026-10-22)
+
+- feat(simply-permissions)!: use simply-permissions-core 0.10.0 override names (#100), closes [#100](https://github.com/SimplySF/simply-plugins/issues/100)
+
+### BREAKING CHANGES
+
+- --config files and inline .psbuild.json config overrides
+  must use the new section and key names.
+
 # [2.0.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-permissions%401.7.0...%40simplysf%2Fsimply-permissions%402.0.0) (2026-10-21)
 
 - feat(simply-permissions)!: one permission set per .psbuild.json file; remove --file (#98) ([e628a56](https://github.com/SimplySF/simply-plugins/commit/e628a56c25c7c9729dec0996204fd8cc8c892b65)), closes [#98](https://github.com/SimplySF/simply-plugins/issues/98)
