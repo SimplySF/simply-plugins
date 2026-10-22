@@ -235,14 +235,14 @@ The `--config` flag on `sf simply permissions build` takes the path to a JSON fi
 
 ```json
 {
-  "objects": {
-    "Account": { "read": true, "create": true, "edit": true, "viewAll": true }
+  "objectPermissions": {
+    "Account": { "allowRead": true, "allowCreate": true, "allowEdit": true, "viewAllRecords": true }
   },
-  "fields": {
+  "fieldPermissions": {
     "Account.AnnualRevenue": { "readable": true, "editable": false }
   },
-  "tabs": {
-    "Account": { "visible": true }
+  "tabSettings": {
+    "Account": { "visibility": "Visible" }
   },
   "recordTypeVisibilities": {
     "Account.Enterprise": { "visible": true }
@@ -254,14 +254,14 @@ The `--config` flag on `sf simply permissions build` takes the path to a JSON fi
 }
 ```
 
-| Field                    | Type                                   | Keyed by                     | Description                                                                                                                                              |
-| ------------------------ | -------------------------------------- | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `objects`                | `Record<string, ObjectPerm>`           | Object API name              | Overrides object-level access. `ObjectPerm` fields: `read`, `create`, `edit`, `delete`, `modifyAll`, `viewAll`, `viewAllFields` (all optional booleans). |
-| `fields`                 | `Record<string, FieldPerm>`            | `Object.Field` API name      | Overrides field-level access. `FieldPerm` fields: `readable`, `editable` (optional booleans).                                                            |
-| `tabs`                   | `Record<string, TabSetting>`           | Tab API name                 | Overrides tab visibility. `TabSetting` fields: `visible` (optional boolean).                                                                             |
-| `recordTypeVisibilities` | `Record<string, RecordTypeVisibility>` | `Object.RecordType` API name | Overrides record type visibility. Fields: `visible` (optional boolean). Only applied when `--include-record-types` is also passed.                       |
-| `userPermissions`        | `Record<string, boolean>`              | User permission API name     | Enables (`true`) or disables (`false`) individual user permissions.                                                                                      |
-| `hasActivationRequired`  | `boolean`                              | —                            | Whether the generated permission set requires activation before it grants access. Defaults to `false`.                                                   |
+| Field                    | Type                                   | Keyed by                     | Description                                                                                                                                                                                |
+| ------------------------ | -------------------------------------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `objectPermissions`      | `Record<string, ObjectPerm>`           | Object API name              | Overrides object-level access. `ObjectPerm` fields: `allowRead`, `allowCreate`, `allowEdit`, `allowDelete`, `modifyAllRecords`, `viewAllRecords`, `viewAllFields` (all optional booleans). |
+| `fieldPermissions`       | `Record<string, FieldPerm>`            | `Object.Field` API name      | Overrides field-level access. `FieldPerm` fields: `readable`, `editable` (optional booleans).                                                                                              |
+| `tabSettings`            | `Record<string, TabSetting>`           | Tab API name                 | Overrides tab visibility. `TabSetting` fields: `visibility`: `Visible`, `Available`, or `None` (optional). A tab only the config names defaults to `None`.                                 |
+| `recordTypeVisibilities` | `Record<string, RecordTypeVisibility>` | `Object.RecordType` API name | Overrides record type visibility. Fields: `visible` (optional boolean). Only applied when `--include-record-types` is also passed.                                                         |
+| `userPermissions`        | `Record<string, boolean>`              | User permission API name     | Enables (`true`) or disables (`false`) individual user permissions.                                                                                                                        |
+| `hasActivationRequired`  | `boolean`                              | —                            | Whether the generated permission set requires activation before it grants access. Defaults to `false`.                                                                                     |
 
 ## License
 

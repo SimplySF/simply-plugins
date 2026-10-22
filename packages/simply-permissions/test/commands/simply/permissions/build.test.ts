@@ -99,7 +99,7 @@ describe('simply permissions build', () => {
         config: 'admin-overrides.json',
       });
       writeBuildFile('apps/a.psbuild.json', 'A_Support', 'view-all', {
-        config: { tabs: { Widget__c: { visible: false } } },
+        config: { tabSettings: { Widget__c: { visibility: 'None' } } },
       });
 
       await PermissionsBuild.run([]);
@@ -111,7 +111,7 @@ describe('simply permissions build', () => {
 
       const support = fs.readFileSync(xmlPath('A_Support'), 'utf-8');
       expect(support).to.include('<viewAllRecords>true</viewAllRecords>');
-      expect(support).to.match(/<tab>Widget__c<\/tab>\s*<visibility>Hidden<\/visibility>/);
+      expect(support).to.match(/<tab>Widget__c<\/tab>\s*<visibility>None<\/visibility>/);
     });
 
     it('should write nothing from any file when one file is invalid, naming it', async () => {
@@ -236,7 +236,7 @@ describe('simply permissions build', () => {
   it('should report an invalid --config file by path', async () => {
     const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-permissions-build-'));
     const config = path.join(directory, 'config.json');
-    fs.writeFileSync(config, JSON.stringify({ objects: { Account: { read: 'yes' } } }));
+    fs.writeFileSync(config, JSON.stringify({ objectPermissions: { Account: { allowRead: 'yes' } } }));
 
     try {
       const error = await PermissionsBuild.run([
@@ -265,7 +265,7 @@ describe('simply permissions build', () => {
     const output = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-permissions-build-out-'));
     const config = path.join(output, 'config.json');
     writeFixtureProject(directory);
-    fs.writeFileSync(config, JSON.stringify({ fields: { 'Widget__c.Color__c': { readable: false } } }));
+    fs.writeFileSync(config, JSON.stringify({ fieldPermissions: { 'Widget__c.Color__c': { readable: false } } }));
 
     try {
       const result = (await PermissionsBuild.run([
