@@ -62,7 +62,7 @@
     "@salesforce/sf-plugins-core": "^12.2.16",
     "@salesforce/source-deploy-retrieve": "^12.37.2",
     "@simplysf/simply-core": "^1.6.11",
-    "@simplysf/simply-permissions-core": "^0.10.0",
+    "@simplysf/simply-permissions-core": "^0.10.1",
     "@simplysf/simply-plugin-kit": "workspace:^1.0.9",
     "zod": "^4.6.5"
   },
