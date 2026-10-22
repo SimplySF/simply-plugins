@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.0.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-permissions%404.0.0...%40simplysf%2Fsimply-permissions%405.0.0) (2026-10-22)
+
+- fix(simply-cicd)!: use simply-permissions-core 0.10.1 (#102), closes [#102](https://github.com/SimplySF/simply-plugins/issues/102)
+
+### BREAKING CHANGES
+
+- check-permission-sets now rejects the old override
+  names (objects, fields, tabs, read, create, and so on) with an
+  invalid-config error, the same as sf simply permissions build.
+
 # [4.0.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-permissions%403.0.0...%40simplysf%2Fsimply-permissions%404.0.0) (2026-10-22)
 
 - fix(deps)!: bump @simplysf core packages to their latest versions (#101), closes [#101](https://github.com/SimplySF/simply-plugins/issues/101)
