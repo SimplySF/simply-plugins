@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+/* eslint-disable camelcase -- Salesforce API names (Widget__c, etc.) as override keys */
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -121,6 +122,19 @@ describe('checkPermissionSets', () => {
         },
       ]);
       expect(logger.success).toHaveBeenLastCalledWith('All 2 permission set(s) are up to date.');
+    });
+
+    it('applies config overrides named after permission set metadata', async () => {
+      writeBuildFile('app.psbuild.json', 'A', {
+        config: { objectPermissions: { Widget__c: { allowDelete: false } } },
+      });
+      await generate('app.psbuild.json');
+
+      const xml = fs.readFileSync(xmlPath('A'), 'utf8');
+      expect(xml).toContain('<allowDelete>false</allowDelete>');
+      expect(xml).toMatch(/<viewAllFields>.*<\/viewAllFields>\s*<viewAllRecords>/);
+      const result = await runCheckPermissionSets({});
+      expect(result.files[0].permissionSet.status).toBe('up-to-date');
     });
 
     it('checks every file before failing, naming each stale permission set, its file, and the command that fixes them', async () => {
