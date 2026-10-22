@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.21.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.20.0...%40simplysf%2Fsimply-cicd%400.21.0) (2026-10-22)
+
+- fix(deps)!: bump @simplysf core packages to their latest versions (#101), closes [#101](https://github.com/SimplySF/simply-plugins/issues/101)
+
+### BREAKING CHANGES
+
+- simply-cicd's check-permission-sets now loads
+  .psbuild.json files with simply-permissions-core 0.10.0, so config
+  overrides must use the PermissionSet metadata names (objectPermissions,
+  fieldPermissions, tabSettings, viewAllRecords, modifyAllRecords, and tab
+  visibility). Files with the old names fail with a "renamed to" message,
+  as they already do in simply-permissions 3.0.0.
+
 # [0.20.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.19.0...%40simplysf%2Fsimply-cicd%400.20.0) (2026-10-21)
 
 - feat(simply-permissions)!: one permission set per .psbuild.json file; remove --file (#98) ([e628a56](https://github.com/SimplySF/simply-plugins/commit/e628a56c25c7c9729dec0996204fd8cc8c892b65)), closes [#98](https://github.com/SimplySF/simply-plugins/issues/98)

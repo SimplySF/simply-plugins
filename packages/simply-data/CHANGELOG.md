@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-data%402.4.17...%40simplysf%2Fsimply-data%403.0.0) (2026-10-22)
+
+- fix(deps)!: bump @simplysf core packages to their latest versions (#101), closes [#101](https://github.com/SimplySF/simply-plugins/issues/101)
+
+### BREAKING CHANGES
+
+- simply-cicd's check-permission-sets now loads
+  .psbuild.json files with simply-permissions-core 0.10.0, so config
+  overrides must use the PermissionSet metadata names (objectPermissions,
+  fieldPermissions, tabSettings, viewAllRecords, modifyAllRecords, and tab
+  visibility). Files with the old names fail with a "renamed to" message,
+  as they already do in simply-permissions 3.0.0.
+
 ## [2.4.17](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-data%402.4.16...%40simplysf%2Fsimply-data%402.4.17) (2026-10-19)
 
 ### Bug Fixes
