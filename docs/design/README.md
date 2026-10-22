@@ -91,6 +91,8 @@ refactors that keep the public surface identical (though a short doc is welcome 
 | [0051](0051-cicd-check-permission-sets.md)                           | `simply cicd build check-permission-sets`                                             | Implemented           |
 | [0052](0052-permissions-build-discover.md)                           | `simply permissions build` with no flags builds every `.psbuild.json` file            | Implemented           |
 | [0053](0053-psbuild-single-permission-set.md)                        | One permission set per `.psbuild.json` file; `--file` removed                         | Implemented           |
+| [0054](0054-permissions-config-record-access-names.md)               | Overrides use `viewAllRecords` / `modifyAllRecords`                                   | Draft                 |
+| [0055](0055-permissions-config-metadata-names.md)                    | Override sections and keys match the PermissionSet metadata                           | Draft                 |
 
 ## Template
 
