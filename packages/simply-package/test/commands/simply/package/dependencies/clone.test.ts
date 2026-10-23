@@ -45,7 +45,7 @@ describe('simply package dependencies clone', () => {
     return dir;
   }
 
-  /** Write the project's sfdx-project.json with these dependencies and repository map. */
+  /** Write the project's sfdx-project.json with these dependencies and each one's repository. */
   function writeProject(dependencies: string[], repositories: Record<string, { url: string; ref?: string }>): void {
     fs.writeFileSync(
       path.join(projectDir, 'sfdx-project.json'),
@@ -59,7 +59,13 @@ describe('simply package dependencies clone', () => {
             dependencies: dependencies.map((name) => ({ package: name })),
           },
         ],
-        plugins: { simply: { dependencies: { repositories } } },
+        plugins: {
+          simply: {
+            packages: Object.fromEntries(
+              Object.entries(repositories).map(([key, repository]) => [key, { repository }]),
+            ),
+          },
+        },
       }),
     );
   }

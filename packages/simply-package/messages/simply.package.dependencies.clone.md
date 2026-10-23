@@ -4,9 +4,9 @@ Git-clone the source repositories of a Salesforce project's package dependencies
 
 # description
 
-Clones each package dependency declared in sfdx-project.json whose source repository is mapped under plugins.simply.dependencies.repositories, so you can review the metadata the project depends on. Nothing is installed in an org.
+Clones each package dependency declared in sfdx-project.json whose source repository is given under plugins.simply.packages, so you can review the metadata the project depends on. Nothing is installed in an org.
 
-Each map entry is keyed by package alias and gives a git "url", plus an optional "ref" (branch, tag, or commit SHA) and "path" (the subdirectory holding the repository's own sfdx-project.json). A key matches a dependency's "package" value exactly, or up to its first "@", so a key such as "fflib" keeps matching as the dependency moves from "fflib@3.0.0-1" to "fflib@3.1.0-2".
+Each plugins.simply.packages entry is keyed by package alias. Its "repository" gives a git "url", plus an optional "ref" (branch, tag, or commit SHA) and "path" (the subdirectory holding the repository's own sfdx-project.json). A key matches a dependency's "package" value exactly, or up to its first "@", so a key such as "fflib" keeps matching as the dependency moves from "fflib@3.0.0-1" to "fflib@3.1.0-2".
 
 The command runs your own git, so any host works (GitHub, GitLab, self-hosted servers) with the SSH keys or credential helper you already use. A url that contains credentials is rejected. Dependencies with no mapping, such as AppExchange packages, are reported as "No repository".
 

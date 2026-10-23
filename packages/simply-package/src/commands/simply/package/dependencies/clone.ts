@@ -25,8 +25,9 @@ const messages = Messages.loadMessages('@simplysf/simply-package', 'simply.packa
 export type { DependencyCloneResult };
 
 /**
- * Git-clones the source repositories of a Salesforce DX project's package dependencies, as mapped
- * in `plugins.simply.dependencies.repositories`, so their metadata can be reviewed locally.
+ * Git-clones the source repositories of a Salesforce DX project's package dependencies, as given
+ * by each package's `repository` in `plugins.simply.packages`, so their metadata can be reviewed
+ * locally.
  */
 export default class PackageDependenciesClone extends SfCommand<DependencyCloneResult[]> {
   public static readonly summary = messages.getMessage('summary');

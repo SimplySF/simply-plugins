@@ -50,14 +50,13 @@ GLOBAL FLAGS
 DESCRIPTION
   Git-clone the source repositories of a Salesforce project's package dependencies.
 
-  Clones each package dependency declared in sfdx-project.json whose source repository is mapped under
-  plugins.simply.dependencies.repositories, so you can review the metadata the project depends on. Nothing is installed
-  in an org.
+  Clones each package dependency declared in sfdx-project.json whose source repository is given under
+  plugins.simply.packages, so you can review the metadata the project depends on. Nothing is installed in an org.
 
-  Each map entry is keyed by package alias and gives a git "url", plus an optional "ref" (branch, tag, or commit SHA)
-  and "path" (the subdirectory holding the repository's own sfdx-project.json). A key matches a dependency's "package"
-  value exactly, or up to its first "@", so a key such as "fflib" keeps matching as the dependency moves from
-  "fflib@3.0.0-1" to "fflib@3.1.0-2".
+  Each plugins.simply.packages entry is keyed by package alias. Its "repository" gives a git "url", plus an optional
+  "ref" (branch, tag, or commit SHA) and "path" (the subdirectory holding the repository's own sfdx-project.json). A key
+  matches a dependency's "package" value exactly, or up to its first "@", so a key such as "fflib" keeps matching as the
+  dependency moves from "fflib@3.0.0-1" to "fflib@3.1.0-2".
 
   The command runs your own git, so any host works (GitHub, GitLab, self-hosted servers) with the SSH keys or credential
   helper you already use. A url that contains credentials is rejected. Dependencies with no mapping, such as AppExchange
@@ -453,13 +452,17 @@ Each package directory's `dependencies` array lists the packages to install/mana
   "plugins": {
     "simply": {
       "dependencies": {
-        "ignore": ["MyLockedDependency", "0Ho000000000002AAA"],
-        "repositories": {
-          "fflib-apex-common": {
+        "ignore": ["MyLockedDependency", "0Ho000000000002AAA"]
+      },
+      "packages": {
+        "fflib-apex-common": {
+          "repository": {
             "url": "https://github.com/apex-enterprise-patterns/fflib-apex-common.git",
             "ref": "v3.0.0"
-          },
-          "my-core": {
+          }
+        },
+        "my-core": {
+          "repository": {
             "url": "git@gitlab.example.internal:salesforce/my-core.git",
             "ref": "main",
             "path": "sfdx-source"
@@ -474,11 +477,12 @@ Each package directory's `dependencies` array lists the packages to install/mana
 }
 ```
 
-| Key                                                   | Type       | Description                                                                                                                                                                                                                                                                                                                                                                |
-| ----------------------------------------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `plugins.simply.dependencies.ignore`                  | `string[]` | `Package2Id`s or aliases that `dependencies manage` should leave unchanged, and `dependencies clone` should skip.                                                                                                                                                                                                                                                          |
-| `plugins.simply.dependencies.repositories`            | `object`   | Where each dependency's source lives, for `dependencies clone`. Keyed by package alias, matched against a dependency's `package` value exactly or up to its first `@`. Each entry has a git `url` (any host; credentials are rejected), and optionally a `ref` (branch, tag, or commit SHA) and a `path` (the subdirectory holding that repository's `sfdx-project.json`). |
-| `plugins.simply.package.brancheswithreleasedversions` | `string[]` | Branch names that contain released versions, considered in addition to the main build branch.                                                                                                                                                                                                                                                                              |
+| Key                                                   | Type       | Description                                                                                                                                                                                                                                       |
+| ----------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `plugins.simply.dependencies.ignore`                  | `string[]` | `Package2Id`s or aliases that `dependencies manage` should leave unchanged, and `dependencies clone` should skip.                                                                                                                                 |
+| `plugins.simply.package.brancheswithreleasedversions` | `string[]` | Branch names that contain released versions, considered in addition to the main build branch.                                                                                                                                                     |
+| `plugins.simply.packages`                             | `object`   | Settings per package, keyed by package alias, matched against a dependency's `package` value exactly or up to its first `@`. Used by `dependencies clone`.                                                                                        |
+| `plugins.simply.packages.<alias>.repository`          | `object`   | Where that package's source lives, for `dependencies clone`: a git `url` (any host; credentials are rejected), and optionally a `ref` (branch, tag, or commit SHA) and a `path` (the subdirectory holding that repository's `sfdx-project.json`). |
 
 ## Report Files
 
