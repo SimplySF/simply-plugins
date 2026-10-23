@@ -11,6 +11,83 @@ sf plugins install @simplysf/simply-package
 
 ## Commands
 
+## `sf simply package dependencies clone`
+
+Git-clone the source repositories of a Salesforce project's package dependencies.
+
+```
+USAGE
+  $ sf simply package dependencies clone [--json] [--flags-dir <value>] [-d <value>] [-r] [--depth <value>] [-u]
+  [--dry-run]
+
+FLAGS
+  -d, --output-dir=<value>  [default: ..] Directory to clone into, relative to the project root.
+  -r, --recursive           Also clone the dependencies of each dependency, following each clone's own
+                            sfdx-project.json.
+  -u, --update              Fetch and update repositories that are already cloned.
+      --depth=<value>       Create shallow clones with this many commits of history.
+      --dry-run             Show what would be cloned, without running git.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Git-clone the source repositories of a Salesforce project's package dependencies.
+
+  Clones each package dependency declared in sfdx-project.json whose source repository is mapped under
+  plugins.simply.dependencies.repositories, so you can review the metadata the project depends on. Nothing is installed
+  in an org.
+
+  Each map entry is keyed by package alias and gives a git "url", plus an optional "ref" (branch, tag, or commit SHA)
+  and "path" (the subdirectory holding the repository's own sfdx-project.json). A key matches a dependency's "package"
+  value exactly, or up to its first "@", so a key such as "fflib" keeps matching as the dependency moves from
+  "fflib@3.0.0-1" to "fflib@3.1.0-2".
+
+  The command runs your own git, so any host works (GitHub, GitLab, self-hosted servers) with the SSH keys or credential
+  helper you already use. A url that contains credentials is rejected. Dependencies with no mapping, such as AppExchange
+  packages, are reported as "No repository".
+
+  Each repository is cloned into a folder named after it, next to the project by default. A folder that already holds a
+  clone of the same repository is reused.
+
+EXAMPLES
+  Clone the direct dependencies of the project in the current directory, next to it:
+
+    $ sf simply package dependencies clone
+
+  Clone every dependency, including dependencies of dependencies, as shallow clones into a "deps" folder:
+
+    $ sf simply package dependencies clone --recursive --depth 1 --output-dir ../deps
+
+  Bring existing clones up to date with their configured refs:
+
+    $ sf simply package dependencies clone --update
+
+  Preview what would be cloned:
+
+    $ sf simply package dependencies clone --recursive --dry-run
+
+FLAG DESCRIPTIONS
+  -d, --output-dir=<value>  Directory to clone into, relative to the project root.
+
+    Each repository goes into "<output-dir>/<repository name>". The default, "..", puts clones next to the project. When
+    two different repositories share a name, the second folder is prefixed with its group or owner.
+
+  -u, --update  Fetch and update repositories that are already cloned.
+
+    A clone on the configured branch is fast-forwarded, and a clone at a detached HEAD (after a tag or SHA) is checked
+    out at the configured ref. A clone with uncommitted changes, or on some other branch, is left alone and reported as
+    skipped, because it may be your own working copy.
+
+  --depth=<value>  Create shallow clones with this many commits of history.
+
+    Passed to "git clone --depth". A dependency pinned to a commit SHA always gets a full clone, because a shallow clone
+    can't check out an arbitrary commit.
+```
+
+_See code: [lib/commands/simply/package/dependencies/clone.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@4.0.0/packages/simply-package/lib/commands/simply/package/dependencies/clone.js)_
+
 ## `sf simply package dependencies install`
 
 Install package dependencies for a Salesforce project.
@@ -143,7 +220,7 @@ FLAG DESCRIPTIONS
     Packages not listed here use --retry-attempts.
 ```
 
-_See code: [lib/commands/simply/package/dependencies/install.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@3.1.7/packages/simply-package/lib/commands/simply/package/dependencies/install.js)_
+_See code: [lib/commands/simply/package/dependencies/install.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@4.0.0/packages/simply-package/lib/commands/simply/package/dependencies/install.js)_
 
 ## `sf simply package dependencies manage`
 
@@ -202,7 +279,7 @@ FLAG DESCRIPTIONS
     version without interactive prompts. Mutually exclusive with --update-to-latest.
 ```
 
-_See code: [lib/commands/simply/package/dependencies/manage.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@3.1.7/packages/simply-package/lib/commands/simply/package/dependencies/manage.js)_
+_See code: [lib/commands/simply/package/dependencies/manage.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@4.0.0/packages/simply-package/lib/commands/simply/package/dependencies/manage.js)_
 
 ## `sf simply package version cleanup`
 
@@ -259,7 +336,7 @@ FLAG DESCRIPTIONS
     that does not match any of the given selectors is deleted. Mutually exclusive with --selector.
 ```
 
-_See code: [lib/commands/simply/package/version/cleanup.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@3.1.7/packages/simply-package/lib/commands/simply/package/version/cleanup.js)_
+_See code: [lib/commands/simply/package/version/cleanup.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@4.0.0/packages/simply-package/lib/commands/simply/package/version/cleanup.js)_
 
 ## `sf simply package version get`
 
@@ -319,4 +396,4 @@ FLAG DESCRIPTIONS
     "test-package@0.1.0+2", pass "test-package".
 ```
 
-_See code: [lib/commands/simply/package/version/get.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@3.1.7/packages/simply-package/lib/commands/simply/package/version/get.js)_
+_See code: [lib/commands/simply/package/version/get.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@4.0.0/packages/simply-package/lib/commands/simply/package/version/get.js)_
