@@ -2234,6 +2234,14 @@ DESCRIPTION
   Each repository is cloned into a folder named after it, next to the project by default. A folder that already holds a
   clone of the same repository is reused.
 
+  With --recursive, your own plugins.simply.packages entries always come first. A dependency's sfdx-project.json can
+  supply a repository only for a package you don't map, and only as an https or ssh URL. Each repository that comes from
+  one is named in the output.
+
+  Cloning runs nothing from the repositories: no install scripts, no git hooks, and no submodules. Treat the clones as
+  untrusted code until you've reviewed them. Opening one in an editor that trusts the folder, running npm install or its
+  scripts, or deploying its metadata can run code it contains.
+
 EXAMPLES
   Clone the direct dependencies of the project in the current directory, next to it:
 
@@ -2261,7 +2269,8 @@ FLAG DESCRIPTIONS
 
     A clone on the configured branch is fast-forwarded, and a clone at a detached HEAD (after a tag or SHA) is checked
     out at the configured ref. A clone with uncommitted changes, or on some other branch, is left alone and reported as
-    skipped, because it may be your own working copy.
+    skipped, because it may be your own working copy. A clone that follows a branch, including the default branch when
+    no "ref" is set, gets that branch's newest commits; set "ref" to a tag to stay on one version.
 
   --depth=<value>  Create shallow clones with this many commits of history.
 
