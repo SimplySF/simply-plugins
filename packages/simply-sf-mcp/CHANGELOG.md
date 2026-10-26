@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-sf-mcp%400.2.0...%40simplysf%2Fsimply-sf-mcp%400.2.1) (2026-10-26)
+
+### Bug Fixes
+
+- **deps:** bump zod from 4.6.5 to 4.6.7 ([#105](https://github.com/SimplySF/simply-plugins/issues/105)) ([b2dd938](https://github.com/SimplySF/simply-plugins/commit/b2dd9382c0012ff391715d6c4aefb07527e514eb))
+
 # [0.2.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-sf-mcp%400.1.1...%40simplysf%2Fsimply-sf-mcp%400.2.0) (2026-10-22)
 
 - fix(deps)!: bump @simplysf core packages to their latest versions (#101), closes [#101](https://github.com/SimplySF/simply-plugins/issues/101)
