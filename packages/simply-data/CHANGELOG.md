@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.1](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-data%403.0.0...%40simplysf%2Fsimply-data%403.0.1) (2026-10-26)
+
+### Bug Fixes
+
+- **deps:** bump csv-parse from 7.0.2 to 7.0.3 ([#104](https://github.com/SimplySF/simply-plugins/issues/104)) ([0badfeb](https://github.com/SimplySF/simply-plugins/commit/0badfebbf03fddd2b11d915f1f089c0868215800))
+
 # [3.0.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-data%402.4.17...%40simplysf%2Fsimply-data%403.0.0) (2026-10-22)
 
 - fix(deps)!: bump @simplysf core packages to their latest versions (#101), closes [#101](https://github.com/SimplySF/simply-plugins/issues/101)

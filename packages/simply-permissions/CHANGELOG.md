@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.1](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-permissions%405.0.0...%40simplysf%2Fsimply-permissions%405.0.1) (2026-10-26)
+
+### Bug Fixes
+
+- **deps:** bump zod from 4.6.5 to 4.6.7 ([#105](https://github.com/SimplySF/simply-plugins/issues/105)) ([b2dd938](https://github.com/SimplySF/simply-plugins/commit/b2dd9382c0012ff391715d6c4aefb07527e514eb))
+
 # [5.0.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-permissions%404.0.0...%40simplysf%2Fsimply-permissions%405.0.0) (2026-10-22)
 
 - fix(simply-cicd)!: use simply-permissions-core 0.10.1 (#102), closes [#102](https://github.com/SimplySF/simply-plugins/issues/102)

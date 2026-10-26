@@ -1881,7 +1881,7 @@ FLAG DESCRIPTIONS
     Setup and Configuration" permission — the command warns and proceeds rather than failing.
 ```
 
-_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@3.0.0/packages/simply-data/lib/commands/simply/data/file/upload.js)_
+_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@3.0.1/packages/simply-data/lib/commands/simply/data/file/upload.js)_
 
 ## `sf simply data files download`
 
@@ -1943,7 +1943,7 @@ FLAG DESCRIPTIONS
     Provide a WHERE clause to allow the plugin to specify which ContentVersion records should be downloaded.
 ```
 
-_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@3.0.0/packages/simply-data/lib/commands/simply/data/files/download.js)_
+_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@3.0.1/packages/simply-data/lib/commands/simply/data/files/download.js)_
 
 ## `sf simply data files upload`
 
@@ -2009,7 +2009,7 @@ FLAG DESCRIPTIONS
     quasi concurrent uploads. Please note that setting this value too high can cause performance issues.
 ```
 
-_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@3.0.0/packages/simply-data/lib/commands/simply/data/files/upload.js)_
+_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@3.0.1/packages/simply-data/lib/commands/simply/data/files/upload.js)_
 
 ## `sf simply document diff`
 
@@ -2632,7 +2632,7 @@ FLAG DESCRIPTIONS
     The path to write the generated HTML report to.
 ```
 
-_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@5.0.0/packages/simply-permissions/lib/commands/simply/permissions/analyze.js)_
+_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@5.0.1/packages/simply-permissions/lib/commands/simply/permissions/analyze.js)_
 
 ## `sf simply permissions assignment delete`
 
@@ -2675,7 +2675,7 @@ EXAMPLES
   $ sf simply permissions assignment delete --permission-set-group-name My_Permission_Set_Group --target-org myOrg
 ```
 
-_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@5.0.0/packages/simply-permissions/lib/commands/simply/permissions/assignment/delete.js)_
+_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@5.0.1/packages/simply-permissions/lib/commands/simply/permissions/assignment/delete.js)_
 
 ## `sf simply permissions build`
 
@@ -2790,7 +2790,7 @@ FLAG DESCRIPTIONS
     Required to build a single permission set.
 ```
 
-_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@5.0.0/packages/simply-permissions/lib/commands/simply/permissions/build.js)_
+_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@5.0.1/packages/simply-permissions/lib/commands/simply/permissions/build.js)_
 
 ## `sf simply project update api-version`
 
@@ -2870,7 +2870,7 @@ FLAG DESCRIPTIONS
     A `.csv` file processed as the flat CSV flow, or a `.xlsx`/`.xls` file processed as the Excel flow.
 ```
 
-_See code: [@simplysf/simply-schema](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-schema@0.4.0/packages/simply-schema/lib/commands/simply/schema/generate.js)_
+_See code: [@simplysf/simply-schema](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-schema@0.4.1/packages/simply-schema/lib/commands/simply/schema/generate.js)_
 
 ## `sf simply schema visualize`
 
@@ -2932,7 +2932,7 @@ FLAG DESCRIPTIONS
     specified, every discovered object is included. If not specified, every object matching `--object-type` is included.
 ```
 
-_See code: [@simplysf/simply-schema](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-schema@0.4.0/packages/simply-schema/lib/commands/simply/schema/visualize.js)_
+_See code: [@simplysf/simply-schema](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-schema@0.4.1/packages/simply-schema/lib/commands/simply/schema/visualize.js)_
 
 ## `sf simply settings address state activate`
 
@@ -3155,7 +3155,7 @@ FLAG DESCRIPTIONS
     OwnerId, are skipped.
 ```
 
-_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@2.0.0/packages/simply-sobject/lib/commands/simply/sobject/backup.js)_
+_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@2.0.1/packages/simply-sobject/lib/commands/simply/sobject/backup.js)_
 
 ## `sf simply sobject deduplicate`
 
@@ -3208,7 +3208,7 @@ FLAG DESCRIPTIONS
     The directory to write the generated CSV files to. Defaults to ./temp/<primaryObjectApiName>.
 ```
 
-_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@2.0.0/packages/simply-sobject/lib/commands/simply/sobject/deduplicate.js)_
+_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@2.0.1/packages/simply-sobject/lib/commands/simply/sobject/deduplicate.js)_
 
 ## `sf simply sobject history export`
 
@@ -3262,7 +3262,7 @@ FLAG DESCRIPTIONS
     The start of the date range to export history for, inclusive.
 ```
 
-_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@2.0.0/packages/simply-sobject/lib/commands/simply/sobject/history/export.js)_
+_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@2.0.1/packages/simply-sobject/lib/commands/simply/sobject/history/export.js)_
 
 ## `sf simply sobject history query`
 
@@ -3318,7 +3318,7 @@ FLAG DESCRIPTIONS
     The API name of the SObject to query field history for (e.g. Account or Custom_Object__c).
 ```
 
-_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@2.0.0/packages/simply-sobject/lib/commands/simply/sobject/history/query.js)_
+_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@2.0.1/packages/simply-sobject/lib/commands/simply/sobject/history/query.js)_
 
 ## `sf simply sobject history schema`
 
@@ -3356,7 +3356,7 @@ FLAG DESCRIPTIONS
     The directory to save the generated CSV and HTML report files to. Defaults to the current directory.
 ```
 
-_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@2.0.0/packages/simply-sobject/lib/commands/simply/sobject/history/schema.js)_
+_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@2.0.1/packages/simply-sobject/lib/commands/simply/sobject/history/schema.js)_
 <!-- commandsstop -->
 
 ## License
