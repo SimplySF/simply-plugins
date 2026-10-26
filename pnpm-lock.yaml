@@ -461,8 +461,8 @@ importers:
         specifier: ^1.6.11
         version: 1.6.11
       '@simplysf/simply-package-core':
-        specifier: ^0.3.11
-        version: 0.3.11(supports-color@8.1.1)
+        specifier: ^0.4.0
+        version: 0.4.0(supports-color@8.1.1)
       '@simplysf/simply-plugin-kit':
         specifier: workspace:^1.0.9
         version: link:../simply-plugin-kit
@@ -2721,6 +2721,10 @@ packages:
 
   '@simplysf/simply-package-core@0.3.11':
     resolution: {integrity: sha512-4QW4ZbhR9dEhGY5oTRoDkYQDz4N39rGDIYqZBzQ3OORTRnmzLinf1l3ABDwUXaWoL5aOXky8GuOA7usX2vFekQ==}
+    engines: {node: '>=22.0.0'}
+
+  '@simplysf/simply-package-core@0.4.0':
+    resolution: {integrity: sha512-hneurbx5bhH+Q4idWO3DaITfxsn8SllNLn6SCK3Bdf2EWZocITYX1vDWr2YTXlSfySw3lwdl4xqCo+18og7oHA==}
     engines: {node: '>=22.0.0'}
 
   '@simplysf/simply-permissions-core@0.10.1':
@@ -10366,6 +10370,16 @@ snapshots:
       glob: 13.0.6
 
   '@simplysf/simply-package-core@0.3.11(supports-color@8.1.1)':
+    dependencies:
+      '@salesforce/core': 8.32.6
+      '@salesforce/kit': 3.2.6
+      '@salesforce/packaging': 4.27.8(supports-color@8.1.1)
+      '@simplysf/simply-core': 1.6.11
+      zod: 4.6.7
+    transitivePeerDependencies:
+      - supports-color
+
+  '@simplysf/simply-package-core@0.4.0(supports-color@8.1.1)':
     dependencies:
       '@salesforce/core': 8.32.6
       '@salesforce/kit': 3.2.6
