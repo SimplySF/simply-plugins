@@ -68,7 +68,7 @@
     "@simplysf/simply-core": "^1.6.11",
     "@simplysf/simply-plugin-kit": "workspace:^1.0.9",
     "@simplysf/simply-sobject-core": "^0.2.6",
-    "zod": "^4.6.5"
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@oclif/plugin-command-snapshot": "^5.4.0",
