@@ -1880,7 +1880,7 @@ FLAG DESCRIPTIONS
     Setup and Configuration" permission — the command warns and proceeds rather than failing.
 ```
 
-_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@3.0.0/packages/simply-data/lib/commands/simply/data/file/upload.js)_
+_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@3.0.1/packages/simply-data/lib/commands/simply/data/file/upload.js)_
 
 ## `sf simply data files download`
 
@@ -1942,7 +1942,7 @@ FLAG DESCRIPTIONS
     Provide a WHERE clause to allow the plugin to specify which ContentVersion records should be downloaded.
 ```
 
-_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@3.0.0/packages/simply-data/lib/commands/simply/data/files/download.js)_
+_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@3.0.1/packages/simply-data/lib/commands/simply/data/files/download.js)_
 
 ## `sf simply data files upload`
 
@@ -2008,7 +2008,7 @@ FLAG DESCRIPTIONS
     quasi concurrent uploads. Please note that setting this value too high can cause performance issues.
 ```
 
-_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@3.0.0/packages/simply-data/lib/commands/simply/data/files/upload.js)_
+_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@3.0.1/packages/simply-data/lib/commands/simply/data/files/upload.js)_
 
 ## `sf simply document diff`
 
@@ -2784,7 +2784,7 @@ FLAG DESCRIPTIONS
     A `.csv` file processed as the flat CSV flow, or a `.xlsx`/`.xls` file processed as the Excel flow.
 ```
 
-_See code: [@simplysf/simply-schema](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-schema@0.4.0/packages/simply-schema/lib/commands/simply/schema/generate.js)_
+_See code: [@simplysf/simply-schema](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-schema@0.4.1/packages/simply-schema/lib/commands/simply/schema/generate.js)_
 
 ## `sf simply schema visualize`
 
@@ -2846,7 +2846,7 @@ FLAG DESCRIPTIONS
     specified, every discovered object is included. If not specified, every object matching `--object-type` is included.
 ```
 
-_See code: [@simplysf/simply-schema](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-schema@0.4.0/packages/simply-schema/lib/commands/simply/schema/visualize.js)_
+_See code: [@simplysf/simply-schema](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-schema@0.4.1/packages/simply-schema/lib/commands/simply/schema/visualize.js)_
 
 ## `sf simply settings address state activate`
 
