@@ -475,24 +475,15 @@ describe('publishUtamPageObjects', () => {
       await expect(fs.readFile(staged, 'utf8')).resolves.toBe('{"root": true}');
     });
 
-    it('should write an .npmrc only when a token was given, and only into staging', async () => {
+    it('should leave registry auth to the job, writing no .npmrc anywhere', async () => {
       await publishUtamPageObjects({
         ...baseOptions,
         debug: true,
-        npmToken: 'secret',
         npmRegistry: 'https://gitlab.example.com/api/v4/projects/42/packages/npm/',
       });
 
-      await expect(readStaged('.npmrc')).resolves.toBe(
-        '//gitlab.example.com/api/v4/projects/42/packages/npm/:_authToken=secret\n',
-      );
-      await expect(fs.access(path.join(projectDir, '.npmrc'))).rejects.toThrow();
-    });
-
-    it('should write no .npmrc when no token was given', async () => {
-      await publishUtamPageObjects({ ...baseOptions, debug: true });
-
       await expect(fs.access(path.join(lastStagingDir(), '.npmrc'))).rejects.toThrow();
+      await expect(fs.access(path.join(projectDir, '.npmrc'))).rejects.toThrow();
     });
 
     it('should clean the staging directory up unless debugging', async () => {

@@ -16,6 +16,8 @@ Skips (without failing) when `PACKAGE_CHANGED=FALSE` is set in the environment (
 
 On success, appends `UTAM_PAGE_OBJECTS_PACKAGE` and `UTAM_PAGE_OBJECTS_VERSION` to `--out`, so a downstream job can install the package without knowing the mapping rule.
 
+Registry authentication is not this command's job: set it up before the command runs, in user-level npm config (for example `npm config set -- "//<registry host and path>/:_authToken=<token>"`, which writes `~/.npmrc`) or in an `.npmrc` that `NPM_CONFIG_USERCONFIG` points at. npm runs from a staging directory outside the repo, so a project-level `.npmrc` in the repo is not read.
+
 Configure the package name, the compiler's type aliases, extra peer dependencies, and a project-owned compiler config under `plugins.simply.utam` in `sfdx-project.json`.
 
 # flags.packaging-devhub.summary
@@ -32,11 +34,7 @@ npm package name to publish the page objects under. Required unless `plugins.sim
 
 # flags.npm-registry.summary
 
-Registry to publish to. Defaults to whatever npm itself is configured to use.
-
-# flags.npm-token.summary
-
-Auth token for the registry. Written to an .npmrc inside the staging directory only — the repo's own .npmrc is never touched.
+Registry to publish to. Defaults to whatever npm itself is configured to use. Authenticating to it is the job's responsibility — see the description.
 
 # flags.npm-access.summary
 
@@ -78,7 +76,7 @@ Dotenv file to read SUBSCRIBER_PACKAGE_VERSION_ID from when it isn't passed as a
 
 - Publish to a GitLab project registry on a release-branch build:
 
-  <%= config.bin %> <%= command.id %> --packaging-devhub my-packaging-devhub --ci-commit-ref-name release/1.2 --package-release-branch-prefix release/ --npm-registry https://gitlab.example.com/api/v4/projects/42/packages/npm/ --npm-token $CI_JOB_TOKEN
+  <%= config.bin %> <%= command.id %> --packaging-devhub my-packaging-devhub --ci-commit-ref-name release/1.2 --package-release-branch-prefix release/ --npm-registry https://gitlab.example.com/api/v4/projects/42/packages/npm/
 
 - Compile and pack without publishing, to inspect what would be produced:
 

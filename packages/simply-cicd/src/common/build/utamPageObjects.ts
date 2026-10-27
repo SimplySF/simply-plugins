@@ -345,20 +345,3 @@ export async function resolveSubscriberPackageVersionId(
   logger.info(`Using ${SUBSCRIBER_PACKAGE_VERSION_ID_KEY} from ${envFile}: ${fromFile}`);
   return fromFile;
 }
-
-/**
- * The `.npmrc` written into the staging directory when `--npm-token` is given.
- *
- * Auth lines only, deliberately: setting `registry=` here would also redirect the compiler's own
- * `npm install utam@…`, which has no business going through a project-scoped package registry.
- * Every command that must target the publish registry passes `--registry` explicitly instead.
- */
-export function buildNpmrc(token: string, registry?: string): string {
-  if (!registry) {
-    return `//registry.npmjs.org/:_authToken=${token}\n`;
-  }
-
-  const normalized = registry.endsWith('/') ? registry : `${registry}/`;
-
-  return `${normalized.replace(/^https?:/, '')}:_authToken=${token}\n`;
-}

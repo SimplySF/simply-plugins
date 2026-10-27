@@ -583,9 +583,9 @@ Compile the project's UTAM page objects for a package version and publish them t
 ```
 USAGE
   $ sf simply cicd build publish-utam-page-objects --packaging-devhub <value> [--json] [--flags-dir <value>] [--debug] [--disabled]
-    [--subscriber-package-version-id <value>] [--npm-package-name <value>] [--npm-registry <value>] [--npm-token
-    <value>] [--npm-access public|restricted] [--npm-dist-tag <value>] [--ci-commit-ref-name <value>]
-    [--package-release-branch-prefix <value>] [--utam-version <value>] [--dry-run] [--out <value>] [--env-file <value>]
+    [--subscriber-package-version-id <value>] [--npm-package-name <value>] [--npm-registry <value>] [--npm-access
+    public|restricted] [--npm-dist-tag <value>] [--ci-commit-ref-name <value>] [--package-release-branch-prefix <value>]
+    [--utam-version <value>] [--dry-run] [--out <value>] [--env-file <value>]
 
 FLAGS
   --ci-commit-ref-name=<value>             [env: SIMPLY_CICD_CI_COMMIT_REF_NAME] Git branch or ref name being built.
@@ -608,10 +608,8 @@ FLAGS
                                            objects under. Required unless `plugins.simply.utam.packageName` is set in
                                            sfdx-project.json; the flag wins when both are present.
   --npm-registry=<value>                   [env: SIMPLY_CICD_NPM_REGISTRY] Registry to publish to. Defaults to whatever
-                                           npm itself is configured to use.
-  --npm-token=<value>                      [env: SIMPLY_CICD_NPM_TOKEN] Auth token for the registry. Written to an
-                                           .npmrc inside the staging directory only — the repo's own .npmrc is never
-                                           touched.
+                                           npm itself is configured to use. Authenticating to it is the job's
+                                           responsibility — see the description.
   --out=<value>                            [default: subscriberPackageVersionId.env] Dotenv file to append the published
                                            package name and version to.
   --package-release-branch-prefix=<value>  Prefix identifying release branches. Determines whether the npm version and
@@ -657,6 +655,11 @@ DESCRIPTION
   On success, appends `UTAM_PAGE_OBJECTS_PACKAGE` and `UTAM_PAGE_OBJECTS_VERSION` to `--out`, so a downstream job can
   install the package without knowing the mapping rule.
 
+  Registry authentication is not this command's job: set it up before the command runs, in user-level npm config (for
+  example `npm config set -- "//<registry host and path>/:_authToken=<token>"`, which writes `~/.npmrc`) or in an
+  `.npmrc` that `NPM_CONFIG_USERCONFIG` points at. npm runs from a staging directory outside the repo, so a
+  project-level `.npmrc` in the repo is not read.
+
   Configure the package name, the compiler's type aliases, extra peer dependencies, and a project-owned compiler config
   under `plugins.simply.utam` in `sfdx-project.json`.
 
@@ -669,7 +672,7 @@ EXAMPLES
 
     $ sf simply cicd build publish-utam-page-objects --packaging-devhub my-packaging-devhub --ci-commit-ref-name \
       release/1.2 --package-release-branch-prefix release/ --npm-registry \
-      https://gitlab.example.com/api/v4/projects/42/packages/npm/ --npm-token $CI_JOB_TOKEN
+      https://gitlab.example.com/api/v4/projects/42/packages/npm/
 
   Compile and pack without publishing, to inspect what would be produced:
 

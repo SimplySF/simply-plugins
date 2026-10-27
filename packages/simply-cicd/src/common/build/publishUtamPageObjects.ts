@@ -27,7 +27,6 @@ import { getSkipReason } from './skipGuard.js';
 import { VersionTagFormat } from './versionTagFormat.js';
 import {
   buildCompilerConfig,
-  buildNpmrc,
   buildPackageManifest,
   buildProvenanceLine,
   findPageObjectSources,
@@ -66,7 +65,6 @@ export type PublishUtamPageObjectsOptions = {
   /** Overrides `plugins.simply.utam.packageName`. */
   npmPackageName?: string;
   npmRegistry?: string;
-  npmToken?: string;
   npmAccess?: NpmAccess;
   /** Overrides the dist-tag derived from the git tag's suffix. */
   npmDistTag?: string;
@@ -412,11 +410,9 @@ export async function publishUtamPageObjects(
     logger.debug(`Staging directory: ${stagingDir}`);
   }
 
+  // Registry auth is the job's to set up, not this command's. Because npm runs from the staging
+  // directory, it sees user, global, and environment config, but never the repo's own .npmrc.
   try {
-    if (options.npmToken) {
-      await fs.writeFile(path.join(stagingDir, '.npmrc'), buildNpmrc(options.npmToken, options.npmRegistry));
-    }
-
     if (
       !options.dryRun &&
       (await isAlreadyPublished(`${npmPackageName}@${version}`, stagingDir, options.npmRegistry))

@@ -52,10 +52,6 @@ export default class BuildPublishUtamPageObjects extends SfCommand<PublishUtamPa
       summary: messages.getMessage('flags.npm-registry.summary'),
       env: 'SIMPLY_CICD_NPM_REGISTRY',
     }),
-    'npm-token': Flags.string({
-      summary: messages.getMessage('flags.npm-token.summary'),
-      env: 'SIMPLY_CICD_NPM_TOKEN',
-    }),
     'npm-access': Flags.custom<NpmAccess>({ options: ['public', 'restricted'] })({
       summary: messages.getMessage('flags.npm-access.summary'),
       env: 'SIMPLY_CICD_NPM_ACCESS',
@@ -97,7 +93,6 @@ export default class BuildPublishUtamPageObjects extends SfCommand<PublishUtamPa
       subscriberPackageVersionId: flags['subscriber-package-version-id'],
       npmPackageName: flags['npm-package-name'],
       npmRegistry: flags['npm-registry'],
-      npmToken: flags['npm-token'],
       npmAccess: flags['npm-access'],
       npmDistTag: flags['npm-dist-tag'],
       ciCommitRefName: flags['ci-commit-ref-name'],

@@ -20,7 +20,6 @@ import path from 'node:path';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   buildCompilerConfig,
-  buildNpmrc,
   buildPackageManifest,
   buildProvenanceLine,
   findPageObjectSources,
@@ -405,29 +404,5 @@ describe('resolveSubscriberPackageVersionId', () => {
     await fs.writeFile(envFile, 'SUBSCRIBER_PACKAGE_VERSION_ID=not-an-id\n');
 
     expect(await resolveSubscriberPackageVersionId({ env: {}, envFile })).toBeUndefined();
-  });
-});
-
-describe('buildNpmrc', () => {
-  it('should key the token by the registry’s host and path', () => {
-    expect(buildNpmrc('secret', 'https://gitlab.example.com/api/v4/projects/42/packages/npm/')).toBe(
-      '//gitlab.example.com/api/v4/projects/42/packages/npm/:_authToken=secret\n',
-    );
-  });
-
-  it('should add the trailing slash npm matches on', () => {
-    expect(buildNpmrc('secret', 'https://gitlab.example.com/api/v4/projects/42/packages/npm')).toBe(
-      '//gitlab.example.com/api/v4/projects/42/packages/npm/:_authToken=secret\n',
-    );
-  });
-
-  it('should fall back to npmjs.org when no registry was given', () => {
-    expect(buildNpmrc('secret')).toBe('//registry.npmjs.org/:_authToken=secret\n');
-  });
-
-  it('should write auth only, so it cannot redirect the compiler install', () => {
-    expect(buildNpmrc('secret', 'https://gitlab.example.com/api/v4/projects/42/packages/npm/')).not.toContain(
-      'registry=',
-    );
   });
 });
