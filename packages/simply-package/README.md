@@ -56,7 +56,9 @@ DESCRIPTION
   Each plugins.simply.packages entry is keyed by package alias. Its "repository" gives a git "url", plus an optional
   "ref" (branch, tag, or commit SHA) and "path" (the subdirectory holding the repository's own sfdx-project.json). A key
   matches a dependency's "package" value exactly, or up to its first "@", so a key such as "fflib" keeps matching as the
-  dependency moves from "fflib@3.0.0-1" to "fflib@3.1.0-2".
+  dependency moves from "fflib@3.0.0-1" to "fflib@3.1.0-2". A key also matches through packageAliases: a dependency
+  written as a bare ID (0Ho… or 04t…) matches the key of any alias, or alias prefix, that packageAliases maps to that
+  ID.
 
   The command runs your own git, so any host works (GitHub, GitLab, self-hosted servers) with the SSH keys or credential
   helper you already use. A url that contains credentials is rejected. Dependencies with no mapping, such as AppExchange
@@ -109,7 +111,7 @@ FLAG DESCRIPTIONS
     can't check out an arbitrary commit.
 ```
 
-_See code: [lib/commands/simply/package/dependencies/clone.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@4.0.0/packages/simply-package/lib/commands/simply/package/dependencies/clone.js)_
+_See code: [lib/commands/simply/package/dependencies/clone.js](https://github.com/SimplySF/simply-plugins/blob/main/packages/simply-package/src/commands/simply/package/dependencies/clone.ts)_
 
 ## `sf simply package dependencies install`
 
@@ -486,12 +488,12 @@ Each package directory's `dependencies` array lists the packages to install/mana
 }
 ```
 
-| Key                                                   | Type       | Description                                                                                                                                                                                                                                       |
-| ----------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `plugins.simply.dependencies.ignore`                  | `string[]` | `Package2Id`s or aliases that `dependencies manage` should leave unchanged, and `dependencies clone` should skip.                                                                                                                                 |
-| `plugins.simply.package.brancheswithreleasedversions` | `string[]` | Branch names that contain released versions, considered in addition to the main build branch.                                                                                                                                                     |
-| `plugins.simply.packages`                             | `object`   | Settings per package, keyed by package alias, matched against a dependency's `package` value exactly or up to its first `@`. Used by `dependencies clone`.                                                                                        |
-| `plugins.simply.packages.<alias>.repository`          | `object`   | Where that package's source lives, for `dependencies clone`: a git `url` (any host; credentials are rejected), and optionally a `ref` (branch, tag, or commit SHA) and a `path` (the subdirectory holding that repository's `sfdx-project.json`). |
+| Key                                                   | Type       | Description                                                                                                                                                                                                                                             |
+| ----------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `plugins.simply.dependencies.ignore`                  | `string[]` | `Package2Id`s or aliases that `dependencies manage` should leave unchanged, and `dependencies clone` should skip.                                                                                                                                       |
+| `plugins.simply.package.brancheswithreleasedversions` | `string[]` | Branch names that contain released versions, considered in addition to the main build branch.                                                                                                                                                           |
+| `plugins.simply.packages`                             | `object`   | Settings per package, keyed by package alias, matched against a dependency's `package` value exactly, up to its first `@`, or through `packageAliases` (a bare `0Ho`/`04t` ID matches the key of any alias mapped to it). Used by `dependencies clone`. |
+| `plugins.simply.packages.<alias>.repository`          | `object`   | Where that package's source lives, for `dependencies clone`: a git `url` (any host; credentials are rejected), and optionally a `ref` (branch, tag, or commit SHA) and a `path` (the subdirectory holding that repository's `sfdx-project.json`).       |
 
 ## Report Files
 

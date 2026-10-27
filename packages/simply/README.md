@@ -2225,7 +2225,9 @@ DESCRIPTION
   Each plugins.simply.packages entry is keyed by package alias. Its "repository" gives a git "url", plus an optional
   "ref" (branch, tag, or commit SHA) and "path" (the subdirectory holding the repository's own sfdx-project.json). A key
   matches a dependency's "package" value exactly, or up to its first "@", so a key such as "fflib" keeps matching as the
-  dependency moves from "fflib@3.0.0-1" to "fflib@3.1.0-2".
+  dependency moves from "fflib@3.0.0-1" to "fflib@3.1.0-2". A key also matches through packageAliases: a dependency
+  written as a bare ID (0Ho… or 04t…) matches the key of any alias, or alias prefix, that packageAliases maps to that
+  ID.
 
   The command runs your own git, so any host works (GitHub, GitLab, self-hosted servers) with the SSH keys or credential
   helper you already use. A url that contains credentials is rejected. Dependencies with no mapping, such as AppExchange
@@ -2278,7 +2280,7 @@ FLAG DESCRIPTIONS
     can't check out an arbitrary commit.
 ```
 
-_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@4.0.0/packages/simply-package/lib/commands/simply/package/dependencies/clone.js)_
+_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-plugins/blob/main/packages/simply-package/src/commands/simply/package/dependencies/clone.ts)_
 
 ## `sf simply package dependencies install`
 

@@ -202,14 +202,14 @@ apply then, because two package directories in one project can depend on the sam
 
 ### Output
 
-A table with one row per dependency, in the order they were visited:
+A table with one row per dependency, in the order they were visited. A row with no ref or no directory leaves that cell empty:
 
 ```
 KEY                 REF      STATUS          VIA                    DIRECTORY
 fflib-apex-common   v3.0.0   Cloned          my-app                 ../fflib-apex-common
 my-core             main     Already cloned  my-app                 ../my-core
 at4dx               master   Cloned          my-core                ../at4dx              (--recursive)
-SomeAppExchange…    —        No repository   my-app                 —
+SomeAppExchange…             No repository   my-app
 ```
 
 The possible statuses are `Cloned`, `Updated`, `Already cloned`, `Dirty, skipped`, `On other branch, skipped`,
