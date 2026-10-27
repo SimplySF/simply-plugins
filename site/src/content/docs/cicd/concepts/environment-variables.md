@@ -96,7 +96,6 @@ The scratch-org lifecycle (`build create-scratch`/`delete-scratch`/`cleanup-scra
 | -------------------- | ------------------------------ |
 | `--npm-package-name` | `SIMPLY_CICD_NPM_PACKAGE_NAME` |
 | `--npm-registry`     | `SIMPLY_CICD_NPM_REGISTRY`     |
-| `--npm-token`        | `SIMPLY_CICD_NPM_TOKEN`        |
 | `--npm-access`       | `SIMPLY_CICD_NPM_ACCESS`       |
 | `--utam-version`     | `SIMPLY_CICD_UTAM_VERSION`     |
 

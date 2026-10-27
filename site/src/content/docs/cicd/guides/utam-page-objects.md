@@ -72,6 +72,7 @@ publish-utam-page-objects:
     - sf org login jwt --alias packaging-devhub --username $PACKAGING_DEVHUB_USERNAME
       --jwt-key-file $PACKAGING_DEVHUB_JWT_KEY_FILE --client-id $PACKAGING_DEVHUB_CLIENT_ID
       --instance-url $PACKAGING_DEVHUB_INSTANCE_URL
+    - npm config set -- "${CI_API_V4_URL#https:}/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}"
   script:
     - sf simply cicd build publish-utam-page-objects
       --packaging-devhub packaging-devhub
@@ -79,10 +80,11 @@ publish-utam-page-objects:
       --package-release-branch-prefix release/
   variables:
     SIMPLY_CICD_NPM_REGISTRY: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/
-    SIMPLY_CICD_NPM_TOKEN: ${CI_JOB_TOKEN}
 ```
 
 The `dotenv` report on `create-package-version` is what carries the new `04t` into this job — GitLab injects it as `$SUBSCRIBER_PACKAGE_VERSION_ID`, and the command picks it up with no flag. (The same report is what `start-deployment` reads, so a project pipeline needs it regardless.)
+
+The command doesn't authenticate to the registry itself — the `npm config set` line in `before_script` does, by writing the job token to the runner's user-level `~/.npmrc`. Any npm setup that does the same works, such as a pre-baked `~/.npmrc` in the job image or an `.npmrc` that `NPM_CONFIG_USERCONFIG` points at. A project-level `.npmrc` committed to your repo is **not** read: the command runs npm from a staging directory outside the repo.
 
 A separate job rather than a fourth line in `create-package-version`'s `script:` keeps a registry outage from retroactively failing a package version that was created, tagged, and coverage-checked successfully. If you'd rather run it in the same job, that works too — the command falls back to reading `subscriberPackageVersionId.env` off disk, which is where `create-package-version` just wrote it.
 
@@ -175,14 +177,12 @@ Anything else fails the job. A missing page-object package would silently break 
 The example above targets GitLab's project-level npm registry. For npmjs.com, a scoped package needs `--npm-access public` on its first publish:
 
 ```bash
+npm config set -- "//registry.npmjs.org/:_authToken=${NPM_TOKEN}"
 sf simply cicd build publish-utam-page-objects \
   --packaging-devhub packaging-devhub \
   --npm-registry https://registry.npmjs.org/ \
-  --npm-token "$NPM_TOKEN" \
   --npm-access public
 ```
-
-The token is written to an `.npmrc` inside a staging directory outside your repo — your own `.npmrc`, if you have one, is never touched.
 
 ## Trying it without publishing
 

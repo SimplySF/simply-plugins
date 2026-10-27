@@ -74,31 +74,30 @@ honestly.
 sf simply cicd build publish-utam-page-objects
   --packaging-devhub <alias>
   [--subscriber-package-version-id <04t>]
-  [--npm-package-name <name>] [--npm-registry <url>] [--npm-token <token>]
+  [--npm-package-name <name>] [--npm-registry <url>]
   [--npm-access public|restricted] [--npm-dist-tag <tag>]
   [--ci-commit-ref-name <ref>] [--package-release-branch-prefix <prefix>]
   [--utam-version <npm spec>] [--dry-run] [--out <file>] [--env-file <file>]
   [--debug] [--disabled] [--json]
 ```
 
-| Flag                              | Env var                                     | Required | Purpose                                                                                                                                                                                                                          |
-| --------------------------------- | ------------------------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--packaging-devhub`              | `SIMPLY_CICD_PACKAGING_DEVHUB`              | yes      | Already-authenticated Dev Hub alias, for `sf package version report`. Same flag and variable as `create-package-version`.                                                                                                        |
-| `--subscriber-package-version-id` | — (see resolution below)                    | no       | The `04t` to publish page objects for.                                                                                                                                                                                           |
-| `--npm-package-name`              | `SIMPLY_CICD_NPM_PACKAGE_NAME`              | no\*     | Name to publish under. \*Required unless `plugins.simply.utam.packageName` is set in `sfdx-project.json`. Flag wins.                                                                                                             |
-| `--npm-registry`                  | `SIMPLY_CICD_NPM_REGISTRY`                  | no       | Registry URL. Omitted → npm's own configured default.                                                                                                                                                                            |
-| `--npm-token`                     | `SIMPLY_CICD_NPM_TOKEN`                     | no       | Auth token. When given, written as `//<registry host+path>/:_authToken=` into a `.npmrc` **inside the staging directory only** — the repo's `.npmrc`, if any, is never touched. Omitted → whatever npm auth the job already has. |
-| `--npm-access`                    | `SIMPLY_CICD_NPM_ACCESS`                    | no       | Passed through as `npm publish --access`. Needed on npmjs.com for a public scoped package; ignored by GitLab.                                                                                                                    |
-| `--npm-dist-tag`                  | —                                           | no       | Overrides the derived dist-tag (table below).                                                                                                                                                                                    |
-| `--ci-commit-ref-name`            | `SIMPLY_CICD_CI_COMMIT_REF_NAME`            | no       | With `--package-release-branch-prefix`, reproduces `create-package-version`'s tag-suffix decision so the npm version mirrors the git tag.                                                                                        |
-| `--package-release-branch-prefix` | —                                           | no       | As on `create-package-version`.                                                                                                                                                                                                  |
-| `--utam-version`                  | `SIMPLY_CICD_UTAM_VERSION`                  | no       | npm spec of the compiler to install. Default `^3`.                                                                                                                                                                               |
-| `--dry-run`                       | —                                           | no       | Compile and `npm pack`; do not publish. The tarball is copied to the project root so a pipeline can keep it as an artifact.                                                                                                      |
-| `--out`                           | —                                           | no       | Dotenv file to append results to. Default `subscriberPackageVersionId.env`, matching `create-fallback-tag`.                                                                                                                      |
-| `--env-file`                      | —                                           | no       | Dotenv file to read the `04t` from when neither flag nor env var has it. Default `subscriberPackageVersionId.env`.                                                                                                               |
-| `--debug`, `--disabled`           | `SIMPLY_CICD_DEBUG`, `SIMPLY_CICD_DISABLED` | no       | Standard build-command guards.                                                                                                                                                                                                   |
+| Flag                              | Env var                                     | Required | Purpose                                                                                                                                   |
+| --------------------------------- | ------------------------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `--packaging-devhub`              | `SIMPLY_CICD_PACKAGING_DEVHUB`              | yes      | Already-authenticated Dev Hub alias, for `sf package version report`. Same flag and variable as `create-package-version`.                 |
+| `--subscriber-package-version-id` | — (see resolution below)                    | no       | The `04t` to publish page objects for.                                                                                                    |
+| `--npm-package-name`              | `SIMPLY_CICD_NPM_PACKAGE_NAME`              | no\*     | Name to publish under. \*Required unless `plugins.simply.utam.packageName` is set in `sfdx-project.json`. Flag wins.                      |
+| `--npm-registry`                  | `SIMPLY_CICD_NPM_REGISTRY`                  | no       | Registry URL. Omitted → npm's own configured default.                                                                                     |
+| `--npm-access`                    | `SIMPLY_CICD_NPM_ACCESS`                    | no       | Passed through as `npm publish --access`. Needed on npmjs.com for a public scoped package; ignored by GitLab.                             |
+| `--npm-dist-tag`                  | —                                           | no       | Overrides the derived dist-tag (table below).                                                                                             |
+| `--ci-commit-ref-name`            | `SIMPLY_CICD_CI_COMMIT_REF_NAME`            | no       | With `--package-release-branch-prefix`, reproduces `create-package-version`'s tag-suffix decision so the npm version mirrors the git tag. |
+| `--package-release-branch-prefix` | —                                           | no       | As on `create-package-version`.                                                                                                           |
+| `--utam-version`                  | `SIMPLY_CICD_UTAM_VERSION`                  | no       | npm spec of the compiler to install. Default `^3`.                                                                                        |
+| `--dry-run`                       | —                                           | no       | Compile and `npm pack`; do not publish. The tarball is copied to the project root so a pipeline can keep it as an artifact.               |
+| `--out`                           | —                                           | no       | Dotenv file to append results to. Default `subscriberPackageVersionId.env`, matching `create-fallback-tag`.                               |
+| `--env-file`                      | —                                           | no       | Dotenv file to read the `04t` from when neither flag nor env var has it. Default `subscriberPackageVersionId.env`.                        |
+| `--debug`, `--disabled`           | `SIMPLY_CICD_DEBUG`, `SIMPLY_CICD_DISABLED` | no       | Standard build-command guards.                                                                                                            |
 
-`--npm-package-name`/`--npm-registry`/`--npm-token`/`--npm-access` are pipeline-wide constants, so
+`--npm-package-name`/`--npm-registry`/`--npm-access` are pipeline-wide constants, so
 they get `SIMPLY_CICD_*` variables per the
 [environment-variables convention](../../site/src/content/docs/cicd/concepts/environment-variables.md).
 `--npm-dist-tag`, `--dry-run`, `--out`, `--env-file` are per-invocation and deliberately don't.
@@ -167,7 +166,6 @@ repo:
 
 ```
 package.json            generated, below
-.npmrc                  only if --npm-token was given
 utam.config.json        generated, below
 node_modules/utam       installed with `npm install --no-save utam@<--utam-version>`
 pageObjects/*.{js,cjs,d.ts,d.cts}   compiler output
@@ -286,14 +284,17 @@ publish-utam-page-objects:
     - if: '$PACKAGE_CHANGED == "TRUE"'
   before_script:
     - sf org login jwt --alias packaging-devhub … # same login as create-package-version
+    - npm config set -- "${CI_API_V4_URL#https:}/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}"
   script:
     - sf simply cicd build publish-utam-page-objects
       --packaging-devhub packaging-devhub
       --package-release-branch-prefix release/
   variables:
     SIMPLY_CICD_NPM_REGISTRY: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/
-    SIMPLY_CICD_NPM_TOKEN: ${CI_JOB_TOKEN}
 ```
+
+Registry auth is set up by the job, in user-level npm config, not by the command (see "Registry
+auth moved out of the command" below).
 
 A separate job rather than a fourth line in `create-package-version`'s `script:` because a registry
 outage shouldn't retroactively fail a package version that was created, tagged, and coverage-checked
@@ -468,7 +469,7 @@ range — and run with the current Node. `npx` would have been free to reach the
 already sitting in the staging directory.
 
 **Helpers beyond the plan's list.** `utamPageObjects.ts` also exports `determineTagSuffix`,
-`toVersionTag`, `toUtamCoreRange`, `buildProvenanceLine`, `readEnvFileValue`, and `buildNpmrc` —
+`toVersionTag`, `toUtamCoreRange`, `buildProvenanceLine`, and `readEnvFileValue` —
 each extracted because it was worth pinning with a test of its own rather than only through the
 orchestrator.
 
@@ -476,3 +477,14 @@ orchestrator.
 had no `artifacts.reports.dotenv`, while `start-deployment` below it read
 `$SUBSCRIBER_PACKAGE_VERSION_ID`. The guide is corrected, and it is what carries the `04t` into this
 command's job too.
+
+**Registry auth moved out of the command.** As first shipped, `--npm-token`
+(`SIMPLY_CICD_NPM_TOKEN`) wrote an `_authToken` line into an `.npmrc` in the staging directory. The
+flag is removed: authenticating to a registry is the job's npm setup, done before the command runs,
+not part of the command's lifecycle. A pipeline sets it in user-level config
+(`npm config set -- "//<host+path>/:_authToken=…"`, which writes `~/.npmrc`) or in an `.npmrc` that
+`NPM_CONFIG_USERCONFIG` points at. A project-level `.npmrc` in the repo does **not** work, because
+npm runs from the staging directory under `os.tmpdir()`. This keeps one source of npm auth for the
+compiler install, the already-published check, and the publish, and keeps the token out of
+command-line flags. Breaking for any pipeline that passed `--npm-token` or set
+`SIMPLY_CICD_NPM_TOKEN`.
