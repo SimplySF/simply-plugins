@@ -1,6 +1,6 @@
 # 0056 — `simply package dependencies clone`
 
-**Status:** In progress (implemented on `feat/package-dependencies-clone` in both repos; unreleased)
+**Status:** Implemented (PR #103; library in SimplySF/simply-plugins-core#251, released in `@simplysf/simply-package-core` 0.4.0)
 **Package:** `packages/simply-package` (CLI); `packages/simply-package-core` (library, in
 `simply-plugins-core`, where this doc is duplicated as its 0052)
 **Date:** 2026-10-23
