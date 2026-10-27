@@ -8,7 +8,7 @@ Clones each package dependency declared in sfdx-project.json whose source reposi
 
 Each plugins.simply.packages entry is keyed by package alias. Its "repository" gives a git "url", plus an optional "ref" (branch, tag, or commit SHA) and "path" (the subdirectory holding the repository's own sfdx-project.json). A key matches a dependency's "package" value exactly, or up to its first "@", so a key such as "fflib" keeps matching as the dependency moves from "fflib@3.0.0-1" to "fflib@3.1.0-2". A key also matches through packageAliases: a dependency written as a bare ID (0Ho… or 04t…) matches the key of any alias, or alias prefix, that packageAliases maps to that ID.
 
-The command runs your own git, so any host works (GitHub, GitLab, self-hosted servers) with the SSH keys or credential helper you already use. A url that contains credentials is rejected. Dependencies with no mapping, such as AppExchange packages, are reported as "No repository".
+The command runs your own git, so any host works (GitHub, GitLab, self-hosted servers) with the SSH keys or credential helper you already use. A url that contains credentials is rejected. Nothing prompts for input: a missing credential fails that dependency's row, and so do an unknown ssh host key and a key passphrase, unless you've set your own ssh command. Dependencies with no mapping, such as AppExchange packages, are reported as "No repository".
 
 Each repository is cloned into a folder named after it, next to the project by default. A folder that already holds a clone of the same repository is reused.
 
@@ -42,7 +42,7 @@ Fetch and update repositories that are already cloned.
 
 # flags.update.description
 
-A clone on the configured branch is fast-forwarded, and a clone at a detached HEAD (after a tag or SHA) is checked out at the configured ref. A clone with uncommitted changes, or on some other branch, is left alone and reported as skipped, because it may be your own working copy. A clone that follows a branch, including the default branch when no "ref" is set, gets that branch's newest commits; set "ref" to a tag to stay on one version.
+A clone on the configured branch is fast-forwarded, and a clone at a detached HEAD (after a tag or SHA) is checked out at the configured ref. A clone with uncommitted changes, or on some other branch, is left alone and reported as skipped, because it may be your own working copy. The exception is a clone still on the remote's default branch with no commits of its own, such as one made before "ref" was set: it moves to the configured ref. A clone that follows a branch, including the default branch when no "ref" is set, gets that branch's newest commits; set "ref" to a tag to stay on one version.
 
 # flags.dry-run.summary
 
