@@ -15,10 +15,13 @@
  */
 
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { determinePackageChanges } from '../../../../../src/common/build/determinePackageChanges.js';
+import { determinePackageChanges } from '@simplysf/simply-cicd-core';
 import BuildDeterminePackageChanges from '../../../../../src/commands/simply/cicd/build/determine-package-changes.js';
 
-vi.mock('../../../../../src/common/build/determinePackageChanges.js', () => ({ determinePackageChanges: vi.fn() }));
+vi.mock('@simplysf/simply-cicd-core', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@simplysf/simply-cicd-core')>()),
+  determinePackageChanges: vi.fn(),
+}));
 
 describe('build determine-package-changes', () => {
   beforeEach(() => {

@@ -16,7 +16,7 @@
 
 import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
-import { deployProject } from '../../../../../common/deploy/deployProject.js';
+import { deployProject } from '@simplysf/simply-cicd-core';
 import {
   ciJobTokenFlag,
   debugFlag,

@@ -16,8 +16,8 @@
 
 import { Messages } from '@salesforce/core';
 import { SfCommand } from '@salesforce/sf-plugins-core';
-import { deployProject } from '../../../../../common/deploy/deployProject.js';
-import { projectStageFlags, toProjectStageOptions } from '../../../../../common/deploy/stageCommand.js';
+import { deployProject, toProjectStageOptions } from '@simplysf/simply-cicd-core';
+import { projectStageFlags } from '../../../../../common/deploy/stageCommand.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-cicd', 'simply.cicd.deploy.project.pre-destructive');

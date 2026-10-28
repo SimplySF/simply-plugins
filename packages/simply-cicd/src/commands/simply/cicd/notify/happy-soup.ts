@@ -16,19 +16,20 @@
 
 import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
-import { listAlmProviderKinds, type AlmProviderKind } from '@simplysf/simply-cicd-core';
-import { logger } from '../../../../common/logger.js';
 import {
-  afterScript,
-  beforeScript,
+  type AlmProviderKind,
+  happySoupNotifyAfterScript,
+  happySoupNotifyBeforeScript,
+  listAlmProviderKinds,
+  logger,
   type NotifyHappySoupOptions,
   type NotifyHappySoupResult,
-} from '../../../../common/notify/happySoupNotification.js';
+} from '@simplysf/simply-cicd-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-cicd', 'simply.cicd.notify.happy-soup');
 
-export type { NotifyHappySoupResult } from '../../../../common/notify/happySoupNotification.js';
+export type { NotifyHappySoupResult } from '@simplysf/simply-cicd-core';
 
 /** Sends a happy-soup deployment stage notification to Microsoft Teams, with ALM story integration. */
 export default class NotifyHappySoup extends SfCommand<NotifyHappySoupResult> {
@@ -155,15 +156,15 @@ export default class NotifyHappySoup extends SfCommand<NotifyHappySoupResult> {
 
       if (flags['notify-on-completion']) {
         if (flags['is-final-job'] && flags['after-script']) {
-          result = await afterScript(options);
+          result = await happySoupNotifyAfterScript(options);
         } else {
           logger.info('Skipping intermediate happy soup notification because --notify-on-completion is enabled.');
           result = { sent: false };
         }
       } else if (flags['before-script']) {
-        result = await beforeScript(options);
+        result = await happySoupNotifyBeforeScript(options);
       } else if (flags['after-script']) {
-        result = await afterScript(options);
+        result = await happySoupNotifyAfterScript(options);
       } else {
         throw messages.createError('error.missingScriptFlag');
       }

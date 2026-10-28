@@ -16,7 +16,7 @@
 
 import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
-import { validateDeployFiles } from '../../../../../common/deploy/validate.js';
+import { validateDeployFiles } from '@simplysf/simply-cicd-core';
 import { deployProgressFileFlag, deployRulesFileFlag } from '../../../../../common/deploy/flags.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);

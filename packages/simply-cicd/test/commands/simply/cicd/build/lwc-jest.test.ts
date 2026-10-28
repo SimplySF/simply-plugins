@@ -15,10 +15,13 @@
  */
 
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { runLwcJest } from '../../../../../src/common/build/lwcJest.js';
+import { runLwcJest } from '@simplysf/simply-cicd-core';
 import BuildLwcJest from '../../../../../src/commands/simply/cicd/build/lwc-jest.js';
 
-vi.mock('../../../../../src/common/build/lwcJest.js', () => ({ runLwcJest: vi.fn() }));
+vi.mock('@simplysf/simply-cicd-core', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@simplysf/simply-cicd-core')>()),
+  runLwcJest: vi.fn(),
+}));
 
 describe('build lwc-jest', () => {
   beforeEach(() => {

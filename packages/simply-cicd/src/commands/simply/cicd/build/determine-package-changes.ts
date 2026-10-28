@@ -16,9 +16,8 @@
 
 import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
-import { determinePackageChanges } from '../../../../common/build/determinePackageChanges.js';
+import { determinePackageChanges, logger } from '@simplysf/simply-cicd-core';
 import { debugFlag, disabledFlag } from '../../../../common/build/flags.js';
-import { logger } from '../../../../common/logger.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-cicd', 'simply.cicd.build.determine-package-changes');

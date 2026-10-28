@@ -15,10 +15,13 @@
  */
 
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { deployProject } from '../../../../../../src/common/deploy/deployProject.js';
+import { deployProject } from '@simplysf/simply-cicd-core';
 import DeployProjectRunApexTests from '../../../../../../src/commands/simply/cicd/deploy/project/run-apex-tests.js';
 
-vi.mock('../../../../../../src/common/deploy/deployProject.js', () => ({ deployProject: vi.fn() }));
+vi.mock('@simplysf/simply-cicd-core', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@simplysf/simply-cicd-core')>()),
+  deployProject: vi.fn(),
+}));
 
 describe('deploy project run-apex-tests', () => {
   beforeEach(() => {

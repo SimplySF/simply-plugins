@@ -16,9 +16,8 @@
 
 import { Messages } from '@salesforce/core';
 import { SfCommand } from '@salesforce/sf-plugins-core';
-import { cleanupScratchOrgs } from '../../../../common/build/cleanupScratchOrgs.js';
+import { cleanupScratchOrgs, logger } from '@simplysf/simply-cicd-core';
 import { debugFlag, devHubFlags, disabledFlag } from '../../../../common/build/flags.js';
-import { logger } from '../../../../common/logger.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-cicd', 'simply.cicd.build.cleanup-scratch-orgs');

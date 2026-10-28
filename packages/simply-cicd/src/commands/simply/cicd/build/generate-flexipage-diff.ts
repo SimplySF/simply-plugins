@@ -16,7 +16,7 @@
 
 import { Messages } from '@salesforce/core';
 import { SfCommand } from '@salesforce/sf-plugins-core';
-import { generateFlexipageDiff, type GenerateFlexipageDiffResult } from '../../../../common/build/flexipageDelta.js';
+import { generateFlexipageDiff, type GenerateFlexipageDiffResult } from '@simplysf/simply-cicd-core';
 import { debugFlag, diffFlags, disabledFlag } from '../../../../common/build/flags.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
