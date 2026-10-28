@@ -13,13 +13,13 @@ minimumReleaseAgeExclude:
   - '@simplysf/simply-permissions-core@0.2.2 || 0.3.0 || 0.4.0 || 0.5.0 || 0.6.0 || 0.7.0 || 0.10.0 || 0.10.1 || 0.10.2'
   - '@simplysf/simply-report@1.0.4'
   - '@simplysf/simply-sobject-core@0.2.2'
-  - '@simplysf/simply-community-core@0.1.0 || 0.2.13'
-  - '@simplysf/simply-data-core@0.1.0'
+  - '@simplysf/simply-community-core@0.1.0 || 0.2.13 || 0.2.14'
+  - '@simplysf/simply-data-core@0.1.0 || 0.3.12'
   - '@simplysf/simply-package-core@0.1.0 || 0.3.0 || 0.4.2 || 0.5.0'
   - '@simplysf/simply-schema-core@0.1.0'
-  - '@simplysf/simply-cicd-core@0.2.0 || 0.3.1 || 0.9.0'
-  - '@simplysf/simply-settings-core@0.2.0 || 0.3.0 || 0.3.1 || 0.3.2'
-  - '@simplysf/simply-flow-core@0.1.0 || 0.2.1'
+  - '@simplysf/simply-cicd-core@0.2.0 || 0.3.1 || 0.9.0 || 0.10.0'
+  - '@simplysf/simply-settings-core@0.2.0 || 0.3.0 || 0.3.1 || 0.3.2 || 0.3.3'
+  - '@simplysf/simply-flow-core@0.1.0 || 0.2.1 || 0.2.2'
 allowBuilds:
   esbuild: true
   nx: true
