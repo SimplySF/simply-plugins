@@ -31,7 +31,7 @@ describe('build create-scratch', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     delete process.env.PACKAGE_CHANGED;
-    vi.mocked(createScratchOrg).mockResolvedValue({ username: 'scratch@test' });
+    vi.mocked(createScratchOrg).mockResolvedValue({ username: 'scratch@test', warnings: [] });
   });
 
   afterEach(() => {
@@ -49,7 +49,7 @@ describe('build create-scratch', () => {
     ]);
 
     expect(result.skipped).toBe(false);
-    expect(result.scratchOrg).toEqual({ username: 'scratch@test' });
+    expect(result.scratchOrg).toEqual({ username: 'scratch@test', warnings: [] });
     expect(createScratchOrg).toHaveBeenCalledWith(
       { debug: false, scratchDefinitionFile: undefined, scratchDurationDays: '2' },
       ['main', 'backup'],
