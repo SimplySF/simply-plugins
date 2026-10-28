@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.24.2](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.24.1...%40simplysf%2Fsimply-cicd%400.24.2) (2026-10-28)
+
+### Bug Fixes
+
+- **simply-cicd:** bump simply-cicd-core to 0.10.1 ([#115](https://github.com/SimplySF/simply-plugins/issues/115)) ([f2549a1](https://github.com/SimplySF/simply-plugins/commit/f2549a140cc7d96ca912b35ad8bfe5edd53094e4)), closes [simply-plugins-core#266](https://github.com/simply-plugins-core/issues/266)
+
 ## [0.24.1](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.24.0...%40simplysf%2Fsimply-cicd%400.24.1) (2026-10-28)
 
 **Note:** Version bump only for package @simplysf/simply-cicd
