@@ -2326,7 +2326,7 @@ FLAG DESCRIPTIONS
     Packages not listed here use --retry-attempts.
 ```
 
-_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@4.0.0/packages/simply-package/lib/commands/simply/package/dependencies/install.js)_
+_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@4.0.1/packages/simply-package/lib/commands/simply/package/dependencies/install.js)_
 
 ## `sf simply package dependencies manage`
 
@@ -2385,7 +2385,7 @@ FLAG DESCRIPTIONS
     version without interactive prompts. Mutually exclusive with --update-to-latest.
 ```
 
-_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@4.0.0/packages/simply-package/lib/commands/simply/package/dependencies/manage.js)_
+_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@4.0.1/packages/simply-package/lib/commands/simply/package/dependencies/manage.js)_
 
 ## `sf simply package version cleanup`
 
@@ -2442,7 +2442,7 @@ FLAG DESCRIPTIONS
     that does not match any of the given selectors is deleted. Mutually exclusive with --selector.
 ```
 
-_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@4.0.0/packages/simply-package/lib/commands/simply/package/version/cleanup.js)_
+_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@4.0.1/packages/simply-package/lib/commands/simply/package/version/cleanup.js)_
 
 ## `sf simply package version get`
 
@@ -2502,7 +2502,7 @@ FLAG DESCRIPTIONS
     "test-package@0.1.0+2", pass "test-package".
 ```
 
-_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@4.0.0/packages/simply-package/lib/commands/simply/package/version/get.js)_
+_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@4.0.1/packages/simply-package/lib/commands/simply/package/version/get.js)_
 
 ## `sf simply permissions analyze`
 

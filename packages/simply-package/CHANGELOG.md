@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.1](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-package%404.0.0...%40simplysf%2Fsimply-package%404.0.1) (2026-10-28)
+
+### Bug Fixes
+
+- **simply-package:** accept an alias for dependencies install --target-dev-hub ([#112](https://github.com/SimplySF/simply-plugins/issues/112)) ([7f88e4b](https://github.com/SimplySF/simply-plugins/commit/7f88e4bdaf921cf080072ad8ff9ea0010846c94a))
+
 # [4.0.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-package%403.1.7...%40simplysf%2Fsimply-package%404.0.0) (2026-10-22)
 
 - fix(deps)!: bump @simplysf core packages to their latest versions (#101), closes [#101](https://github.com/SimplySF/simply-plugins/issues/101)

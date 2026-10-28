@@ -1,7 +1,7 @@
 {
   "name": "@simplysf/simply",
   "description": "Salesforce CLI Plugins created by @SimplySF",
-  "version": "7.0.5",
+  "version": "7.0.6",
   "author": "@ClayChipps",
   "homepage": "https://github.com/SimplySF/simply-plugins",
   "bugs": "https://github.com/SimplySF/simply-plugins/issues",
@@ -82,7 +82,7 @@
     "@simplysf/simply-data": "workspace:^3.0.1",
     "@simplysf/simply-document": "workspace:^0.5.0",
     "@simplysf/simply-flow": "workspace:^0.5.0",
-    "@simplysf/simply-package": "workspace:^4.0.0",
+    "@simplysf/simply-package": "workspace:^4.0.1",
     "@simplysf/simply-permissions": "workspace:^5.0.1",
     "@simplysf/simply-project": "workspace:^1.2.29",
     "@simplysf/simply-schema": "workspace:^0.4.1",

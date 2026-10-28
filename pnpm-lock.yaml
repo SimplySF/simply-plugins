@@ -122,7 +122,7 @@ importers:
         specifier: workspace:^0.5.0
         version: link:../simply-flow
       '@simplysf/simply-package':
-        specifier: workspace:^4.0.0
+        specifier: workspace:^4.0.1
         version: link:../simply-package
       '@simplysf/simply-permissions':
         specifier: workspace:^5.0.1
