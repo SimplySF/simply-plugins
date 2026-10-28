@@ -16,7 +16,7 @@
 
 import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
-import { runLwcJest, type RunLwcJestResult } from '../../../../common/build/lwcJest.js';
+import { runLwcJest, type RunLwcJestResult } from '@simplysf/simply-cicd-core';
 import { debugFlag, disabledFlag } from '../../../../common/build/flags.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);

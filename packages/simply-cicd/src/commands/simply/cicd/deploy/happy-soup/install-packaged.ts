@@ -16,7 +16,7 @@
 
 import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
-import { deployHappySoup } from '../../../../../common/deploy/deployHappySoup.js';
+import { deployHappySoup } from '@simplysf/simply-cicd-core';
 import {
   debugFlag,
   deployProgressFileFlag,

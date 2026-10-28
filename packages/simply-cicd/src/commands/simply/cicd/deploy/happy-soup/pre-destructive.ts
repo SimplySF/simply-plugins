@@ -16,8 +16,8 @@
 
 import { Messages } from '@salesforce/core';
 import { SfCommand } from '@salesforce/sf-plugins-core';
-import { deployHappySoup } from '../../../../../common/deploy/deployHappySoup.js';
-import { happySoupStageFlags, toHappySoupStageOptions } from '../../../../../common/deploy/stageCommand.js';
+import { deployHappySoup, toHappySoupStageOptions } from '@simplysf/simply-cicd-core';
+import { happySoupStageFlags } from '../../../../../common/deploy/stageCommand.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-cicd', 'simply.cicd.deploy.happy-soup.pre-destructive');

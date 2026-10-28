@@ -93,6 +93,7 @@ refactors that keep the public surface identical (though a short doc is welcome 
 | [0053](0053-psbuild-single-permission-set.md)                        | One permission set per `.psbuild.json` file; `--file` removed                         | Implemented           |
 | [0054](0054-permissions-config-record-access-names.md)               | Overrides use `viewAllRecords` / `modifyAllRecords`                                   | Draft                 |
 | [0055](0055-permissions-config-metadata-names.md)                    | Override sections and keys match the PermissionSet metadata                           | Draft                 |
+| [0056](0056-simply-cicd-core-common.md)                              | Moving the rest of `simply-cicd`'s `common/` into `simply-cicd-core`                  | In progress           |
 
 ## Template
 

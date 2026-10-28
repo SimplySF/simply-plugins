@@ -16,11 +16,7 @@
 
 import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
-import {
-  publishUtamPageObjects,
-  type NpmAccess,
-  type PublishUtamPageObjectsResult,
-} from '../../../../common/build/publishUtamPageObjects.js';
+import { type NpmAccess, publishUtamPageObjects, type PublishUtamPageObjectsResult } from '@simplysf/simply-cicd-core';
 import { debugFlag, disabledFlag } from '../../../../common/build/flags.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);

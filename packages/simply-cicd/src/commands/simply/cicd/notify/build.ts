@@ -16,18 +16,19 @@
 
 import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
-import { listAlmProviderKinds, type AlmProviderKind } from '@simplysf/simply-cicd-core';
-import { logger } from '../../../../common/logger.js';
 import {
-  sendBuildNotification,
+  type AlmProviderKind,
+  listAlmProviderKinds,
+  logger,
   type NotifyBuildOptions,
   type NotifyBuildResult,
-} from '../../../../common/notify/buildNotification.js';
+  sendBuildNotification,
+} from '@simplysf/simply-cicd-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-cicd', 'simply.cicd.notify.build');
 
-export type { NotifyBuildResult } from '../../../../common/notify/buildNotification.js';
+export type { NotifyBuildResult } from '@simplysf/simply-cicd-core';
 
 /** Sends a build job's failure, or its new package version and stories, to Microsoft Teams. */
 export default class NotifyBuild extends SfCommand<NotifyBuildResult> {
