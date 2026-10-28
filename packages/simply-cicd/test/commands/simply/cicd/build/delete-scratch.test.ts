@@ -15,10 +15,13 @@
  */
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { deleteScratchOrg } from '../../../../../src/common/build/deleteScratchOrg.js';
+import { deleteScratchOrg } from '@simplysf/simply-cicd-core';
 import BuildDeleteScratch from '../../../../../src/commands/simply/cicd/build/delete-scratch.js';
 
-vi.mock('../../../../../src/common/build/deleteScratchOrg.js', () => ({ deleteScratchOrg: vi.fn() }));
+vi.mock('@simplysf/simply-cicd-core', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@simplysf/simply-cicd-core')>()),
+  deleteScratchOrg: vi.fn(),
+}));
 
 const baseArgs = ['--dev-hub', 'main', '--jwt-key-file', 'key.file'];
 

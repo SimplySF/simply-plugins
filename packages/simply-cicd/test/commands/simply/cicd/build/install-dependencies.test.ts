@@ -15,10 +15,13 @@
  */
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { installDependencies } from '../../../../../src/common/build/installDependencies.js';
+import { installDependencies } from '@simplysf/simply-cicd-core';
 import BuildInstallDependencies from '../../../../../src/commands/simply/cicd/build/install-dependencies.js';
 
-vi.mock('../../../../../src/common/build/installDependencies.js', () => ({ installDependencies: vi.fn() }));
+vi.mock('@simplysf/simply-cicd-core', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@simplysf/simply-cicd-core')>()),
+  installDependencies: vi.fn(),
+}));
 
 describe('build install-dependencies', () => {
   const originalPackageChanged = process.env.PACKAGE_CHANGED;

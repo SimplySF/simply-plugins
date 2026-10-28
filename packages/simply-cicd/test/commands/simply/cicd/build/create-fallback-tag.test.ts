@@ -15,10 +15,13 @@
  */
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { createFallbackTag } from '../../../../../src/common/build/createFallbackTag.js';
+import { createFallbackTag } from '@simplysf/simply-cicd-core';
 import BuildCreateFallbackTag from '../../../../../src/commands/simply/cicd/build/create-fallback-tag.js';
 
-vi.mock('../../../../../src/common/build/createFallbackTag.js', () => ({ createFallbackTag: vi.fn() }));
+vi.mock('@simplysf/simply-cicd-core', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@simplysf/simply-cicd-core')>()),
+  createFallbackTag: vi.fn(),
+}));
 
 const baseArgs = [
   '--ci-commit-ref-name',

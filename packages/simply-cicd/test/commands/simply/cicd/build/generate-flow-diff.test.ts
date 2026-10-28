@@ -15,10 +15,13 @@
  */
 
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { generateFlowDiff } from '../../../../../src/common/build/flowDelta.js';
+import { generateFlowDiff } from '@simplysf/simply-cicd-core';
 import BuildGenerateFlowDiff from '../../../../../src/commands/simply/cicd/build/generate-flow-diff.js';
 
-vi.mock('../../../../../src/common/build/flowDelta.js', () => ({ generateFlowDiff: vi.fn() }));
+vi.mock('@simplysf/simply-cicd-core', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@simplysf/simply-cicd-core')>()),
+  generateFlowDiff: vi.fn(),
+}));
 
 const baseArgs = [
   '--ci-project-id',

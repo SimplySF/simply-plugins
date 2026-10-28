@@ -15,10 +15,13 @@
  */
 
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { runCheckPermissionSets } from '../../../../../src/common/build/checkPermissionSets.js';
+import { runCheckPermissionSets } from '@simplysf/simply-cicd-core';
 import BuildCheckPermissionSets from '../../../../../src/commands/simply/cicd/build/check-permission-sets.js';
 
-vi.mock('../../../../../src/common/build/checkPermissionSets.js', () => ({ runCheckPermissionSets: vi.fn() }));
+vi.mock('@simplysf/simply-cicd-core', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@simplysf/simply-cicd-core')>()),
+  runCheckPermissionSets: vi.fn(),
+}));
 
 describe('build check-permission-sets', () => {
   beforeEach(() => {

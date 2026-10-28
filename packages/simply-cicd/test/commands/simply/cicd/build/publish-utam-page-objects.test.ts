@@ -15,10 +15,13 @@
  */
 
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { publishUtamPageObjects } from '../../../../../src/common/build/publishUtamPageObjects.js';
+import { publishUtamPageObjects } from '@simplysf/simply-cicd-core';
 import BuildPublishUtamPageObjects from '../../../../../src/commands/simply/cicd/build/publish-utam-page-objects.js';
 
-vi.mock('../../../../../src/common/build/publishUtamPageObjects.js', () => ({ publishUtamPageObjects: vi.fn() }));
+vi.mock('@simplysf/simply-cicd-core', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@simplysf/simply-cicd-core')>()),
+  publishUtamPageObjects: vi.fn(),
+}));
 
 const published = {
   skipped: false,
