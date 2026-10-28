@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.23.1](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.23.0...%40simplysf%2Fsimply-cicd%400.23.1) (2026-10-28)
+
+**Note:** Version bump only for package @simplysf/simply-cicd
+
 # [0.23.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.22.1...%40simplysf%2Fsimply-cicd%400.23.0) (2026-10-27)
 
 - fix(simply-cicd)!: leave npm registry auth to the job in publish-utam-page-objects (#109), closes [#109](https://github.com/SimplySF/simply-plugins/issues/109)
