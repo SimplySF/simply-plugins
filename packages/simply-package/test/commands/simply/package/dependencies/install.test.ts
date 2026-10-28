@@ -202,6 +202,38 @@ describe('simply package dependencies install', () => {
     expect(results[0].ExistingSubscriberPackageVersionId).to.equal(INSTALLED_VERSION_ID);
   });
 
+  it('accepts an alias for --target-dev-hub when resolving a VersionNumber dependency', async () => {
+    const hubOrg = new MockTestOrgData();
+    hubOrg.isDevHub = true;
+    await $$.stubAuths(testOrg, hubOrg);
+    $$.stubAliases({ 'my-hub': hubOrg.username });
+    $$.SANDBOX.stub(SfProject.prototype, 'getPackageDirectories').returns([
+      {
+        ...buildMockPackageDirectories([])[0],
+        dependencies: [{ package: '0Ho000000000001AAA', versionNumber: '1.1.0.LATEST' }],
+      },
+    ]);
+    const resolveIdStub = $$.SANDBOX.stub(SubscriberPackageVersion, 'resolveId').resolves(NOT_INSTALLED_VERSION_ID);
+    $$.SANDBOX.stub(SubscriberPackageVersion, 'installedList').resolves(mockInstalledPackages);
+    stubGetSubscriberPackageId();
+    stubGetVersionNumber();
+    stubInstallChain();
+
+    const results = await PackageDependenciesInstall.run([
+      '--target-org',
+      testOrg.username,
+      '--target-dev-hub',
+      'my-hub',
+      '--no-prompt',
+    ]);
+
+    expect(resolveIdStub.calledOnce).to.equal(true);
+    expect(resolveIdStub.firstCall.args[0].getUsername()).to.equal(hubOrg.username);
+    expect(results.find((result) => result.SubscriberPackageVersionId === NOT_INSTALLED_VERSION_ID)?.Status).to.equal(
+      'Installed',
+    );
+  });
+
   it('defaults --install-type to Upgrade when not specified', async () => {
     $$.SANDBOX.stub(SfProject.prototype, 'getPackageDirectories').returns(
       buildMockPackageDirectories([SAME_VERSION_ID, NEWER_VERSION_ID]),

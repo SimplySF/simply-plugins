@@ -17,7 +17,7 @@
 import fs from 'node:fs/promises';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import { requireConnection, targetOrgFlags } from '@simplysf/simply-plugin-kit';
-import { AuthInfo, Connection, Messages } from '@salesforce/core';
+import { Connection, Messages, Org } from '@salesforce/core';
 import { Duration } from '@salesforce/kit';
 import {
   installPackageDependencies,
@@ -167,8 +167,8 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
     const targetDevHub = flags['target-dev-hub'];
     const targetDevHubConnection = targetDevHub
       ? async (): Promise<Connection> => {
-          const targetDevHubAuthInfo = await AuthInfo.create({ username: targetDevHub });
-          const connection = await Connection.create({ authInfo: targetDevHubAuthInfo });
+          // Org.create resolves an alias to its username; AuthInfo.create only accepts a username.
+          const connection = (await Org.create({ aliasOrUsername: targetDevHub })).getConnection(flags['api-version']);
 
           if (!connection) {
             throw messages.createError('error.targetDevHubConnectionFailed');
