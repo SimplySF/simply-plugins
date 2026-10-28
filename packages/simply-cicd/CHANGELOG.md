@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.24.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.23.1...%40simplysf%2Fsimply-cicd%400.24.0) (2026-10-28)
+
+### Features
+
+- **simply-cicd:** run Salesforce operations in-process via simply-cicd-core 0.9 ([#111](https://github.com/SimplySF/simply-plugins/issues/111)) ([be74369](https://github.com/SimplySF/simply-plugins/commit/be74369d6aef36d14304e706d4d5ed0758514759))
+
 ## [0.23.1](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.23.0...%40simplysf%2Fsimply-cicd%400.23.1) (2026-10-28)
 
 **Note:** Version bump only for package @simplysf/simply-cicd
