@@ -168,9 +168,11 @@ repo:
 package.json            generated, below
 utam.config.json        generated, below
 node_modules/utam       installed with `npm install --no-save utam@<--utam-version>`
+source/**/*.utam.{json,js}  the inputs, copied verbatim before compiling; the compiler reads these, not the repo
 pageObjects/*.{js,cjs,d.ts,d.cts}   compiler output
-utils/*                 compiler output for extensions, if any
-source/**/*.utam.json   the inputs, copied verbatim (salesforce-pageobjects ships these too)
+utils/*                 compiler output for `.utam.js` utilities, if any
+profiles.config.json    the compiler's profiles config, renamed from `<module>.config.json`, if any page object uses profiles
+utam-lint.sarif         the compiler's lint report (not published)
 ```
 
 `package.json`:
@@ -181,9 +183,10 @@ source/**/*.utam.json   the inputs, copied verbatim (salesforce-pageobjects ship
   "version": "1.2.3-4",
   "description": "UTAM page objects for MyPackage 1.2.3.4 (04tXXXXXXXXXXXXXXX)",
   "type": "module",
-  "files": ["pageObjects", "utils", "source"],
+  "files": ["pageObjects", "utils", "source", "profiles.config.json"],
   "exports": {
     "./package.json": "./package.json",
+    "./profiles.config.json": "./profiles.config.json",
     "./*": {
       "import": { "types": "./*.d.ts", "default": "./*.js" },
       "require": { "types": "./*.d.cts", "default": "./*.cjs" }
@@ -214,10 +217,12 @@ source/**/*.utam.json   the inputs, copied verbatim (salesforce-pageobjects ship
 
 ```json
 {
-  "pageObjectsRootDir": "<absolute path to the default package directory>",
+  "pageObjectsRootDir": "<staging>/source",
   "pageObjectsFileMask": ["**/__utam__/**/*.utam.json"],
-  "pageObjectsOutputDir": "<staging>/pageObjects",
-  "extensionsOutputDir": "<staging>/utils",
+  "extensionsFileMask": ["**/__utam__/**/*.utam.js"],
+  "pageObjectsOutputDir": "../pageObjects",
+  "extensionsOutputDir": "../utils",
+  "lint": { "lintingOutputFile": "<staging>/utam-lint.sarif" },
   "moduleTarget": "module",
   "module": "@acme/my-package-pageobjects",
   "version": "1.2.3-4",
@@ -488,3 +493,57 @@ npm runs from the staging directory under `os.tmpdir()`. This keeps one source o
 compiler install, the already-published check, and the publish, and keeps the token out of
 command-line flags. Breaking for any pipeline that passed `--npm-token` or set
 `SIMPLY_CICD_NPM_TOKEN`.
+
+**As first shipped, the published package held no compiled page objects.** By the time this was
+found, the compile and publish logic had moved to `simply-cicd-core` (0035, 0056), so the fix lives
+there, in `src/build/utamPageObjects.ts` and `src/build/publishUtamPageObjects.ts`; this repo only
+picks up the release. The generated config gave the compiler absolute output directories. `utam@3`
+resolves them as `path.join(pageObjectsRootDir, outputDir)`, which appends an absolute path instead
+of honouring it, so the compiled files went to `<package dir>/<staging path>/pageObjects/` inside the
+checkout. The staging directory held only `source/` and `package.json`, and that is what got
+published. The spike used relative paths, so it never saw this. The unit tests faked the compiler
+and only checked the config's _contents_, which matched the design.
+
+The fix roots the compiler in the staging directory instead of the repo. The sources, now including
+`.utam.js` utilities, are copied into `<staging>/source` _before_ compiling. The compiler reads that
+copy and writes `../pageObjects` and `../utils` relative to it. Everything the compiler writes
+relative to its root therefore stays in staging and never touches the repo: the output, the SARIF
+lint report, `utam-errors.json` on a failed compile, and the profiles config. A first attempt kept
+the compiler rooted in the repo and passed it output directories relative to the package directory.
+That fixed the missing JS, but it still let the compiler write its reports into `force-app`. It also
+failed outright whenever the checkout and `os.tmpdir()` were on different drives, which is the
+default layout on GitHub's Windows runners.
+
+Fixing the root exposed three more problems:
+
+- **The profiles config.** The compiler names it `<module>.config.json` and writes it beside the
+  output. For a scoped name, that is a file inside an `@scope/` folder the compiler never creates, so
+  any project using profiles failed to compile. The command now creates the folder, then renames the
+  file to a fixed `profiles.config.json`, publishes it, and gives it an exact `exports` entry. The
+  `./*` pattern would otherwise map it to `profiles.config.json.js`. A test suite passes
+  `<package>/profiles.config.json` to its UTAM loader, which `require`s it by bare specifier.
+- **Same-named sources.** The output is flat, so two `modal.utam.json` files in different component
+  folders compile to one `pageObjects/modal.js`, and one is silently lost. The command now fails
+  before contacting the Dev Hub, naming every clashing source. After compiling, it checks that every
+  page object produced its `.js`, which also catches output landing anywhere other than the staged
+  package.
+- **The lint report path.** A project's relative `lint.lintingOutputFile` is now resolved against the
+  working directory, which is what a path written in the repo means. The compiler would otherwise
+  resolve it inside `source/`, which is published.
+
+`simply-cicd-core`'s `test/build/publishUtamPageObjects.e2e.test.ts` runs the real compiler and the
+real `npm pack` against a fixture project. `utam` is a dev dependency there, linked in place of the
+run-time install. The fixture has a
+nested page object, a sibling reference, an interface with a profile-specific implementation, a
+utility, and a project compiler config. The test checks:
+
+- the tarball's exact file list;
+- that a consumer can import a page object by path as both ESM and CJS;
+- that a consumer can load the profiles config and the page objects it names;
+- that the project is left untouched.
+
+Run against either earlier version of the compile setup, it fails.
+
+Versions published before the fix contain only source JSON. Because the npm version is derived from
+the Salesforce version and the command skips any version already on the registry, they can only be
+repaired by deleting them where the registry allows it and re-running the command for that `04t`.
