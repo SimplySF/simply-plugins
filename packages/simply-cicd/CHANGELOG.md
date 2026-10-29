@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.24.3](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.24.2...%40simplysf%2Fsimply-cicd%400.24.3) (2026-10-29)
+
+### Bug Fixes
+
+- **simply-cicd:** ship compiled page objects in publish-utam-page-objects ([#117](https://github.com/SimplySF/simply-plugins/issues/117)) ([aace022](https://github.com/SimplySF/simply-plugins/commit/aace022c87783ea8248944c55ec787a679c1a3d1))
+
 ## [0.24.2](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.24.1...%40simplysf%2Fsimply-cicd%400.24.2) (2026-10-28)
 
 ### Bug Fixes
