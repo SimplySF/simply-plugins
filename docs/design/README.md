@@ -74,7 +74,7 @@ refactors that keep the public surface identical (though a short doc is welcome 
 | [0034](0034-at4dx-domain-binding-trigger-validate.md)                | `at4dx binding validate`: wire up `missing-domain-trigger` trigger scanning           | Implemented           |
 | [0035](0035-simply-cicd-core.md)                                     | Splitting `simply-cicd-core` out of `simply-cicd`                                     | Implemented           |
 | [0036](0036-package-dependencies-install-service.md)                 | `simply-package-core`: `installPackageDependencies` service (used by `simply-cicd`)   | Implemented           |
-| [0037](0037-utam-page-objects-publish.md)                            | `simply cicd build publish-utam-page-objects`                                         | Draft                 |
+| [0037](0037-utam-page-objects-publish.md)                            | `simply cicd build publish-utam-page-objects`                                         | Implemented           |
 | [0038](0038-community-publish-request-timeouts.md)                   | Fix the community publish hang                                                        | In progress           |
 | [0039](0039-permissions-build-from-file.md)                          | `simply permissions build --file`                                                     | Implemented           |
 | [0040](0040-cicd-version-tag-format.md)                              | Configurable version tag format for `simply cicd build`                               | Implemented           |
