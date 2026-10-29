@@ -1,0 +1,424 @@
+<h2>Objects</h2>
+<h3>Standard Objects</h3>
+
+<h3>Custom Objects</h3>
+<table class="wrapped">
+  <colgroup>
+    <col />
+    <col />
+    <col />
+  </colgroup>
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <th>API Name</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td><ac:link ac:anchor="Audit_Log__c"/></td>
+      <td>Audit_Log__c</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><ac:link ac:anchor="Case_Note__c"/></td>
+      <td>Case_Note__c</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><ac:link ac:anchor="Case_Topic__c"/></td>
+      <td>Case_Topic__c</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><ac:link ac:anchor="Invoice__c"/></td>
+      <td>Invoice__c</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><ac:link ac:anchor="Invoice_Line__c"/></td>
+      <td>Invoice_Line__c</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<h4 class="auto-cursor-target">Audit_Log__c</h4>
+<h5>Record Types</h5>
+<p>None</p>
+<h5>Page Layouts</h5>
+<p>None</p>
+<h5>Fields</h5>
+<p>None</p>
+<h5>Field Sets</h5>
+<p>None</p>
+<h5>Validation Rules</h5>
+<p>None</p>
+ <h4 class="auto-cursor-target">Case_Note__c</h4>
+<h5>Record Types</h5>
+<p>None</p>
+<h5>Page Layouts</h5>
+<p>None</p>
+<h5>Fields</h5>
+<table class="wrapped">
+  <colgroup>
+    <col />
+    <col />
+    <col />
+    <col />
+    <col />
+    <col />
+  </colgroup>
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <th>API Name</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>External ID</th>
+      <th>Unique</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td>Case_Topic__c</td>
+      <td>Case_Topic__c</td>
+      <td>Lookup(Case_Topic__c)</td>
+      <td style="text-align: center">
+         FALSE 
+      </td>
+      <td style="text-align: center">
+         FALSE 
+      </td>
+      <td style="text-align: center">
+         FALSE 
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Reviewer__c</td>
+      <td>Reviewer__c</td>
+      <td>Lookup(User)</td>
+      <td style="text-align: center">
+         FALSE 
+      </td>
+      <td style="text-align: center">
+         FALSE 
+      </td>
+      <td style="text-align: center">
+         FALSE 
+      </td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<h5>Field Sets</h5>
+<p>None</p>
+<h5>Validation Rules</h5>
+<p>None</p>
+ <h4 class="auto-cursor-target">Case_Topic__c</h4>
+<h5>Record Types</h5>
+<p>None</p>
+<h5>Page Layouts</h5>
+<p>None</p>
+<h5>Fields</h5>
+<p>None</p>
+<h5>Field Sets</h5>
+<p>None</p>
+<h5>Validation Rules</h5>
+<p>None</p>
+ <h4 class="auto-cursor-target">Invoice__c</h4>
+<h5>Record Types</h5>
+<p>None</p>
+<h5>Page Layouts</h5>
+<p>None</p>
+<h5>Fields</h5>
+<table class="wrapped">
+  <colgroup>
+    <col />
+    <col />
+    <col />
+    <col />
+    <col />
+    <col />
+  </colgroup>
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <th>API Name</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>External ID</th>
+      <th>Unique</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td>Approver__c</td>
+      <td>Approver__c</td>
+      <td>Lookup(User)</td>
+      <td style="text-align: center">
+         FALSE 
+      </td>
+      <td style="text-align: center">
+         FALSE 
+      </td>
+      <td style="text-align: center">
+         FALSE 
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Billing_Account__c</td>
+      <td>Billing_Account__c</td>
+      <td>Lookup(Account)</td>
+      <td style="text-align: center">
+         FALSE 
+      </td>
+      <td style="text-align: center">
+         FALSE 
+      </td>
+      <td style="text-align: center">
+         FALSE 
+      </td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<h5>Field Sets</h5>
+<p>None</p>
+<h5>Validation Rules</h5>
+<p>None</p>
+ <h4 class="auto-cursor-target">Invoice_Line__c</h4>
+<h5>Record Types</h5>
+<p>None</p>
+<h5>Page Layouts</h5>
+<p>None</p>
+<h5>Fields</h5>
+<table class="wrapped">
+  <colgroup>
+    <col />
+    <col />
+    <col />
+    <col />
+    <col />
+    <col />
+  </colgroup>
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <th>API Name</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>External ID</th>
+      <th>Unique</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td>Invoice__c</td>
+      <td>Invoice__c</td>
+      <td>MasterDetail(Invoice__c)</td>
+      <td style="text-align: center">
+         TRUE 
+      </td>
+      <td style="text-align: center">
+         FALSE 
+      </td>
+      <td style="text-align: center">
+         FALSE 
+      </td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<h5>Field Sets</h5>
+<p>None</p>
+<h5>Validation Rules</h5>
+<p>None</p>
+ 
+<h1 class="auto-cursor-target">Security Model</h1>
+<h2>Organization-Wide Defaults</h2>
+<p>
+  A Salesforce object&#8217;s visibility is controlled at the top level by the
+  security model of visibility defined for the object.
+</p>
+<p>The object visibility may be:</p>
+<ul>
+  <li>Public Read Only</li>
+  <li>Public Read/Write</li>
+  <li>Private</li>
+  <li>Controlled By Parent</li>
+</ul>
+<table class="wrapped">
+  <colgroup>
+    <col />
+    <col />
+    <col />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Object</th>
+      <th>Default Internal Access</th>
+      <th>Default External Access</th>
+    </tr>
+  </thead>
+  <tbody>
+     <tr>
+      <td>Audit_Log__c</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Case_Note__c</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Case_Topic__c</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Invoice__c</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Invoice_Line__c</td>
+      <td></td>
+      <td></td>
+    </tr>
+     
+  </tbody>
+</table>
+<h2 class="auto-cursor-target">Sharing Rules</h2>
+<p>Salesforce records can be shared in the following ways:</p>
+<ul>
+  <li>Criteria-Based Sharing Rules</li>
+  <li>Owner-Based Sharing Rules</li>
+  <li>Apex Managed Sharing Rules</li>
+</ul>
+<p>
+  A private object can be shared from a public group; a role; a role and all its
+  subordinates to a public group; a role; and / or a role and all its
+  subordinates.
+</p>
+<table class="wrapped">
+  <colgroup>
+    <col />
+    <col />
+    <col />
+    <col />
+    <col />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Label</th>
+      <th>API Name</th>
+      <th>Object</th>
+      <th>Type</th>
+      <th>Access Level</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+      <td><br /></td>
+    </tr>
+  </tbody>
+</table>
+<h1 class="auto-cursor-target">Groups/Queues/Permissions</h1>
+<h2>Groups</h2>
+<p>None</p>
+<h2>Queues</h2>
+<p>None</p>
+<h2>Permission Set Groups</h2>
+<p>None</p>
+<h2>Permission Sets</h2>
+<p>None</p>
+<h1 class="auto-cursor-target">Solution Inventory</h1>
+<h2>Apps</h2>
+<p>None</p>
+<!-- TODO: Workflow -->
+<h2>Flows</h2>
+<p>None</p>
+<h2>Lightning App Pages</h2>
+<p>None</p>
+<h2>Approval Processes</h2>
+<p>None</p>
+<h2>Custom Settings</h2>
+<table class="wrapped">
+  <colgroup>
+    <col />
+    <col />
+    <col />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Label</th>
+      <th>Name</th>
+      <th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Feature_Flag__c</td>
+      <td>Feature_Flag__c</td>
+      <td>Hierarchy</td>
+    </tr>
+  </tbody>
+</table>
+<h4 class="auto-cursor-target">Feature_Flag__c</h4>
+<h5>Fields</h5>
+<table class="wrapped">
+  <colgroup>
+    <col />
+    <col />
+    <col />
+    <col />
+    <col />
+    <col />
+  </colgroup>
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <th>API Name</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </tbody>
+</table>
+<h2>Custom Metadata Types</h2>
+<p>None</p>
+<h2>Custom Metadata</h2>
+<p>None</p>
+<h2>Platform Events</h2>
+<p>None</p>
+<h2>Custom Labels</h2>
+<p>None</p>
+<h2>Email Templates</h2>
+<p>None</p>
+<h2>Reports</h2>
+<p>None</p>
+<h2>Dashboards</h2>
+<p>None</p>
+<h1 class="auto-cursor-target">Custom Code Inventory</h1>
+<h2>Apex Triggers</h2>
+<p>None</p>
+<h2>Apex Classes</h2>
+<p>None</p>
+<h2>Lightning Web Components</h2>
+<p>None</p>
+<h2>Aura Components</h2>
+<p>None</p>
+<h2>Visualforce Pages</h2>
+<p>None</p>
+<h2>Static Resources</h2>
+<p>None</p>
+<h1 class="auto-cursor-target">Digital Experiences</h1>
+<h2>Experience Bundles</h2>
+<p>None</p>
+<h2>Digital Experience Bundles</h2>
+<p>None</p>
