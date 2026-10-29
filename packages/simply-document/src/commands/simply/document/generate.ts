@@ -17,8 +17,8 @@
 import fs from 'node:fs/promises';
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
-import { buildTechnicalDesignDocumentHtml, type TechnicalDesignDocumentData } from '@simplysf/simply-document-core';
-import { scanProject } from '../../../common/scanProject.js';
+import { buildTechnicalDesignDocumentHtml } from '@simplysf/simply-document-core';
+import { scanProjectWithSpinner } from '../../../common/scanProject.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-document', 'simply.document.generate');
@@ -71,49 +71,7 @@ export default class DocumentGenerate extends SfCommand<DocumentGenerateResult> 
       ? await fs.readFile(flags['template-file'], 'utf-8')
       : undefined;
 
-    this.spinner.start(messages.getMessage('info.scanningProject'));
-
-    let data: TechnicalDesignDocumentData;
-    try {
-      data = await scanProject(flags.directory, (name) => {
-        this.spinner.status = name;
-      });
-    } catch (error) {
-      this.spinner.stop();
-      throw messages.createError('error.scanFailed', [(error as Error).message]);
-    }
-    this.spinner.stop();
-    this.spinner.start(messages.getMessage('info.mappingObjects'));
-    const {
-      apexClasses,
-      apexTriggers,
-      approvalProcesses,
-      auraComponents,
-      customApplications,
-      customLabels,
-      customMetadata,
-      customMetadataTypes,
-      customObjects,
-      customSettings,
-      dashboards,
-      digitalExperienceBundles,
-      emailTemplates,
-      experienceBundles,
-      flexipages,
-      flows,
-      groups,
-      lightningComponents,
-      permissionSets,
-      permissionSetGroups,
-      platformEvents,
-      queues,
-      reports,
-      sharingRules,
-      standardObjects,
-      staticResources,
-      visualforcePages,
-    } = data;
-    this.spinner.stop();
+    const data = await scanProjectWithSpinner(this, flags.directory);
 
     this.spinner.start(messages.getMessage('info.renderingDocument'));
 
@@ -129,34 +87,8 @@ export default class DocumentGenerate extends SfCommand<DocumentGenerateResult> 
 
     this.info(messages.getMessage('info.complete', [flags['output-file']]));
 
-    const componentCount =
-      apexClasses.length +
-      apexTriggers.length +
-      approvalProcesses.length +
-      auraComponents.length +
-      customApplications.length +
-      customLabels.length +
-      customMetadata.length +
-      customMetadataTypes.length +
-      customObjects.length +
-      customSettings.length +
-      dashboards.length +
-      digitalExperienceBundles.length +
-      emailTemplates.length +
-      experienceBundles.length +
-      flexipages.length +
-      flows.length +
-      groups.length +
-      lightningComponents.length +
-      permissionSets.length +
-      permissionSetGroups.length +
-      platformEvents.length +
-      queues.length +
-      reports.length +
-      sharingRules.length +
-      standardObjects.length +
-      staticResources.length +
-      visualforcePages.length;
+    // Every key of the scanned data is a top-level metadata list.
+    const componentCount = Object.values(data).reduce((sum, items) => sum + items.length, 0);
 
     return {
       outputFile: flags['output-file'],

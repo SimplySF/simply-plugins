@@ -16,7 +16,9 @@
 
 /* eslint-disable no-await-in-loop */
 /* eslint-disable complexity */
+import { Messages } from '@salesforce/core';
 import { ComponentSet, SourceComponent } from '@salesforce/source-deploy-retrieve';
+import type { SfCommand } from '@salesforce/sf-plugins-core';
 import type { JsonMap } from '@salesforce/ts-types';
 import {
   type TechnicalDesignDocumentData,
@@ -133,6 +135,10 @@ function extractDescription(description?: string): string | undefined {
 /**
  * Derive a field's display type (e.g. `Lookup(Account)`, `Text(80)`) and mini-description.
  *
+ * `type` is overwritten with the display string (e.g. `Lookup(Account)`) because custom
+ * `--template-file` templates render it directly; `fieldType` keeps the raw Salesforce type
+ * (e.g. `Lookup`) for consumers such as the ERD, which fall back `fieldType ?? type`.
+ *
  * @param customField - The field's raw parsed XML.
  * @returns The field, ready for rendering in the technical design document.
  */
@@ -174,12 +180,35 @@ function massageCustomField(
   return massaged;
 }
 
+/** Thrown by `scanProject` when `ComponentSet.fromSource` fails; per-component parse errors are not wrapped. */
+export class ProjectSourceError extends Error {
+  public constructor(cause: unknown) {
+    super(cause instanceof Error ? cause.message : String(cause), { cause });
+    this.name = 'ProjectSourceError';
+  }
+}
+
+/** Options for `scanProject`. */
+export type ScanProjectOptions = {
+  /** Called with each component's name as it is processed. */
+  onComponent?: (name: string) => void;
+  /** When set, only components of these metadata types (`type.name`) are parsed; others are skipped. */
+  types?: ReadonlySet<string> | string[];
+};
+
 /** Scan source metadata into the shared documentation input. */
 export async function scanProject(
   directory: string,
-  onComponent?: (name: string) => void,
+  options: ScanProjectOptions = {},
 ): Promise<TechnicalDesignDocumentData> {
-  const components = ComponentSet.fromSource(directory);
+  const { onComponent } = options;
+  const types = options.types ? new Set(options.types) : undefined;
+  let components: ComponentSet;
+  try {
+    components = ComponentSet.fromSource(directory);
+  } catch (error) {
+    throw new ProjectSourceError(error);
+  }
   const apexClasses: ApexClassItem[] = [];
   const apexTriggers: ApexTriggerItem[] = [];
   const approvalProcesses: ApprovalProcessItem[] = [];
@@ -211,6 +240,10 @@ export async function scanProject(
 
   for (const rawComponent of components) {
     const component = rawComponent as SourceComponent;
+
+    if (types && !types.has(component.type.name)) {
+      continue;
+    }
 
     onComponent?.(component.name);
 
@@ -479,4 +512,41 @@ export async function scanProject(
     staticResources,
     visualforcePages,
   };
+}
+
+Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
+const scanMessages = Messages.loadMessages('@simplysf/simply-document', 'simply.document.scan');
+
+/**
+ * Run `scanProject` under a spinner shared by the document commands. Only a failure to resolve the
+ * project source becomes `error.scanFailed` (with the original error as its cause); per-component
+ * parse errors propagate unchanged. The spinner is always stopped.
+ *
+ * @param command - The running command, whose spinner is used.
+ * @param directory - The project source directory.
+ * @param options - `scanProject` options; `onComponent` is chained after the spinner status update.
+ * @returns The scanned project data.
+ */
+export async function scanProjectWithSpinner(
+  command: SfCommand<unknown>,
+  directory: string,
+  options: ScanProjectOptions = {},
+): Promise<TechnicalDesignDocumentData> {
+  command.spinner.start(scanMessages.getMessage('info.scanningProject'));
+  try {
+    return await scanProject(directory, {
+      ...options,
+      onComponent: (name) => {
+        command.spinner.status = name;
+        options.onComponent?.(name);
+      },
+    });
+  } catch (error) {
+    if (error instanceof ProjectSourceError) {
+      throw scanMessages.createError('error.scanFailed', [error.message], [], error.cause as Error);
+    }
+    throw error;
+  } finally {
+    command.spinner.stop();
+  }
 }

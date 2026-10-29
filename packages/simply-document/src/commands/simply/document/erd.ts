@@ -15,14 +15,11 @@
  */
 
 import fs from 'node:fs/promises';
-import path from 'node:path';
 import { Messages } from '@salesforce/core';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
-import {
-  buildEntityRelationshipDiagramMarkdown,
-  type TechnicalDesignDocumentData,
-} from '@simplysf/simply-document-core';
-import { scanProject } from '../../../common/scanProject.js';
+import { buildEntityRelationshipDiagramMarkdown, buildEntityRelationshipModel } from '@simplysf/simply-document-core';
+import { scanProjectWithSpinner } from '../../../common/scanProject.js';
+import { resolveHubs, resolveTitle } from '../../../common/erdOptions.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-document', 'simply.document.erd');
@@ -37,6 +34,11 @@ export type DocumentErdResult = {
   unrelatedObjects: string[];
   skippedFields: string[];
 };
+
+const DEFAULT_HUBS = ['User'];
+
+/** Only these metadata types feed the ERD; everything else is skipped before parsing. */
+const ERD_METADATA_TYPES = ['CustomObject', 'CustomField'];
 
 /** Generate Mermaid ER diagrams from project metadata. */
 export default class DocumentErd extends SfCommand<DocumentErdResult> {
@@ -54,27 +56,30 @@ export default class DocumentErd extends SfCommand<DocumentErdResult> {
     }),
     'output-file': Flags.file({ summary: messages.getMessage('flags.output-file.summary'), required: true }),
     'max-objects': Flags.integer({ summary: messages.getMessage('flags.max-objects.summary'), default: 40, min: 2 }),
-    hub: Flags.string({ summary: messages.getMessage('flags.hub.summary'), multiple: true, default: ['User'] }),
+    hub: Flags.string({ summary: messages.getMessage('flags.hub.summary'), multiple: true, default: DEFAULT_HUBS }),
+    title: Flags.string({ summary: messages.getMessage('flags.title.summary') }),
   };
 
   public async run(): Promise<DocumentErdResult> {
     const { flags } = await this.parse(DocumentErd);
-    this.spinner.start(messages.getMessage('info.scanningProject'));
-    let data: TechnicalDesignDocumentData;
-    try {
-      data = await scanProject(flags.directory, (name) => {
-        this.spinner.status = name;
-      });
-    } catch (error) {
-      this.spinner.stop();
-      throw messages.createError('error.scanFailed', [(error as Error).message]);
-    }
-    this.spinner.stop();
+    const data = await scanProjectWithSpinner(this, flags.directory, { types: ERD_METADATA_TYPES });
+    const objects = [...data.standardObjects, ...data.customObjects];
 
-    const { markdown, model, diagrams, unrelatedObjects } = buildEntityRelationshipDiagramMarkdown(
-      [...data.standardObjects, ...data.customObjects],
-      { maxObjects: flags['max-objects'], hubs: flags.hub, title: path.basename(path.resolve(flags.directory)) },
+    const { hubs, unknown } = resolveHubs(
+      flags.hub,
+      buildEntityRelationshipModel(objects).entities.map((entity) => entity.name),
     );
+    const explicitHubs =
+      flags.hub.length !== DEFAULT_HUBS.length || flags.hub.some((hub, i) => hub !== DEFAULT_HUBS[i]);
+    if (explicitHubs && unknown.length) {
+      this.warn(messages.getMessage('warning.unknownHub', [unknown.join(', ')]));
+    }
+
+    const { markdown, model, diagrams, unrelatedObjects } = buildEntityRelationshipDiagramMarkdown(objects, {
+      maxObjects: flags['max-objects'],
+      hubs,
+      title: await resolveTitle(flags.directory, flags.title),
+    });
     await fs.writeFile(flags['output-file'], markdown, 'utf-8');
     const summaries = diagrams.map((diagram) => ({
       name: diagram.name,
@@ -82,16 +87,24 @@ export default class DocumentErd extends SfCommand<DocumentErdResult> {
       relationshipCount: diagram.relationships.length,
       oversized: diagram.oversized,
     }));
-    this.table({
-      data: summaries.map((diagram, index) => ({ index: index + 1, ...diagram })),
-      columns: [
-        { key: 'index', name: '#' },
-        { key: 'name', name: 'DIAGRAM' },
-        { key: 'objectCount', name: 'OBJECTS' },
-        { key: 'relationshipCount', name: 'RELATIONSHIPS' },
-      ],
-    });
-    this.log(messages.getMessage('info.wrote', [diagrams.length, flags['output-file']]));
+    if (diagrams.length === 0) {
+      this.log(
+        messages.getMessage(model.entities.length === 0 ? 'info.noObjects' : 'info.noRelationships', [
+          flags['output-file'],
+        ]),
+      );
+    } else {
+      this.table({
+        data: summaries.map((diagram, index) => ({ index: index + 1, ...diagram })),
+        columns: [
+          { key: 'index', name: '#' },
+          { key: 'name', name: 'DIAGRAM' },
+          { key: 'objectCount', name: 'OBJECTS' },
+          { key: 'relationshipCount', name: 'RELATIONSHIPS' },
+        ],
+      });
+      this.log(messages.getMessage('info.wrote', [diagrams.length, flags['output-file']]));
+    }
     for (const diagram of diagrams) {
       if (diagram.oversized) {
         this.warn(

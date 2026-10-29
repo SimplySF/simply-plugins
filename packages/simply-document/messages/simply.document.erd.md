@@ -24,7 +24,11 @@ Maximum connected in-project objects before splitting into clusters.
 
 # flags.hub.summary
 
-Object API names that do not join clusters when splitting (replaces the User default).
+Object API names (matched case-insensitively) that do not join clusters when splitting (replaces the User default).
+
+# flags.title.summary
+
+Title for the generated document (default: the name in sfdx-project.json, else the directory name).
 
 # examples
 
@@ -32,13 +36,23 @@ Object API names that do not join clusters when splitting (replaces the User def
 
 - <%= config.bin %> <%= command.id %> --directory force-app --output-file erd.md --max-objects 25 --hub User --hub Account
 
-# info.scanningProject
-
-Scanning Salesforce project directory...
+- <%= config.bin %> <%= command.id %> --directory force-app --output-file erd.md --title "Billing data model"
 
 # info.wrote
 
 Wrote %s diagram(s) to %s.
+
+# info.noRelationships
+
+No relationships found; wrote the object list to %s.
+
+# info.noObjects
+
+No objects found; wrote an empty document to %s.
+
+# warning.unknownHub
+
+Hub object(s) not found in the project or its relationships and ignored: %s
 
 # warning.oversized
 
@@ -47,7 +61,3 @@ Wrote %s diagram(s) to %s.
 # warning.skippedFields
 
 Skipped %s relationship field(s) with no referenceTo: %s
-
-# error.scanFailed
-
-Failed to scan the project directory: %s

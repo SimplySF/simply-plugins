@@ -20,7 +20,8 @@ import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { ComponentSet } from '@salesforce/source-deploy-retrieve';
+import { SfError } from '@salesforce/core';
+import { ComponentSet, SourceComponent } from '@salesforce/source-deploy-retrieve';
 import DocumentErd from '../../../../src/commands/simply/document/erd.js';
 
 const fixture = fileURLToPath(new URL('../../../fixtures/erd-project/', import.meta.url));
@@ -166,5 +167,98 @@ describe('simply document erd', () => {
     expect(warn).toHaveBeenCalledExactlyOnceWith(
       'Skipped 1 relationship field(s) with no referenceTo: Broken__c.Parent__c',
     );
+  });
+
+  const writeFile = (file: string, content: string): void => {
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    fs.writeFileSync(file, content);
+  };
+  const xmlns = 'xmlns="http://soap.sforce.com/2006/04/metadata"';
+  const lookup = (name: string, target: string): string =>
+    `<CustomField ${xmlns}><fullName>${name}</fullName><type>Lookup</type><referenceTo>${target}</referenceTo></CustomField>`;
+
+  it('ignores layouts so they never create pseudo-objects', async () => {
+    const source = path.join(directory, 'src');
+    writeFile(
+      path.join(source, 'objects', 'Invoice__c', 'fields', 'Acct__c.field-meta.xml'),
+      lookup('Acct__c', 'Account'),
+    );
+    writeFile(path.join(source, 'layouts', 'Global-Global Layout.layout-meta.xml'), `<Layout ${xmlns}/>`);
+    writeFile(path.join(source, 'layouts', 'Account-Account Layout.layout-meta.xml'), `<Layout ${xmlns}/>`);
+    const result = await run(source, outputFile);
+    expect(result.externalObjects).toEqual(['Account']);
+    expect(result.objectCount).toBe(2);
+    expect(fs.readFileSync(outputFile, 'utf8')).not.toContain('Global');
+  });
+
+  it('uses --title, then sfdx-project.json name, then the directory name', async () => {
+    const project = path.join(directory, 'proj');
+    const source = path.join(project, 'force-app', 'main', 'default');
+    writeFile(
+      path.join(source, 'objects', 'Invoice__c', 'fields', 'Acct__c.field-meta.xml'),
+      lookup('Acct__c', 'Account'),
+    );
+    writeFile(
+      path.join(project, 'sfdx-project.json'),
+      JSON.stringify({ name: 'billing-app', packageDirectories: [{ path: 'force-app', default: true }] }),
+    );
+    await run(source, outputFile, ['--title', 'Custom Title']);
+    expect(fs.readFileSync(outputFile, 'utf8')).toContain('# Data model: Custom Title');
+    await run(source, outputFile);
+    expect(fs.readFileSync(outputFile, 'utf8')).toContain('# Data model: billing-app');
+    fs.rmSync(path.join(project, 'sfdx-project.json'));
+    await run(source, outputFile);
+    expect(fs.readFileSync(outputFile, 'utf8')).toContain('# Data model: default');
+  });
+
+  it('matches --hub case-insensitively and warns for unknown explicit hubs', async () => {
+    const warn = vi.spyOn(DocumentErd.prototype, 'warn');
+    const result = await run(fixture, outputFile, ['--max-objects', '3', '--hub', 'invoice__c', '--hub', 'Nope__c']);
+    expect(result.diagrams.length).toBeGreaterThan(0);
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('Nope__c'));
+    expect(warn).not.toHaveBeenCalledWith(expect.stringContaining('invoice__c'));
+    const baseline = await run(fixture, outputFile, ['--max-objects', '3', '--hub', 'Invoice__c']);
+    expect(result.diagrams).toEqual(baseline.diagrams);
+  });
+
+  it('does not warn when the default User hub is absent', async () => {
+    const source = path.join(directory, 'src');
+    writeFile(path.join(source, 'objects', 'A__c', 'fields', 'B__c.field-meta.xml'), lookup('B__c', 'B__c'));
+    const warn = vi.spyOn(DocumentErd.prototype, 'warn');
+    await run(source, outputFile);
+    expect(warn).not.toHaveBeenCalled();
+  });
+
+  it('reports no relationships instead of printing an empty table', async () => {
+    const source = path.join(directory, 'src');
+    writeFile(
+      path.join(source, 'objects', 'Lonely__c', 'Lonely__c.object-meta.xml'),
+      `<CustomObject ${xmlns}><label>Lonely</label></CustomObject>`,
+    );
+    const table = vi.spyOn(DocumentErd.prototype, 'table').mockImplementation(() => {});
+    const log = vi.spyOn(DocumentErd.prototype, 'log').mockImplementation(() => {});
+    const result = await run(source, outputFile);
+    expect(result.diagrams).toEqual([]);
+    expect(table).not.toHaveBeenCalled();
+    expect(log).toHaveBeenCalledWith(`No relationships found; wrote the object list to ${outputFile}.`);
+  });
+
+  it('does not rewrap per-component parse errors as scanFailed', async () => {
+    const source = path.join(directory, 'src');
+    writeFile(path.join(source, 'objects', 'Bad__c', 'fields', 'X__c.field-meta.xml'), '<CustomField><fullName>');
+    vi.spyOn(SourceComponent.prototype, 'parseXml').mockRejectedValue(new SfError('bad xml', 'ParseBoom'));
+    const error = (await run(source, outputFile).catch((error_: unknown) => error_)) as Error;
+    expect(error.name).toBe('ParseBoom');
+    expect(error.message).toBe('bad xml');
+  });
+
+  it('keeps the original error as the cause of scanFailed', async () => {
+    const original = new Error('broken source');
+    vi.spyOn(ComponentSet, 'fromSource').mockImplementation(() => {
+      throw original;
+    });
+    const error = (await run(directory, outputFile).catch((error_: unknown) => error_)) as Error;
+    expect(error.name).toBe('ScanFailedError');
+    expect(error.cause).toBe(original);
   });
 });

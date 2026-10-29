@@ -26,7 +26,7 @@ const fixture = fileURLToPath(new URL('../fixtures/erd-project/', import.meta.ur
 describe('scanProject', () => {
   it('preserves raw relationship metadata alongside display types and buckets custom settings separately', async () => {
     const names: string[] = [];
-    const data = await scanProject(fixture, (name) => names.push(name));
+    const data = await scanProject(fixture, { onComponent: (name) => names.push(name) });
     expect(data.customObjects.find((object) => object.name === 'Invoice_Line__c')?.customFields).toEqual([
       expect.objectContaining({
         fieldType: 'MasterDetail',
@@ -57,5 +57,29 @@ describe('scanProject', () => {
 
   it('propagates source resolution errors', async () => {
     await expect(scanProject(path.join(fixture, 'missing'))).rejects.toThrow();
+  });
+
+  it('skips components outside the requested types before parsing them', async () => {
+    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-document-types-'));
+    try {
+      const xmlns = 'xmlns="http://soap.sforce.com/2006/04/metadata"';
+      fs.mkdirSync(path.join(directory, 'layouts'));
+      // Malformed on purpose: parsing it would throw.
+      fs.writeFileSync(path.join(directory, 'layouts', 'Global-Global Layout.layout-meta.xml'), '<Layout');
+      fs.mkdirSync(path.join(directory, 'classes'));
+      fs.writeFileSync(path.join(directory, 'classes', 'A.cls'), 'public class A {}');
+      fs.writeFileSync(
+        path.join(directory, 'classes', 'A.cls-meta.xml'),
+        `<ApexClass ${xmlns}><apiVersion>60.0</apiVersion></ApexClass>`,
+      );
+      const names: string[] = [];
+      const data = await scanProject(directory, { types: ['CustomObject'], onComponent: (name) => names.push(name) });
+      expect(names).toEqual([]);
+      expect(data.apexClasses).toEqual([]);
+      expect(data.standardObjects).toEqual([]);
+      await expect(scanProject(directory)).rejects.toThrow();
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true });
+    }
   });
 });

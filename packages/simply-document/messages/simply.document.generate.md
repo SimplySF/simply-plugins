@@ -36,21 +36,9 @@ Currently only `html` is supported. Reserved for future formats (e.g. Markdown).
 
 - <%= config.bin %> <%= command.id %> --directory force-app --output-file technical-design-document.html --template-file my-tdd-template.hbs
 
-# error.scanFailed
-
-Failed to scan the project directory: %s
-
 # error.unsupportedOutputFormat
 
 Unsupported output format: %s
-
-# info.scanningProject
-
-Scanning Salesforce project directory...
-
-# info.mappingObjects
-
-Processing and mapping custom/standard objects...
 
 # info.renderingDocument
 
