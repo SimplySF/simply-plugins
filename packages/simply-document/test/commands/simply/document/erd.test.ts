@@ -108,7 +108,8 @@ describe('simply document erd', () => {
         outputFile,
         '--json',
       ],
-      { cwd: packageRoot, encoding: 'utf8' },
+      // CI sets FORCE_COLOR, which makes sf colorize the JSON envelope.
+      { cwd: packageRoot, encoding: 'utf8', env: { ...process.env, FORCE_COLOR: '0' } },
     );
     const envelope = JSON.parse(stdout) as {
       status: number;
