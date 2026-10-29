@@ -522,6 +522,9 @@ Fixing the root exposed three more problems:
   file to a fixed `profiles.config.json`, publishes it, and gives it an exact `exports` entry. The
   `./*` pattern would otherwise map it to `profiles.config.json.js`. A test suite passes
   `<package>/profiles.config.json` to its UTAM loader, which `require`s it by bare specifier.
+  `utam@3` builds implementation specifiers in that file with `path.join`, which on Windows writes
+  `@scope\pkg\pageObjects\name`, so the command rewrites backslashes to `/` as it moves the file;
+  every value in it is a module specifier, never a filesystem path.
 - **Same-named sources.** The output is flat, so two `modal.utam.json` files in different component
   folders compile to one `pageObjects/modal.js`, and one is silently lost. The command now fails
   before contacting the Dev Hub, naming every clashing source. After compiling, it checks that every
