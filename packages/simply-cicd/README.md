@@ -635,9 +635,13 @@ DESCRIPTION
 
   Runs after `build create-package-version`, whose `04t` it takes as input — from `--subscriber-package-version-id`,
   from `SUBSCRIBER_PACKAGE_VERSION_ID` in the environment (how a separate job receives that command's dotenv report), or
-  from the dotenv file itself (how a later step in the same job sees it). It compiles every `**/__utam__/**/*.utam.json`
-  under the default package directory with the UTAM compiler, in a staging directory outside the repo, and publishes the
-  result.
+  from the dotenv file itself (how a later step in the same job sees it). It copies every `**/__utam__/**/*.utam.json`
+  page object and `**/__utam__/**/*.utam.js` utility under the default package directory into a staging directory
+  outside the repo, compiles them there with the UTAM compiler, and publishes the result: the compiled page objects
+  under `pageObjects/` (`.js`, `.cjs`, `.d.ts`, `.d.cts`), the utilities under `utils/`, and the sources under
+  `source/`. When page objects use profiles, the profiles config is published as `profiles.config.json`, for a test
+  suite to pass to its UTAM loader as `<package>/profiles.config.json`. The compiler writes nothing into the repo; a
+  relative `lint.lintingOutputFile` in the project's compiler config is resolved against the working directory.
 
   The npm version is derived from the Salesforce version number the same way `sfdx-project.json` writes a dependency
   pin: `1.2.3.4` becomes `1.2.3-4`, with the git tag's suffix carried as a second prerelease identifier and as the
@@ -650,8 +654,10 @@ DESCRIPTION
   Skips (without failing) when `PACKAGE_CHANGED=FALSE` is set in the environment (see `build
   determine-package-changes`), when `--disabled` is passed, when no package version ID can be found, when the project
   authors no page objects, or when this exact version is already on the registry — which is what makes retrying a job
-  that died after publishing succeed rather than fail on a version conflict. Any other failure fails the job: a missing
-  page-object package would silently break every UI test pinned to that version.
+  that died after publishing succeed rather than fail on a version conflict. Any other failure fails the job, including
+  two page objects (or utilities) with the same file name, which would compile to the same output file, and a compile
+  that leaves any page object out: a missing or empty page-object package would silently break every UI test pinned to
+  that version.
 
   On success, appends `UTAM_PAGE_OBJECTS_PACKAGE` and `UTAM_PAGE_OBJECTS_VERSION` to `--out`, so a downstream job can
   install the package without knowing the mapping rule.

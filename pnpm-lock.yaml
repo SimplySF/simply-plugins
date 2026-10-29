@@ -27,7 +27,7 @@ importers:
         version: 5.3.66(supports-color@7.2.0)
       '@salesforce/plugin-command-reference':
         specifier: ^3.1.134
-        version: 3.1.134(@types/node@26.6.5)(supports-color@7.2.0)
+        version: 3.1.134(@types/node@26.6.5)(supports-color@8.1.1)
       '@types/debug':
         specifier: ^4.1.12
         version: 4.1.13
@@ -242,8 +242,8 @@ importers:
         specifier: ^2.0.12
         version: 2.0.12
       '@simplysf/simply-cicd-core':
-        specifier: ^0.10.1
-        version: 0.10.1(supports-color@8.1.1)
+        specifier: ^0.11.0
+        version: 0.11.0(supports-color@8.1.1)
     devDependencies:
       '@oclif/plugin-command-snapshot':
         specifier: ^5.4.0
@@ -3057,9 +3057,9 @@ packages:
       { integrity: sha512-FOn+xy/BteEmlUzJcSYRWeP6evxyBv7ciplQQraAQLLAMOeFAYy4L05Ux+H5IuEbNOxpGl+goghnT0sHoaukVQ== }
     engines: { node: '>=22.0.0' }
 
-  '@simplysf/simply-cicd-core@0.10.1':
+  '@simplysf/simply-cicd-core@0.11.0':
     resolution:
-      { integrity: sha512-zcypaUBrXT5xlnb+K21jE9li4ia9YOhHYJVzbrF1EfYcqMesiQP0B9C9ZkfrdVRnlLSacYeouQ80/4V0QbUK8Q== }
+      { integrity: sha512-lzdHO3VLw7H3HD1kKo2lo4FPuL+8uEMpg72HDMIjF35inRItBUG3uHpUF1jCKCfX+PeGoEeCujcxTy+TxmIG/Q== }
     engines: { node: '>=22.0.0' }
 
   '@simplysf/simply-community-core@0.2.14':
@@ -11871,23 +11871,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@salesforce/plugin-command-reference@3.1.134(@types/node@26.6.5)(supports-color@7.2.0)':
-    dependencies:
-      '@oclif/core': 5.1.2
-      '@salesforce/core': 9.2.2
-      '@salesforce/kit': 4.0.1
-      '@salesforce/sf-plugins-core': 13.0.4(@types/node@26.6.5)
-      '@salesforce/ts-types': 3.2.1
-      chalk: 5.6.2
-      debug: 4.4.3(supports-color@7.2.0)
-      handlebars: 4.7.9
-    transitivePeerDependencies:
-      - '@types/node'
-      - bufferutil
-      - react-devtools-core
-      - supports-color
-      - utf-8-validate
-
   '@salesforce/plugin-command-reference@3.1.134(@types/node@26.6.5)(supports-color@8.1.1)':
     dependencies:
       '@oclif/core': 5.1.2
@@ -12137,7 +12120,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@simplysf/simply-cicd-core@0.10.1(supports-color@8.1.1)':
+  '@simplysf/simply-cicd-core@0.11.0(supports-color@8.1.1)':
     dependencies:
       '@salesforce/core': 8.32.6
       '@salesforce/kit': 3.2.6
