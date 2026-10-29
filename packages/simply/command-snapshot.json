@@ -526,7 +526,7 @@
     "command": "simply:document:erd",
     "flagAliases": [],
     "flagChars": ["d"],
-    "flags": ["directory", "flags-dir", "hub", "json", "max-objects", "output-file"],
+    "flags": ["directory", "flags-dir", "hub", "json", "max-objects", "output-file", "title"],
     "plugin": "@simplysf/simply-document"
   },
   {

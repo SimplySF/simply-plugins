@@ -84,14 +84,16 @@ Generate Mermaid entity relationship diagrams for a Salesforce project.
 ```
 USAGE
   $ sf simply document erd -d <value> --output-file <value> [--json] [--flags-dir <value>] [--max-objects <value>] [--hub
-    <value>...]
+    <value>...] [--title <value>]
 
 FLAGS
   -d, --directory=<value>    (required) Salesforce project source directory to scan.
-      --hub=<value>...       [default: User] Object API names that do not join clusters when splitting (replaces the
-                             User default).
+      --hub=<value>...       [default: User] Object API names (matched case-insensitively) that do not join clusters
+                             when splitting (replaces the User default).
       --max-objects=<value>  [default: 40] Maximum connected in-project objects before splitting into clusters.
       --output-file=<value>  (required) Path to write the generated Markdown to (overwrites existing files).
+      --title=<value>        Title for the generated document (default: the name in sfdx-project.json, else the
+                             directory name).
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -117,6 +119,8 @@ EXAMPLES
   $ sf simply document erd --directory force-app --output-file erd.md
 
   $ sf simply document erd --directory force-app --output-file erd.md --max-objects 25 --hub User --hub Account
+
+  $ sf simply document erd --directory force-app --output-file erd.md --title "Billing data model"
 ```
 
 _See code: [lib/commands/simply/document/erd.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-document@0.5.0/packages/simply-document/lib/commands/simply/document/erd.js)_
