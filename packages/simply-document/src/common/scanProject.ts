@@ -51,6 +51,9 @@ import {
   type VisualforcePageItem,
 } from '@simplysf/simply-document-core';
 
+Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
+const scanMessages = Messages.loadMessages('@simplysf/simply-document', 'simply.document.scan');
+
 /** A `CustomField` component's parsed fields, before `massageCustomField` derives its display type/description. */
 type RawCustomFieldXml = {
   fullName: string;
@@ -513,9 +516,6 @@ export async function scanProject(
     visualforcePages,
   };
 }
-
-Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
-const scanMessages = Messages.loadMessages('@simplysf/simply-document', 'simply.document.scan');
 
 /**
  * Run `scanProject` under a spinner shared by the document commands. Only a failure to resolve the
