@@ -9,6 +9,14 @@
   },
   {
     "alias": [],
+    "command": "simply:document:erd",
+    "flagAliases": [],
+    "flagChars": ["d"],
+    "flags": ["directory", "flags-dir", "hub", "json", "max-objects", "output-file"],
+    "plugin": "@simplysf/simply-document"
+  },
+  {
+    "alias": [],
     "command": "simply:document:generate",
     "flagAliases": [],
     "flagChars": ["d"],

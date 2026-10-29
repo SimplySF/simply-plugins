@@ -36,65 +36,65 @@ refactors that keep the public surface identical (though a short doc is welcome 
 > `simply-plugins-core`. Links were repointed; the prose deliberately keeps the old name, because
 > that is what the repo was called when each doc was written.
 
-| #                                                                    | Title                                                                                 | Status                |
-| -------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | --------------------- |
-| [0001](0001-package-version-get.md)                                  | `simply package version get`                                                          | Implemented           |
-| [0002](0002-utam-playwright-adapter.md)                              | UTAM on Playwright                                                                    | Draft — research only |
-| [0003](0003-community-custom-url.md)                                 | `simply community url set`                                                            | Draft                 |
-| [0004](0004-undici-multipart-upload.md)                              | Multipart upload without `form-data`                                                  | Implemented           |
-| [0005](0005-path-on-client-file-name.md)                             | Send only the file name as `PathOnClient`                                             | Implemented           |
-| [0006](0006-api-request-budget.md)                                   | API request budget check                                                              | Implemented           |
-| [0007](0007-at4dx-binding-list.md)                                   | `simply aep at4dx binding list`                                                       | Implemented           |
-| [0008](0008-at4dx-domain-process-binding-list.md)                    | `simply aep at4dx domain-process-binding list`                                        | Implemented           |
-| [0009](0009-aep-library-consumption.md)                              | Splitting `simply-aep-core` out of `simply-aep`                                       | Implemented           |
-| [0010](0010-at4dx-domain-process-binding-validate.md)                | `simply aep at4dx domain-process-binding validate`                                    | Implemented           |
-| [0011](0011-domain-process-binding-issue-scoping.md)                 | Scoped domain-process-binding validation                                              | Implemented           |
-| [0012](0012-at4dx-domain-process-binding-create-set.md)              | `simply aep at4dx domain-process-binding create`/`set`                                | Implemented           |
-| [0013](0013-flow-and-permission-set-assignment-cleanup.md)           | `simply flow delete`/`version prune`, `simply permissions assignment delete`          | Implemented           |
-| [0014](0014-domain-process-binding-entity-definition-eligibility.md) | `domain-process-binding validate`: EntityDefinition field-choice checks               | Implemented           |
-| [0015](0015-at4dx-binding-validate-create-set.md)                    | `simply aep at4dx binding validate`/`create`/`update`                                 | Implemented           |
-| [0016](0016-at4dx-selector-config-field-set-inclusion.md)            | `simply aep at4dx field-set-inclusion list`/`validate`/`create`/`update`              | Implemented           |
-| [0017](0017-at4dx-binding-unit-of-work-write-support.md)             | `binding validate`/`create`/`update` for UnitOfWork bindings                          | Implemented           |
-| [0018](0018-domain-process-binding-set-rename-to-update.md)          | Rename `domain-process-binding set` to `update`                                       | Implemented           |
-| [0019](0019-plugin-core-library-extraction.md)                       | Extracting `-core` library packages from the other `simply-*` plugins                 | Implemented           |
-| [0020](0020-simply-document-core.md)                                 | Splitting `simply-document-core` out of `simply-document`                             | Implemented           |
-| [0021](0021-package-version-cleanup-multi-selector.md)               | `package version cleanup`: `--selector`/`--selector-exclude`, multiple values         | Implemented           |
-| [0022](0022-at4dx-update-xml-shape-preservation.md)                  | AT4DX `update` commands preserve existing `.md-meta.xml` shape                        | Implemented           |
-| [0023](0023-simply-apex-core.md)                                     | Splitting `simply-apex-core` out of `simply-apex`                                     | Implemented           |
-| [0024](0024-apex-test-suite-generate.md)                             | `simply apex test-suite generate`                                                     | Implemented           |
-| [0025](0025-at4dx-platform-event-subscription-support.md)            | AT4DX Platform Event Subscription support                                             | Draft                 |
-| [0026](0026-split-simply-node-simply-plugins-repos.md)               | Splitting `simply-node` into `simply-node` + `simply-plugins` repos                   | Implemented           |
-| [0027](0027-core-extraction-round-1-post-split.md)                   | Continuing `-core` extraction under the two-repo split (round 1, excl. `simply-cicd`) | Implemented           |
-| [0028](0028-simply-permissions-core.md)                              | Splitting `simply-permissions-core` out of `simply-permissions`                       | Implemented           |
-| [0029](0029-simply-sobject-core.md)                                  | Splitting `simply-sobject-core` out of `simply-sobject`                               | Implemented           |
-| [0030](0030-simply-community-core.md)                                | Splitting `simply-community-core` out of `simply-community`                           | Implemented           |
-| [0031](0031-simply-data-core.md)                                     | Splitting `simply-data-core` out of `simply-data`                                     | Implemented           |
-| [0032](0032-simply-package-core.md)                                  | Splitting `simply-package-core` out of `simply-package`                               | Implemented           |
-| [0033](0033-simply-schema-core.md)                                   | Splitting `simply-schema-core` out of `simply-schema`                                 | Implemented           |
-| [0034](0034-at4dx-domain-binding-trigger-validate.md)                | `at4dx binding validate`: wire up `missing-domain-trigger` trigger scanning           | Implemented           |
-| [0035](0035-simply-cicd-core.md)                                     | Splitting `simply-cicd-core` out of `simply-cicd`                                     | Implemented           |
-| [0036](0036-package-dependencies-install-service.md)                 | `simply-package-core`: `installPackageDependencies` service (used by `simply-cicd`)   | Implemented           |
-| [0037](0037-utam-page-objects-publish.md)                            | `simply cicd build publish-utam-page-objects`                                         | Implemented           |
-| [0038](0038-community-publish-request-timeouts.md)                   | Fix the community publish hang                                                        | In progress           |
-| [0039](0039-permissions-build-from-file.md)                          | `simply permissions build --file`                                                     | Implemented           |
-| [0040](0040-cicd-version-tag-format.md)                              | Configurable version tag format for `simply cicd build`                               | Implemented           |
-| [0041](0041-settings-address-states.md)                              | `simply settings address state create`/`activate`                                     | Implemented           |
-| [0042](0042-cicd-version-tag-format-env.md)                          | `SIMPLY_CICD_VERSION_TAG_FORMAT` override for the version tag format                  | Implemented           |
-| [0043](0043-cicd-upgrade-type.md)                                    | `--upgrade-type` for `simply cicd` package installs                                   | Implemented           |
-| [0044](0044-settings-address-states-iso-codes.md)                    | `--iso-codes <source>`: fetch state definitions at run time (Debian first)            | Implemented           |
-| [0045](0045-migrate-apx-into-simply-aep.md)                          | Migrating `apx` code generation into `simply aep`                                     | In progress           |
-| [0046](0046-cicd-notify-build.md)                                    | `simply cicd notify build`                                                            | Implemented           |
-| [0047](0047-simply-sf-mcp-server.md)                                 | `simply-sf-mcp`: an MCP server over the `-core` libraries                             | In progress           |
-| [0048](0048-simply-flow-core.md)                                     | Splitting `simply-flow-core` out of `simply-flow`                                     | Implemented           |
-| [0049](0049-cicd-lwc-jest-fail-and-junit.md)                         | `build lwc-jest`: opt-in pipeline failure and JUnit results                           | Implemented           |
-| [0050](0050-permissions-build-check.md)                              | `simply permissions build --check`                                                    | Implemented           |
-| [0051](0051-cicd-check-permission-sets.md)                           | `simply cicd build check-permission-sets`                                             | Implemented           |
-| [0052](0052-permissions-build-discover.md)                           | `simply permissions build` with no flags builds every `.psbuild.json` file            | Implemented           |
-| [0053](0053-psbuild-single-permission-set.md)                        | One permission set per `.psbuild.json` file; `--file` removed                         | Implemented           |
-| [0054](0054-permissions-config-record-access-names.md)               | Overrides use `viewAllRecords` / `modifyAllRecords`                                   | Draft                 |
-| [0055](0055-permissions-config-metadata-names.md)                    | Override sections and keys match the PermissionSet metadata                           | Draft                 |
-| [0056](0056-simply-cicd-core-common.md)                              | Moving the rest of `simply-cicd`'s `common/` into `simply-cicd-core`                  | Implemented           |
-| [0057](0057-document-erd.md)                                         | `simply document erd`: Mermaid ERDs of a project's data model                         | Draft                 |
+| #                                                                    | Title                                                                                 | Status                                              |
+| -------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| [0001](0001-package-version-get.md)                                  | `simply package version get`                                                          | Implemented                                         |
+| [0002](0002-utam-playwright-adapter.md)                              | UTAM on Playwright                                                                    | Draft — research only                               |
+| [0003](0003-community-custom-url.md)                                 | `simply community url set`                                                            | Draft                                               |
+| [0004](0004-undici-multipart-upload.md)                              | Multipart upload without `form-data`                                                  | Implemented                                         |
+| [0005](0005-path-on-client-file-name.md)                             | Send only the file name as `PathOnClient`                                             | Implemented                                         |
+| [0006](0006-api-request-budget.md)                                   | API request budget check                                                              | Implemented                                         |
+| [0007](0007-at4dx-binding-list.md)                                   | `simply aep at4dx binding list`                                                       | Implemented                                         |
+| [0008](0008-at4dx-domain-process-binding-list.md)                    | `simply aep at4dx domain-process-binding list`                                        | Implemented                                         |
+| [0009](0009-aep-library-consumption.md)                              | Splitting `simply-aep-core` out of `simply-aep`                                       | Implemented                                         |
+| [0010](0010-at4dx-domain-process-binding-validate.md)                | `simply aep at4dx domain-process-binding validate`                                    | Implemented                                         |
+| [0011](0011-domain-process-binding-issue-scoping.md)                 | Scoped domain-process-binding validation                                              | Implemented                                         |
+| [0012](0012-at4dx-domain-process-binding-create-set.md)              | `simply aep at4dx domain-process-binding create`/`set`                                | Implemented                                         |
+| [0013](0013-flow-and-permission-set-assignment-cleanup.md)           | `simply flow delete`/`version prune`, `simply permissions assignment delete`          | Implemented                                         |
+| [0014](0014-domain-process-binding-entity-definition-eligibility.md) | `domain-process-binding validate`: EntityDefinition field-choice checks               | Implemented                                         |
+| [0015](0015-at4dx-binding-validate-create-set.md)                    | `simply aep at4dx binding validate`/`create`/`update`                                 | Implemented                                         |
+| [0016](0016-at4dx-selector-config-field-set-inclusion.md)            | `simply aep at4dx field-set-inclusion list`/`validate`/`create`/`update`              | Implemented                                         |
+| [0017](0017-at4dx-binding-unit-of-work-write-support.md)             | `binding validate`/`create`/`update` for UnitOfWork bindings                          | Implemented                                         |
+| [0018](0018-domain-process-binding-set-rename-to-update.md)          | Rename `domain-process-binding set` to `update`                                       | Implemented                                         |
+| [0019](0019-plugin-core-library-extraction.md)                       | Extracting `-core` library packages from the other `simply-*` plugins                 | Implemented                                         |
+| [0020](0020-simply-document-core.md)                                 | Splitting `simply-document-core` out of `simply-document`                             | Implemented                                         |
+| [0021](0021-package-version-cleanup-multi-selector.md)               | `package version cleanup`: `--selector`/`--selector-exclude`, multiple values         | Implemented                                         |
+| [0022](0022-at4dx-update-xml-shape-preservation.md)                  | AT4DX `update` commands preserve existing `.md-meta.xml` shape                        | Implemented                                         |
+| [0023](0023-simply-apex-core.md)                                     | Splitting `simply-apex-core` out of `simply-apex`                                     | Implemented                                         |
+| [0024](0024-apex-test-suite-generate.md)                             | `simply apex test-suite generate`                                                     | Implemented                                         |
+| [0025](0025-at4dx-platform-event-subscription-support.md)            | AT4DX Platform Event Subscription support                                             | Draft                                               |
+| [0026](0026-split-simply-node-simply-plugins-repos.md)               | Splitting `simply-node` into `simply-node` + `simply-plugins` repos                   | Implemented                                         |
+| [0027](0027-core-extraction-round-1-post-split.md)                   | Continuing `-core` extraction under the two-repo split (round 1, excl. `simply-cicd`) | Implemented                                         |
+| [0028](0028-simply-permissions-core.md)                              | Splitting `simply-permissions-core` out of `simply-permissions`                       | Implemented                                         |
+| [0029](0029-simply-sobject-core.md)                                  | Splitting `simply-sobject-core` out of `simply-sobject`                               | Implemented                                         |
+| [0030](0030-simply-community-core.md)                                | Splitting `simply-community-core` out of `simply-community`                           | Implemented                                         |
+| [0031](0031-simply-data-core.md)                                     | Splitting `simply-data-core` out of `simply-data`                                     | Implemented                                         |
+| [0032](0032-simply-package-core.md)                                  | Splitting `simply-package-core` out of `simply-package`                               | Implemented                                         |
+| [0033](0033-simply-schema-core.md)                                   | Splitting `simply-schema-core` out of `simply-schema`                                 | Implemented                                         |
+| [0034](0034-at4dx-domain-binding-trigger-validate.md)                | `at4dx binding validate`: wire up `missing-domain-trigger` trigger scanning           | Implemented                                         |
+| [0035](0035-simply-cicd-core.md)                                     | Splitting `simply-cicd-core` out of `simply-cicd`                                     | Implemented                                         |
+| [0036](0036-package-dependencies-install-service.md)                 | `simply-package-core`: `installPackageDependencies` service (used by `simply-cicd`)   | Implemented                                         |
+| [0037](0037-utam-page-objects-publish.md)                            | `simply cicd build publish-utam-page-objects`                                         | Implemented                                         |
+| [0038](0038-community-publish-request-timeouts.md)                   | Fix the community publish hang                                                        | In progress                                         |
+| [0039](0039-permissions-build-from-file.md)                          | `simply permissions build --file`                                                     | Implemented                                         |
+| [0040](0040-cicd-version-tag-format.md)                              | Configurable version tag format for `simply cicd build`                               | Implemented                                         |
+| [0041](0041-settings-address-states.md)                              | `simply settings address state create`/`activate`                                     | Implemented                                         |
+| [0042](0042-cicd-version-tag-format-env.md)                          | `SIMPLY_CICD_VERSION_TAG_FORMAT` override for the version tag format                  | Implemented                                         |
+| [0043](0043-cicd-upgrade-type.md)                                    | `--upgrade-type` for `simply cicd` package installs                                   | Implemented                                         |
+| [0044](0044-settings-address-states-iso-codes.md)                    | `--iso-codes <source>`: fetch state definitions at run time (Debian first)            | Implemented                                         |
+| [0045](0045-migrate-apx-into-simply-aep.md)                          | Migrating `apx` code generation into `simply aep`                                     | In progress                                         |
+| [0046](0046-cicd-notify-build.md)                                    | `simply cicd notify build`                                                            | Implemented                                         |
+| [0047](0047-simply-sf-mcp-server.md)                                 | `simply-sf-mcp`: an MCP server over the `-core` libraries                             | In progress                                         |
+| [0048](0048-simply-flow-core.md)                                     | Splitting `simply-flow-core` out of `simply-flow`                                     | Implemented                                         |
+| [0049](0049-cicd-lwc-jest-fail-and-junit.md)                         | `build lwc-jest`: opt-in pipeline failure and JUnit results                           | Implemented                                         |
+| [0050](0050-permissions-build-check.md)                              | `simply permissions build --check`                                                    | Implemented                                         |
+| [0051](0051-cicd-check-permission-sets.md)                           | `simply cicd build check-permission-sets`                                             | Implemented                                         |
+| [0052](0052-permissions-build-discover.md)                           | `simply permissions build` with no flags builds every `.psbuild.json` file            | Implemented                                         |
+| [0053](0053-psbuild-single-permission-set.md)                        | One permission set per `.psbuild.json` file; `--file` removed                         | Implemented                                         |
+| [0054](0054-permissions-config-record-access-names.md)               | Overrides use `viewAllRecords` / `modifyAllRecords`                                   | Draft                                               |
+| [0055](0055-permissions-config-metadata-names.md)                    | Override sections and keys match the PermissionSet metadata                           | Draft                                               |
+| [0056](0056-simply-cicd-core-common.md)                              | Moving the rest of `simply-cicd`'s `common/` into `simply-cicd-core`                  | Implemented                                         |
+| [0057](0057-document-erd.md)                                         | `simply document erd`: Mermaid ERDs of a project's data model                         | Accepted — implemented; pending manual Gliffy check |
 
 ## Template
 
