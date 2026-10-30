@@ -62,7 +62,51 @@ FLAG DESCRIPTIONS
     available partials.
 ```
 
-_See code: [lib/commands/simply/document/diff.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-document@0.4.13/packages/simply-document/lib/commands/simply/document/diff.js)_
+_See code: [lib/commands/simply/document/diff.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-document@0.5.0/packages/simply-document/lib/commands/simply/document/diff.js)_
+
+## `sf simply document erd`
+
+Generate Mermaid entity relationship diagrams for a Salesforce project.
+
+```
+USAGE
+  $ sf simply document erd -d <value> --output-file <value> [--json] [--flags-dir <value>] [--max-objects <value>] [--hub
+    <value>...]
+
+FLAGS
+  -d, --directory=<value>    (required) Salesforce project source directory to scan.
+      --hub=<value>...       [default: User] Object API names that do not join clusters when splitting (replaces the
+                             User default).
+      --max-objects=<value>  [default: 40] Maximum connected in-project objects before splitting into clusters.
+      --output-file=<value>  (required) Path to write the generated Markdown to (overwrites existing files).
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Generate Mermaid entity relationship diagrams for a Salesforce project.
+
+  Scan a Salesforce DX source directory and write Markdown with Mermaid ER diagrams showing objects and Lookup,
+  Master-Detail, and Hierarchy relationships, without field attributes. Paste each block into Gliffy via Create from
+  code → Mermaid, then use the diagram in Confluence.
+
+  Standard relationships such as Contact → Account aren't in DX source and aren't shown. Referenced objects outside the
+  project are included; objects with no relationships are listed separately. Custom settings, custom metadata types, and
+  platform events are excluded.
+
+  Above --max-objects connected in-project objects, split into clusters. External and unrelated objects do not count
+  toward the limit. Hub objects do not join clusters when splitting and can appear in several diagrams. The default hub
+  is User; giving --hub replaces that default, so use --hub User --hub Account to keep both. Clusters that still exceed
+  the limit are written with a warning.
+
+EXAMPLES
+  $ sf simply document erd --directory force-app --output-file erd.md
+
+  $ sf simply document erd --directory force-app --output-file erd.md --max-objects 25 --hub User --hub Account
+```
+
+_See code: [lib/commands/simply/document/erd.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-document@0.5.0/packages/simply-document/lib/commands/simply/document/erd.js)_
 
 ## `sf simply document generate`
 
@@ -108,4 +152,4 @@ FLAG DESCRIPTIONS
     for the data shape.
 ```
 
-_See code: [lib/commands/simply/document/generate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-document@0.4.13/packages/simply-document/lib/commands/simply/document/generate.js)_
+_See code: [lib/commands/simply/document/generate.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-document@0.5.0/packages/simply-document/lib/commands/simply/document/generate.js)_

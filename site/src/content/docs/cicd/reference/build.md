@@ -40,7 +40,7 @@ EXAMPLES
   $ sf simply cicd build check-permission-sets
 ```
 
-_See code: [lib/commands/simply/cicd/build/check-permission-sets.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.21.0/packages/simply-cicd/lib/commands/simply/cicd/build/check-permission-sets.js)_
+_See code: [lib/commands/simply/cicd/build/check-permission-sets.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/check-permission-sets.js)_
 
 ## `sf simply cicd build cleanup-scratch-orgs`
 
@@ -71,7 +71,7 @@ EXAMPLES
   $ sf simply cicd build cleanup-scratch-orgs --dev-hub my-devhub
 ```
 
-_See code: [lib/commands/simply/cicd/build/cleanup-scratch-orgs.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.21.0/packages/simply-cicd/lib/commands/simply/cicd/build/cleanup-scratch-orgs.js)_
+_See code: [lib/commands/simply/cicd/build/cleanup-scratch-orgs.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/cleanup-scratch-orgs.js)_
 
 ## `sf simply cicd build create-fallback-tag`
 
@@ -128,7 +128,7 @@ EXAMPLES
   $ sf simply cicd build create-fallback-tag --ci-commit-ref-name main --ci-project-path group/project --project-access-token glpat-... --ci-pipeline-id 123
 ```
 
-_See code: [lib/commands/simply/cicd/build/create-fallback-tag.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.21.0/packages/simply-cicd/lib/commands/simply/cicd/build/create-fallback-tag.js)_
+_See code: [lib/commands/simply/cicd/build/create-fallback-tag.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/create-fallback-tag.js)_
 
 ## `sf simply cicd build create-package-version`
 
@@ -201,7 +201,7 @@ EXAMPLES
   $ sf simply cicd build create-package-version --ci-commit-ref-name main --ci-commit-sha a1b2c3d --ci-pipeline-id 123 --ci-pipeline-url https://gitlab.example.com/pipelines/123 --ci-project-path group/project --project-access-token glpat-... --packaging-devhub my-packaging-devhub
 ```
 
-_See code: [lib/commands/simply/cicd/build/create-package-version.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.21.0/packages/simply-cicd/lib/commands/simply/cicd/build/create-package-version.js)_
+_See code: [lib/commands/simply/cicd/build/create-package-version.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/create-package-version.js)_
 
 ## `sf simply cicd build create-scratch`
 
@@ -231,10 +231,11 @@ DESCRIPTION
 
   Reads the default package directory's `definitionFile` from `sfdx-project.json` (falling back to
   `--scratch-definition-file`), and attempts creation against each `--dev-hub` alias in order (each must already be
-  authenticated). A Dev Hub that has hit its daily scratch org limit is skipped in favor of the next one. Writes the
-  resulting org's auth fields to `SCRATCH_ORG_INFO.json` for later build steps, best-effort sets a default
-  `CountryCode`, and assigns any permission sets/licenses declared under the default package directory's
-  `packageMetadataAccess`.
+  authenticated). A Dev Hub is skipped in favor of the next one when it has no scratch org signups left today
+  (`DailyScratchOrgs`) or is already at its limit of active scratch orgs (`ActiveScratchOrgs`); a Dev Hub that hits
+  either limit during the signup is also skipped. Writes the resulting org's auth fields to `SCRATCH_ORG_INFO.json` for
+  later build steps, best-effort sets a default `CountryCode`, and assigns any permission sets/licenses declared under
+  the default package directory's `packageMetadataAccess`.
 
   Skipped automatically when `PACKAGE_CHANGED=FALSE` is set in the environment (see `build determine-package-changes`).
 
@@ -242,7 +243,7 @@ EXAMPLES
   $ sf simply cicd build create-scratch --dev-hub my-devhub
 ```
 
-_See code: [lib/commands/simply/cicd/build/create-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.21.0/packages/simply-cicd/lib/commands/simply/cicd/build/create-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/create-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/create-scratch.js)_
 
 ## `sf simply cicd build delete-scratch`
 
@@ -281,7 +282,7 @@ EXAMPLES
   $ sf simply cicd build delete-scratch --dev-hub my-devhub
 ```
 
-_See code: [lib/commands/simply/cicd/build/delete-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.21.0/packages/simply-cicd/lib/commands/simply/cicd/build/delete-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/delete-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/delete-scratch.js)_
 
 ## `sf simply cicd build determine-package-changes`
 
@@ -314,7 +315,7 @@ EXAMPLES
   $ sf simply cicd build determine-package-changes --out changes.env
 ```
 
-_See code: [lib/commands/simply/cicd/build/determine-package-changes.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.21.0/packages/simply-cicd/lib/commands/simply/cicd/build/determine-package-changes.js)_
+_See code: [lib/commands/simply/cicd/build/determine-package-changes.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/determine-package-changes.js)_
 
 ## `sf simply cicd build generate-flexipage-diff`
 
@@ -372,7 +373,7 @@ EXAMPLES
   $ sf simply cicd build generate-flexipage-diff --vcs-provider github --ci-repository my-org/my-repo --ci-pull-request-number 45 --ci-run-id 987 --from abc123 --to def456 --project-access-token ghp-...
 ```
 
-_See code: [lib/commands/simply/cicd/build/generate-flexipage-diff.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.21.0/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flexipage-diff.js)_
+_See code: [lib/commands/simply/cicd/build/generate-flexipage-diff.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flexipage-diff.js)_
 
 ## `sf simply cicd build generate-flow-diff`
 
@@ -430,7 +431,7 @@ EXAMPLES
   $ sf simply cicd build generate-flow-diff --vcs-provider github --ci-repository my-org/my-repo --ci-pull-request-number 45 --ci-run-id 987 --from abc123 --to def456 --project-access-token ghp-...
 ```
 
-_See code: [lib/commands/simply/cicd/build/generate-flow-diff.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.21.0/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flow-diff.js)_
+_See code: [lib/commands/simply/cicd/build/generate-flow-diff.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flow-diff.js)_
 
 ## `sf simply cicd build install-dependencies`
 
@@ -481,7 +482,7 @@ FLAG DESCRIPTIONS
     prompt in a pipeline, it is auto-approved.
 ```
 
-_See code: [lib/commands/simply/cicd/build/install-dependencies.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.21.0/packages/simply-cicd/lib/commands/simply/cicd/build/install-dependencies.js)_
+_See code: [lib/commands/simply/cicd/build/install-dependencies.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/install-dependencies.js)_
 
 ## `sf simply cicd build lwc-jest`
 
@@ -521,7 +522,7 @@ EXAMPLES
     $ sf simply cicd build lwc-jest --lwc-jest-fail-on-test-failure
 ```
 
-_See code: [lib/commands/simply/cicd/build/lwc-jest.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.21.0/packages/simply-cicd/lib/commands/simply/cicd/build/lwc-jest.js)_
+_See code: [lib/commands/simply/cicd/build/lwc-jest.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/lwc-jest.js)_
 
 ## `sf simply cicd build publish-utam-page-objects`
 
@@ -633,7 +634,7 @@ EXAMPLES
       --subscriber-package-version-id 04tXXXXXXXXXXXXXXX --dry-run
 ```
 
-_See code: [lib/commands/simply/cicd/build/publish-utam-page-objects.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.21.0/packages/simply-cicd/lib/commands/simply/cicd/build/publish-utam-page-objects.js)_
+_See code: [lib/commands/simply/cicd/build/publish-utam-page-objects.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/publish-utam-page-objects.js)_
 
 ## `sf simply cicd build push-scratch`
 
@@ -674,7 +675,7 @@ EXAMPLES
   $ sf simply cicd build push-scratch --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/push-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.21.0/packages/simply-cicd/lib/commands/simply/cicd/build/push-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/push-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/push-scratch.js)_
 
 ## `sf simply cicd build test-scratch`
 
@@ -710,4 +711,4 @@ EXAMPLES
   $ sf simply cicd build test-scratch --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/test-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.21.0/packages/simply-cicd/lib/commands/simply/cicd/build/test-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/test-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/test-scratch.js)_

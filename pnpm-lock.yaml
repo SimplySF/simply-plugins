@@ -116,7 +116,7 @@ importers:
         specifier: workspace:^3.0.2
         version: link:../simply-data
       '@simplysf/simply-document':
-        specifier: workspace:^0.5.0
+        specifier: workspace:^0.6.0
         version: link:../simply-document
       '@simplysf/simply-flow':
         specifier: workspace:^0.5.1
@@ -359,8 +359,8 @@ importers:
         specifier: ^2.0.12
         version: 2.0.12
       '@simplysf/simply-document-core':
-        specifier: ^0.2.5
-        version: 0.2.5
+        specifier: ^0.3.0
+        version: 0.3.0
     devDependencies:
       '@oclif/plugin-command-snapshot':
         specifier: ^5.4.0
@@ -3077,9 +3077,9 @@ packages:
       { integrity: sha512-8VCJVJ/yNG1YX0rGLv6OR8C0Zz215SKMFOco/Oj3KJdCInZ01/RqXpoFUe7UmGLGO8YLdLQaNt9fmlbhzYFbxQ== }
     engines: { node: '>=22.0.0' }
 
-  '@simplysf/simply-document-core@0.2.5':
+  '@simplysf/simply-document-core@0.3.0':
     resolution:
-      { integrity: sha512-rCut6rPpZMBro0TnyYTEj+PhVOA8M13b/oFnVuqIRkTSMoiWAKpLYqA7PBJmk5XvurAMkHO59FcdoiF6y+PK3w== }
+      { integrity: sha512-+eQdaFbRvYWxBFt4aR26kweOdx+EVSAwNCKWydNGSyvS1z2pA56fFk4UZKalGJ/aYLv5OsLq0cHqcxvRtI7WNA== }
     engines: { node: '>=22.0.0' }
 
   '@simplysf/simply-flow-core@0.2.2':
@@ -12166,7 +12166,7 @@ snapshots:
       '@simplysf/simply-core': 1.6.12
       csv-parse: 7.0.3
 
-  '@simplysf/simply-document-core@0.2.5':
+  '@simplysf/simply-document-core@0.3.0':
     dependencies:
       handlebars: 4.7.10
 

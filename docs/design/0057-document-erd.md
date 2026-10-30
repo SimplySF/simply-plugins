@@ -1,6 +1,6 @@
 # 0057 — `simply document erd`: Mermaid ERDs of a project's data model
 
-**Status:** Draft
+**Status:** Accepted — implemented; pending manual Gliffy check
 **Package:** `packages/simply-document` (CLI); `packages/simply-document-core` (library, in
 `simply-plugins-core`, where this doc is duplicated as its 0056)
 **Date:** 2026-10-29
@@ -46,14 +46,16 @@ The technical design document itself does not change in this doc. See
 ```
 sf simply document erd --directory force-app --output-file erd.md
 sf simply document erd --directory force-app --output-file erd.md --max-objects 25 --hub User --hub Account
+sf simply document erd --directory force-app --output-file erd.md --title "Billing data model"
 ```
 
-| Flag            | Notes                                                                                                                                                                      |
-| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--directory`   | Required. Same meaning as `generate --directory`: the Salesforce DX source directory to scan.                                                                              |
-| `--output-file` | Required. The Markdown file to write. Overwritten if it exists, like `generate --output-file`.                                                                             |
-| `--max-objects` | Integer, default `40`, minimum `2`. If the whole model has this many objects or fewer, one diagram is written. Above it, the model is split (see [Splitting](#splitting)). |
-| `--hub`         | Repeatable, default `User`. Objects that don't join clusters together when splitting (see [Hub objects](#hub-objects)). Giving the flag replaces the default.              |
+| Flag            | Notes                                                                                                                                                                                                                |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--directory`   | Required. Same meaning as `generate --directory`: the Salesforce DX source directory to scan.                                                                                                                        |
+| `--output-file` | Required. The Markdown file to write. Overwritten if it exists, like `generate --output-file`.                                                                                                                       |
+| `--max-objects` | Integer, default `40`, minimum `2`. If the connected in-project model has this many objects or fewer, one diagram is written. Above it, the model is split (see [Splitting](#splitting)).                            |
+| `--hub`         | Repeatable, default `User`. Objects that don't join clusters together when splitting (see [Hub objects](#hub-objects)). Giving the flag replaces the default.                                                        |
+| `--title`       | Optional document title. Default: the `name` in the enclosing `sfdx-project.json`, else the base name of `--directory`; if that is blank (for example `/`), no title is passed and the renderer uses `# Data model`. |
 
 ### What's in the diagram
 
@@ -106,8 +108,9 @@ mistakes the diagram for a complete schema. A built-in table of common standard 
 
 ### Splitting
 
-If the model, counting in-project and external nodes, has `--max-objects` nodes or fewer, the file has
-one diagram named after the project's directory. Otherwise:
+If the connected model, counting only in-project objects with relationships, has `--max-objects`
+objects or fewer, the file has one diagram named after the project's directory. External and
+unrelated objects do not count toward the limit. Otherwise:
 
 1. Take the relationships and drop every edge that touches a hub object.
 2. Find the connected components of what remains, treating edges as undirected. Each component with
@@ -122,7 +125,7 @@ one diagram named after the project's directory. Otherwise:
 Splitting is deterministic. The same source always produces the same file, so the output can be
 committed and reviewed as a diff.
 
-A component that is still larger than `--max-objects` after splitting is written as one diagram and
+A component whose in-project object count is still larger than `--max-objects` after hub attachment is written as one diagram and
 marked `oversized`. The command prints a warning naming it. Splitting it further (for example by
 Master-Detail trees) means choosing which relationships to cut, and that's a judgment call this doc
 leaves to the user. They can add a hub to break it apart. See [Open questions](#open-questions).
@@ -133,14 +136,17 @@ A hub is an object that many unrelated objects look up to. `User` is the obvious
 `Approver__c` lookup on `Invoice__c` and a `Reviewer__c` lookup on `Case_Note__c` would otherwise
 put invoices and case notes in the same cluster. `--hub` defaults to `User`. Projects with their own
 hubs, usually `Account`, pass `--hub` once per object, which replaces the default (so
-`--hub User --hub Account` keeps `User`). A `--hub` naming an object that isn't in the model is
-ignored silently: it would be a hub with no edges either way.
+`--hub User --hub Account` keeps `User`). `--hub` values are matched case-insensitively
+against the entity names in the model (in-project and referenced objects) and passed to the renderer
+in their canonical casing. A `--hub` that matches nothing is still harmless (a hub with no edges), but
+the command warns (`warning.unknownHub`) when the user passed `--hub` explicitly, so a typo is visible.
+The default `User` never warns when it is absent from the project.
 
 Hubs only affect splitting. When the model fits in one diagram, `--hub` has no effect.
 
 ### Output
 
-The Markdown file looks like this (shown split with `--max-objects 4`, to keep the example short):
+The Markdown file looks like this (shown split with `--max-objects 3`, to keep the example short):
 
 ````markdown
 # Data model: force-app
@@ -148,7 +154,17 @@ The Markdown file looks like this (shown split with `--max-objects 4`, to keep t
 Generated by `sf simply document erd`. Paste each block into Gliffy via Create from code → Mermaid.
 Standard relationships (such as Contact → Account) aren't in DX source and aren't shown.
 
-## 1. Invoice\_\_c (5 objects, 4 relationships)
+## 1. Case\_Note\_\_c (3 objects, 2 relationships)
+
+Referenced, not in this project: User
+
+```mermaid
+erDiagram
+  Case_Topic__c |o..o{ Case_Note__c : "Case_Topic__c"
+  User |o..o{ Case_Note__c : "Reviewer__c"
+```
+
+## 2. Invoice\_\_c (4 objects, 3 relationships)
 
 Referenced, not in this project: Account, User
 
@@ -156,17 +172,12 @@ Referenced, not in this project: Account, User
 erDiagram
   Account |o..o{ Invoice__c : "Billing_Account__c"
   Invoice__c ||--o{ Invoice_Line__c : "Invoice__c"
-  Product__c ||..o{ Invoice_Line__c : "Product__c"
   User |o..o{ Invoice__c : "Approver__c"
 ```
 
-## 2. Case_Note\_\_c (2 objects, 1 relationship)
-
-...
-
 ## Objects with no relationships
 
-Audit_Log\_\_c, Feature_Flag\_\_c
+Audit\_Log\_\_c
 ````
 
 Within a diagram, edges are sorted by parent API name, then child, then field. That keeps the output
@@ -175,7 +186,7 @@ stable, and Mermaid lays out the graph itself regardless of the order.
 Human output: a table with columns `#`, `DIAGRAM`, `OBJECTS`, `RELATIONSHIPS`, then
 `Wrote N diagram(s) to <file>.` Warnings come after:
 
-- `<anchor> has N objects, more than --max-objects (M). Add a --hub to split it further.`
+- `<anchor> has N in-project objects, more than --max-objects (M). Add a --hub to split it further.`
 - `Skipped N relationship field(s) with no referenceTo: Obj__c.Field__c, ...`
 
 `--json`:
@@ -184,23 +195,27 @@ Human output: a table with columns `#`, `DIAGRAM`, `OBJECTS`, `RELATIONSHIPS`, t
 {
   "outputFile": "erd.md",
   "diagrams": [
-    { "name": "Invoice__c", "objectCount": 5, "relationshipCount": 4, "oversized": true },
-    { "name": "Case_Note__c", "objectCount": 2, "relationshipCount": 1, "oversized": false }
+    { "name": "Case_Note__c", "objectCount": 3, "relationshipCount": 2, "oversized": false },
+    { "name": "Invoice__c", "objectCount": 4, "relationshipCount": 3, "oversized": false }
   ],
-  "objectCount": 8,
+  "objectCount": 7,
   "relationshipCount": 5,
   "externalObjects": ["Account", "User"],
-  "unrelatedObjects": ["Audit_Log__c", "Feature_Flag__c"],
+  "unrelatedObjects": ["Audit_Log__c"],
   "skippedFields": []
 }
 ```
 
 ### Errors
 
-- A scan failure uses the same `error.scanFailed` message and behavior as `generate`.
+- Only a failure to resolve the project source (`ComponentSet.fromSource`) becomes `error.scanFailed`,
+  with the original error as its `cause`. This is the same message and behavior as `generate`, and both
+  commands share it through `scanProjectWithSpinner`. A per-component parse error propagates unchanged
+  so its original name and message survive.
 - An empty project, or one with objects but no relationships, is not an error. The file is written
   with no diagrams and only the "Objects with no relationships" list (or a "No objects found" line),
-  and `diagrams` is `[]`.
+  and `diagrams` is `[]`. The command skips the empty table and logs `info.noObjects` or
+  `info.noRelationships` instead of "Wrote 0 diagram(s)".
 - `--max-objects` below `2` is rejected by the flag's `min`.
 
 ### `simply-document-core` additions (minor release, `0.3.0`)
@@ -286,6 +301,14 @@ one edge per target.
 - **Put the graph code in the plugin.** That would follow `generate`'s scanning, but it would leave the
   MCP server and any other non-CLI consumer to reimplement the clustering. Same reasoning as 0020.
   Rejected.
+- **Store the raw type in `type` and the display string in a new field.** This is the cleaner naming,
+  but custom `--template-file` templates render `type` as the display string (`Lookup(Account)`), so
+  changing it would break them, and core 0.3.0 already ships the `fieldType ?? type` fallback.
+  `type` stays the display string and `fieldType` carries the raw Salesforce type. Rejected.
+- **Parse every metadata type in `erd`.** Layouts, flows, Apex and the rest are irrelevant to the
+  graph, and a `Global-Global Layout` layout would otherwise create a pseudo-object `Global` (or turn
+  an external `Account` into an in-project object because it has a layout). Rejected: `scanProject`
+  takes a `types` filter and `erd` asks only for `CustomObject` and `CustomField`.
 
 ## Implementation plan
 
@@ -298,7 +321,7 @@ one edge per target.
 2. `packages/simply-document-core/src/entityRelationshipDiagram.ts` (new):
    - `buildEntityRelationshipModel`: iterate objects, then fields. Use a `Set` of in-project names to
      decide whether each parent is `external`. Collect `skippedFields`. Sort entities by name.
-   - `splitEntityRelationshipModel`: if node count ≤ `maxObjects` (default 40), return one diagram.
+   - `splitEntityRelationshipModel`: if connected in-project node count ≤ `maxObjects` (default 40), return one diagram.
      Otherwise run a union-find over non-hub edges, re-attach hubs, then choose anchors and sort as in
      [Splitting](#splitting). `unrelatedObjects` is in-project entities with no edges.
    - `renderMermaidErDiagram`: `erDiagram` header, then one line per relationship using the cardinality
@@ -318,19 +341,27 @@ one edge per target.
 2. `packages/simply-document/src/common/scanProject.ts` (new): move the component loop and object
    mapping from `generate.ts`'s `run()` (the `objectMap` pass, `massageCustomField`,
    `extractDescription`, and the raw XML types) into
-   `scanProject(directory, onComponent?): Promise<TechnicalDesignDocumentData>`. The optional callback
-   replaces the direct `this.spinner.status` writes. `massageCustomField` also sets
+   `scanProject(directory, { onComponent?, types? }): Promise<TechnicalDesignDocumentData>`. The
+   optional callback replaces the direct `this.spinner.status` writes, and `types` skips components
+   whose metadata type isn't listed before their XML is parsed (`generate` passes none; `erd` passes
+   `CustomObject` and `CustomField`). A `ComponentSet.fromSource` failure is thrown as
+   `ProjectSourceError`; `scanProjectWithSpinner` (same file) wraps the scan in the shared spinner and
+   turns only that error into `error.scanFailed`, with the original as `cause`. `massageCustomField` also sets
    `fieldType: customField.type` before it rewrites `type`. This is a refactor: `generate`'s output
    must be byte-identical before and after (pinned by a test, see below).
-3. `generate.ts`: call `scanProject`. Keep its spinner messages and `componentCount` computation.
+3. `generate.ts`: call `scanProjectWithSpinner`. The `info.mappingObjects` spinner and its 27-name
+   destructure are gone; `componentCount` sums the list lengths of the scanned data directly.
 4. `src/commands/simply/document/erd.ts` (new): flags as in [Behavior](#behavior). Call
-   `scanProject`, then `buildEntityRelationshipDiagramMarkdown([...standardObjects, ...customObjects],
-{ maxObjects, hubs, title: path.basename(directory) })`. Write the file, print the table and
+   `scanProjectWithSpinner` with the type filter, resolve hubs against `buildEntityRelationshipModel`
+   (case-insensitive, warning on unknown explicit hubs) and the title (`--title`, else
+   `sfdx-project.json` `name`, else the directory base name; `src/common/erdOptions.ts`), then call
+   `buildEntityRelationshipDiagramMarkdown([...standardObjects, ...customObjects], { maxObjects, hubs,
+title })`. Write the file, print the table (or the no-objects / no-relationships message) and
    warnings, and return the JSON shape.
 5. `messages/simply.document.erd.md` (new): summary, a description that names the Gliffy workflow
    and the standard-relationships gap, flag summaries, examples, and the warning/info strings.
-   `error.scanFailed` is duplicated from `simply.document.generate.md` rather than shared, matching how
-   other packages keep one messages file per command (confirm against current convention).
+   The scan spinner text and `error.scanFailed` live once in
+   `messages/simply.document.scan.md`, shared by both commands through `scanProjectWithSpinner`.
 6. `pnpm run build` in `packages/simply-document` and `packages/simply` to regenerate
    `command-snapshot.json`. Run `pnpm run readme` in both. Run `pnpm --filter site run sync`.
 7. Changeset/commit as `feat(simply-document): add document erd`.
@@ -406,3 +437,21 @@ result in this doc: whether ER diagrams convert, whether quoted labels survive, 
 - **A TDD section.** Once a team has chosen a Confluence Mermaid app, `buildTechnicalDesignDocumentHtml`
   could embed the same diagrams in a "Data Model Overview" section using that app's macro name. That
   would be a separate doc, building on the functions here.
+
+## Implementation notes (2026-10-29)
+
+The published `simply-document-core@0.3.0` counts connected **in-project** objects for splitting
+and oversized detection; external objects and unrelated objects do not consume the limit. The CLI
+uses that API directly rather than duplicating clustering. This corrects the earlier draft's
+all-node threshold. Per-diagram JSON/table `objectCount` still counts every entity in the diagram;
+total JSON `objectCount` counts all model entities, including external and unrelated objects.
+The fixture has seven total entities, six connected entities, and four connected in-project objects.
+The two clusters tie on in-project size, so Case_Note__c sorts before Invoice__c.
+
+As with `generate`, output parent directories must already exist; the command does not create them.
+The generate HTML baseline was committed before extraction; its regression test compares raw bytes
+without date or whitespace normalization. Spinner phase labels remain unchanged, while object mapping
+now happens inside the shared scan before the mapping-phase notification.
+
+Manual Gliffy/Confluence paste validation is pending because this run is unattended. Verify ER
+conversion, quoted edge labels, and `Name["Label"]` aliases before marking this design Implemented.

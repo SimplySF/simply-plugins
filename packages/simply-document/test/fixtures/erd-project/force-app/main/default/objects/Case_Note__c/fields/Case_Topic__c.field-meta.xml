@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata"><fullName>Case_Topic__c</fullName><label>Case_Topic__c</label><type>Lookup</type><referenceTo>Case_Topic__c</referenceTo><relationshipName>Case_Topic__c</relationshipName></CustomField>

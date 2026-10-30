@@ -17,11 +17,25 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { SfError } from '@salesforce/core';
 import { describe, expect, it } from 'vitest';
 import DocumentGenerate from '../../../../src/commands/simply/document/generate.js';
 
 describe('simply document generate', () => {
+  it('matches the HTML captured before scanner extraction byte for byte', async () => {
+    const fixture = fileURLToPath(new URL('../../../fixtures/erd-project/', import.meta.url));
+    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-document-regression-'));
+    const outputFile = path.join(directory, 'tdd.html');
+    try {
+      const result = await DocumentGenerate.run(['--directory', fixture, '--output-file', outputFile]);
+      expect(result.componentCount).toBe(6);
+      expect(fs.readFileSync(outputFile)).toEqual(fs.readFileSync(path.join(fixture, 'expected-tdd.html')));
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true });
+    }
+  });
+
   it('should error without required flags', async () => {
     try {
       await DocumentGenerate.run([]);
