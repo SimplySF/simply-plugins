@@ -555,6 +555,14 @@
   },
   {
     "alias": [],
+    "command": "simply:package:dependencies:clone",
+    "flagAliases": [],
+    "flagChars": ["d", "r", "u"],
+    "flags": ["depth", "dry-run", "flags-dir", "json", "output-dir", "recursive", "update"],
+    "plugin": "@simplysf/simply-package"
+  },
+  {
+    "alias": [],
     "command": "simply:package:dependencies:install",
     "flagAliases": [],
     "flagChars": ["a", "b", "i", "k", "l", "o", "r", "s", "t", "v", "w", "z"],
