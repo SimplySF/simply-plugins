@@ -1,0 +1,2 @@
+# Byte-for-byte regression fixture: keep LF on Windows checkouts.
+packages/simply-document/test/fixtures/erd-project/expected-tdd.html -text
