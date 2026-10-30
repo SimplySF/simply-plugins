@@ -83,20 +83,17 @@ sf simply cicd build publish-aer-package
   [--repository-header "<Name>: <value>"]
   [--subscriber-package-version-id <04t>]
   [--dependency-package-dir <dir>]...
-  [--ci-commit-ref-name <ref>] [--package-release-branch-prefix <prefix>]
   [--aer-path <path>] [--dry-run] [--out <file>] [--env-file <file>]
   [--debug] [--disabled] [--json]
 ```
 
 | Flag                              | Env var                                     | Required | Purpose                                                                                                                                        |
 | --------------------------------- | ------------------------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--packaging-devhub`              | `SIMPLY_CICD_PACKAGING_DEVHUB`              | yes      | For `sf package version report` and the `Package2` namespace lookup, as on `create-package-version`.                                           |
+| `--packaging-devhub`              | `SIMPLY_CICD_PACKAGING_DEVHUB`              | yes      | For `sf package version report`, the `Package2` name and namespace lookup, and resolving dependencies, as on `create-package-version`.         |
 | `--repository-url`                | `SIMPLY_CICD_AER_REPOSITORY_URL`            | yes\*    | URL template the `.pkg` is `PUT` to (placeholders below). \*Or `plugins.simply.aer.repositoryUrl`.                                             |
 | `--repository-header`             | `SIMPLY_CICD_AER_REPOSITORY_HEADER`         | no       | One `Name: value` header sent on `HEAD`, `GET`, and `PUT`, e.g. `Authorization: Bearer …`, `X-JFrog-Art-Api: …`, `JOB-TOKEN: …`. Never logged. |
 | `--subscriber-package-version-id` | — (0037's resolution order)                 | no       | The `04t` to build for.                                                                                                                        |
 | `--dependency-package-dir`        | —                                           | no       | Extra directories of `.pkg` files passed to aer as `--package-dir`, typically committed `aer package mock` output for managed packages.        |
-| `--ci-commit-ref-name`            | `SIMPLY_CICD_CI_COMMIT_REF_NAME`            | no       | With `--package-release-branch-prefix`, reproduces the git tag suffix, as in 0037.                                                             |
-| `--package-release-branch-prefix` | —                                           | no       | As on `create-package-version`.                                                                                                                |
 | `--aer-path`                      | `AER_BIN`                                   | no       | The aer binary. Otherwise the sf plugin's resolution order is used (below).                                                                    |
 | `--dry-run`                       | —                                           | no       | Build the `.pkg` and copy it to the project root, but upload nothing. Dependencies are still downloaded.                                       |
 | `--out` / `--env-file`            | —                                           | no       | As in 0037. Both default to `subscriberPackageVersionId.env`.                                                                                  |
@@ -124,20 +121,22 @@ aer itself. See the alternatives.
 ### Namespace and file name
 
 aer reads a package's namespace from its file name, so the published file name **is** the
-contract. It is always `<package>@<namespace>.pkg`:
+contract. It is always `<package>@<namespace>.pkg`, built from the package's `Package2` record in
+the Dev Hub (`Name` and `NamespacePrefix`), not from either repo's `sfdx-project.json`:
 
-| `sfdx-project.json`                          | Namespace used                 | File                      |
-| -------------------------------------------- | ------------------------------ | ------------------------- |
-| `"namespace": "acme"`                        | `acme`                         | `MyPackage@acme.pkg`      |
-| no namespace, default package `MyPackage`    | `MyPackage`                    | `MyPackage@MyPackage.pkg` |
-| no namespace, package name not an identifier | sanitized: `My-Pkg` → `My_Pkg` | `My_Pkg@My_Pkg.pkg`       |
+| `Package2`                             | Namespace used                 | File                      |
+| -------------------------------------- | ------------------------------ | ------------------------- |
+| `NamespacePrefix` `acme`               | `acme`                         | `MyPackage@acme.pkg`      |
+| no namespace, `Name` `MyPackage`       | `MyPackage`                    | `MyPackage@MyPackage.pkg` |
+| no namespace, `Name` not an identifier | sanitized: `My-Pkg` → `My_Pkg` | `My_Pkg@My_Pkg.pkg`       |
 
-The `<package>` part is the default package directory's `package`, sanitized the same way. The
-command validates both parts against aer's rule before building. A name that still doesn't fit
-after sanitizing fails with aer's rule quoted.
+Sanitizing turns each run of characters outside `[A-Za-z0-9_]` into one underscore, and prefixes a
+name that doesn't start with a letter with `P` (`1Pkg` → `P1Pkg`). A name with no letters or digits
+at all fails with aer's rule quoted.
 
-There's deliberately no override for the no-namespace fallback. A dependent repo has to compute
-the same file name to download a dependency, and it can only do that if the rule is fixed.
+The Dev Hub is the source, and there's deliberately no override, because a dependent repo has to
+compute the same file name to download a dependency. A package alias in a consumer's
+`sfdx-project.json` can be anything, but `Package2.Name` is the same for everyone.
 
 ### URL template
 
@@ -151,7 +150,15 @@ the same file name to download a dependency, and it can only do that if the rule
 | `{file}`          | `MyPackage@acme.pkg`                           | `MyPackage@acme.pkg`                  |
 
 `{version}` and `{channel}` use 0037's `toNpmVersion`/`toDistTag` mapping unchanged. A UTAM
-package and an aer package from the same `04t` therefore carry the same version string. Values are
+package and an aer package from the same `04t` therefore carry the same version string.
+
+The suffix comes from the package version's `Branch` in the Dev Hub, not from the pipeline's
+`--ci-commit-ref-name`/`--package-release-branch-prefix` as in 0037. `create-package-version` sets
+`Branch` from the same decision it makes for the git tag suffix (the package's `branch`
+attribute, else the CI ref unless it's a release branch), so the result is the same. But a
+dependent can read `Branch` for its dependency's version, and it can't read the CI ref of the
+pipeline that built it. Producer and dependent therefore compute the same URL from the same
+report, and the command needs neither flag. Values are
 URL-encoded, so `@` becomes `%40` in the path. Repositories decode it, and the file lands under its
 real name. An unknown placeholder, or a template whose rendered path could collide across versions
 (no `{version}` and no `{versionNumber}`), fails the job before anything is built.
@@ -172,10 +179,10 @@ https://nexus.acme.com/repository/aer-raw/{name}/{version}/{file}
 Missing types are fatal to `aer package create`, so every Apex dependency has to be on hand before
 the build. For each entry in the default package directory's `dependencies`:
 
-| Dependency kind                                                                                    | How its `.pkg` is staged                                                                                                                                                                                                                                                                                                                    |
-| -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Another Unlocked Package in this Dev Hub (its alias resolves to a `04t` the Dev Hub can report on) | Its version number comes from `sf package version report`, and its namespace from `Package2.NamespacePrefix`, with the same fallback as above. The command renders the same URL template for it, `GET`s the file into `<staging>/dependencies/<file>`, and passes that directory as `--package-dir`. A 404 fails the job and names the URL. |
-| Anything else (managed package, a package from another Dev Hub)                                    | Not fetched. It has to be in a `--dependency-package-dir`, typically committed `aer package mock <namespace>` output.                                                                                                                                                                                                                       |
+| Dependency kind                                                                                    | How its `.pkg` is staged                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| -------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Another Unlocked Package in this Dev Hub (its alias resolves to a `04t` the Dev Hub can report on) | A `package` + `versionNumber` entry is first resolved to a `04t` through the Dev Hub, `LATEST` included, the way `sf package install` does. Its version number and `Branch` come from `sf package version report`, and its name and namespace from `Package2`, with the same rules as above. The command renders the same URL template for it, `GET`s the file into `<staging>/dependencies/<file>`, and passes that directory as `--package-dir`. A 404 fails the job and names the URL. |
+| Anything else (managed package, a package from another Dev Hub)                                    | Not fetched. It has to be in a `--dependency-package-dir`, typically committed `aer package mock <namespace>` output.                                                                                                                                                                                                                                                                                                                                                                     |
 
 Before running aer, the command logs which dependencies it staged and which it expects from
 `--dependency-package-dir`. If aer then fails with a type error, the log already shows the likely
@@ -196,10 +203,12 @@ common case:
   references resolve. The guide documents this.
 - **Building one that depends on another no-namespace package doesn't.** The dependent's source
   calls `DepUtil.twice(…)` unqualified, `create` has no `-d`, and the build fails with a type error.
-  The command can't work around that without editing source. It detects the case up front (default
-  package has no namespace, and an own-Dev-Hub dependency also has none) and fails with a message
-  that says so, rather than letting aer's type error look like a broken dependency. The case needs
-  a `--default-namespace` on `aer package create`, which is an upstream request (open question 1).
+  The command can't work around that without editing source. It doesn't fail up front, because a
+  package can depend on another without calling its Apex, and aer then builds it fine. Instead,
+  when aer reports a type error and both this package and a downloaded dependency have no
+  namespace, the error gets an explanation appended, so it doesn't look like a broken dependency.
+  The case needs a `--default-namespace` on `aer package create`, which is an upstream request
+  (open question 1).
 
 ### Skip guards, in order
 
@@ -213,8 +222,8 @@ common case:
    written. This makes a retried job succeed. Any other status means the URL is not published yet.
    Real auth problems then surface on the `PUT`.
 
-Everything after the guards throws. That covers the no-namespace dependency case, an aer type
-error (aer's stderr goes into the error), a dependency 404, and a non-2xx `PUT`. A missing `.pkg`
+Everything after the guards throws. That covers an aer build error (aer's output goes into the
+error), a dependency that doesn't resolve to a `04t`, a dependency 404, and a non-2xx `PUT`. A missing `.pkg`
 silently breaks every consumer pinned to that version.
 
 ### Build
@@ -229,6 +238,7 @@ In a `fs.mkdtemp` directory prefixed `simply-cicd-aer-`, never inside the repo:
 
 The environment is passed through, so `AER_LICENSE_KEY` reaches aer. `AER_NO_RC=1` is set so that a
 developer's `~/.aerrc`, or a repo `.aerrc` meant for `aer test`, can't change what gets published.
+`AER_AUTOUPDATE_DISABLED=1` is set so that the pinned binary is the one that runs.
 
 ### Upload
 
@@ -265,8 +275,6 @@ publish-aer-package:
   script:
     - sf simply cicd build publish-aer-package
       --packaging-devhub packaging-devhub
-      --ci-commit-ref-name $CI_COMMIT_REF_NAME
-      --package-release-branch-prefix release/
   variables:
     SIMPLY_CICD_AER_REPOSITORY_URL: https://acme.jfrog.io/artifactory/aer-local/{name}/{version}/{file}
     AER_BIN: /usr/local/bin/aer # baked into the image, pinned version
@@ -329,15 +337,18 @@ implementation plan.
    `utamPageObjects.ts`. These are `resolveSubscriberPackageVersionId`, `readEnvFileValue`,
    `sanitizePrereleaseId`, `toNpmVersion`, `toDistTag`, and `SUBSCRIBER_PACKAGE_VERSION_ID_KEY`.
    `utamPageObjects.ts` re-exports them, so its public surface is unchanged.
-2. `sfPackages.ts`: add `getPackageNamespace(package2Id, devHub)`, a `Package2.NamespacePrefix`
-   query.
+2. `sfPackages.ts`: add `getPackage2Info(package2Id, devHub)`, a `Package2` `Name` and
+   `NamespacePrefix` query, and `resolveDependencyVersionId`, which resolves a `package` +
+   `versionNumber` dependency through `SubscriberPackageVersion.resolveId`.
 3. `build/aerPackage.ts`: pure helpers. These are `readAerPluginConfig`, `toAerIdentifier`
    (sanitize and validate against aer's rule), `toAerPackageFile`, `renderRepositoryUrl`,
-   `parseRepositoryHeader`, `findApexSources`, and `classifyDependencies`.
-4. `build/aerBinary.ts`: `resolveAerBinary` (the order above) and `readAerVersion`.
+   `parseRepositoryHeader`, and `hasApexSources`.
+4. `build/aerBinary.ts`: `resolveAerBinary` (the order above), `aerPluginBinaryPath`, and
+   `readAerVersion`.
 5. `build/publishAerPackage.ts`: the flow, shaped like `publishUtamPageObjects.ts`. It contains
-   `resolveTarget`, `stageDependencies` (`GET`), `buildPackage` (`execa` of aer), `isAlreadyPublished`
-   (`HEAD`), and `upload` (`PUT` via `fetch`, with SHA-256).
+   `resolveTarget`, `locate` (the file name and URL for any package version, used for the package
+   and its dependencies), `stageDependencies` (`GET`), `buildPackage` (`execa` of aer),
+   `isAlreadyPublished` (`HEAD`), and `upload` (`PUT` via `fetch`, with SHA-256).
 6. `skipGuard.ts`: add `publish-aer-package` to `PACKAGE_CHANGED_GATED_JOBS`.
 7. `index.ts`: export `publishAerPackage` and its option and result types.
 
@@ -355,7 +366,7 @@ implementation plan.
 
 Core unit tests, with `execa` and `fetch` stubbed as `publishUtamPageObjects.test.ts` does:
 
-- `toAerIdentifier` and `toAerPackageFile`: a namespace from `sfdx-project.json`; the no-namespace
+- `toAerIdentifier` and `toAerPackageFile`: a namespace from `Package2`; the no-namespace
   fallback; sanitizing (`My-Pkg` → `My_Pkg`, a leading digit); and a rejection that quotes aer's
   rule.
 - URL rendering for each placeholder, `@` and `/` encoding, the unknown-placeholder error, and the
@@ -366,8 +377,10 @@ Core unit tests, with `execa` and `fetch` stubbed as `publishUtamPageObjects.tes
   404/401 proceeds.
 - Dependency classification: an own-Dev-Hub `04t` is `GET` from the rendered URL into
   `dependencies/<file>`; a 404 throws naming the URL; a foreign or managed package is logged as
-  expected from `--dependency-package-dir`; a no-namespace package depending on a no-namespace
-  package throws the dedicated message.
+  expected from `--dependency-package-dir`; a `package` + `versionNumber` entry is resolved
+  through the Dev Hub; a type error between two packages without a namespace gets the
+  explanation, and one involving a namespace doesn't.
+- The version and channel come from the report's `Branch`.
 - aer binary resolution: `--aer-path`, then `AER_BIN`, then the plugin cache, then `PATH`, then the
   not-found error.
 - aer argv and environment: output path, every `--package-dir`, the absolute source path, and
