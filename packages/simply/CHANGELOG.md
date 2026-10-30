@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.1.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply%407.0.7...%40simplysf%2Fsimply%407.1.0) (2026-10-30)
+
+### Features
+
+- **simply-document:** add `sf simply document erd` Mermaid ERD command ([#118](https://github.com/SimplySF/simply-plugins/issues/118)) ([b511c18](https://github.com/SimplySF/simply-plugins/commit/b511c1871ef4a47b7f81d56a4102f82090465a6d))
+
 ## [7.0.7](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply%407.0.6...%40simplysf%2Fsimply%407.0.7) (2026-10-28)
 
 **Note:** Version bump only for package @simplysf/simply

@@ -2062,7 +2062,7 @@ FLAG DESCRIPTIONS
     available partials.
 ```
 
-_See code: [@simplysf/simply-document](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-document@0.5.0/packages/simply-document/lib/commands/simply/document/diff.js)_
+_See code: [@simplysf/simply-document](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-document@0.6.0/packages/simply-document/lib/commands/simply/document/diff.js)_
 
 ## `sf simply document erd`
 
@@ -2110,7 +2110,7 @@ EXAMPLES
   $ sf simply document erd --directory force-app --output-file erd.md --title "Billing data model"
 ```
 
-_See code: [@simplysf/simply-document](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-document@0.5.0/packages/simply-document/lib/commands/simply/document/erd.js)_
+_See code: [@simplysf/simply-document](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-document@0.6.0/packages/simply-document/lib/commands/simply/document/erd.js)_
 
 ## `sf simply document generate`
 
@@ -2156,7 +2156,7 @@ FLAG DESCRIPTIONS
     for the data shape.
 ```
 
-_See code: [@simplysf/simply-document](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-document@0.5.0/packages/simply-document/lib/commands/simply/document/generate.js)_
+_See code: [@simplysf/simply-document](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-document@0.6.0/packages/simply-document/lib/commands/simply/document/generate.js)_
 
 ## `sf simply flow delete`
 
