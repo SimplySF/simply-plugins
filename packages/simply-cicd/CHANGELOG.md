@@ -3,6 +3,42 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.24.3](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.24.2...%40simplysf%2Fsimply-cicd%400.24.3) (2026-10-29)
+
+### Bug Fixes
+
+- **simply-cicd:** ship compiled page objects in publish-utam-page-objects ([#117](https://github.com/SimplySF/simply-plugins/issues/117)) ([aace022](https://github.com/SimplySF/simply-plugins/commit/aace022c87783ea8248944c55ec787a679c1a3d1))
+
+## [0.24.2](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.24.1...%40simplysf%2Fsimply-cicd%400.24.2) (2026-10-28)
+
+### Bug Fixes
+
+- **simply-cicd:** bump simply-cicd-core to 0.10.1 ([#115](https://github.com/SimplySF/simply-plugins/issues/115)) ([f2549a1](https://github.com/SimplySF/simply-plugins/commit/f2549a140cc7d96ca912b35ad8bfe5edd53094e4)), closes [simply-plugins-core#266](https://github.com/simply-plugins-core/issues/266)
+
+## [0.24.1](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.24.0...%40simplysf%2Fsimply-cicd%400.24.1) (2026-10-28)
+
+**Note:** Version bump only for package @simplysf/simply-cicd
+
+# [0.24.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.23.1...%40simplysf%2Fsimply-cicd%400.24.0) (2026-10-28)
+
+### Features
+
+- **simply-cicd:** run Salesforce operations in-process via simply-cicd-core 0.9 ([#111](https://github.com/SimplySF/simply-plugins/issues/111)) ([be74369](https://github.com/SimplySF/simply-plugins/commit/be74369d6aef36d14304e706d4d5ed0758514759))
+
+## [0.23.1](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.23.0...%40simplysf%2Fsimply-cicd%400.23.1) (2026-10-28)
+
+**Note:** Version bump only for package @simplysf/simply-cicd
+
+# [0.23.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.22.1...%40simplysf%2Fsimply-cicd%400.23.0) (2026-10-27)
+
+- fix(simply-cicd)!: leave npm registry auth to the job in publish-utam-page-objects (#109), closes [#109](https://github.com/SimplySF/simply-plugins/issues/109)
+
+### BREAKING CHANGES
+
+- publish-utam-page-objects no longer accepts --npm-token or
+  reads SIMPLY_CICD_NPM_TOKEN. Configure npm auth in the job before the command
+  runs, e.g. `npm config set -- "//<registry host+path>/:_authToken=<token>"`.
+
 ## [0.22.1](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.22.0...%40simplysf%2Fsimply-cicd%400.22.1) (2026-10-26)
 
 ### Bug Fixes

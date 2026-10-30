@@ -16,10 +16,8 @@
 
 import { Messages } from '@salesforce/core';
 import { SfCommand } from '@salesforce/sf-plugins-core';
-import { deleteScratchOrg } from '../../../../common/build/deleteScratchOrg.js';
-import { getSkipReason } from '../../../../common/build/skipGuard.js';
+import { deleteScratchOrg, getSkipReason, logger } from '@simplysf/simply-cicd-core';
 import { debugFlag, devHubFlag, disabledFlag, jwtKeyFileFlag } from '../../../../common/build/flags.js';
-import { logger } from '../../../../common/logger.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-cicd', 'simply.cicd.build.delete-scratch');

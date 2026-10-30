@@ -16,8 +16,7 @@
 
 import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
-import { logger } from '../../../../common/logger.js';
-import { sendNotification } from '../../../../common/notify/sendNotification.js';
+import { logger, sendNotification } from '@simplysf/simply-cicd-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-cicd', 'simply.cicd.notify.teams');

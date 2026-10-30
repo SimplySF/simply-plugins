@@ -6,15 +6,17 @@ Compile the project's UTAM page objects for a package version and publish them t
 
 Gives every Salesforce Unlocked Package version a matching npm package of compiled UTAM page objects, so a UI-test suite can install exactly the page objects that describe the package version it is testing against.
 
-Runs after `build create-package-version`, whose `04t` it takes as input — from `--subscriber-package-version-id`, from `SUBSCRIBER_PACKAGE_VERSION_ID` in the environment (how a separate job receives that command's dotenv report), or from the dotenv file itself (how a later step in the same job sees it). It compiles every `**/__utam__/**/*.utam.json` under the default package directory with the UTAM compiler, in a staging directory outside the repo, and publishes the result.
+Runs after `build create-package-version`, whose `04t` it takes as input — from `--subscriber-package-version-id`, from `SUBSCRIBER_PACKAGE_VERSION_ID` in the environment (how a separate job receives that command's dotenv report), or from the dotenv file itself (how a later step in the same job sees it). It copies every `**/__utam__/**/*.utam.json` page object and `**/__utam__/**/*.utam.js` utility under the default package directory into a staging directory outside the repo, compiles them there with the UTAM compiler, and publishes the result: the compiled page objects under `pageObjects/` (`.js`, `.cjs`, `.d.ts`, `.d.cts`), the utilities under `utils/`, and the sources under `source/`. When page objects use profiles, the profiles config is published as `profiles.config.json`, for a test suite to pass to its UTAM loader as `<package>/profiles.config.json`. The compiler writes nothing into the repo; a relative `lint.lintingOutputFile` in the project's compiler config is resolved against the working directory.
 
 The npm version is derived from the Salesforce version number the same way `sfdx-project.json` writes a dependency pin: `1.2.3.4` becomes `1.2.3-4`, with the git tag's suffix carried as a second prerelease identifier and as the dist-tag, so `1.2.3.4` built from a `beta` package branch is `1.2.3-4.beta` at `beta`, and a release build is `1.2.3-4` at `latest`.
 
 The compiler is installed at run time rather than shipped with this plugin, so nothing is downloaded unless the command actually runs.
 
-Skips (without failing) when `PACKAGE_CHANGED=FALSE` is set in the environment (see `build determine-package-changes`), when `--disabled` is passed, when no package version ID can be found, when the project authors no page objects, or when this exact version is already on the registry — which is what makes retrying a job that died after publishing succeed rather than fail on a version conflict. Any other failure fails the job: a missing page-object package would silently break every UI test pinned to that version.
+Skips (without failing) when `PACKAGE_CHANGED=FALSE` is set in the environment (see `build determine-package-changes`), when `--disabled` is passed, when no package version ID can be found, when the project authors no page objects, or when this exact version is already on the registry — which is what makes retrying a job that died after publishing succeed rather than fail on a version conflict. Any other failure fails the job, including two page objects (or utilities) with the same file name, which would compile to the same output file, and a compile that leaves any page object out: a missing or empty page-object package would silently break every UI test pinned to that version.
 
 On success, appends `UTAM_PAGE_OBJECTS_PACKAGE` and `UTAM_PAGE_OBJECTS_VERSION` to `--out`, so a downstream job can install the package without knowing the mapping rule.
+
+Registry authentication is not this command's job: set it up before the command runs, in user-level npm config (for example `npm config set -- "//<registry host and path>/:_authToken=<token>"`, which writes `~/.npmrc`) or in an `.npmrc` that `NPM_CONFIG_USERCONFIG` points at. npm runs from a staging directory outside the repo, so a project-level `.npmrc` in the repo is not read.
 
 Configure the package name, the compiler's type aliases, extra peer dependencies, and a project-owned compiler config under `plugins.simply.utam` in `sfdx-project.json`.
 
@@ -32,11 +34,7 @@ npm package name to publish the page objects under. Required unless `plugins.sim
 
 # flags.npm-registry.summary
 
-Registry to publish to. Defaults to whatever npm itself is configured to use.
-
-# flags.npm-token.summary
-
-Auth token for the registry. Written to an .npmrc inside the staging directory only — the repo's own .npmrc is never touched.
+Registry to publish to. Defaults to whatever npm itself is configured to use. Authenticating to it is the job's responsibility — see the description.
 
 # flags.npm-access.summary
 
@@ -78,7 +76,7 @@ Dotenv file to read SUBSCRIBER_PACKAGE_VERSION_ID from when it isn't passed as a
 
 - Publish to a GitLab project registry on a release-branch build:
 
-  <%= config.bin %> <%= command.id %> --packaging-devhub my-packaging-devhub --ci-commit-ref-name release/1.2 --package-release-branch-prefix release/ --npm-registry https://gitlab.example.com/api/v4/projects/42/packages/npm/ --npm-token $CI_JOB_TOKEN
+  <%= config.bin %> <%= command.id %> --packaging-devhub my-packaging-devhub --ci-commit-ref-name release/1.2 --package-release-branch-prefix release/ --npm-registry https://gitlab.example.com/api/v4/projects/42/packages/npm/
 
 - Compile and pack without publishing, to inspect what would be produced:
 

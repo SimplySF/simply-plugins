@@ -1,7 +1,7 @@
 {
   "name": "@simplysf/simply-package",
   "description": "Utilities for working with packages",
-  "version": "4.0.0",
+  "version": "4.0.2",
   "author": "@ClayChipps",
   "homepage": "https://github.com/SimplySF/simply-plugins",
   "bugs": "https://github.com/SimplySF/simply-plugins/issues",
@@ -76,8 +76,8 @@
     "@salesforce/kit": "^3.2.6",
     "@salesforce/packaging": "^4.22.16",
     "@salesforce/sf-plugins-core": "^12.2.16",
-    "@simplysf/simply-core": "^1.6.11",
-    "@simplysf/simply-package-core": "^0.4.1",
+    "@simplysf/simply-core": "^1.6.12",
+    "@simplysf/simply-package-core": "^0.5.0",
     "@simplysf/simply-plugin-kit": "workspace:^1.0.9"
   },
   "devDependencies": {

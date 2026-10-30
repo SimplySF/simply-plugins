@@ -16,10 +16,8 @@
 
 import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
-import { installDependencies } from '../../../../common/build/installDependencies.js';
-import { getSkipReason } from '../../../../common/build/skipGuard.js';
+import { getSkipReason, installDependencies, logger } from '@simplysf/simply-cicd-core';
 import { debugFlag, disabledFlag, jwtKeyFileFlag } from '../../../../common/build/flags.js';
-import { logger } from '../../../../common/logger.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-cicd', 'simply.cicd.build.install-dependencies');

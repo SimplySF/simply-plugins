@@ -15,10 +15,13 @@
  */
 
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { cleanupScratchOrgs } from '../../../../../src/common/build/cleanupScratchOrgs.js';
+import { cleanupScratchOrgs } from '@simplysf/simply-cicd-core';
 import BuildCleanupScratchOrgs from '../../../../../src/commands/simply/cicd/build/cleanup-scratch-orgs.js';
 
-vi.mock('../../../../../src/common/build/cleanupScratchOrgs.js', () => ({ cleanupScratchOrgs: vi.fn() }));
+vi.mock('@simplysf/simply-cicd-core', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@simplysf/simply-cicd-core')>()),
+  cleanupScratchOrgs: vi.fn(),
+}));
 
 const baseArgs = ['--dev-hub', 'main'];
 

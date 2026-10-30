@@ -1,7 +1,7 @@
 {
   "name": "@simplysf/simply-sobject",
   "description": "Utilities for working with SObjects",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "author": "@ClayChipps",
   "homepage": "https://github.com/SimplySF/simply-plugins",
   "bugs": "https://github.com/SimplySF/simply-plugins/issues",
@@ -65,7 +65,7 @@
     "@salesforce/core": "^8.30.0",
     "@salesforce/kit": "^3.2.6",
     "@salesforce/sf-plugins-core": "^12.2.16",
-    "@simplysf/simply-core": "^1.6.11",
+    "@simplysf/simply-core": "^1.6.12",
     "@simplysf/simply-plugin-kit": "workspace:^1.0.9",
     "@simplysf/simply-sobject-core": "^0.2.6",
     "zod": "^4.6.7"

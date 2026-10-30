@@ -15,10 +15,13 @@
  */
 
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { publishUtamPageObjects } from '../../../../../src/common/build/publishUtamPageObjects.js';
+import { publishUtamPageObjects } from '@simplysf/simply-cicd-core';
 import BuildPublishUtamPageObjects from '../../../../../src/commands/simply/cicd/build/publish-utam-page-objects.js';
 
-vi.mock('../../../../../src/common/build/publishUtamPageObjects.js', () => ({ publishUtamPageObjects: vi.fn() }));
+vi.mock('@simplysf/simply-cicd-core', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@simplysf/simply-cicd-core')>()),
+  publishUtamPageObjects: vi.fn(),
+}));
 
 const published = {
   skipped: false,
@@ -43,7 +46,6 @@ describe('build publish-utam-page-objects', () => {
       subscriberPackageVersionId: undefined,
       npmPackageName: undefined,
       npmRegistry: undefined,
-      npmToken: undefined,
       npmAccess: undefined,
       npmDistTag: undefined,
       ciCommitRefName: undefined,
@@ -67,8 +69,6 @@ describe('build publish-utam-page-objects', () => {
       '@acme/pageobjects',
       '--npm-registry',
       'https://registry.example.com/',
-      '--npm-token',
-      'secret',
       '--npm-access',
       'public',
       '--npm-dist-tag',
@@ -92,7 +92,6 @@ describe('build publish-utam-page-objects', () => {
       subscriberPackageVersionId: '04t000000000000AAA',
       npmPackageName: '@acme/pageobjects',
       npmRegistry: 'https://registry.example.com/',
-      npmToken: 'secret',
       npmAccess: 'public',
       npmDistTag: 'next',
       ciCommitRefName: 'release/1.2',

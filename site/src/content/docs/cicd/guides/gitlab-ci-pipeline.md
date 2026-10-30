@@ -115,6 +115,7 @@ publish-utam-page-objects:
     - sf org login jwt --alias packaging-devhub --username $PACKAGING_DEVHUB_USERNAME
       --jwt-key-file $PACKAGING_DEVHUB_JWT_KEY_FILE --client-id $PACKAGING_DEVHUB_CLIENT_ID
       --instance-url $PACKAGING_DEVHUB_INSTANCE_URL
+    - npm config set -- "${CI_API_V4_URL#https:}/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}"
   script:
     - sf simply cicd build publish-utam-page-objects
       --packaging-devhub packaging-devhub
@@ -122,7 +123,6 @@ publish-utam-page-objects:
       --package-release-branch-prefix release/
   variables:
     SIMPLY_CICD_NPM_REGISTRY: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/
-    SIMPLY_CICD_NPM_TOKEN: ${CI_JOB_TOKEN}
 
 start-deployment:
   stage: deploy

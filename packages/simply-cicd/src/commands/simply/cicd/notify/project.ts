@@ -16,14 +16,15 @@
 
 import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
-import { listAlmProviderKinds, type AlmProviderKind } from '@simplysf/simply-cicd-core';
-import { logger } from '../../../../common/logger.js';
 import {
-  afterScript,
-  beforeScript,
+  type AlmProviderKind,
+  listAlmProviderKinds,
+  logger,
   type NotifyProjectOptions,
   type NotifyProjectResult,
-} from '../../../../common/notify/projectNotification.js';
+  projectNotifyAfterScript,
+  projectNotifyBeforeScript,
+} from '@simplysf/simply-cicd-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-cicd', 'simply.cicd.notify.project');
@@ -155,10 +156,10 @@ export default class NotifyProject extends SfCommand<NotifyProjectResult> {
     try {
       let result: NotifyProjectResult;
       if (flags['before-script']) {
-        await beforeScript(options);
+        await projectNotifyBeforeScript(options);
         result = { sent: false };
       } else if (flags['after-script']) {
-        result = await afterScript(options);
+        result = await projectNotifyAfterScript(options);
       } else {
         throw messages.createError('error.missingScriptFlag');
       }

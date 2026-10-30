@@ -171,7 +171,6 @@
       "npm-dist-tag",
       "npm-package-name",
       "npm-registry",
-      "npm-token",
       "out",
       "package-release-branch-prefix",
       "packaging-devhub",

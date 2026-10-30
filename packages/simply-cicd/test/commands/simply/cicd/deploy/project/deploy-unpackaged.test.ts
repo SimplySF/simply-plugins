@@ -15,10 +15,13 @@
  */
 
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { deployProject } from '../../../../../../src/common/deploy/deployProject.js';
+import { deployProject } from '@simplysf/simply-cicd-core';
 import DeployProjectDeployUnpackaged from '../../../../../../src/commands/simply/cicd/deploy/project/deploy-unpackaged.js';
 
-vi.mock('../../../../../../src/common/deploy/deployProject.js', () => ({ deployProject: vi.fn() }));
+vi.mock('@simplysf/simply-cicd-core', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@simplysf/simply-cicd-core')>()),
+  deployProject: vi.fn(),
+}));
 
 describe('deploy project deploy-unpackaged', () => {
   beforeEach(() => {

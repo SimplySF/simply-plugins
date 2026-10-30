@@ -15,10 +15,13 @@
  */
 
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { deployHappySoup } from '../../../../../../src/common/deploy/deployHappySoup.js';
+import { deployHappySoup } from '@simplysf/simply-cicd-core';
 import DeployHappySoupPostDeploy from '../../../../../../src/commands/simply/cicd/deploy/happy-soup/post-deploy.js';
 
-vi.mock('../../../../../../src/common/deploy/deployHappySoup.js', () => ({ deployHappySoup: vi.fn() }));
+vi.mock('@simplysf/simply-cicd-core', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@simplysf/simply-cicd-core')>()),
+  deployHappySoup: vi.fn(),
+}));
 
 describe('deploy happy-soup post-deploy', () => {
   beforeEach(() => {

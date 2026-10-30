@@ -16,10 +16,7 @@
 
 import { Messages } from '@salesforce/core';
 import { SfCommand } from '@salesforce/sf-plugins-core';
-import {
-  runCheckPermissionSets,
-  type RunCheckPermissionSetsResult,
-} from '../../../../common/build/checkPermissionSets.js';
+import { runCheckPermissionSets, type RunCheckPermissionSetsResult } from '@simplysf/simply-cicd-core';
 import { debugFlag, disabledFlag } from '../../../../common/build/flags.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);

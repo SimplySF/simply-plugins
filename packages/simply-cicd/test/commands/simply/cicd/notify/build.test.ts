@@ -15,10 +15,13 @@
  */
 
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { sendBuildNotification } from '../../../../../src/common/notify/buildNotification.js';
+import { sendBuildNotification } from '@simplysf/simply-cicd-core';
 import NotifyBuild from '../../../../../src/commands/simply/cicd/notify/build.js';
 
-vi.mock('../../../../../src/common/notify/buildNotification.js', () => ({ sendBuildNotification: vi.fn() }));
+vi.mock('@simplysf/simply-cicd-core', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@simplysf/simply-cicd-core')>()),
+  sendBuildNotification: vi.fn(),
+}));
 
 describe('notify build', () => {
   beforeEach(() => {

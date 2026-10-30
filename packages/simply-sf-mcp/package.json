@@ -1,7 +1,7 @@
 {
   "name": "@simplysf/simply-sf-mcp",
   "description": "An MCP server that exposes SimplySF Salesforce tooling to coding agents",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "author": "@ClayChipps",
   "homepage": "https://github.com/SimplySF/simply-plugins",
   "bugs": "https://github.com/SimplySF/simply-plugins/issues",
@@ -36,9 +36,9 @@
     "@modelcontextprotocol/sdk": "^1.32.1",
     "@salesforce/core": "^8.30.0",
     "@simplysf/simply-aep-core": "^0.15.1",
-    "@simplysf/simply-apex-core": "^0.3.16",
-    "@simplysf/simply-core": "^1.6.11",
-    "@simplysf/simply-package-core": "^0.3.11",
+    "@simplysf/simply-apex-core": "^0.4.0",
+    "@simplysf/simply-core": "^1.6.12",
+    "@simplysf/simply-package-core": "^0.5.0",
     "zod": "^4.6.7"
   },
   "devDependencies": {

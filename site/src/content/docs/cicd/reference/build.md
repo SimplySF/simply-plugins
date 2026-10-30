@@ -40,7 +40,7 @@ EXAMPLES
   $ sf simply cicd build check-permission-sets
 ```
 
-_See code: [lib/commands/simply/cicd/build/check-permission-sets.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.19.0/packages/simply-cicd/lib/commands/simply/cicd/build/check-permission-sets.js)_
+_See code: [lib/commands/simply/cicd/build/check-permission-sets.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.21.0/packages/simply-cicd/lib/commands/simply/cicd/build/check-permission-sets.js)_
 
 ## `sf simply cicd build cleanup-scratch-orgs`
 
@@ -71,7 +71,7 @@ EXAMPLES
   $ sf simply cicd build cleanup-scratch-orgs --dev-hub my-devhub
 ```
 
-_See code: [lib/commands/simply/cicd/build/cleanup-scratch-orgs.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.19.0/packages/simply-cicd/lib/commands/simply/cicd/build/cleanup-scratch-orgs.js)_
+_See code: [lib/commands/simply/cicd/build/cleanup-scratch-orgs.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.21.0/packages/simply-cicd/lib/commands/simply/cicd/build/cleanup-scratch-orgs.js)_
 
 ## `sf simply cicd build create-fallback-tag`
 
@@ -128,7 +128,7 @@ EXAMPLES
   $ sf simply cicd build create-fallback-tag --ci-commit-ref-name main --ci-project-path group/project --project-access-token glpat-... --ci-pipeline-id 123
 ```
 
-_See code: [lib/commands/simply/cicd/build/create-fallback-tag.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.19.0/packages/simply-cicd/lib/commands/simply/cicd/build/create-fallback-tag.js)_
+_See code: [lib/commands/simply/cicd/build/create-fallback-tag.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.21.0/packages/simply-cicd/lib/commands/simply/cicd/build/create-fallback-tag.js)_
 
 ## `sf simply cicd build create-package-version`
 
@@ -201,7 +201,7 @@ EXAMPLES
   $ sf simply cicd build create-package-version --ci-commit-ref-name main --ci-commit-sha a1b2c3d --ci-pipeline-id 123 --ci-pipeline-url https://gitlab.example.com/pipelines/123 --ci-project-path group/project --project-access-token glpat-... --packaging-devhub my-packaging-devhub
 ```
 
-_See code: [lib/commands/simply/cicd/build/create-package-version.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.19.0/packages/simply-cicd/lib/commands/simply/cicd/build/create-package-version.js)_
+_See code: [lib/commands/simply/cicd/build/create-package-version.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.21.0/packages/simply-cicd/lib/commands/simply/cicd/build/create-package-version.js)_
 
 ## `sf simply cicd build create-scratch`
 
@@ -242,7 +242,7 @@ EXAMPLES
   $ sf simply cicd build create-scratch --dev-hub my-devhub
 ```
 
-_See code: [lib/commands/simply/cicd/build/create-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.19.0/packages/simply-cicd/lib/commands/simply/cicd/build/create-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/create-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.21.0/packages/simply-cicd/lib/commands/simply/cicd/build/create-scratch.js)_
 
 ## `sf simply cicd build delete-scratch`
 
@@ -281,7 +281,7 @@ EXAMPLES
   $ sf simply cicd build delete-scratch --dev-hub my-devhub
 ```
 
-_See code: [lib/commands/simply/cicd/build/delete-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.19.0/packages/simply-cicd/lib/commands/simply/cicd/build/delete-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/delete-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.21.0/packages/simply-cicd/lib/commands/simply/cicd/build/delete-scratch.js)_
 
 ## `sf simply cicd build determine-package-changes`
 
@@ -314,7 +314,7 @@ EXAMPLES
   $ sf simply cicd build determine-package-changes --out changes.env
 ```
 
-_See code: [lib/commands/simply/cicd/build/determine-package-changes.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.19.0/packages/simply-cicd/lib/commands/simply/cicd/build/determine-package-changes.js)_
+_See code: [lib/commands/simply/cicd/build/determine-package-changes.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.21.0/packages/simply-cicd/lib/commands/simply/cicd/build/determine-package-changes.js)_
 
 ## `sf simply cicd build generate-flexipage-diff`
 
@@ -372,7 +372,7 @@ EXAMPLES
   $ sf simply cicd build generate-flexipage-diff --vcs-provider github --ci-repository my-org/my-repo --ci-pull-request-number 45 --ci-run-id 987 --from abc123 --to def456 --project-access-token ghp-...
 ```
 
-_See code: [lib/commands/simply/cicd/build/generate-flexipage-diff.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.19.0/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flexipage-diff.js)_
+_See code: [lib/commands/simply/cicd/build/generate-flexipage-diff.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.21.0/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flexipage-diff.js)_
 
 ## `sf simply cicd build generate-flow-diff`
 
@@ -430,7 +430,7 @@ EXAMPLES
   $ sf simply cicd build generate-flow-diff --vcs-provider github --ci-repository my-org/my-repo --ci-pull-request-number 45 --ci-run-id 987 --from abc123 --to def456 --project-access-token ghp-...
 ```
 
-_See code: [lib/commands/simply/cicd/build/generate-flow-diff.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.19.0/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flow-diff.js)_
+_See code: [lib/commands/simply/cicd/build/generate-flow-diff.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.21.0/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flow-diff.js)_
 
 ## `sf simply cicd build install-dependencies`
 
@@ -481,7 +481,7 @@ FLAG DESCRIPTIONS
     prompt in a pipeline, it is auto-approved.
 ```
 
-_See code: [lib/commands/simply/cicd/build/install-dependencies.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.19.0/packages/simply-cicd/lib/commands/simply/cicd/build/install-dependencies.js)_
+_See code: [lib/commands/simply/cicd/build/install-dependencies.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.21.0/packages/simply-cicd/lib/commands/simply/cicd/build/install-dependencies.js)_
 
 ## `sf simply cicd build lwc-jest`
 
@@ -521,7 +521,7 @@ EXAMPLES
     $ sf simply cicd build lwc-jest --lwc-jest-fail-on-test-failure
 ```
 
-_See code: [lib/commands/simply/cicd/build/lwc-jest.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.19.0/packages/simply-cicd/lib/commands/simply/cicd/build/lwc-jest.js)_
+_See code: [lib/commands/simply/cicd/build/lwc-jest.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.21.0/packages/simply-cicd/lib/commands/simply/cicd/build/lwc-jest.js)_
 
 ## `sf simply cicd build publish-utam-page-objects`
 
@@ -530,9 +530,9 @@ Compile the project's UTAM page objects for a package version and publish them t
 ```
 USAGE
   $ sf simply cicd build publish-utam-page-objects --packaging-devhub <value> [--json] [--flags-dir <value>] [--debug] [--disabled]
-    [--subscriber-package-version-id <value>] [--npm-package-name <value>] [--npm-registry <value>] [--npm-token
-    <value>] [--npm-access public|restricted] [--npm-dist-tag <value>] [--ci-commit-ref-name <value>]
-    [--package-release-branch-prefix <value>] [--utam-version <value>] [--dry-run] [--out <value>] [--env-file <value>]
+    [--subscriber-package-version-id <value>] [--npm-package-name <value>] [--npm-registry <value>] [--npm-access
+    public|restricted] [--npm-dist-tag <value>] [--ci-commit-ref-name <value>] [--package-release-branch-prefix <value>]
+    [--utam-version <value>] [--dry-run] [--out <value>] [--env-file <value>]
 
 FLAGS
   --ci-commit-ref-name=<value>             [env: SIMPLY_CICD_CI_COMMIT_REF_NAME] Git branch or ref name being built.
@@ -555,10 +555,8 @@ FLAGS
                                            objects under. Required unless `plugins.simply.utam.packageName` is set in
                                            sfdx-project.json; the flag wins when both are present.
   --npm-registry=<value>                   [env: SIMPLY_CICD_NPM_REGISTRY] Registry to publish to. Defaults to whatever
-                                           npm itself is configured to use.
-  --npm-token=<value>                      [env: SIMPLY_CICD_NPM_TOKEN] Auth token for the registry. Written to an
-                                           .npmrc inside the staging directory only — the repo's own .npmrc is never
-                                           touched.
+                                           npm itself is configured to use. Authenticating to it is the job's
+                                           responsibility — see the description.
   --out=<value>                            [default: subscriberPackageVersionId.env] Dotenv file to append the published
                                            package name and version to.
   --package-release-branch-prefix=<value>  Prefix identifying release branches. Determines whether the npm version and
@@ -583,9 +581,13 @@ DESCRIPTION
 
   Runs after `build create-package-version`, whose `04t` it takes as input — from `--subscriber-package-version-id`,
   from `SUBSCRIBER_PACKAGE_VERSION_ID` in the environment (how a separate job receives that command's dotenv report), or
-  from the dotenv file itself (how a later step in the same job sees it). It compiles every `**/__utam__/**/*.utam.json`
-  under the default package directory with the UTAM compiler, in a staging directory outside the repo, and publishes the
-  result.
+  from the dotenv file itself (how a later step in the same job sees it). It copies every `**/__utam__/**/*.utam.json`
+  page object and `**/__utam__/**/*.utam.js` utility under the default package directory into a staging directory
+  outside the repo, compiles them there with the UTAM compiler, and publishes the result: the compiled page objects
+  under `pageObjects/` (`.js`, `.cjs`, `.d.ts`, `.d.cts`), the utilities under `utils/`, and the sources under
+  `source/`. When page objects use profiles, the profiles config is published as `profiles.config.json`, for a test
+  suite to pass to its UTAM loader as `<package>/profiles.config.json`. The compiler writes nothing into the repo; a
+  relative `lint.lintingOutputFile` in the project's compiler config is resolved against the working directory.
 
   The npm version is derived from the Salesforce version number the same way `sfdx-project.json` writes a dependency
   pin: `1.2.3.4` becomes `1.2.3-4`, with the git tag's suffix carried as a second prerelease identifier and as the
@@ -598,11 +600,18 @@ DESCRIPTION
   Skips (without failing) when `PACKAGE_CHANGED=FALSE` is set in the environment (see `build
   determine-package-changes`), when `--disabled` is passed, when no package version ID can be found, when the project
   authors no page objects, or when this exact version is already on the registry — which is what makes retrying a job
-  that died after publishing succeed rather than fail on a version conflict. Any other failure fails the job: a missing
-  page-object package would silently break every UI test pinned to that version.
+  that died after publishing succeed rather than fail on a version conflict. Any other failure fails the job, including
+  two page objects (or utilities) with the same file name, which would compile to the same output file, and a compile
+  that leaves any page object out: a missing or empty page-object package would silently break every UI test pinned to
+  that version.
 
   On success, appends `UTAM_PAGE_OBJECTS_PACKAGE` and `UTAM_PAGE_OBJECTS_VERSION` to `--out`, so a downstream job can
   install the package without knowing the mapping rule.
+
+  Registry authentication is not this command's job: set it up before the command runs, in user-level npm config (for
+  example `npm config set -- "//<registry host and path>/:_authToken=<token>"`, which writes `~/.npmrc`) or in an
+  `.npmrc` that `NPM_CONFIG_USERCONFIG` points at. npm runs from a staging directory outside the repo, so a
+  project-level `.npmrc` in the repo is not read.
 
   Configure the package name, the compiler's type aliases, extra peer dependencies, and a project-owned compiler config
   under `plugins.simply.utam` in `sfdx-project.json`.
@@ -616,7 +625,7 @@ EXAMPLES
 
     $ sf simply cicd build publish-utam-page-objects --packaging-devhub my-packaging-devhub --ci-commit-ref-name \
       release/1.2 --package-release-branch-prefix release/ --npm-registry \
-      https://gitlab.example.com/api/v4/projects/42/packages/npm/ --npm-token $CI_JOB_TOKEN
+      https://gitlab.example.com/api/v4/projects/42/packages/npm/
 
   Compile and pack without publishing, to inspect what would be produced:
 
@@ -624,7 +633,7 @@ EXAMPLES
       --subscriber-package-version-id 04tXXXXXXXXXXXXXXX --dry-run
 ```
 
-_See code: [lib/commands/simply/cicd/build/publish-utam-page-objects.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.19.0/packages/simply-cicd/lib/commands/simply/cicd/build/publish-utam-page-objects.js)_
+_See code: [lib/commands/simply/cicd/build/publish-utam-page-objects.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.21.0/packages/simply-cicd/lib/commands/simply/cicd/build/publish-utam-page-objects.js)_
 
 ## `sf simply cicd build push-scratch`
 
@@ -665,7 +674,7 @@ EXAMPLES
   $ sf simply cicd build push-scratch --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/push-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.19.0/packages/simply-cicd/lib/commands/simply/cicd/build/push-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/push-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.21.0/packages/simply-cicd/lib/commands/simply/cicd/build/push-scratch.js)_
 
 ## `sf simply cicd build test-scratch`
 
@@ -701,4 +710,4 @@ EXAMPLES
   $ sf simply cicd build test-scratch --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/test-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.19.0/packages/simply-cicd/lib/commands/simply/cicd/build/test-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/test-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.21.0/packages/simply-cicd/lib/commands/simply/cicd/build/test-scratch.js)_

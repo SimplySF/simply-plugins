@@ -15,10 +15,13 @@
  */
 
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { generateFlexipageDiff } from '../../../../../src/common/build/flexipageDelta.js';
+import { generateFlexipageDiff } from '@simplysf/simply-cicd-core';
 import BuildGenerateFlexipageDiff from '../../../../../src/commands/simply/cicd/build/generate-flexipage-diff.js';
 
-vi.mock('../../../../../src/common/build/flexipageDelta.js', () => ({ generateFlexipageDiff: vi.fn() }));
+vi.mock('@simplysf/simply-cicd-core', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@simplysf/simply-cicd-core')>()),
+  generateFlexipageDiff: vi.fn(),
+}));
 
 const baseArgs = [
   '--ci-project-id',

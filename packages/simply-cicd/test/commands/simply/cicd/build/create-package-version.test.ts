@@ -15,10 +15,13 @@
  */
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { createPackageVersion } from '../../../../../src/common/build/createPackageVersion.js';
+import { createPackageVersion } from '@simplysf/simply-cicd-core';
 import BuildCreatePackageVersion from '../../../../../src/commands/simply/cicd/build/create-package-version.js';
 
-vi.mock('../../../../../src/common/build/createPackageVersion.js', () => ({ createPackageVersion: vi.fn() }));
+vi.mock('@simplysf/simply-cicd-core', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@simplysf/simply-cicd-core')>()),
+  createPackageVersion: vi.fn(),
+}));
 
 const baseArgs = [
   '--ci-commit-ref-name',

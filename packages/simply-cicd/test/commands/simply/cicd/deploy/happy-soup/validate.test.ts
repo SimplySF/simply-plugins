@@ -13,18 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import { promises as fs } from 'node:fs';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { logger } from '../../../../../../src/common/logger.js';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { validateDeployFiles } from '@simplysf/simply-cicd-core';
 import DeployHappySoupValidate from '../../../../../../src/commands/simply/cicd/deploy/happy-soup/validate.js';
 
-vi.mock('node:fs', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('node:fs')>();
-  return { ...actual, promises: { ...actual.promises, readFile: vi.fn() } };
-});
-vi.mock('../../../../../../src/common/logger.js', () => ({
-  logger: { success: vi.fn(), warn: vi.fn(), error: vi.fn() },
+vi.mock('@simplysf/simply-cicd-core', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@simplysf/simply-cicd-core')>()),
+  validateDeployFiles: vi.fn(),
 }));
 
 describe('deploy happy-soup validate', () => {
@@ -32,40 +27,17 @@ describe('deploy happy-soup validate', () => {
     vi.clearAllMocks();
   });
 
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
-  it('derives the deploy config file from --source-branch-name and defaults the rules file', async () => {
-    vi.mocked(fs.readFile).mockImplementation(async (file) => {
-      const f = file as string;
-      if (f === 'deployment-configs/uat.json') {
-        return JSON.stringify({ deployments: [{ name: 'local', unpackagedDeploy: true }] });
-      }
-      if (f === 'config/deploy-rules.json') {
-        throw Object.assign(new Error('Not found'), { code: 'ENOENT' });
-      }
-      throw new Error('unexpected read');
-    });
-
+  it('passes --source-branch-name through and defaults the rules file', async () => {
     await DeployHappySoupValidate.run(['--source-branch-name', 'release/uat']);
 
-    expect(logger.success).toHaveBeenCalledWith('Validation successful for deployment-configs/uat.json');
-    expect(logger.warn).toHaveBeenCalledWith('Skipping validation for config/deploy-rules.json as it was not found.');
+    expect(validateDeployFiles).toHaveBeenCalledWith({
+      deployConfigFile: undefined,
+      deployRulesFile: 'config/deploy-rules.json',
+      sourceBranchName: 'release/uat',
+    });
   });
 
-  it('prefers an explicit --deploy-config-file over --source-branch-name', async () => {
-    vi.mocked(fs.readFile).mockImplementation(async (file) => {
-      const f = file as string;
-      if (f === 'deployment-configs/custom.json') {
-        return JSON.stringify({ deployments: [{ name: 'local', unpackagedDeploy: true }] });
-      }
-      if (f === 'config/deploy-rules.json') {
-        return JSON.stringify({ rules: [] });
-      }
-      throw new Error('unexpected read');
-    });
-
+  it('passes an explicit --deploy-config-file alongside --source-branch-name', async () => {
     await DeployHappySoupValidate.run([
       '--deploy-config-file',
       'deployment-configs/custom.json',
@@ -73,6 +45,10 @@ describe('deploy happy-soup validate', () => {
       'release/uat',
     ]);
 
-    expect(logger.success).toHaveBeenCalledWith('Validation successful for deployment-configs/custom.json');
+    expect(validateDeployFiles).toHaveBeenCalledWith({
+      deployConfigFile: 'deployment-configs/custom.json',
+      deployRulesFile: 'config/deploy-rules.json',
+      sourceBranchName: 'release/uat',
+    });
   });
 });

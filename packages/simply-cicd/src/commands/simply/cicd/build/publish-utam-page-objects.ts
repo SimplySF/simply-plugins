@@ -16,11 +16,7 @@
 
 import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
-import {
-  publishUtamPageObjects,
-  type NpmAccess,
-  type PublishUtamPageObjectsResult,
-} from '../../../../common/build/publishUtamPageObjects.js';
+import { type NpmAccess, publishUtamPageObjects, type PublishUtamPageObjectsResult } from '@simplysf/simply-cicd-core';
 import { debugFlag, disabledFlag } from '../../../../common/build/flags.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -51,10 +47,6 @@ export default class BuildPublishUtamPageObjects extends SfCommand<PublishUtamPa
     'npm-registry': Flags.string({
       summary: messages.getMessage('flags.npm-registry.summary'),
       env: 'SIMPLY_CICD_NPM_REGISTRY',
-    }),
-    'npm-token': Flags.string({
-      summary: messages.getMessage('flags.npm-token.summary'),
-      env: 'SIMPLY_CICD_NPM_TOKEN',
     }),
     'npm-access': Flags.custom<NpmAccess>({ options: ['public', 'restricted'] })({
       summary: messages.getMessage('flags.npm-access.summary'),
@@ -97,7 +89,6 @@ export default class BuildPublishUtamPageObjects extends SfCommand<PublishUtamPa
       subscriberPackageVersionId: flags['subscriber-package-version-id'],
       npmPackageName: flags['npm-package-name'],
       npmRegistry: flags['npm-registry'],
-      npmToken: flags['npm-token'],
       npmAccess: flags['npm-access'],
       npmDistTag: flags['npm-dist-tag'],
       ciCommitRefName: flags['ci-commit-ref-name'],

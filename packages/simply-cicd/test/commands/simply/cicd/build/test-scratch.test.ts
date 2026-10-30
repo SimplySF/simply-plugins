@@ -15,10 +15,13 @@
  */
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { runScratchApexTests } from '../../../../../src/common/build/testScratch.js';
+import { runScratchApexTests } from '@simplysf/simply-cicd-core';
 import BuildTestScratch from '../../../../../src/commands/simply/cicd/build/test-scratch.js';
 
-vi.mock('../../../../../src/common/build/testScratch.js', () => ({ runScratchApexTests: vi.fn() }));
+vi.mock('@simplysf/simply-cicd-core', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@simplysf/simply-cicd-core')>()),
+  runScratchApexTests: vi.fn(),
+}));
 
 describe('build test-scratch', () => {
   const originalPackageChanged = process.env.PACKAGE_CHANGED;

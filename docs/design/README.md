@@ -74,7 +74,7 @@ refactors that keep the public surface identical (though a short doc is welcome 
 | [0034](0034-at4dx-domain-binding-trigger-validate.md)                | `at4dx binding validate`: wire up `missing-domain-trigger` trigger scanning           | Implemented           |
 | [0035](0035-simply-cicd-core.md)                                     | Splitting `simply-cicd-core` out of `simply-cicd`                                     | Implemented           |
 | [0036](0036-package-dependencies-install-service.md)                 | `simply-package-core`: `installPackageDependencies` service (used by `simply-cicd`)   | Implemented           |
-| [0037](0037-utam-page-objects-publish.md)                            | `simply cicd build publish-utam-page-objects`                                         | Draft                 |
+| [0037](0037-utam-page-objects-publish.md)                            | `simply cicd build publish-utam-page-objects`                                         | Implemented           |
 | [0038](0038-community-publish-request-timeouts.md)                   | Fix the community publish hang                                                        | In progress           |
 | [0039](0039-permissions-build-from-file.md)                          | `simply permissions build --file`                                                     | Implemented           |
 | [0040](0040-cicd-version-tag-format.md)                              | Configurable version tag format for `simply cicd build`                               | Implemented           |
@@ -93,7 +93,9 @@ refactors that keep the public surface identical (though a short doc is welcome 
 | [0053](0053-psbuild-single-permission-set.md)                        | One permission set per `.psbuild.json` file; `--file` removed                         | Implemented           |
 | [0054](0054-permissions-config-record-access-names.md)               | Overrides use `viewAllRecords` / `modifyAllRecords`                                   | Draft                 |
 | [0055](0055-permissions-config-metadata-names.md)                    | Override sections and keys match the PermissionSet metadata                           | Draft                 |
-| [0056](0056-package-dependencies-clone.md)                           | `simply package dependencies clone`                                                   | Implemented           |
+| [0056](0056-simply-cicd-core-common.md)                              | Moving the rest of `simply-cicd`'s `common/` into `simply-cicd-core`                  | Implemented           |
+| [0057](0057-document-erd.md)                                         | `simply document erd`: Mermaid ERDs of a project's data model                         | Draft                 |
+| [0058](0058-package-dependencies-clone.md)                           | `simply package dependencies clone`                                                   | Implemented           |
 
 ## Template
 

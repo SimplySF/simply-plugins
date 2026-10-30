@@ -1,4 +1,4 @@
-# 0056 — `simply package dependencies clone`
+# 0058 — `simply package dependencies clone`
 
 **Status:** Implemented (PR #103; library in SimplySF/simply-plugins-core#251, released in `@simplysf/simply-package-core` 0.4.0)
 **Package:** `packages/simply-package` (CLI); `packages/simply-package-core` (library, in
