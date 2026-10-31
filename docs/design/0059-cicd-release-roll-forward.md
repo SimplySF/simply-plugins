@@ -1,7 +1,8 @@
 # 0059 — `simply cicd release roll-forward`
 
 **Status:** In progress
-**Package:** `packages/simply-cicd` (command), `simply-cicd-core` in `simply-plugins-core` (logic)
+**Package:** `packages/simply-cicd` (CLI); `packages/simply-cicd-core` (library, in
+`simply-plugins-core`, where this doc is duplicated as its 0057)
 **Date:** 2026-10-31
 
 ## Problem
