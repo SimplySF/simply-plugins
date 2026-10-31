@@ -623,6 +623,24 @@
   },
   {
     "alias": [],
+    "command": "simply:cicd:release:roll-forward",
+    "flagAliases": [],
+    "flagChars": [],
+    "flags": [
+      "dry-run",
+      "flags-dir",
+      "json",
+      "no-prompt",
+      "no-push",
+      "package-release-branch-prefix",
+      "remote",
+      "source",
+      "target"
+    ],
+    "plugin": "@simplysf/simply-cicd"
+  },
+  {
+    "alias": [],
     "command": "simply:cicd:sfdx-dependabot",
     "flagAliases": [],
     "flagChars": [],
