@@ -71,6 +71,23 @@ describe('release roll-forward', () => {
     expect(rollForward).toHaveBeenCalledWith(expect.objectContaining({ confirm: undefined }));
   });
 
+  it('passes --message through', async () => {
+    await ReleaseRollForward.run(['--no-prompt', '--message', 'chore: {SOURCE} into {TARGET}']);
+
+    expect(rollForward).toHaveBeenCalledWith(expect.objectContaining({ message: 'chore: {SOURCE} into {TARGET}' }));
+  });
+
+  it('exits non-zero on a rejected commit', async () => {
+    vi.mocked(rollForward).mockResolvedValue({
+      declined: false,
+      hops: [{ ...hop, status: 'Commit rejected', commitError: 'needs a ticket' }],
+    });
+
+    await ReleaseRollForward.run(['--no-prompt']);
+
+    expect(process.exitCode).toBe(1);
+  });
+
   it('exits non-zero on a conflict', async () => {
     vi.mocked(rollForward).mockResolvedValue({
       declined: false,

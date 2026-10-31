@@ -34,6 +34,14 @@ sf simply cicd release roll-forward
 
 With no flags, it merges each release branch into the next higher one, stopping at the first conflict it can't resolve. It keeps the target's own `versionNumber`, `versionName`, `ancestorVersion`, and `ancestorId`, so a v1.2.0 branch keeps building v1.2.0 packages.
 
+Your repository's commit hooks always run. The default commit message is git's own merge wording, `Merge branch 'release/v1.1.0' into release/v1.2.0`, which commitlint's default rules ignore. If your rules need something else, pass a template:
+
+```bash
+sf simply cicd release roll-forward --message "chore: PROJ-123 roll {SOURCE} into {TARGET}"
+```
+
+If a hook rejects the commit, the merge stays in progress. Run `git commit` with an accepted message, then run the command again. A pre-commit hook that rewrites files can add those changes to the merge commit.
+
 Each branch it pushes triggers a normal release-branch build, which can create a package version.
 
 If release branches are protected, use `--no-push` and open a merge request from the `roll-forward/...` branch it leaves behind. Merge that request with a merge commit.

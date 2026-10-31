@@ -10,11 +10,14 @@ Merge each release branch into the next higher one, keeping version tags in the 
 ```
 USAGE
   $ sf simply cicd release roll-forward [--json] [--flags-dir <value>] [--source <value>] [--target <value>]
-    [--package-release-branch-prefix <value>] [--remote <value>] [--dry-run] [--no-push] [--no-prompt]
+    [--package-release-branch-prefix <value>] [--remote <value>] [--message <value>] [--dry-run] [--no-push]
+    [--no-prompt]
 
 FLAGS
   --dry-run                                Print the planned merges and the tags each would bring in, without changing
                                            anything.
+  --message=<value>                        Commit message template, with optional {SOURCE} and {TARGET} placeholders.
+                                           Defaults to "Merge branch '{SOURCE}' into {TARGET}".
   --no-prompt                              Don't ask for confirmation before pushing.
   --no-push                                Stop after the first merge, leaving it on the roll-forward branch for a merge
                                            request. Merge that request with a merge commit, because a squash or rebase
@@ -43,6 +46,10 @@ DESCRIPTION
   on a `roll-forward/<source>-to-<target>` branch. Resolve it and run `git commit`, then run this command again, or run
   `git merge --abort` to give up on it. Later branches are left alone until then.
 
+  Your repository's commit hooks always run. The default commit message is git's own merge wording, which commitlint's
+  default rules ignore; use `--message` if your rules need something else, such as a ticket number. If a hook rejects
+  the commit, the merge stays in progress: run `git commit` with an accepted message, then run this command again.
+
   The command never force-pushes or pushes tags. Each branch it pushes triggers a normal release-branch build, which can
   create a package version. If a push is rejected because the target moved, run the command again.
 
@@ -60,6 +67,10 @@ EXAMPLES
   Roll a single release into the next one:
 
     $ sf simply cicd release roll-forward --source release/v1.1.0 --target release/v1.2.0
+
+  Use a commit message your repository's rules accept:
+
+    $ sf simply cicd release roll-forward --message "chore: PROJ-123 roll {SOURCE} into {TARGET}"
 
   Prepare the merge for a merge request instead of pushing it:
 

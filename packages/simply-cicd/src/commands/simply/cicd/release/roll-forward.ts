@@ -39,6 +39,7 @@ export default class ReleaseRollForward extends SfCommand<ReleaseRollForwardResu
       default: 'release/',
     }),
     remote: Flags.string({ summary: messages.getMessage('flags.remote.summary'), default: 'origin' }),
+    message: Flags.string({ summary: messages.getMessage('flags.message.summary') }),
     'dry-run': Flags.boolean({ summary: messages.getMessage('flags.dry-run.summary'), default: false }),
     'no-push': Flags.boolean({ summary: messages.getMessage('flags.no-push.summary'), default: false }),
     'no-prompt': Flags.boolean({ summary: messages.getMessage('flags.no-prompt.summary'), default: false }),
@@ -53,6 +54,7 @@ export default class ReleaseRollForward extends SfCommand<ReleaseRollForwardResu
       target: flags.target,
       packageReleaseBranchPrefix: flags['package-release-branch-prefix'],
       remote: flags.remote,
+      message: flags.message,
       dryRun: flags['dry-run'],
       noPush: flags['no-push'],
       confirm: prompt ? (hops): Promise<boolean> => this.confirmPush(hops) : undefined,
@@ -69,7 +71,7 @@ export default class ReleaseRollForward extends SfCommand<ReleaseRollForwardResu
       })),
     });
 
-    if (result.hops.some((hop) => hop.status === 'Conflict')) {
+    if (result.hops.some((hop) => hop.status === 'Conflict' || hop.status === 'Commit rejected')) {
       process.exitCode = 1;
     }
     return result;

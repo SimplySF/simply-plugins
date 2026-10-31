@@ -630,6 +630,7 @@
       "dry-run",
       "flags-dir",
       "json",
+      "message",
       "no-prompt",
       "no-push",
       "package-release-branch-prefix",
