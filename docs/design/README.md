@@ -96,6 +96,7 @@ refactors that keep the public surface identical (though a short doc is welcome 
 | [0056](0056-simply-cicd-core-common.md)                              | Moving the rest of `simply-cicd`'s `common/` into `simply-cicd-core`                  | Implemented                                         |
 | [0057](0057-document-erd.md)                                         | `simply document erd`: Mermaid ERDs of a project's data model                         | Accepted — implemented; pending manual Gliffy check |
 | [0058](0058-package-dependencies-clone.md)                           | `simply package dependencies clone`                                                   | Implemented                                         |
+| [0059](0059-aer-package-publish.md)                                  | `simply cicd build publish-aer-package`                                               | Draft                                               |
 
 ## Template
 
