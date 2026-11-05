@@ -1,6 +1,25 @@
 [
   {
     "alias": [],
+    "command": "simply:project:release:roll-forward",
+    "flagAliases": [],
+    "flagChars": [],
+    "flags": [
+      "dry-run",
+      "flags-dir",
+      "json",
+      "message",
+      "no-prompt",
+      "no-push",
+      "package-release-branch-prefix",
+      "remote",
+      "source",
+      "target"
+    ],
+    "plugin": "@simplysf/simply-project"
+  },
+  {
+    "alias": [],
     "command": "simply:project:update:api-version",
     "flagAliases": [],
     "flagChars": ["a", "d"],

@@ -15,11 +15,11 @@
  */
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { rollForward } from '@simplysf/simply-cicd-core';
-import ReleaseRollForward from '../../../../../src/commands/simply/cicd/release/roll-forward.js';
+import { rollForward } from '@simplysf/simply-project-core';
+import ProjectReleaseRollForward from '../../../../../src/commands/simply/project/release/roll-forward.js';
 
-vi.mock('@simplysf/simply-cicd-core', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('@simplysf/simply-cicd-core')>()),
+vi.mock('@simplysf/simply-project-core', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@simplysf/simply-project-core')>()),
   rollForward: vi.fn(),
 }));
 
@@ -30,7 +30,7 @@ const hop = {
   tags: ['v1.1.0.13'],
 };
 
-describe('release roll-forward', () => {
+describe('simply project release roll-forward', () => {
   const originalExitCode = process.exitCode;
 
   beforeEach(() => {
@@ -43,7 +43,7 @@ describe('release roll-forward', () => {
   });
 
   it('delegates with defaults, and asks for confirmation', async () => {
-    const result = await ReleaseRollForward.run([]);
+    const result = await ProjectReleaseRollForward.run([]);
 
     expect(result.hops[0].status).toBe('Rolled');
     expect(rollForward).toHaveBeenCalledWith(
@@ -58,7 +58,7 @@ describe('release roll-forward', () => {
   });
 
   it('passes the branch flags through', async () => {
-    await ReleaseRollForward.run(['--source', 'release/v1.1.0', '--target', 'release/v1.2.0', '--dry-run']);
+    await ProjectReleaseRollForward.run(['--source', 'release/v1.1.0', '--target', 'release/v1.2.0', '--dry-run']);
 
     expect(rollForward).toHaveBeenCalledWith(
       expect.objectContaining({ source: 'release/v1.1.0', target: 'release/v1.2.0', dryRun: true }),
@@ -66,13 +66,13 @@ describe('release roll-forward', () => {
   });
 
   it.each([['--no-prompt'], ['--no-push'], ['--json']])('does not ask for confirmation with %s', async (flag) => {
-    await ReleaseRollForward.run([flag]);
+    await ProjectReleaseRollForward.run([flag]);
 
     expect(rollForward).toHaveBeenCalledWith(expect.objectContaining({ confirm: undefined }));
   });
 
   it('passes --message through', async () => {
-    await ReleaseRollForward.run(['--no-prompt', '--message', 'chore: {SOURCE} into {TARGET}']);
+    await ProjectReleaseRollForward.run(['--no-prompt', '--message', 'chore: {SOURCE} into {TARGET}']);
 
     expect(rollForward).toHaveBeenCalledWith(expect.objectContaining({ message: 'chore: {SOURCE} into {TARGET}' }));
   });
@@ -83,7 +83,7 @@ describe('release roll-forward', () => {
       hops: [{ ...hop, status: 'Commit rejected', commitError: 'needs a ticket' }],
     });
 
-    await ReleaseRollForward.run(['--no-prompt']);
+    await ProjectReleaseRollForward.run(['--no-prompt']);
 
     expect(process.exitCode).toBe(1);
   });
@@ -94,7 +94,7 @@ describe('release roll-forward', () => {
       hops: [{ ...hop, status: 'Conflict', conflictedFiles: ['a.txt'] }],
     });
 
-    await ReleaseRollForward.run(['--no-prompt']);
+    await ProjectReleaseRollForward.run(['--no-prompt']);
 
     expect(process.exitCode).toBe(1);
   });

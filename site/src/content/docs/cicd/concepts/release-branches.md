@@ -25,11 +25,11 @@ A squash or rebase breaks this, because the tagged commits are no longer part of
 
 ## Rolling forward
 
-Run [`release roll-forward`](/cicd/reference/release/) from a local clone:
+Run [`project release roll-forward`](/plugins/simply-project/#sf-simply-project-release-roll-forward), from the `@simplysf/simply-project` plugin, in a local clone:
 
 ```bash
-sf simply cicd release roll-forward --dry-run
-sf simply cicd release roll-forward
+sf simply project release roll-forward --dry-run
+sf simply project release roll-forward
 ```
 
 With no flags, it merges each release branch into the next higher one, stopping at the first conflict it can't resolve. It keeps the target's own `versionNumber`, `versionName`, `ancestorVersion`, and `ancestorId`, so a v1.2.0 branch keeps building v1.2.0 packages.
@@ -37,7 +37,7 @@ With no flags, it merges each release branch into the next higher one, stopping 
 Your repository's commit hooks always run. The default commit message is git's own merge wording, `Merge branch 'release/v1.1.0' into release/v1.2.0`, which commitlint's default rules ignore. If your rules need something else, pass a template:
 
 ```bash
-sf simply cicd release roll-forward --message "chore: PROJ-123 roll {SOURCE} into {TARGET}"
+sf simply project release roll-forward --message "chore: PROJ-123 roll {SOURCE} into {TARGET}"
 ```
 
 If a hook rejects the commit, the merge stays in progress. Run `git commit` with an accepted message, then run the command again. A pre-commit hook that rewrites files can add those changes to the merge commit.

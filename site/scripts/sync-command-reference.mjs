@@ -95,12 +95,6 @@ const CICD_GROUPS = [
     description: 'Command reference for pipeline notification commands.',
   },
   {
-    match: 'sf simply cicd release ',
-    file: 'release.md',
-    title: 'Release',
-    description: 'Command reference for maintaining release branches.',
-  },
-  {
     match: 'sf simply cicd sfdx-dependabot',
     file: 'sfdx-dependabot.md',
     title: 'sfdx-dependabot',

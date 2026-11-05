@@ -48,12 +48,7 @@
         "description": "Commands for simplifying Salesforce",
         "subtopics": {
           "cicd": {
-            "description": "Commands for Salesforce CI/CD pipelines",
-            "subtopics": {
-              "release": {
-                "description": "Commands for maintaining release branches"
-              }
-            }
+            "description": "Commands for Salesforce CI/CD pipelines"
           }
         }
       }

@@ -16,15 +16,15 @@
 
 import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
-import { rollForward, type RollForwardHop, type RollForwardResult } from '@simplysf/simply-cicd-core';
+import { rollForward, type RollForwardHop, type RollForwardResult } from '@simplysf/simply-project-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
-const messages = Messages.loadMessages('@simplysf/simply-cicd', 'simply.cicd.release.roll-forward');
+const messages = Messages.loadMessages('@simplysf/simply-project', 'simply.project.release.roll-forward');
 
-export type ReleaseRollForwardResult = RollForwardResult;
+export type ProjectReleaseRollForwardResult = RollForwardResult;
 
 /** Merges each release branch into the next higher one, keeping version tags in the target's history. */
-export default class ReleaseRollForward extends SfCommand<ReleaseRollForwardResult> {
+export default class ProjectReleaseRollForward extends SfCommand<ProjectReleaseRollForwardResult> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
@@ -45,8 +45,8 @@ export default class ReleaseRollForward extends SfCommand<ReleaseRollForwardResu
     'no-prompt': Flags.boolean({ summary: messages.getMessage('flags.no-prompt.summary'), default: false }),
   };
 
-  public async run(): Promise<ReleaseRollForwardResult> {
-    const { flags } = await this.parse(ReleaseRollForward);
+  public async run(): Promise<ProjectReleaseRollForwardResult> {
+    const { flags } = await this.parse(ProjectReleaseRollForward);
     const prompt = !flags['no-prompt'] && !flags['no-push'] && !this.jsonEnabled();
 
     const result = await rollForward({
