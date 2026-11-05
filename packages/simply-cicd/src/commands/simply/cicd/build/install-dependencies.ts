@@ -46,6 +46,21 @@ export default class BuildInstallDependencies extends SfCommand<BuildInstallDepe
       description: messages.getMessage('flags.upgrade-type.description'),
       default: 'Mixed',
     }),
+    'package-retry-attempts': Flags.string({
+      summary: messages.getMessage('flags.package-retry-attempts.summary'),
+      description: messages.getMessage('flags.package-retry-attempts.description'),
+      multiple: true,
+    }),
+    'retry-attempts': Flags.integer({
+      summary: messages.getMessage('flags.retry-attempts.summary'),
+      default: 0,
+      min: 0,
+    }),
+    'retry-backoff': Flags.integer({
+      summary: messages.getMessage('flags.retry-backoff.summary'),
+      default: 2,
+      min: 1,
+    }),
   };
 
   public async run(): Promise<BuildInstallDependenciesResult> {
@@ -67,6 +82,9 @@ export default class BuildInstallDependencies extends SfCommand<BuildInstallDepe
       debug: flags.debug,
       installType: flags['install-type'],
       upgradeType: flags['upgrade-type'],
+      retryAttempts: flags['retry-attempts'],
+      retryBackoff: flags['retry-backoff'],
+      packageRetryAttempts: flags['package-retry-attempts'],
     });
 
     return { skipped: false };
