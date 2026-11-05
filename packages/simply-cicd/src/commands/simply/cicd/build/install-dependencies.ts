@@ -55,11 +55,13 @@ export default class BuildInstallDependencies extends SfCommand<BuildInstallDepe
       summary: messages.getMessage('flags.retry-attempts.summary'),
       default: 0,
       min: 0,
+      max: 10,
     }),
     'retry-backoff': Flags.integer({
       summary: messages.getMessage('flags.retry-backoff.summary'),
       default: 2,
       min: 1,
+      max: 10,
     }),
   };
 
