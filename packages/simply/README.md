@@ -2921,7 +2921,7 @@ EXAMPLES
     $ sf simply project release roll-forward --no-push
 ```
 
-_See code: [@simplysf/simply-project](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-project@1.2.29/packages/simply-project/lib/commands/simply/project/release/roll-forward.js)_
+_See code: [@simplysf/simply-project](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-project@1.3.0/packages/simply-project/lib/commands/simply/project/release/roll-forward.js)_
 
 ## `sf simply project update api-version`
 
@@ -2960,7 +2960,7 @@ FLAG DESCRIPTIONS
     The path to the Salesforce project directory to scan for metadata files.
 ```
 
-_See code: [@simplysf/simply-project](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-project@1.2.30/packages/simply-project/lib/commands/simply/project/update/api-version.js)_
+_See code: [@simplysf/simply-project](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-project@1.3.0/packages/simply-project/lib/commands/simply/project/update/api-version.js)_
 
 ## `sf simply schema generate`
 

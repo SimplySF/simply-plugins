@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-project%401.2.30...%40simplysf%2Fsimply-project%401.3.0) (2026-11-06)
+
+### Features
+
+- **simply-project:** add `sf simply project release roll-forward` ([#125](https://github.com/SimplySF/simply-plugins/issues/125)) ([e3a15bd](https://github.com/SimplySF/simply-plugins/commit/e3a15bd0ff8d8624de9b7958df395101c0cbf4a2))
+
 ## [1.2.30](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-project%401.2.29...%40simplysf%2Fsimply-project%401.2.30) (2026-11-06)
 
 **Note:** Version bump only for package @simplysf/simply-project
