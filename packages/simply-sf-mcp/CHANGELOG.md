@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.3](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-sf-mcp%400.2.2...%40simplysf%2Fsimply-sf-mcp%400.2.3) (2026-11-06)
+
+### Bug Fixes
+
+- **deps:** bump @modelcontextprotocol/sdk from 1.32.1 to 1.32.2 ([#123](https://github.com/SimplySF/simply-plugins/issues/123)) ([02eb834](https://github.com/SimplySF/simply-plugins/commit/02eb834f58ac0d46a6cf560cf94e702f8a623e0e))
+
 ## [0.2.2](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-sf-mcp%400.2.1...%40simplysf%2Fsimply-sf-mcp%400.2.2) (2026-10-28)
 
 **Note:** Version bump only for package @simplysf/simply-sf-mcp
