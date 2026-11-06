@@ -242,8 +242,8 @@ importers:
         specifier: ^2.0.12
         version: 2.0.12
       '@simplysf/simply-cicd-core':
-        specifier: ^0.11.0
-        version: 0.11.0(supports-color@8.1.1)
+        specifier: ^0.13.0
+        version: 0.13.0(supports-color@8.1.1)
     devDependencies:
       '@oclif/plugin-command-snapshot':
         specifier: ^5.4.0
@@ -3056,9 +3056,14 @@ packages:
       { integrity: sha512-FOn+xy/BteEmlUzJcSYRWeP6evxyBv7ciplQQraAQLLAMOeFAYy4L05Ux+H5IuEbNOxpGl+goghnT0sHoaukVQ== }
     engines: { node: '>=22.0.0' }
 
-  '@simplysf/simply-cicd-core@0.11.0':
+  '@simplysf/simply-apex-core@0.4.2':
     resolution:
-      { integrity: sha512-lzdHO3VLw7H3HD1kKo2lo4FPuL+8uEMpg72HDMIjF35inRItBUG3uHpUF1jCKCfX+PeGoEeCujcxTy+TxmIG/Q== }
+      { integrity: sha512-4Nf29/1qghfPPKf35qQj2jXH9zFluZBVG8WFzISb7CV6OFIlrMEjJA8BNjfL0+bjsXRWtfILjWpStrR4PKvoaA== }
+    engines: { node: '>=22.0.0' }
+
+  '@simplysf/simply-cicd-core@0.13.0':
+    resolution:
+      { integrity: sha512-dnrd7aEaiMmObCtc/WLQuykKPn7twXCxdkXyd5MQjd1IDemJNA5IFsizc131Qyf8LafXmLekZ3+YR9GFdUUohQ== }
     engines: { node: '>=22.0.0' }
 
   '@simplysf/simply-community-core@0.2.14':
@@ -3069,6 +3074,11 @@ packages:
   '@simplysf/simply-core@1.6.12':
     resolution:
       { integrity: sha512-h1Nnr5qlCpb1znCLaRTVMGw/8S8jpzFy8cd0AxoqRv7sipIbCbOabGo9vswbcVWyX3hh1/zfsILLmNL/ou8oSQ== }
+    engines: { node: '>=22.0.0' }
+
+  '@simplysf/simply-core@1.6.13':
+    resolution:
+      { integrity: sha512-O09ZhciTD+e8MB/wWqi2qNitvvqOitGiG9b8j6hb+pmdmUhuTZJ8TdVqrsaVN2ffFZnurRPitQKPX53yTsw5jg== }
     engines: { node: '>=22.0.0' }
 
   '@simplysf/simply-data-core@0.3.12':
@@ -3091,14 +3101,29 @@ packages:
       { integrity: sha512-pkDAKd4ktYFAO9/npnW2aF/r5UOZJ3VWZd2SS63gg1ttb20bfcVXirm8NSMCk68QHSYc4FeYf78it3A4d2iHbw== }
     engines: { node: '>=22.0.0' }
 
+  '@simplysf/simply-package-core@0.5.2':
+    resolution:
+      { integrity: sha512-ANHs/4J3HtoXYNE7y33VCCHyr5hs2Y8o0T/qjJnvdbMkUcnpfCbndeVeA+5UOJXd70MJzZjcUCot5S/hcb/UNA== }
+    engines: { node: '>=22.0.0' }
+
   '@simplysf/simply-permissions-core@0.10.2':
     resolution:
       { integrity: sha512-BFlXGzUn5dG21O/4x1/DbPllfLXc7ywohGc9lh8W0YYPhWyEPmOb+tNmj7bLTo4LGX1nWBwYkCn8TZ+GgF/AwA== }
     engines: { node: '>=22.0.0' }
 
+  '@simplysf/simply-permissions-core@0.10.4':
+    resolution:
+      { integrity: sha512-0pYdNJhcoYyCM2k4J+Rm5bcEqDhkJJqOdfa1U6IC3dsOmLpkovaQQ2HCkMFVU8AQAbKD326iGKtHE+oU/6/Jdg== }
+    engines: { node: '>=22.0.0' }
+
   '@simplysf/simply-report@1.0.7':
     resolution:
       { integrity: sha512-q79yq5KRwhCuZPCU+hdRkJA/Gu+nVh0MWM4+0JPS7rFwEUf/o5L7nenJaCBMmmlU6Q/Q5Xk0iAGAg8xuPNKnBg== }
+    engines: { node: '>=22.0.0' }
+
+  '@simplysf/simply-report@1.0.8':
+    resolution:
+      { integrity: sha512-k8V5+Hz3QSrzpiadCltXZ23ZF7PISzaUsjMUOytBx2PheleElgT7iMtDJ2QmbBE7nBVejqRZFaa41H5kIGadWQ== }
     engines: { node: '>=22.0.0' }
 
   '@simplysf/simply-schema-core@0.2.4':
@@ -12218,17 +12243,28 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@simplysf/simply-cicd-core@0.11.0(supports-color@8.1.1)':
+  '@simplysf/simply-apex-core@0.4.2(supports-color@8.1.1)':
+    dependencies:
+      '@salesforce/apex-node': 8.4.39
+      '@salesforce/core': 8.32.6
+      '@salesforce/kit': 3.2.6
+      '@salesforce/source-deploy-retrieve': 12.37.2(supports-color@8.1.1)
+      '@simplysf/simply-core': 1.6.13
+      zod: 4.6.7
+    transitivePeerDependencies:
+      - supports-color
+
+  '@simplysf/simply-cicd-core@0.13.0(supports-color@8.1.1)':
     dependencies:
       '@salesforce/core': 8.32.6
       '@salesforce/kit': 3.2.6
       '@salesforce/packaging': 4.27.8(supports-color@8.1.1)
       '@salesforce/source-deploy-retrieve': 12.37.2(supports-color@8.1.1)
       '@salesforce/source-tracking': 7.8.20(supports-color@8.1.1)
-      '@simplysf/simply-apex-core': 0.4.0(supports-color@8.1.1)
-      '@simplysf/simply-core': 1.6.12
-      '@simplysf/simply-package-core': 0.5.0(supports-color@8.1.1)
-      '@simplysf/simply-permissions-core': 0.10.2(supports-color@8.1.1)
+      '@simplysf/simply-apex-core': 0.4.2(supports-color@8.1.1)
+      '@simplysf/simply-core': 1.6.13
+      '@simplysf/simply-package-core': 0.5.2(supports-color@8.1.1)
+      '@simplysf/simply-permissions-core': 0.10.4(supports-color@8.1.1)
       chalk: 5.6.2
       execa: 8.0.1
       handlebars: 4.7.10
@@ -12249,6 +12285,16 @@ snapshots:
       - supports-color
 
   '@simplysf/simply-core@1.6.12':
+    dependencies:
+      '@jsforce/jsforce-node': 3.10.27
+      '@salesforce/core': 8.32.6
+      '@salesforce/kit': 3.2.6
+      csv-parse: 7.0.3
+      csv-stringify: 6.9.0
+      fast-xml-parser: 5.11.1
+      undici: 8.12.3
+
+  '@simplysf/simply-core@1.6.13':
     dependencies:
       '@jsforce/jsforce-node': 3.10.27
       '@salesforce/core': 8.32.6
@@ -12284,6 +12330,16 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@simplysf/simply-package-core@0.5.2(supports-color@8.1.1)':
+    dependencies:
+      '@salesforce/core': 8.32.6
+      '@salesforce/kit': 3.2.6
+      '@salesforce/packaging': 4.27.8(supports-color@8.1.1)
+      '@simplysf/simply-core': 1.6.13
+      zod: 4.6.7
+    transitivePeerDependencies:
+      - supports-color
+
   '@simplysf/simply-permissions-core@0.10.2(supports-color@8.1.1)':
     dependencies:
       '@salesforce/source-deploy-retrieve': 12.37.2(supports-color@8.1.1)
@@ -12295,7 +12351,22 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@simplysf/simply-permissions-core@0.10.4(supports-color@8.1.1)':
+    dependencies:
+      '@salesforce/source-deploy-retrieve': 12.37.2(supports-color@8.1.1)
+      '@simplysf/simply-core': 1.6.13
+      '@simplysf/simply-report': 1.0.8
+      fast-xml-parser: 5.11.1
+      xmlbuilder2: 4.0.3
+      zod: 4.6.7
+    transitivePeerDependencies:
+      - supports-color
+
   '@simplysf/simply-report@1.0.7':
+    dependencies:
+      handlebars: 4.7.10
+
+  '@simplysf/simply-report@1.0.8':
     dependencies:
       handlebars: 4.7.10
 
