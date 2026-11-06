@@ -45,6 +45,9 @@ describe('build install-dependencies', () => {
       debug: false,
       installType: 'Upgrade',
       upgradeType: 'Mixed',
+      retryAttempts: 0,
+      retryBackoff: 2,
+      packageRetryAttempts: undefined,
     });
   });
 
@@ -65,6 +68,29 @@ describe('build install-dependencies', () => {
     await BuildInstallDependencies.run(['--jwt-key-file', 'key.file', '--install-type', 'Delta']);
 
     expect(installDependencies).toHaveBeenCalledWith(expect.objectContaining({ installType: 'Delta' }));
+  });
+
+  it('accepts retry flags and forwards them to installDependencies', async () => {
+    await BuildInstallDependencies.run([
+      '--jwt-key-file',
+      'key.file',
+      '--retry-attempts',
+      '3',
+      '--retry-backoff',
+      '4',
+      '--package-retry-attempts',
+      'MyPackageAlias:5',
+      '--package-retry-attempts',
+      '04t123456789012:2',
+    ]);
+
+    expect(installDependencies).toHaveBeenCalledWith(
+      expect.objectContaining({
+        retryAttempts: 3,
+        retryBackoff: 4,
+        packageRetryAttempts: ['MyPackageAlias:5', '04t123456789012:2'],
+      }),
+    );
   });
 
   it('skips when --disabled is passed', async () => {
