@@ -143,7 +143,18 @@
     "command": "simply:cicd:build:install-dependencies",
     "flagAliases": [],
     "flagChars": [],
-    "flags": ["debug", "disabled", "flags-dir", "install-type", "json", "jwt-key-file", "upgrade-type"],
+    "flags": [
+      "debug",
+      "disabled",
+      "flags-dir",
+      "install-type",
+      "json",
+      "jwt-key-file",
+      "package-retry-attempts",
+      "retry-attempts",
+      "retry-backoff",
+      "upgrade-type"
+    ],
     "plugin": "@simplysf/simply-cicd"
   },
   {
