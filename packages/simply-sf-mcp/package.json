@@ -1,7 +1,7 @@
 {
   "name": "@simplysf/simply-sf-mcp",
   "description": "An MCP server that exposes SimplySF Salesforce tooling to coding agents",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "author": "@ClayChipps",
   "homepage": "https://github.com/SimplySF/simply-plugins",
   "bugs": "https://github.com/SimplySF/simply-plugins/issues",
@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^4.1.12",
-    "prettier": "^3.9.6",
+    "prettier": "^3.9.10",
     "vitest": "^4.1.10"
   },
   "publishConfig": {
