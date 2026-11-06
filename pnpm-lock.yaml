@@ -528,6 +528,9 @@ importers:
       '@salesforce/sf-plugins-core':
         specifier: ^12.2.16
         version: 12.2.28(@types/node@26.6.5)
+      '@simplysf/simply-project-core':
+        specifier: ^0.2.0
+        version: 0.2.0
       glob:
         specifier: ^13.0.6
         version: 13.0.6
@@ -3094,6 +3097,11 @@ packages:
   '@simplysf/simply-permissions-core@0.10.2':
     resolution:
       { integrity: sha512-BFlXGzUn5dG21O/4x1/DbPllfLXc7ywohGc9lh8W0YYPhWyEPmOb+tNmj7bLTo4LGX1nWBwYkCn8TZ+GgF/AwA== }
+    engines: { node: '>=22.0.0' }
+
+  '@simplysf/simply-project-core@0.2.0':
+    resolution:
+      { integrity: sha512-g9TwDSSZCcUtoOA07eo7ccdvumkyuNRnqKQkaeLPUPZur+7cXNAaSE9rPeDMqsvzFTJ9dkz+KVLNx5Ya9pRDyw== }
     engines: { node: '>=22.0.0' }
 
   '@simplysf/simply-report@1.0.7':
@@ -12294,6 +12302,12 @@ snapshots:
       zod: 4.6.7
     transitivePeerDependencies:
       - supports-color
+
+  '@simplysf/simply-project-core@0.2.0':
+    dependencies:
+      chalk: 5.6.2
+      execa: 8.0.1
+      log-symbols: 7.0.1
 
   '@simplysf/simply-report@1.0.7':
     dependencies:
