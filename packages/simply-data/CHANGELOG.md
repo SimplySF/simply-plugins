@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.4](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-data%403.0.3...%40simplysf%2Fsimply-data%403.0.4) (2026-11-08)
+
+### Bug Fixes
+
+- **deps:** bump p-queue from 9.3.3 to 9.3.5 ([#130](https://github.com/SimplySF/simply-plugins/issues/130)) ([0309e90](https://github.com/SimplySF/simply-plugins/commit/0309e90f057c427a765f4967e7894286e519f307))
+
 ## [3.0.3](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-data%403.0.2...%40simplysf%2Fsimply-data%403.0.3) (2026-11-06)
 
 **Note:** Version bump only for package @simplysf/simply-data
