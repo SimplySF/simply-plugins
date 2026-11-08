@@ -69,7 +69,7 @@
     "@simplysf/simply-data-core": "^0.3.12",
     "@simplysf/simply-plugin-kit": "workspace:^1.0.10",
     "csv-parse": "^7.0.3",
-    "p-queue": "^9.2.0"
+    "p-queue": "^9.3.5"
   },
   "devDependencies": {
     "@oclif/plugin-command-snapshot": "^5.4.0",
