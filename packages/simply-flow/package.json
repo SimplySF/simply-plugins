@@ -60,7 +60,7 @@
     "@salesforce/core": "^8.30.0",
     "@salesforce/sf-plugins-core": "^12.2.16",
     "@simplysf/simply-core": "^1.6.12",
-    "@simplysf/simply-flow-core": "^0.2.2",
+    "@simplysf/simply-flow-core": "^0.2.3",
     "@simplysf/simply-plugin-kit": "workspace:^1.0.10"
   },
   "devDependencies": {
