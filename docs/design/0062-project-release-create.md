@@ -1,6 +1,6 @@
 # 0062 — `simply project release create`
 
-**Status:** In progress (implemented in both repos; the `simply-plugins` side waits on the `simply-plugins-core` release)
+**Status:** In progress (`simply-plugins-core` side released in [SimplySF/simply-plugins-core#288](https://github.com/SimplySF/simply-plugins-core/pull/288); this command in review)
 **Package:** `packages/simply-project` (CLI); `packages/simply-project-core` (logic),
 `packages/simply-core` (VCS providers move here), and `packages/simply-cicd-core` (re-exports), in
 `simply-plugins-core`, where this doc is duplicated as its 0061
