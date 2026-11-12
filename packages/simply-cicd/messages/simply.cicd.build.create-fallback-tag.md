@@ -8,7 +8,7 @@ Resolves the last tag to increment (either `--last-tag`, or the closest reachabl
 
 Also soft no-ops when HEAD already carries a tag matching the version prefix, e.g. because `build create-package-version` just created and tagged a real package version earlier in the same job. This also keeps a retried job from adding a second fallback tag to the same commit.
 
-Skipped automatically when `PACKAGE_CHANGED=TRUE` is set in the environment (see `build determine-package-changes`) — a real package version will be created instead.
+Skipped automatically when `SIMPLY_CICD_PACKAGE_CHANGED=TRUE` (or the deprecated `PACKAGE_CHANGED=TRUE`) is set in the environment (see `build determine-package-changes`) — a real package version will be created instead.
 
 # flags.last-tag.summary
 

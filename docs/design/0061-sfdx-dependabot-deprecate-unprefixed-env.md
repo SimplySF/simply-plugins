@@ -78,6 +78,20 @@ baseline environment, and adds:
 - the flag passed and the deprecated variable set: no warning;
 - the missing-token error names `SIMPLY_CICD_VCS_TOKEN`.
 
+## Follow-up: `simply-cicd-core` 0.15.0
+
+Once core 0.15.0 shipped the 0060 rename, a second change (stacked on this one):
+
+- bumps `@simplysf/simply-cicd-core` to `^0.15.0`;
+- reads `--subscriber-package-version-id`'s fallback through core's `readCicdEnvVar`, which prefers
+  `SIMPLY_CICD_BUILT_SUBSCRIBER_PACKAGE_VERSION_ID` and warns when only the deprecated
+  `SUBSCRIBER_PACKAGE_VERSION_ID` is set (now actionable, since core writes both);
+- moves every command's `messages/*.md`, the README and the docs-site guides to the new names
+  (`SIMPLY_CICD_PACKAGE_CHANGED`, `SIMPLY_CICD_LAST_TAG`, `SIMPLY_CICD_UTAM_PAGE_OBJECTS_*`,
+  `SIMPLY_CICD_SFDX_DEPENDABOT_ENABLED`, …), noting the deprecated ones wherever a pipeline reads them;
+- switches the command tests to the new names, keeping one case for the deprecated
+  `SUBSCRIBER_PACKAGE_VERSION_ID`. Core's tests cover the rest of the fallback logic.
+
 ## Open questions
 
 - **Removal release.** It's the maintainers' call, and should land in the same release that removes

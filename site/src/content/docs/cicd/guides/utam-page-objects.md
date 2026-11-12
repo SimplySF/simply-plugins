@@ -46,7 +46,7 @@ Add one job to the build pipeline's `package` stage, downstream of `create-packa
 create-package-version:
   stage: package
   rules:
-    - if: '$PACKAGE_CHANGED == "TRUE"'
+    - if: '$SIMPLY_CICD_PACKAGE_CHANGED == "TRUE"'
   before_script:
     - sf org login jwt --alias packaging-devhub --username $PACKAGING_DEVHUB_USERNAME
       --jwt-key-file $PACKAGING_DEVHUB_JWT_KEY_FILE --client-id $PACKAGING_DEVHUB_CLIENT_ID
@@ -67,7 +67,7 @@ publish-utam-page-objects:
   stage: package
   needs: [create-package-version]
   rules:
-    - if: '$PACKAGE_CHANGED == "TRUE"'
+    - if: '$SIMPLY_CICD_PACKAGE_CHANGED == "TRUE"'
   before_script:
     - sf org login jwt --alias packaging-devhub --username $PACKAGING_DEVHUB_USERNAME
       --jwt-key-file $PACKAGING_DEVHUB_JWT_KEY_FILE --client-id $PACKAGING_DEVHUB_CLIENT_ID
@@ -82,7 +82,7 @@ publish-utam-page-objects:
     SIMPLY_CICD_NPM_REGISTRY: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/
 ```
 
-The `dotenv` report on `create-package-version` is what carries the new `04t` into this job — GitLab injects it as `$SUBSCRIBER_PACKAGE_VERSION_ID`, and the command picks it up with no flag. (The same report is what `start-deployment` reads, so a project pipeline needs it regardless.)
+The `dotenv` report on `create-package-version` is what carries the new `04t` into this job — GitLab injects it as `$SIMPLY_CICD_BUILT_SUBSCRIBER_PACKAGE_VERSION_ID`, and the command picks it up with no flag. (The same report is what `start-deployment` reads, so a project pipeline needs it regardless.)
 
 The command doesn't authenticate to the registry itself — the `npm config set` line in `before_script` does, by writing the job token to the runner's user-level `~/.npmrc`. Any npm setup that does the same works, such as a pre-baked `~/.npmrc` in the job image or an `.npmrc` that `NPM_CONFIG_USERCONFIG` points at. A project-level `.npmrc` committed to your repo is **not** read: the command runs npm from a staging directory outside the repo.
 
@@ -110,16 +110,20 @@ Two consequences worth knowing:
 On success the command appends to its `--out` dotenv file:
 
 ```
+SIMPLY_CICD_UTAM_PAGE_OBJECTS_PACKAGE=@acme/my-package-pageobjects
+SIMPLY_CICD_UTAM_PAGE_OBJECTS_VERSION=1.2.3-4
 UTAM_PAGE_OBJECTS_PACKAGE=@acme/my-package-pageobjects
 UTAM_PAGE_OBJECTS_VERSION=1.2.3-4
 ```
+
+The last two lines repeat the values under their deprecated names, which will be removed in a future release.
 
 so a downstream UI-test job can install the right page objects without knowing the mapping rule:
 
 ```yaml
 ui-test:
   script:
-    - npm install "$UTAM_PAGE_OBJECTS_PACKAGE@$UTAM_PAGE_OBJECTS_VERSION"
+    - npm install "$SIMPLY_CICD_UTAM_PAGE_OBJECTS_PACKAGE@$SIMPLY_CICD_UTAM_PAGE_OBJECTS_VERSION"
 ```
 
 Page objects are addressed by path, the same way `salesforce-pageobjects` works:
@@ -164,7 +168,7 @@ The generated `package.json` also records where the output came from, so any pub
 
 The job skips, without failing, when:
 
-- `PACKAGE_CHANGED=FALSE` — no new package version was built (see [`build determine-package-changes`](/cicd/reference/build/)).
+- `SIMPLY_CICD_PACKAGE_CHANGED=FALSE` — no new package version was built (see [`build determine-package-changes`](/cicd/reference/build/)).
 - `--disabled` is passed, or `SIMPLY_CICD_DISABLED` is set.
 - No package version ID can be found in any of the three sources.
 - The project authors no `.utam.json` files yet — so the job can be wired up before UTAM is adopted.

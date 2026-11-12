@@ -43,7 +43,7 @@ function jsonResponse(
   } as unknown as Response;
 }
 
-const enabledVariable = { key: 'SFDX_DEPENDABOT_ENABLED', value: 'TRUE' };
+const enabledVariable = { key: 'SIMPLY_CICD_SFDX_DEPENDABOT_ENABLED', value: 'TRUE' };
 
 describe('sfdx-dependabot', () => {
   let originalEnv: NodeJS.ProcessEnv;
@@ -53,7 +53,8 @@ describe('sfdx-dependabot', () => {
     process.env.SIMPLY_CICD_VCS_API_URL = 'https://gitlab.example.com/api/v4';
     process.env.SIMPLY_CICD_VCS_TOKEN = 'test-token';
     process.env.SIMPLY_CICD_ROOT_GROUP_ID = '12345';
-    process.env.SUBSCRIBER_PACKAGE_VERSION_ID = '04tSJ000000AKwjYAG';
+    process.env.SIMPLY_CICD_BUILT_SUBSCRIBER_PACKAGE_VERSION_ID = '04tSJ000000AKwjYAG';
+    delete process.env.SUBSCRIBER_PACKAGE_VERSION_ID;
     process.env.SIMPLY_CICD_DEVHUB_USERNAME = 'hub@example.com';
     for (const name of Object.keys(process.env).filter(
       (key) => key.startsWith('SFDX_DEPENDABOT_') || key === 'PACKAGING_DEVHUB_USERNAME',
@@ -134,6 +135,16 @@ describe('sfdx-dependabot', () => {
         expect(warn).not.toHaveBeenCalled();
       });
 
+      it('still reads the deprecated SUBSCRIBER_PACKAGE_VERSION_ID', async () => {
+        noProjects();
+        delete process.env.SIMPLY_CICD_BUILT_SUBSCRIBER_PACKAGE_VERSION_ID;
+        process.env.SUBSCRIBER_PACKAGE_VERSION_ID = '04tSJ000000LEGACY';
+
+        await SfdxDependabot.run([]);
+
+        expect(resolvePackageDetails).toHaveBeenCalledWith('hub@example.com', '04tSJ000000LEGACY');
+      });
+
       it('ignores the deprecated variable when the flag is passed', async () => {
         noProjects();
         process.env.SFDX_DEPENDABOT_MAX_PROJECTS = '1';
@@ -189,7 +200,7 @@ describe('sfdx-dependabot', () => {
       expect(postCalls).toHaveLength(0);
     });
 
-    it('skips a project that has not opted in via the SFDX_DEPENDABOT_ENABLED variable', async () => {
+    it('skips a project that has not opted in via the SIMPLY_CICD_SFDX_DEPENDABOT_ENABLED variable', async () => {
       fetchMock.mockImplementation((url: string) => {
         if (url.includes('/groups/12345/projects')) {
           return Promise.resolve(
@@ -214,7 +225,7 @@ describe('sfdx-dependabot', () => {
           );
         }
         if (url.includes('/projects/201/variables')) {
-          return Promise.resolve(jsonResponse([{ key: 'SFDX_DEPENDABOT_ENABLED', value: 'FALSE' }]));
+          return Promise.resolve(jsonResponse([{ key: 'SIMPLY_CICD_SFDX_DEPENDABOT_ENABLED', value: 'FALSE' }]));
         }
         return Promise.resolve(jsonResponse('Not Found', { ok: false, status: 404, statusText: 'Not Found' }));
       });

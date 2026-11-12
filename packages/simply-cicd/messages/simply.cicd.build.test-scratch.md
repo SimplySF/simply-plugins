@@ -6,7 +6,7 @@ Run Apex tests against the scratch org created by `build create-scratch`.
 
 Reads `SCRATCH_ORG_INFO.json` (written by `build create-scratch`), authenticates as that scratch org, and runs its Apex tests with `RunLocalTests`.
 
-Skipped automatically when `PACKAGE_CHANGED=FALSE` is set in the environment (see `build determine-package-changes`).
+Skipped automatically when `SIMPLY_CICD_PACKAGE_CHANGED=FALSE` (or the deprecated `PACKAGE_CHANGED=FALSE`) is set in the environment (see `build determine-package-changes`).
 
 # flags.disable-apex-tests.summary
 

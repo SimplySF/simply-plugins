@@ -242,8 +242,8 @@ importers:
         specifier: ^2.0.12
         version: 2.0.12
       '@simplysf/simply-cicd-core':
-        specifier: ^0.13.0
-        version: 0.13.0(supports-color@8.1.1)
+        specifier: ^0.15.0
+        version: 0.15.0(supports-color@8.1.1)
     devDependencies:
       '@oclif/plugin-command-snapshot':
         specifier: ^5.4.0
@@ -2237,6 +2237,11 @@ packages:
       { integrity: sha512-7co65eD9X7asPVqQimM6eXFBiEN8zADp/dh75XVlr1GEpuTQNGNsUjAPJ7BA1eca2Ject6WqIn1qpjYXjAJ/6Q== }
     engines: { node: '>=22' }
 
+  '@jsforce/jsforce-node@3.13.1':
+    resolution:
+      { integrity: sha512-vpHhwc+Wcufk9vARzL4oxYSzg8ndNButSn88D6pMImjns7/NTkwPZ9qQwD2F/P4c+A0lwTyDl4Alry0BMgFsTg== }
+    engines: { node: '>=22' }
+
   '@jsonjoy.com/base64@1.1.2':
     resolution:
       { integrity: sha512-q6XAnWQDIMA3+FTiOYajoYqySkO+JSat0ytXGSuRdq9uXE7o92gzuQwQM14xaCRlBLGq3v5miDGC4vkVTn54xA== }
@@ -2333,6 +2338,10 @@ packages:
   '@nodable/entities@3.0.0':
     resolution:
       { integrity: sha512-8L9xFeTYKhm49xfIypoe2W5wV1m/3Z58kT+7kR9A8OyFxcPduI4VmxaUMQyKYrRjUoLLSXv6EKKID5Tvj9cUVw== }
+
+  '@nodable/entities@3.1.0':
+    resolution:
+      { integrity: sha512-LsS/DjHr+uDM647Gru/cA8+J3a3HfhttwCKLyuoyN7yXTFCxKBtSgMQBvrW9yNPa2/zDRUNuGPaH5QUFoa4arQ== }
 
   '@nodelib/fs.scandir@2.1.5':
     resolution:
@@ -3059,14 +3068,14 @@ packages:
       { integrity: sha512-FOn+xy/BteEmlUzJcSYRWeP6evxyBv7ciplQQraAQLLAMOeFAYy4L05Ux+H5IuEbNOxpGl+goghnT0sHoaukVQ== }
     engines: { node: '>=22.0.0' }
 
-  '@simplysf/simply-apex-core@0.4.2':
+  '@simplysf/simply-apex-core@0.4.5':
     resolution:
-      { integrity: sha512-4Nf29/1qghfPPKf35qQj2jXH9zFluZBVG8WFzISb7CV6OFIlrMEjJA8BNjfL0+bjsXRWtfILjWpStrR4PKvoaA== }
+      { integrity: sha512-ghNZl8SnvOEFLzflw5YPTF3POBQQZeJ3eb3iJMElpaITciCb7BdF+ipl6TiHtk34NfbEUF4ldCYNGu0O4rTgeg== }
     engines: { node: '>=22.0.0' }
 
-  '@simplysf/simply-cicd-core@0.13.0':
+  '@simplysf/simply-cicd-core@0.15.0':
     resolution:
-      { integrity: sha512-dnrd7aEaiMmObCtc/WLQuykKPn7twXCxdkXyd5MQjd1IDemJNA5IFsizc131Qyf8LafXmLekZ3+YR9GFdUUohQ== }
+      { integrity: sha512-zLo39fsqzZySsdncEmuFqTHC03+GevI0y7f8YMtFLI+VUj/Txs0G2vgOF/Osmf7hEfDIaYXWQ0shTM4J9M5UBg== }
     engines: { node: '>=22.0.0' }
 
   '@simplysf/simply-community-core@0.2.14':
@@ -3082,6 +3091,11 @@ packages:
   '@simplysf/simply-core@1.6.13':
     resolution:
       { integrity: sha512-O09ZhciTD+e8MB/wWqi2qNitvvqOitGiG9b8j6hb+pmdmUhuTZJ8TdVqrsaVN2ffFZnurRPitQKPX53yTsw5jg== }
+    engines: { node: '>=22.0.0' }
+
+  '@simplysf/simply-core@1.7.0':
+    resolution:
+      { integrity: sha512-/y+Vm2SAS+K/BAm1HKRnUnzrhJI9ikO4zkxjOR9tVcI7hNPozQv3v1wyaC55YxSNR72m1VjsEch5wPy8qUi9wQ== }
     engines: { node: '>=22.0.0' }
 
   '@simplysf/simply-data-core@0.3.12':
@@ -3104,9 +3118,9 @@ packages:
       { integrity: sha512-pkDAKd4ktYFAO9/npnW2aF/r5UOZJ3VWZd2SS63gg1ttb20bfcVXirm8NSMCk68QHSYc4FeYf78it3A4d2iHbw== }
     engines: { node: '>=22.0.0' }
 
-  '@simplysf/simply-package-core@0.5.2':
+  '@simplysf/simply-package-core@0.5.5':
     resolution:
-      { integrity: sha512-ANHs/4J3HtoXYNE7y33VCCHyr5hs2Y8o0T/qjJnvdbMkUcnpfCbndeVeA+5UOJXd70MJzZjcUCot5S/hcb/UNA== }
+      { integrity: sha512-FNHRw1YF0yl1poGn9RDCCCpaqniJjQUXZM3UrybPHv5aaEMEi7TppmgsBd/ePipG8siAPDpq+ipylhhtkKCV4g== }
     engines: { node: '>=22.0.0' }
 
   '@simplysf/simply-permissions-core@0.10.2':
@@ -3114,9 +3128,9 @@ packages:
       { integrity: sha512-BFlXGzUn5dG21O/4x1/DbPllfLXc7ywohGc9lh8W0YYPhWyEPmOb+tNmj7bLTo4LGX1nWBwYkCn8TZ+GgF/AwA== }
     engines: { node: '>=22.0.0' }
 
-  '@simplysf/simply-permissions-core@0.10.4':
+  '@simplysf/simply-permissions-core@0.10.7':
     resolution:
-      { integrity: sha512-0pYdNJhcoYyCM2k4J+Rm5bcEqDhkJJqOdfa1U6IC3dsOmLpkovaQQ2HCkMFVU8AQAbKD326iGKtHE+oU/6/Jdg== }
+      { integrity: sha512-4YR4bd4g3MW3UvfHhY/mNgxwIT0sXx5MUB42lO5kKZewhs6Wk8aU0M9zazH2Ro7v9kTl/h+8NceMR6Dfuuuvng== }
     engines: { node: '>=22.0.0' }
 
   '@simplysf/simply-project-core@0.2.0':
@@ -4025,9 +4039,9 @@ packages:
       '@astrojs/markdown-remark':
         optional: true
 
-  async-lock@1.4.1:
+  async-lock@1.5.0:
     resolution:
-      { integrity: sha512-Az2ZTpuytrtqENulXwO3GGv1Bztugx6TT37NIo7imr/Qo0gsYiGtSdBa2B6fsXhTpVZDNfu1Qn3pk531e3q+nQ== }
+      { integrity: sha512-JgULma1mWaHlyJ67lvicyel5Cq+k55bXafE0gyvJBdHkH0vdE/IGGDF1glNyRInisNS6pZL2oho96S6Hw68kfQ== }
 
   async-retry@1.3.3:
     resolution:
@@ -5465,6 +5479,11 @@ packages:
       { integrity: sha512-TBw6K/fxoQGGjCmZDw9w/ZwP3uDcnTM4YH/g+PFRWr8sbe5idXtxNN6vITh4+1ruCZaho6uBFurElsA7F0zzgw== }
     hasBin: true
 
+  fast-xml-parser@5.12.0:
+    resolution:
+      { integrity: sha512-/pXxRBtwxY9w8z7YbgsvIPPcPvFDsTbIkWwTQJhzNJPokj+TbN6ftmcv4j/pEQDvOCNnKGDzuk5Bo2oogIOiFg== }
+    hasBin: true
+
   fastest-levenshtein@1.0.16:
     resolution:
       { integrity: sha512-eRnCtTTtGZFpQCwhJiUOuxPQWRXVKYDn0b2PeHfXL6/Zi53SLAzAHfVhVWK2AryC/WH05kGfxhFIPvTF0SXQzg== }
@@ -6434,6 +6453,10 @@ packages:
     resolution:
       { integrity: sha512-HgbIHPBH0KHHCcjLfGsCvhtPTVxjaAZlXjwdz7/GQC40SjSe4sfQsar8J5VFo8JOSbarkpV0OLG95bbaNd9aAQ== }
 
+  is-unsafe@2.0.3:
+    resolution:
+      { integrity: sha512-ZBllczCCO267vgdFb6Tq3pv+LhHaCiGMdr+ZsuL+OopruAg7S+3ZDs1vD0RPC0uSrkjzbraxaGjtX1YBxjPeFQ== }
+
   is-wsl@3.1.0:
     resolution:
       { integrity: sha512-UcVfVfaK4Sc4m7X3dUSoHoozQGBEFeDC+zVo06t98xe8CzHSZZBekNXH+tu0NalHolcJ/QAGqS46Hef7QXBIMw== }
@@ -6461,9 +6484,9 @@ packages:
       { integrity: sha512-FFUtZMpoZ8RqHS3XeXEmHWLA4thH+ZxCv2lOiPIn1Xc7CxrqhWzNSDzD+/chS/zbYezmiwWLdQC09JdQKmthOw== }
     engines: { node: '>=20' }
 
-  isomorphic-git@1.44.5:
+  isomorphic-git@1.44.12:
     resolution:
-      { integrity: sha512-AfyS9v44yZJA8g5hfsHVy54onuMyn97b4qJJCJiPh8KcJAIo/11hiKaANwQO4lu0Z3MKFGIe/9Kuf3sTRj4FBg== }
+      { integrity: sha512-Qfu5/YMcN1YyGqT3ZUmgFIlbj/bFwbwMbF4zlitrRGGyujyqtgMCOTy07mfca/iugH1ECpF6rlebFDceRs+MNg== }
     engines: { node: '>=14.17' }
     hasBin: true
 
@@ -8948,6 +8971,10 @@ packages:
     resolution:
       { integrity: sha512-rDG3Ah4TV0k1hWvLSzkZtMmLN9+eS+h3knq4MP6A42Y3Yh5qGNnOUs1jJkoSr8FG5dsL28c7KgkIBzSEykqtuw== }
 
+  strnum@2.5.1:
+    resolution:
+      { integrity: sha512-UM4nTLWzQiDBseVxUGxN0wJzIk0UU89Qi7pKXz9qISo+lhviJikTuikBsK/oFRlpvYHvSdz0TVoLyQ+sEpYwxA== }
+
   style-to-js@1.1.21:
     resolution:
       { integrity: sha512-RjQetxJrrUJLQPHbLku6U/ocGtzyjbJMP9lCNK7Ag0CNh690nSH8woqWH9u16nMjYBAok+i7JO1NP2pOy8IsPQ== }
@@ -9284,6 +9311,11 @@ packages:
   undici@8.12.3:
     resolution:
       { integrity: sha512-+fdndUTwBP86cVjihTp21hZHo7d6oj1c/47XPA3lL8mM0XHs+C4EkcjmgRsFnFk2f/UONGDy9ItBItmXsLOQHw== }
+    engines: { node: '>=22.19.0' }
+
+  undici@8.12.4:
+    resolution:
+      { integrity: sha512-8Mx+uNKKER2bA4AdtedkqRbwUCIJFr2nJckXRe5yrDqzePqwLP7VNcctN8/XdmDSbF7mS+jJKIszlL+vbam1VA== }
     engines: { node: '>=22.19.0' }
 
   unicorn-magic@0.3.0:
@@ -11266,6 +11298,19 @@ snapshots:
       undici: 8.12.3
       xml2js: 0.6.2
 
+  '@jsforce/jsforce-node@3.13.1':
+    dependencies:
+      '@sindresorhus/is': 4.6.0
+      base64url: 3.0.1
+      cross-spawn: 7.0.6
+      csv-parse: 7.0.3
+      csv-stringify: 6.9.0
+      faye: 1.4.3
+      form-data: 4.0.6
+      multistream: 3.1.0
+      undici: 8.12.4
+      xml2js: 0.6.2
+
   '@jsonjoy.com/base64@1.1.2(tslib@2.8.1)':
     dependencies:
       tslib: 2.8.1
@@ -11399,6 +11444,8 @@ snapshots:
     optional: true
 
   '@nodable/entities@3.0.0': {}
+
+  '@nodable/entities@3.1.0': {}
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -12049,9 +12096,9 @@ snapshots:
       '@salesforce/kit': 3.2.6
       '@salesforce/source-deploy-retrieve': 12.37.2(supports-color@8.1.1)
       '@salesforce/ts-types': 2.0.12
-      fast-xml-parser: 5.11.1
+      fast-xml-parser: 5.12.0
       graceful-fs: 4.2.11
-      isomorphic-git: 1.44.5
+      isomorphic-git: 1.44.12
       ts-retry-promise: 0.8.1
     transitivePeerDependencies:
       - supports-color
@@ -12218,28 +12265,28 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@simplysf/simply-apex-core@0.4.2(supports-color@8.1.1)':
+  '@simplysf/simply-apex-core@0.4.5(supports-color@8.1.1)':
     dependencies:
       '@salesforce/apex-node': 8.4.39
       '@salesforce/core': 8.32.6
       '@salesforce/kit': 3.2.6
       '@salesforce/source-deploy-retrieve': 12.37.2(supports-color@8.1.1)
-      '@simplysf/simply-core': 1.6.13
+      '@simplysf/simply-core': 1.7.0
       zod: 4.6.7
     transitivePeerDependencies:
       - supports-color
 
-  '@simplysf/simply-cicd-core@0.13.0(supports-color@8.1.1)':
+  '@simplysf/simply-cicd-core@0.15.0(supports-color@8.1.1)':
     dependencies:
       '@salesforce/core': 8.32.6
       '@salesforce/kit': 3.2.6
       '@salesforce/packaging': 4.27.8(supports-color@8.1.1)
       '@salesforce/source-deploy-retrieve': 12.37.2(supports-color@8.1.1)
       '@salesforce/source-tracking': 7.8.20(supports-color@8.1.1)
-      '@simplysf/simply-apex-core': 0.4.2(supports-color@8.1.1)
-      '@simplysf/simply-core': 1.6.13
-      '@simplysf/simply-package-core': 0.5.2(supports-color@8.1.1)
-      '@simplysf/simply-permissions-core': 0.10.4(supports-color@8.1.1)
+      '@simplysf/simply-apex-core': 0.4.5(supports-color@8.1.1)
+      '@simplysf/simply-core': 1.7.0
+      '@simplysf/simply-package-core': 0.5.5(supports-color@8.1.1)
+      '@simplysf/simply-permissions-core': 0.10.7(supports-color@8.1.1)
       chalk: 5.6.2
       execa: 8.0.1
       handlebars: 4.7.10
@@ -12279,6 +12326,17 @@ snapshots:
       fast-xml-parser: 5.11.1
       undici: 8.12.3
 
+  '@simplysf/simply-core@1.7.0':
+    dependencies:
+      '@jsforce/jsforce-node': 3.13.1
+      '@salesforce/core': 8.32.6
+      '@salesforce/kit': 3.2.6
+      csv-parse: 7.0.3
+      csv-stringify: 6.9.0
+      fast-xml-parser: 5.12.0
+      undici: 8.12.4
+      zod: 4.6.7
+
   '@simplysf/simply-data-core@0.3.12':
     dependencies:
       '@salesforce/core': 8.32.6
@@ -12305,12 +12363,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@simplysf/simply-package-core@0.5.2(supports-color@8.1.1)':
+  '@simplysf/simply-package-core@0.5.5(supports-color@8.1.1)':
     dependencies:
       '@salesforce/core': 8.32.6
       '@salesforce/kit': 3.2.6
       '@salesforce/packaging': 4.27.8(supports-color@8.1.1)
-      '@simplysf/simply-core': 1.6.13
+      '@simplysf/simply-core': 1.7.0
       zod: 4.6.7
     transitivePeerDependencies:
       - supports-color
@@ -12326,12 +12384,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@simplysf/simply-permissions-core@0.10.4(supports-color@8.1.1)':
+  '@simplysf/simply-permissions-core@0.10.7(supports-color@8.1.1)':
     dependencies:
       '@salesforce/source-deploy-retrieve': 12.37.2(supports-color@8.1.1)
-      '@simplysf/simply-core': 1.6.13
+      '@simplysf/simply-core': 1.7.0
       '@simplysf/simply-report': 1.0.8
-      fast-xml-parser: 5.11.1
+      fast-xml-parser: 5.12.0
       xmlbuilder2: 4.0.3
       zod: 4.6.7
     transitivePeerDependencies:
@@ -13184,7 +13242,7 @@ snapshots:
       - uploadthing
       - yaml
 
-  async-lock@1.4.1: {}
+  async-lock@1.5.0: {}
 
   async-retry@1.3.3:
     dependencies:
@@ -14427,6 +14485,15 @@ snapshots:
       strnum: 2.4.2
       xml-naming: 0.3.0
 
+  fast-xml-parser@5.12.0:
+    dependencies:
+      '@nodable/entities': 3.1.0
+      fast-xml-builder: 1.3.1
+      is-unsafe: 2.0.3
+      path-expression-matcher: 1.6.2
+      strnum: 2.5.1
+      xml-naming: 0.3.0
+
   fastest-levenshtein@1.0.16: {}
 
   fastq@1.20.3:
@@ -15386,6 +15453,8 @@ snapshots:
 
   is-unsafe@2.0.2: {}
 
+  is-unsafe@2.0.3: {}
+
   is-wsl@3.1.0:
     dependencies:
       is-inside-container: 1.0.0
@@ -15402,9 +15471,9 @@ snapshots:
 
   isexe@4.0.0: {}
 
-  isomorphic-git@1.44.5:
+  isomorphic-git@1.44.12:
     dependencies:
-      async-lock: 1.4.1
+      async-lock: 1.5.0
       clean-git-ref: 2.0.1
       crc-32: 1.2.2
       diff3: 0.0.3
@@ -15412,7 +15481,6 @@ snapshots:
       minimisted: 2.0.1
       pako: 1.0.11
       pify: 4.0.1
-      readable-stream: 4.7.0
       sha.js: 2.4.12
       simple-get: 4.0.1
 
@@ -18027,6 +18095,10 @@ snapshots:
     dependencies:
       anynum: 1.0.1
 
+  strnum@2.5.1:
+    dependencies:
+      anynum: 1.0.1
+
   style-to-js@1.1.21:
     dependencies:
       style-to-object: 1.0.14
@@ -18285,6 +18357,8 @@ snapshots:
   undici@8.10.1: {}
 
   undici@8.12.3: {}
+
+  undici@8.12.4: {}
 
   unicorn-magic@0.3.0: {}
 

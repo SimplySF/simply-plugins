@@ -6,7 +6,7 @@ Push source to the scratch org created by `build create-scratch`.
 
 Reads `SCRATCH_ORG_INFO.json` (written by `build create-scratch`), authenticates as that scratch org, strips metadata types the scratch org push doesn't support (Einstein Conversation Agent file types), and runs `sf project deploy start`. When `--scratch-org-source-dir` is given, also deploys the default package directory's `seedMetadata.path`, if declared in `sfdx-project.json`.
 
-Skipped automatically when `PACKAGE_CHANGED=FALSE` is set in the environment (see `build determine-package-changes`).
+Skipped automatically when `SIMPLY_CICD_PACKAGE_CHANGED=FALSE` (or the deprecated `PACKAGE_CHANGED=FALSE`) is set in the environment (see `build determine-package-changes`).
 
 # flags.ignore-warnings.summary
 

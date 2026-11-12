@@ -30,7 +30,7 @@ This command talks to the platform API directly — listing an org/group's repos
 - `--vcs-api-url` — **optional** override for a self-hosted instance whose API isn't at the provider's usual location. Falls back to `SIMPLY_CICD_VCS_API_URL`, then the deprecated `SFDX_DEPENDABOT_VCS_API_URL` (with a warning), then `CI_API_V4_URL` (GitLab CI's own built-in variable), so in a GitLab CI job you rarely need to set it at all.
 - `--root-group-id` — the group (GitLab) or organization (GitHub) to scan.
 
-Opt-in is per repository, via a repository-level CI variable named `SFDX_DEPENDABOT_ENABLED=TRUE` — a CI/CD variable on GitLab, an Actions variable on GitHub.
+Opt-in is per repository, via a repository-level CI variable named `SIMPLY_CICD_SFDX_DEPENDABOT_ENABLED=TRUE` (formerly `SFDX_DEPENDABOT_ENABLED`, now deprecated) — a CI/CD variable on GitLab, an Actions variable on GitHub.
 
 All of the flags above can also be set once as a `SIMPLY_CICD_*` environment variable — e.g. `SIMPLY_CICD_VCS_HOST`, `SIMPLY_CICD_VCS_PROVIDER`, `SIMPLY_CICD_VCS_TOKEN` — instead of repeating them on every command in a pipeline. See [Environment variables](/cicd/concepts/environment-variables/) for the full list and precedence rules.
 

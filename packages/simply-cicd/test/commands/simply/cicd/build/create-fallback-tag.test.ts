@@ -40,11 +40,13 @@ describe('build create-fallback-tag', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     delete process.env.PACKAGE_CHANGED;
+    delete process.env.SIMPLY_CICD_PACKAGE_CHANGED;
     vi.mocked(createFallbackTag).mockResolvedValue({ created: true, tag: 'v1.1.0-1', packageId: '04t123456789012' });
   });
 
   afterEach(() => {
     process.env.PACKAGE_CHANGED = originalPackageChanged;
+    delete process.env.SIMPLY_CICD_PACKAGE_CHANGED;
   });
 
   it('parses flags and delegates to createFallbackTag, defaulting --out and vcs-provider', async () => {
@@ -77,8 +79,8 @@ describe('build create-fallback-tag', () => {
     expect(createFallbackTag).not.toHaveBeenCalled();
   });
 
-  it('should skip create-fallback-tag if PACKAGE_CHANGED is TRUE', async () => {
-    process.env.PACKAGE_CHANGED = 'TRUE';
+  it('should skip create-fallback-tag if SIMPLY_CICD_PACKAGE_CHANGED is TRUE', async () => {
+    process.env.SIMPLY_CICD_PACKAGE_CHANGED = 'TRUE';
 
     const result = await BuildCreateFallbackTag.run(baseArgs);
 

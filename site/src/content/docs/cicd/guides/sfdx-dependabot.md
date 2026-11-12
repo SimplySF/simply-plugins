@@ -9,7 +9,7 @@ description: How the cross-repo 2GP dependency-bump command works, and how to op
 
 1. Scans every project under `--root-group-id` (a GitLab group ID or URL-encoded path), optionally narrowed with `--project-allowlist`/`--project-denylist`, and optionally skipping archived repos (`--skip-archived`) or forks (`--skip-forks`).
 2. For each project, reads `sfdx-project.json` and checks whether it declares a dependency on the package being bumped.
-3. **Requires the project to explicitly opt in** via a project-level CI/CD variable, `SFDX_DEPENDABOT_ENABLED=TRUE`. A project that depends on the package but hasn't set this variable is left untouched. This is a deliberate safety boundary — the command never modifies a downstream repository's dependencies just because it technically could.
+3. **Requires the project to explicitly opt in** via a project-level CI/CD variable, `SIMPLY_CICD_SFDX_DEPENDABOT_ENABLED=TRUE`. (The older `SFDX_DEPENDABOT_ENABLED` still works, with a warning, but is deprecated and will be removed in a future release.) A project that depends on the package but hasn't set this variable is left untouched. This is a deliberate safety boundary — the command never modifies a downstream repository's dependencies just because it technically could.
 4. For each eligible, opted-in project, opens a new merge request (or updates an existing open one with the same source/target branch) bumping the dependency version.
 
 ## Running it
@@ -49,4 +49,4 @@ Use `--max-projects` as a safety limit while testing against a large group, and 
 
 ## Opting a downstream repository in
 
-In the downstream project (not the package's own repo): Settings → CI/CD → Variables → add `SFDX_DEPENDABOT_ENABLED` = `TRUE`. Nothing else is required on that side — the next `sfdx-dependabot` run against the parent group will pick it up automatically as long as its `sfdx-project.json` declares the dependency.
+In the downstream project (not the package's own repo): Settings → CI/CD → Variables → add `SIMPLY_CICD_SFDX_DEPENDABOT_ENABLED` = `TRUE`. Nothing else is required on that side — the next `sfdx-dependabot` run against the parent group will pick it up automatically as long as its `sfdx-project.json` declares the dependency.

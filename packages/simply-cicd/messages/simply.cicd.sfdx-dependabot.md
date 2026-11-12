@@ -4,7 +4,7 @@ Automatically update downstream projects with a newly released Salesforce 2GP pa
 
 # description
 
-Discovers repositories under a group or organization, reads each one's `sfdx-project.json`, and for any repository that both depends on the released package and has opted in via the `SFDX_DEPENDABOT_ENABLED=TRUE` repository-level CI variable, opens (or updates) a change request bumping the dependency to the newly released version.
+Discovers repositories under a group or organization, reads each one's `sfdx-project.json`, and for any repository that both depends on the released package and has opted in via the `SIMPLY_CICD_SFDX_DEPENDABOT_ENABLED=TRUE` repository-level CI variable (the deprecated `SFDX_DEPENDABOT_ENABLED=TRUE` still works, with a warning, until a future release), opens (or updates) a change request bumping the dependency to the newly released version.
 
 Each eligible repository must explicitly opt in — this command never touches a downstream repository's dependencies without that variable set.
 
@@ -100,7 +100,7 @@ Missing root group or organization ID. Provide --root-group-id or set SIMPLY_CIC
 
 # error.missingSubscriberPackageVersionId
 
-Missing subscriber package version ID. Provide --subscriber-package-version-id or set SUBSCRIBER_PACKAGE_VERSION_ID.
+Missing subscriber package version ID. Provide --subscriber-package-version-id or set SIMPLY_CICD_BUILT_SUBSCRIBER_PACKAGE_VERSION_ID (written by build create-package-version).
 
 # error.missingDevhubUsername
 
