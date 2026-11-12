@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-plugin-kit%401.0.11...%40simplysf%2Fsimply-plugin-kit%401.1.0) (2026-11-12)
+
+### Features
+
+- move interactive prompts to @clack/prompts ([#140](https://github.com/SimplySF/simply-plugins/issues/140)) ([330b3b7](https://github.com/SimplySF/simply-plugins/commit/330b3b739129940bae1a4d6a49905274e9fe2363))
+
 ## [1.0.11](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-plugin-kit%401.0.10...%40simplysf%2Fsimply-plugin-kit%401.0.11) (2026-11-10)
 
 **Note:** Version bump only for package @simplysf/simply-plugin-kit
