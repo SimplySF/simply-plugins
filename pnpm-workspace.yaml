@@ -4,7 +4,7 @@ packages:
 onlyBuiltDependencies:
   - nx
 minimumReleaseAgeExclude:
-  - '@simplysf/simply-core@1.1.1 || 1.5.1 || 1.6.10 || 1.6.12 || 1.7.0'
+  - '@simplysf/simply-core@1.1.1 || 1.5.1 || 1.6.10 || 1.6.12 || 1.7.0 || 1.8.0'
   - '@simplysf/simply-data@2.3.4'
   - '@simplysf/simply-package@2.5.4'
   - eslint@10.9.0
@@ -21,7 +21,7 @@ minimumReleaseAgeExclude:
   - '@simplysf/simply-settings-core@0.2.0 || 0.3.0 || 0.3.1 || 0.3.2 || 0.3.3 || 0.3.7'
   - '@simplysf/simply-flow-core@0.1.0 || 0.2.1 || 0.2.2 || 0.2.6'
   - '@simplysf/simply-document-core@0.3.0 || 0.3.1'
-  - '@simplysf/simply-project-core@0.2.0'
+  - '@simplysf/simply-project-core@0.2.0 || 0.3.0'
 allowBuilds:
   esbuild: true
   nx: true

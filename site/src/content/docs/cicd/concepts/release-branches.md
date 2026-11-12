@@ -1,6 +1,6 @@
 ---
 title: 'Release branches'
-description: 'The branching strategy simply-cicd expects for packaged projects, and how to roll releases forward.'
+description: 'The branching strategy simply-cicd expects for packaged projects, and how to cut releases and roll them forward.'
 ---
 
 A packaged project is one repository holding one unlocked package. Each release branch is tied to one package version, such as `release/v1.2.0`, and the primary branch is itself one of these release branches rather than a literal `main`.
@@ -10,6 +10,28 @@ A packaged project is one repository holding one unlocked package. Each release 
 A branch counts as a release branch when its name contains the `--package-release-branch-prefix` value. Pushing to one runs [`build create-package-version`](/cicd/reference/build/), which creates a package version and tags the commit with an annotated tag holding its `04t` ID, such as `v1.2.0.5`. The tag's shape can be changed with the [version tag format](/cicd/concepts/sfdx-project-fields/).
 
 Because the prefix check is a "contains" check, a working branch shouldn't have the prefix anywhere in its name, or its builds will create package versions too.
+
+## Cutting a release
+
+A new release branch needs its version in two places: its name, and `versionNumber` in `sfdx-project.json`. Run [`project release create`](/plugins/simply-project/#sf-simply-project-release-create) on the release branch you're closing out to do both:
+
+```bash
+sf simply project release create --type minor --dry-run
+sf simply project release create --type minor
+```
+
+From `release/v1.2.0`, this creates `release/v1.3.0` from the remote's copy of the branch, so unpushed local commits stay out. It commits one change, `versionNumber` becoming `1.3.0.NEXT`, with the version in `versionName` updated to match, and pushes the branch. That push starts the build for the new release's first package version. Use `--type patch --source release/v1.2.0` to cut a hotfix line while newer releases exist.
+
+Two GitLab or GitHub steps are optional:
+
+```bash
+export SIMPLY_VCS_TOKEN=<api token>
+sf simply project release create --type minor --create-release --set-default
+```
+
+`--create-release` publishes a release for `v1.2.0` from its latest `v1.2.0.<build>` tag on the remote, skipping fallback tags. `--set-default` makes `release/v1.3.0` the project's default branch. The project ID comes from `--vcs-project-id`, `SIMPLY_VCS_PROJECT_ID`, or `vcs.projectId` in `.sfdevrc.json`.
+
+As with rolling forward, commit hooks always run, and `--message` takes a template, here with a `{VERSION}` placeholder. If a hook rejects the commit, nothing is pushed: commit by hand on the new branch, then run the command again from there.
 
 ## Versions in flight
 

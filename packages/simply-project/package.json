@@ -51,7 +51,7 @@
             "description": "Commands for working with Salesforce projects",
             "subtopics": {
               "release": {
-                "description": "Commands for maintaining release branches"
+                "description": "Commands for cutting release branches and rolling them forward"
               },
               "update": {
                 "description": "Commands for updating Salesforce project settings"
@@ -64,11 +64,13 @@
     "topicSeparator": " "
   },
   "dependencies": {
+    "@inquirer/prompts": "^7.10.1",
     "@oclif/core": "^4.11.2",
     "@salesforce/core": "^8.30.0",
     "@salesforce/kit": "^3.2.6",
     "@salesforce/sf-plugins-core": "^12.2.16",
-    "@simplysf/simply-project-core": "^0.2.0",
+    "@simplysf/simply-core": "^1.8.0",
+    "@simplysf/simply-project-core": "^0.3.0",
     "glob": "^13.0.6"
   },
   "devDependencies": {
