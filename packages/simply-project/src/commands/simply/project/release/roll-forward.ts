@@ -16,6 +16,7 @@
 
 import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
+import { confirm } from '@simplysf/simply-plugin-kit';
 import { rollForward, type RollForwardHop, type RollForwardResult } from '@simplysf/simply-project-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -77,8 +78,9 @@ export default class ProjectReleaseRollForward extends SfCommand<ProjectReleaseR
     return result;
   }
 
-  private async confirmPush(hops: RollForwardHop[]): Promise<boolean> {
+  // eslint-disable-next-line class-methods-use-this -- kept as a method so tests can stub the prompt
+  protected async confirmPush(hops: RollForwardHop[]): Promise<boolean> {
     const route = hops.map((hop) => `${hop.source} -> ${hop.target}`).join('\n');
-    return this.confirm({ message: messages.getMessage('confirm', [route, hops.length]) });
+    return confirm({ message: messages.getMessage('confirm', [route, hops.length]) });
   }
 }

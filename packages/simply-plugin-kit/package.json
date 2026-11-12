@@ -30,6 +30,7 @@
   "exports": "./lib/index.js",
   "type": "module",
   "dependencies": {
+    "@clack/prompts": "^1.8.1",
     "@oclif/core": "^4.11.2",
     "@salesforce/core": "^8.30.0",
     "@salesforce/sf-plugins-core": "^12.2.16"

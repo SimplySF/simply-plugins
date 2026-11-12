@@ -411,9 +411,6 @@ importers:
 
   packages/simply-package:
     dependencies:
-      '@inquirer/prompts':
-        specifier: ^7.10.1
-        version: 7.10.1(@types/node@26.6.5)
       '@oclif/core':
         specifier: ^4.11.2
         version: 4.14.0
@@ -497,6 +494,9 @@ importers:
 
   packages/simply-plugin-kit:
     dependencies:
+      '@clack/prompts':
+        specifier: ^1.8.1
+        version: 1.8.1
       '@oclif/core':
         specifier: ^4.11.2
         version: 4.14.0
@@ -516,9 +516,6 @@ importers:
 
   packages/simply-project:
     dependencies:
-      '@inquirer/prompts':
-        specifier: ^7.10.1
-        version: 7.10.1(@types/node@26.6.5)
       '@oclif/core':
         specifier: ^4.11.2
         version: 4.14.0
@@ -534,6 +531,9 @@ importers:
       '@simplysf/simply-core':
         specifier: ^1.8.0
         version: 1.8.0
+      '@simplysf/simply-plugin-kit':
+        specifier: workspace:^1.0.11
+        version: link:../simply-plugin-kit
       '@simplysf/simply-project-core':
         specifier: ^0.3.0
         version: 0.3.0
@@ -10341,7 +10341,7 @@ snapshots:
 
   '@clack/core@1.4.3':
     dependencies:
-      fast-wrap-ansi: 0.2.0
+      fast-wrap-ansi: 0.2.2
       sisteransi: 1.0.5
 
   '@clack/core@1.5.1':
@@ -10353,7 +10353,7 @@ snapshots:
     dependencies:
       '@clack/core': 1.4.3
       fast-string-width: 3.0.2
-      fast-wrap-ansi: 0.2.0
+      fast-wrap-ansi: 0.2.2
       sisteransi: 1.0.5
 
   '@clack/prompts@1.8.1':

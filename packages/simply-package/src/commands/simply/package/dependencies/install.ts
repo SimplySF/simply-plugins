@@ -16,7 +16,7 @@
 
 import fs from 'node:fs/promises';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
-import { requireConnection, targetOrgFlags } from '@simplysf/simply-plugin-kit';
+import { confirm, requireConnection, targetOrgFlags } from '@simplysf/simply-plugin-kit';
 import { Connection, Messages, Org } from '@salesforce/core';
 import { Duration } from '@salesforce/kit';
 import {
@@ -184,9 +184,9 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
     const prompts: InstallPackageDependenciesOptions['prompts'] = flags['no-prompt']
       ? undefined
       : {
-          confirmUpgradeTypeDelete: () => this.confirm({ message: messages.getMessage('prompt.upgradeType') }),
+          confirmUpgradeTypeDelete: () => confirm({ message: messages.getMessage('prompt.upgradeType') }),
           confirmEnableRss: (_packageName, externalSites) =>
-            this.confirm({ message: messages.getMessage('prompt.enableRss', [externalSites.join('\n')]) }),
+            confirm({ message: messages.getMessage('prompt.enableRss', [externalSites.join('\n')]) }),
         };
 
     const packagesToInstall = await installPackageDependencies({
