@@ -3187,6 +3187,7 @@ DESCRIPTION
   Back up SObject data to a CSV file.
 
   Describes the given SObject, queries every field via the Bulk API, and writes the results to a timestamped CSV file.
+  Id is always the first column; the rest are sorted alphabetically, including any relationship or additional fields.
 
 EXAMPLES
   $ sf simply sobject backup --target-org myOrg --sobject Account

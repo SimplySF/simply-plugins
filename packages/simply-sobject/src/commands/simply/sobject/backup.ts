@@ -90,7 +90,13 @@ export default class SObjectBackup extends SfCommand<SObjectBackupResult> {
 
     const additionalFields = flags['additional-fields'] ?? [];
 
-    const fieldsToQuery = [...new Set([...queryableFields, ...relationshipFields, ...additionalFields])];
+    // Pin Id as the first column, then sort every other field together, so relationship paths
+    // (e.g. RecordType.Name) and additional fields land alongside the SObject's own fields
+    // instead of trailing at the end of the CSV.
+    const isId = (field: string): boolean => field.toLowerCase() === 'id';
+    const fieldsToQuery = [...new Set([...queryableFields, ...relationshipFields, ...additionalFields])].sort(
+      (a, b) => Number(isId(b)) - Number(isId(a)) || a.localeCompare(b, 'en', { sensitivity: 'base' }),
+    );
 
     const soql = `SELECT ${fieldsToQuery.join(',')} FROM ${sobjectName}`;
 

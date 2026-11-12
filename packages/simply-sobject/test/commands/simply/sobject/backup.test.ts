@@ -142,11 +142,11 @@ describe('simply sobject backup', () => {
       expect(result.recordCount).to.equal(1);
 
       const [, soqlArg] = vi.mocked(simplyCore.queryRecords).mock.calls[0];
-      expect(soqlArg).to.equal('SELECT Id,Name,RecordTypeId,RecordType.Name,RecordType.DeveloperName FROM Account');
+      expect(soqlArg).to.equal('SELECT Id,Name,RecordType.DeveloperName,RecordType.Name,RecordTypeId FROM Account');
 
       const csvContent = fs.readFileSync(result.path, 'utf-8');
       expect(csvContent).to.equal(
-        'Id,Name,RecordTypeId,RecordType.Name,RecordType.DeveloperName\n001,Foo,012,Master,Master\n',
+        'Id,Name,RecordType.DeveloperName,RecordType.Name,RecordTypeId\n001,Foo,Master,Master,012\n',
       );
     } finally {
       fs.rmSync(outputDir, { recursive: true, force: true });
@@ -155,11 +155,11 @@ describe('simply sobject backup', () => {
 
   it('includes --additional-fields in the query and dedupes against existing fields', async () => {
     (Connection.prototype.request as unknown as SinonStub).resolves({
-      fields: [{ name: 'Id' }, { name: 'Name' }],
+      fields: [{ name: 'AccountNumber' }, { name: 'Id' }, { name: 'Name' }, { name: 'Phone' }],
     });
 
     vi.mocked(simplyCore.queryRecords).mockImplementation(async function* () {
-      yield { Id: '001', Name: 'Foo', 'Owner.Manager.Name': 'Bar' };
+      yield { AccountNumber: 'A1', Id: '001', Name: 'Foo', 'Owner.Manager.Name': 'Bar', Phone: '555' };
     });
 
     const outputDir = fs.mkdtempSync(path.join(os.tmpdir(), 'simply-sobject-backup-'));
@@ -179,7 +179,8 @@ describe('simply sobject backup', () => {
       ]);
 
       const [, soqlArg] = vi.mocked(simplyCore.queryRecords).mock.calls[0];
-      expect(soqlArg).to.equal('SELECT Id,Name,Owner.Manager.Name FROM Account');
+      // Id stays pinned first even though AccountNumber sorts before it alphabetically.
+      expect(soqlArg).to.equal('SELECT Id,AccountNumber,Name,Owner.Manager.Name,Phone FROM Account');
     } finally {
       fs.rmSync(outputDir, { recursive: true, force: true });
     }
