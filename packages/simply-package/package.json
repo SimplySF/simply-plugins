@@ -70,7 +70,6 @@
     "topicSeparator": " "
   },
   "dependencies": {
-    "@inquirer/prompts": "^7.10.1",
     "@oclif/core": "^4.11.2",
     "@salesforce/core": "^8.30.0",
     "@salesforce/kit": "^3.2.6",

@@ -16,3 +16,10 @@
 
 export { targetOrgFlags } from './flags/orgFlags.js';
 export { requireConnection, type TargetOrgFlagValues } from './org/requireConnection.js';
+export {
+  confirm,
+  select,
+  type ConfirmPromptOptions,
+  type SelectOption,
+  type SelectPromptOptions,
+} from './prompts/prompts.js';

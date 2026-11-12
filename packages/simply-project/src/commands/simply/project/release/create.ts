@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import { select } from '@inquirer/prompts';
 import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { VCS_PROVIDER_KINDS, type VcsProviderKind } from '@simplysf/simply-core';
+import { confirm, select } from '@simplysf/simply-plugin-kit';
 import {
   createRelease,
   RELEASE_TYPES,
@@ -132,21 +132,22 @@ export default class ProjectReleaseCreate extends SfCommand<ProjectReleaseCreate
   protected async promptForType(): Promise<ReleaseType> {
     return select<ReleaseType>({
       message: messages.getMessage('prompt.type'),
-      choices: RELEASE_TYPES.map((value) => ({
+      options: RELEASE_TYPES.map((value) => ({
         value,
-        name: value,
-        description: messages.getMessage(`type.${value}`),
+        label: value,
+        hint: messages.getMessage(`type.${value}`),
       })),
-      default: 'minor',
+      initialValue: 'minor',
     });
   }
 
-  private async confirmPlan(plan: CreateReleaseResult): Promise<boolean> {
+  // eslint-disable-next-line class-methods-use-this -- kept as a method so tests can stub the prompt
+  protected async confirmPlan(plan: CreateReleaseResult): Promise<boolean> {
     const steps = [
       ...(plan.release ? [messages.getMessage('confirm.release', [plan.release.name, plan.release.tagName])] : []),
       messages.getMessage('confirm.branch', [plan.branch, plan.source, plan.version]),
       ...(plan.defaultBranch ? [messages.getMessage('confirm.default', [plan.branch])] : []),
     ];
-    return this.confirm({ message: messages.getMessage('confirm', [steps.map((step) => `- ${step}`).join('\n')]) });
+    return confirm({ message: messages.getMessage('confirm', [steps.map((step) => `- ${step}`).join('\n')]) });
   }
 }

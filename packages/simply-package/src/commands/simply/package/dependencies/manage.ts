@@ -15,9 +15,9 @@
  */
 
 /* eslint-disable no-await-in-loop */
-import { select } from '@inquirer/prompts';
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import { Messages } from '@salesforce/core';
+import { select } from '@simplysf/simply-plugin-kit';
 import {
   buildProjectService,
   buildVersionService,
@@ -215,7 +215,7 @@ export default class PackageDependenciesManage extends SfCommand<PackageDependen
    */
   // eslint-disable-next-line class-methods-use-this
   protected async promptForVersion(message: string, choices: VersionChoice[]): Promise<string> {
-    return select({ message, choices, pageSize: 8 });
+    return select({ message, options: choices.map(({ value, name }) => ({ value, label: name })), maxItems: 8 });
   }
 }
 
