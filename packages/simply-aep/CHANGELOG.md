@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.17.5](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-aep%400.17.4...%40simplysf%2Fsimply-aep%400.17.5) (2026-11-12)
+
+**Note:** Version bump only for package @simplysf/simply-aep
+
 ## [0.17.4](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-aep%400.17.3...%40simplysf%2Fsimply-aep%400.17.4) (2026-11-10)
 
 **Note:** Version bump only for package @simplysf/simply-aep
