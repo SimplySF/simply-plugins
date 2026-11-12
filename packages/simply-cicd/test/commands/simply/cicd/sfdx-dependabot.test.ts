@@ -50,11 +50,16 @@ describe('sfdx-dependabot', () => {
 
   beforeEach(() => {
     originalEnv = { ...process.env };
-    process.env.SFDX_DEPENDABOT_VCS_API_URL = 'https://gitlab.example.com/api/v4';
-    process.env.SFDX_DEPENDABOT_VCS_TOKEN = 'test-token';
-    process.env.SFDX_DEPENDABOT_ROOT_GROUP_ID = '12345';
+    process.env.SIMPLY_CICD_VCS_API_URL = 'https://gitlab.example.com/api/v4';
+    process.env.SIMPLY_CICD_VCS_TOKEN = 'test-token';
+    process.env.SIMPLY_CICD_ROOT_GROUP_ID = '12345';
     process.env.SUBSCRIBER_PACKAGE_VERSION_ID = '04tSJ000000AKwjYAG';
-    process.env.PACKAGING_DEVHUB_USERNAME = 'hub@example.com';
+    process.env.SIMPLY_CICD_DEVHUB_USERNAME = 'hub@example.com';
+    for (const name of Object.keys(process.env).filter(
+      (key) => key.startsWith('SFDX_DEPENDABOT_') || key === 'PACKAGING_DEVHUB_USERNAME',
+    )) {
+      delete process.env[name];
+    }
     delete process.env.CI_PROJECT_PATH;
     delete process.env.CI_PROJECT_ID;
   });
@@ -75,8 +80,69 @@ describe('sfdx-dependabot', () => {
     });
 
     it('fails globally if a critical variable is missing', async () => {
-      delete process.env.SFDX_DEPENDABOT_VCS_TOKEN;
+      delete process.env.SIMPLY_CICD_VCS_TOKEN;
       await expect(SfdxDependabot.run([])).rejects.toThrow(/VCS access token/i);
+      await expect(SfdxDependabot.run([])).rejects.toThrow(/SIMPLY_CICD_VCS_TOKEN/);
+    });
+
+    describe('deprecated environment variables', () => {
+      const noProjects = (): void => {
+        fetchMock.mockImplementation((url: string) =>
+          Promise.resolve(
+            url.includes('/groups/12345/projects')
+              ? jsonResponse([])
+              : jsonResponse('Not Found', { ok: false, status: 404, statusText: 'Not Found' }),
+          ),
+        );
+      };
+
+      it('still reads SFDX_DEPENDABOT_* and PACKAGING_DEVHUB_USERNAME, warning about each one used', async () => {
+        noProjects();
+        delete process.env.SIMPLY_CICD_VCS_TOKEN;
+        delete process.env.SIMPLY_CICD_ROOT_GROUP_ID;
+        delete process.env.SIMPLY_CICD_DEVHUB_USERNAME;
+        process.env.SFDX_DEPENDABOT_VCS_TOKEN = 'legacy-token';
+        process.env.SFDX_DEPENDABOT_ROOT_GROUP_ID = '12345';
+        process.env.PACKAGING_DEVHUB_USERNAME = 'legacy-hub@example.com';
+        process.env.SFDX_DEPENDABOT_DRY_RUN = 'true';
+        const warn = vi.spyOn(SfdxDependabot.prototype, 'warn');
+
+        const result = await SfdxDependabot.run([]);
+
+        expect(result.dryRun).toBe(true);
+        expect(resolvePackageDetails).toHaveBeenCalledWith('legacy-hub@example.com', '04tSJ000000AKwjYAG');
+        const warnings = warn.mock.calls.map(([message]) => (typeof message === 'string' ? message : message.message));
+        expect(warnings).toStrictEqual([
+          'SFDX_DEPENDABOT_VCS_TOKEN is deprecated and will be removed in a future release. Set SIMPLY_CICD_VCS_TOKEN (or pass --vcs-token) instead.',
+          'SFDX_DEPENDABOT_ROOT_GROUP_ID is deprecated and will be removed in a future release. Set SIMPLY_CICD_ROOT_GROUP_ID (or pass --root-group-id) instead.',
+          'PACKAGING_DEVHUB_USERNAME is deprecated and will be removed in a future release. Set SIMPLY_CICD_DEVHUB_USERNAME (or pass --devhub-username) instead.',
+          'SFDX_DEPENDABOT_DRY_RUN is deprecated and will be removed in a future release. Set SIMPLY_CICD_DRY_RUN (or pass --dry-run) instead.',
+        ]);
+      });
+
+      it('prefers the SIMPLY_CICD_ variable and ignores the deprecated one without a warning', async () => {
+        noProjects();
+        process.env.PACKAGING_DEVHUB_USERNAME = 'legacy-hub@example.com';
+        process.env.SFDX_DEPENDABOT_DRY_RUN = 'false';
+        process.env.SIMPLY_CICD_DRY_RUN = 'true';
+        const warn = vi.spyOn(SfdxDependabot.prototype, 'warn');
+
+        const result = await SfdxDependabot.run([]);
+
+        expect(result.dryRun).toBe(true);
+        expect(resolvePackageDetails).toHaveBeenCalledWith('hub@example.com', '04tSJ000000AKwjYAG');
+        expect(warn).not.toHaveBeenCalled();
+      });
+
+      it('ignores the deprecated variable when the flag is passed', async () => {
+        noProjects();
+        process.env.SFDX_DEPENDABOT_MAX_PROJECTS = '1';
+        const warn = vi.spyOn(SfdxDependabot.prototype, 'warn');
+
+        await SfdxDependabot.run(['--max-projects', '5']);
+
+        expect(warn).not.toHaveBeenCalled();
+      });
     });
 
     it('executes dry-run flawlessly with zero write calls', async () => {

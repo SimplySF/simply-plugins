@@ -8,6 +8,8 @@ Discovers repositories under a group or organization, reads each one's `sfdx-pro
 
 Each eligible repository must explicitly opt in — this command never touches a downstream repository's dependencies without that variable set.
 
+Every flag can also be set through the `SIMPLY_CICD_` environment variable shown in its help. The older `SFDX_DEPENDABOT_*` variables (and `PACKAGING_DEVHUB_USERNAME` for `--devhub-username`) are deprecated: they are still read when neither the flag nor its `SIMPLY_CICD_` variable is set, with a warning, and will be removed in a future release.
+
 # flags.vcs-host.summary
 
 Hostname of the VCS instance hosting the downstream projects.
@@ -22,7 +24,7 @@ Base URL of the VCS platform's API.
 
 # flags.vcs-api-url.description
 
-Only needed for self-hosted instances whose API is not at the provider's usual location. Falls back to the SFDX_DEPENDABOT_VCS_API_URL or CI_API_V4_URL environment variables if not provided.
+Only needed for self-hosted instances whose API is not at the provider's usual location. Falls back to the SIMPLY_CICD_VCS_API_URL environment variable, then the deprecated SFDX_DEPENDABOT_VCS_API_URL, then GitLab's CI_API_V4_URL.
 
 # flags.vcs-token.summary
 
@@ -90,11 +92,11 @@ The source-control-hosting platform to talk to.
 
 # error.missingVcsToken
 
-Missing VCS access token. Provide --vcs-token or set SFDX_DEPENDABOT_VCS_TOKEN.
+Missing VCS access token. Provide --vcs-token or set SIMPLY_CICD_VCS_TOKEN.
 
 # error.missingRootGroupId
 
-Missing root group or organization ID. Provide --root-group-id or set SFDX_DEPENDABOT_ROOT_GROUP_ID.
+Missing root group or organization ID. Provide --root-group-id or set SIMPLY_CICD_ROOT_GROUP_ID.
 
 # error.missingSubscriberPackageVersionId
 
@@ -102,7 +104,7 @@ Missing subscriber package version ID. Provide --subscriber-package-version-id o
 
 # error.missingDevhubUsername
 
-Missing DevHub username/alias. Provide --devhub-username or set PACKAGING_DEVHUB_USERNAME.
+Missing DevHub username/alias. Provide --devhub-username or set SIMPLY_CICD_DEVHUB_USERNAME.
 
 # info.starting
 
@@ -111,3 +113,7 @@ Starting SFDX Project Dependabot execution...
 # info.dryRun
 
 Executing in DRY-RUN mode. No changes will be written or committed.
+
+# warning.deprecatedEnvVar
+
+%s is deprecated and will be removed in a future release. Set %s (or pass --%s) instead.

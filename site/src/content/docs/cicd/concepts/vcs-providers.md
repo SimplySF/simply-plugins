@@ -26,8 +26,8 @@ Providers derive their own API base URL from the host — `https://<host>/api/v4
 
 This command talks to the platform API directly — listing an org/group's repositories, reading each `sfdx-project.json`, opening change requests — rather than just building git remote URLs, so it takes a couple of extra flags:
 
-- `--vcs-token` — as above. Falls back to `SIMPLY_CICD_VCS_TOKEN`, then `SFDX_DEPENDABOT_VCS_TOKEN`.
-- `--vcs-api-url` — **optional** override for a self-hosted instance whose API isn't at the provider's usual location. Falls back to `SIMPLY_CICD_VCS_API_URL`, then `SFDX_DEPENDABOT_VCS_API_URL`, then `CI_API_V4_URL` (GitLab CI's own built-in variable), so in a GitLab CI job you rarely need to set it at all.
+- `--vcs-token` — as above. Falls back to `SIMPLY_CICD_VCS_TOKEN`, then the deprecated `SFDX_DEPENDABOT_VCS_TOKEN` (with a warning; to be removed in a future release).
+- `--vcs-api-url` — **optional** override for a self-hosted instance whose API isn't at the provider's usual location. Falls back to `SIMPLY_CICD_VCS_API_URL`, then the deprecated `SFDX_DEPENDABOT_VCS_API_URL` (with a warning), then `CI_API_V4_URL` (GitLab CI's own built-in variable), so in a GitLab CI job you rarely need to set it at all.
 - `--root-group-id` — the group (GitLab) or organization (GitHub) to scan.
 
 Opt-in is per repository, via a repository-level CI variable named `SFDX_DEPENDABOT_ENABLED=TRUE` — a CI/CD variable on GitLab, an Actions variable on GitHub.

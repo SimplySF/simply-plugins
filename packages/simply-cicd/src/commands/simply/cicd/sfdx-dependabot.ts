@@ -37,6 +37,29 @@ Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-cicd', 'simply.cicd.sfdx-dependabot');
 
 /**
+ * The environment variable each flag fell back to before its `SIMPLY_CICD_` one. Still read when
+ * neither the flag nor its `SIMPLY_CICD_` variable is set, with a deprecation warning; removed in a
+ * future release.
+ */
+const LEGACY_FLAG_ENV_VARS = {
+  'vcs-api-url': 'SFDX_DEPENDABOT_VCS_API_URL',
+  'vcs-token': 'SFDX_DEPENDABOT_VCS_TOKEN',
+  'root-group-id': 'SFDX_DEPENDABOT_ROOT_GROUP_ID',
+  'devhub-username': 'PACKAGING_DEVHUB_USERNAME',
+  'dry-run': 'SFDX_DEPENDABOT_DRY_RUN',
+  'project-allowlist': 'SFDX_DEPENDABOT_PROJECT_ALLOWLIST',
+  'project-denylist': 'SFDX_DEPENDABOT_PROJECT_DENYLIST',
+  'skip-archived': 'SFDX_DEPENDABOT_SKIP_ARCHIVED',
+  'skip-forks': 'SFDX_DEPENDABOT_SKIP_FORKS',
+  'branch-prefix': 'SFDX_DEPENDABOT_BRANCH_PREFIX',
+  'change-request-labels': 'SFDX_DEPENDABOT_CHANGE_REQUEST_LABELS',
+  'fail-on-error': 'SFDX_DEPENDABOT_FAIL_ON_ERROR',
+  'max-projects': 'SFDX_DEPENDABOT_MAX_PROJECTS',
+} as const;
+
+type LegacyEnvFlag = keyof typeof LEGACY_FLAG_ENV_VARS;
+
+/**
  * Discovers downstream repositories that depend on a just-released Salesforce 2GP package,
  * opens or updates a merge request bumping each opted-in repository to the new version.
  */
@@ -120,17 +143,19 @@ export default class SfdxDependabot extends SfCommand<SfdxDependabotSummary> {
   public async run(): Promise<SfdxDependabotSummary> {
     const { flags } = await this.parse(SfdxDependabot);
 
+    // A deprecated variable is only consulted, and only warned about, when its flag is unset.
+    const legacy = (flag: LegacyEnvFlag): string | undefined =>
+      flags[flag] === undefined ? this.readLegacyEnv(flag) : undefined;
+
     // Only needed for self-hosted instances; otherwise the provider derives its own API URL.
-    const vcsApiUrl = resolveOptionalString(flags['vcs-api-url'], [
-      process.env.SFDX_DEPENDABOT_VCS_API_URL,
-      process.env.CI_API_V4_URL,
-    ]);
-    const vcsToken = resolveOptionalString(flags['vcs-token'], [process.env.SFDX_DEPENDABOT_VCS_TOKEN]);
-    const rootGroupId = resolveOptionalString(flags['root-group-id'], [process.env.SFDX_DEPENDABOT_ROOT_GROUP_ID]);
+    const vcsApiUrl = resolveOptionalString(flags['vcs-api-url'], [legacy('vcs-api-url'), process.env.CI_API_V4_URL]);
+    const vcsToken = resolveOptionalString(flags['vcs-token'], [legacy('vcs-token')]);
+    const rootGroupId = resolveOptionalString(flags['root-group-id'], [legacy('root-group-id')]);
     const subscriberPackageVersionId = resolveOptionalString(flags['subscriber-package-version-id'], [
       process.env.SUBSCRIBER_PACKAGE_VERSION_ID,
     ]);
-    const devhubUsername = resolveOptionalString(flags['devhub-username'], [process.env.PACKAGING_DEVHUB_USERNAME]);
+    const devhubUsername = resolveOptionalString(flags['devhub-username'], [legacy('devhub-username')]);
+    const legacyMaxProjects = legacy('max-projects');
 
     if (!vcsToken) {
       throw messages.createError('error.missingVcsToken');
@@ -152,25 +177,15 @@ export default class SfdxDependabot extends SfCommand<SfdxDependabotSummary> {
       rootGroupId,
       subscriberPackageVersionId,
       devhubUsername,
-      dryRun: resolveBoolean(flags['dry-run'], process.env.SFDX_DEPENDABOT_DRY_RUN, false),
-      projectAllowlist: resolveString(flags['project-allowlist'], [process.env.SFDX_DEPENDABOT_PROJECT_ALLOWLIST]),
-      projectDenylist: resolveString(flags['project-denylist'], [process.env.SFDX_DEPENDABOT_PROJECT_DENYLIST]),
-      skipArchived: resolveBoolean(flags['skip-archived'], process.env.SFDX_DEPENDABOT_SKIP_ARCHIVED, true),
-      skipForks: resolveBoolean(flags['skip-forks'], process.env.SFDX_DEPENDABOT_SKIP_FORKS, true),
-      branchPrefix: resolveString(
-        flags['branch-prefix'],
-        [process.env.SFDX_DEPENDABOT_BRANCH_PREFIX],
-        'devops/dependabot',
-      ),
-      changeRequestLabels: resolveString(flags['change-request-labels'], [
-        process.env.SFDX_DEPENDABOT_CHANGE_REQUEST_LABELS,
-      ]),
-      failOnError: resolveBoolean(flags['fail-on-error'], process.env.SFDX_DEPENDABOT_FAIL_ON_ERROR, false),
-      maxProjects:
-        flags['max-projects'] ??
-        (process.env.SFDX_DEPENDABOT_MAX_PROJECTS !== undefined
-          ? Number(process.env.SFDX_DEPENDABOT_MAX_PROJECTS)
-          : undefined),
+      dryRun: resolveBoolean(flags['dry-run'], legacy('dry-run'), false),
+      projectAllowlist: resolveString(flags['project-allowlist'], [legacy('project-allowlist')]),
+      projectDenylist: resolveString(flags['project-denylist'], [legacy('project-denylist')]),
+      skipArchived: resolveBoolean(flags['skip-archived'], legacy('skip-archived'), true),
+      skipForks: resolveBoolean(flags['skip-forks'], legacy('skip-forks'), true),
+      branchPrefix: resolveString(flags['branch-prefix'], [legacy('branch-prefix')], 'devops/dependabot'),
+      changeRequestLabels: resolveString(flags['change-request-labels'], [legacy('change-request-labels')]),
+      failOnError: resolveBoolean(flags['fail-on-error'], legacy('fail-on-error'), false),
+      maxProjects: flags['max-projects'] ?? (legacyMaxProjects !== undefined ? Number(legacyMaxProjects) : undefined),
     };
 
     logger.info(messages.getMessage('info.starting'));
@@ -240,6 +255,16 @@ export default class SfdxDependabot extends SfCommand<SfdxDependabotSummary> {
     }
 
     return summary;
+  }
+
+  /** Read a flag's deprecated environment variable, warning (and naming its replacement) when it's set. */
+  private readLegacyEnv(flag: LegacyEnvFlag): string | undefined {
+    const legacyName = LEGACY_FLAG_ENV_VARS[flag];
+    const value = process.env[legacyName];
+    if (value !== undefined) {
+      this.warn(messages.getMessage('warning.deprecatedEnvVar', [legacyName, SfdxDependabot.flags[flag].env, flag]));
+    }
+    return value;
   }
 
   private logSummary(summary: SfdxDependabotSummary): void {
