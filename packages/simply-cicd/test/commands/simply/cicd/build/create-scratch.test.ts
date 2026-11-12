@@ -31,11 +31,13 @@ describe('build create-scratch', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     delete process.env.PACKAGE_CHANGED;
+    delete process.env.SIMPLY_CICD_PACKAGE_CHANGED;
     vi.mocked(createScratchOrg).mockResolvedValue({ username: 'scratch@test', warnings: [] });
   });
 
   afterEach(() => {
     process.env.PACKAGE_CHANGED = originalPackageChanged;
+    delete process.env.SIMPLY_CICD_PACKAGE_CHANGED;
   });
 
   it('parses --dev-hub aliases and delegates to createScratchOrg', async () => {
@@ -63,8 +65,8 @@ describe('build create-scratch', () => {
     expect(createScratchOrg).not.toHaveBeenCalled();
   });
 
-  it('skips when PACKAGE_CHANGED is FALSE', async () => {
-    process.env.PACKAGE_CHANGED = 'FALSE';
+  it('skips when SIMPLY_CICD_PACKAGE_CHANGED is FALSE', async () => {
+    process.env.SIMPLY_CICD_PACKAGE_CHANGED = 'FALSE';
 
     const result = await BuildCreateScratch.run(baseArgs);
 

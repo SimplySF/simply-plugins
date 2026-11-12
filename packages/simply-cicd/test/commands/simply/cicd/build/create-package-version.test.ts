@@ -46,11 +46,13 @@ describe('build create-package-version', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     delete process.env.PACKAGE_CHANGED;
+    delete process.env.SIMPLY_CICD_PACKAGE_CHANGED;
     vi.mocked(createPackageVersion).mockResolvedValue(undefined);
   });
 
   afterEach(() => {
     process.env.PACKAGE_CHANGED = originalPackageChanged;
+    delete process.env.SIMPLY_CICD_PACKAGE_CHANGED;
   });
 
   it('parses flags and delegates to createPackageVersion, defaulting vcs-provider/code-coverage-minimum', async () => {
@@ -86,8 +88,8 @@ describe('build create-package-version', () => {
     expect(createPackageVersion).not.toHaveBeenCalled();
   });
 
-  it('skips when PACKAGE_CHANGED is FALSE', async () => {
-    process.env.PACKAGE_CHANGED = 'FALSE';
+  it('skips when SIMPLY_CICD_PACKAGE_CHANGED is FALSE', async () => {
+    process.env.SIMPLY_CICD_PACKAGE_CHANGED = 'FALSE';
 
     const result = await BuildCreatePackageVersion.run(baseArgs);
 

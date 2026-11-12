@@ -29,11 +29,13 @@ describe('build push-scratch', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     delete process.env.PACKAGE_CHANGED;
+    delete process.env.SIMPLY_CICD_PACKAGE_CHANGED;
     vi.mocked(pushToScratch).mockResolvedValue(undefined);
   });
 
   afterEach(() => {
     process.env.PACKAGE_CHANGED = originalPackageChanged;
+    delete process.env.SIMPLY_CICD_PACKAGE_CHANGED;
   });
 
   it('delegates to pushToScratch with parsed flags', async () => {
@@ -61,8 +63,8 @@ describe('build push-scratch', () => {
     expect(pushToScratch).not.toHaveBeenCalled();
   });
 
-  it('skips when PACKAGE_CHANGED is FALSE', async () => {
-    process.env.PACKAGE_CHANGED = 'FALSE';
+  it('skips when SIMPLY_CICD_PACKAGE_CHANGED is FALSE', async () => {
+    process.env.SIMPLY_CICD_PACKAGE_CHANGED = 'FALSE';
 
     const result = await BuildPushScratch.run(['--jwt-key-file', 'key.file']);
 

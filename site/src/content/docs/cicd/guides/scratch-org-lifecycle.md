@@ -71,7 +71,7 @@ Every job that touches the scratch org's own identity (`install-dependencies`/`p
 
 ## Skipping work when nothing changed
 
-Every command in this lifecycle except `create-scratch` itself checks `PACKAGE_CHANGED` in the environment and no-ops when it's `FALSE` — see [`build determine-package-changes`](/cicd/reference/build/), which should run earlier in the pipeline and feed its `changes.env` output into every job below it via a `dotenv` artifact. This is what keeps a CI pipeline from spinning up a scratch org, pushing source, and running the full test suite on a commit that touched nothing package-relevant (e.g. only docs or CI config changes).
+Every command in this lifecycle except `create-scratch` itself checks `SIMPLY_CICD_PACKAGE_CHANGED` (or the deprecated `PACKAGE_CHANGED`) in the environment and no-ops when it's `FALSE` — see [`build determine-package-changes`](/cicd/reference/build/), which should run earlier in the pipeline and feed its `changes.env` output into every job below it via a `dotenv` artifact. This is what keeps a CI pipeline from spinning up a scratch org, pushing source, and running the full test suite on a commit that touched nothing package-relevant (e.g. only docs or CI config changes).
 
 ## Housekeeping: cleaning up abandoned orgs
 

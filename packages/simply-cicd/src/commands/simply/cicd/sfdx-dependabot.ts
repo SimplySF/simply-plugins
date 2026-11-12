@@ -18,11 +18,13 @@ import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import {
   applyMaxProjectsLimit,
+  CICD_ENV_VARS,
   createVcsProvider,
   discoverEligibleProjects,
   listVcsProviderKinds,
   logger,
   processProject,
+  readCicdEnvVar,
   resolveBoolean,
   type ResolvedOptions,
   resolveOptionalString,
@@ -151,9 +153,10 @@ export default class SfdxDependabot extends SfCommand<SfdxDependabotSummary> {
     const vcsApiUrl = resolveOptionalString(flags['vcs-api-url'], [legacy('vcs-api-url'), process.env.CI_API_V4_URL]);
     const vcsToken = resolveOptionalString(flags['vcs-token'], [legacy('vcs-token')]);
     const rootGroupId = resolveOptionalString(flags['root-group-id'], [legacy('root-group-id')]);
-    const subscriberPackageVersionId = resolveOptionalString(flags['subscriber-package-version-id'], [
-      process.env.SUBSCRIBER_PACKAGE_VERSION_ID,
-    ]);
+    // The 04t `build create-package-version` wrote to its dotenv report. readCicdEnvVar falls back to the
+    // deprecated SUBSCRIBER_PACKAGE_VERSION_ID, with a warning, when only that is set.
+    const subscriberPackageVersionId =
+      flags['subscriber-package-version-id'] ?? readCicdEnvVar(CICD_ENV_VARS.builtSubscriberPackageVersionId)?.value;
     const devhubUsername = resolveOptionalString(flags['devhub-username'], [legacy('devhub-username')]);
     const legacyMaxProjects = legacy('max-projects');
 

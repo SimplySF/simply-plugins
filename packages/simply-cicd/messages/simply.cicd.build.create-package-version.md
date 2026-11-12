@@ -8,7 +8,7 @@ Skips entirely (without error) when the pipeline was triggered by a merge reques
 
 The tag is `v<major>.<minor>.<patch>.<build>` by default. A project can choose its own shape with a `plugins.simply.versionTagFormat` template in `sfdx-project.json`, or the `SIMPLY_CICD_VERSION_TAG_FORMAT` environment variable (which overrides it) — e.g. `{MAJOR}.{MINOR}.{PATCH}+{BUILD}` tags `1.2.3.4` as `1.2.3+4`. Each of `{MAJOR}`, `{MINOR}`, `{PATCH}`, and `{BUILD}` must appear exactly once, and the format is validated before any package version is created. Unless this is a release-branch build, the package directory's `branch` attribute or the CI ref is appended as `-<suffix>` after the formatted version.
 
-Skipped automatically when `PACKAGE_CHANGED=FALSE` is set in the environment (see `build determine-package-changes`).
+Skipped automatically when `SIMPLY_CICD_PACKAGE_CHANGED=FALSE` (or the deprecated `PACKAGE_CHANGED=FALSE`) is set in the environment (see `build determine-package-changes`).
 
 # flags.ci-commit-sha.summary
 

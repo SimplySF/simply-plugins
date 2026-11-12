@@ -40,7 +40,7 @@ EXAMPLES
   $ sf simply cicd build check-permission-sets
 ```
 
-_See code: [lib/commands/simply/cicd/build/check-permission-sets.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/check-permission-sets.js)_
+_See code: [lib/commands/simply/cicd/build/check-permission-sets.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.25.1/packages/simply-cicd/lib/commands/simply/cicd/build/check-permission-sets.js)_
 
 ## `sf simply cicd build cleanup-scratch-orgs`
 
@@ -71,7 +71,7 @@ EXAMPLES
   $ sf simply cicd build cleanup-scratch-orgs --dev-hub my-devhub
 ```
 
-_See code: [lib/commands/simply/cicd/build/cleanup-scratch-orgs.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/cleanup-scratch-orgs.js)_
+_See code: [lib/commands/simply/cicd/build/cleanup-scratch-orgs.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.25.1/packages/simply-cicd/lib/commands/simply/cicd/build/cleanup-scratch-orgs.js)_
 
 ## `sf simply cicd build create-fallback-tag`
 
@@ -121,14 +121,14 @@ DESCRIPTION
   create-package-version` just created and tagged a real package version earlier in the same job. This also keeps a
   retried job from adding a second fallback tag to the same commit.
 
-  Skipped automatically when `PACKAGE_CHANGED=TRUE` is set in the environment (see `build determine-package-changes`) —
-  a real package version will be created instead.
+  Skipped automatically when `SIMPLY_CICD_PACKAGE_CHANGED=TRUE` (or the deprecated `PACKAGE_CHANGED=TRUE`) is set in the
+  environment (see `build determine-package-changes`) — a real package version will be created instead.
 
 EXAMPLES
   $ sf simply cicd build create-fallback-tag --ci-commit-ref-name main --ci-project-path group/project --project-access-token glpat-... --ci-pipeline-id 123
 ```
 
-_See code: [lib/commands/simply/cicd/build/create-fallback-tag.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/create-fallback-tag.js)_
+_See code: [lib/commands/simply/cicd/build/create-fallback-tag.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.25.1/packages/simply-cicd/lib/commands/simply/cicd/build/create-fallback-tag.js)_
 
 ## `sf simply cicd build create-package-version`
 
@@ -195,13 +195,14 @@ DESCRIPTION
   is created. Unless this is a release-branch build, the package directory's `branch` attribute or the CI ref is
   appended as `-<suffix>` after the formatted version.
 
-  Skipped automatically when `PACKAGE_CHANGED=FALSE` is set in the environment (see `build determine-package-changes`).
+  Skipped automatically when `SIMPLY_CICD_PACKAGE_CHANGED=FALSE` (or the deprecated `PACKAGE_CHANGED=FALSE`) is set in
+  the environment (see `build determine-package-changes`).
 
 EXAMPLES
   $ sf simply cicd build create-package-version --ci-commit-ref-name main --ci-commit-sha a1b2c3d --ci-pipeline-id 123 --ci-pipeline-url https://gitlab.example.com/pipelines/123 --ci-project-path group/project --project-access-token glpat-... --packaging-devhub my-packaging-devhub
 ```
 
-_See code: [lib/commands/simply/cicd/build/create-package-version.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/create-package-version.js)_
+_See code: [lib/commands/simply/cicd/build/create-package-version.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.25.1/packages/simply-cicd/lib/commands/simply/cicd/build/create-package-version.js)_
 
 ## `sf simply cicd build create-scratch`
 
@@ -237,13 +238,14 @@ DESCRIPTION
   later build steps, best-effort sets a default `CountryCode`, and assigns any permission sets/licenses declared under
   the default package directory's `packageMetadataAccess`.
 
-  Skipped automatically when `PACKAGE_CHANGED=FALSE` is set in the environment (see `build determine-package-changes`).
+  Skipped automatically when `SIMPLY_CICD_PACKAGE_CHANGED=FALSE` (or the deprecated `PACKAGE_CHANGED=FALSE`) is set in
+  the environment (see `build determine-package-changes`).
 
 EXAMPLES
   $ sf simply cicd build create-scratch --dev-hub my-devhub
 ```
 
-_See code: [lib/commands/simply/cicd/build/create-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/create-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/create-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.25.1/packages/simply-cicd/lib/commands/simply/cicd/build/create-scratch.js)_
 
 ## `sf simply cicd build delete-scratch`
 
@@ -276,13 +278,14 @@ DESCRIPTION
   than thrown, since a scratch org left behind after a failed deletion just needs manual cleanup and shouldn't fail an
   otherwise-successful pipeline run.
 
-  Skipped automatically when `PACKAGE_CHANGED=FALSE` is set in the environment (see `build determine-package-changes`).
+  Skipped automatically when `SIMPLY_CICD_PACKAGE_CHANGED=FALSE` (or the deprecated `PACKAGE_CHANGED=FALSE`) is set in
+  the environment (see `build determine-package-changes`).
 
 EXAMPLES
   $ sf simply cicd build delete-scratch --dev-hub my-devhub
 ```
 
-_See code: [lib/commands/simply/cicd/build/delete-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/delete-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/delete-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.25.1/packages/simply-cicd/lib/commands/simply/cicd/build/delete-scratch.js)_
 
 ## `sf simply cicd build determine-package-changes`
 
@@ -307,15 +310,16 @@ DESCRIPTION
   Reads the default package directory from `sfdx-project.json`, finds the closest reachable git tag for its
   `major.minor.patch` (in `SIMPLY_CICD_VERSION_TAG_FORMAT` or the project's `plugins.simply.versionTagFormat`,
   `v<major>.<minor>.<patch>.*` by default), and diffs that tag against `HEAD` for the package directory and
-  `sfdx-project.json` itself. Writes `PACKAGE_CHANGED=TRUE|FALSE` and `LAST_TAG=<tag>` to the output file. Any failure
-  during detection (missing/invalid sfdx-project.json, git errors) defaults to `PACKAGE_CHANGED=TRUE`, so a build never
-  silently skips work it should have done.
+  `sfdx-project.json` itself. Writes `SIMPLY_CICD_PACKAGE_CHANGED=TRUE|FALSE` and `SIMPLY_CICD_LAST_TAG=<tag>` to the
+  output file, followed by the same values under the deprecated names `PACKAGE_CHANGED` and `LAST_TAG`, which will be
+  removed in a future release. Any failure during detection (missing/invalid sfdx-project.json, git errors) defaults to
+  `SIMPLY_CICD_PACKAGE_CHANGED=TRUE`, so a build never silently skips work it should have done.
 
 EXAMPLES
   $ sf simply cicd build determine-package-changes --out changes.env
 ```
 
-_See code: [lib/commands/simply/cicd/build/determine-package-changes.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/determine-package-changes.js)_
+_See code: [lib/commands/simply/cicd/build/determine-package-changes.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.25.1/packages/simply-cicd/lib/commands/simply/cicd/build/determine-package-changes.js)_
 
 ## `sf simply cicd build generate-flexipage-diff`
 
@@ -373,7 +377,7 @@ EXAMPLES
   $ sf simply cicd build generate-flexipage-diff --vcs-provider github --ci-repository my-org/my-repo --ci-pull-request-number 45 --ci-run-id 987 --from abc123 --to def456 --project-access-token ghp-...
 ```
 
-_See code: [lib/commands/simply/cicd/build/generate-flexipage-diff.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flexipage-diff.js)_
+_See code: [lib/commands/simply/cicd/build/generate-flexipage-diff.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.25.1/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flexipage-diff.js)_
 
 ## `sf simply cicd build generate-flow-diff`
 
@@ -431,7 +435,7 @@ EXAMPLES
   $ sf simply cicd build generate-flow-diff --vcs-provider github --ci-repository my-org/my-repo --ci-pull-request-number 45 --ci-run-id 987 --from abc123 --to def456 --project-access-token ghp-...
 ```
 
-_See code: [lib/commands/simply/cicd/build/generate-flow-diff.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flow-diff.js)_
+_See code: [lib/commands/simply/cicd/build/generate-flow-diff.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.25.1/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flow-diff.js)_
 
 ## `sf simply cicd build install-dependencies`
 
@@ -440,20 +444,33 @@ Install packaged dependencies into the scratch org created by `build create-scra
 ```
 USAGE
   $ sf simply cicd build install-dependencies [--json] [--flags-dir <value>] [--jwt-key-file <value>] [--debug] [--disabled] [--install-type
-    All|Delta|Upgrade] [--upgrade-type DeprecateOnly|Mixed|Delete]
+    All|Delta|Upgrade] [--upgrade-type DeprecateOnly|Mixed|Delete] [--package-retry-attempts <value>...]
+    [--retry-attempts <value>] [--retry-backoff <value>]
 
 FLAGS
-  --debug                  [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
-  --disabled               [env: SIMPLY_CICD_DISABLED] Skip this job entirely, logging a warning instead of running it.
-  --install-type=<option>  [default: Upgrade] The type of dependency installation to perform.
-                           <options: All|Delta|Upgrade>
-  --jwt-key-file=<value>   [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file used to re-authenticate the
-                           scratch org (or its Dev Hub) when it was JWT-authenticated. Not needed when the Dev Hub was
-                           authenticated via web login or an SFDX auth URL — the scratch org's own refresh token is used
-                           instead.
-  --upgrade-type=<option>  [default: Mixed] Upgrade type for the dependency installs; available only for unlocked
-                           packages.
-                           <options: DeprecateOnly|Mixed|Delete>
+  --debug                              [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
+  --disabled                           [env: SIMPLY_CICD_DISABLED] Skip this job entirely, logging a warning instead of
+                                       running it.
+  --install-type=<option>              [default: Upgrade] The type of dependency installation to perform.
+                                       <options: All|Delta|Upgrade>
+  --jwt-key-file=<value>               [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file used to
+                                       re-authenticate the scratch org (or its Dev Hub) when it was JWT-authenticated.
+                                       Not needed when the Dev Hub was authenticated via web login or an SFDX auth URL —
+                                       the scratch org's own refresh token is used instead.
+  --package-retry-attempts=<value>...  Number of retry attempts for a specific package, overriding --retry-attempts for
+                                       that package only.
+  --retry-attempts=<value>             Number of additional attempts to make if a package install fails, before giving
+                                       up on that package. Defaults to 0 (no retries). Does not apply when the install
+                                       is still In-Progress when polling times out, since retrying could race or
+                                       duplicate an install that may still complete server-side. Overridden per-package
+                                       by --package-retry-attempts.
+  --retry-backoff=<value>              [default: 2] Factor the delay between install retries grows by after each failed
+                                       attempt (e.g. 2 doubles the delay each time). Only relevant when a package has
+                                       retries enabled via --retry-attempts or --package-retry-attempts. Applies to
+                                       every package's retries; there is no per-package override.
+  --upgrade-type=<option>              [default: Mixed] Upgrade type for the dependency installs; available only for
+                                       unlocked packages.
+                                       <options: DeprecateOnly|Mixed|Delete>
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -465,12 +482,21 @@ DESCRIPTION
   Reads `SCRATCH_ORG_INFO.json` (written by `build create-scratch`), authenticates as that scratch org, and installs its
   packaged dependencies.
 
-  Skipped automatically when `PACKAGE_CHANGED=FALSE` is set in the environment (see `build determine-package-changes`).
+  Skipped automatically when `SIMPLY_CICD_PACKAGE_CHANGED=FALSE` (or the deprecated `PACKAGE_CHANGED=FALSE`) is set in
+  the environment (see `build determine-package-changes`).
 
 EXAMPLES
   $ sf simply cicd build install-dependencies --jwt-key-file ./server.key
 
 FLAG DESCRIPTIONS
+  --package-retry-attempts=<value>...
+
+    Number of retry attempts for a specific package, overriding --retry-attempts for that package only.
+
+    Retry attempts for a specific package in the key:value format of SubscriberPackageVersionId:RetryAttempts. You can
+    use an alias in place of the SubscriberPackageVersionId. Repeat this flag to set overrides for multiple packages.
+    Packages not listed here use --retry-attempts.
+
   --upgrade-type=DeprecateOnly|Mixed|Delete
 
     Upgrade type for the dependency installs; available only for unlocked packages.
@@ -482,7 +508,7 @@ FLAG DESCRIPTIONS
     prompt in a pipeline, it is auto-approved.
 ```
 
-_See code: [lib/commands/simply/cicd/build/install-dependencies.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/install-dependencies.js)_
+_See code: [lib/commands/simply/cicd/build/install-dependencies.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.25.1/packages/simply-cicd/lib/commands/simply/cicd/build/install-dependencies.js)_
 
 ## `sf simply cicd build lwc-jest`
 
@@ -522,7 +548,7 @@ EXAMPLES
     $ sf simply cicd build lwc-jest --lwc-jest-fail-on-test-failure
 ```
 
-_See code: [lib/commands/simply/cicd/build/lwc-jest.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/lwc-jest.js)_
+_See code: [lib/commands/simply/cicd/build/lwc-jest.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.25.1/packages/simply-cicd/lib/commands/simply/cicd/build/lwc-jest.js)_
 
 ## `sf simply cicd build publish-utam-page-objects`
 
@@ -545,8 +571,8 @@ FLAGS
   --dry-run                                Compile and pack the package without publishing it, copying the tarball into
                                            the project directory.
   --env-file=<value>                       [default: subscriberPackageVersionId.env] Dotenv file to read
-                                           SUBSCRIBER_PACKAGE_VERSION_ID from when it isn't passed as a flag or set in
-                                           the environment.
+                                           SIMPLY_CICD_BUILT_SUBSCRIBER_PACKAGE_VERSION_ID from when it isn't passed as
+                                           a flag or set in the environment.
   --npm-access=<option>                    [env: SIMPLY_CICD_NPM_ACCESS] Passed through to npm publish --access. Needed
                                            on npmjs.com to publish a scoped package publicly.
                                            <options: public|restricted>
@@ -565,7 +591,8 @@ FLAGS
   --packaging-devhub=<value>               (required) [env: SIMPLY_CICD_PACKAGING_DEVHUB] Alias of the Dev Hub that owns
                                            the package version. Must already be authenticated.
   --subscriber-package-version-id=<value>  Subscriber package version ID (04t) to publish page objects for. Falls back
-                                           to SUBSCRIBER_PACKAGE_VERSION_ID in the environment, then to the same key in
+                                           to SIMPLY_CICD_BUILT_SUBSCRIBER_PACKAGE_VERSION_ID (or the deprecated
+                                           SUBSCRIBER_PACKAGE_VERSION_ID) in the environment, then to the same key in
                                            --env-file.
   --utam-version=<value>                   [default: ^3, env: SIMPLY_CICD_UTAM_VERSION] npm version spec of the UTAM
                                            compiler to install and compile with.
@@ -581,14 +608,15 @@ DESCRIPTION
   suite can install exactly the page objects that describe the package version it is testing against.
 
   Runs after `build create-package-version`, whose `04t` it takes as input — from `--subscriber-package-version-id`,
-  from `SUBSCRIBER_PACKAGE_VERSION_ID` in the environment (how a separate job receives that command's dotenv report), or
-  from the dotenv file itself (how a later step in the same job sees it). It copies every `**/__utam__/**/*.utam.json`
-  page object and `**/__utam__/**/*.utam.js` utility under the default package directory into a staging directory
-  outside the repo, compiles them there with the UTAM compiler, and publishes the result: the compiled page objects
-  under `pageObjects/` (`.js`, `.cjs`, `.d.ts`, `.d.cts`), the utilities under `utils/`, and the sources under
-  `source/`. When page objects use profiles, the profiles config is published as `profiles.config.json`, for a test
-  suite to pass to its UTAM loader as `<package>/profiles.config.json`. The compiler writes nothing into the repo; a
-  relative `lint.lintingOutputFile` in the project's compiler config is resolved against the working directory.
+  from `SIMPLY_CICD_BUILT_SUBSCRIBER_PACKAGE_VERSION_ID` (or the deprecated `SUBSCRIBER_PACKAGE_VERSION_ID`) in the
+  environment (how a separate job receives that command's dotenv report), or from the dotenv file itself (how a later
+  step in the same job sees it). It copies every `**/__utam__/**/*.utam.json` page object and `**/__utam__/**/*.utam.js`
+  utility under the default package directory into a staging directory outside the repo, compiles them there with the
+  UTAM compiler, and publishes the result: the compiled page objects under `pageObjects/` (`.js`, `.cjs`, `.d.ts`,
+  `.d.cts`), the utilities under `utils/`, and the sources under `source/`. When page objects use profiles, the profiles
+  config is published as `profiles.config.json`, for a test suite to pass to its UTAM loader as
+  `<package>/profiles.config.json`. The compiler writes nothing into the repo; a relative `lint.lintingOutputFile` in
+  the project's compiler config is resolved against the working directory.
 
   The npm version is derived from the Salesforce version number the same way `sfdx-project.json` writes a dependency
   pin: `1.2.3.4` becomes `1.2.3-4`, with the git tag's suffix carried as a second prerelease identifier and as the
@@ -598,16 +626,17 @@ DESCRIPTION
   The compiler is installed at run time rather than shipped with this plugin, so nothing is downloaded unless the
   command actually runs.
 
-  Skips (without failing) when `PACKAGE_CHANGED=FALSE` is set in the environment (see `build
-  determine-package-changes`), when `--disabled` is passed, when no package version ID can be found, when the project
-  authors no page objects, or when this exact version is already on the registry — which is what makes retrying a job
-  that died after publishing succeed rather than fail on a version conflict. Any other failure fails the job, including
-  two page objects (or utilities) with the same file name, which would compile to the same output file, and a compile
-  that leaves any page object out: a missing or empty page-object package would silently break every UI test pinned to
-  that version.
+  Skips (without failing) when `SIMPLY_CICD_PACKAGE_CHANGED=FALSE` (or the deprecated `PACKAGE_CHANGED=FALSE`) is set in
+  the environment (see `build determine-package-changes`), when `--disabled` is passed, when no package version ID can
+  be found, when the project authors no page objects, or when this exact version is already on the registry — which is
+  what makes retrying a job that died after publishing succeed rather than fail on a version conflict. Any other failure
+  fails the job, including two page objects (or utilities) with the same file name, which would compile to the same
+  output file, and a compile that leaves any page object out: a missing or empty page-object package would silently
+  break every UI test pinned to that version.
 
-  On success, appends `UTAM_PAGE_OBJECTS_PACKAGE` and `UTAM_PAGE_OBJECTS_VERSION` to `--out`, so a downstream job can
-  install the package without knowing the mapping rule.
+  On success, appends `SIMPLY_CICD_UTAM_PAGE_OBJECTS_PACKAGE` and `SIMPLY_CICD_UTAM_PAGE_OBJECTS_VERSION` to `--out`
+  (plus the deprecated `UTAM_PAGE_OBJECTS_PACKAGE` and `UTAM_PAGE_OBJECTS_VERSION`, which will be removed in a future
+  release), so a downstream job can install the package without knowing the mapping rule.
 
   Registry authentication is not this command's job: set it up before the command runs, in user-level npm config (for
   example `npm config set -- "//<registry host and path>/:_authToken=<token>"`, which writes `~/.npmrc`) or in an
@@ -634,7 +663,7 @@ EXAMPLES
       --subscriber-package-version-id 04tXXXXXXXXXXXXXXX --dry-run
 ```
 
-_See code: [lib/commands/simply/cicd/build/publish-utam-page-objects.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/publish-utam-page-objects.js)_
+_See code: [lib/commands/simply/cicd/build/publish-utam-page-objects.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.25.1/packages/simply-cicd/lib/commands/simply/cicd/build/publish-utam-page-objects.js)_
 
 ## `sf simply cicd build push-scratch`
 
@@ -669,13 +698,14 @@ DESCRIPTION
   start`. When `--scratch-org-source-dir` is given, also deploys the default package directory's `seedMetadata.path`, if
   declared in `sfdx-project.json`.
 
-  Skipped automatically when `PACKAGE_CHANGED=FALSE` is set in the environment (see `build determine-package-changes`).
+  Skipped automatically when `SIMPLY_CICD_PACKAGE_CHANGED=FALSE` (or the deprecated `PACKAGE_CHANGED=FALSE`) is set in
+  the environment (see `build determine-package-changes`).
 
 EXAMPLES
   $ sf simply cicd build push-scratch --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/push-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/push-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/push-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.25.1/packages/simply-cicd/lib/commands/simply/cicd/build/push-scratch.js)_
 
 ## `sf simply cicd build test-scratch`
 
@@ -705,10 +735,11 @@ DESCRIPTION
   Reads `SCRATCH_ORG_INFO.json` (written by `build create-scratch`), authenticates as that scratch org, and runs its
   Apex tests with `RunLocalTests`.
 
-  Skipped automatically when `PACKAGE_CHANGED=FALSE` is set in the environment (see `build determine-package-changes`).
+  Skipped automatically when `SIMPLY_CICD_PACKAGE_CHANGED=FALSE` (or the deprecated `PACKAGE_CHANGED=FALSE`) is set in
+  the environment (see `build determine-package-changes`).
 
 EXAMPLES
   $ sf simply cicd build test-scratch --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/test-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/test-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/test-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.25.1/packages/simply-cicd/lib/commands/simply/cicd/build/test-scratch.js)_
