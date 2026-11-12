@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.4.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply%407.3.4...%40simplysf%2Fsimply%407.4.0) (2026-11-12)
+
+### Features
+
+- **simply-sobject:** sort backup fields alphabetically with Id pinned first ([#137](https://github.com/SimplySF/simply-plugins/issues/137)) ([05b8a37](https://github.com/SimplySF/simply-plugins/commit/05b8a3713d0d04af2db1621374f450453727b9d9))
+
 ## [7.3.4](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply%407.3.3...%40simplysf%2Fsimply%407.3.4) (2026-11-10)
 
 **Note:** Version bump only for package @simplysf/simply

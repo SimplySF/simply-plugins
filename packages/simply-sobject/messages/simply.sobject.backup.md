@@ -4,7 +4,7 @@ Back up SObject data to a CSV file.
 
 # description
 
-Describes the given SObject, queries every field via the Bulk API, and writes the results to a timestamped CSV file.
+Describes the given SObject, queries every field via the Bulk API, and writes the results to a timestamped CSV file. Id is always the first column; the rest are sorted alphabetically, including any relationship or additional fields.
 
 # flags.sobject.summary
 
