@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.26.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.25.1...%40simplysf%2Fsimply-cicd%400.26.0) (2026-11-12)
+
+### Features
+
+- **simply-cicd:** deprecate sfdx-dependabot's unprefixed env var fallbacks ([#134](https://github.com/SimplySF/simply-plugins/issues/134)) ([ca8e1d1](https://github.com/SimplySF/simply-plugins/commit/ca8e1d1ec2561455ca33e175501ee5853d715d5c))
+
 ## [0.25.1](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.25.0...%40simplysf%2Fsimply-cicd%400.25.1) (2026-11-10)
 
 **Note:** Version bump only for package @simplysf/simply-cicd
