@@ -659,6 +659,31 @@
   },
   {
     "alias": [],
+    "command": "simply:project:release:create",
+    "flagAliases": [],
+    "flagChars": ["s", "t"],
+    "flags": [
+      "create-release",
+      "dry-run",
+      "flags-dir",
+      "json",
+      "message",
+      "no-prompt",
+      "package-release-branch-prefix",
+      "release-tag",
+      "remote",
+      "set-default",
+      "source",
+      "type",
+      "vcs-host",
+      "vcs-project-id",
+      "vcs-provider",
+      "vcs-token"
+    ],
+    "plugin": "@simplysf/simply-project"
+  },
+  {
+    "alias": [],
     "command": "simply:project:release:roll-forward",
     "flagAliases": [],
     "flagChars": [],

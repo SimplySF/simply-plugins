@@ -88,7 +88,7 @@ EXAMPLES
   $ sf simply aep at4dx binding create --source-dir sfdx-source/core --type unit-of-work --developer-name Account_UOW --sobject Account --sequence 10
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.4/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/create.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.5/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/create.js)_
 
 ## `sf simply aep at4dx binding list`
 
@@ -144,7 +144,7 @@ FLAG DESCRIPTIONS
     Comma-separated list of binding types to include. If not specified, all four are included.
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.4/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/list.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.5/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/list.js)_
 
 ## `sf simply aep at4dx binding update`
 
@@ -217,7 +217,7 @@ EXAMPLES
   $ sf simply aep at4dx binding update --target-org myOrg --type unit-of-work --developer-name Account_UOW --sequence 20
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.4/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/update.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.5/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/update.js)_
 
 ## `sf simply aep at4dx binding validate`
 
@@ -275,7 +275,7 @@ FLAG DESCRIPTIONS
     Comma-separated list of binding types to include. If not specified, all four are included.
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.4/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/validate.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.5/packages/simply-aep/lib/commands/simply/aep/at4dx/binding/validate.js)_
 
 ## `sf simply aep at4dx domain-process-binding create`
 
@@ -356,7 +356,7 @@ EXAMPLES
   $ sf simply aep at4dx domain-process-binding create --source-dir sfdx-source/core --developer-name ServiceResource_Before_Update_Sync --sobject ServiceResource --sobject-alternate --process-context TriggerExecution --trigger-operation Before_Update --type Action --class-to-inject ServiceResourceSyncAction --order 10
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.4/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/create.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.5/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/create.js)_
 
 ## `sf simply aep at4dx domain-process-binding list`
 
@@ -402,7 +402,7 @@ EXAMPLES
   $ sf simply aep at4dx domain-process-binding list --target-org myOrg --active-only --json
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.4/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/list.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.5/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/list.js)_
 
 ## `sf simply aep at4dx domain-process-binding update`
 
@@ -481,7 +481,7 @@ EXAMPLES
   $ sf simply aep at4dx domain-process-binding update --target-org myOrg --developer-name Account_Before_Insert_Assign_Owner --class-to-inject AccountAssignOwnerActionV2
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.4/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/update.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.5/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/update.js)_
 
 ## `sf simply aep at4dx domain-process-binding validate`
 
@@ -534,7 +534,7 @@ EXAMPLES
   $ sf simply aep at4dx domain-process-binding validate --target-org myOrg --json
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.4/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/validate.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.5/packages/simply-aep/lib/commands/simply/aep/at4dx/domain-process-binding/validate.js)_
 
 ## `sf simply aep at4dx field-set-inclusion create`
 
@@ -592,7 +592,7 @@ EXAMPLES
   $ sf simply aep at4dx field-set-inclusion create --target-org myOrg --developer-name ServiceResource_Skills --sobject ServiceResource --sobject-alternate --fieldset-name SkillFields
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.4/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/create.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.5/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/create.js)_
 
 ## `sf simply aep at4dx field-set-inclusion list`
 
@@ -630,7 +630,7 @@ EXAMPLES
   $ sf simply aep at4dx field-set-inclusion list --target-org myOrg --json
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.4/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/list.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.5/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/list.js)_
 
 ## `sf simply aep at4dx field-set-inclusion update`
 
@@ -687,7 +687,7 @@ EXAMPLES
   $ sf simply aep at4dx field-set-inclusion update --target-org myOrg --developer-name Account_Contact_Fields --fieldset-name ContactRelatedFieldsV2
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.4/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/update.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.5/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/update.js)_
 
 ## `sf simply aep at4dx field-set-inclusion validate`
 
@@ -731,7 +731,7 @@ EXAMPLES
   $ sf simply aep at4dx field-set-inclusion validate --target-org myOrg --json
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.4/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/validate.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.5/packages/simply-aep/lib/commands/simply/aep/at4dx/field-set-inclusion/validate.js)_
 
 ## `sf simply aep at4dx platform-event-subscription create`
 
@@ -827,7 +827,7 @@ EXAMPLES
   $ sf simply aep at4dx platform-event-subscription create --target-org myOrg --developer-name Account_Change_Subscriber --event-bus Account_Change__e --consumer AccountChangeConsumer --matcher-rule MatchEventBusAndCategoryAndEventName --event-category Finance --event-name AccountUpdated
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.4/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/create.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.5/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/create.js)_
 
 ## `sf simply aep at4dx platform-event-subscription list`
 
@@ -865,7 +865,7 @@ EXAMPLES
   $ sf simply aep at4dx platform-event-subscription list --target-org myOrg --json
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.4/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/list.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.5/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/list.js)_
 
 ## `sf simply aep at4dx platform-event-subscription simulate`
 
@@ -921,7 +921,7 @@ EXAMPLES
   $ sf simply aep at4dx platform-event-subscription simulate --target-org myOrg --event-bus Account_Change__e --json
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.4/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/simulate.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.5/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/simulate.js)_
 
 ## `sf simply aep at4dx platform-event-subscription update`
 
@@ -990,7 +990,7 @@ EXAMPLES
   $ sf simply aep at4dx platform-event-subscription update --target-org myOrg --developer-name Account_Change_Subscriber --consumer AccountChangeConsumerV2
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.4/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/update.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.5/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/update.js)_
 
 ## `sf simply aep at4dx platform-event-subscription validate`
 
@@ -1039,7 +1039,7 @@ EXAMPLES
   $ sf simply aep at4dx platform-event-subscription validate --target-org myOrg --json
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.4/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/validate.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.5/packages/simply-aep/lib/commands/simply/aep/at4dx/platform-event-subscription/validate.js)_
 
 ## `sf simply aep generate`
 
@@ -1115,7 +1115,7 @@ FLAG DESCRIPTIONS
     Factory binding records are written. fflib writes none; at4dx writes one per layer.
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.4/packages/simply-aep/lib/commands/simply/aep/generate.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.5/packages/simply-aep/lib/commands/simply/aep/generate.js)_
 
 ## `sf simply aep generate domain`
 
@@ -1179,7 +1179,7 @@ FLAG DESCRIPTIONS
     Factory binding records are written. fflib writes none; at4dx writes one per layer.
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.4/packages/simply-aep/lib/commands/simply/aep/generate/domain.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.5/packages/simply-aep/lib/commands/simply/aep/generate/domain.js)_
 
 ## `sf simply aep generate selector`
 
@@ -1244,7 +1244,7 @@ FLAG DESCRIPTIONS
     Factory binding records are written. fflib writes none; at4dx writes one per layer.
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.4/packages/simply-aep/lib/commands/simply/aep/generate/selector.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.5/packages/simply-aep/lib/commands/simply/aep/generate/selector.js)_
 
 ## `sf simply aep generate service`
 
@@ -1309,7 +1309,7 @@ FLAG DESCRIPTIONS
     Factory binding records are written. fflib writes none; at4dx writes one per layer.
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.4/packages/simply-aep/lib/commands/simply/aep/generate/service.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.5/packages/simply-aep/lib/commands/simply/aep/generate/service.js)_
 
 ## `sf simply aep generate unit-of-work`
 
@@ -1375,7 +1375,7 @@ FLAG DESCRIPTIONS
     Factory binding records are written. fflib writes none; at4dx writes one per layer.
 ```
 
-_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.4/packages/simply-aep/lib/commands/simply/aep/generate/unit-of-work.js)_
+_See code: [@simplysf/simply-aep](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-aep@0.17.5/packages/simply-aep/lib/commands/simply/aep/generate/unit-of-work.js)_
 
 ## `sf simply apex execute`
 
@@ -1410,7 +1410,7 @@ FLAG DESCRIPTIONS
     The path to the local .apex file containing the anonymous Apex code to execute.
 ```
 
-_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-apex@2.0.3/packages/simply-apex/lib/commands/simply/apex/execute.js)_
+_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-apex@2.0.4/packages/simply-apex/lib/commands/simply/apex/execute.js)_
 
 ## `sf simply apex logs purge`
 
@@ -1466,7 +1466,7 @@ FLAG DESCRIPTIONS
     elapses, then throws.
 ```
 
-_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-apex@2.0.3/packages/simply-apex/lib/commands/simply/apex/logs/purge.js)_
+_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-apex@2.0.4/packages/simply-apex/lib/commands/simply/apex/logs/purge.js)_
 
 ## `sf simply apex test-suite generate`
 
@@ -1514,7 +1514,7 @@ FLAG DESCRIPTIONS
     pass that directory explicitly, e.g. force-app/main/default/testSuites.
 ```
 
-_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-apex@2.0.3/packages/simply-apex/lib/commands/simply/apex/test-suite/generate.js)_
+_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-apex@2.0.4/packages/simply-apex/lib/commands/simply/apex/test-suite/generate.js)_
 
 ## `sf simply apex trace setup`
 
@@ -1574,7 +1574,7 @@ FLAG DESCRIPTIONS
     Defaults to the current date/time.
 ```
 
-_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-apex@2.0.3/packages/simply-apex/lib/commands/simply/apex/trace/setup.js)_
+_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-apex@2.0.4/packages/simply-apex/lib/commands/simply/apex/trace/setup.js)_
 
 ## `sf simply apex trace silence`
 
@@ -1638,7 +1638,7 @@ FLAG DESCRIPTIONS
     Adds di_Binding, di_Module, di_PlatformCache, and di_Injector to the classes to silence.
 ```
 
-_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-apex@2.0.3/packages/simply-apex/lib/commands/simply/apex/trace/silence.js)_
+_See code: [@simplysf/simply-apex](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-apex@2.0.4/packages/simply-apex/lib/commands/simply/apex/trace/silence.js)_
 
 ## `sf simply community publish`
 
@@ -1687,7 +1687,7 @@ EXAMPLES
   $ sf simply community publish --target-org my-org --name "My Community" --ignore-errors
 ```
 
-_See code: [@simplysf/simply-community](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-community@0.7.3/packages/simply-community/lib/commands/simply/community/publish.js)_
+_See code: [@simplysf/simply-community](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-community@0.7.4/packages/simply-community/lib/commands/simply/community/publish.js)_
 
 ## `sf simply community url set`
 
@@ -1761,7 +1761,7 @@ EXAMPLES
   $ sf simply community url set --site Partner_Portal --domain partners.acme.com --deploy --target-org my-org # retrieves the site file first if it isn't found locally
 ```
 
-_See code: [@simplysf/simply-community](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-community@0.7.3/packages/simply-community/lib/commands/simply/community/url/set.js)_
+_See code: [@simplysf/simply-community](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-community@0.7.4/packages/simply-community/lib/commands/simply/community/url/set.js)_
 
 ## `sf simply data file upload`
 
@@ -1817,7 +1817,7 @@ FLAG DESCRIPTIONS
     Setup and Configuration" permission — the command warns and proceeds rather than failing.
 ```
 
-_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@3.0.5/packages/simply-data/lib/commands/simply/data/file/upload.js)_
+_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@3.0.6/packages/simply-data/lib/commands/simply/data/file/upload.js)_
 
 ## `sf simply data files download`
 
@@ -1879,7 +1879,7 @@ FLAG DESCRIPTIONS
     Provide a WHERE clause to allow the plugin to specify which ContentVersion records should be downloaded.
 ```
 
-_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@3.0.5/packages/simply-data/lib/commands/simply/data/files/download.js)_
+_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@3.0.6/packages/simply-data/lib/commands/simply/data/files/download.js)_
 
 ## `sf simply data files upload`
 
@@ -1945,7 +1945,7 @@ FLAG DESCRIPTIONS
     quasi concurrent uploads. Please note that setting this value too high can cause performance issues.
 ```
 
-_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@3.0.5/packages/simply-data/lib/commands/simply/data/files/upload.js)_
+_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@3.0.6/packages/simply-data/lib/commands/simply/data/files/upload.js)_
 
 ## `sf simply document diff`
 
@@ -1998,7 +1998,7 @@ FLAG DESCRIPTIONS
     available partials.
 ```
 
-_See code: [@simplysf/simply-document](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-document@0.6.2/packages/simply-document/lib/commands/simply/document/diff.js)_
+_See code: [@simplysf/simply-document](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-document@0.6.3/packages/simply-document/lib/commands/simply/document/diff.js)_
 
 ## `sf simply document erd`
 
@@ -2046,7 +2046,7 @@ EXAMPLES
   $ sf simply document erd --directory force-app --output-file erd.md --title "Billing data model"
 ```
 
-_See code: [@simplysf/simply-document](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-document@0.6.2/packages/simply-document/lib/commands/simply/document/erd.js)_
+_See code: [@simplysf/simply-document](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-document@0.6.3/packages/simply-document/lib/commands/simply/document/erd.js)_
 
 ## `sf simply document generate`
 
@@ -2092,7 +2092,7 @@ FLAG DESCRIPTIONS
     for the data shape.
 ```
 
-_See code: [@simplysf/simply-document](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-document@0.6.2/packages/simply-document/lib/commands/simply/document/generate.js)_
+_See code: [@simplysf/simply-document](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-document@0.6.3/packages/simply-document/lib/commands/simply/document/generate.js)_
 
 ## `sf simply flow delete`
 
@@ -2135,7 +2135,7 @@ EXAMPLES
   $ sf simply flow delete --manifest destructive/pre/destructiveChanges.xml --target-org myOrg --json
 ```
 
-_See code: [@simplysf/simply-flow](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-flow@0.5.4/packages/simply-flow/lib/commands/simply/flow/delete.js)_
+_See code: [@simplysf/simply-flow](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-flow@0.5.5/packages/simply-flow/lib/commands/simply/flow/delete.js)_
 
 ## `sf simply flow version prune`
 
@@ -2177,7 +2177,7 @@ EXAMPLES
   $ sf simply flow version prune --target-org myOrg --flow-name My_Flow --flow-name Another_Flow
 ```
 
-_See code: [@simplysf/simply-flow](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-flow@0.5.4/packages/simply-flow/lib/commands/simply/flow/version/prune.js)_
+_See code: [@simplysf/simply-flow](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-flow@0.5.5/packages/simply-flow/lib/commands/simply/flow/version/prune.js)_
 
 ## `sf simply package dependencies clone`
 
@@ -2267,7 +2267,7 @@ FLAG DESCRIPTIONS
     can't check out an arbitrary commit.
 ```
 
-_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@4.1.2/packages/simply-package/lib/commands/simply/package/dependencies/clone.js)_
+_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@4.1.3/packages/simply-package/lib/commands/simply/package/dependencies/clone.js)_
 
 ## `sf simply package dependencies install`
 
@@ -2401,7 +2401,7 @@ FLAG DESCRIPTIONS
     Packages not listed here use --retry-attempts.
 ```
 
-_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@4.1.2/packages/simply-package/lib/commands/simply/package/dependencies/install.js)_
+_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@4.1.3/packages/simply-package/lib/commands/simply/package/dependencies/install.js)_
 
 ## `sf simply package dependencies manage`
 
@@ -2460,7 +2460,7 @@ FLAG DESCRIPTIONS
     version without interactive prompts. Mutually exclusive with --update-to-latest.
 ```
 
-_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@4.1.2/packages/simply-package/lib/commands/simply/package/dependencies/manage.js)_
+_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@4.1.3/packages/simply-package/lib/commands/simply/package/dependencies/manage.js)_
 
 ## `sf simply package version cleanup`
 
@@ -2517,7 +2517,7 @@ FLAG DESCRIPTIONS
     that does not match any of the given selectors is deleted. Mutually exclusive with --selector.
 ```
 
-_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@4.1.2/packages/simply-package/lib/commands/simply/package/version/cleanup.js)_
+_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@4.1.3/packages/simply-package/lib/commands/simply/package/version/cleanup.js)_
 
 ## `sf simply package version get`
 
@@ -2577,7 +2577,7 @@ FLAG DESCRIPTIONS
     "test-package@0.1.0+2", pass "test-package".
 ```
 
-_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@4.1.2/packages/simply-package/lib/commands/simply/package/version/get.js)_
+_See code: [@simplysf/simply-package](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-package@4.1.3/packages/simply-package/lib/commands/simply/package/version/get.js)_
 
 ## `sf simply permissions analyze`
 
@@ -2621,7 +2621,7 @@ FLAG DESCRIPTIONS
     The path to write the generated HTML report to.
 ```
 
-_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@5.0.4/packages/simply-permissions/lib/commands/simply/permissions/analyze.js)_
+_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@5.0.5/packages/simply-permissions/lib/commands/simply/permissions/analyze.js)_
 
 ## `sf simply permissions assignment delete`
 
@@ -2664,7 +2664,7 @@ EXAMPLES
   $ sf simply permissions assignment delete --permission-set-group-name My_Permission_Set_Group --target-org myOrg
 ```
 
-_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@5.0.4/packages/simply-permissions/lib/commands/simply/permissions/assignment/delete.js)_
+_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@5.0.5/packages/simply-permissions/lib/commands/simply/permissions/assignment/delete.js)_
 
 ## `sf simply permissions build`
 
@@ -2779,7 +2779,98 @@ FLAG DESCRIPTIONS
     Required to build a single permission set.
 ```
 
-_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@5.0.4/packages/simply-permissions/lib/commands/simply/permissions/build.js)_
+_See code: [@simplysf/simply-permissions](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-permissions@5.0.5/packages/simply-permissions/lib/commands/simply/permissions/build.js)_
+
+## `sf simply project release create`
+
+Cut the next release branch, with its version bumped in sfdx-project.json.
+
+```
+USAGE
+  $ sf simply project release create [--json] [--flags-dir <value>] [-t major|minor|patch] [--source <value>]
+    [--package-release-branch-prefix <value>] [--remote <value>] [--message <value>] [--create-release] [--release-tag
+    <value>] [-s] [--vcs-provider gitlab|github] [--vcs-host <value>] [--vcs-project-id <value>] [--vcs-token <value>]
+    [--dry-run] [--no-prompt]
+
+FLAGS
+  -s, --set-default                            Make the new branch the project's default branch after pushing.
+  -t, --type=<option>                          Version to bump: major, minor, or patch. Asked for when omitted in a
+                                               terminal.
+                                               <options: major|minor|patch>
+      --create-release                         Publish a GitLab or GitHub release for the source's version before
+                                               cutting.
+      --dry-run                                Print the plan, including the tag a release would use, without changing
+                                               anything.
+      --message=<value>                        Commit message template, with an optional {VERSION} placeholder. Defaults
+                                               to "chore: bump version to {VERSION}".
+      --no-prompt                              Don't ask for confirmation, or for --type.
+      --package-release-branch-prefix=<value>  [default: release/] Prefix identifying release branches. Branch names
+                                               must then be `[v]MAJOR.MINOR[.PATCH]`.
+      --release-tag=<value>                    Tag to publish the release from, instead of the latest build tag. Implies
+                                               --create-release.
+      --remote=<value>                         [default: origin] Remote holding the release branches.
+      --source=<value>                         Release branch to cut from. Defaults to the current branch.
+      --vcs-host=<value>                       VCS hostname, for a self-hosted instance. Defaults to SIMPLY_VCS_HOST,
+                                               then vcs.host in .sfdevrc.json.
+      --vcs-project-id=<value>                 GitLab project ID or GitHub owner/repo. Defaults to
+                                               SIMPLY_VCS_PROJECT_ID, then vcs.projectId in .sfdevrc.json.
+      --vcs-provider=<option>                  VCS platform. Defaults to SIMPLY_VCS_PROVIDER, then vcs.provider in
+                                               .sfdevrc.json, then gitlab.
+                                               <options: gitlab|github>
+      --vcs-token=<value>                      [env: SIMPLY_VCS_TOKEN] VCS API token, needed only with --create-release,
+                                               --release-tag, or --set-default.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Cut the next release branch, with its version bumped in sfdx-project.json.
+
+  Run this from a local clone, on the release branch to cut from, or pass `--source`. The new branch, such as
+  `release/v1.3.0` from `release/v1.2.0`, starts from the remote's copy of the source, never from local commits, and
+  gets one commit that bumps `sfdx-project.json`: `versionNumber` becomes `1.3.0.NEXT` in every package directory on the
+  source's version, and the version inside `versionName` is replaced in place. Then the branch is pushed. A version that
+  already has a branch is refused. A patch on an older line is allowed while newer releases exist, for hotfixes.
+
+  With `--create-release`, a GitLab or GitHub release for the version being closed out is published first, from the
+  highest `v<version>.<build>` tag that is reachable from the source and on the remote. Fallback tags are skipped. A
+  release that already exists is reported, not recreated. With `--set-default`, the new branch becomes the project's
+  default after the push. Both need a token, from `--vcs-token` or `SIMPLY_VCS_TOKEN`, and a project ID, from
+  `--vcs-project-id`, `SIMPLY_VCS_PROJECT_ID`, or `vcs.projectId` in `.sfdevrc.json`. These are checked before anything
+  changes.
+
+  Your repository's commit hooks always run. The default commit message is `chore: bump version to {VERSION}`; use
+  `--message` if your rules need something else, such as a ticket number. If a hook rejects the commit, nothing is
+  pushed, and the bump stays staged on the new local branch. Run `git commit` with an accepted message, then run this
+  command again from that branch.
+
+  The command never force-pushes or pushes tags. Pushing the new branch triggers a normal release-branch build, which
+  creates the new release's first package version.
+
+EXAMPLES
+  Cut the next minor release from the current release branch:
+
+    $ sf simply project release create --type minor
+
+  See what would happen, without changing anything:
+
+    $ sf simply project release create --type minor --dry-run
+
+  Cut a hotfix from an older release:
+
+    $ sf simply project release create --type patch --source release/v1.2.0
+
+  Also publish a release for the current version and make the new branch the default:
+
+    $ sf simply project release create --type minor --create-release --set-default
+
+  Use a commit message your repository's rules accept:
+
+    $ sf simply project release create --type minor --message "chore: PROJ-123 bump version to {VERSION}"
+```
+
+_See code: [@simplysf/simply-project](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-project@1.3.1/packages/simply-project/lib/commands/simply/project/release/create.js)_
 
 ## `sf simply project release roll-forward`
 
@@ -2935,7 +3026,7 @@ FLAG DESCRIPTIONS
     A `.csv` file processed as the flat CSV flow, or a `.xlsx`/`.xls` file processed as the Excel flow.
 ```
 
-_See code: [@simplysf/simply-schema](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-schema@0.4.4/packages/simply-schema/lib/commands/simply/schema/generate.js)_
+_See code: [@simplysf/simply-schema](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-schema@0.4.5/packages/simply-schema/lib/commands/simply/schema/generate.js)_
 
 ## `sf simply schema visualize`
 
@@ -2997,7 +3088,7 @@ FLAG DESCRIPTIONS
     specified, every discovered object is included. If not specified, every object matching `--object-type` is included.
 ```
 
-_See code: [@simplysf/simply-schema](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-schema@0.4.4/packages/simply-schema/lib/commands/simply/schema/visualize.js)_
+_See code: [@simplysf/simply-schema](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-schema@0.4.5/packages/simply-schema/lib/commands/simply/schema/visualize.js)_
 
 ## `sf simply settings address state activate`
 
@@ -3069,7 +3160,7 @@ FLAG DESCRIPTIONS
     the HTTPS_PROXY and NO_PROXY environment variables.
 ```
 
-_See code: [@simplysf/simply-settings](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-settings@0.3.5/packages/simply-settings/lib/commands/simply/settings/address/state/activate.js)_
+_See code: [@simplysf/simply-settings](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-settings@0.3.6/packages/simply-settings/lib/commands/simply/settings/address/state/activate.js)_
 
 ## `sf simply settings address state create`
 
@@ -3159,7 +3250,7 @@ FLAG DESCRIPTIONS
     the HTTPS_PROXY and NO_PROXY environment variables.
 ```
 
-_See code: [@simplysf/simply-settings](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-settings@0.3.5/packages/simply-settings/lib/commands/simply/settings/address/state/create.js)_
+_See code: [@simplysf/simply-settings](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-settings@0.3.6/packages/simply-settings/lib/commands/simply/settings/address/state/create.js)_
 
 ## `sf simply sobject backup`
 
@@ -3221,7 +3312,7 @@ FLAG DESCRIPTIONS
     OwnerId, are skipped.
 ```
 
-_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@2.0.4/packages/simply-sobject/lib/commands/simply/sobject/backup.js)_
+_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@2.1.1/packages/simply-sobject/lib/commands/simply/sobject/backup.js)_
 
 ## `sf simply sobject deduplicate`
 
@@ -3274,7 +3365,7 @@ FLAG DESCRIPTIONS
     The directory to write the generated CSV files to. Defaults to ./temp/<primaryObjectApiName>.
 ```
 
-_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@2.0.4/packages/simply-sobject/lib/commands/simply/sobject/deduplicate.js)_
+_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@2.1.1/packages/simply-sobject/lib/commands/simply/sobject/deduplicate.js)_
 
 ## `sf simply sobject history export`
 
@@ -3328,7 +3419,7 @@ FLAG DESCRIPTIONS
     The start of the date range to export history for, inclusive.
 ```
 
-_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@2.0.4/packages/simply-sobject/lib/commands/simply/sobject/history/export.js)_
+_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@2.1.1/packages/simply-sobject/lib/commands/simply/sobject/history/export.js)_
 
 ## `sf simply sobject history query`
 
@@ -3384,7 +3475,7 @@ FLAG DESCRIPTIONS
     The API name of the SObject to query field history for (e.g. Account or Custom_Object__c).
 ```
 
-_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@2.0.4/packages/simply-sobject/lib/commands/simply/sobject/history/query.js)_
+_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@2.1.1/packages/simply-sobject/lib/commands/simply/sobject/history/query.js)_
 
 ## `sf simply sobject history schema`
 
@@ -3422,4 +3513,4 @@ FLAG DESCRIPTIONS
     The directory to save the generated CSV and HTML report files to. Defaults to the current directory.
 ```
 
-_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@2.0.4/packages/simply-sobject/lib/commands/simply/sobject/history/schema.js)_
+_See code: [@simplysf/simply-sobject](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-sobject@2.1.1/packages/simply-sobject/lib/commands/simply/sobject/history/schema.js)_
