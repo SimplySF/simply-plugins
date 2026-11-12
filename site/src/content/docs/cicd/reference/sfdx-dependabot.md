@@ -59,6 +59,11 @@ DESCRIPTION
   Each eligible repository must explicitly opt in — this command never touches a downstream repository's dependencies
   without that variable set.
 
+  Every flag can also be set through the `SIMPLY_CICD_` environment variable shown in its help. The older
+  `SFDX_DEPENDABOT_*` variables (and `PACKAGING_DEVHUB_USERNAME` for `--devhub-username`) are deprecated: they are still
+  read when neither the flag nor its `SIMPLY_CICD_` variable is set, with a warning, and will be removed in a future
+  release.
+
 EXAMPLES
   $ sf simply cicd sfdx-dependabot --root-group-id 12345 --subscriber-package-version-id 04tXXXXXXXXXXXXXXX --devhub-username hub@example.com --dry-run
 
@@ -70,7 +75,8 @@ FLAG DESCRIPTIONS
   --vcs-api-url=<value>  Base URL of the VCS platform's API.
 
     Only needed for self-hosted instances whose API is not at the provider's usual location. Falls back to the
-    SFDX_DEPENDABOT_VCS_API_URL or CI_API_V4_URL environment variables if not provided.
+    SIMPLY_CICD_VCS_API_URL environment variable, then the deprecated SFDX_DEPENDABOT_VCS_API_URL, then GitLab's
+    CI_API_V4_URL.
 
   --vcs-host=<value>  Hostname of the VCS instance hosting the downstream projects.
 
