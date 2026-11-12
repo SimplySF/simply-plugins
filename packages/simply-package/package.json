@@ -76,8 +76,8 @@
     "@salesforce/kit": "^3.2.6",
     "@salesforce/packaging": "^4.22.16",
     "@salesforce/sf-plugins-core": "^12.2.16",
-    "@simplysf/simply-core": "^1.6.12",
-    "@simplysf/simply-package-core": "^0.5.0",
+    "@simplysf/simply-core": "^1.7.0",
+    "@simplysf/simply-package-core": "^0.5.5",
     "@simplysf/simply-plugin-kit": "workspace:^1.0.11"
   },
   "devDependencies": {
