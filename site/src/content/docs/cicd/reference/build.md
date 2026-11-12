@@ -40,7 +40,7 @@ EXAMPLES
   $ sf simply cicd build check-permission-sets
 ```
 
-_See code: [lib/commands/simply/cicd/build/check-permission-sets.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.25.1/packages/simply-cicd/lib/commands/simply/cicd/build/check-permission-sets.js)_
+_See code: [lib/commands/simply/cicd/build/check-permission-sets.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/check-permission-sets.js)_
 
 ## `sf simply cicd build cleanup-scratch-orgs`
 
@@ -71,7 +71,7 @@ EXAMPLES
   $ sf simply cicd build cleanup-scratch-orgs --dev-hub my-devhub
 ```
 
-_See code: [lib/commands/simply/cicd/build/cleanup-scratch-orgs.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.25.1/packages/simply-cicd/lib/commands/simply/cicd/build/cleanup-scratch-orgs.js)_
+_See code: [lib/commands/simply/cicd/build/cleanup-scratch-orgs.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/cleanup-scratch-orgs.js)_
 
 ## `sf simply cicd build create-fallback-tag`
 
@@ -128,7 +128,7 @@ EXAMPLES
   $ sf simply cicd build create-fallback-tag --ci-commit-ref-name main --ci-project-path group/project --project-access-token glpat-... --ci-pipeline-id 123
 ```
 
-_See code: [lib/commands/simply/cicd/build/create-fallback-tag.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.25.1/packages/simply-cicd/lib/commands/simply/cicd/build/create-fallback-tag.js)_
+_See code: [lib/commands/simply/cicd/build/create-fallback-tag.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/create-fallback-tag.js)_
 
 ## `sf simply cicd build create-package-version`
 
@@ -201,7 +201,7 @@ EXAMPLES
   $ sf simply cicd build create-package-version --ci-commit-ref-name main --ci-commit-sha a1b2c3d --ci-pipeline-id 123 --ci-pipeline-url https://gitlab.example.com/pipelines/123 --ci-project-path group/project --project-access-token glpat-... --packaging-devhub my-packaging-devhub
 ```
 
-_See code: [lib/commands/simply/cicd/build/create-package-version.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.25.1/packages/simply-cicd/lib/commands/simply/cicd/build/create-package-version.js)_
+_See code: [lib/commands/simply/cicd/build/create-package-version.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/create-package-version.js)_
 
 ## `sf simply cicd build create-scratch`
 
@@ -243,7 +243,7 @@ EXAMPLES
   $ sf simply cicd build create-scratch --dev-hub my-devhub
 ```
 
-_See code: [lib/commands/simply/cicd/build/create-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.25.1/packages/simply-cicd/lib/commands/simply/cicd/build/create-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/create-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/create-scratch.js)_
 
 ## `sf simply cicd build delete-scratch`
 
@@ -282,7 +282,7 @@ EXAMPLES
   $ sf simply cicd build delete-scratch --dev-hub my-devhub
 ```
 
-_See code: [lib/commands/simply/cicd/build/delete-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.25.1/packages/simply-cicd/lib/commands/simply/cicd/build/delete-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/delete-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/delete-scratch.js)_
 
 ## `sf simply cicd build determine-package-changes`
 
@@ -315,7 +315,7 @@ EXAMPLES
   $ sf simply cicd build determine-package-changes --out changes.env
 ```
 
-_See code: [lib/commands/simply/cicd/build/determine-package-changes.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.25.1/packages/simply-cicd/lib/commands/simply/cicd/build/determine-package-changes.js)_
+_See code: [lib/commands/simply/cicd/build/determine-package-changes.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/determine-package-changes.js)_
 
 ## `sf simply cicd build generate-flexipage-diff`
 
@@ -373,7 +373,7 @@ EXAMPLES
   $ sf simply cicd build generate-flexipage-diff --vcs-provider github --ci-repository my-org/my-repo --ci-pull-request-number 45 --ci-run-id 987 --from abc123 --to def456 --project-access-token ghp-...
 ```
 
-_See code: [lib/commands/simply/cicd/build/generate-flexipage-diff.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.25.1/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flexipage-diff.js)_
+_See code: [lib/commands/simply/cicd/build/generate-flexipage-diff.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flexipage-diff.js)_
 
 ## `sf simply cicd build generate-flow-diff`
 
@@ -431,7 +431,7 @@ EXAMPLES
   $ sf simply cicd build generate-flow-diff --vcs-provider github --ci-repository my-org/my-repo --ci-pull-request-number 45 --ci-run-id 987 --from abc123 --to def456 --project-access-token ghp-...
 ```
 
-_See code: [lib/commands/simply/cicd/build/generate-flow-diff.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.25.1/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flow-diff.js)_
+_See code: [lib/commands/simply/cicd/build/generate-flow-diff.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/generate-flow-diff.js)_
 
 ## `sf simply cicd build install-dependencies`
 
@@ -440,33 +440,20 @@ Install packaged dependencies into the scratch org created by `build create-scra
 ```
 USAGE
   $ sf simply cicd build install-dependencies [--json] [--flags-dir <value>] [--jwt-key-file <value>] [--debug] [--disabled] [--install-type
-    All|Delta|Upgrade] [--upgrade-type DeprecateOnly|Mixed|Delete] [--package-retry-attempts <value>...]
-    [--retry-attempts <value>] [--retry-backoff <value>]
+    All|Delta|Upgrade] [--upgrade-type DeprecateOnly|Mixed|Delete]
 
 FLAGS
-  --debug                              [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
-  --disabled                           [env: SIMPLY_CICD_DISABLED] Skip this job entirely, logging a warning instead of
-                                       running it.
-  --install-type=<option>              [default: Upgrade] The type of dependency installation to perform.
-                                       <options: All|Delta|Upgrade>
-  --jwt-key-file=<value>               [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file used to
-                                       re-authenticate the scratch org (or its Dev Hub) when it was JWT-authenticated.
-                                       Not needed when the Dev Hub was authenticated via web login or an SFDX auth URL —
-                                       the scratch org's own refresh token is used instead.
-  --package-retry-attempts=<value>...  Number of retry attempts for a specific package, overriding --retry-attempts for
-                                       that package only.
-  --retry-attempts=<value>             Number of additional attempts to make if a package install fails, before giving
-                                       up on that package. Defaults to 0 (no retries). Does not apply when the install
-                                       is still In-Progress when polling times out, since retrying could race or
-                                       duplicate an install that may still complete server-side. Overridden per-package
-                                       by --package-retry-attempts.
-  --retry-backoff=<value>              [default: 2] Factor the delay between install retries grows by after each failed
-                                       attempt (e.g. 2 doubles the delay each time). Only relevant when a package has
-                                       retries enabled via --retry-attempts or --package-retry-attempts. Applies to
-                                       every package's retries; there is no per-package override.
-  --upgrade-type=<option>              [default: Mixed] Upgrade type for the dependency installs; available only for
-                                       unlocked packages.
-                                       <options: DeprecateOnly|Mixed|Delete>
+  --debug                  [env: SIMPLY_CICD_DEBUG] Enable verbose debug logging.
+  --disabled               [env: SIMPLY_CICD_DISABLED] Skip this job entirely, logging a warning instead of running it.
+  --install-type=<option>  [default: Upgrade] The type of dependency installation to perform.
+                           <options: All|Delta|Upgrade>
+  --jwt-key-file=<value>   [env: SIMPLY_CICD_JWT_KEY_FILE] Path to the JWT private key file used to re-authenticate the
+                           scratch org (or its Dev Hub) when it was JWT-authenticated. Not needed when the Dev Hub was
+                           authenticated via web login or an SFDX auth URL — the scratch org's own refresh token is used
+                           instead.
+  --upgrade-type=<option>  [default: Mixed] Upgrade type for the dependency installs; available only for unlocked
+                           packages.
+                           <options: DeprecateOnly|Mixed|Delete>
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -484,14 +471,6 @@ EXAMPLES
   $ sf simply cicd build install-dependencies --jwt-key-file ./server.key
 
 FLAG DESCRIPTIONS
-  --package-retry-attempts=<value>...
-
-    Number of retry attempts for a specific package, overriding --retry-attempts for that package only.
-
-    Retry attempts for a specific package in the key:value format of SubscriberPackageVersionId:RetryAttempts. You can
-    use an alias in place of the SubscriberPackageVersionId. Repeat this flag to set overrides for multiple packages.
-    Packages not listed here use --retry-attempts.
-
   --upgrade-type=DeprecateOnly|Mixed|Delete
 
     Upgrade type for the dependency installs; available only for unlocked packages.
@@ -503,7 +482,7 @@ FLAG DESCRIPTIONS
     prompt in a pipeline, it is auto-approved.
 ```
 
-_See code: [lib/commands/simply/cicd/build/install-dependencies.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.25.1/packages/simply-cicd/lib/commands/simply/cicd/build/install-dependencies.js)_
+_See code: [lib/commands/simply/cicd/build/install-dependencies.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/install-dependencies.js)_
 
 ## `sf simply cicd build lwc-jest`
 
@@ -543,7 +522,7 @@ EXAMPLES
     $ sf simply cicd build lwc-jest --lwc-jest-fail-on-test-failure
 ```
 
-_See code: [lib/commands/simply/cicd/build/lwc-jest.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.25.1/packages/simply-cicd/lib/commands/simply/cicd/build/lwc-jest.js)_
+_See code: [lib/commands/simply/cicd/build/lwc-jest.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/lwc-jest.js)_
 
 ## `sf simply cicd build publish-utam-page-objects`
 
@@ -655,7 +634,7 @@ EXAMPLES
       --subscriber-package-version-id 04tXXXXXXXXXXXXXXX --dry-run
 ```
 
-_See code: [lib/commands/simply/cicd/build/publish-utam-page-objects.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.25.1/packages/simply-cicd/lib/commands/simply/cicd/build/publish-utam-page-objects.js)_
+_See code: [lib/commands/simply/cicd/build/publish-utam-page-objects.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/publish-utam-page-objects.js)_
 
 ## `sf simply cicd build push-scratch`
 
@@ -696,7 +675,7 @@ EXAMPLES
   $ sf simply cicd build push-scratch --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/push-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.25.1/packages/simply-cicd/lib/commands/simply/cicd/build/push-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/push-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/push-scratch.js)_
 
 ## `sf simply cicd build test-scratch`
 
@@ -732,4 +711,4 @@ EXAMPLES
   $ sf simply cicd build test-scratch --jwt-key-file ./server.key
 ```
 
-_See code: [lib/commands/simply/cicd/build/test-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.25.1/packages/simply-cicd/lib/commands/simply/cicd/build/test-scratch.js)_
+_See code: [lib/commands/simply/cicd/build/test-scratch.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-cicd@0.24.3/packages/simply-cicd/lib/commands/simply/cicd/build/test-scratch.js)_
