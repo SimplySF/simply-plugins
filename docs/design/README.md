@@ -98,6 +98,7 @@ refactors that keep the public surface identical (though a short doc is welcome 
 | [0058](0058-package-dependencies-clone.md)                           | `simply package dependencies clone`                                                   | Implemented                                         |
 | [0059](0059-aer-package-publish.md)                                  | `simply cicd build publish-aer-package`                                               | Draft                                               |
 | [0060](0060-project-release-roll-forward.md)                         | `simply project release roll-forward` and `simply-project-core`                       | In progress                                         |
+| [0061](0061-sfdx-dependabot-deprecate-unprefixed-env.md)             | Deprecate `sfdx-dependabot`'s unprefixed environment-variable fallbacks               | Accepted                                            |
 
 ## Template
 

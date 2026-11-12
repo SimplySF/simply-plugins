@@ -149,7 +149,7 @@ The one variable here with no flag behind it. It overrides the `sfdx-project.jso
 | `--fail-on-error`         | `SIMPLY_CICD_FAIL_ON_ERROR`         |
 | `--max-projects`          | `SIMPLY_CICD_MAX_PROJECTS`          |
 
-`sfdx-dependabot` predates this convention and still honors its original `SFDX_DEPENDABOT_*` variables (e.g. `SFDX_DEPENDABOT_VCS_API_URL`, `SFDX_DEPENDABOT_VCS_TOKEN`) as a fallback below the `SIMPLY_CICD_*` variable in precedence, and `--vcs-api-url` additionally falls back to GitLab CI's own `CI_API_V4_URL` if nothing else is set — so in a GitLab CI job you rarely need to set it explicitly at all. New pipelines should prefer the `SIMPLY_CICD_*` names.
+`sfdx-dependabot` predates this convention. Its original `SFDX_DEPENDABOT_*` variables (e.g. `SFDX_DEPENDABOT_VCS_API_URL`, `SFDX_DEPENDABOT_VCS_TOKEN`), and `PACKAGING_DEVHUB_USERNAME` for `--devhub-username`, are **deprecated and will be removed in a future release**. Until then they are still read below the `SIMPLY_CICD_*` variable in precedence, and the command logs a warning naming the replacement whenever it falls back to one. Move pipelines to the `SIMPLY_CICD_*` names. `--vcs-api-url` additionally falls back to GitLab CI's own `CI_API_V4_URL` if nothing else is set, so in a GitLab CI job you rarely need to set it explicitly at all.
 
 ### Debug
 
