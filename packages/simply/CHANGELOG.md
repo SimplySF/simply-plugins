@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.6.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply%407.5.1...%40simplysf%2Fsimply%407.6.0) (2026-11-13)
+
+### Features
+
+- **simply-project:** configurable version increments for `project release create` ([#142](https://github.com/SimplySF/simply-plugins/issues/142)) ([cc2e983](https://github.com/SimplySF/simply-plugins/commit/cc2e9835fc3de3505d3b714c8b23b99db4d2ce8b))
+
 ## [7.5.1](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply%407.5.0...%40simplysf%2Fsimply%407.5.1) (2026-11-12)
 
 **Note:** Version bump only for package @simplysf/simply

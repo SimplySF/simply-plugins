@@ -2957,7 +2957,7 @@ EXAMPLES
     $ sf simply project release create --type minor --message "chore: PROJ-123 bump version to {VERSION}"
 ```
 
-_See code: [@simplysf/simply-project](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-project@1.5.0/packages/simply-project/lib/commands/simply/project/release/create.js)_
+_See code: [@simplysf/simply-project](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-project@1.6.0/packages/simply-project/lib/commands/simply/project/release/create.js)_
 
 ## `sf simply project release roll-forward`
 
@@ -3033,7 +3033,7 @@ EXAMPLES
     $ sf simply project release roll-forward --no-push
 ```
 
-_See code: [@simplysf/simply-project](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-project@1.5.0/packages/simply-project/lib/commands/simply/project/release/roll-forward.js)_
+_See code: [@simplysf/simply-project](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-project@1.6.0/packages/simply-project/lib/commands/simply/project/release/roll-forward.js)_
 
 ## `sf simply project update api-version`
 
@@ -3072,7 +3072,7 @@ FLAG DESCRIPTIONS
     The path to the Salesforce project directory to scan for metadata files.
 ```
 
-_See code: [@simplysf/simply-project](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-project@1.5.0/packages/simply-project/lib/commands/simply/project/update/api-version.js)_
+_See code: [@simplysf/simply-project](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-project@1.6.0/packages/simply-project/lib/commands/simply/project/update/api-version.js)_
 
 ## `sf simply schema generate`
 
@@ -3236,7 +3236,7 @@ EXAMPLES
 
   Activate the French states created from Debian's iso-codes, using the same pinned release:
 
-    $ sf simply settings address state activate --target-org my-org --iso-codes debian --iso-codes-version v4.20.1 ^
+    $ sf simply settings address state activate --target-org my-org --iso-codes debian --iso-codes-version v4.20.1 \
       --country FR
 
 FLAG DESCRIPTIONS
@@ -3312,7 +3312,7 @@ EXAMPLES
 
   Create only the United States and Canada entries, two at a time:
 
-    $ sf simply settings address state create --target-org my-org --file states.json --country US --country CA ^
+    $ sf simply settings address state create --target-org my-org --file states.json --country US --country CA \
       --concurrency 2
 
   See what would be created without changing anything:
@@ -3321,12 +3321,12 @@ EXAMPLES
 
   Create France's and Germany's states from Debian's iso-codes, pinned to a release:
 
-    $ sf simply settings address state create --target-org my-org --iso-codes debian --iso-codes-version v4.20.1 ^
+    $ sf simply settings address state create --target-org my-org --iso-codes debian --iso-codes-version v4.20.1 \
       --country FR --country DE
 
   See which of France's states, including departments, the org is missing according to the latest iso-codes release:
 
-    $ sf simply settings address state create --target-org my-org --iso-codes debian --all-levels --country FR ^
+    $ sf simply settings address state create --target-org my-org --iso-codes debian --all-levels --country FR \
       --dry-run
 
 FLAG DESCRIPTIONS
