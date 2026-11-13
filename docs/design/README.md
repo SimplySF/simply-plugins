@@ -100,7 +100,7 @@ refactors that keep the public surface identical (though a short doc is welcome 
 | [0060](0060-project-release-roll-forward.md)                         | `simply project release roll-forward` and `simply-project-core`                       | In progress                                         |
 | [0061](0061-sfdx-dependabot-deprecate-unprefixed-env.md)             | Deprecate `sfdx-dependabot`'s unprefixed environment-variable fallbacks               | Accepted                                            |
 | [0062](0062-project-release-create.md)                               | `simply project release create`                                                       | In progress                                         |
-| [0063](0063-clack-prompts.md)                                        | Interactive prompts on `@clack/prompts`                                               | In progress                                         |
+| [0063](0063-clack-prompts.md)                                        | Interactive prompts on `@clack/prompts`                                               | Implemented; pending manual terminal check          |
 | [0064](0064-release-create-increments.md)                            | Configurable version increments for `simply project release create`                   | In progress                                         |
 
 ## Template

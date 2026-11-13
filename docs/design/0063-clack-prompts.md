@@ -1,6 +1,6 @@
 # 0063 — Interactive prompts on `@clack/prompts`
 
-**Status:** In progress
+**Status:** Implemented ([#140](https://github.com/SimplySF/simply-plugins/pull/140)); pending manual terminal check
 **Package:** `packages/simply-plugin-kit` (new `prompts` module); `packages/simply-package` and
 `packages/simply-project` (call sites)
 **Date:** 2026-11-12
