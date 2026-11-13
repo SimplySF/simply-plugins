@@ -1,6 +1,6 @@
 # 0066 — Spinner for work that follows a clack prompt
 
-**Status:** Implemented; pending manual terminal check
+**Status:** Implemented ([#144](https://github.com/SimplySF/simply-plugins/pull/144)); pending manual terminal check
 **Package:** `packages/simply-plugin-kit` (`prompts` module); `packages/simply-project`,
 `packages/simply-cicd` (call sites)
 **Date:** 2026-11-13
