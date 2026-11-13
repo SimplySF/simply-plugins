@@ -22,7 +22,7 @@ import {
   resolveHappySoupVcs,
   type CreateReleaseBranchResult,
 } from '@simplysf/simply-cicd-core';
-import { text } from '@simplysf/simply-plugin-kit';
+import { spinner, text } from '@simplysf/simply-plugin-kit';
 import { canPrompt, mergeRequestVcsFlags, releaseConfigFlags } from '../../../../../common/happySoup/flags.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -71,17 +71,26 @@ export default class HappySoupReleaseCreate extends SfCommand<HappySoupReleaseCr
         })
       : undefined;
 
-    const result = await createReleaseBranch({
-      date,
-      baseBranch: flags['base-branch'],
-      configPath: flags.config,
-      remote: flags.remote,
-      message: flags.message,
-      push,
-      mergeRequest,
-      vcs,
-      dryRun: flags['dry-run'],
-    });
+    const result = await spinner(
+      {
+        message: messages.getMessage('spinner.working'),
+        doneMessage: (created: CreateReleaseBranchResult) =>
+          messages.getMessage('spinner.done', [created.branch, created.status]),
+        enabled: interactive,
+      },
+      () =>
+        createReleaseBranch({
+          date,
+          baseBranch: flags['base-branch'],
+          configPath: flags.config,
+          remote: flags.remote,
+          message: flags.message,
+          push,
+          mergeRequest,
+          vcs,
+          dryRun: flags['dry-run'],
+        }),
+    );
 
     for (const warning of result.warnings) {
       this.warn(warning);

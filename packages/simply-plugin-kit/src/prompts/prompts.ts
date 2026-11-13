@@ -129,3 +129,64 @@ export async function confirm({ message, ms = 10_000, defaultAnswer = false }: C
   }
   return answer;
 }
+
+export type SpinnerOptions<T> = {
+  /** Shown beside the spinner while the task runs. */
+  message: string;
+  /** Shown when the task resolves, or built from its result. Defaults to the current message. */
+  doneMessage?: string | ((result: T) => string);
+  /** Draw the spinner. Pass the command's interactive guard, so `--json` output stays clean. Defaults to `true`. */
+  enabled?: boolean;
+};
+
+/** Handed to a {@link spinner} task, to change the spinner's text or step aside for a prompt. */
+export type SpinnerControl = {
+  /** Replace the spinner's text. */
+  message(text: string): void;
+  /** Clear the spinner, run `prompt`, then restart the spinner with its current text. */
+  pause<T>(prompt: () => Promise<T>): Promise<T>;
+};
+
+/** Exit status for a run interrupted by Ctrl+C (128 + SIGINT). */
+const SIGINT_EXIT_CODE = 130;
+
+/**
+ * Run `task` behind a clack spinner. The spinner stops with `doneMessage` when the task resolves,
+ * or in its error state when it throws; the error is rethrown unchanged.
+ *
+ * @returns Whatever `task` resolves.
+ */
+export async function spinner<T>(
+  { message, doneMessage, enabled = true }: SpinnerOptions<T>,
+  task: (control: SpinnerControl) => Promise<T>,
+): Promise<T> {
+  if (!enabled) {
+    return task({ message: () => {}, pause: (prompt) => prompt() });
+  }
+
+  // While it runs, clack's spinner listens for SIGINT, which replaces Node's default exit on Ctrl+C.
+  const spin = clack.spinner({ onCancel: () => process.exit(SIGINT_EXIT_CODE) });
+  let current = message;
+  spin.start(current);
+  try {
+    const result = await task({
+      message: (next) => {
+        current = next;
+        spin.message(next);
+      },
+      pause: async (prompt) => {
+        spin.clear();
+        try {
+          return await prompt();
+        } finally {
+          spin.start(current);
+        }
+      },
+    });
+    spin.stop(typeof doneMessage === 'function' ? doneMessage(result) : (doneMessage ?? current));
+    return result;
+  } catch (error) {
+    spin.error(current);
+    throw error;
+  }
+}

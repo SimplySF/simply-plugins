@@ -103,6 +103,7 @@ refactors that keep the public surface identical (though a short doc is welcome 
 | [0063](0063-clack-prompts.md)                                        | Interactive prompts on `@clack/prompts`                                               | Implemented; pending manual terminal check          |
 | [0064](0064-release-create-increments.md)                            | Configurable version increments for `simply project release create`                   | In progress                                         |
 | [0065](0065-happy-soup-release-branches.md)                          | `simply cicd happy-soup release create` and `release stage`                           | In progress                                         |
+| [0066](0066-clack-spinner.md)                                        | Spinner for work that follows a clack prompt                                          | Implemented; pending manual terminal check          |
 
 ## Template
 

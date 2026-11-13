@@ -150,3 +150,11 @@ Release branch
 - Use a commit message your repository's rules accept:
 
   <%= config.bin %> <%= command.id %> --type minor --message "chore: PROJ-123 bump version to {VERSION}"
+
+# spinner.working
+
+Creating the release branch
+
+# spinner.done
+
+Release branch %s: %s
