@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.6](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-apex%402.0.5...%40simplysf%2Fsimply-apex%402.0.6) (2026-11-13)
+
+**Note:** Version bump only for package @simplysf/simply-apex
+
 ## [2.0.5](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-apex%402.0.4...%40simplysf%2Fsimply-apex%402.0.5) (2026-11-12)
 
 **Note:** Version bump only for package @simplysf/simply-apex

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-plugin-kit%401.1.0...%40simplysf%2Fsimply-plugin-kit%401.2.0) (2026-11-13)
+
+### Features
+
+- **simply-cicd:** add `happy-soup release create` and `release stage` ([#143](https://github.com/SimplySF/simply-plugins/issues/143)) ([38ae1d6](https://github.com/SimplySF/simply-plugins/commit/38ae1d63c0032ec59f34d949e6837e88c0fb4b0e))
+
 # [1.1.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-plugin-kit%401.0.11...%40simplysf%2Fsimply-plugin-kit%401.1.0) (2026-11-12)
 
 ### Features
