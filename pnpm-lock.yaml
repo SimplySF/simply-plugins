@@ -535,8 +535,8 @@ importers:
         specifier: workspace:^1.1.0
         version: link:../simply-plugin-kit
       '@simplysf/simply-project-core':
-        specifier: ^0.3.0
-        version: 0.3.0
+        specifier: ^0.4.0
+        version: 0.4.0
       glob:
         specifier: ^13.0.6
         version: 13.0.6
@@ -3114,9 +3114,9 @@ packages:
       { integrity: sha512-4YR4bd4g3MW3UvfHhY/mNgxwIT0sXx5MUB42lO5kKZewhs6Wk8aU0M9zazH2Ro7v9kTl/h+8NceMR6Dfuuuvng== }
     engines: { node: '>=22.0.0' }
 
-  '@simplysf/simply-project-core@0.3.0':
+  '@simplysf/simply-project-core@0.4.0':
     resolution:
-      { integrity: sha512-QZjSMG/l691846ZrMw3Ny0q5Mtz7GlgPYTJxCQ3YPWSwyerebbTMJMNMFIpKq37h49JpLYeLPsWnX4LT5NmSEA== }
+      { integrity: sha512-hEJFuA+2AONuAkSa5DVHfjG4DdiGbUCG/ZZayaLm9HGCfQ69BJ7I2cwKlyXZZHp3b6pDoyQwAyWGS+sfOM5K1g== }
     engines: { node: '>=22.0.0' }
 
   '@simplysf/simply-report@1.0.8':
@@ -12313,7 +12313,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@simplysf/simply-project-core@0.3.0':
+  '@simplysf/simply-project-core@0.4.0':
     dependencies:
       '@simplysf/simply-core': 1.8.0
       chalk: 5.6.2

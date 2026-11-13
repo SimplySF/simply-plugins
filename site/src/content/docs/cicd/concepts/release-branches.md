@@ -22,6 +22,22 @@ sf simply project release create --type minor
 
 From `release/v1.2.0`, this creates `release/v1.3.0` from the remote's copy of the branch, so unpushed local commits stay out. It commits one change, `versionNumber` becoming `1.3.0.NEXT`, with the version in `versionName` updated to match, and pushes the branch. That push starts the build for the new release's first package version. Use `--type patch --source release/v1.2.0` to cut a hotfix line while newer releases exist.
 
+### Stepping by more than one
+
+By default the chosen part of the version moves by one. If your project numbers releases in larger steps, such as minors in tens, declare that in `sfdx-project.json`:
+
+```json
+{
+  "plugins": {
+    "simply": {
+      "release": { "increments": { "minor": 10 } }
+    }
+  }
+}
+```
+
+Now `--type minor` from `release/v1.20.0` creates `release/v1.30.0`. Major and patch releases still move by one, and the parts below the bumped one still reset to 0. The setting is read from the remote's copy of the source branch, so each new branch inherits it. To override it for one run, pass `--major-increment`, `--minor-increment`, or `--patch-increment`, or set `SIMPLY_PROJECT_RELEASE_MAJOR_INCREMENT`, `SIMPLY_PROJECT_RELEASE_MINOR_INCREMENT`, or `SIMPLY_PROJECT_RELEASE_PATCH_INCREMENT`. Only the increment for the chosen `--type` is used.
+
 Two GitLab or GitHub steps are optional:
 
 ```bash
