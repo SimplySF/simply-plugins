@@ -16,7 +16,7 @@
 
 import * as clack from '@clack/prompts';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { confirm, select } from '../../src/prompts/prompts.js';
+import { confirm, select, text } from '../../src/prompts/prompts.js';
 
 // Typed as never so it stands in for clack's own (unexported) unique cancel symbol.
 const CANCEL = Symbol('clack:cancel') as never;
@@ -24,11 +24,13 @@ const CANCEL = Symbol('clack:cancel') as never;
 vi.mock('@clack/prompts', () => ({
   select: vi.fn(),
   confirm: vi.fn(),
+  text: vi.fn(),
   isCancel: (value: unknown) => value === CANCEL,
 }));
 
 const clackSelect = vi.mocked(clack.select);
 const clackConfirm = vi.mocked(clack.confirm);
+const clackText = vi.mocked(clack.text);
 
 describe('prompts', () => {
   afterEach(() => {
@@ -56,6 +58,49 @@ describe('prompts', () => {
         name: 'PromptCancelledError',
         message: 'Prompt cancelled.',
       });
+    });
+  });
+
+  describe('text', () => {
+    /** The validate function text() handed to clack. */
+    const validatorOf = (): ((value: string | undefined) => unknown) =>
+      (clackText.mock.calls[0][0] as { validate: (value: string | undefined) => unknown }).validate;
+
+    it('returns the trimmed answer and forwards the display options', async () => {
+      clackText.mockResolvedValue('  PROJ-1058 ');
+
+      expect(await text({ message: 'Name?', placeholder: 'PROJ-123', initialValue: 'x' })).toBe('PROJ-1058');
+      expect(clackText).toHaveBeenCalledWith(
+        expect.objectContaining({ message: 'Name?', placeholder: 'PROJ-123', initialValue: 'x' }),
+      );
+    });
+
+    it('refuses an empty answer unless allowed, then runs the caller validation on the trimmed value', async () => {
+      clackText.mockResolvedValue('ok');
+      const validate = vi.fn((value: string) => (value === 'bad' ? 'Not that one' : undefined));
+
+      await text({ message: 'Name?', validate });
+      const check = validatorOf();
+
+      expect(check('   ')).toBe('An answer is required.');
+      expect(check(undefined)).toBe('An answer is required.');
+      expect(check(' bad ')).toBe('Not that one');
+      expect(check('good')).toBeUndefined();
+      expect(validate).toHaveBeenCalledWith('bad');
+    });
+
+    it('accepts an empty answer with allowEmpty', async () => {
+      clackText.mockResolvedValue('');
+
+      await text({ message: 'Optional?', allowEmpty: true });
+
+      expect(validatorOf()('')).toBeUndefined();
+    });
+
+    it('throws PromptCancelledError when the user cancels', async () => {
+      clackText.mockResolvedValue(CANCEL);
+
+      await expect(text({ message: 'Name?' })).rejects.toMatchObject({ name: 'PromptCancelledError' });
     });
   });
 

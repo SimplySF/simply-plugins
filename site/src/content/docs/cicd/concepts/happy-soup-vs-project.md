@@ -74,6 +74,8 @@ Deploy config resolution: an explicit `--deploy-config-file` always wins; otherw
 
 When a merge request targets one of those branches, the pipeline finds the matching dated (or environment-named) config and runs only the stages and deployments it lists. Once that MR merges, `deploy happy-soup deployment-close-out` copies whichever config file was actually used onto `config/deploy.json` and commits it (`[skip ci]`) — so if the pipeline later runs directly on the environment branch itself (not via an MR), `config/deploy.json` defines its actions, with no `--source-branch-name` needed at that point.
 
+To open a dated release with its config and steps files, and to start staging branches for it, use [`happy-soup release create` and `release stage`](/cicd/guides/happy-soup-release-branches/).
+
 ## Picking the right one
 
 |                               | Project                                                         | Happy Soup                                                                               |

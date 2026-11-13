@@ -19,7 +19,9 @@ export { requireConnection, type TargetOrgFlagValues } from './org/requireConnec
 export {
   confirm,
   select,
+  text,
   type ConfirmPromptOptions,
   type SelectOption,
   type SelectPromptOptions,
+  type TextPromptOptions,
 } from './prompts/prompts.js';

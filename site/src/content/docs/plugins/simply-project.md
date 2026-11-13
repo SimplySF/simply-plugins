@@ -120,7 +120,7 @@ EXAMPLES
     $ sf simply project release create --type minor --message "chore: PROJ-123 bump version to {VERSION}"
 ```
 
-_See code: [lib/commands/simply/project/release/create.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-project@1.5.0/packages/simply-project/lib/commands/simply/project/release/create.js)_
+_See code: [lib/commands/simply/project/release/create.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-project@1.6.0/packages/simply-project/lib/commands/simply/project/release/create.js)_
 
 ## `sf simply project release roll-forward`
 
@@ -196,7 +196,7 @@ EXAMPLES
     $ sf simply project release roll-forward --no-push
 ```
 
-_See code: [lib/commands/simply/project/release/roll-forward.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-project@1.5.0/packages/simply-project/lib/commands/simply/project/release/roll-forward.js)_
+_See code: [lib/commands/simply/project/release/roll-forward.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-project@1.6.0/packages/simply-project/lib/commands/simply/project/release/roll-forward.js)_
 
 ## `sf simply project update api-version`
 
@@ -235,4 +235,4 @@ FLAG DESCRIPTIONS
     The path to the Salesforce project directory to scan for metadata files.
 ```
 
-_See code: [lib/commands/simply/project/update/api-version.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-project@1.5.0/packages/simply-project/lib/commands/simply/project/update/api-version.js)_
+_See code: [lib/commands/simply/project/update/api-version.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-project@1.6.0/packages/simply-project/lib/commands/simply/project/update/api-version.js)_

@@ -71,6 +71,12 @@ const CICD_GROUPS = [
     description: 'Command reference for the unpackaged (happy-soup) deploy pipeline stages.',
   },
   {
+    match: 'sf simply cicd happy-soup ',
+    file: 'happy-soup.md',
+    title: 'Happy Soup — Release Branches',
+    description: 'Command reference for the developer commands that open and stage happy-soup releases.',
+  },
+  {
     match: 'sf simply cicd deploy project ',
     file: 'deploy-project.md',
     title: 'Deploy — Project',
