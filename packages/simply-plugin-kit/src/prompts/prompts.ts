@@ -44,6 +44,52 @@ export type ConfirmPromptOptions = {
   defaultAnswer?: boolean;
 };
 
+export type TextPromptOptions = {
+  message: string;
+  /** Shown in the empty field as a hint. Not returned. */
+  placeholder?: string;
+  /** Pre-filled, editable answer. */
+  initialValue?: string;
+  /**
+   * Checks the trimmed answer. Return a message to show and ask again, or `undefined` to accept it.
+   * An empty answer is refused unless `allowEmpty` is set.
+   */
+  validate?: (value: string) => string | undefined;
+  /** Accept an empty answer. Defaults to `false`. */
+  allowEmpty?: boolean;
+};
+
+/**
+ * Ask the user to type a single line.
+ *
+ * @returns The answer, trimmed.
+ * @throws {SfError} `PromptCancelledError` if the user cancels (Ctrl+C / Esc).
+ */
+export async function text({
+  message,
+  placeholder,
+  initialValue,
+  validate,
+  allowEmpty = false,
+}: TextPromptOptions): Promise<string> {
+  const answer = await clack.text({
+    message,
+    placeholder,
+    initialValue,
+    validate: (value) => {
+      const trimmed = (value ?? '').trim();
+      if (!trimmed && !allowEmpty) {
+        return messages.getMessage('prompt.required');
+      }
+      return validate?.(trimmed);
+    },
+  });
+  if (clack.isCancel(answer)) {
+    throw messages.createError('error.promptCancelled');
+  }
+  return answer.trim();
+}
+
 /**
  * Ask the user to pick one option.
  *

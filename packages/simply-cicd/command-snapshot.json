@@ -538,6 +538,38 @@
   },
   {
     "alias": [],
+    "command": "simply:cicd:happy-soup:release:create",
+    "flagAliases": [],
+    "flagChars": ["b", "c", "d"],
+    "flags": [
+      "base-branch",
+      "config",
+      "date",
+      "dry-run",
+      "flags-dir",
+      "json",
+      "message",
+      "no-merge-request",
+      "no-prompt",
+      "no-push",
+      "remote",
+      "vcs-host",
+      "vcs-project-id",
+      "vcs-provider",
+      "vcs-token"
+    ],
+    "plugin": "@simplysf/simply-cicd"
+  },
+  {
+    "alias": [],
+    "command": "simply:cicd:happy-soup:release:stage",
+    "flagAliases": [],
+    "flagChars": ["a", "b", "c", "n"],
+    "flags": ["app", "base-branch", "config", "dry-run", "flags-dir", "json", "name", "no-prompt", "remote", "team"],
+    "plugin": "@simplysf/simply-cicd"
+  },
+  {
+    "alias": [],
     "command": "simply:cicd:notify:build",
     "flagAliases": [],
     "flagChars": [],
