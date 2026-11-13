@@ -78,3 +78,15 @@ Release roll-forward
 - Prepare the merge for a merge request instead of pushing it:
 
   <%= config.bin %> <%= command.id %> --no-push
+
+# spinner.working
+
+Rolling release branches forward
+
+# spinner.done
+
+Roll-forward finished: %s hop(s)
+
+# spinner.declined
+
+Roll-forward declined; nothing was changed

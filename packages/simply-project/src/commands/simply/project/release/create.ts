@@ -17,7 +17,7 @@
 import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { VCS_PROVIDER_KINDS, type VcsProviderKind } from '@simplysf/simply-core';
-import { confirm, select } from '@simplysf/simply-plugin-kit';
+import { confirm, select, spinner } from '@simplysf/simply-plugin-kit';
 import {
   createRelease,
   RELEASE_TYPES,
@@ -103,22 +103,31 @@ export default class ProjectReleaseCreate extends SfCommand<ProjectReleaseCreate
         })
       : undefined;
 
-    const result = await createRelease({
-      type,
-      // Only the chosen type's increment applies. Unset, createRelease falls back to the source
-      // branch's plugins.simply.release.increments in sfdx-project.json, then 1.
-      increment: flags[`${type}-increment`],
-      source: flags.source,
-      packageReleaseBranchPrefix: flags['package-release-branch-prefix'],
-      remote: flags.remote,
-      message: flags.message,
-      createRelease: flags['create-release'],
-      releaseTag: flags['release-tag'],
-      setDefault: flags['set-default'],
-      vcs,
-      dryRun: flags['dry-run'],
-      confirm: interactive ? (plan): Promise<boolean> => this.confirmPlan(plan) : undefined,
-    });
+    const result = await spinner(
+      {
+        message: messages.getMessage('spinner.working'),
+        doneMessage: (created: CreateReleaseResult) =>
+          messages.getMessage('spinner.done', [created.branch, created.status]),
+        enabled: interactive,
+      },
+      (control) =>
+        createRelease({
+          type,
+          // Only the chosen type's increment applies. Unset, createRelease falls back to the source
+          // branch's plugins.simply.release.increments in sfdx-project.json, then 1.
+          increment: flags[`${type}-increment`],
+          source: flags.source,
+          packageReleaseBranchPrefix: flags['package-release-branch-prefix'],
+          remote: flags.remote,
+          message: flags.message,
+          createRelease: flags['create-release'],
+          releaseTag: flags['release-tag'],
+          setDefault: flags['set-default'],
+          vcs,
+          dryRun: flags['dry-run'],
+          confirm: interactive ? (plan): Promise<boolean> => control.pause(() => this.confirmPlan(plan)) : undefined,
+        }),
+    );
 
     this.table({
       title: messages.getMessage('tableTitle'),

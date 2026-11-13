@@ -26,7 +26,7 @@ import {
   type ReleaseTeam,
   type StageReleaseBranchResult,
 } from '@simplysf/simply-cicd-core';
-import { select, text, type SelectOption } from '@simplysf/simply-plugin-kit';
+import { select, spinner, text, type SelectOption } from '@simplysf/simply-plugin-kit';
 import { canPrompt, OTHER, releaseConfigFlags, repositoryRoot } from '../../../../../common/happySoup/flags.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -70,14 +70,23 @@ export default class HappySoupReleaseStage extends SfCommand<HappySoupReleaseSta
       flags['base-branch'] ??
       (interactive ? await this.promptForBase(config.productionBranch, flags.remote) : config.productionBranch);
 
-    const result = await stageReleaseBranch({
-      team: team.name,
-      app,
-      name,
-      baseBranch,
-      remote: flags.remote,
-      dryRun: flags['dry-run'],
-    });
+    const result = await spinner(
+      {
+        message: messages.getMessage('spinner.working'),
+        doneMessage: (staged: StageReleaseBranchResult) =>
+          messages.getMessage('spinner.done', [staged.branch, staged.status]),
+        enabled: interactive,
+      },
+      () =>
+        stageReleaseBranch({
+          team: team.name,
+          app,
+          name,
+          baseBranch,
+          remote: flags.remote,
+          dryRun: flags['dry-run'],
+        }),
+    );
 
     for (const warning of result.warnings) {
       this.warn(warning);
@@ -123,7 +132,14 @@ export default class HappySoupReleaseStage extends SfCommand<HappySoupReleaseSta
   }
 
   protected async promptForBase(productionBranch: string, remote: string): Promise<string> {
-    const branches = await listStagingBaseBranches({ remote, productionBranch });
+    // Only reached when interactive, so the spinner is always drawn here.
+    const branches = await spinner(
+      {
+        message: messages.getMessage('spinner.listingBranches', [remote]),
+        doneMessage: messages.getMessage('spinner.listedBranches', [remote]),
+      },
+      () => listStagingBaseBranches({ remote, productionBranch }),
+    );
     const choices = branches.length > 0 ? branches : [productionBranch];
     return this.pickOrType(
       messages.getMessage('prompt.base'),

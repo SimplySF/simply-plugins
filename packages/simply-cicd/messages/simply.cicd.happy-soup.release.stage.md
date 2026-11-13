@@ -73,3 +73,19 @@ Staging branch
 - Pick the team, application, and base branch from lists:
 
   <%= config.bin %> <%= command.id %>
+
+# spinner.listingBranches
+
+Fetching branches from %s
+
+# spinner.listedBranches
+
+Fetched branches from %s
+
+# spinner.working
+
+Staging the release branch
+
+# spinner.done
+
+Release branch %s: %s

@@ -19,9 +19,12 @@ export { requireConnection, type TargetOrgFlagValues } from './org/requireConnec
 export {
   confirm,
   select,
+  spinner,
   text,
   type ConfirmPromptOptions,
   type SelectOption,
   type SelectPromptOptions,
+  type SpinnerControl,
+  type SpinnerOptions,
   type TextPromptOptions,
 } from './prompts/prompts.js';

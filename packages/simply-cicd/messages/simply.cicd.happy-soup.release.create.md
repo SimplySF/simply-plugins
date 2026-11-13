@@ -63,3 +63,11 @@ Release branch
 - Use a commit message your repository's rules accept:
 
   <%= config.bin %> <%= command.id %> --date 2026-10-19 --message "chore: PROJ-123 set up release {DATE}"
+
+# spinner.working
+
+Creating the release branch
+
+# spinner.done
+
+Release branch %s: %s

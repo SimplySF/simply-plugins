@@ -16,7 +16,7 @@
 
 import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
-import { confirm } from '@simplysf/simply-plugin-kit';
+import { confirm, spinner } from '@simplysf/simply-plugin-kit';
 import { rollForward, type RollForwardHop, type RollForwardResult } from '@simplysf/simply-project-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -50,16 +50,25 @@ export default class ProjectReleaseRollForward extends SfCommand<ProjectReleaseR
     const { flags } = await this.parse(ProjectReleaseRollForward);
     const prompt = !flags['no-prompt'] && !flags['no-push'] && !this.jsonEnabled();
 
-    const result = await rollForward({
-      source: flags.source,
-      target: flags.target,
-      packageReleaseBranchPrefix: flags['package-release-branch-prefix'],
-      remote: flags.remote,
-      message: flags.message,
-      dryRun: flags['dry-run'],
-      noPush: flags['no-push'],
-      confirm: prompt ? (hops): Promise<boolean> => this.confirmPush(hops) : undefined,
-    });
+    const result = await spinner(
+      {
+        message: messages.getMessage('spinner.working'),
+        doneMessage: (rolled: RollForwardResult) =>
+          messages.getMessage(rolled.declined ? 'spinner.declined' : 'spinner.done', [rolled.hops.length]),
+        enabled: prompt,
+      },
+      (control) =>
+        rollForward({
+          source: flags.source,
+          target: flags.target,
+          packageReleaseBranchPrefix: flags['package-release-branch-prefix'],
+          remote: flags.remote,
+          message: flags.message,
+          dryRun: flags['dry-run'],
+          noPush: flags['no-push'],
+          confirm: prompt ? (hops): Promise<boolean> => control.pause(() => this.confirmPush(hops)) : undefined,
+        }),
+    );
 
     this.table({
       title: messages.getMessage('tableTitle'),
