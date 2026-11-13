@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.8](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-flow%400.5.7...%40simplysf%2Fsimply-flow%400.5.8) (2026-11-13)
+
+**Note:** Version bump only for package @simplysf/simply-flow
+
 ## [0.5.7](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-flow%400.5.6...%40simplysf%2Fsimply-flow%400.5.7) (2026-11-13)
 
 **Note:** Version bump only for package @simplysf/simply-flow

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.29.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.28.0...%40simplysf%2Fsimply-cicd%400.29.0) (2026-11-13)
+
+### Features
+
+- **simply-plugin-kit:** show a clack spinner while prompting commands work ([#144](https://github.com/SimplySF/simply-plugins/issues/144)) ([e91491a](https://github.com/SimplySF/simply-plugins/commit/e91491a8262a4623a89b50b27155ff85c48269d0))
+
 # [0.28.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-cicd%400.27.0...%40simplysf%2Fsimply-cicd%400.28.0) (2026-11-13)
 
 ### Features
