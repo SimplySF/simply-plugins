@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.1](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-project%401.7.0...%40simplysf%2Fsimply-project%401.7.1) (2026-11-13)
+
+### Bug Fixes
+
+- **simply-project:** pick up simply-project-core 0.4.2 release commit hook fix ([#145](https://github.com/SimplySF/simply-plugins/issues/145)) ([0cf1148](https://github.com/SimplySF/simply-plugins/commit/0cf1148bbcf04cd6141076a63802b938cc05e3ee)), closes [SimplySF/simply-plugins-core#291](https://github.com/SimplySF/simply-plugins-core/issues/291)
+
 # [1.7.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-project%401.6.1...%40simplysf%2Fsimply-project%401.7.0) (2026-11-13)
 
 ### Features
