@@ -30,10 +30,10 @@ Cut the next release branch, with its version bumped in sfdx-project.json.
 
 ```
 USAGE
-  $ sf simply project release create [--json] [--flags-dir <value>] [-t major|minor|patch] [--source <value>]
-    [--package-release-branch-prefix <value>] [--remote <value>] [--message <value>] [--create-release] [--release-tag
-    <value>] [-s] [--vcs-provider gitlab|github] [--vcs-host <value>] [--vcs-project-id <value>] [--vcs-token <value>]
-    [--dry-run] [--no-prompt]
+  $ sf simply project release create [--json] [--flags-dir <value>] [-t major|minor|patch] [--major-increment <value>]
+    [--minor-increment <value>] [--patch-increment <value>] [--source <value>] [--package-release-branch-prefix <value>]
+    [--remote <value>] [--message <value>] [--create-release] [--release-tag <value>] [-s] [--vcs-provider
+    gitlab|github] [--vcs-host <value>] [--vcs-project-id <value>] [--vcs-token <value>] [--dry-run] [--no-prompt]
 
 FLAGS
   -s, --set-default                            Make the new branch the project's default branch after pushing.
@@ -44,11 +44,20 @@ FLAGS
                                                cutting.
       --dry-run                                Print the plan, including the tag a release would use, without changing
                                                anything.
+      --major-increment=<value>                [env: SIMPLY_PROJECT_RELEASE_MAJOR_INCREMENT] How far a major release
+                                               moves the major version. Defaults to
+                                               plugins.simply.release.increments.major in sfdx-project.json, then 1.
       --message=<value>                        Commit message template, with an optional {VERSION} placeholder. Defaults
                                                to "chore: bump version to {VERSION}".
+      --minor-increment=<value>                [env: SIMPLY_PROJECT_RELEASE_MINOR_INCREMENT] How far a minor release
+                                               moves the minor version. Defaults to
+                                               plugins.simply.release.increments.minor in sfdx-project.json, then 1.
       --no-prompt                              Don't ask for confirmation, or for --type.
       --package-release-branch-prefix=<value>  [default: release/] Prefix identifying release branches. Branch names
                                                must then be `[v]MAJOR.MINOR[.PATCH]`.
+      --patch-increment=<value>                [env: SIMPLY_PROJECT_RELEASE_PATCH_INCREMENT] How far a patch release
+                                               moves the patch version. Defaults to
+                                               plugins.simply.release.increments.patch in sfdx-project.json, then 1.
       --release-tag=<value>                    Tag to publish the release from, instead of the latest build tag. Implies
                                                --create-release.
       --remote=<value>                         [default: origin] Remote holding the release branches.
@@ -75,6 +84,13 @@ DESCRIPTION
   gets one commit that bumps `sfdx-project.json`: `versionNumber` becomes `1.3.0.NEXT` in every package directory on the
   source's version, and the version inside `versionName` is replaced in place. Then the branch is pushed. A version that
   already has a branch is refused. A patch on an older line is allowed while newer releases exist, for hotfixes.
+
+  By default the chosen part of the version moves by one. To step by more, such as minors in tens (`release/v1.20.0` to
+  `release/v1.30.0`), set `plugins.simply.release.increments` in `sfdx-project.json`, for example `{ "plugins": {
+  "simply": { "release": { "increments": { "minor": 10 } } } } }`. It is read from the remote's copy of the source
+  branch, so each new branch carries it forward. `--major-increment`, `--minor-increment`, and `--patch-increment`, or
+  their `SIMPLY_PROJECT_RELEASE_*_INCREMENT` environment variables, override it for one run. Only the increment for the
+  chosen `--type` is used, and the parts below it still reset to 0.
 
   With `--create-release`, a GitLab or GitHub release for the version being closed out is published first, from the
   highest `v<version>.<build>` tag that is reachable from the source and on the remote. Fallback tags are skipped. A
@@ -107,6 +123,10 @@ EXAMPLES
   Also publish a release for the current version and make the new branch the default:
 
     $ sf simply project release create --type minor --create-release --set-default
+
+  Cut a minor release ten minor versions on, such as release/v1.30.0 from release/v1.20.0:
+
+    $ sf simply project release create --type minor --minor-increment 10
 
   Use a commit message your repository's rules accept:
 

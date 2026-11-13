@@ -68,6 +68,70 @@ describe('simply project release create', () => {
     expect(resolveReleaseVcs).not.toHaveBeenCalled();
   });
 
+  describe('increments', () => {
+    const envNames = [
+      'SIMPLY_PROJECT_RELEASE_MAJOR_INCREMENT',
+      'SIMPLY_PROJECT_RELEASE_MINOR_INCREMENT',
+      'SIMPLY_PROJECT_RELEASE_PATCH_INCREMENT',
+    ];
+
+    afterEach(() => {
+      for (const name of envNames) {
+        delete process.env[name];
+      }
+    });
+
+    it('passes no increment when none is set, leaving createRelease to read sfdx-project.json', async () => {
+      await ProjectReleaseCreate.run(['--type', 'minor', '--no-prompt']);
+
+      expect(vi.mocked(createRelease).mock.calls[0][0].increment).toBeUndefined();
+    });
+
+    it.each([
+      ['major', '--major-increment'],
+      ['minor', '--minor-increment'],
+      ['patch', '--patch-increment'],
+    ])('passes %s releases their own flag only', async (type, flag) => {
+      await ProjectReleaseCreate.run([
+        '--type',
+        type,
+        '--major-increment',
+        '2',
+        '--minor-increment',
+        '10',
+        '--patch-increment',
+        '5',
+        '--no-prompt',
+      ]);
+
+      const expected = { '--major-increment': 2, '--minor-increment': 10, '--patch-increment': 5 }[flag];
+      expect(createRelease).toHaveBeenCalledWith(expect.objectContaining({ type, increment: expected }));
+    });
+
+    it('reads each increment from its environment variable, and the flag beats it', async () => {
+      process.env.SIMPLY_PROJECT_RELEASE_MINOR_INCREMENT = '10';
+      await ProjectReleaseCreate.run(['--type', 'minor', '--no-prompt']);
+      expect(createRelease).toHaveBeenLastCalledWith(expect.objectContaining({ increment: 10 }));
+
+      await ProjectReleaseCreate.run(['--type', 'minor', '--minor-increment', '20', '--no-prompt']);
+      expect(createRelease).toHaveBeenLastCalledWith(expect.objectContaining({ increment: 20 }));
+    });
+
+    it('ignores the environment variable for another type', async () => {
+      process.env.SIMPLY_PROJECT_RELEASE_MAJOR_INCREMENT = '3';
+      await ProjectReleaseCreate.run(['--type', 'minor', '--no-prompt']);
+
+      expect(vi.mocked(createRelease).mock.calls[0][0].increment).toBeUndefined();
+    });
+
+    it.each(['0', '-1', '1.5'])('rejects an increment of %s before calling createRelease', async (value) => {
+      await expect(
+        ProjectReleaseCreate.run(['--type', 'minor', '--minor-increment', value, '--no-prompt']),
+      ).rejects.toThrow();
+      expect(createRelease).not.toHaveBeenCalled();
+    });
+  });
+
   it('passes the branch and message flags through', async () => {
     await ProjectReleaseCreate.run([
       '-t',

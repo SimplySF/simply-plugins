@@ -44,6 +44,21 @@ export default class ProjectReleaseCreate extends SfCommand<ProjectReleaseCreate
       char: 't',
       summary: messages.getMessage('flags.type.summary'),
     }),
+    'major-increment': Flags.integer({
+      summary: messages.getMessage('flags.major-increment.summary'),
+      env: 'SIMPLY_PROJECT_RELEASE_MAJOR_INCREMENT',
+      min: 1,
+    }),
+    'minor-increment': Flags.integer({
+      summary: messages.getMessage('flags.minor-increment.summary'),
+      env: 'SIMPLY_PROJECT_RELEASE_MINOR_INCREMENT',
+      min: 1,
+    }),
+    'patch-increment': Flags.integer({
+      summary: messages.getMessage('flags.patch-increment.summary'),
+      env: 'SIMPLY_PROJECT_RELEASE_PATCH_INCREMENT',
+      min: 1,
+    }),
     source: Flags.string({ summary: messages.getMessage('flags.source.summary') }),
     'package-release-branch-prefix': Flags.string({
       summary: messages.getMessage('flags.package-release-branch-prefix.summary'),
@@ -90,6 +105,9 @@ export default class ProjectReleaseCreate extends SfCommand<ProjectReleaseCreate
 
     const result = await createRelease({
       type,
+      // Only the chosen type's increment applies. Unset, createRelease falls back to the source
+      // branch's plugins.simply.release.increments in sfdx-project.json, then 1.
+      increment: flags[`${type}-increment`],
       source: flags.source,
       packageReleaseBranchPrefix: flags['package-release-branch-prefix'],
       remote: flags.remote,
