@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.6](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-schema%400.4.5...%40simplysf%2Fsimply-schema%400.4.6) (2026-11-16)
+
+### Bug Fixes
+
+- **deps:** bump handlebars from 4.7.9 to 4.7.10 ([#150](https://github.com/SimplySF/simply-plugins/issues/150)) ([48d71fc](https://github.com/SimplySF/simply-plugins/commit/48d71fc4d269590ae2d845aaa7f87db8b921205d))
+
 ## [0.4.5](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-schema%400.4.4...%40simplysf%2Fsimply-schema%400.4.5) (2026-11-12)
 
 **Note:** Version bump only for package @simplysf/simply-schema

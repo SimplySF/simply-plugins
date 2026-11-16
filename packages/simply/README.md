@@ -3113,7 +3113,7 @@ FLAG DESCRIPTIONS
     A `.csv` file processed as the flat CSV flow, or a `.xlsx`/`.xls` file processed as the Excel flow.
 ```
 
-_See code: [@simplysf/simply-schema](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-schema@0.4.5/packages/simply-schema/lib/commands/simply/schema/generate.js)_
+_See code: [@simplysf/simply-schema](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-schema@0.4.6/packages/simply-schema/lib/commands/simply/schema/generate.js)_
 
 ## `sf simply schema visualize`
 
@@ -3175,7 +3175,7 @@ FLAG DESCRIPTIONS
     specified, every discovered object is included. If not specified, every object matching `--object-type` is included.
 ```
 
-_See code: [@simplysf/simply-schema](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-schema@0.4.5/packages/simply-schema/lib/commands/simply/schema/visualize.js)_
+_See code: [@simplysf/simply-schema](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-schema@0.4.6/packages/simply-schema/lib/commands/simply/schema/visualize.js)_
 
 ## `sf simply settings address state activate`
 
