@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.8.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-project%401.7.1...%40simplysf%2Fsimply-project%401.8.0) (2026-11-17)
+
+### Features
+
+- **simply-project:** ask about the release and default branch in `project release create` ([#152](https://github.com/SimplySF/simply-plugins/issues/152)) ([953ee1d](https://github.com/SimplySF/simply-plugins/commit/953ee1d575af8c52c40852338de2ea53e4aa6498))
+
 ## [1.7.1](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-project%401.7.0...%40simplysf%2Fsimply-project%401.7.1) (2026-11-13)
 
 ### Bug Fixes
