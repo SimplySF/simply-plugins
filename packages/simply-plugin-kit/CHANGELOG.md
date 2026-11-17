@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.1](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-plugin-kit%401.3.0...%40simplysf%2Fsimply-plugin-kit%401.3.1) (2026-11-17)
+
+### Bug Fixes
+
+- **simply-plugin-kit:** stop an answered confirm's timeout from breaking the next prompt ([#153](https://github.com/SimplySF/simply-plugins/issues/153)) ([f22255f](https://github.com/SimplySF/simply-plugins/commit/f22255ff3d0ad91493c5cfab90c3c3c97db12aa2))
+
 # [1.3.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-plugin-kit%401.2.0...%40simplysf%2Fsimply-plugin-kit%401.3.0) (2026-11-13)
 
 ### Features
