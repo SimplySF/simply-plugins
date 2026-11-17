@@ -47,6 +47,8 @@ sf simply project release create --type minor --create-release --set-default
 
 `--create-release` publishes a release for `v1.2.0` from its latest `v1.2.0.<build>` tag on the remote, skipping fallback tags. `--set-default` makes `release/v1.3.0` the project's default branch. The project ID comes from `--vcs-project-id`, `SIMPLY_VCS_PROJECT_ID`, or `vcs.projectId` in `.sfdevrc.json`.
 
+When you run the command in a terminal and the token and project ID are available, it asks about each step whose flag you left off, naming GitLab or GitHub to match your configuration. Both questions default to no. Without a token or project ID, the questions are skipped with a one-line notice, and the branch is still cut.
+
 As with rolling forward, commit hooks always run, and `--message` takes a template, here with a `{VERSION}` placeholder. If a hook rejects the commit, nothing is pushed: commit by hand on the new branch, then run the command again from there.
 
 ## Versions in flight

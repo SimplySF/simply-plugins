@@ -2921,7 +2921,8 @@ DESCRIPTION
   release that already exists is reported, not recreated. With `--set-default`, the new branch becomes the project's
   default after the push. Both need a token, from `--vcs-token` or `SIMPLY_VCS_TOKEN`, and a project ID, from
   `--vcs-project-id`, `SIMPLY_VCS_PROJECT_ID`, or `vcs.projectId` in `.sfdevrc.json`. These are checked before anything
-  changes.
+  changes. In a terminal, when a token and project ID are available, you're asked about each of these steps whose flag
+  you didn't pass. Both questions default to no.
 
   Your repository's commit hooks always run. The default commit message is `chore: bump version to {VERSION}`; use
   `--message` if your rules need something else, such as a ticket number. If a hook rejects the commit, nothing is

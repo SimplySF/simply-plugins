@@ -84,7 +84,8 @@ DESCRIPTION
   release that already exists is reported, not recreated. With `--set-default`, the new branch becomes the project's
   default after the push. Both need a token, from `--vcs-token` or `SIMPLY_VCS_TOKEN`, and a project ID, from
   `--vcs-project-id`, `SIMPLY_VCS_PROJECT_ID`, or `vcs.projectId` in `.sfdevrc.json`. These are checked before anything
-  changes.
+  changes. In a terminal, when a token and project ID are available, you're asked about each of these steps whose flag
+  you didn't pass. Both questions default to no.
 
   Your repository's commit hooks always run. The default commit message is `chore: bump version to {VERSION}`; use
   `--message` if your rules need something else, such as a ticket number. If a hook rejects the commit, nothing is
@@ -120,7 +121,7 @@ EXAMPLES
     $ sf simply project release create --type minor --message "chore: PROJ-123 bump version to {VERSION}"
 ```
 
-_See code: [lib/commands/simply/project/release/create.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-project@1.6.0/packages/simply-project/lib/commands/simply/project/release/create.js)_
+_See code: [lib/commands/simply/project/release/create.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-project@1.7.1/packages/simply-project/lib/commands/simply/project/release/create.js)_
 
 ## `sf simply project release roll-forward`
 
@@ -196,7 +197,7 @@ EXAMPLES
     $ sf simply project release roll-forward --no-push
 ```
 
-_See code: [lib/commands/simply/project/release/roll-forward.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-project@1.6.0/packages/simply-project/lib/commands/simply/project/release/roll-forward.js)_
+_See code: [lib/commands/simply/project/release/roll-forward.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-project@1.7.1/packages/simply-project/lib/commands/simply/project/release/roll-forward.js)_
 
 ## `sf simply project update api-version`
 
@@ -235,4 +236,4 @@ FLAG DESCRIPTIONS
     The path to the Salesforce project directory to scan for metadata files.
 ```
 
-_See code: [lib/commands/simply/project/update/api-version.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-project@1.6.0/packages/simply-project/lib/commands/simply/project/update/api-version.js)_
+_See code: [lib/commands/simply/project/update/api-version.js](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-project@1.7.1/packages/simply-project/lib/commands/simply/project/update/api-version.js)_

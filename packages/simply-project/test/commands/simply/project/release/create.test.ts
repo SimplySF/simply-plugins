@@ -35,6 +35,12 @@ const created: CreateReleaseResult = {
 
 const vcs = { provider: { kind: 'gitlab' }, project: '123' } as unknown as ReturnType<typeof resolveReleaseVcs>;
 
+type Prompts = {
+  promptForCreateRelease: (platform: string) => Promise<boolean>;
+  promptForSetDefault: () => Promise<boolean>;
+};
+const prompts = ProjectReleaseCreate.prototype as unknown as Prompts;
+
 describe('simply project release create', () => {
   const originalExitCode = process.exitCode;
 
@@ -42,6 +48,8 @@ describe('simply project release create', () => {
     vi.clearAllMocks();
     vi.mocked(createRelease).mockResolvedValue(created);
     vi.mocked(resolveReleaseVcs).mockReturnValue(vcs);
+    vi.spyOn(prompts, 'promptForCreateRelease').mockResolvedValue(false);
+    vi.spyOn(prompts, 'promptForSetDefault').mockResolvedValue(false);
   });
 
   afterEach(() => {
@@ -65,7 +73,111 @@ describe('simply project release create', () => {
         confirm: expect.any(Function) as unknown,
       }),
     );
-    expect(resolveReleaseVcs).not.toHaveBeenCalled();
+  });
+
+  describe('VCS prompts', () => {
+    it('asks both questions, naming the configured platform, and passes the answers on', async () => {
+      vi.mocked(resolveReleaseVcs).mockReturnValue({
+        ...vcs,
+        provider: { kind: 'github' },
+      } as unknown as ReturnType<typeof resolveReleaseVcs>);
+      vi.mocked(prompts.promptForCreateRelease).mockResolvedValue(true);
+      vi.mocked(prompts.promptForSetDefault).mockResolvedValue(true);
+
+      await ProjectReleaseCreate.run(['--type', 'minor']);
+
+      expect(prompts.promptForCreateRelease).toHaveBeenCalledWith('GitHub');
+      expect(resolveReleaseVcs).toHaveBeenCalledTimes(1);
+      expect(createRelease).toHaveBeenCalledWith(
+        expect.objectContaining({
+          createRelease: true,
+          setDefault: true,
+          vcs: expect.objectContaining({ provider: { kind: 'github' } }) as unknown,
+        }),
+      );
+    });
+
+    it('names GitLab for a GitLab project', async () => {
+      await ProjectReleaseCreate.run(['--type', 'minor']);
+
+      expect(prompts.promptForCreateRelease).toHaveBeenCalledWith('GitLab');
+    });
+
+    it('passes no VCS when both answers are no', async () => {
+      await ProjectReleaseCreate.run(['--type', 'minor']);
+
+      expect(prompts.promptForCreateRelease).toHaveBeenCalled();
+      expect(prompts.promptForSetDefault).toHaveBeenCalled();
+      expect(createRelease).toHaveBeenCalledWith(
+        expect.objectContaining({ createRelease: false, setDefault: false, vcs: undefined }),
+      );
+    });
+
+    it('asks only about the release when --set-default is passed', async () => {
+      vi.mocked(prompts.promptForCreateRelease).mockResolvedValue(true);
+
+      await ProjectReleaseCreate.run(['--type', 'minor', '--set-default']);
+
+      expect(prompts.promptForSetDefault).not.toHaveBeenCalled();
+      expect(resolveReleaseVcs).toHaveBeenCalledTimes(1);
+      expect(createRelease).toHaveBeenCalledWith(
+        expect.objectContaining({ createRelease: true, setDefault: true, vcs }),
+      );
+    });
+
+    it.each([['--create-release'], ['--release-tag=v1.2.0.9']])(
+      'does not ask about the release with %s',
+      async (flag) => {
+        await ProjectReleaseCreate.run(['--type', 'minor', flag]);
+
+        expect(prompts.promptForCreateRelease).not.toHaveBeenCalled();
+        expect(prompts.promptForSetDefault).toHaveBeenCalled();
+        expect(createRelease).toHaveBeenCalledWith(expect.objectContaining({ setDefault: false, vcs }));
+      },
+    );
+
+    it('asks nothing when both steps were already asked for', async () => {
+      await ProjectReleaseCreate.run(['--type', 'minor', '--create-release', '--set-default']);
+
+      expect(prompts.promptForCreateRelease).not.toHaveBeenCalled();
+      expect(prompts.promptForSetDefault).not.toHaveBeenCalled();
+      expect(resolveReleaseVcs).toHaveBeenCalledTimes(1);
+    });
+
+    it('skips the questions with a notice, and still cuts, when the VCS settings do not resolve', async () => {
+      vi.mocked(resolveReleaseVcs).mockImplementation(() => {
+        throw new Error('A VCS API token is required.');
+      });
+      const info = vi.spyOn(ProjectReleaseCreate.prototype, 'info');
+
+      await ProjectReleaseCreate.run(['--type', 'minor']);
+
+      expect(prompts.promptForCreateRelease).not.toHaveBeenCalled();
+      expect(prompts.promptForSetDefault).not.toHaveBeenCalled();
+      expect(info).toHaveBeenCalledWith(expect.stringContaining('provide a VCS token and project ID'));
+      expect(createRelease).toHaveBeenCalledWith(
+        expect.objectContaining({ createRelease: false, setDefault: false, vcs: undefined }),
+      );
+    });
+
+    it('still fails before cutting when a flag needs VCS settings that do not resolve', async () => {
+      vi.mocked(resolveReleaseVcs).mockImplementation(() => {
+        throw new Error('A VCS API token is required.');
+      });
+
+      await expect(ProjectReleaseCreate.run(['--type', 'minor', '--set-default'])).rejects.toThrow(
+        'A VCS API token is required.',
+      );
+      expect(createRelease).not.toHaveBeenCalled();
+    });
+
+    it.each([['--no-prompt'], ['--dry-run'], ['--json']])('asks nothing with %s', async (flag) => {
+      await ProjectReleaseCreate.run(['--type', 'minor', flag]);
+
+      expect(prompts.promptForCreateRelease).not.toHaveBeenCalled();
+      expect(prompts.promptForSetDefault).not.toHaveBeenCalled();
+      expect(resolveReleaseVcs).not.toHaveBeenCalled();
+    });
   });
 
   describe('increments', () => {
