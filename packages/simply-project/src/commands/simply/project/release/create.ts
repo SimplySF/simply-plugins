@@ -23,11 +23,24 @@ import {
   RELEASE_TYPES,
   resolveReleaseVcs,
   type CreateReleaseResult,
+  type CreateReleaseVcs,
   type ReleaseType,
 } from '@simplysf/simply-project-core';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@simplysf/simply-project', 'simply.project.release.create');
+
+const VCS_PLATFORM_NAMES: Record<VcsProviderKind, string> = { gitlab: 'GitLab', github: 'GitHub' };
+
+type VcsStepFlags = {
+  'create-release': boolean;
+  'release-tag'?: string;
+  'set-default': boolean;
+  'vcs-provider'?: VcsProviderKind;
+  'vcs-host'?: string;
+  'vcs-project-id'?: string;
+  'vcs-token'?: string;
+};
 
 export type ProjectReleaseCreateResult = CreateReleaseResult;
 
@@ -92,16 +105,7 @@ export default class ProjectReleaseCreate extends SfCommand<ProjectReleaseCreate
       this.error(messages.getMessage('error.typeRequired'));
     }
 
-    const wantsVcs = flags['create-release'] || flags['release-tag'] !== undefined || flags['set-default'];
-    const vcs = wantsVcs
-      ? resolveReleaseVcs({
-          provider: flags['vcs-provider'],
-          host: flags['vcs-host'],
-          projectId: flags['vcs-project-id'],
-          token: flags['vcs-token'],
-          warn: (message) => this.warn(message),
-        })
-      : undefined;
+    const { wantsRelease, setDefault, vcs } = await this.chooseVcsSteps(flags, interactive);
 
     const result = await spinner(
       {
@@ -120,9 +124,9 @@ export default class ProjectReleaseCreate extends SfCommand<ProjectReleaseCreate
           packageReleaseBranchPrefix: flags['package-release-branch-prefix'],
           remote: flags.remote,
           message: flags.message,
-          createRelease: flags['create-release'],
+          createRelease: wantsRelease,
           releaseTag: flags['release-tag'],
-          setDefault: flags['set-default'],
+          setDefault,
           vcs,
           dryRun: flags['dry-run'],
           confirm: interactive ? (plan): Promise<boolean> => control.pause(() => this.confirmPlan(plan)) : undefined,
@@ -169,6 +173,16 @@ export default class ProjectReleaseCreate extends SfCommand<ProjectReleaseCreate
   }
 
   // eslint-disable-next-line class-methods-use-this -- kept as a method so tests can stub the prompt
+  protected async promptForCreateRelease(platform: string): Promise<boolean> {
+    return confirm({ message: messages.getMessage('prompt.createRelease', [platform]) });
+  }
+
+  // eslint-disable-next-line class-methods-use-this -- kept as a method so tests can stub the prompt
+  protected async promptForSetDefault(): Promise<boolean> {
+    return confirm({ message: messages.getMessage('prompt.setDefault') });
+  }
+
+  // eslint-disable-next-line class-methods-use-this -- kept as a method so tests can stub the prompt
   protected async confirmPlan(plan: CreateReleaseResult): Promise<boolean> {
     const steps = [
       ...(plan.release ? [messages.getMessage('confirm.release', [plan.release.name, plan.release.tagName])] : []),
@@ -176,5 +190,47 @@ export default class ProjectReleaseCreate extends SfCommand<ProjectReleaseCreate
       ...(plan.defaultBranch ? [messages.getMessage('confirm.default', [plan.branch])] : []),
     ];
     return confirm({ message: messages.getMessage('confirm', [steps.map((step) => `- ${step}`).join('\n')]) });
+  }
+
+  /**
+   * Works out which VCS steps run. Flags turn them on; in a terminal, each step left off is offered
+   * too, but only when the VCS settings resolve, so a "yes" can't then fail for want of a token.
+   */
+  private async chooseVcsSteps(
+    flags: VcsStepFlags,
+    interactive: boolean,
+  ): Promise<{ wantsRelease: boolean; setDefault: boolean; vcs: CreateReleaseVcs | undefined }> {
+    let wantsRelease = flags['create-release'] || flags['release-tag'] !== undefined;
+    let setDefault = flags['set-default'];
+    const resolveVcs = (): CreateReleaseVcs =>
+      resolveReleaseVcs({
+        provider: flags['vcs-provider'],
+        host: flags['vcs-host'],
+        projectId: flags['vcs-project-id'],
+        token: flags['vcs-token'],
+        warn: (message) => this.warn(message),
+      });
+
+    // A step asked for by flag needs the VCS settings, so missing ones fail here, before anything changes.
+    let vcs = wantsRelease || setDefault ? resolveVcs() : undefined;
+    if (!interactive || (wantsRelease && setDefault)) {
+      return { wantsRelease, setDefault, vcs };
+    }
+
+    if (!vcs) {
+      try {
+        vcs = resolveVcs();
+      } catch {
+        this.info(messages.getMessage('info.vcsUnavailable'));
+        return { wantsRelease, setDefault, vcs: undefined };
+      }
+    }
+    if (!wantsRelease) {
+      wantsRelease = await this.promptForCreateRelease(VCS_PLATFORM_NAMES[vcs.provider.kind]);
+    }
+    if (!setDefault) {
+      setDefault = await this.promptForSetDefault();
+    }
+    return { wantsRelease, setDefault, vcs: wantsRelease || setDefault ? vcs : undefined };
   }
 }

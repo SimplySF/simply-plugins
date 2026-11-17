@@ -8,7 +8,7 @@ Run this from a local clone, on the release branch to cut from, or pass `--sourc
 
 By default the chosen part of the version moves by one. To step by more, such as minors in tens (`release/v1.20.0` to `release/v1.30.0`), set `plugins.simply.release.increments` in `sfdx-project.json`, for example `{ "plugins": { "simply": { "release": { "increments": { "minor": 10 } } } } }`. It is read from the remote's copy of the source branch, so each new branch carries it forward. `--major-increment`, `--minor-increment`, and `--patch-increment`, or their `SIMPLY_PROJECT_RELEASE_*_INCREMENT` environment variables, override it for one run. Only the increment for the chosen `--type` is used, and the parts below it still reset to 0.
 
-With `--create-release`, a GitLab or GitHub release for the version being closed out is published first, from the highest `v<version>.<build>` tag that is reachable from the source and on the remote. Fallback tags are skipped. A release that already exists is reported, not recreated. With `--set-default`, the new branch becomes the project's default after the push. Both need a token, from `--vcs-token` or `SIMPLY_VCS_TOKEN`, and a project ID, from `--vcs-project-id`, `SIMPLY_VCS_PROJECT_ID`, or `vcs.projectId` in `.sfdevrc.json`. These are checked before anything changes.
+With `--create-release`, a GitLab or GitHub release for the version being closed out is published first, from the highest `v<version>.<build>` tag that is reachable from the source and on the remote. Fallback tags are skipped. A release that already exists is reported, not recreated. With `--set-default`, the new branch becomes the project's default after the push. Both need a token, from `--vcs-token` or `SIMPLY_VCS_TOKEN`, and a project ID, from `--vcs-project-id`, `SIMPLY_VCS_PROJECT_ID`, or `vcs.projectId` in `.sfdevrc.json`. These are checked before anything changes. In a terminal, when a token and project ID are available, you're asked about each of these steps whose flag you didn't pass. Both questions default to no.
 
 Your repository's commit hooks always run. The default commit message is `chore: bump version to {VERSION}`; use `--message` if your rules need something else, such as a ticket number. If a hook rejects the commit, nothing is pushed, and the bump stays staged on the new local branch. Run `git commit` with an accepted message, then run this command again from that branch.
 
@@ -89,6 +89,18 @@ Pass --type with major, minor, or patch.
 # prompt.type
 
 Which version do you want to bump?
+
+# prompt.createRelease
+
+Publish a %s release for the version you're cutting from?
+
+# prompt.setDefault
+
+Make the new release branch the project's default?
+
+# info.vcsUnavailable
+
+To also publish a release or set the default branch, provide a VCS token and project ID (see --help).
 
 # type.major
 
