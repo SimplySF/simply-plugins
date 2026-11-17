@@ -118,16 +118,24 @@ export async function select<T>({ message, options, initialValue, maxItems }: Se
  * @throws {SfError} `PromptCancelledError` if the user cancels (Ctrl+C / Esc).
  */
 export async function confirm({ message, ms = 10_000, defaultAnswer = false }: ConfirmPromptOptions): Promise<boolean> {
-  const signal = AbortSignal.timeout(ms);
-  const answer = await clack.confirm({ message, initialValue: defaultAnswer, signal });
-  if (clack.isCancel(answer)) {
-    // clack reports an aborted prompt as a cancel; the signal says which one it was.
-    if (signal.aborted) {
-      return defaultAnswer;
+  // Not AbortSignal.timeout(): clack never removes its 'abort' listener, so a signal that fires after
+  // the prompt was answered would close it again, turning off raw mode under whichever prompt is
+  // active by then. Clearing the timer on the way out means the signal can only fire mid-prompt.
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), ms);
+  try {
+    const answer = await clack.confirm({ message, initialValue: defaultAnswer, signal: controller.signal });
+    if (clack.isCancel(answer)) {
+      // clack reports an aborted prompt as a cancel; the signal says which one it was.
+      if (controller.signal.aborted) {
+        return defaultAnswer;
+      }
+      throw messages.createError('error.promptCancelled');
     }
-    throw messages.createError('error.promptCancelled');
+    return answer;
+  } finally {
+    clearTimeout(timer);
   }
-  return answer;
 }
 
 export type SpinnerOptions<T> = {

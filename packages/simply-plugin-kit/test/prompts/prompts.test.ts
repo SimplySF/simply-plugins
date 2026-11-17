@@ -151,6 +151,19 @@ describe('prompts', () => {
 
       expect(await confirm({ message: 'Continue?', ms: 5, defaultAnswer })).toBe(defaultAnswer);
     });
+
+    it('never aborts the signal of a prompt that was already answered', async () => {
+      // clack keeps its 'abort' listener after the prompt resolves; a late abort would close the
+      // finished prompt again and turn off raw mode under the next one.
+      // Real timers: AbortSignal.timeout(), the earlier bug, isn't driven by vitest's fake timers.
+      clackConfirm.mockResolvedValue(true);
+
+      await confirm({ message: 'Continue?', ms: 5 });
+      const { signal } = clackConfirm.mock.calls[0][0];
+      await new Promise((resolve) => setTimeout(resolve, 30));
+
+      expect(signal!.aborted).toBe(false);
+    });
   });
 
   describe('spinner', () => {
