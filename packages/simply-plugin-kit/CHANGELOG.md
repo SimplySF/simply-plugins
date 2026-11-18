@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-plugin-kit%401.3.1...%40simplysf%2Fsimply-plugin-kit%401.4.0) (2026-11-18)
+
+### Features
+
+- **simply-project:** step lines instead of a table in `project release create` ([#155](https://github.com/SimplySF/simply-plugins/issues/155)) ([2318e38](https://github.com/SimplySF/simply-plugins/commit/2318e383173eb3a80494dbc19e22fcb42fd63c12))
+
 ## [1.3.1](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-plugin-kit%401.3.0...%40simplysf%2Fsimply-plugin-kit%401.3.1) (2026-11-17)
 
 ### Bug Fixes

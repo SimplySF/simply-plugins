@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.10](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-permissions%405.0.9...%40simplysf%2Fsimply-permissions%405.0.10) (2026-11-18)
+
+**Note:** Version bump only for package @simplysf/simply-permissions
+
 ## [5.0.9](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-permissions%405.0.8...%40simplysf%2Fsimply-permissions%405.0.9) (2026-11-17)
 
 **Note:** Version bump only for package @simplysf/simply-permissions
