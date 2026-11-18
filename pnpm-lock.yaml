@@ -129,7 +129,7 @@ importers:
         specifier: workspace:^5.0.9
         version: link:../simply-permissions
       '@simplysf/simply-project':
-        specifier: workspace:^1.8.1
+        specifier: workspace:^1.8.2
         version: link:../simply-project
       '@simplysf/simply-schema':
         specifier: workspace:^0.4.6

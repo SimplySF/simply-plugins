@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.2](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-project%401.8.1...%40simplysf%2Fsimply-project%401.8.2) (2026-11-18)
+
+### Bug Fixes
+
+- **simply-project:** pick up simply-core 1.10.0 GitLab default-branch retry ([#154](https://github.com/SimplySF/simply-plugins/issues/154)) ([6b0dbf5](https://github.com/SimplySF/simply-plugins/commit/6b0dbf55928fb7d840509d47e4e914344c702811)), closes [SimplySF/simply-plugins-core#300](https://github.com/SimplySF/simply-plugins-core/issues/300)
+
 ## [1.8.1](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-project%401.8.0...%40simplysf%2Fsimply-project%401.8.1) (2026-11-17)
 
 **Note:** Version bump only for package @simplysf/simply-project
