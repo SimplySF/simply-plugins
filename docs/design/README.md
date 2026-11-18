@@ -105,6 +105,7 @@ refactors that keep the public surface identical (though a short doc is welcome 
 | [0065](0065-happy-soup-release-branches.md)                          | `simply cicd happy-soup release create` and `release stage`                           | In progress                                         |
 | [0066](0066-clack-spinner.md)                                        | Spinner for work that follows a clack prompt                                          | Implemented; pending manual terminal check          |
 | [0068](0068-release-create-vcs-prompts.md)                           | Prompt for the release and default branch in `simply project release create`          | Implemented; pending manual terminal check          |
+| [0069](0069-release-create-output.md)                                | Plain step lines instead of a table in `simply project release create`                | Implemented; pending manual terminal check          |
 
 ## Template
 

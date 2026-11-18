@@ -14,9 +14,17 @@
  * limitations under the License.
  */
 
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi, type MockInstance } from 'vitest';
 import { createRelease, resolveReleaseVcs, type CreateReleaseResult } from '@simplysf/simply-project-core';
+import { confirm, outro, step } from '@simplysf/simply-plugin-kit';
 import ProjectReleaseCreate from '../../../../../src/commands/simply/project/release/create.js';
+
+vi.mock('@simplysf/simply-plugin-kit', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@simplysf/simply-plugin-kit')>()),
+  confirm: vi.fn(),
+  step: vi.fn(),
+  outro: vi.fn(),
+}));
 
 vi.mock('@simplysf/simply-project-core', async (importOriginal) => ({
   ...(await importOriginal<typeof import('@simplysf/simply-project-core')>()),
@@ -339,5 +347,126 @@ describe('simply project release create', () => {
     await ProjectReleaseCreate.run(['--type', 'minor', '--no-prompt']);
 
     expect(process.exitCode).toBe(1);
+  });
+
+  describe('output', () => {
+    const everything: CreateReleaseResult = {
+      ...created,
+      commit: '512c18751df66aaa864439572eb664d7f3e935ca',
+      release: {
+        name: 'v1.2.0',
+        tagName: 'v1.2.0.11',
+        status: 'Already exists',
+        webUrl: 'https://gitlab.example.com/g/p/-/releases/v1.2.0.11',
+      },
+      defaultBranch: { status: 'Set' },
+    };
+
+    let log: MockInstance<ProjectReleaseCreate['log']>;
+    const logged = (): string[] => log.mock.calls.map(([line]) => String(line));
+
+    beforeEach(() => {
+      log = vi.spyOn(ProjectReleaseCreate.prototype, 'log').mockImplementation(() => {});
+    });
+
+    it('logs one plain line per step, with the short SHA and the release URL, when it cannot prompt', async () => {
+      vi.mocked(createRelease).mockResolvedValue(everything);
+
+      await ProjectReleaseCreate.run(['--type', 'minor', '--no-prompt']);
+
+      expect(logged()).toEqual([
+        'Created release/v1.3.0 from release/v1.2.0 (512c187)',
+        'Release v1.2.0 already exists\nhttps://gitlab.example.com/g/p/-/releases/v1.2.0.11',
+        'release/v1.3.0 is now the default branch',
+      ]);
+      expect(step).not.toHaveBeenCalled();
+      expect(outro).not.toHaveBeenCalled();
+    });
+
+    it('says what would happen on a dry run', async () => {
+      vi.mocked(createRelease).mockResolvedValue({
+        ...created,
+        status: 'Would create',
+        commit: undefined,
+        release: { name: 'v1.2.0', tagName: 'v1.2.0.11', status: 'Would create' },
+        defaultBranch: { status: 'Would set' },
+      });
+
+      await ProjectReleaseCreate.run(['--type', 'minor', '--dry-run']);
+
+      expect(logged()).toEqual([
+        'Would create release/v1.3.0 from release/v1.2.0, with version 1.3.0',
+        'Would publish release v1.2.0 from tag v1.2.0.11',
+        'Would make release/v1.3.0 the default branch',
+      ]);
+    });
+
+    it('reports a rejected commit and the default branch it did not set', async () => {
+      vi.mocked(createRelease).mockResolvedValue({
+        ...created,
+        status: 'Commit rejected',
+        commit: undefined,
+        defaultBranch: { status: 'Not set' },
+      });
+
+      await ProjectReleaseCreate.run(['--type', 'minor', '--no-prompt']);
+
+      expect(logged()).toEqual([
+        'A hook rejected the commit on release/v1.3.0, so nothing was pushed',
+        "Didn't make release/v1.3.0 the default branch",
+      ]);
+    });
+
+    it('logs nothing with --json', async () => {
+      vi.mocked(createRelease).mockResolvedValue(everything);
+
+      await ProjectReleaseCreate.run(['--type', 'minor', '--json']);
+
+      expect(logged()).toEqual([]);
+    });
+
+    it('follows the spinner with a step per VCS result and an outro in a terminal', async () => {
+      vi.mocked(createRelease).mockResolvedValue(everything);
+
+      await ProjectReleaseCreate.run(['--type', 'minor']);
+
+      expect(vi.mocked(step).mock.calls).toEqual([
+        ['Release v1.2.0 already exists\nhttps://gitlab.example.com/g/p/-/releases/v1.2.0.11'],
+        ['release/v1.3.0 is now the default branch'],
+      ]);
+      expect(outro).toHaveBeenCalledWith('Done. The push started the build that creates the package version.');
+      expect(logged()).toEqual([]);
+    });
+
+    it('closes a declined run with "Nothing was changed." and no step lines', async () => {
+      vi.mocked(createRelease).mockResolvedValue({ ...everything, status: 'Declined', commit: undefined });
+
+      await ProjectReleaseCreate.run(['--type', 'minor']);
+
+      expect(step).not.toHaveBeenCalled();
+      expect(outro).toHaveBeenCalledWith('Nothing was changed.');
+    });
+
+    it('prints the plan once as a step, then asks only "Continue?"', async () => {
+      vi.mocked(confirm).mockResolvedValue(true);
+      const command = new ProjectReleaseCreate([], {} as never) as unknown as {
+        confirmPlan: (plan: CreateReleaseResult) => Promise<boolean>;
+      };
+
+      expect(
+        await command.confirmPlan({ ...everything, release: { ...everything.release!, status: 'Would create' } }),
+      ).toBe(true);
+
+      // A Windows checkout reads the messages file with CRLF line breaks.
+      expect(String(vi.mocked(step).mock.calls[0]?.[0]).replace(/\r\n/g, '\n')).toBe(
+        [
+          'This will:',
+          '- Publish release v1.2.0 from tag v1.2.0.11.',
+          '- Create release/v1.3.0 from release/v1.2.0, with version 1.3.0, and push it. The push starts a build that creates a package version.',
+          "- Make release/v1.3.0 the project's default branch.",
+        ].join('\n'),
+      );
+      expect(confirm).toHaveBeenCalledWith({ message: 'Continue?' });
+    });
   });
 });

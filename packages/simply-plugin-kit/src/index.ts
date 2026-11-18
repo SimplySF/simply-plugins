@@ -18,8 +18,10 @@ export { targetOrgFlags } from './flags/orgFlags.js';
 export { requireConnection, type TargetOrgFlagValues } from './org/requireConnection.js';
 export {
   confirm,
+  outro,
   select,
   spinner,
+  step,
   text,
   type ConfirmPromptOptions,
   type SelectOption,

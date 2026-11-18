@@ -16,7 +16,7 @@
 
 import * as clack from '@clack/prompts';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { confirm, select, spinner, text } from '../../src/prompts/prompts.js';
+import { confirm, outro, select, spinner, step, text, wrapText } from '../../src/prompts/prompts.js';
 
 // Typed as never so it stands in for clack's own (unexported) unique cancel symbol.
 const CANCEL = Symbol('clack:cancel') as never;
@@ -26,6 +26,8 @@ vi.mock('@clack/prompts', () => ({
   confirm: vi.fn(),
   text: vi.fn(),
   spinner: vi.fn(),
+  log: { step: vi.fn() },
+  outro: vi.fn(),
   isCancel: (value: unknown) => value === CANCEL,
 }));
 
@@ -163,6 +165,52 @@ describe('prompts', () => {
       await new Promise((resolve) => setTimeout(resolve, 30));
 
       expect(signal!.aborted).toBe(false);
+    });
+  });
+
+  describe('wrapText', () => {
+    it('wraps at the last space that fits', () => {
+      expect(wrapText('one two three four', 9)).toBe('one two\nthree\nfour');
+    });
+
+    it('keeps the continuation lines of a bullet under its text', () => {
+      expect(wrapText('- alpha beta gamma', 12)).toBe('- alpha beta\n  gamma');
+    });
+
+    it('keeps existing line breaks and blank lines', () => {
+      expect(wrapText('This will:\n- a\n\nDone', 20)).toBe('This will:\n- a\n\nDone');
+    });
+
+    it('reads CRLF line breaks as single breaks', () => {
+      expect(wrapText('This will:\r\n- a', 20)).toBe('This will:\n- a');
+    });
+
+    it('leaves a word longer than the width whole', () => {
+      expect(wrapText('see https://example.com/a/very/long/path', 10)).toBe(
+        'see\nhttps://example.com/a/very/long/path',
+      );
+    });
+  });
+
+  describe('step and outro', () => {
+    const originalColumns = process.stdout.columns;
+
+    afterEach(() => {
+      process.stdout.columns = originalColumns;
+    });
+
+    it('step wraps to the terminal width, less the gutter, before handing it to clack', () => {
+      process.stdout.columns = 13;
+
+      step('- alpha beta gamma');
+
+      expect(vi.mocked(clack.log.step)).toHaveBeenCalledWith('- alpha\n  beta\n  gamma');
+    });
+
+    it('outro passes its message through', () => {
+      outro('Done.');
+
+      expect(vi.mocked(clack.outro)).toHaveBeenCalledWith('Done.');
     });
   });
 

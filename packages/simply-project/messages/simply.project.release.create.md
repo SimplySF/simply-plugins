@@ -126,16 +126,14 @@ Create %s from %s, with version %s, and push it. The push starts a build that cr
 
 Make %s the project's default branch.
 
-# confirm
+# confirm.plan
 
 This will:
 %s
 
+# confirm
+
 Continue?
-
-# tableTitle
-
-Release branch
 
 # examples
 
@@ -167,6 +165,50 @@ Release branch
 
 Creating the release branch
 
-# spinner.done
+# result.created
 
-Release branch %s: %s
+Created %s from %s (%s)
+
+# result.wouldCreate
+
+Would create %s from %s, with version %s
+
+# result.commitRejected
+
+A hook rejected the commit on %s, so nothing was pushed
+
+# result.declined
+
+Cancelled
+
+# result.release.created
+
+Published release %s from tag %s
+
+# result.release.alreadyExists
+
+Release %s already exists
+
+# result.release.wouldCreate
+
+Would publish release %s from tag %s
+
+# result.default.set
+
+%s is now the default branch
+
+# result.default.wouldSet
+
+Would make %s the default branch
+
+# result.default.notSet
+
+Didn't make %s the default branch
+
+# outro.created
+
+Done. The push started the build that creates the package version.
+
+# outro.declined
+
+Nothing was changed.
