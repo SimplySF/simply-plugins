@@ -138,6 +138,48 @@ export async function confirm({ message, ms = 10_000, defaultAnswer = false }: C
   }
 }
 
+/** The width of clack's `│  ` gutter. */
+const GUTTER_WIDTH = 3;
+
+/**
+ * Word-wraps each line of `value` to `width` columns. A line that starts with `- ` keeps its
+ * continuation lines under the bullet's text. A word longer than the width is left whole.
+ */
+export function wrapText(value: string, width: number): string {
+  return value
+    .split(/\r?\n/)
+    .flatMap((line) => {
+      const indent = line.startsWith('- ') ? '  ' : '';
+      const wrapped: string[] = [];
+      let current = '';
+      for (const word of line.split(' ')) {
+        if (current && current.length + 1 + word.length > width) {
+          wrapped.push(current);
+          current = indent + word;
+        } else {
+          current = current ? `${current} ${word}` : word;
+        }
+      }
+      wrapped.push(current);
+      return wrapped;
+    })
+    .join('\n');
+}
+
+/**
+ * Print a finished step in the clack gutter: `◇` and the first line, then `│` before each line after
+ * it. Unlike a prompt's message, it is printed once and never redrawn, so it is the place for text
+ * that may wrap. It is wrapped to the terminal width here, since clack's `log` doesn't wrap.
+ */
+export function step(message: string): void {
+  clack.log.step(wrapText(message, (process.stdout.columns || 80) - GUTTER_WIDTH));
+}
+
+/** Close the clack session with `└` and `message`. */
+export function outro(message: string): void {
+  clack.outro(message);
+}
+
 export type SpinnerOptions<T> = {
   /** Shown beside the spinner while the task runs. */
   message: string;

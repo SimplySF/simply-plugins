@@ -17,7 +17,7 @@
 import { Messages } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { VCS_PROVIDER_KINDS, type VcsProviderKind } from '@simplysf/simply-core';
-import { confirm, select, spinner } from '@simplysf/simply-plugin-kit';
+import { confirm, outro, select, spinner, step } from '@simplysf/simply-plugin-kit';
 import {
   createRelease,
   RELEASE_TYPES,
@@ -43,6 +43,61 @@ type VcsStepFlags = {
 };
 
 export type ProjectReleaseCreateResult = CreateReleaseResult;
+
+/** The length git abbreviates a commit SHA to by default. */
+const SHORT_SHA_LENGTH = 7;
+
+/** The line reporting the branch itself: the spinner's done line, or the first logged line. */
+function branchLine(result: CreateReleaseResult): string {
+  switch (result.status) {
+    case 'Created':
+      return messages.getMessage('result.created', [
+        result.branch,
+        result.source,
+        (result.commit ?? '').slice(0, SHORT_SHA_LENGTH),
+      ]);
+    case 'Would create':
+      return messages.getMessage('result.wouldCreate', [result.branch, result.source, result.version]);
+    case 'Commit rejected':
+      return messages.getMessage('result.commitRejected', [result.branch]);
+    case 'Declined':
+      return messages.getMessage('result.declined');
+  }
+}
+
+/** A line for each VCS step that was asked for and reached; none once the plan was declined. */
+function vcsStepLines(result: CreateReleaseResult): string[] {
+  if (result.status === 'Declined') {
+    return [];
+  }
+  const lines: string[] = [];
+  if (result.release) {
+    const { name, tagName, status, webUrl } = result.release;
+    const key = { Created: 'created', 'Already exists': 'alreadyExists', 'Would create': 'wouldCreate' }[status];
+    const line = messages.getMessage(`result.release.${key}`, [name, tagName]);
+    lines.push(webUrl ? `${line}\n${webUrl}` : line);
+  }
+  if (result.defaultBranch) {
+    const key = { Set: 'set', 'Would set': 'wouldSet', 'Not set': 'notSet' }[result.defaultBranch.status];
+    lines.push(messages.getMessage(`result.default.${key}`, [result.branch]));
+  }
+  return lines;
+}
+
+/** The outro that closes an interactive run, or none when the run ended some other way. */
+function outroLine(result: CreateReleaseResult): string | undefined {
+  switch (result.status) {
+    case 'Created':
+      return messages.getMessage('outro.created');
+    case 'Declined':
+      return messages.getMessage('outro.declined');
+    // simply-project-core already printed how to recover from a rejected commit, and a dry run is
+    // never interactive, so neither has a session to close.
+    case 'Commit rejected':
+    case 'Would create':
+      return undefined;
+  }
+}
 
 /** Cuts the next release branch, and optionally publishes a release and sets the default branch. */
 export default class ProjectReleaseCreate extends SfCommand<ProjectReleaseCreateResult> {
@@ -110,8 +165,7 @@ export default class ProjectReleaseCreate extends SfCommand<ProjectReleaseCreate
     const result = await spinner(
       {
         message: messages.getMessage('spinner.working'),
-        doneMessage: (created: CreateReleaseResult) =>
-          messages.getMessage('spinner.done', [created.branch, created.status]),
+        doneMessage: branchLine,
         enabled: interactive,
       },
       (control) =>
@@ -133,25 +187,7 @@ export default class ProjectReleaseCreate extends SfCommand<ProjectReleaseCreate
         }),
     );
 
-    this.table({
-      title: messages.getMessage('tableTitle'),
-      data: [
-        { field: 'Source', value: result.source },
-        { field: 'Branch', value: result.branch },
-        { field: 'Status', value: result.status },
-        { field: 'Commit', value: result.commit ?? '' },
-        ...(result.release
-          ? [
-              {
-                field: 'Release',
-                value: `${result.release.name} (${result.release.tagName}): ${result.release.status}`,
-              },
-            ]
-          : []),
-        ...(result.release?.webUrl ? [{ field: 'Release URL', value: result.release.webUrl }] : []),
-        ...(result.defaultBranch ? [{ field: 'Default branch', value: result.defaultBranch.status }] : []),
-      ],
-    });
+    this.report(result, interactive);
 
     if (result.status === 'Commit rejected') {
       process.exitCode = 1;
@@ -189,7 +225,33 @@ export default class ProjectReleaseCreate extends SfCommand<ProjectReleaseCreate
       messages.getMessage('confirm.branch', [plan.branch, plan.source, plan.version]),
       ...(plan.defaultBranch ? [messages.getMessage('confirm.default', [plan.branch])] : []),
     ];
-    return confirm({ message: messages.getMessage('confirm', [steps.map((step) => `- ${step}`).join('\n')]) });
+    // Printed once, apart from the prompt: clack redraws a prompt's whole message, and a long line
+    // that wraps more than it expects leaves the top of the old frame behind.
+    step(messages.getMessage('confirm.plan', [steps.map((line) => `- ${line}`).join('\n')]));
+    return confirm({ message: messages.getMessage('confirm') });
+  }
+
+  /**
+   * Reports what ran, one line per step. In a terminal the spinner's done line already reported the
+   * branch, so the rest follow it in clack's gutter and an outro closes the session.
+   */
+  private report(result: CreateReleaseResult, interactive: boolean): void {
+    if (this.jsonEnabled()) {
+      return;
+    }
+    if (!interactive) {
+      for (const line of [branchLine(result), ...vcsStepLines(result)]) {
+        this.log(line);
+      }
+      return;
+    }
+    for (const line of vcsStepLines(result)) {
+      step(line);
+    }
+    const closing = outroLine(result);
+    if (closing) {
+      outro(closing);
+    }
   }
 
   /**

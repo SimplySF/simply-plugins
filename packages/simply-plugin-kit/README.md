@@ -41,6 +41,8 @@ export default class MyCommand extends SfCommand<void> {
 | `targetOrgFlags`           | The `--target-org` / `--api-version` flag pair every org-touching command declares.                                                    |
 | `requireConnection(flags)` | Resolves the connection for `--target-org` at `--api-version`, throwing `TargetOrgConnectionFailedError` if none could be established. |
 | `TargetOrgFlagValues`      | Structural type for the parsed flags `requireConnection` reads.                                                                        |
+| `step(message)`            | Prints a finished step in the clack gutter, wrapped to the terminal width. Printed once, so it suits text that a prompt would redraw.  |
+| `outro(message)`           | Closes the clack session with `└` and `message`.                                                                                       |
 
 ## Issues
 
