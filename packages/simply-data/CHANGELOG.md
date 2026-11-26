@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.12](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-data%403.0.11...%40simplysf%2Fsimply-data%403.0.12) (2026-11-26)
+
+### Bug Fixes
+
+- **deps:** bump @simplysf/simply-data-core from 0.3.16 to 0.3.19 ([#162](https://github.com/SimplySF/simply-plugins/issues/162)) ([a1a3105](https://github.com/SimplySF/simply-plugins/commit/a1a3105bbe1dd357f0ecd3fdea1cf604bb0f9a99))
+
 ## [3.0.11](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-data%403.0.10...%40simplysf%2Fsimply-data%403.0.11) (2026-11-18)
 
 **Note:** Version bump only for package @simplysf/simply-data

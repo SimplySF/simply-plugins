@@ -1754,7 +1754,7 @@ EXAMPLES
   $ sf simply community publish --target-org my-org --name "My Community" --ignore-errors
 ```
 
-_See code: [@simplysf/simply-community](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-community@0.7.9/packages/simply-community/lib/commands/simply/community/publish.js)_
+_See code: [@simplysf/simply-community](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-community@0.7.10/packages/simply-community/lib/commands/simply/community/publish.js)_
 
 ## `sf simply community url set`
 
@@ -1828,7 +1828,7 @@ EXAMPLES
   $ sf simply community url set --site Partner_Portal --domain partners.acme.com --deploy --target-org my-org # retrieves the site file first if it isn't found locally
 ```
 
-_See code: [@simplysf/simply-community](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-community@0.7.9/packages/simply-community/lib/commands/simply/community/url/set.js)_
+_See code: [@simplysf/simply-community](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-community@0.7.10/packages/simply-community/lib/commands/simply/community/url/set.js)_
 
 ## `sf simply data file upload`
 
@@ -1884,7 +1884,7 @@ FLAG DESCRIPTIONS
     Setup and Configuration" permission — the command warns and proceeds rather than failing.
 ```
 
-_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@3.0.11/packages/simply-data/lib/commands/simply/data/file/upload.js)_
+_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@3.0.12/packages/simply-data/lib/commands/simply/data/file/upload.js)_
 
 ## `sf simply data files download`
 
@@ -1946,7 +1946,7 @@ FLAG DESCRIPTIONS
     Provide a WHERE clause to allow the plugin to specify which ContentVersion records should be downloaded.
 ```
 
-_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@3.0.11/packages/simply-data/lib/commands/simply/data/files/download.js)_
+_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@3.0.12/packages/simply-data/lib/commands/simply/data/files/download.js)_
 
 ## `sf simply data files upload`
 
@@ -2012,7 +2012,7 @@ FLAG DESCRIPTIONS
     quasi concurrent uploads. Please note that setting this value too high can cause performance issues.
 ```
 
-_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@3.0.11/packages/simply-data/lib/commands/simply/data/files/upload.js)_
+_See code: [@simplysf/simply-data](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-data@3.0.12/packages/simply-data/lib/commands/simply/data/files/upload.js)_
 
 ## `sf simply document diff`
 
@@ -2202,7 +2202,7 @@ EXAMPLES
   $ sf simply flow delete --manifest destructive/pre/destructiveChanges.xml --target-org myOrg --json
 ```
 
-_See code: [@simplysf/simply-flow](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-flow@0.5.10/packages/simply-flow/lib/commands/simply/flow/delete.js)_
+_See code: [@simplysf/simply-flow](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-flow@0.5.11/packages/simply-flow/lib/commands/simply/flow/delete.js)_
 
 ## `sf simply flow version prune`
 
@@ -2244,7 +2244,7 @@ EXAMPLES
   $ sf simply flow version prune --target-org myOrg --flow-name My_Flow --flow-name Another_Flow
 ```
 
-_See code: [@simplysf/simply-flow](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-flow@0.5.10/packages/simply-flow/lib/commands/simply/flow/version/prune.js)_
+_See code: [@simplysf/simply-flow](https://github.com/SimplySF/simply-plugins/blob/@simplysf/simply-flow@0.5.11/packages/simply-flow/lib/commands/simply/flow/version/prune.js)_
 
 ## `sf simply package dependencies clone`
 

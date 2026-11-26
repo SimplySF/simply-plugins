@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.10](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-community%400.7.9...%40simplysf%2Fsimply-community%400.7.10) (2026-11-26)
+
+### Bug Fixes
+
+- **deps:** bump @simplysf/simply-community-core from 0.2.18 to 0.2.21 ([#164](https://github.com/SimplySF/simply-plugins/issues/164)) ([446d4ca](https://github.com/SimplySF/simply-plugins/commit/446d4ca006d0682ec3f2b51575c8e8f5118743d7))
+
 ## [0.7.9](https://github.com/SimplySF/simply-plugins/compare/%40simplysf%2Fsimply-community%400.7.8...%40simplysf%2Fsimply-community%400.7.9) (2026-11-18)
 
 **Note:** Version bump only for package @simplysf/simply-community
