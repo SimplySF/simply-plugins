@@ -71,7 +71,7 @@
     "@simplysf/simply-core": "^1.10.0",
     "@simplysf/simply-plugin-kit": "workspace:^1.4.0",
     "@simplysf/simply-project-core": "^0.4.4",
-    "glob": "^13.0.6"
+    "glob": "^13.0.7"
   },
   "devDependencies": {
     "@oclif/plugin-command-snapshot": "^5.4.0",
